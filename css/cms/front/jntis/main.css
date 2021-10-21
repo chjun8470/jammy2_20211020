@@ -7,6 +7,7 @@ div.login_box {width:578px; float:left; margin-top:10px;}
 div.cont_left {float:right;}
 div.img {display:block; margin:0 auto; padding-top:116px; text-align: center; padding-right:412px;}
 
+
 .login_logo {margin:0 0 25px 0;}
 
 .LoginInputBox {float:left; padding:0 16px 0 0;}
@@ -52,7 +53,7 @@ ul.MVisualLinkList li:hover > a img {transition: .2s;}
 
 ul li.MVisualLinkList01{background: #458fc8;transition: .2s; border-bottom: 5px solid #458fc8;}
 ul li.MVisualLinkList02{background: #5276c1;transition: .2s; border-bottom: 5px solid #5276c1;}
-ul li.MVisualLinkList03{background: #7da7d9;transition: .2s; border-bottom: 5px solid #7da7d9;}
+ul li.MVisualLinkList03{background: #2d5585;transition: .2s; border-bottom: 5px solid #2d5585;}
 ul li.MVisualLinkList04{background: #5c8bd2;transition: .2s; border-bottom: 5px solid #5c8bd2;}
 
 ul li.MVisualLinkList01:hover{background: #fff;transition: .2s;}
@@ -60,7 +61,7 @@ ul li.MVisualLinkList01:hover > a h3 { color: #458fc8; }
 ul li.MVisualLinkList02:hover{background: #fff;transition: .2s;}
 ul li.MVisualLinkList02:hover > a h3 { color: #5276c1; }
 ul li.MVisualLinkList03:hover{background: #fff;transition: .2s;}
-ul li.MVisualLinkList03:hover > a h3 { color: #7da7d9; }
+ul li.MVisualLinkList03:hover > a h3 { color: #2d5585; }
 ul li.MVisualLinkList04:hover{background: #fff;transition: .2s;}
 ul li.MVisualLinkList04:hover > a h3 { color: #5c8bd2; }
 
@@ -144,10 +145,10 @@ ul li.MVisualLinkList04:hover .btn_go02 { background: url('/img/jntis/main/btn_g
 .MCSsch .sch01::after { display: block; visibility: hidden; clear: both; content: ""; }
 .MCSsch .sch01 ul li { width:25%; float: left; background: #aaa; color: #fff; cursor: pointer; box-sizing: border-box;}
 .MCSsch .sch01 ul button:hover { background: #999; }
-.MCSsch .sch01 ul li h3 { font-size:19px; font-weight: 600;letter-spacing:-1px; color:#fff; }
-.MCSsch .sch01 ul li h1 { font-size: 32px; line-height: 27px; color: rgba(255, 255, 255, .5);}
+.MCSsch .sch01 ul li .ff_tit { font-size:19px; font-weight: 600;letter-spacing:-1px; color:#fff; }
+.MCSsch .sch01 ul li .tit_00 { font-size: 32px; line-height: 27px; color: rgba(255, 255, 255, .5); font-weight: 600;}
 .MCSsch .sch01 ul li button.on { background: #003b8f; }
-.sch_btn00 { width:100%; background:#aaa; padding: 30px 10px 0; border:0; text-align:left; cursor:pointer; transition:.2s }
+.sch_btn00 { width:100%; background:#333; padding: 30px 10px 0; border:0; text-align:left; cursor:pointer; transition:.2s }
 /*.MCSsch .sch01 ul li:last-child { width:40%; background: #fff; cursor:default; padding: 20px;}*/
 .MCSsch .sch01 ul li:last-child { width:50%; background: #fff; cursor:default; padding: 20px;}
 
@@ -162,7 +163,7 @@ ul li.MVisualLinkList04:hover .btn_go02 { background: url('/img/jntis/main/btn_g
 .MCSsch .sch02 ul {  }
 .MCSsch .sch02 ul li { /*width:11.62%;*/ width:13.4%; margin-left:1%; float: left;}
 .MCSsch .sch02 ul li:first-child { margin-left: 0; }
-.MCSsch .sch02 ul li .tech { cursor: pointer; position:relative; width:100%; box-sizing: border-box; padding: 10px; font-size: 16px; font-weight: 600; color: #fff; border: 0; background: url('/img/jntis/main/icon_back.jpg');}
+.MCSsch .sch02 ul li .tech { cursor: pointer; position:relative; width:100%; box-sizing: border-box; padding: 10px; font-size: 16px; font-weight: 600; color: #fff; border: 0; background: url('/img/jntis/main/icon_back.jpg'); display:block; text-align:center}
 .MCSsch .sch02 ul li .tech:hover { background: #172f54;}
 /*.MCSsch .sch02 ul li .tech.on::after { display: block; content:""; width:87%; height: 87%; border: 2px solid #fff; position: absolute; top: 50%; left:50%; transform: translate(-50%,-50%); }*/
 .MCSsch .sch02 ul li p { text-align:center; }
@@ -273,7 +274,7 @@ ul.hd_tab:after {
 .tab_content { display:none; }
 .tab_content.on { display:block; }
 
-.busi_latest {  }
+/*.busi_latest {  }
 .busi_latest .Bheader { width:100%; }
 .busi_latest .Bheader ul li { width:33.333333%; cursor: pointer; float: left; padding:10px 10px; box-sizing: border-box; text-align: center; background: #0c2b5a; color: #fff; font-size: 16px; font-weight: 600; }
 .busi_latest .Bheader ul li.on { background: #214986;  }
@@ -291,11 +292,39 @@ ul.hd_tab:after {
 .busi_latest .busi_info ul li .txt strong { border-bottom: 1px solid #fff; padding-bottom: 4px; font-size: 11px; }
 .busi_latest .busi_info ul li .txt p { margin-top: 10px; font-size: 13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .busi_latest .busi_info ul li .txt p:hover { text-decoration: underline; }
+.busi_latest .busi_info ul li a { display:block; } 
 
-.busi_latest .busi_info ul li button { width:45px; height: 45px; float: left; /*position: absolute; top: 0; right: 0;*/ border: 0;color: #fff; font-weight: 600; margin-top: 8px; }
-.busi_latest .busi_info ul li button.busi_btn.info_btn01 { background: #ffdf9a; color: #333; font-weight: 600; font-size:12px}
-.busi_latest .busi_info ul li button.busi_btn.info_btn02 { background: #a0a4ab; font-size:12px }
+.busi_latest .busi_info ul li a.busi_btn { width:45px; height: 45px; float: left; border: 0;color: #000; font-weight: 600; margin-top: 8px; text-align:center; line-height:45px; }
+.busi_latest .busi_info ul li a.busi_btn.info_btn01 { background: #ffdf9a; color: #333; font-weight: 600; font-size:12px}
+.busi_latest .busi_info ul li a.busi_btn.info_btn02 { background: #d3d3d3; font-size:12px }
+.busi_latest .busi_info ul li a.busi_btn.info_btn03 { background: #82adb7; font-size:12px }*/
 
+
+.busi_latest {width: 100%; min-height:620px}
+.busi_latest .hd_tab {position: relative;margin: 0;padding: 0;list-style: none;}
+.busi_latest .hd_tab li {width: 33.333333%;cursor: pointer;float: left;box-sizing: border-box;text-align: center;}
+.busi_latest .hd_tab li a {padding: 10px 10px;background: #0c2b5a;color: #fff;font-size: 16px;font-weight: 600;display: block;}
+.busi_latest .hd_tab li.active a {background: #214986;}
+.busi_latest ul li::after {display: block;clear: both;visibility: hidden;content: "";}
+
+.busi_latest .busi_info {color: #fff;}
+.busi_latest .busi_info ul {background: #214986;padding: 12px;box-sizing: border-box;width: 100%;position: absolute;top: 44px;left: 0;list-style: none;border: 0;margin: 0;}
+.busi_latest .busi_info ul li {position: relative;display: flex;width: 100%;border-bottom: 1px solid #0c2b5a;}
+.busi_latest .busi_info ul li:last-child {border: 0;}
+.busi_latest .busi_info ul li .date {width: 15%;float: left;text-align: center;padding: 6px 0;box-sizing: border-box;}
+.busi_latest .busi_info ul li .date h2 {font-size: 24px;margin: 0;}
+.busi_latest .busi_info ul li .date p {font-size: 13px;margin:0}
+
+.busi_latest .busi_info ul li .txt {width: 75%;float: left;padding: 6px 8px;box-sizing: border-box;}
+.busi_latest .busi_info ul li .txt strong {border-bottom: 1px solid #fff;padding-bottom: 4px;font-size: 11px;}
+.busi_latest .busi_info ul li .txt p {margin-top: 10px;font-size: 13px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.busi_latest .busi_info ul li .txt p:hover {text-decoration: underline;}
+
+.busi_latest .busi_info ul li a {display: block;text-align: left;padding: 0;background: #0c2b5a;}
+.busi_latest .busi_info ul li a.busi_btn {width: 45px;height: 45px;float: left;/*position: absolute; top: 0; right: 0;*/border: 0;color: #000;font-weight: 600;margin-top: 8px;text-align: center;line-height: 45px;}
+.busi_latest .busi_info ul li a.busi_btn.info_btn01 {background: #ffdf9a;color: #333;font-weight: 600;font-size: 12px}
+.busi_latest .busi_info ul li a.busi_btn.info_btn02 {background: #d3d3d3;font-size: 11px}
+.busi_latest .busi_info ul li a.busi_btn.info_btn03 {background: #82adb7;font-size: 11px}
 
 
 /* MainCont03 */
@@ -329,20 +358,20 @@ ul.hd_tab:after {
 .MainCont05 .Section0501 h2.tit_MC05{/*background:url(/img/jntis/main/icon_main06.png) no-repeat; padding-left:28px;*/color: #003b8f;font-size: 21px;font-weight: 600;letter-spacing: -1px;border-bottom: 2px solid #003b8f;padding-bottom: 13px;margin: 0 0 12px;position: relative;}
 .MainCont05 .Section0501 ul{}
 .MainCont05 .Section0501 ul li{float:left;width:50%; box-sizing: border-box; /*height:124px*/ padding:10px 0 20px 0}
-.MainCont05 .Section0501 ul li.MC050101{background:url(/img/jntis/main/icon_rnd01.png) 5px center no-repeat;padding-left:114px; border-right: 2px dotted #ddd; border-bottom: 2px dotted #ddd;}
-.MainCont05 .Section0501 ul li.MC050102{background:url(/img/jntis/main/icon_rnd02.png) 5px center no-repeat;padding-left:114px; border-bottom: 2px dotted #ddd;}
-.MainCont05 .Section0501 ul li.MC050103{background:url(/img/jntis/main/icon_rnd03.png) 5px center no-repeat;padding-left:114px; border-right: 2px dotted #ddd;}
-.MainCont05 .Section0501 ul li.MC050104{background:url(/img/jntis/main/icon_rnd04.png) 5px center no-repeat;padding-left:114px;}
-.MainCont05 .Section0501 p.Tit0501{font-size:18px;color:#444;font-weight:600;letter-spacing:-1px}
-.MainCont05 .Section0501 p.Txt0501{font-size:13px;color:#666666;letter-spacing:-0.5px;padding:0px 0 25px 0}
-.MainCont05 .Section0501 p.Txt0502{font-size:13px;color:#666666;letter-spacing:-0.5px;padding:0px 0 25px 0}
+.MainCont05 .Section0501 ul li.MC050101{background:url(/img/jntis/main/icon_rnd01.png) 5px center no-repeat; border-right: 2px dotted #ddd; border-bottom: 2px dotted #ddd;}
+.MainCont05 .Section0501 ul li.MC050102{background:url(/img/jntis/main/icon_rnd02.png) 5px center no-repeat; border-bottom: 2px dotted #ddd;}
+.MainCont05 .Section0501 ul li.MC050103{background:url(/img/jntis/main/icon_rnd03.png) 5px center no-repeat; border-right: 2px dotted #ddd;}
+.MainCont05 .Section0501 ul li.MC050104{background:url(/img/jntis/main/icon_rnd04.png) 5px center no-repeat;}
+.MainCont05 .Section0501 p.Tit0501{font-size:18px;color:#444;font-weight:600;letter-spacing:-1px; padding-left:114px}
+.MainCont05 .Section0501 p.Txt0501{font-size:13px;color:#666666;letter-spacing:-0.5px;padding:0px 0 25px 0;padding-left:114px}
+.MainCont05 .Section0501 p.Txt0502{font-size:13px;color:#666666;letter-spacing:-0.5px;padding:0px 0 25px 0;padding-left:114px}
 
 .MainCont05 .Section0502{float:right;width:454px}
 .MainCont05 .Section0502:after { display:block; visibility:hidden; content:""; clear:both; }
 .MainCont05 .Section0502 h2.tit_MC0502{/*background:url(/img/jntis/main/icon_main06.png) no-repeat; padding-left:28px;*/color: #003b8f;font-size: 23px;font-weight: 600;letter-spacing: -1px;border-bottom: 2px solid #003b8f;padding-bottom: 13px;/*margin: 0 0 20px;*/position: relative;}
-
-.MainCont05 .go { float: right; margin-right:20px }
-.MainCont05 .go::after { display: block; visibility: hidden; clear: both; content: ""; }
+.MainCont05 a { display:block; text-align:right;} 
+.MainCont05 .go { margin-right:20px }
+.MainCont05 .go::after { display: block; clear: both; content: ""; }
 
 ul.PopupControl{float:right;top:-30px;right:0;position:relative}
 	ul.PopupControl li{float:left; margin-left:1px}

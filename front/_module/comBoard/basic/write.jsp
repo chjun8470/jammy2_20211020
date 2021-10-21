@@ -53,7 +53,7 @@
 	<div class="basic_writeWrap004">
 		<div class="redTxt" style="margin-bottom:10px">* 필수 입력사항입니다.</div>
         <table class="skin_write004">
-	        <caption>작성하기</caption>
+	        <caption>홈페이지 의견접수 게시글 작성하기</caption>
 	        <colgroup>
 			    <col style="width:15%;" />
 			    <col style="width:85%;" />

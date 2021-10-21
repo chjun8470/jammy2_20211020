@@ -564,7 +564,7 @@
 						//제거한 자식의 div 태그를 숨겨줌
 						}
 
-						tabMenu.find("ul > li > a").click(tabList).focus(tabList);
+						tabMenu.find("ul > li > .tab_btn").click(tabList).focus(tabList);
 
 					    /*$(".hd_tab li").on("click", function() {
 							var $this = $(this);
@@ -608,7 +608,7 @@
                     <div class="Bheader">
                         <ul class="hd_tab">
                             <li class="active">
-								<a href="#">지역사업</a>
+								<a href="#" class="tab_btn">지역사업</a>
 								<div class="busi_info">
 									 <ul id="boardLatestProject2">
 										 
@@ -616,7 +616,7 @@
 								 </div>
 							</li>
                             <li>
-								<a href="#">정부사업</a>
+								<a href="#" class="tab_btn">정부사업</a>
 								<div class="busi_info">
 									 <ul id="boardLatestProject1">
 										 
@@ -624,7 +624,7 @@
 								 </div>
 							</li>
                             <li>
-								<a href="#">통합</a>
+								<a href="#" class="tab_btn">통합</a>
 								<div class="busi_info">
 									 <ul id="boardLatestProject">
 										 

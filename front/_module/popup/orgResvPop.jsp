@@ -97,7 +97,7 @@ vertical-align:middle;
 			<div class="both">
 				<div class="fr">
 					<!-- 기본정보영역 -->
-					<table class="skin_basic_write" summary="기업/기관 등록신청을 위한 폼으로 기업/기관분류, 기업/기관명, 소속지역, 대표자명, 사업자등록번호, 법인등록번호, 업종, 업태, 대표전화, 팩스번호, 홈페이지, 주소, 상세주소로 구성되어 있습니다.">
+					<table class="skin_basic_write" summary="기업/기관 등록신청을 위한 폼으로 기관분류, 기업/기관명(국문), 기관명(영문), 소속지역, 대표자명, 사업자등록번호, 대표전화, 홈페이지, 주소, 상세주소, 지도, 소개, 기관/기업소개자료, CI이미지 로 구성되어 있습니다.">
 						<caption>기업/기관 등록신청</caption>
 						<colgroup>
 							<col style="width:20%;" />
@@ -169,7 +169,7 @@ vertical-align:middle;
 									<label for="orgGrpNm"><span class="required">* </span><%=util.getStr(paramMap.get("orgType")).equals("1")?"기업명":"기관/기업명(국문)"%></label>
 								</th>
 								<td colspan="3">
-									<select id="orgSection1" name="orgSection1" class="inp_text">
+									<select id="orgSection1" name="orgSection1" class="inp_text" title="회사유형 선택1">
 										<option value="">선택</option>
 										<option value="주식회사">주식회사</option>
 										<option value="유한회사">유한회사</option>
@@ -184,7 +184,7 @@ vertical-align:middle;
 										<option value="지주회사">지주회사</option>
 									</select>
 									<input type="text" class="inp_text" id="orgGrpNm" name="orgGrpNm" maxlength="25" <% if(util.getStr(paramMap.get("orgType")).equals("1")) { %>  style="width: 60%" <% } else { %>  style="width: 94%" <% } %> />
-									<select id="orgSection2" name="orgSection2" class="inp_text">
+									<select id="orgSection2" name="orgSection2" class="inp_text" title="회사유형 선택2">
 										<option value="">선택</option>
 										<option value="주식회사">주식회사</option>
 										<option value="유한회사">유한회사</option>
@@ -227,9 +227,9 @@ vertical-align:middle;
 								<td colspan="3">
 									<input type="hidden" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
 									<input type="hidden" id="checkCorpNum1R" name="checkCorpNum1R" />
-									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" /> -
-									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" /> -
-									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" />
+									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 3자리" /> -
+									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 2자리"/> -
+									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 5자리"/>
 									<input type="button" class="btn_inp_b_01" value="중복체크" onclick="checkCorpNum1()" />
 								</td>
 							</tr>
@@ -430,7 +430,7 @@ vertical-align:middle;
 
 <script type="text/javascript">
 //<![CDATA[
-document.title="전남과학기술정보시스템";
+document.title="기관/기업 등록신청";
 
 function popupWindow(listMode){
 	var settings ='toolbar=0,directories=0,status=no,menubar=0,scrollbars=auto,resizable=no,height=400,width=300,left=0,top=0';

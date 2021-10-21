@@ -226,7 +226,7 @@
 
             <!--b_btn_area S-->
 			<div class="b_btn_area">
-				<input type="button" id = "requestButton" value="신청" class="btn_rgt" onclick ="popupWindow('request','<%=userIdx%>','<%=eventIdx%>')" />
+				<input type="button" id = "requestButton" value="신청" class="btn_rgt" onclick ="popupWindow('request','<%=userIdx%>','<%=eventIdx%>','<%=util.getStr(eventMap.get("EVENT_NM"))%>')" />
 				<input type="button" class="btn_lft2" value="목록" onclick="goSubmit('list','<%=listMode%>')"/>
 			</div>
 			<!--b_btn_area E-->
@@ -278,7 +278,7 @@
 
 	}
 
-	function popupWindow(listMode,userIdx,eventIdx){
+	function popupWindow(listMode,userIdx,eventIdx,eventNm){
 		//alert(listMode+" "+userIdx+" "+eventIdx);
 
 		//로그인체크
@@ -303,7 +303,8 @@
 
 			var params = {
 				"eventIdx" : eventIdx,
-				"userIdx" : userIdx
+				"userIdx" : userIdx,
+				"eventNm" : eventNm
 			};
 
 			jQuery.post("/web/eventCheck.do", $.param(params),

@@ -81,8 +81,8 @@
 	<!--cont_block S-->
 	<div id="cont_block" style="margin-top: 20px">
 
-			<table class="skin_list" summary="일반게시판 게시글 목록으로 글번호, 제목, 등록자, 등록일, 조회, 첨부로 구성되어 있습니다.">
-              <caption>게시글 목록</caption>
+			<table class="skin_list" summary="공지사항/일반 게시글 목록으로 글번호, 제목, 등록자, 등록일, 조회 로 구성되어 있습니다.">
+              <caption>공지사항/일반 게시글 목록</caption>
 				<!-- colgroup s -->
 			    <colgroup>
 			      <col style="width:10%;" />
@@ -114,7 +114,7 @@
 							for(HashMap rs:noticeList) {
 					%>
 					<tr>
-						<td class="number ico_size_cs"><img src="/img/board/ico_notice.png" alt="공지 아이콘" /></td>
+						<td class="number ico_size_cs"><img src="/img/board/ico_notice.png" alt="공지" /></td>
 						<td class="b_notice" onclick="goSubmit('noticeView','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')" >
 							<a href="javascript:goSubmit('noticeView','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기"  >
 								<span class="notice_blue">[<%=util.getStr(rs.get("SITE_NM"))%>]</span>
