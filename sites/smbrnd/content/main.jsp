@@ -30,30 +30,30 @@
 
 <div class="MainVisualWrap">
 	<div class="MainVisual">
-		<img src="/img/smbrnd/main/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science &amp; Technology Information system" style="user-select: auto;" class="txt_visual">
+		<img src="/img/smbrnd/main/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science &amp; Technology Information system" style="user-select: auto;" class="txt_visual"/>
 		<div class="VisualLink" id="jntisMainContentStart">
 			<ul class="MVisualLinkList">
 				
 				<li class="MVisualLinkList01">
-					<a href="/jntis/main.do" title="새창열기" target="_blank">
+					<a href="http://jntis.jnsp.re.kr/jntis/main.do" title="새창열기" target="_blank">
 						<h3>전남과학기술정보시스템</h3>
 						<!--<p class="MVLTxt">
 							지역연구장비를 한곳에!<br /> 장비 상담에서 활용지원까지!
 						</p> -->
-						<img src="/img/smbrnd/main/h_icon.png" class="h_icon">
+						<img src="/img/smbrnd/main/h_icon.png" class="h_icon" alt="전남과학기술정보시스템 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남과학기술정보시스템 홈페이지 바로가기" />
 					</a>
 				</li>
 
 
 				<li class="MVisualLinkList02">
-					<a href="/jeinet/main.do" title="새창열기" target="_blank">
+					<a href="http://jeinet.jnsp.re.kr/jeinet/main.do" title="새창열기" target="_blank">
 						<h3>전남연구장비정보망</h3>
 							<!--<p class="MVLTxt">
 								성공적 지식재산활용 지원!<br />
 								지식재산 창출에서 이전·사업화까지
 							</p>-->
-						<img src="/img/smbrnd/main/h_icon02.png" class="h_icon">
+						<img src="/img/smbrnd/main/h_icon02.png" class="h_icon" alt="전남연구장비정보망 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남연구장비정보망 홈페이지 바로가기" />
 					</a>
 				</li>
@@ -70,7 +70,7 @@
 								성공적 지식재산활용 지원!<br />
 								지식재산 창출에서 이전·사업화까지
 							</p>-->
-						<img src="/img/smbrnd/main/h_icon03.png" class="h_icon m_icon">
+						<img src="/img/smbrnd/main/h_icon03.png" class="h_icon m_icon" alt="전남R&D성과관리시스템 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남R&D성과관리시스템 홈페이지 바로가기" />
 					</a>
 				</li>
@@ -82,7 +82,7 @@
 								성공적 지식재산활용 지원!<br />
 								지식재산 창출에서 이전·사업화까지
 							</p>-->
-						<img src="/img/smbrnd/main/h_icon04.png" class="h_icon m_icon">
+						<img src="/img/smbrnd/main/h_icon04.png" class="h_icon m_icon" alt="전남 중소기업 통계정보 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남 중소기업 통계정보 홈페이지 바로가기" />
 					</a>
 				</li>
@@ -99,19 +99,19 @@
 								성공적 지식재산활용 지원!<br />
 								지식재산 창출에서 이전·사업화까지
 							</p>-->
-						<img src="/img/smbrnd/main/h_icon03.png" class="h_icon m_icon">
+						<img src="/img/smbrnd/main/h_icon03.png" class="h_icon m_icon" alt="전남R&D성과관리시스템 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남R&D성과관리시스템 홈페이지 바로가기" />
 					</a>
 				</li>
 
 				<li class="MVisualLinkList04">
-					<a href="/smbrnd/sub.do?m=10" title="바로가기">
+					<a href="http://smbrnd.jnsp.re.kr/smbrnd/sub.do?m=10" title="바로가기">
 						<h3>전남 중소기업 통계정보</h3>
 							<!--<p class="MVLTxt">
 								성공적 지식재산활용 지원!<br />
 								지식재산 창출에서 이전·사업화까지
 							</p>-->
-						<img src="/img/smbrnd/main/h_icon04.png" class="h_icon m_icon">
+						<img src="/img/smbrnd/main/h_icon04.png" class="h_icon m_icon" alt="전남 중소기업 통계정보 로고"/>
 						<img src="/img/smbrnd/main/btn_go02.png" alt="전남 중소기업 통계정보 홈페이지 바로가기" />
 					</a>
 				</li>
@@ -169,12 +169,12 @@
                     <p><span id="strDate">2021년 03월 16일 15시</span> 기준</p>
                  </li>
                  <li>
-                    <img src="/img/smbrnd/main/c_icon01.png">
+                    <img src="/img/smbrnd/main/c_icon01.png" alt="등록 전문가 수 아이콘 이미지"/>
                     <h4>등록 전문가 수</h4>
                     <h2><span id="mainCount1">232</span><span>명</span></h2>
                  </li>
                  <li>
-                    <img src="/img/smbrnd/main/c_icon02.png">
+                    <img src="/img/smbrnd/main/c_icon02.png" alt="협력기관 수 아이콘 이미지"/>
                     <h4>협력기관 수</h4>
                     <h2><span id="mainCount2">232</span><span>개</span></h2>
                  </li>
@@ -315,8 +315,7 @@
 									href="<c:out value='${result.linkUrl}'/>"
 									<c:if test="${result.linkTarget == '_BLANK'}">target="_blank"</c:if>
 									title="<c:out value='${result.title}'/>">
-									<img src="/<c:url value='${result.atchFileFullPath}'/>"
-										alt="<c:out value='${result.content}'/>" />
+									<img src="/<c:url value='${result.atchFileFullPath}'/>" alt="<c:out value='${result.content}'/>" />
 								</a></li>
 							</c:forEach>
 						</ul>
@@ -347,41 +346,41 @@
                         <h2 class="tit_MC05">R&amp;D 관련정보</h2>
                         <ul>
                             <li class="MC050103">
-                                <img src="/img/smbrnd/main/icon_rnd01.png" class="iconrnd">
+                                <img src="/img/smbrnd/main/icon_rnd01.png" class="iconrnd" alt="기업마당 사이트로고"/>
                                 <div class="txt0317">
                                     <p class="Tit0501">기업마당</p>
                                     <p class="Txt0501">Company yard</p>
                                     <a href="http://www.bizinfo.go.kr/cmm/main/introPage.do" title="기업마당 바로가기" target="_blank">
-                                        <img src="/img/smbrnd/main/btn_go01.png" alt="기업마당">
+                                        <img src="/img/smbrnd/main/btn_go01.png" alt="기업마당"/>
                                     </a>
                                 </div>
                             </li>
                             <li class="MC050104">
-                                <img src="/img/smbrnd/main/icon_rnd02.png" class="iconrnd">
+                                <img src="/img/smbrnd/main/icon_rnd02.png" class="iconrnd" alt="중소기업기술개발사업 종합관리시스템 사이트로고"/>
                                 <div class="txt0317">
-                                    <p class="Tit0501 MAB10" style="line-height: 25px; user-select: auto;">중소기업기술개발사업<br>종합관리시스템</p>
+                                    <p class="Tit0501 MAB10" style="line-height: 25px; user-select: auto;">중소기업기술개발사업<br/>종합관리시스템</p>
                                     <a href="http://www.smtech.go.kr" target="_blank" title="중소기업 기술개발사업 종합관리시스템 바로가기">
-                                        <img src="/img/smbrnd/main/btn_go01.png" alt="중소기업 기술개발사업 종합관리시스템">
+                                        <img src="/img/smbrnd/main/btn_go01.png" alt="중소기업 기술개발사업 종합관리시스템"/>
                                     </a>
                                 </div>
                             </li>
                             <li class="MC050101">
-                                <img src="/img/smbrnd/main/icon_rnd03.png" class="iconrnd">
+                                <img src="/img/smbrnd/main/icon_rnd03.png" class="iconrnd" alt="기업공감원스톱서비스 사이트로고"/>
                                 <div class="txt0317">
                                     <p class="Tit0501">기업공감원스톱서비스</p>
                                     <!--<p class="Txt0501">Government R&amp;D Projects</p>-->
                                     <a href="https://www.ntis.go.kr/ThMain.do" target="_blank" title="기업공감원스톱서비스 홈페이지 바로가기">
-                                        <img src="/img/smbrnd/main/btn_go01.png" alt="기업공감원스톱서비스">
+                                        <img src="/img/smbrnd/main/btn_go01.png" alt="기업공감원스톱서비스"/>
                                     </a>
                                 </div>
                             </li>
                             <li class="MC050102">
-                                <img src="/img/smbrnd/main/icon_rnd04.png" class="iconrnd">
+                                <img src="/img/smbrnd/main/icon_rnd04.png" class="iconrnd" alt="중소기업 기술로드맵 사이트로고"/>
                                 <div class="txt0317">
-                                    <p class="Tit0501">중소기업<br>기술로드맵</p>
+                                    <p class="Tit0501">중소기업<br/>기술로드맵</p>
                                     <!--<p class="Txt0502">SME R &amp; D Rapid Support Messenger</p>-->
                                     <a href="http://www.ndsl.kr" target="_blank" title="중소기업기술로드맵 바로가기">
-                                        <img src="/img/smbrnd/main/btn_go01.png" alt="중소기업기술로드맵 메신저">
+                                        <img src="/img/smbrnd/main/btn_go01.png" alt="중소기업기술로드맵 메신저"/>
                                     </a>
                                 </div>
                             </li>

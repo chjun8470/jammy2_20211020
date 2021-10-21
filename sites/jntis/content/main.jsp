@@ -32,21 +32,21 @@
 
 <div class="MainVisualWrap">
 	<div class="MainVisual">
-		<img src="/img/jntis/main/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science &amp; Technology Information system"class="txt_visual">
-		<div class="VisualLink" id="jntisMainContentStart">
+		<img src="/img/jntis/main/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science &amp; Technology Information system" class="txt_visual" id="jntisMainContentStart" tabindex="0"/>
+		<div class="VisualLink" >
 			<ul class="MVisualLinkList">
 				<li class="MVisualLinkList01">
                     <a href="/jntis/sub.do?m=118" title="새창열기" target="_blank">
                         <h3>전남R&D통계정보</h3>
                         <div class="h_icon"></div>
-                        <div class="btn_go02" alt="전남R&D통계정보 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList02">
                     <a href="http://rnd.jnsp.re.kr/" title="새창열기" target="_blank">
                         <h3>전남R&D성과관리시스템</h3>
                         <div class="h_icon02"></div>
-                        <div class="btn_go02" alt="전남R&D성과관리시스템 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
 			<!--<li class="MVisualLinkList01" onclick="window.open('http://jeinet.jnsp.re.kr/jeinet/main.do')">
@@ -80,14 +80,14 @@
                     <a href="http://jeinet.jnsp.re.kr/jeinet/main.do" title="새창열기" target="_blank">
                         <h3>전남연구장비정보망</h3>
                         <div class="h_icon03"></div>
-                        <div class="btn_go02" alt="전남연구장비정보망 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList04">
                     <a href="http://smbrnd.jnsp.re.kr/smbrnd/main.do" title="새창열기" target="_blank">
-                        <h3>전남중소기업<br>R&D통합지원플랫폼</h3>
+                        <h3>전남중소기업 <br/> R&D통합지원플랫폼</h3>
                         <div class="h_icon04"></div>
-                        <div class="btn_go02" alt="전남중소기업 R&D통합지원플랫폼 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
 				<!--<li class="MVisualLinkList03">
@@ -114,14 +114,14 @@
                     <a href="http://jeinet.jnsp.re.kr/jeinet/main.do" title="새창열기" target="_blank">
                         <h3>전남연구장비정보망</h3>
                         <div class="h_icon03"></div>
-                        <div class="btn_go02" alt="전남연구장비정보망 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList04">
                     <a href="http://smbrnd.jnsp.re.kr/smbrnd/main.do" title="새창열기" target="_blank">
-                        <h3>전남중소기업<br>R&D통합지원플랫폼</h3>
+                        <h3>전남중소기업<br/>R&D통합지원플랫폼</h3>
                         <div class="h_icon04"></div>
-                        <div class="btn_go02" alt="전남중소기업 R&D통합지원플랫폼 홈페이지 바로가기"></div>
+                        <div class="btn_go02"></div>
                     </a>
                 </li>
 
@@ -168,13 +168,12 @@
 <!--MainVisualWrap e-->
 <div class="MainContBg">
 	<!-- 21.05. 07 MainCont01 start-->
-   <div class="MainCont01">
+	<div class="MainCont01">
         <div class="width1200">
             <div class="MCSection01">
                 <ul>
                     <li class="enroll02">
-                        <input onclick="popupWindow('orgResvPop','2','width=800, height=1200');" type="button" title="새창열기"
-                            alt="기관등록 바로가기" value="기관등록">
+                        <input onclick="popupWindow('orgResvPop','2','width=800, height=1200');" type="button" title="새창열기" alt="기관등록 바로가기" value="기관등록"/>
                     </li>
                 </ul>
             </div>
@@ -240,12 +239,12 @@
                     <li><span class="title">등록기술</span>
                         <p class="num"><span id="avg_3_2">2,840</span><span id="avg_3_2_2">(2,591)</span>건</p>
                     </li>
-                    <li><span class="title">이전현황</span>
+                    <!--<li><span class="title">이전현황</span>
                         <p class="num"><span id='avg_3_3'>-</span><span id='avg_3_3_2'>(-)</span>건</p>
                     </li>
                     <li><span class="title">기술료현황</span>
                         <p class="num"><span id="avg_3_4">-</span>억원</p>
-                    </li>
+                    </li>-->
                 </ul>
                 <!-- <a class="more" href="/jeinet/sub.do?m=86"><img src="/img/jntis/main/btn_more0102.gif" alt="더보기+" /></a> -->
             </div>
@@ -258,15 +257,15 @@
 			<div class="sch01">
 				<ul>
 					<li>
-						<button class="sch_btn00 on" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=searchMore&nowPage=1&listMode=moreBlogList&searchCd=1&searchId=&reDeth1=&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<h3>특허·실용신안 검색</h3>
-							<h1>PATENT</h1>
+						<button class="sch_btn00 on" alt="특허·실용신안 검색 바로가기" title="새창열림" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=searchMore&nowPage=1&listMode=moreBlogList&searchCd=1&searchId=&reDeth1=&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
+							<span class="ff_tit">특허·실용신안 검색</span><br>
+							<span class="tit_00">PATENT</span>
 						</button>
 					</li>
 					<li>
-						<button class="sch_btn00" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=searchMore&nowPage=1&listMode=moreBlogList&searchCd=4&searchId=&reDeth1=&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<h3>프로그램 검색</h3>
-							<h1>PROGRAM</h1>
+						<button class="sch_btn00" alt="특허·실용신안 검색 바로가기" title="새창열림" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=searchMore&nowPage=1&listMode=moreBlogList&searchCd=4&searchId=&reDeth1=&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
+							<span class="ff_tit">프로그램 검색</span><br>
+							<span class="tit_00">PROGRAM</span>
 						</button>
 					</li>
 					<!--<li>
@@ -278,8 +277,8 @@
 					<li>
 					
 					<form action="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&listMode=patentBlogList&searchCd=all&searchSelect=" method="post" name="searchBox" target="_blank">
-						<input type="text" name="searchSelectText" placeholder="명칭,기술내용,출원번호,등록번호 검색" class="PPJsch">
-						<input type="submit" class="bluebtn" value="">
+						<input type="text" name="searchSelectText" placeholder="명칭,기술내용,출원번호,등록번호 검색" class="PPJsch" title="명칭,기술내용,출원번호,등록번호 검색창"/>
+						<input type="submit" class="bluebtn" value="" alt="검색" title="새창열림"/>
 					</form>
 					</li>
 				</ul>
@@ -289,59 +288,59 @@
 				<p id="strTchnlgyTotalCnt">[총 4,872건]</p>
 				<ul>
 					<li>
-						<button value="기계/소재" class="tech on" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=10&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon01.png">
-							<p>기계/소재</p>
-						</button>
+						<a class="tech on" alt="기계/소재 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=10&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon01.png" alt=""/><br>
+							<span>기계/소재</span>
+						</a>
 						<p id="strMchnCnt">238건</p>
 					</li>
 					<li>
-						<button value="전기/전자" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=10&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon02.png">
-							<p>전기/전자</p>
-						</button>
+						<a class="tech" alt="전기/전자 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=10&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon02.png" alt=""/><br>
+							<span>전기/전자</span>
+						</a>
 						<p id="strElctyCnt">119건</p>
 					</li>
 					<li>
-						<button value="정보통신" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=30&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon03.png">
-							<p>정보통신</p>
-						</button>
+						<a class="tech" alt="정보통신 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=30&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon03.png" alt=""/><br>
+							<span>정보통신</span>
+						</a>
 						<p id="strIrmcCnt">100건</p>
 					</li>
 					<li>
-						<button value="화학" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=40&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon04.png">
-							<p>화학</p>
-						</button>
+						<a class="tech" alt="화학 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=40&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon04.png" alt=""/><br>
+							<span>화학</span>
+						</a>
 						<p id="strChmstryCnt">18건</p>
 					</li>
 					<li>
-						<button value="바이오/의료" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=50&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon05.png">
-							<p>바이오/의료</p>
-						</button>
+						<a class="tech" alt="바이오/의료 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=50&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon05.png" alt=""/><br>
+							<span>바이오/의료</span>
+						</a>
 						<p id="strBioCnt">744건</p>
 					</li>
 					<li>
-						<button value="에너지/자원" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=60&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon06.png">
-							<p>에너지/자원</p>
-						</button>
+						<a class="tech" title="새창열림" alt="에너지/자원 바로가기"
+						href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=60&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon06.png" alt=""/><br>
+							<span>에너지/자원</span>
+						</a>
 						<p id="strEnergyCnt">58건</p>
 					</li>
 					<li>
-						<button value="기타" class="tech" onclick="window.open('http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=80&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=')">
-							<img src="/img/jntis/main/icon08.png">
-							<p>기타</p>
-						</button>
+						<a class="tech" alt="기타 바로가기" title="새창열림" target="_blank" href="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&mode=search&nowPage=1&listMode=patentBlogList&searchCd=all&searchId=&reDeth1=80&reDeth2=&ownOrgNmText=&searchSelect=&searchSelectText=">
+							<img src="/img/jntis/main/icon08.png" alt=""/><br>
+							<span>기타</span>
+						</a>
 						<p id="strNowhowCnt">3,595건</p>
 					</li>
 				</ul>
 			</div>
 		</div>
 
-		
 		<div class="MainCont02">
 			<div class="left">
 				<!--<div class="BoardWrap01">
@@ -465,7 +464,7 @@
 								<ul class="ListBoard" id="boardLatestJntis">
 									<li></li>
 								</ul>
-								<a class="more" href="/jntis/sub.do?m=98">+</a>
+								<a class="more" href="/jntis/sub.do?m=98" title="공지사항 더보기"><span class="sound_only">공지사항 더보기</span>+</a>
 							</div>
 						</div>
 						<div class="article article_mn3">
@@ -477,7 +476,7 @@
 								<ul class="ListBoard" id="boardLatestEvent">
 									<li></li>
 								</ul>
-								<a class="more" href="/jntis/sub.do?m=32">+</a>
+								<a class="more" href="/jntis/sub.do?m=32" title="행사정보 더보기"><span class="sound_only">행사정보 더보기</span>+</a>
 							</div>
 						</div>
 						<div class="article article_mn4">
@@ -489,7 +488,7 @@
 								<ul class="ListBoard" id="boardLatestEdu">
 									<li></li>
 								</ul>
-								<a class="more" href="/jntis/sub.do?m=34">+</a>
+								<a class="more" href="/jntis/sub.do?m=34" title="교육정보 더보기"><span class="sound_only">교육정보 더보기</span>+</a>
 							</div>
 						</div>
 	
@@ -548,9 +547,26 @@
 				<script type="text/javascript">
 
 					$(function() {
-					        
-	
-					    $(".hd_tab li").on("click", function() {
+						var tabMenu = $(".Bheader");
+
+						//컨텐츠 내용을 숨겨주세요!
+						tabMenu.find("ul > li > .busi_info").hide();
+						tabMenu.find("li.active > .busi_info").show();
+
+						//두번째 버튼 클릭 --> 모든 active 삭제 --> 내가 클릭한 버튼 active 추가
+						function tabList(e){
+						e.preventDefault(); //#의 기능을 차단
+						var target = $(this);
+						target.next().show().parent("li").addClass("active").siblings("li").removeClass("active").find(".busi_info").hide();    
+						//버튼을 클릭하면 ~ div를 보여주고
+						//부모의 li 태그에 클래스를 추가하고
+						//형제의 li 태그에 클래스를 제거하고
+						//제거한 자식의 div 태그를 숨겨줌
+						}
+
+						tabMenu.find("ul > li > a").click(tabList).focus(tabList);
+
+					    /*$(".hd_tab li").on("click", function() {
 							var $this = $(this);
 					    	var tab_idx = $this.index();
 					    	var $tab_con = $(".tab_content");
@@ -561,7 +577,10 @@
 	
 					    	$tab_con.removeClass("on");
 					    	$tab_con.eq(tab_idx).addClass("on");
-					    });
+					    });*/
+
+
+
 
 						$(".MCSsch .sch_btn00").on("click", function() {
 							var $this = $(this);
@@ -585,34 +604,34 @@
 					});
 
 				</script>
-                <div class="busi_latest">
+				<div class="busi_latest">
                     <div class="Bheader">
                         <ul class="hd_tab">
-                            <li class="on"> 지역사업</li>
-                            <li>정부사업</li>
-                            <li>통합</li>
+                            <li class="active">
+								<a href="#">지역사업</a>
+								<div class="busi_info">
+									 <ul id="boardLatestProject2">
+										 
+									 </ul>
+								 </div>
+							</li>
+                            <li>
+								<a href="#">정부사업</a>
+								<div class="busi_info">
+									 <ul id="boardLatestProject1">
+										 
+									 </ul>
+								 </div>
+							</li>
+                            <li>
+								<a href="#">통합</a>
+								<div class="busi_info">
+									 <ul id="boardLatestProject">
+										 
+									 </ul>
+								 </div>
+							</li>
                         </ul>
-                    </div>
-                    <div class="tab_content on">
-                     <div class="busi_info">
-                         <ul id="boardLatestProject2">
-                             
-                         </ul>
-                     </div>
-                    </div>
-                    <div class="tab_content">
-                     <div class="busi_info">
-                         <ul id="boardLatestProject1">
-                             
-                         </ul>
-                     </div>
-                    </div>
-                	<div class="tab_content">
-                     <div class="busi_info">
-                         <ul id="boardLatestProject">
-                             
-                         </ul>
-                     </div>
                     </div>
                 </div>
             </div>
@@ -636,7 +655,7 @@
 
 	<!--MainCont04 s-->
 	<div class="MainCont04">
-		<h2 class="tit_MC04">PHOTO NEWS<a class="more" href="/jntis/sub.do?m=94">+</a></h2>
+		<h2 class="tit_MC04">PHOTO NEWS<a class="more" href="/jntis/sub.do?m=94" title="포토뉴스 더보기"><span class="sound_only">포토뉴스 더보기</span>+</a></h2>
 		<ul id="boardListPhoto">
 			<li></li>
 		</ul>
@@ -651,28 +670,28 @@
                 <li class="MC050101">
                     <p class="Tit0501">국가과학기술정보시스템</p>
                     <p class="Txt0501">Government R&amp;D Projects</p>
-                    <a href="https://www.ntis.go.kr/ThMain.do" target="_blank" title="국가과학기술정보시스템 홈페이지 바로가기">
-                        <img src="/img/jntis/main/btn_go01.png" alt="국가과학기술정보시스템" class="go">
+                    <a href="https://www.ntis.go.kr/ThMain.do" target="_blank" title="국가과학기술정보시스템 홈페이지 새창열기">
+                        <img src="/img/jntis/main/btn_go01.png" alt="국가과학기술정보시스템 바로가기" class="go"/>
                     </a>
                 </li>
                 <li class="MC050102">
                     <p class="Tit0501">사이언스 ON</p>
                     <p class="Txt0502">Sience ON</p>
-                    <a href="https://scienceon.kisti.re.kr/main/mainForm.do" target="_blank" title="사이언스 온 바로가기">
-                        <img src="/img/jntis/main/btn_go01.png" alt="사이언스 온 바로가기" class="go">
+                    <a href="https://scienceon.kisti.re.kr/main/mainForm.do" target="_blank" title="사이언스 온 새창열기">
+                        <img src="/img/jntis/main/btn_go01.png" alt="사이언스 온 바로가기" class="go"/>
                     </a>
                 </li>
                 <li class="MC050103">
                     <p class="Tit0501">기업마당</p>
                     <p class="Txt0501">Company yard</p>
-                    <a href="http://www.bizinfo.go.kr/cmm/main/introPage.do" title="기업마당 바로가기" target="_blank">
-                        <img src="/img/jntis/main/btn_go01.png" alt="기업마당" class="go">
+                    <a href="http://www.bizinfo.go.kr/cmm/main/introPage.do" title="기업마당 새창열기" target="_blank">
+                        <img src="/img/jntis/main/btn_go01.png" alt="기업마당 바로가기" class="go"/>
                     </a>
                 </li>
                 <li class="MC050104">
-                    <p class="Tit0501 MAB10" style="line-height: 25px">중소기업 기술개발사업<br>종합관리시스템</p>
-                    <a href="http://www.smtech.go.kr" target="_blank" title="중소기업 기술개발사업 종합관리시스템 바로가기">
-                        <img src="/img/jntis/main/btn_go01.png" alt="중소기업 기술개발사업 종합관리시스템" class="go">
+                    <p class="Tit0501 MAB10" style="line-height: 25px">중소기업 기술개발사업<br/>종합관리시스템</p>
+                    <a href="http://www.smtech.go.kr" target="_blank" title="중소기업 기술개발사업 종합관리시스템 새창열기">
+                        <img src="/img/jntis/main/btn_go01.png" alt="중소기업 기술개발사업 종합관리시스템 바로가기" class="go"/>
                     </a>
                 </li>
             </ul>
@@ -689,13 +708,11 @@
 			<ul class="PopupList02" id="PopupList02">
 
 				<c:forEach var="result" items="${popupzoneList}" varStatus="status">
-					<li style="padding: 1px;"><a
-						href="<c:out value='${result.linkUrl}'/>"
-						<c:if test="${result.linkTarget == '_BLANK'}">target="_blank"</c:if>
-						title="<c:out value='${result.title}'/>"> <img
-							src="/<c:url value='${result.atchFileFullPath}'/>"
-							alt="<c:out value='${result.content}'/>" />
-					</a></li>
+					<li style="padding: 1px;">
+						<a href="<c:out value='${result.linkUrl}'/>" <c:if test="${result.linkTarget == '_BLANK'}">target="_blank"</c:if> title="<c:out value='${result.title}'/>">
+							<img src="/<c:url value='${result.atchFileFullPath}'/>" alt="<c:out value='${result.content}'/>" />
+						</a>
+					</li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -725,9 +742,8 @@
 
 			<div class="JeonNam">
 				<div class="JeonNamCi">
-					<a href="http://www.jeonnam.go.kr/" target="_blank"> <img
-						src="/img/main/ci_jeonam.png" alt="생명의 땅 전남, 전라남도"
-						title="전남도청 바로가기" class="JeonNamImg" />
+					<a href="http://www.jeonnam.go.kr/" target="_blank">
+						<img src="/img/main/ci_jeonam.png" alt="생명의 땅 전남, 전라남도" title="전남도청 바로가기" class="JeonNamImg" />
 					</a>
 				</div>
 			</div>
@@ -735,6 +751,4 @@
 	</div>
 	<!--Banner E-->
 
-</div>
-<!--MainContWRap e-->
 </div>
