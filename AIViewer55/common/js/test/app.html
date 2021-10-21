@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="Content-Script-Type" content="text/javascript"><meta http-equiv="Content-Style-Type" content="text/css"><meta name="author" content="CHEIL worldwide"><meta name="Keywords" content="CHEIL worldwide, i-PRMS"><meta name="description" content="CHEIL worldwide, i-PRMS"> <title>Expense Approval</title>
+
+</head><body>
+<style type=text/css
+> 
+
+ul,ol,li{list-style:none outside} table{border-collapse:collapse} *{margin:0;padding:0;font-family:Arial,Dotum,AppleGothic,sans-serif} h3{padding-bottom:10px;margin-bottom:15px;font-size:17px;line-height:17px} h4,h5{display:block;padding:0;margin:0;font-weight:bold;font-family:Arial,Dotum,AppleGothic,sans-serif;color:#13289c} h4,h5{padding-bottom:10px;font-size:14px;line-height:14px} h5{padding-bottom:3px} .hide{clear:both;position:absolute;visibility:hidden;overflow:hidden;left:0;top:0;width:0;height:0;margin:0;padding:0;background:none;text-indent:-99999px} .cntsArea{clear:both;display:block;position:relative;padding:0} .searchArea{clear:both;padding:10px 15px;margin-bottom:15px;border:1px solid #a0aab3;background:#fff !important;font:normal 12px Arial,Dotum,AppleGothic,sans-serif} .boxType01{clear:both;position:relative;padding:15px;border:1px solid #a0aab3;background:#fff !important;font:normal 12px Arial,Dotum,AppleGothic,sans-serif} .btnArea{position:absolute;top:-29px;right:0;height:21px} .tac{text-align:center !important} .tar{text-align:right !important} .list_type02{overflow:hidden} .list_type02 li{} .pl20{padding-left:20px !important} .mb8{margin-bottom:8px !important} .mb15{margin-bottom:15px !important} .wid120{width:120px !important} /* Table */ .tbl_Type01{clear:both;width:100%;table-layout:auto !important;font-size:12px;line-height:21px} *+html body .tbl_Type01{table-layout:fixed !important} .tbl_Type01{border:1px solid #a0aab3} .tbl_Type01 th,.tbl_Type01 td{text-align:center} .tbl_Type01 thead th{padding:4px 0 3px;border:1px solid #bcc4cc !important;background:#e9ebed !important;font-weight:bold} .tbl_Type01 thead th.th01{border-left:0 !important} .tbl_Type01 thead th.th01.tLeft{padding-left:15px !important;text-align:left} .tbl_Type01 thead th.th02{border-right:0 !important} .tbl_Type01 tfoot th,.tbl_Type01 tfoot td{padding:4px 0 3px;border:1px solid #bcc4cc !important;background:#e9ebed !important;font-weight:bold} .tbl_Type01 tfoot td.bg_white{background:#fff !important} .tbl_Type01 tbody th{padding:2px 5px 1px;border-left:1px solid #bcc4cc;border-bottom:1px solid #bcc4cc;background:#e9ebed !important;font-weight:normal} .tbl_Type01 tbody td{padding:2px 5px 1px;border-left:1px solid #bcc4cc;border-bottom:1px solid #bcc4cc;background:#fff !important;white-space:normal;word-break:break-all} .tbl_Type01 input[type=
+checkbox
+],.tbl_Type01 input[type=
+radio
+],.tbl_Type01 select,.tbl_Type01 input{margin-left:5px;vertical-align:middle !important} .tbl_Type01 td span.button.small *{margin:0 !important} .tbl_Type01.fs11,.tbl_Type01.fs11 *{font-size:11px;font-family:Dotum;line-height:15px !important} .tbl_Type01 .tLeft{padding-left:10px !important;text-align:left} .tbl_Type01 tr.tLeft th{background:#e9ebed !important;font-weight:bold} .tbl_Type01 tr.tLeft th,.tbl_Type01 tr.tLeft td{padding-left:10px !important;text-align:left} .tbl_Type01 tr.tLeft th.tRight,.tbl_Type01 tr.tLeft td.tRight{padding-right:10px !important;text-align:right} .tbl_Type01 .tRight{padding-right:10px !important;text-align:right} .tbl_Type01 tr.setTbl th{background:#e9ebed !important} .tbl_Type01 tr.setTbl td{background:#fff !important} .tbl_Type01 tr.bdB th{border-bottom:2px solid #bcc4cc;background:#e9ebed !important} .tbl_Type01 tr.bdB td{border-bottom:2px solid #bcc4cc;background:#fff !important} 
+
+
+@media print{ .tbl_Type01,.tbl_Type01 thead th,.tbl_Type01 tbody th,.tbl_Type01 tbody .tLeft,.tbl_Type01 tbody td,.tbl_Type01 tfoot th,.tbl_Type01 tfoot td, .tbl_Type01 p,.tbl_Type01 p *{border:1px solid #555 !important;border-color:#555 !important;font-size:10px !important;line-height:13px !important;padding:2px 3px 1px !important} .tbl_Type01 p,.tbl_Type01 p *{border:0 solid #fff !important;border-color:#fff !important} .tbl_Type01 tbody tr th.tLeft{border-bottom:1px solid #555 !important;border-right:1px solid #555 !important} .tbl_Type01 thead th.th01{border-left:0 !important} .tbl_Type01 thead th.th02{border-right:0 !important} .tbl_Type01 thead th.th01.tLeft{padding-left:5px !important;text-align:left} .tbl_Type01{width:100% !important;table-layout:fixed !important;border-collapse:collapse;border:1px solid #555 !important} .boxType01{position:relative;width:640px !important} } </style>
+
+<div class="boxType01">
+    <!-- 이부분부터 여러개 노츌 -->
+    <div id="divBillTo" class="disib wid100p mb15">
+		<div class="fl">
+			<h4>Sales Information</h4>
+			<ul class="mb15">
+				<li>Bill To: <strong>Samsung Electronics Co, Ltd</strong><br>416,Maetan 3-Dong, Yeongtong-gu Suwon City, Gyeonggi-do, 443-742, Korea  </li>
+				<li>Tel: </li>
+				<li>Fax: </li>
+				<li>Attention: </li>
+			</ul>
+		</div>
+	</div>
+    <!-- 보고서 정보 -->
+    <div class="cntsArea">
+      <div class="mb8">
+        <table id="tblHeader" class="tbl_Type01 mb3">
+          
+          	<colgroup>
+            	<col width="150"><col><col width="150"><col width="150">
+          	</colgroup>
+			<tbody>
+				<tr>
+					<th scope="row">A/R Info. No.</th>
+					<td>DEAR1300037</td>
+					<th scope="row">Due Date</th>
+					<td>2013-02-02</td>
+				</tr>
+				<tr>
+					<th scope="row">Invoice No</th>
+					<td>111222333</td>
+					<th scope="row">Inv Date</th>
+					<td>2013-01-31</td>
+				</tr>
+				<tr>
+					<th scope="row">Subject</th>
+					<td>YDB1 Samsung Electronic Co, Ltd 13 Retainer - 1st Test 2</td>
+					<th scope="row">Cmps. Type</th>
+					<td>Fee</td>
+				</tr>
+			</tbody>
+        </table>
+      </div>
+      <table id="tblItem" class="tbl_Type01 mb8">
+		<colgroup>
+		<col width="180"><col width="80"><col><col width="150"><col width="150">
+		</colgroup>
+		<thead>
+			<tr>
+				<th scope="col">Project</th>
+				<th scope="col">Category</th>
+				<th scope="col">Description</th>
+				<th scope="col">Amount(<span id="docCrncyCd">EUR</span>)</th>
+				<th scope="col">Amount(<span id="crncyLcCd">EUR</span>)</th>
+			</tr>
+		</thead>
+		<!-- tbody>
+			<tr>	
+				<td>DESIGN</td>
+				<td class="tLeft">2012 Print Adaption : Bike Europe<br>
+					Format Adaptation Artwork Bleed Production Handling Coordination data Transmission check with legal DHL Express to Korea 332 EUR + 11,60 EUR(CCG FEE) = TOTAL:343,60 EUR
+				</td>
+				<td>N</td>
+				<td>243.03</td>
+				<td class="tRight">12,814.97</td>
+			</tr>
+		</tbody-->
+	 <tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr>	<td class="tLeft"><b>[DEP90003001]</b>YDB1 Samsung Electronics Co, Ltd 13 Retainer - 1st Test</td>	<td>CCGFEE</td>	<td class="tLeft">test</td>	<td class="tRight">10,000.00</td>	<td class="tRight">10,000.00</td></tr></tbody></table>
+	 <table id="tblSum" class="tbl_Type01">
+		<colgroup>
+		<col><col width="150"><col width="150">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th scope="col">Total Net Amount</th>
+				<td class="tRight">10,000.00</td>
+				<td class="tRight">10,000.00</td>					
+			</tr>
+			<tr>
+				<th scope="col">Commission</th>
+				<td class="tRight">0.00</td>
+				<td class="tRight">0.00</td>
+			</tr>
+			<!-- tr>
+				<th scope="col">Gross Cost</th>
+				<td class="tRight"></td>
+				<td class="tRight"></td>
+			</tr>
+			<tr>
+				<th scope="col">Less CCI Commission</th>
+				<td class="tRight">0.00</td>
+				<td class="tRight">0.00</td>
+			</tr-->
+		</tbody>
+		<tfoot>
+			<tr>
+				<th scope="col">Total Amount Payable</th>
+				<td class="tRight">10,000.00</td>
+				<td class="tRight">10,000.00</td>					
+			</tr>
+		</tfoot>
+	  </table>
+    </div>
+    </div></body></html>

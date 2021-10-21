@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+<FontFace id="1" name="맑은 고딕"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+<CharShape id="1" fontFace="1" height="11" fontColor="0" useHeight="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="v1" type="void" object="sheet10_C5|sheet10_C7"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" charShape="1"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

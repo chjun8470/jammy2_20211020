@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SurveyBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SurveyVO" type="egovframework.jammy2.survey.service.SurveyVO"/>
+	<typeAlias  alias="SurveyQuestionVO" type="egovframework.jammy2.survey.service.SurveyQuestionVO"/>
+	<typeAlias  alias="SurveyExampleVO" type="egovframework.jammy2.survey.service.SurveyExampleVO"/>
+	<typeAlias  alias="SurveyAnswerVO" type="egovframework.jammy2.survey.service.SurveyAnswerVO"/>
+					
+	<select id="SurveyBackendDAO.selectSurveyListCnt" parameterClass="SurveyVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_SURVEY A
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="SurveyBackendDAO.selectSurveyList" parameterClass="SurveyVO" resultClass="SurveyVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,	A.TITLE				title
+			 ,  A.CONTENT			content
+			 ,	A.BGNDE				bgnde
+			 ,	A.ENDDE				endde
+			 ,  A.OPEN_YN			openYn
+			 ,  A.USE_YN			useYn
+			 ,  A.DPLCTN_YN			dplctnYn
+			 ,  A.RESULT_OPEN_YN	resultOpenYn
+			 ,  (
+			 		<![CDATA[
+			 		CASE (IF (CURDATE() >= A.BGNDE AND CURDATE() <= A.ENDDE, "TRUE", "FALSE"))
+			 		WHEN "TRUE" THEN "ING"
+			 		ELSE (IF (CURDATE() > A.ENDDE, "COMPLETE", "PRE"))
+			 		END
+			 		]]>
+			 	) AS progress
+			 ,  (
+			 		SELECT  IFNULL(COUNT(SRVY_ID),0) 
+			 		  FROM  JMY_SURVEY_VOTE 
+			 		 WHERE  SRVY_ID = A.SRVY_ID
+			 	) AS voteCnt
+		  FROM  JMY_SURVEY A
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.SRVY_ID DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#	
+	</select>
+
+	<select id="SurveyBackendDAO.selectSurvey" parameterClass="SurveyVO" resultClass="SurveyVO">	
+		SELECT  A.SRVY_ID				srvyId
+			 ,	A.TITLE					title
+			 ,  A.CONTENT				content
+			 ,	A.BGNDE					bgnde
+			 ,	A.ENDDE					endde
+			 ,  A.OPEN_YN				openYn
+			 ,  A.USE_YN				useYn
+			 ,  A.DPLCTN_YN				dplctnYn
+			 ,  A.RESULT_OPEN_YN		resultOpenYn
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+			 ,  (			 		
+			 		<![CDATA[
+			 		CASE (IF (CURDATE() >= A.BGNDE AND CURDATE() <= A.ENDDE, "TRUE", "FALSE"))
+			 		WHEN "TRUE" THEN "ING"
+			 		ELSE (IF (CURDATE() > A.ENDDE, "COMPLETE", "PRE"))
+			 		END		 		
+			 		]]>
+			 	) AS progress
+			 ,  (
+			 		SELECT  IFNULL(COUNT(SRVY_ID),0) 
+			 		  FROM  JMY_SURVEY_VOTE 
+			 		 WHERE  SRVY_ID = A.SRVY_ID
+			 	) AS voteCnt			 	
+		  FROM  JMY_SURVEY A
+		 WHERE  A.SRVY_ID = #srvyId#
+	</select>
+
+	<insert id="SurveyBackendDAO.insertSurvey">
+		INSERT 
+		  INTO  JMY_SURVEY
+		     (  SRVY_ID
+			 ,  TITLE
+			 ,  CONTENT
+			 ,  BGNDE
+			 ,  ENDDE
+			 ,  OPEN_YN
+			 ,  USE_YN
+			 ,  DPLCTN_YN
+			 ,  RESULT_OPEN_YN
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #srvyId#
+			 ,  #title#
+			 ,  #content#
+			 ,  #bgnde#
+			 ,  #endde#
+			 ,  #openYn#
+			 ,  #useYn#
+			 ,  #dplctnYn#
+			 ,  #resultOpenYn#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="SurveyBackendDAO.updateSurvey">
+		UPDATE  JMY_SURVEY 		   
+	    <dynamic prepend="SET">		   
+			<isNotNull property="title" prepend=",">
+				TITLE = #title#
+			</isNotNull>
+			<isNotNull property="content" prepend=",">
+				CONTENT = #content#
+			</isNotNull>
+			<isNotNull property="bgnde" prepend=",">
+				BGNDE = #bgnde#
+			</isNotNull>
+			<isNotNull property="endde" prepend=",">
+				ENDDE = #endde#
+			</isNotNull>
+			<isNotNull property="openYn" prepend=",">
+				OPEN_YN = #openYn#
+			</isNotNull>
+			<isNotNull property="useYn" prepend=",">
+				USE_YN = #useYn#
+			</isNotNull>
+			<isNotNull property="dplctnYn" prepend=",">
+				DPLCTN_YN = #dplctnYn#
+			</isNotNull>
+			<isNotNull property="resultOpenYn" prepend=",">
+				RESULT_OPEN_YN = #resultOpenYn#
+			</isNotNull>
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDT_PNTTM = SYSDATE()
+			</isNotNull> 
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDUSR_ID = #lastUpdusrId#
+			</isNotNull>
+		</dynamic>
+		 WHERE  SRVY_ID = #srvyId#
+	</update>		
+	
+    <delete id="SurveyBackendDAO.deleteSurvey">
+		DELETE 
+		  FROM  JMY_SURVEY 
+		 WHERE  SRVY_ID = #srvyId#
+    </delete>	
+	
+	
+	<select id="SurveyBackendDAO.selectSurveyQuestionList" parameterClass="SurveyQuestionVO" resultClass="SurveyQuestionVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,  A.SRVY_QSTN_ID		srvyQstnId
+			 ,	A.QSTN_TY			qstnTy
+			 ,  A.QSTN_TITLE		qstnTitle
+			 ,	A.REQUIRED_YN		requiredYn
+			 ,	A.MIN_CHKED_NUM		minChkedNum
+			 ,  A.POSITION			position
+			 ,  (
+			 		SELECT  IFNULL(COUNT(*),0) 
+			 		  FROM  JMY_SURVEY_ANSWER 
+			 		 WHERE  SRVY_ID = A.SRVY_ID AND SRVY_QSTN_ID = A.SRVY_QSTN_ID
+			 	) AS totalAnswerCnt			 
+		  FROM  JMY_SURVEY_QUESTION A
+		 WHERE  A.SRVY_ID = #srvyId#
+	  ORDER BY  A.POSITION ASC				
+	</select>	
+	
+	<select id="SurveyBackendDAO.selectSurveyQuestion" parameterClass="SurveyQuestionVO" resultClass="SurveyQuestionVO">	
+		SELECT  A.SRVY_ID				srvyId
+			 ,  A.SRVY_QSTN_ID			srvyQstnId
+			 ,	A.QSTN_TY				qstnTy
+			 ,  A.QSTN_TITLE			qstnTitle
+			 ,	A.REQUIRED_YN			requiredYn
+			 ,	A.MIN_CHKED_NUM			minChkedNum
+			 ,  A.POSITION				position  	
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SURVEY_QUESTION A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.SRVY_QSTN_ID = #srvyQstnId#				
+	</select>	
+	
+	<insert id="SurveyBackendDAO.insertSurveyQuestion">
+		INSERT 
+		  INTO  JMY_SURVEY_QUESTION
+		     (  SRVY_ID
+		     ,  SRVY_QSTN_ID
+			 ,  QSTN_TY
+			 ,  QSTN_TITLE
+			 ,  REQUIRED_YN
+			 ,  MIN_CHKED_NUM
+			 ,  POSITION
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #srvyId#
+			 ,  #srvyQstnId#
+			 ,  #qstnTy#
+			 ,  #qstnTitle#
+			 ,  #requiredYn#
+			 ,  #minChkedNum#
+			 ,  #position#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="SurveyBackendDAO.updateSurveyQuestion">
+		UPDATE  JMY_SURVEY_QUESTION
+		<dynamic prepend="SET">
+			<isNotNull property="qstnTy" prepend=",">
+				QSTN_TY = #qstnTy#
+			</isNotNull>
+			<isNotNull property="qstnTitle" prepend=",">
+				QSTN_TITLE = #qstnTitle#
+			</isNotNull>
+			<isNotNull property="requiredYn" prepend=",">
+				REQUIRED_YN = #requiredYn#
+			</isNotNull>
+			<isNotNull property="minChkedNum" prepend=",">
+				MIN_CHKED_NUM = #minChkedNum#
+			</isNotNull>
+			<isNotNull property="position" prepend=",">
+				POSITION = #position#
+			</isNotNull>
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDT_PNTTM = SYSDATE()
+			</isNotNull>
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDUSR_ID = #lastUpdusrId#
+			</isNotNull>
+		</dynamic>
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#		 
+	</update>		
+	
+    <delete id="SurveyBackendDAO.deleteSurveyQuestion">
+		DELETE 
+		  FROM  JMY_SURVEY_QUESTION 
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#
+    </delete>	
+    
+    <delete id="SurveyBackendDAO.deleteSurveyQuestionBySrvyId">
+		DELETE 
+		  FROM  JMY_SURVEY_QUESTION 
+		 WHERE  SRVY_ID = #srvyId#
+    </delete>    
+    
+	<select id="SurveyBackendDAO.selectSurveyExampleList" parameterClass="SurveyExampleVO" resultClass="SurveyExampleVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,  A.SRVY_QSTN_ID		srvyQstnId
+			 ,  A.SRVY_EX_ID		srvyExId
+			 ,	A.EX_KEY			exKey
+			 ,  A.EX_TITLE			exTitle
+			 ,  (
+			 		SELECT  IFNULL(COUNT(*),0) 
+			 		  FROM  JMY_SURVEY_ANSWER 
+			 		 WHERE  SRVY_ID = A.SRVY_ID AND SRVY_QSTN_ID = A.SRVY_QSTN_ID AND SRVY_EX_ID = A.SRVY_EX_ID
+			 	) AS answerCnt
+		  FROM  JMY_SURVEY_EXAMPLE A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.SRVY_QSTN_ID = #srvyQstnId#
+	  ORDER BY  A.EX_KEY ASC				
+	</select>
+	
+	<select id="SurveyBackendDAO.selectSurveyExample" parameterClass="SurveyExampleVO" resultClass="SurveyExampleVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,  A.SRVY_QSTN_ID		srvyQstnId
+			 ,  A.SRVY_EX_ID		srvyExId
+			 ,	A.EX_KEY			exKey
+			 ,  A.EX_TITLE			exTitle
+		  FROM  JMY_SURVEY_EXAMPLE A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.SRVY_QSTN_ID = #srvyQstnId#
+		   AND	A.SRVY_EX_ID = #srvyExId#
+	</select>	
+	
+	<insert id="SurveyBackendDAO.insertSurveyExample">
+		INSERT 
+		  INTO  JMY_SURVEY_EXAMPLE
+		     (  SRVY_ID
+		     ,  SRVY_QSTN_ID
+			 ,  SRVY_EX_ID
+			 ,  EX_KEY
+			 ,  EX_TITLE
+		     )
+		VALUES
+		     (  #srvyId#
+			 ,  #srvyQstnId#
+			 ,  #srvyExId#
+			 ,  #exKey#
+			 ,  #exTitle#
+		     )			
+	</insert>
+	
+	<update id="SurveyBackendDAO.updateSurveyExample">
+		UPDATE  JMY_SURVEY_EXAMPLE
+		<dynamic prepend="SET">
+			<isNotNull property="exKey" prepend=",">
+				EX_KEY = #exKey#
+			</isNotNull>
+			<isNotNull property="exTitle" prepend=",">
+				EX_TITLE = #exTitle#
+			</isNotNull>
+		</dynamic>
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#		 
+		   AND	SRVY_EX_ID = #srvyExId#
+	</update>		
+	
+    <delete id="SurveyBackendDAO.deleteSurveyExample">
+		DELETE 
+		  FROM  JMY_SURVEY_EXAMPLE 
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#
+		   AND	SRVY_EX_ID = #srvyExId#
+    </delete>
+    
+    <delete id="SurveyBackendDAO.deleteSurveyExampleBySrvyId">
+		DELETE 
+		  FROM  JMY_SURVEY_EXAMPLE 
+		 WHERE  SRVY_ID = #srvyId#
+    </delete>    
+    
+    <delete id="SurveyBackendDAO.deleteSurveyExampleBySrvyQstnId">
+		DELETE 
+		  FROM  JMY_SURVEY_EXAMPLE 
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#
+    </delete>
+    
+    <delete id="SurveyBackendDAO.deleteSurveyExampleNotInKeys">
+		DELETE 
+		  FROM  JMY_SURVEY_EXAMPLE 
+		 WHERE  SRVY_ID = #srvyId#
+		   AND	SRVY_QSTN_ID = #srvyQstnId#
+		   AND	(
+		   			SRVY_EX_ID NOT IN
+					<iterate property="insertOrUpdateExIds" open="(" conjunction="," close=")">
+						#insertOrUpdateExIds[]#		   
+					</iterate>
+				)	
+    </delete>	
+	
+	<select id="SurveyBackendDAO.selectSurveyAnswerList" parameterClass="SurveyAnswerVO" resultClass="SurveyAnswerVO">	
+		SELECT  A.SRVY_ANSR_ID		srvyAnsrId
+			 ,  A.SRVY_ID			srvyId
+			 ,  A.SRVY_VOTE_ID		srvyVoteId
+			 ,	A.SRVY_QSTN_ID		srvyQstnId
+			 ,  A.SRVY_EX_ID		srvyExId
+			 ,  A.REMARKS			remarks  			 
+		  FROM  JMY_SURVEY_ANSWER A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.SRVY_QSTN_ID = #srvyQstnId#
+			<isNotNull property="srvyExId">
+		   AND	A.SRVY_EX_ID = #srvyExId#
+			</isNotNull>
+	  ORDER BY  A.SRVY_ANSR_ID DESC				
+	</select>	
+	
+    <delete id="SurveyBackendDAO.deleteSurveyAnswerBySrvyId">
+		DELETE
+		  FROM  JMY_SURVEY_ANSWER
+		 WHERE  SRVY_ID = #srvyId#
+    </delete>
+    
+    <delete id="SurveyBackendDAO.deleteSurveyAnswerBySrvyQstnId">
+		DELETE
+		  FROM  JMY_SURVEY_ANSWER
+		 WHERE  SRVY_ID = #srvyId#
+		   AND  SRVY_QSTN_ID = #srvyQstnId#
+    </delete>
+
+    <delete id="SurveyBackendDAO.deleteSurveyVoteBySrvyId">
+		DELETE 
+		  FROM  JMY_SURVEY_VOTE
+		 WHERE  SRVY_ID = #srvyId#
+    </delete>
+    	
+</sqlMap>

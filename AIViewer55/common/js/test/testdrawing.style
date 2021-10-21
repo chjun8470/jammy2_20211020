@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="VoidBand100" type="void" object="AI_BOX_OBJ2|AI_ROUNDBOX_OBJ3|AI_CIRCLE_OBJ4"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<DrawObjectStyle name="draw_style_0" fillColor="16777215" borderShape="1" type="1"/>
+<DrawObjectStyle name="draw_style_1" fillColor="16777215" borderShape="1" type="2" arcSize="30"/>
+<DrawObjectStyle name="draw_style_2" fillColor="16777215" borderShape="1" type="3"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

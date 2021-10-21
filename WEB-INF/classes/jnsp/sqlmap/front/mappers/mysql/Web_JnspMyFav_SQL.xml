@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspMyFavMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<insert id="setMyFavInsert" parameterType="paramMap">
+
+			INSERT INTO TB_EQU_GOODS_FAV
+			(
+				EQU_GOODS_FAV_IDX,
+				RND_EQU_IDX,
+				USER_IDX
+			)
+			VALUES
+			(
+				#{equGoodsFavIdx},
+				#{rndEquIdx},
+				#{userIdx}
+			)
+	</insert>
+
+	<select id="getMyFavCount" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+			    TB_EQU_GOODS_FAV
+		 WHERE
+				1 = 1
+			AND RND_EQU_IDX = '${rndEquIdx}'
+			AND USER_IDX = '${userIdx}'
+
+	</select>
+
+	<select id="getMyFavList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+		SELECT
+			A.USER_IDX
+
+			,	A.EQU_GOODS_FAV_IDX
+			,	B.RND_EQU_IDX
+			,		B.EQUIP_CD
+			,		B.FIXED_ASET_NO
+			,		B.FIXED_ASET_NO_YN
+			,		B.KOR_NM
+			,		B.ENG_NM
+			,		B.MODEL_NM
+			,		B.MODEL_CD
+			,		B.USE_SCOPE_CD
+			,		B.USE_SCOPE_RANGE
+			,		B.USE_SCOPE_MEAN
+			,		B.EQUIP_DETAIL_FEATURE
+			,		B.EQUIP_DETAIL_EXAMPLE
+			,		B.MANUFACTURE_NM
+			,		B.NTIS_EQUIP_INFO
+
+			,		C.FILE_CAT
+			,		C.TITLE
+			,		C.FILE_PATH
+
+
+		FROM
+			TB_EQU_GOODS_FAV A
+		LEFT JOIN
+			TB_EQU_INFO B
+				ON (A.RND_EQU_IDX = B.RND_EQU_IDX)
+
+		LEFT JOIN
+			TB_RND_FILE C
+				ON (B.RND_EQU_IDX = C.RND_EQU_IDX )
+
+		WHERE A.USER_IDX = '${userIdx}'
+
+
+			]]>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND B.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+					<![CDATA[
+						AND ( B.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+					<![CDATA[
+						AND (B.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<![CDATA[
+						AND (B.MODEL_NM LIKE '%${searchWord}%'
+							OR B.MANUFACTURE_NM LIKE '%${searchWord}%'
+							OR B.KOR_NM LIKE '%${searchWord}%'
+							OR B.ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+			<![CDATA[
+			ORDER BY RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+
+	<select id="getMyFavListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+		FROM
+			TB_EQU_GOODS_FAV A
+		LEFT JOIN
+			TB_EQU_INFO B
+				ON (A.RND_EQU_IDX = B.RND_EQU_IDX)
+
+		LEFT JOIN
+			TB_RND_FILE C
+				ON (B.RND_EQU_IDX = C.RND_EQU_IDX )
+
+		WHERE A.USER_IDX = '${userIdx}'
+
+			<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+				<![CDATA[
+					AND B.USE_SCOPE_CD = '${searchUseScopeCd}'
+				]]>
+			</if>
+			<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+				<![CDATA[
+					AND ( B.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+				]]>
+			</if>
+			<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+				<![CDATA[
+					AND (B.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+				]]>
+			</if>
+			<if test='searchWord != null and searchWord != ""'>
+				<![CDATA[
+					AND (B.MODEL_NM LIKE '%${searchWord}%'
+						OR B.MANUFACTURE_NM LIKE '%${searchWord}%'
+						OR B.KOR_NM LIKE '%${searchWord}%'
+						OR B.ENG_NM LIKE '%${searchWord}%')
+				]]>
+			</if>
+
+	</select>
+
+	<!-- 마이페이지 예약신청 장비정보 -->
+	<select id="getApplyFav" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+				KOR_NM
+			,	RND_EQU_IDX
+			,	NTIS_EQUIP_INFO
+			,	ETUBE_EQUIP_INFO
+			FROM
+				TB_EQU_INFO
+
+			WHERE
+				RND_EQU_IDX IN (${arrRndEquIdx})
+		]]>
+	</select>
+
+<!-- 	<select id="getMyFavList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.RND_EQU_IDX
+				,		A.EQUIP_CD
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_NM
+				,		A.MODEL_CD
+				,		A.USE_SCOPE_CD
+				,		A.USE_SCOPE_RANGE
+				,		A.USE_SCOPE_MEAN
+				,		A.EQUIP_DETAIL_FEATURE
+				,		A.EQUIP_DETAIL_EXAMPLE
+				,		A.MANUFACTURE_NM
+				,		A.NTIS_EQUIP_INFO
+
+				,		(	SELECT ROUND(AVG(AVG.EQU_SATISFACTION),0)
+							FROM TB_EQU_ORDER AVG
+							WHERE AVG.RND_EQU_IDX = A.RND_EQU_IDX
+						) AS EQU_SATISFACTION
+
+				,		B.FILE_CAT
+				,		B.TITLE
+				,		B.FILE_PATH
+
+				,		C.RENTAL_INFO
+				,		C.REF_RSV_TEL
+				,		C.REF_EQU_TEL
+				,		C.OWN_ORG_NM
+
+				,		D.EQU_GOODS_FAV_IDX
+			FROM
+				TB_EQU_INFO A
+			LEFT JOIN
+					TB_RND_FILE B
+				ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			LEFT JOIN
+					TB_EQU_GOODS C
+				ON A.RND_EQU_IDX = C.RND_EQU_IDX
+			LEFT JOIN
+				TB_EQU_GOODS_FAV D
+				ON A.USER_IDX = D.USER_IDX
+
+			WHERE 1 = 1
+			  AND A.DELETE_YN != 'Y'
+			  AND D.USER_IDX = '${userIdx}'
+			  AND A.RND_EQU_IDX = D.RND_EQU_IDX
+
+			]]>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<![CDATA[
+						AND (A.MODEL_NM LIKE '%${searchWord}%'
+							OR A.MANUFACTURE_NM LIKE '%${searchWord}%'
+							OR A.KOR_NM LIKE '%${searchWord}%'
+							OR A.ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+			<![CDATA[
+			ORDER BY RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+
+	<select id="getMyFavListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_EQU_INFO A
+			LEFT JOIN
+					TB_RND_FILE B
+				ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			LEFT JOIN
+					TB_EQU_GOODS C
+				ON A.RND_EQU_IDX = C.RND_EQU_IDX
+			LEFT JOIN
+				TB_EQU_GOODS_FAV D
+				ON A.USER_IDX = D.USER_IDX
+
+		WHERE 1=1
+			AND A.DELETE_YN != 'Y'
+			AND D.USER_IDX = '${userIdx}'
+			AND A.RND_EQU_IDX = D.RND_EQU_IDX
+
+			<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+				<![CDATA[
+					AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+				]]>
+			</if>
+			<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+				<![CDATA[
+					AND ( A.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+				]]>
+			</if>
+			<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+				<![CDATA[
+					AND (A.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+				]]>
+			</if>
+			<if test='searchWord != null and searchWord != ""'>
+				<![CDATA[
+					AND (A.MODEL_NM LIKE '%${searchWord}%'
+						OR A.MANUFACTURE_NM LIKE '%${searchWord}%'
+						OR A.KOR_NM LIKE '%${searchWord}%'
+						OR A.ENG_NM LIKE '%${searchWord}%')
+				]]>
+			</if>
+
+	</select> -->
+
+	<delete id="setMyFavDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_EQU_GOODS_FAV
+			 WHERE EQU_GOODS_FAV_IDX = '${equGoodsFavIdx}'
+	</delete>
+
+	<!-- 신청한 장바구니 내용 삭제  -->
+	<delete id="setFavDel" parameterType="paramMap">
+				DELETE TF.*
+					FROM TB_EQU_GOODS_FAV TF
+				WHERE
+					TF.RND_EQU_IDX = #{rndEquIdx}
+				AND
+					TF.USER_IDX = #{userIdx}
+	</delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<select id="getMyFav" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.EQU_ORDER_IDX,
+					A.RND_EQU_IDX,
+					A.USER_IDX,
+					A.ORDER_STATE,
+					A.PHONE,
+					A.ADDR1,
+					A.ADDR2,
+					A.ZIPCODE,
+					A.CORP_NM,
+					A.CORP_IDX,
+					A.CORP_POSITION,
+					A.CORP_RESPONSIBLE_USER,
+					A.USE_MEAN,
+					A.USE_PURPOSE,
+					A.SAMPLE_MATTER,
+					A.USE_ST_DT,
+					A.USE_ED_DT,
+					DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d %H:%i') as ORDER_DT,
+					A.REJECT,
+					A.PRICE_HOW,
+					A.USER_TYPE,
+					A.REAL_USE_ST_DT,
+					A.REAL_USE_ED_DT,
+					A.DEPT_NM,
+					B.PSN_NM,
+					B.GENDER_TYPE_CD,
+					B.FRGN_YN,
+					B.USER_ID,
+					B.ORG_GRP_CD,
+					B.EMAIL,
+					B.TEL_NO,
+					B.CP_NO,
+					C.EQUIP_CD,
+					C.FIXED_ASET_NO,
+					C.KOR_NM,
+					C.ENG_NM,
+					C.MANUFACTURE_NM,
+					C.MODEL_NM,
+					C.TAKE_CD,
+					C.TAKE_PRC,
+					C.TAKE_SDT,
+					C.TAKE_EDT,
+					C.TAKE_EDT,
+					C.LOCATION_DTL,
+					C.BRANCH_NM,
+					C.IDLE_DISUSE_CD,
+					C.ST_STYPE,
+					C.ST_ROOM,
+					C.EQUIP_DETAIL_FEATURE,
+					C.EQUIP_DETAIL_CAPABILITY,
+					C.TAKE_PRC_FOREIGN,
+					C.TAKE_PRC_DOMESTIC,
+					C.USER_IDX,
+					D.REF_RSV_TEL,
+					D.REF_EQU_TEL,
+					D.HOW_USE,
+					D.RENTAL_INFO,
+					D.RSV_YN,
+					D.OWN_ORG_NM
+
+				FROM
+					    TB_EQU_ORDER A
+
+				LEFT JOIN
+						TB_USER_COPY B
+					ON A.USER_IDX = B.USER_IDX
+				LEFT JOIN
+						TB_EQU_INFO C
+					ON A.RND_EQU_IDX = C.RND_EQU_IDX
+				LEFT JOIN
+						TB_EQU_GOODS D
+					ON A.RND_EQU_IDX = D.RND_EQU_IDX
+
+			 WHERE EQU_ORDER_IDX = '${equOrderIdx}'
+	</select>
+
+
+	<delete id="setAllMyFavDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_EQU_ORDER
+			 WHERE EQU_ORDER_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{equOrderIdx}
+			</foreach>
+
+	</delete>
+
+
+	<update id="setMyFavUpdate" parameterType="paramMap">
+	    UPDATE TB_EQU_ORDER SET
+				PHONE = #{phone},
+			<choose>
+				<when test="realUseStDt !='' and realUseStDt != null">
+				REAL_USE_ST_DT = STR_TO_DATE(#{realUseStDt}, '%Y-%m-%d %H:%i'),
+				</when>
+			</choose>
+			<choose>
+				<when test="realUseEdDt !='' and realUseEdDt != null">
+				REAL_USE_ED_DT = STR_TO_DATE(#{realUseEdDt}, '%Y-%m-%d %H:%i'),
+				</when>
+			</choose>
+				ZIPCODE = #{zipCode},
+				ADDR1 = #{addr1},
+				ADDR2 = #{addr2},
+				PRICE_HOW = #{priceHow},
+				USER_TYPE = #{userType},
+				ORDER_STATE = #{orderState},
+				REJECT = #{reject}
+
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+
+	</update>
+
+
+	<update id="setMyFavOrderStateUpdate" parameterType="paramMap">
+		UPDATE TB_EQU_ORDER SET
+
+				ORDER_STATE = #{orderState} ,
+				REJECT = #{reject}
+
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+	</update>
+
+	<select id="getMyFavUser" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+                           U.USER_IDX,
+                           U.PSN_NM,
+                           U.GENDER_TYPE_CD,
+                           U.FRGN_YN,
+                           U.USER_ID,
+                           U.PASSWORD,
+                           U.EMAIL,
+                           U.EMAIL_RECV_YN,
+                           U.ZIPCD,
+                           U.ADDR1,
+                           U.ADDR2,
+                           U.TEL_NO,
+                           U.CP_NO,
+                           U.FAX_NO,
+                           U.DEPT_NM,
+                           U.POSITION_NM,
+                           U.USER_TYPE_CD,
+                           U.BIRTH_DATE,
+                           U.DELETE_YN,
+                           U.ORG_GRP_CD,
+                           U.AUTH_LV,
+                           DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+                           U.REG_IP,
+                           U.REG_IDX,
+                           U.UP_DT,
+                           U.UP_IP,
+                           U.UP_IDX,
+                           U.REJECT,
+                           CASE WHEN U.PRO_STATE="10" THEN "요청"
+                                      WHEN U.PRO_STATE="20" THEN "승인"
+                                      WHEN U.PRO_STATE="30" THEN "반려"
+                                    ELSE ""
+                                    END PRO_STATE,
+                           CASE WHEN U.USER_APP_STATE="10" THEN "요청"
+                                      WHEN U.USER_APP_STATE="20" THEN "승인"
+                                      WHEN U.USER_APP_STATE="30" THEN "반려"
+                                    ELSE ""
+                                    END USER_APP_STATE,
+                           O.ORG_GRP_NM,
+                           CASE WHEN O.ORG_TYPE="1" THEN "기업"
+                                      WHEN O.ORG_TYPE="2" THEN "기관/센터"
+                                    ELSE ""
+                                    END ORG_TYPE,
+                           O.APPLY_CD,
+                           O.APPLY_REJECT,
+                           O.CI_FILE_SRC,
+                           O.AUTH_CD,
+                           O.AUTH_ORG_SITE_1,
+                           O.AUTH_ORG_SITE_2,
+                           O.AUTH_ORG_SITE_3,
+                           O.AREA_CD,
+                           O.ORNER_NM,
+                           O.CORP_NUM_1,
+                           O.CORP_NUM_2,
+                           O.CORP_PHONE,
+                           O.CORP_FAX,
+                           O.HOMEPAGE,
+                           O.ADDR1 AS ORG_ADDR1,
+                           O.ADDR2 AS ORG_ADDR2,
+                           O.ZIPCODE,
+                           O.MAP_X,
+                           O.MAP_Y,
+                           O.ORG_NOTE_1,
+                           O.ORG_NOTE_2,
+                           O.ORG_NOTE_3,
+                           O.ORG_NOTE_4,
+                           O.ORG_FILE_INFO,
+                           O.REG_DT AS ORG_REG_DT,
+                           O.REG_IP AS ORG_REG_IP,
+                           O.REG_IDX AS ORG_REG_IDX,
+                           O.UP_DT AS ORG_UP_IP,
+                           O.UP_IP AS ORG_UP_IP,
+                           O.UP_IDX AS ORG_UP_IDX,
+                           O.SIGN_IMG,
+                           O.DELETE_YN,
+                           A.DATA01,
+                           A.DATA02,
+                           A.DATA03,
+                           A.DATA04,
+                           A.DATA05,
+                           A.DATA06,
+                           A.DATA07,
+                           A.DATA08,
+                           A.TEXT1,
+                           A.TEXT2
+
+                FROM
+                                 TB_USER_COPY AS U
+                LEFT JOIN
+                                 TB_ORG_GRP AS O
+                ON
+                                 U.ORG_GRP_CD = O.ORG_GRP_CD
+                LEFT JOIN
+                                 JMY_BOARD_ARTICLE AS A
+                ON
+                                 U.USER_IDX = A.NUM1 AND  A.BOARD_ID = '00014'
+                WHERE
+                                 1=1
+                AND
+                                 U.USER_IDX = #{userIdx}
+                AND
+                                 U.DELETE_YN != 'Y'
+
+	</select>
+
+	<insert id="setEqReservationFavInsert" parameterType="paramMap">
+
+			INSERT INTO TB_EQU_GOODS_FAV
+			(
+				EQU_GOODS_FAV_IDX,
+				RND_EQU_IDX,
+				USER_IDX
+			)
+			VALUES
+			(
+				#{equGoodsFavIdx},
+				#{rndEquIdx},
+				#{userIdx}
+			)
+	</insert>
+
+
+
+</mapper>

@@ -1,0 +1,575 @@
+@CHARSET "UTF-8";
+@import url("basic_btn.css");
+
+.basic_grid {
+
+}
+
+.basic_grid .search_box {
+
+	border: 1px solid #dbdbdb;
+	background-color: #f3f3f3;
+	line-height: 25px;
+	display: block;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.basic_grid .search_box .search_row {
+
+}
+
+.basic_grid .search_box .search_btn {
+	height:30px;
+}
+
+
+.inp_text {height:20px;line-height:20px;border:1px solid #bbbbbb;padding-left:5px;}
+.inp_tarea {line-height:20px;border:1px solid #bbbbbb;}
+
+
+
+
+/* 페이징 S */
+.btn_box {
+	width: 100%;
+	position: relative;
+	margin-top: 20px;
+}
+
+.btn_box .btn_left_box {
+	position: relative;
+	left: 0px;
+	width: auto;
+}
+
+.btn_box .btn_right_box {
+	width: auto;
+	top: 0px;
+	right: 0px;
+}
+
+/* 페이징 S */
+
+/* 페이징 S */
+.paging {
+	clear:both;
+	position: relative;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 0;
+	margin: 34px 0 20px 0;
+}
+
+.paging a {
+	position: relative;
+	z-index: 10;
+}
+
+.paging .num {
+	font-size: 0;
+}
+
+.paging .num a {
+	padding: 0 0px 0 0px;
+	margin: 0 1px 0 1px;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	border: 1px solid #1e61a8;
+	color: #666;
+	background: #fff;
+	font-size: 11px !important;
+	font-family: "Verdana", "Arial", "Lucida Grande", "Tahoma", "sans-serif";
+}
+
+.paging .num a.on {
+	border: 1px solid #00783c;
+	color: #00783c;
+	font-weight: bold;
+}
+
+.paging .num a:hover {
+	border: 1px solid #00783c;
+	color: #00783c;
+	text-decoration: none;
+}
+
+.paging a {
+
+}
+
+.paging a span {
+	text-indent: -10000px;
+	overflow: hidden;
+	height: 0;
+	font-size: 0;
+}
+
+.paging a.first, .paging a.prev, .paging a.next, .paging a.last {
+	vertical-align: top;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #d5d5d5;
+}
+
+.paging .num a {
+	vertical-align: top;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #eaeaea;
+}
+
+.paging a.first {
+	background: #fff url('/imgs/board/page_first.png') no-repeat 50% 50%;
+}
+
+.paging a.prev {
+	background: #fff url('/imgs/board/page_prev.png') no-repeat 50% 50%;
+	margin: 0 10px 0 2px;
+}
+
+.paging a.next {
+	background: #fff url('/imgs/board/page_next.png') no-repeat 50% 50%;
+	margin: 0 2px 0 10px;
+}
+
+.paging a.last {
+	background: #fff url('/imgs/board/page_last.png') no-repeat 50% 50%;
+}
+
+.paging .btn {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+/*페이징 E */
+
+/*게시판스킨 _ list*/
+div.skin_bbs_list {
+	clear: both;
+	padding: 0 5px 5px 0;
+}
+
+table.skin_basic_list {
+	clear: both;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	border-top: solid 1px #cccccc;
+	border-collapse: collapse;
+}
+
+table.skin_basic_list caption {
+	visibility: hidden;
+	font-size: 0;
+	width: 0;
+	height: 0;
+	line-height: 0;
+}
+
+table.skin_basic_list th {
+	font-weight: 600;
+	padding: 8px 6px 9px;
+	color: #181818;
+	font-size: 13px;
+	background-color: #f3f3f3;
+	border-bottom: solid 1px #ccc;
+	line-height: 20px;
+	text-align: center;
+}
+
+table.skin_basic_list td {
+	padding: 10px 2px;
+	color: #636d60;
+	font-size: 12px;
+	font-weight: normal;
+	border-bottom: solid 1px #e0e0e0;
+	line-height: 18px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.skin_basic_list td.subject {
+	color: #545454;
+	font-weight: 600;
+	text-align: left;
+}
+
+table.skin_basic_list td.subject a {
+	color: #545454;
+}
+
+table.skin_basic_list td.subject-d {
+	color: #545454;
+	font-weight: 600;
+	text-align: center;
+}
+
+div.skin_bbs_list .bbs-top {
+	height: 31px;
+}
+
+div.skin_bbs_list .bbs-top .total {
+	float: left;
+	width: 368px;
+	padding: 5px 0 0 0;
+	color: #606060;
+	font: 11px Verdana, Geneva, sans-serif;
+}
+
+div.skin_bbs_list .bbs-top .btn_box {
+	float: left;
+	width: 350px;
+	padding: 0 0 0 0;
+}
+
+div.skin_bbs_list .bbs-top .total span {
+	color: #2e2e2e;
+}
+
+div.skin_bbs_list .bbs-top .board-search {
+	float: right;
+	width: 298px;
+	text-align: right;
+}
+
+div.skin_bbs_list .bbs-top .board-search input.board-input {
+	width: 123px;
+	padding: 6px 2px;
+	background: #f9f9f9;
+	border: 1px solid #bebebe;
+}
+
+.board-bottom {
+	position: relative;
+	clear: both;
+	width: 667px;
+	padding: 20px 0;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	color: #666;
+	font-size: 13px;
+}
+/*.pagenum{ width:512px; height:30px; margin:0 auto; text-align:center; }*/
+.pagenum {
+	width: 570px;
+	height: 30px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.pagenum img {
+	vertical-align: middle;
+}
+
+.pagenum a {
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+}
+
+.pagenum span.btn-first {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #a4a5a6;
+	background: url(../image/common/btn_allleft.gif) left top no-repeat;
+	display: inline-block;
+}
+
+.pagenum span.btn-prev {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #a4a5a6;
+	background: url(../image/common/btn_left.gif) left top no-repeat;
+	display: inline-block;
+}
+
+.pagenum span.btn-next {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #a4a5a6;
+	background: url(../image/common/btn_right.gif) left top no-repeat;
+	display: inline-block;
+}
+
+.pagenum span.btn-end {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #a4a5a6;
+	background: url(../image/common/btn_allright.gif) left top no-repeat;
+	display: inline-block;
+}
+
+.pagenum span.off {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #666;
+	background: url(/layouts/jnsobang/image/common/pagenum_off.gif) left top
+		no-repeat;
+	display: inline-block;
+	text-align: center;
+}
+
+.pagenum span.off a {
+	color: #666;
+}
+
+.pagenum span.on {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	color: #008f6c;
+	background: url(../image/common/bbs_num_over.gif) left top no-repeat;
+	display: inline-block;
+	text-align: center;
+}
+
+.btn-left {
+	position: absolute;
+	left: 0;
+	top: 20px;
+	padding: 0;
+	margin: 0;
+}
+
+.btn-right {
+	position: absolute;
+	right: 0;
+	top: 20px;
+	padding: 0;
+	margin: 0;
+}
+
+/*게시판스킨 _ view*/
+div.skin_bbs_veiw {
+	clear: both;
+	padding: 0 5px 5px 0;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+}
+
+.bbs_head {
+	width: 100%;
+	position: relative;
+	border-top: solid 1px #cccccc;
+}
+
+.bbs_head h3.title {
+	color: #333;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 15px 20px 15px 10px;
+	background-color: #f3f3f3;
+	border-bottom: 1px solid #ccc;
+}
+
+.bbs_head .head_text {
+	float: left;
+	width: 400px;
+	color: #636d60;
+	font-weight: normal;
+	font-size: 12px;
+	padding: 10px 20px 10px 10px;
+}
+
+.bbs_head .snsbox {
+	float: right;
+	width: 100px;
+	padding: 5px 0 0 0;
+}
+
+.bbs_cont {
+	clear: both;
+	line-height: 180%;
+	min-height: 100px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px dotted #666;
+	border-top: 1px solid #cccccc;
+	word-break: break-all;
+}
+
+.bbs_file {
+	padding: 10px 0 10px 55px;
+	overflow: hidden;
+	position: relative;
+	background: url(../image/common/ico_file.gif) 20px 12px no-repeat;
+	border-bottom: 1px solid #ccc;
+}
+
+.bbs_file li {
+	line-height: 20px;
+	font-size: 12px;
+}
+
+.bbs_file li a {
+	color: #636d60;
+}
+
+.bbs_move {
+	border: 1px solid #aaaaaa;
+	padding: 5px 20px;
+	margin-top: 20px;
+	background-color: #f8f8f8;
+}
+
+.bbs_move li {
+	height: 20px;
+	padding: 5px 0 5px 22px;
+}
+
+.bbs_move li.prev {
+	padding-top: 12px;
+	border-bottom: 1px solid #d7d7d7;
+	background: url(../image/common/btn_vprev.gif) left 10px no-repeat;
+}
+
+.bbs_move li.next {
+	padding-top: 12px;
+	background: url(../image/common/btn_vnext.gif) left 10px no-repeat;
+}
+
+.bbs_btn {
+	height: 30px;
+	padding: 10px;
+	text-align: right;
+}
+
+/*게시판스킨 _ write*/
+div.skin_bbs_write {
+	clear: both;
+	padding: 0 5px 5px 0;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	border-collapse: collapse;
+}
+
+table.skin_basic_write {
+	clear: both;
+	width: 100%;
+	margin-top: 35px;
+	margin-bottom: 15px;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	border-top: solid 1px #cccccc;
+	border-collapse: collapse;
+}
+
+table.skin_basic_write caption {
+	visibility: hidden;
+	font-size: 0;
+	width: 0;
+	height: 0;
+	line-height: 0;
+}
+
+table.skin_basic_write th {
+	font-weight: 600;
+	padding: 8px 6px 9px 10px;
+	color: #181818;
+	font-size: 13px;
+	background-color: #f3f3f3;
+	border-top: 1px solid #ccc;
+	border-bottom: solid 1px #ccc;
+	line-height: 20px;
+	text-align: left;
+}
+
+table.skin_basic_write td {
+	padding: 10px 6px;
+	color: #636d60;
+	font-size: 12px;
+	font-weight: normal;
+	border-bottom: solid 1px #e0e0e0;
+	line-height: 18px;
+	text-align: left;
+}
+
+table.skin_basic_write td input.subject {
+	height: 20px;
+	width: 500px;
+	border: 1px solid #dfdfdf;
+}
+
+.bbs_btn01 {
+	overflow: hidden;
+	height: 30px;
+	padding: 30px 0 30px 260px;
+	text-align: center;
+}
+
+.bbs_btn01 li {
+	float: left;
+	padding: 0 5px;
+}
+
+.editbox {
+	padding: 0 0 15px 0;
+}
+
+.okbox {
+	text-align: center;
+	padding: 10px;
+	background-color: #f8f8f8;
+	color: #333;
+	font-weight: normal;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+}
+
+/*게시판스킨포토갤러리 _ list*/
+.skin_photo_list {
+	overflow: hidden;
+	padding: 0 5px 5px 0;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border-top: solid 1px #cccccc;
+	border-bottom: solid 1px #cccccc;
+}
+
+.img_box {
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 10px;
+	height: 140px;
+	overflow: auto;
+}
+
+.img_box li.photo_img {
+	width: 130px;
+	height: 90px;
+	border: 2px solid #efefef;
+	padding: 3px;
+}
+
+.img_box li.photo_text {
+	width: 130px;
+	padding: 8px 4px 0 5px;
+}
+
+.noimgbox {
+	padding: 40px 0;
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
+		sans-serif;
+	text-align: center;
+	color: #666;
+	font-size: 14px;
+	font-weight: 600;
+}

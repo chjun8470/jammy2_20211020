@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebCommonMapper">
+
+	<select id="getFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+					
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+		]]>
+		<![CDATA[
+				AND RND_EQU_IDX = #{rndEquIdx}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+
+	<select id="getFileSignList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+					
+		 FROM
+					TB_JNSP_FILE
+			WHERE 1=1
+		]]>
+		<![CDATA[
+				AND DATA_IDX = #{dataIdx}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+		]]>
+		<![CDATA[
+				AND RND_EQU_IDX = trim(#{rndEquIdx})
+				AND FILE_ID = trim(#{fileId})
+		]]>
+	</select>
+
+
+
+	<delete id="setFileDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		  FROM
+					TB_RND_FILE
+		 WHERE 1=1
+			AND RND_EQU_IDX = #{rndEquIdx}
+			AND FILE_ID = #{fileId}
+		]]>
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						TB_RND_FILE
+			 WHERE 1=1
+			 AND RND_EQU_IDX = #{rndEquIdx}
+		 ]]>
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_RND_FILE
+		  </selectKey>
+			INSERT INTO TB_RND_FILE
+			(
+				FILE_ID,
+				RND_EQU_IDX,
+				FILE_PATH,
+				TITLE,
+				FILE_CAT,
+				TITLE_ORG,
+<!-- 				FILE_FULL_NM, -->
+<!-- 				FILE_SIZE, -->
+<!-- 				FILE_TYPE, -->
+<!-- 				FILE_SN, -->
+				REGIST_DT
+			)
+			VALUES
+			(
+				#{fileSeq},
+				#{rndEquIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+<!-- 				#{fileFullNm}, -->
+<!-- 				#{fileSize}, -->
+<!-- 				#{fileType}, -->
+<!-- 				#{fileSn}, -->
+				NOW()
+			)
+	</insert>
+
+	<!-- 법인등록증 추가 -->
+	<insert id="setFileSignInsert" parameterType="paramMap">
+			 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+	    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_JNSP_FILE
+			  </selectKey>
+				INSERT INTO TB_JNSP_FILE
+				(
+					FILE_ID,
+					DATA_IDX,
+					FILE_PATH,
+					TITLE,
+					FILE_CAT,
+					TITLE_ORG,
+	<!-- 				FILE_FULL_NM, -->
+	<!-- 				FILE_SIZE, -->
+	<!-- 				FILE_TYPE, -->
+	<!-- 				FILE_SN, -->
+					REGIST_DT,
+					DATA_GRP
+				)
+				VALUES
+				(
+					#{fileSeq},
+					#{dataIdx},
+					#{filePath},
+					#{fileNm},
+					#{fileExt},
+					#{fileOrgnNm},
+	<!-- 				#{fileFullNm}, -->
+	<!-- 				#{fileSize}, -->
+	<!-- 				#{fileType}, -->
+	<!-- 				#{fileSn}, -->
+					NOW(),
+					#{dataGrp}
+				)
+		</insert>
+
+<delete id="setFileSignDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		  FROM
+					TB_JNSP_FILE
+		 WHERE 1=1
+			AND DATA_IDX = #{dataIdx}
+			AND FILE_ID = #{fileId}
+		]]>
+	</delete>
+</mapper>

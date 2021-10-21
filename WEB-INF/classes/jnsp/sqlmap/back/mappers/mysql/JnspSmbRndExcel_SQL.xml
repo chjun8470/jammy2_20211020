@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspSmbRndExcelMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+	
+	<select id="getSmbRndExcelList" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+			COM_NM,
+			SCALE,
+			COM_AREA,
+			LAB_NM,
+			SDATE,
+			LAB_AREA,
+			LAB_TYPE,
+			DIVN
+		FROM
+			SMB_EXCEL_TEAM
+		WHERE
+			1
+		<if test='searchWord != "" and searchWord != null'>
+			<![CDATA[
+				AND ${searchType} LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<![CDATA[
+			ORDER BY SDATE DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>	
+		
+	</select>
+	
+	
+	<select id="getSmbRndTeamExcelList" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+			YEAR,
+			COM_NM,
+			COM_TEAM,
+			COM_STATUS,
+			IN_NM,
+			BUS_NM,
+			B_SDATE,
+			B_EDATE,
+			H_TYPE,
+			B_CEN,
+			AREA,
+			AR_NM,
+			S_TYPE_A1,
+			S_TYPE_A2,
+			S_TYPE_A3,
+			S_TYPE_ANUM,
+			S_TYPE_B1,
+			S_TYPE_B2,
+			S_TYPE_B3,
+			S_TYPE_BNUM,
+			S_TYPE_C1,
+			S_TYPE_C2,
+			S_TYPE_C3,
+			S_TYPE_CNUM,
+			SIC_TYPE1,
+			SIC_TYPE2,
+			SIC_TYPE3,
+			T6_TYPE1,
+			T6_TYPE2,
+			T6_TYPE3,
+			N_SDATE,
+			N_EDATE,
+			DATA_1,
+			DATA_2,
+			DATA_3,
+			DATA_4,
+			DATA_5,
+			PRICE1,
+			PRICE2,
+			PRICE3,
+			SUM_PRICE,
+			DATA_6,
+			DATA_7,
+			DATA_8,
+			DATA_9
+		FROM
+			SMB_EXCEL_RND
+		WHERE
+			1
+		<if test='searchMain != null and searchMain != ""'>
+			
+			<if test='searchMain == "scienceB"'>
+				<![CDATA[
+					AND S_TYPE_A1 = #{searchSub}
+				]]>
+			</if>
+			<if test='searchMain == "emphasisB"'>
+				<![CDATA[
+					AND SIC_TYPE1 = #{searchSub}
+				]]>
+			</if>
+			<if test='searchMain == "6TB"'>
+				<![CDATA[
+					AND T6_TYPE1 = #{searchSub}
+				]]>
+			</if>
+		</if>
+		
+		<if test='searchWord != null and searchWord != ""'>
+			<if test='searchType == "COM_NM"'>
+				<![CDATA[
+						AND COM_NM LIKE CONCAT('%',#{searchWord},'%')
+				]]>
+			</if>
+			<if test='searchType == "COM_TEAM"'>
+				<![CDATA[
+						AND COM_TEAM LIKE CONCAT('%',#{searchWord},'%')
+				]]>
+			</if>
+		</if>
+		
+		<![CDATA[
+			ORDER BY B_SDATE DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>	
+		
+	</select>
+	
+	
+	<select id="getSmbRndExcelListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+			COUNT(0) AS CNT
+		FROM
+			SMB_EXCEL_TEAM
+		WHERE
+			1
+		<if test='searchWord != "" and searchWord != null'>
+			<![CDATA[
+				AND ${searchType} LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+	
+	<select id="getSmbRndTeamExcelListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+			COUNT(0) AS CNT
+		FROM
+			SMB_EXCEL_RND
+		WHERE
+			1 = 1
+		<if test='searchMain != null and searchMain != ""'>
+			
+			<if test='searchMain == "scienceB"'>
+				<![CDATA[
+					AND S_TYPE_A1 = #{searchSub}
+				]]>
+			</if>
+			<if test='searchMain == "emphasisB"'>
+				<![CDATA[
+					AND SIC_TYPE1 = #{searchSub}
+				]]>
+			</if>
+			<if test='searchMain == "6TB"'>
+				<![CDATA[
+					AND T6_TYPE1 = #{searchSub}
+				]]>
+			</if>
+		</if>
+		
+		<if test='searchWord != null and searchWord != ""'>
+			<if test='searchType == "COM_NM"'>
+				<![CDATA[
+						AND COM_NM LIKE CONCAT('%',#{searchWord},'%')
+				]]>
+			</if>
+			<if test='searchType == "COM_TEAM"'>
+				<![CDATA[
+						AND COM_TEAM LIKE CONCAT('%',#{searchWord},'%')
+				]]>
+			</if>
+		</if>
+	</select>
+	
+	<select id="getAjaxSearch" parameterType="paramMap" resultType="paramMap">
+		
+		SELECT
+			CODE_CD, 
+			CODE_NM
+		FROM
+			TB_CODE
+		WHERE
+			CODE_GRP_CD = #{code}
+		
+		
+		
+	</select>
+
+	
+	<insert id="insertSmbExcel" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_PATENT_IDX">
+	
+			INSERT INTO SMB_EXCEL_TEAM
+			(
+					COM_NM,
+					SCALE,
+					COM_AREA,
+					LAB_NM,
+					SDATE,
+					LAB_AREA,
+					LAB_TYPE,
+					DIVN,
+					UP_USER
+			)
+			VALUES
+			(
+					#{comNm},
+					#{scale},
+					#{comArea},
+					#{labNm},
+					#{sdate},
+					#{labArea},
+					#{labType},
+					#{div},
+					#{user_idx}
+					
+			)
+	</insert>
+	
+	
+	<insert id="insertSmbTeamExcel" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_PATENT_IDX">
+	
+			INSERT INTO SMB_EXCEL_RND
+			(
+					YEAR,
+					COM_NM,
+					COM_TEAM,
+					COM_STATUS,
+					IN_NM,
+					BUS_NM,
+					B_SDATE,
+					B_EDATE,
+					H_TYPE,
+					B_CEN,
+					AREA,
+					AR_NM,
+					S_TYPE_A1,
+					S_TYPE_A2,
+					S_TYPE_A3,
+					S_TYPE_ANUM,
+					S_TYPE_B1,
+					S_TYPE_B2,
+					S_TYPE_B3,
+					S_TYPE_BNUM,
+					S_TYPE_C1,
+					S_TYPE_C2,
+					S_TYPE_C3,
+					S_TYPE_CNUM,
+					SIC_TYPE1,
+					SIC_TYPE2,
+					SIC_TYPE3,
+					T6_TYPE1,
+					T6_TYPE2,
+					T6_TYPE3,
+					N_SDATE,
+					N_EDATE,
+					DATA_1,
+					DATA_2,
+					DATA_3,
+					DATA_4,
+					DATA_5,
+					PRICE1,
+					PRICE2,
+					PRICE3,
+					SUM_PRICE,
+					DATA_6,
+					DATA_7,
+					DATA_8,
+					DATA_9,
+					USER_IDX,
+					USER_DATE
+			)
+			VALUES
+			(
+					#{year},
+					#{comNm},
+					#{comTeam},
+					#{comStatus},
+					#{inNm},
+					#{busNm},
+					#{bSdate},
+					#{bEdate},
+					#{hType},
+					#{bCen},
+					#{area},
+					#{arNm},
+					#{sTypeA1},
+					#{sTypeA2},
+					#{sTypeA3},
+					#{sTypeAnum},
+					#{sTypeB1},
+					#{sTypeB2},
+					#{sTypeB3},
+					#{sTypeBnum},
+					#{sTypeC1},
+					#{sTypeC2},
+					#{sTypeC3},
+					#{sTypeCnum},
+					#{sicType1},
+					#{sicType2},
+					#{sicType3},
+					#{t6Type1},
+					#{t6Type2},
+					#{t6Type3},
+					#{nSdate},
+					#{nEdate},
+					#{data1},
+					#{data2},
+					#{data3},
+					#{data4},
+					#{data5},
+					#{price1},
+					#{price2},
+					#{price3},
+					#{sumPrice},
+					#{data6},
+					#{data7},
+					#{data8},
+					#{data9},
+					#{user_idx},
+					#{user_date}
+					
+			)
+	</insert>
+	
+	
+	<delete id="deleteSmbExcel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					SMB_EXCEL_TEAM
+			 WHERE 1
+	</delete>
+	
+	<delete id="deleteSmbTeamExcel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					SMB_EXCEL_TEAM
+			 WHERE 1
+	</delete>
+	
+	
+	<select id="getRndSumPriceList1_x1" parameterType="paramMap"  resultType="paramMap" >
+		SELECT 
+			A.S_TYPE_A1 as TITLE, 
+			A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.S_TYPE_A1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1 
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if> 
+				GROUP BY XX.S_TYPE_A1 ORDER BY TOTAL_PRICE DESC
+			) as A
+	</select>
+	
+	<select id="getRndSumPriceList1_x2" parameterType="paramMap"  resultType="paramMap" >
+		SELECT 
+			A.SIC_TYPE1 as TITLE, A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.SIC_TYPE1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if>  
+				GROUP BY XX.SIC_TYPE1 ORDER BY TOTAL_PRICE DESC
+			) as A
+	</select>
+	
+	<select id="getRndSumPriceList1_x3" parameterType="paramMap"  resultType="paramMap" >
+		SELECT 
+			A.T6_TYPE1 as TITLE, A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.T6_TYPE1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1 
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if> 
+				GROUP BY XX.T6_TYPE1 ORDER BY TOTAL_PRICE DESC
+			) as A
+	</select>
+	
+	
+	<select id="getRndSumPriceList1" parameterType="paramMap"  resultType="paramMap" >
+		SELECT 
+			A.S_TYPE_A1 as TITLE, 
+			A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.S_TYPE_A1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1 
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if> 
+				GROUP BY XX.S_TYPE_A1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+			) as A
+		
+		UNION
+			SELECT 
+				'기타' as TITLE, 
+				((
+					SELECT
+						SUM(XXX1.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								G.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT SUM(YYY.SUM_PRICE) as TOTAL_PRICE 
+									FROM SMB_EXCEL_RND as YYY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YYY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YYY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YYY.S_TYPE_A1
+								) as G
+                        ) as XXX1
+				)
+				- 
+				(
+					SELECT
+						SUM(XXX.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								C.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT YY.S_TYPE_A1, SUM(YY.SUM_PRICE) as TOTAL_PRICE FROM SMB_EXCEL_RND as YY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YY.S_TYPE_A1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+								) as C
+                        ) as XXX
+                )) as TOTAL_PRICE
+			FROM 
+				SMB_EXCEL_RND 
+			
+	</select>
+	
+	<select id="getRndSumPriceList2" parameterType="paramMap" resultType="paramMap" >
+		SELECT 
+			A.SIC_TYPE1 as TITLE, 
+			A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.SIC_TYPE1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if>  
+				GROUP BY XX.SIC_TYPE1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+			) as A
+		
+		UNION
+			SELECT 
+				'그외' as TITLE, 
+				((
+					SELECT
+						SUM(XXX1.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								G.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT YYY.SIC_TYPE1, SUM(YYY.SUM_PRICE) as TOTAL_PRICE FROM SMB_EXCEL_RND as YYY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YYY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YYY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YYY.SIC_TYPE1
+								) as G
+                        ) as XXX1
+				)
+				-
+				(
+					SELECT
+						SUM(XXX.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								C.SIC_TYPE1, C.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT YY.SIC_TYPE1, SUM(YY.SUM_PRICE) as TOTAL_PRICE FROM SMB_EXCEL_RND as YY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YY.SIC_TYPE1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+								) as C
+                        ) as XXX
+                )) as TOTAL_PRICE
+			FROM 
+				SMB_EXCEL_RND
+			
+			
+	</select>
+	
+	<select id="getRndSumPriceList3" parameterType="paramMap" resultType="paramMap" >
+		SELECT 
+			A.T6_TYPE1 as TITLE,
+			A.TOTAL_PRICE
+		FROM 
+			(
+				SELECT XX.T6_TYPE1, SUM(XX.SUM_PRICE)/100 as TOTAL_PRICE FROM SMB_EXCEL_RND as XX WHERE 1 = 1 
+				<if test='year != null and year != ""'>
+					<![CDATA[
+						AND XX.`YEAR` = #{year}
+					]]> 
+				</if>
+				<if test='area != null and area != ""'>
+					<![CDATA[
+						AND XX.`AR_NM` = #{area}
+					]]> 
+				</if> 
+				GROUP BY XX.T6_TYPE1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+			) as A
+		
+		UNION
+			SELECT 
+				'기타' as TITLE, 
+				 ((
+					SELECT
+						SUM(XXX1.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								G.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT SUM(YYY.SUM_PRICE) as TOTAL_PRICE FROM SMB_EXCEL_RND as YYY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YYY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YYY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YYY.T6_TYPE1
+								) as G
+                        ) as XXX1
+				)
+				- 
+				(
+					SELECT
+						SUM(XXX.TOTAL)/100 as TOTALPRICE
+					FROM
+						(
+							SELECT 
+								C.TOTAL_PRICE as TOTAL
+							FROM 
+								(
+									SELECT SUM(YY.SUM_PRICE) as TOTAL_PRICE FROM SMB_EXCEL_RND as YY WHERE 1 = 1
+									<if test='year != null and year != ""'>
+										<![CDATA[
+											AND YY.`YEAR` = #{year}
+										]]> 
+									</if>
+									<if test='area != null and area != ""'>
+										<![CDATA[
+											AND YY.`AR_NM` = #{area}
+										]]> 
+									</if>  
+									GROUP BY YY.T6_TYPE1 ORDER BY TOTAL_PRICE DESC LIMIT 5
+								) as C
+							
+                        ) as XXX
+                )) as TOTAL_PRICE
+			FROM 
+				SMB_EXCEL_RND
+			 
+			
+			
+	</select>
+	
+	<select id="getAreaCount"  parameterType="paramMap" resultType="java.lang.Integer">
+	
+		SELECT
+			COUNT(0) as COUNT
+		FROM
+			SMB_EXCEL_TEAM
+		WHERE
+			DIVN = #{skey} AND
+			LAB_AREA LIKE CONCAT('%',#{name},'%')
+	
+	</select>
+	
+	
+	<select id="getRndSumTeamList" parameterType="paramMap" resultType="paramMap" >
+		
+		SELECT 
+			A.LAB_TYPE, A.TNUM
+		FROM 
+			(
+				SELECT 
+					XX.LAB_TYPE, COUNT(0) as TNUM, 
+		            XX.DIVN 
+				FROM 
+					SMB_EXCEL_TEAM as XX 
+				WHERE 
+					XX.DIVN = #{searchType} AND 
+		            COM_AREA LIKE '%전라남도%' 
+				GROUP BY XX.LAB_TYPE 
+		        ORDER BY TNUM DESC 
+		        LIMIT 4
+			) as A
+		UNION
+		SELECT 
+			'기타' as LAB_TYPE, 
+			((
+				SELECT
+					SUM(YYY.TNUM)
+				FROM
+					(
+						SELECT 
+							C1.TNUM1 as TNUM	
+						FROM 
+						(
+							SELECT 
+								COUNT(0) as TNUM1 
+							FROM 
+								SMB_EXCEL_TEAM as YY1 
+							WHERE 
+								YY1.DIVN = #{searchType} AND 
+	                            YY1.COM_AREA LIKE '%전라남도%' 
+							GROUP BY YY1.LAB_TYPE
+						) as C1
+					) as YYY
+			)
+			 - 
+			 (
+				SELECT
+					SUM(XXX.TNUM)
+				FROM
+					(
+						SELECT 
+							C.TNUM1 as TNUM	
+						FROM 
+						(
+							SELECT COUNT(0) as TNUM1, YY.DIVN, YY.LAB_TYPE FROM SMB_EXCEL_TEAM as YY WHERE YY.DIVN = #{searchType} AND COM_AREA LIKE '%전라남도%' GROUP BY YY.LAB_TYPE ORDER BY TNUM1 DESC LIMIT 4
+						) as C
+					) as XXX
+			)) as TNUM
+	FROM 
+		SMB_EXCEL_TEAM 
+	WHERE 1
+			
+	</select>
+	
+	<select id="getRndSumTeamList_x1" parameterType="paramMap" resultType="paramMap" >
+		
+		SELECT 
+			LAB_TYPE, 
+			COUNT(0) as TNUM, 
+			DIVN 
+		FROM 
+			SMB_EXCEL_TEAM 
+		WHERE 
+			DIVN = #{searchType} 
+			AND LAB_TYPE != '기타' 
+			AND COM_AREA LIKE '%전라남도%' 
+		GROUP BY LAB_TYPE 
+		ORDER BY TNUM DESC
+		
+			
+	</select>
+
+
+</mapper>

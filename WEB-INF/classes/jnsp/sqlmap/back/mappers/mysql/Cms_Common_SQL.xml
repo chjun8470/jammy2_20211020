@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.SysCommonMapper">
+
+	<select id="getFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+
+				AND RND_EQU_IDX = #{rndEquIdx}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+	<select id="getFileUpdateList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+
+		 FROM
+					TB_RND_FILE_UPDATE
+			WHERE 1=1
+
+				AND RND_EQU_IDX = #{rndEquIdx}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+
+				AND RND_EQU_IDX = trim(#{rndEquIdx})
+				AND FILE_ID = trim(#{fileId})
+		]]>
+	</select>
+
+	<select id="getFileDown" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					DATA_GRP,
+					DATA_IDX,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT,
+					TITLE_ORG
+		 FROM
+					TB_JNSP_FILE
+		WHERE 1=1
+			AND DATA_IDX = #{dataIdx}
+		]]>
+		<if test='fileIdx != null and fileIdx != ""'>
+			AND FILE_ID = #{fileIdx}
+		</if>
+	</select>
+	<delete id="setFileDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		  FROM
+					TB_RND_FILE
+		 WHERE 1=1
+			AND RND_EQU_IDX = #{rndEquIdx}
+			AND FILE_ID = #{fileId}
+		]]>
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						TB_RND_FILE
+			 WHERE 1=1
+			 AND RND_EQU_IDX = #{rndEquIdx}
+		 ]]>
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_RND_FILE
+		  </selectKey>
+			INSERT INTO TB_RND_FILE
+			(
+				FILE_ID,
+				RND_EQU_IDX,
+				FILE_PATH,
+				TITLE,
+				FILE_CAT,
+				TITLE_ORG,
+				<!-- FILE_FULL_NM, -->
+				<!-- FILE_SIZE, -->
+				<!-- FILE_TYPE, -->
+				<!-- FILE_SN, -->
+				REGIST_DT
+			)
+			VALUES
+			(
+				#{fileSeq},
+				#{rndEquIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+				<!-- #{fileFullNm}, -->
+				<!-- #{fileSize}, -->
+				<!-- #{fileType}, -->
+				<!-- #{fileSn}, -->
+				NOW()
+			)
+	</insert>
+
+	<insert id="setFileUpdateInsert" parameterType="paramMap">
+		 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_RND_FILE_UPDATE
+		  </selectKey>
+			INSERT INTO TB_RND_FILE_UPDATE
+			(
+				FILE_ID,
+				RND_EQU_IDX,
+				FILE_PATH,
+				TITLE,
+				FILE_CAT,
+				TITLE_ORG,
+				<!-- FILE_FULL_NM, -->
+				<!-- FILE_SIZE, -->
+				<!-- FILE_TYPE, -->
+				<!-- FILE_SN, -->
+				REGIST_DT
+			)
+			VALUES
+			(
+				#{fileSeq},
+				#{rndEquIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+				<!-- #{fileFullNm}, -->
+				<!-- #{fileSize}, -->
+				<!-- #{fileType}, -->
+				<!-- #{fileSn}, -->
+				NOW()
+			)
+	</insert>
+
+	<!-- 법인등록증 추가 -->
+	<insert id="setFileJnspInsert" parameterType="paramMap">
+			 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+	    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_JNSP_FILE
+			  </selectKey>
+				INSERT INTO TB_JNSP_FILE
+			(
+				DATA_GRP,
+				DATA_IDX,
+				FILE_PATH,
+				TITLE,
+				FILE_CAT,
+				TITLE_ORG,
+				<!-- FILE_FULL_NM, -->
+ 				FILE_SIZE,
+				<!-- FILE_TYPE, -->
+				FILE_SN,
+				REGIST_DT,
+				MAIN_YN
+			)
+			VALUES
+			(
+				#{dataGrp},
+				#{dataIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+				<!-- #{fileFullNm}, -->
+ 				#{fileSize},
+				<!-- #{fileType}, -->
+				<choose>
+					<when test="fileSn != ''">
+					#{fileSn}
+					</when>
+					<otherwise>
+					null
+					</otherwise>
+				</choose>,
+				NOW(),
+				<choose>
+					<when test="mainYN != null or mainYN != ''">
+					#{mainYN}
+					</when>
+					<otherwise>
+					'N'
+					</otherwise>
+				</choose>
+			)
+		</insert>
+		<delete id="setJnspFileDelete" parameterType="paramMap">
+			<![CDATA[
+			 DELETE
+			  FROM
+						TB_JNSP_FILE
+			 WHERE 1=1
+				AND DATA_IDX = #{dataIdx}
+				AND DATA_GRP = #{dataGrp}
+				AND FILE_ID = #{fileId}
+			]]>
+		</delete>
+
+		<delete id="setJnspAllFileDelete" parameterType="paramMap">
+			<![CDATA[
+				 DELETE
+				  FROM
+							TB_JNSP_FILE
+				 WHERE 1=1
+				 AND DATA_IDX = #{dataIdx}
+				 AND DATA_GRP = #{dataGrp}
+			 ]]>
+		</delete>
+		<select id="getJnspFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					DATA_GRP,
+					DATA_IDX,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT,
+					FILE_PATH,
+					FILE_SIZE,
+					TITLE_ORG
+			 FROM
+					TB_JNSP_FILE
+			WHERE 1=1
+				AND DATA_IDX = #{dataIdx}
+				AND DATA_GRP = #{dataGrp}
+		]]>
+				<if test='fileId != null and fileId != ""'>
+		<![CDATA[
+				AND FILE_ID = #{fileId}
+		]]>
+				</if>
+	</select>
+	<select id="getJnspFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					DATA_GRP,
+					DATA_IDX,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT,
+					FILE_PATH,
+					FILE_SIZE,
+					TITLE_ORG,
+					MAIN_YN
+
+		 FROM
+					TB_JNSP_FILE
+			WHERE 1=1
+
+				AND DATA_IDX = #{dataIdx}
+				AND DATA_GRP = #{dataGrp}
+			ORDER BY
+		]]>
+		
+		<if test='dataGrp == "Jnrdcx" or dataGrp == "Jnrdtypea" or dataGrp == "Jnrdtypeb"'>
+			<![CDATA[
+				FILE_SN ASC
+			]]>
+		</if>
+		
+		<if test='dataGrp != "Jnrdcx" and dataGrp != "Jnrdtypea" and dataGrp != "Jnrdtypeb"'>
+			<![CDATA[
+				FILE_ID ASC
+			]]>
+		</if>
+		
+		
+		
+	</select>
+	<select id="getJnspBoardFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					DATA_GRP,
+					DATA_IDX,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT,
+					FILE_PATH,
+					FILE_SIZE,
+					TITLE_ORG
+
+		 FROM
+					TB_JNSP_FILE
+			WHERE 1=1
+
+				AND DATA_GRP = #{dataGrp}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+	<select id="getUserList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.USER_IDX,
+				A.PSN_NM,
+				A.USER_ID,
+				A.EMAIL,
+				A.AUTH_LV,
+				A.ORG_GRP_CD
+			FROM TB_USER_COPY	AS A
+			WHERE 1 = 1
+		]]>
+<!-- 			AND EMAIL_RECV_YN = 'Y' -->
+		<if test = " mode == 'writeProc' and mode.equals('writeProc')">
+		<choose>
+			<when test="module == 'orgUser' and module.equals('orgUser')">
+				<![CDATA[
+					AND A.ORG_GRP_CD = #{orgGrpCd}
+					AND A.AUTH_LV >= '80'
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND A.AUTH_LV = '99'
+				]]>
+			</otherwise>
+		</choose>
+		</if>
+
+		<if test = " mode == 'apvProc' and mode.equals('apvProc')">
+			<choose>
+				<when test=" userIdx != '' and userIdx != null">
+					<![CDATA[
+						AND A.USER_IDX = #{userIdx}
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND A.USER_ID = #{userId}
+					]]>
+				</otherwise>
+			</choose>
+		</if>
+		<if test = " mode == 'companionProc' and mode.equals('companionProc')">
+			<choose>
+				<when test=" userIdx != '' and userIdx != null">
+					<![CDATA[
+						AND A.USER_IDX = #{userIdx}
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND A.USER_ID = #{userId}
+					]]>
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	<select id="getExpertList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			(
+				SELECT
+					A.USER_IDX,
+					A.PSN_NM,
+					A.USER_ID,
+					A.EMAIL,
+					A.AUTH_LV,
+					A.ORG_GRP_CD,
+					A.PRO_STATE
+				FROM TB_USER_COPY AS A
+				WHERE A.PRO_STATE = '20'
+				)
+				UNION ALL
+				(
+				SELECT
+					AA.USER_IDX,
+					AA.PSN_NM,
+					AA.USER_ID,
+					AA.EMAIL,
+					AA.AUTH_LV,
+					AA.ORG_GRP_CD,
+					AA.PRO_STATE
+				FROM TB_USER_COPY AS AA
+				LEFT JOIN TB_ORG_GRP AS BB
+				ON AA.ORG_GRP_CD = BB.ORG_GRP_CD
+				WHERE BB.AUTH_ORG_SITE_2 = 'Y'
+				)
+		]]>
+	</select>
+	<select id="getequList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				B.USER_IDX,
+				B.PSN_NM,
+				B.USER_ID,
+				B.EMAIL,
+				B.AUTH_LV,
+				B.ORG_GRP_CD
+			FROM TB_EQU_INFO AS A
+			LEFT JOIN TB_USER_COPY AS B
+			ON A.EQU_USER_IDX = B.USER_IDX
+		]]>
+	</select>
+	<select id="getReservationList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.USER_IDX,
+				A.PSN_NM,
+				A.USER_ID,
+				A.EMAIL,
+				A.AUTH_LV,
+				A.ORG_GRP_CD
+			FROM TB_USER_COPY AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE B.AUTH_ORG_SITE_1 = 'Y'
+			AND A.AUTH_LV >= '70'
+		]]>
+	</select>
+</mapper>

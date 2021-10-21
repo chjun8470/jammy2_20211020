@@ -1,0 +1,85 @@
+/* CSS Document */
+.header {background:url(/imgs/main/bg_main.jpg)  no-repeat center 0px; width:100%; height:525px;  }
+div.contents {width:700px; margin:0 auto; height:432px; padding-top:263px; text-align:center;}
+div.contents_btn {width:700px;}
+div.login_box {width:700px; padding-top:75px; height:338px; background-color:#fff; border-top:10px solid #2c2c2c; border-bottom:10px solid #2c2c2c}
+div.cont_left {float:right;}
+div.img {display:block; margin:0 auto; padding-top:116px; text-align: center; padding-right:412px;}
+
+.login_logo {margin:0 100px 38px 100px; padding:0 0 40px 0; border-bottom:1px #bfbfbf solid; text-align:center;}
+
+.LoginInputBox {float:left;}
+
+.IdBox {width:332px;}
+.PwBox {width:332px;}
+
+.IdBox .Id {float:left;width:57px; text-align:right; font-weight:600; padding-right:10px; line-height:36px;font-size:14px}
+.InputIdBox .input-id {width:248px;height:36px;margin-bottom:15px; padding-left:5px; }
+.PwBox .Pw {float:left;width:57px;text-align:right;font-weight:600; padding-right:10px; line-height:36px;font-size:14px; }
+.InputPwBox .input-pw {width:248px;height:36px;margin-bottom:15px; padding-left:5px;}
+
+.LoginBtnBox {float:left;}
+.LoginBtnBox_1 {float:left; margin:0 0 0 6px;}
+
+.LogintextBox {width:426px; float:left; padding-left:94px; margin-top:6px; margin-bottom:6px;}
+
+
+.Logintext_1 {}
+.Logintext_1 ul {}
+.Logintext_1 li {float:left; padding:8px;}
+
+
+.footer { display:none }
+/*.footer {width:100%; height:80px;}
+.footer_cont {text-align:center; margin:0 auto; padding-top:15px; width:912px; }
+
+.footer_logo {float:left; margin:0 30px 0 0;}
+.footer_text {float:left;}
+
+
+*/
+.content_center { width:100%; height:100%; overflow-y:hidden; }
+.reg_btn_box {height:130px; width:500px; border-bottom:1px #bfbfbf solid; margin-left:100px;}
+
+
+
+
+
+
+
+/* 관리자 로그인 */
+.admin_loginWrap { width:100%; max-height:100%; min-height:1000px; overflow-y:hidden; background:url(/img/login/bg_ad_loginWrap.png) center top no-repeat; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.admin_loginWrap .tit_login { width:540px; height:80px; margin:0 auto; margin-top:400px; text-align:center; border-bottom:1px solid #00baff }
+.admin_loginWrap .re_input { width:540px; font-size:12px; color:#f00; margin:0 auto; margin-top:20px; text-align:center; }
+.admin_loginWrap .inputBox { width:373px; margin:0 auto; margin-top:32px }
+.admin_loginWrap .inputBox .txt_pop1 { width:80px; height:29px; float:left; text-align:center; font-size:18px; color:#464646; padding-top:10px; font-family:'NanumGothic', 'Malgun Gothic', dotum !important}
+.admin_loginWrap .inputBox .txt_pop2 { width:80px; height:29px; float:left; text-align:center; font-size:18px; color:#464646; padding-top:10px; margin-top:10px; 
+                               font-family:'NanumGothic', 'Malgun Gothic', dotum !important}
+.admin_loginWrap .inputBox .input_pop1 { width:185px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; line-height:35px}
+.admin_loginWrap .inputBox .input_pop2 { width:185px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; margin-top:10px;
+                                 line-height:35px }
+.admin_loginWrap .inputBox .input_pop3 { width:120px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; line-height:35px }
+.admin_loginWrap .inputBox .input_pop4 { width:281px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; line-height:35px }
+.admin_loginWrap .inputBox .input_pop402 { width:281px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; margin-top:10px;
+                                   line-height:35px }
+.admin_loginWrap .inputBox .input_pop5 { width:120px; height:37px; float:left; border:1px solid #afd0e6; background-color:#fff; font-size:16px; font-weight:400; color:#464646; padding-left:10px; margin-top:10px;
+                                 line-height:35px }
+.admin_loginWrap .inputBox .btn_pop1 { width:88px; height:88px; float:right; text-align:center; font-size:16px; font-weight:600; color:#fff; padding:0; border:none; background-color:#738aaa;
+                               font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+							   
+.admin_loginWrap .noticeBox { width:373px; height:88px; margin:0 auto; margin-top:32px }
+.admin_loginWrap .noticeBox .notice_pop1 { font-size:26px; letter-spacing:-0.05em; line-height:37px; color:#20c0a6; text-align:center; }						   
+							   
+.admin_loginWrap .pop_btnBox { width:373px; margin:0 auto }	 
+.admin_loginWrap .pop_btnBox .btn_pop2 { width:76px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 80px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.admin_loginWrap .pop_btnBox .btn_pop3 { width:90px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 22px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.admin_loginWrap .pop_btnBox .btn_pop4 { width:100px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 5px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.admin_loginWrap .pop_btnBox .btn_pop5 { width:133px; height:34px; text-align:center; font-size:16px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 55px; border:none; background-color:#738aaa;
+                                 font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.admin_loginWrap .pop_btnBox .btn_pop6 { width:133px; height:34px; text-align:center; font-size:16px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 10px; border:none; background-color:#738aaa;
+                                 font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.admin_loginWrap .pop_btnBox .btn_pop7 { width:133px; height:34px; text-align:center; font-size:16px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 118px; border:none; background-color:#738aaa;
+                                 font-family:'NanumGothic', 'Malgun Gothic', dotum !important }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="VersionControl">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="Source" type="egovframework.jammy2.system.versionctrl.service.Source"/>
+	<typeAlias  alias="SourceVO" type="egovframework.jammy2.system.versionctrl.service.SourceVO"/>
+			
+	<select id="VersionControlDAO.selectSourceListCnt" parameterClass="SourceVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_VERSION_CONTROL 
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="moduleNm">
+				MODULE_NM = #moduleNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="programNm">
+				PROGRAM_NM = #programNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="targetId">
+				TARGET_ID = #targetId#
+			</isNotEmpty>						
+	</select>	
+		
+	<select id="VersionControlDAO.selectSourceList" parameterClass="SourceVO" resultClass="SourceVO">
+		SELECT  SOURCE_ID			sourceId
+			 ,  MODULE_NM			moduleNm
+			 ,  PROGRAM_NM			programNm
+			 ,  TARGET_ID			targetId
+			 ,  SOURCE_CN			sourceCn
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGISTER_ID	frstRegisterId
+			 ,  RSTRE_UPDT_PNTTM	rstreUpdtPnttm
+			 ,  RSTRE_UPDUSR_ID		rstreUpdusrId
+		  FROM  JMY_VERSION_CONTROL
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="moduleNm">
+				MODULE_NM = #moduleNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="programNm">
+				PROGRAM_NM = #programNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="targetId">
+				TARGET_ID = #targetId#
+			</isNotEmpty>
+	  ORDER BY  FRST_REGIST_PNTTM DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="VersionControlDAO.selectSource" parameterClass="SourceVO" resultClass="SourceVO">
+		SELECT  SOURCE_ID			sourceId
+			 ,  MODULE_NM			moduleNm
+			 ,  PROGRAM_NM			programNm
+			 ,  TARGET_ID			targetId
+			 ,  SOURCE_CN			sourceCn
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGISTER_ID	frstRegisterId
+			 ,  RSTRE_UPDT_PNTTM	rstreUpdtPnttm
+			 ,  RSTRE_UPDUSR_ID		rstreUpdusrId			 
+		  FROM  JMY_VERSION_CONTROL
+		 WHERE  SOURCE_ID = #sourceId#		
+	</select>	
+	
+	<insert id="VersionControlDAO.insertSource">
+		INSERT 
+		  INTO  JMY_VERSION_CONTROL
+		     (  SOURCE_ID
+			 ,  MODULE_NM
+			 ,  PROGRAM_NM
+			 ,  TARGET_ID
+			 ,  SOURCE_CN
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #sourceId#
+			 ,  #moduleNm#
+			 ,  #programNm#
+			 ,  #targetId#
+			 ,  #sourceCn#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="VersionControlDAO.updateSource">
+		UPDATE  JMY_VERSION_CONTROL 
+		   SET  RSTRE_UPDT_PNTTM = SYSDATE()
+			 ,  RSTRE_UPDUSR_ID = #rstreUpdusrId#
+		 WHERE  SOURCE_ID = #sourceId#		
+	</update>	
+	
+    <delete id="VersionControlDAO.deleteSource">
+		DELETE 
+		  FROM  JMY_VERSION_CONTROL 
+		 WHERE  SOURCE_ID = #sourceId#
+    </delete>	
+	
+</sqlMap>

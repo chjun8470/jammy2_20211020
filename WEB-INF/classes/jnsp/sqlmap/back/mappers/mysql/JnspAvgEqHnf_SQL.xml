@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspAvgEqHnfMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+
+	<select id="getJnspEqCnstcDay" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%d') AS DAY,
+				KOR_NM,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+		]]>
+		
+		
+		<choose>
+			<when test='dateStart != "" and dateStart !=NULL and dateEnd == "" and dateEnd == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+				]]>
+			</when>
+			
+			
+			<when test='dateEnd != "" and dateEnd !=NULL and dateStart == "" and dateStart == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd} 
+				]]>
+			</when>
+			
+			<when test='dateStart != ""  and dateStart != null and dateEnd != "" and dateEnd != null '  >
+				
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd}
+				]]>
+					
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND TAKE_SDT >= CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01-01')
+					AND TAKE_SDT <= CONCAT(DATE_FORMAT(TAKE_SDT, NOW()))	
+				]]>  
+			</otherwise>
+		</choose>
+		<choose>
+			<when test = 'data == "data" and data.equals("data")'>
+				<choose>
+					<when test = 'chart == "pie" and chart.equals("pie")'>
+						<![CDATA[
+							GROUP BY DATE_FORMAT (TAKE_SDT, '%d'),KOR_NM
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							GROUP BY DATE_FORMAT (TAKE_SDT, '%d')
+						]]>
+					</otherwise>			
+				</choose>	
+			</when>
+			<otherwise>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%d'),KOR_NM
+				]]>
+			</otherwise>
+		</choose>
+		<![CDATA[
+			ORDER BY DATE_FORMAT (TAKE_SDT, '%d')
+		]]>
+	</select>
+
+	<select id="getJnspEqCnstcMonth" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%m') AS DAY,
+				KOR_NM,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+		]]>
+		<choose>
+			<when test='dateStart != "" and dateStart !=NULL and dateEnd == "" and dateEnd == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+				]]>
+			</when>
+			
+			
+			<when test='dateEnd != "" and dateEnd !=NULL and dateStart == "" and dateStart == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd} 
+				]]>
+			</when>
+			
+			<when test='dateStart != ""  and dateStart != null and dateEnd != "" and dateEnd != null '  >
+				
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd}
+				]]>
+					
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND TAKE_SDT >= CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01')
+					AND TAKE_SDT <= CONCAT(DATE_FORMAT(TAKE_SDT, NOW()))	
+				]]>  
+			</otherwise>
+		</choose>
+		<choose>
+			<when test = 'data == "data" and data.equals("data")'>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%m')
+				]]>	
+			</when>
+			<otherwise>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%m'),KOR_NM
+				]]>
+			</otherwise>
+		</choose>
+		<![CDATA[
+			ORDER BY DATE_FORMAT (TAKE_SDT, '%m')
+		]]>
+	</select>
+	
+	<select id="getJnspEqCnstcYear" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%Y') AS DAY,
+				KOR_NM,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+		]]>
+		<choose>
+			<when test='dateStart != "" and dateStart !=NULL and dateEnd == "" and dateEnd == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+				]]>
+			</when>
+			
+			
+			<when test='dateEnd != "" and dateEnd !=NULL and dateStart == "" and dateStart == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd} 
+				]]>
+			</when>
+			
+			<when test='dateStart != ""  and dateStart != null and dateEnd != "" and dateEnd != null '  >
+				
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd}
+				]]>
+					
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND TAKE_SDT >= CONCAT(DATE_FORMAT(NOW(),'%Y'))
+					AND TAKE_SDT <= CONCAT(DATE_FORMAT(TAKE_SDT, NOW()))	
+				]]>  
+			</otherwise>
+		</choose>
+		<choose>
+			<when test = 'data == "data" and data.equals("data")'>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%Y')
+				]]>	
+			</when>
+			<otherwise>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%Y'),KOR_NM
+				]]>
+			</otherwise>
+		</choose>
+		<![CDATA[
+			ORDER BY DATE_FORMAT (TAKE_SDT, '%Y')
+		]]>
+	</select>
+	
+</mapper>

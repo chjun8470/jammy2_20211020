@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" wordWrap="xl"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="VoidBand100" type="void"/>
+<AIBand name="r1" type="repeat" object="sheet10_A4|sheet10_B4|sheet10_C4|sheet10_D4|sheet10_E4|sheet10_F4|sheet10_G4|sheet10_H4|sheet10_I4|sheet10_J4|sheet10_K4|sheet10_L4|sheet10_M4|sheet10_N4|sheet10_O4|sheet10_P4|sheet10_Q4|sheet10_R4|sheet10_S4|sheet10_T4|sheet10_U4|sheet10_V4|sheet10_W4|sheet10_X4|sheet10_Y4|sheet10_Z4"/>
+<AIBand name="VoidBand101" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_1" displayFormat="1/0/0" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

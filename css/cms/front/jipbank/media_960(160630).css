@@ -1,0 +1,302 @@
+@charset "utf-8";
+
+/**/
+
+@media (max-width: 1198px){
+
+
+.Wrap { width:100%; min-width:768px; overflow:hidden; font-family:'NanumGothic', 'Malgun Gothic', dotum }
+
+/* 헤더 */
+.Headerinner { width:768px; position:relative; margin:0 auto }
+
+/* 탑 메뉴 */
+.top_menu { width:300px; height:13px; margin-top:45px; margin-left:0px; float:left }
+.top_menu ul { width:100%; display:inline-block }
+.top_menu ul li { font-size:0.76em; font-weight:600; height:17px; line-height:15px; padding:7px 4px 0 7px; background:url(/img/jipbank/common/top_menu_gap.gif) left 10px no-repeat; float:left }
+.top_menu ul li.first { background:none }
+.top_menu ul li a { color:#787878 }
+.top_menu ul li.first a { color:#0c4da2 }
+
+/* 로고 */
+.logo { width:155px; height:50px; z-index:10000; margin:25px 0 0 10px; float:left }
+.logo a img{width:148px;padding-top:10px}
+/* 모바일메뉴 */
+
+/* 검색 */
+.search { width:225px; height:34px; margin:40px 0px 0 0; border:1px solid #e5e5e5; float:right }
+.select { border:none; width:80px; height:18px; font-size:12px; font-weight:600; color:#555; margin:8px 0 0 5px; border-right:1px solid #d9d9d9; font-family:'NanumGothic', 'Malgun Gothic', dotum; float:left }
+.srch_txt { margin:7px 0 0 7px; width:110px; height:20px; font-family:'NanumGothic', 'Malgun Gothic', dotum; border:none; font-size:12px }
+.search .go_btn { width:14px; height:16px; margin:9px 5px 0 0; float:right }
+
+/* 상단메뉴 */
+.gnbBox { width:768px; float:left }
+.gnbBox h2{ float:left; display:block; font-size:15px; font-weight:600; margin:47px 12px 0 22px; height:33px }
+.gnbBox h2 a { color:#fff }
+.gnbBox h2.on a{ color:#fff }
+.gnbBox .gnb_sub{ position:absolute; top:156px; left:0; width:100%; height:40px; z-index:10; overflow:hidden; background-color:#fff }
+.gnbBox .gnb_sub li { float:left; font-size:13px; font-weight:400; padding:10px 30px 0 0px }
+.gnbBox .gnb_sub li a { color:#323232 }
+
+/* 서브메뉴 위치 */
+.g1{ padding-left:19px }
+.g2{ padding-left:0px }
+.g3{ padding-left:0px }
+.g4{ padding-left:0px }
+.g5{ padding-left:0px }
+.g6{ padding-left:0px }
+.g7{ padding-left:0px }
+#m_submenu_0{ padding-left:18px }
+#m_submenu_1{ padding-left:71px }
+#m_submenu_2{ padding-left:203px }
+#m_submenu_3{ padding-left:326px }
+#m_submenu_4{ padding-left:433px }
+#m_submenu_5{ padding-left:529px }
+#m_submenu_6{ padding-left:330px }
+/* CSS Document */
+
+/* 메인 비주얼 */
+.MainVIsualWrap { width:100%; height:437px; background:url(/img/jipbank/main3/tb_Visual01.jpg) center top no-repeat }
+.MainVIsualWrap .MainVisualBox { width:768px; margin:0 auto }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox { position:absolute; width:361px; height:87px; float:left; margin:65px 0 0 46px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt01 { float:right }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt02 { float:right; margin:9px 0 0 0 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt03 { float:right; margin:8px 0 15px 0 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt01 img { width:281px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt02 img { width:361px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt03 img { width:360px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox { width:290px; height:37px; float:right; margin:0px 0 0 0px; clear:both }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .SrchForm { width:214px; height:33px; float:left; border:2px solid #0081af; background-color:#fff; padding:0 0 0 12px; margin:0 0 0 0px;
+                                                                        font-size:13px; letter-spacing:-0.05em; color:#323232 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .Btn_VSrch { width:55px; height:37px; float:left; text-indent:-9999px; background:url(/img/jipbank/main3/tb_Btn_VSrch.gif) no-repeat;
+                                                                         padding:0; margin:0 0 0 5px; border:none }
+
+/* 퀵링크/등록기술 */
+.QuickLink { width:292px; height:437px; float:right; background:url(/img/jipbank/main3/tb_bg_QuickLink.png) no-repeat }
+.QuickLink .QuickBox { width:258px; height:264px; margin:0 auto }
+.QuickLink .QuickBox li { width:85px; height:56px; float:left; text-align:center; vertical-align:middle; padding:24px 0 0 0 }
+.QuickLink .StatusBox { width:250px; height:172px; border-top:1px solid #8096a0; margin:0 auto }
+.QuickLink .StatusBox .StatusTit { width:55px; height:17px; float:left; margin:20px 0 0 0 }
+.QuickLink .StatusBox .StatusTit img { width:55px; height:17px }
+.QuickLink .StatusBox .StatusTotal { float:right; text-align:right; font-size:14px; font-weight:600; letter-spacing:-0.05em; color:#ffff93; margin:21px 0 0 0 }
+.QuickLink .StatusBox .CategoryBox { width:280px; height:100px; float:left; margin:18px 0 0 0; background:url(/img/jipbank/main3/gap_status.gif) 126px 26px no-repeat }
+.QuickLink .StatusBox .CategoryBox dl.Category01 { width:125px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dt { width:55px; float:left; color:#fff }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dd { width:50px; float:right; text-align:right; color:#ffffae; margin:0 10px 0 0 }
+.QuickLink .StatusBox .CategoryBox dl.Category02 { width:125px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dt { width:55px; float:left; color:#fff; margin:0 0 0 10px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dd { width:50px; float:right; text-align:right; color:#ffffae }
+
+/* 탭메뉴 */
+.MainTabWrap { width:100%; height:109px; margin:0 auto; margin-top:-41px }
+.MainTabWrap .TabMenuWrap { width:768px; height:41px; margin:0 auto }
+.MainTabWrap .TabMenuWrap ul { width:465px; height:41px; float:left; font-size:13px; font-weight:400 }
+.MainTabWrap .TabMenuWrap ul li { height:28px; float:left; text-align:center; background-color:#00698f; padding:13px 0 0 0 }
+.MainTabWrap .TabMenuWrap ul li a { width:42px; height:41px; padding:13px 22px 15px 22px; color:#96c5d6 }
+.MainTabWrap .TabMenuWrap ul li.tab01 a.on{ width:100px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab1_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab02 a.on{ width:100px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab2_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab03 a.on{ width:100px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab3_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab04 a.on{ width:100px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab4_ovr.gif) no-repeat }
+
+.MainTabWrap .TabBtnWrap { width:100%; height:82px }
+.MainTabWrap .TabBtnWrap .TabBox01 { width:100%; height:68px; background:url(/img/jipbank/main3/bg_MainTab01.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 .TabBox01_gap { width:2px; height:29px; float:left; margin:22px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 .TabBox01_gap img { width:2px; height:29px; }
+.MainTabWrap .TabBtnWrap .TabBox01 ul { width:768px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li { width:116px; height:50px; float:left; padding:18px 0 0 10px; background:url(/img/jipbank/main3/tb_MainTab1_menu_bg.png) 86px 12px no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit01 { font-size:12px; font-weight:600; color:#53c9db }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit02 { font-size:16px; letter-spacing:-0.05em; color:#fff; margin:3px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit03 { font-size:13px; letter-spacing:-0.05em; color:#fff; margin:3px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li.side { width:107px }
+
+.MainTabWrap .TabBtnWrap .TabBox02 { width:100%; height:68px; background:url(/img/jipbank/main3/bg_MainTab02.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox02 .TabBox02_gap { width:2px; height:29px; float:left; margin:22px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox02 .TabBox02_gap img { width:2px; height:29px; }
+.MainTabWrap .TabBtnWrap .TabBox02 ul { width:768px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li { width:94px; height:56px; float:left; padding:12px 0 0 0; text-align:center }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02_icon { height:28px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02_icon img { height:28px }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit { clear:both; font-size:13px; font-weight:600; letter-spacing:-0.05em; margin:6px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li.side { width:95px }
+
+.MainTabWrap .TabBtnWrap .TabBox03 { width:100%; height:68px; background:url(/img/jipbank/main3/bg_MainTab03.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox03 .TabBox03_gap { width:2px; height:29px; float:left; margin:22px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox03 .TabBox03_gap img { width:2px; height:29px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul { width:768px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw { width:12px; height:24px; float:left; margin:22px 0 0 0; padding:0; border:none; background:none }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw img { width:12px; height:24px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li { width:247px; height:68px; float:left; font-size:11px; letter-spacing:-0.1em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .img_map { width:36px; height:40px; float:left; vertical-align:middle; margin:14px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .img_map img { width:36px; height:40px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency01 { width:95px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency02 { width:95px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency03 { width:95px; float:left; text-align:center; margin:10px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency04 { width:95px; float:left; text-align:center; margin:10px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center { width:244px; height:68px; float:left; font-size:11px; letter-spacing:-0.1em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .img_map { width:36px; height:40px; float:left; vertical-align:middle; margin:14px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .img_map img { width:36px; height:40px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency01 { width:95px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency02 { width:95px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency03 { width:95px; float:left; text-align:center; margin:10px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency04 { width:95px; float:left; text-align:center; margin:10px 0 0 5px }
+
+.MainTabWrap .TabBtnWrap .TabBox04 { width:100%; height:68px; background:url(/img/jipbank/main3/bg_MainTab04.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox04 ul { width:768px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li { width:69px; height:19px; float:left; font-size:14px; letter-spacing:-0.05em; text-align:center; padding:11px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li.first { width:70px }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li a { color:#fff }
+
+
+
+.ContBox01 { width:768px; height:284px; margin:0 auto; margin-top:20px; }
+/* 공지사항/지원사업 */
+.ContBox01 .NoticeWrap { width:417px; height:282px; float:left; border:1px solid #ebebeb; padding:0 20px 0 20px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox { width:422px; height:34px; border-bottom:1px solid #dcdcdc; margin:15px 0 0 0 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .Notice_gap { width:1px; height:14px; float:left; margin:4px 15px 0 15px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li { width:59px; float:left; font-size:16px; letter-spacing:-0.05em; }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li a { color:#323232 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on { padding-bottom:14px; border-bottom:3px solid #0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on a { color:#0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .btn_more { width:20px; height:20px; float:right }
+.ContBox01 .NoticeWrap .NoticeListBox { width:422px; height:232px; font-size:13px; margin:20px 0 0 0 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 { width:180px; height:232px; float:left }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li { font-size:13px; letter-spacing:-0.03em; line-height:28px; padding:0 0 0 12px; background:url(/img/jipbank/main3/icon_notice_li.gif) left 14px no-repeat }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li a { color:#666 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox02 { width:161px; height:232px; float:left }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox02 li { font-size:13px; letter-spacing:-0.05em; color:#0081af; line-height:28px; text-align:right }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 { width:81px; height:232px; float:right }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 li { font-size:13px; letter-spacing:-0.015em; color:#afafaf; line-height:28px; text-align:right }
+/* POPUP ZONE */
+.ContBox01 .popupzone {position:relative;float:right; width:290px; height:284px}
+.ContBox01 .popupzone h3.Titpopupzone {font-size:22px;font-weight:normal;height:43px;background:url(/img/jipbank/main3/bg_popupzone.gif) left top no-repeat; padding:22px 0 0 0;color:#444}
+.ContBox01 .popupzone ul.PopupList li a img{ width:288px; height:217px; border:1px solid #ebebeb }
+
+
+.ContBox02 { width:100%; height:487px; float:left; margin:0 auto; margin-top:20px; background:url(/img/jipbank/main3/tb_bg_ContBox02.gif) left top repeat-x }
+/* 포토뉴스/기술사업화 제품/우수사례 */
+.ContBox02 .ImgListWrap01 { width:768px; height:177px; margin:0 auto; padding:20px 0 0 0 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox { width:768px; height:33px; border-bottom:1px solid #b4b4b4 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .ImgList_gap { width:1px; float:left; height:15px; margin:4px 12px 0 12px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li { height:20px; float:left; font-size:16px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li a { color:#878787 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab01 { width:62px; background:url(/img/jipbank/main3/tb_icon_imglist1_ovr.png) left 0px no-repeat; padding-left:37px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab02 { width:64px; background:url(/img/jipbank/main3/tb_icon_imglist2_ovr.png) left 0px no-repeat; padding-left:37px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab03 { width:61px; background:url(/img/jipbank/main3/tb_icon_imglist3_ovr.png) left 0px no-repeat; padding-left:26px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on { padding-bottom:12px; border-bottom:2px solid #0081af }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on a { color:#323232 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox { width:157px; float:left; margin-left:377px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li { font-size:13px; float:left; padding-top:2px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.newest { background:url(/img/jipbank/main3/tb_icon_newest.png) 0px 3px no-repeat; padding-left:20px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.lookup { background:url(/img/jipbank/main3/tb_icon_lookup.png) 0px 3px no-repeat; padding-left:20px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .btn_more { width:20px; height:20px; float:right }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .btn_more img { width:20px; height:20px }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap01 ul.ImgListBox { width:768px; margin:0 auto; margin-top:20px; height:102px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li { height:102px; float:left; padding:0 6px 0 6px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li img { width:141px; height:102px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em { background-color:rgba(44,114,199,0.8); position:relative; top:-27px; float:left; padding:7px 0 7px 7px; font-style:normal; width:134px; text-align:left }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em a { color:#fff; font-weight:600; font-size:11px; padding-left:10px 0 }
+
+/* PUBLICATION */
+.ContBox02 .ImgListWrap02 { width:768px; height:290px; margin:0 auto; padding:20px 0 0 0 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 { width:768px; height:33px; border-bottom:1px solid #b4b4b4 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .ImgList_gap { width:1px; float:left; height:15px; margin:4px 12px 0 12px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title { width:105px; height:23px; float:left; font-size:16px; background:url(/img/jipbank/main3/tb_icon_imglist4.png) left 0px no-repeat; 
+                                                         padding:0px 0px 9px 30px; border-bottom:2px solid #0081af }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li a { color:#323232 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox { width:157px; float:left; margin-left:455px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li { font-size:13px; float:left }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.newest { background:url(/img/jipbank/main3/tb_icon_newest.png) 0px 3px no-repeat; padding-left:20px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.lookup { background:url(/img/jipbank/main3/tb_icon_lookup.png) 0px 3px no-repeat; padding-left:20px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .btn_more { width:20px; height:20px; float:right }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .btn_more img { width:20px; height:20px; float:right }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 { width:768px; margin:0 auto; margin-top:20px; height:196px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li { height:196px; float:left; padding:0 6px 0 6px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li img { width:141px; height:196px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em { background-color:rgba(44,114,199,0.8); position:relative; top:-27px; float:left; padding:7px 0 7px 7px; font-style:normal; width:134px; text-align:left }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em a { color:#fff; font-weight:600; font-size:11px; padding-left:10px 0 }
+/* 배너 */
+.BannerWrap .Banner{width:768px}
+.BannerWrap .Banner ul.BannerList{max-width:400px}
+.BannerWrap .Banner ul.BannerControl{background-position:95px 0;margin-right:6px;width:101px}
+.BannerWrap .Banner .JeonNam{width:147px;padding:18px 0 30px 20px;float:right;}
+.BannerWrap .Banner .JeonNam .JeonNamCi{width:142px}
+.BannerWrap .Banner .JeonNam .JeonNamCi img.JeonNamImg{width:100%}
+/* 서브 */
+.SubWrap { width:100%; min-height:116px; background:url(/img/jipbank/sub/bg_sub_visual.gif) center bottom no-repeat }
+.SubBox { width:748px; margin:0 auto; padding:0 0px 0 0px;background:url(/img/jipbank/sub/bg_sub_visual02.png) right bottom no-repeat; background-size:59%;height:123px}
+.TxtSubBox img{padding:10px 0 0 0}
+/* 레프트메뉴 */
+#leftMenu { display:none }
+
+/* 콘텐츠 */
+.ContWrap { width:100%; float:left; margin:73px 0 0 0px }
+.ContWrap .cont_top { width:100%; height:58px; border-bottom:1px solid #d6d6d6 }
+.ContWrap .cont_top .cont_tit { font-size:32px; font-weight:600; letter-spacing:-0.05em; color:#282828; float:left }
+.ContWrap .cont_top .navi { font-size:11px; font-weight:600; letter-spacing:-0.03em; color:#a6a6a6; float:right; margin-top:17px }
+
+.Contents { width:100%; margin-top:50px }
+.Contents img{width:100%!important}
+/* Jipbank 소개 */
+.cont_sample { min-height:650px; background:url(/img/jipbank/common/bg_sub2.jpg) right bottom no-repeat }
+p.txt1 { font-size:24px; font-weight:600; letter-spacing:-0.05em; color:#225a61 }
+p.txt2 { font-size:18px; font-weight:400; letter-spacing:-0.03em; color:#39767d; margin-top:7px }
+p.txt3 { font-size:11px; font-weight:400; color:#b4b4b4; margin-top:10px }
+p.txt4 { font-size:14px; font-weight:400; letter-spacing:-0.05em; color:5a5a5a; margin-top:30px; line-height:23px }
+
+/* 푸터 */
+.FooterWrap { clear:both; width:100%; min-width:768px; height:120px; overflow:hidden; border-top:3px solid #737373 }
+.FooterBox { width:768px; margin:0 auto; padding:0 10px 0 10px; background:none }
+.f_logo { width:216px; height:120px; float:left; margin:35px 25px 0 0 }
+.f_logo img { width:186px; height:90px }
+.f_menu { width:570px; float:left; height:15px; margin-top:20px; margin-bottom:10px; margin-left:0 }
+.f_menu ul li { font-size:11px; font-weight:600; letter-spacing:-0.05em; float:left; padding:0 6px 0 6px }
+.f_menu ul li.first{padding-left:0}
+.f_menu ul li a { color:#000 }
+.f_site { width:190px; margin-top:15px; float:right }
+.f_site ul li { width:190px; float:left }
+.f_site .select_site { width:120px; height:28px; border:1px solid #d9d9d9; font-family:'NanumGothic', 'Malgun Gothic', dotum; font-size:12px; font-weight:600; color:#444; padding:0 0 0 10px; float:left }
+.f_site .select_site { padding:5px 3px 5px 10px\9 }
+.f_site p.btn_area { float:left; margin-left:5px }
+.f_site p.btn_area .btn_move { cursor: pointer; float:right; width:56px; height:28px; padding:0; margin:0 auto; margin-left:5pxs }
+.f_info { width:500px; margin-left:0 }
+.f_info .f_info1 { width:240px; float:left; font-size:11px; font-weight:600; letter-spacing:-0.05em; color:#4d4d4d; line-height:19px }
+.f_info .f_info2 { width:259px; height:20px; float:left; font-size:12px; font-weight:600; color:#fff; margin-bottom:5px; background:url(/img/jipbank/common/bg_f_call.gif) 0px 0px no-repeat }
+.f_info .f_info2 .f_tel { width:118px; height:17px; padding:3px 0 0 11px; float:left }
+.f_info .f_info2 .f_fax { width:122px; height:17px; padding:3px 0 0 8px; float:left }
+.f_info .f_info3 { width:600px; float:left; font-size:11px; font-weight:600; letter-spacing:-0.05em; color:#969696  }
+.f_qr{display:none}
+
+/* 게시판 160612 */
+.list_top_1 .b_srchBox_1 .b_srch { float:left; width:368px; height:32px; border:1px solid #dbdbdb; margin-left:20px }
+.list_top_1 .b_srchBox_1 .b_srch .b_srch_txt { float:left; width:357px; height:27px; border:none; padding-left:7px; margin:5px 0 0 5px }
+
+/*JIPBANK소개*/
+.Cont24  p.Cont24txt{width:374px;padding:36px 0 55px 39px}
+.Cont24  ol li{width:270px}
+.Cont24 li.cont24_07{padding-top:38px;height:48px}
+
+/*이용방법 및 절차*/
+.Contents .Cont28{background-size:748px;padding:21px 0 0px 69px;height:717px}
+.Contents .Cont28 li{width:149px}
+.Contents .Cont28 li.cont28_list01{padding-right:81px}
+.Contents .Cont28 li.cont28_list02{padding-right:82px}
+.Contents .Cont28 li.cont28_list03{padding-top:116px}
+.Contents .Cont28 li.cont28_list04{padding-top:199px;padding-right:68px}
+.Contents .Cont28 li.cont28_list05{padding-top:199px;padding-right:82px;}
+.Contents .Cont28 li.cont28_list06{padding-top:210px;padding-right:82px;}
+.Contents .Cont28 li.cont28_list07{padding-top:210px;padding-right:82px;}
+.Contents .Cont28 li.cont28_list08{padding-top:210px;padding-right:82px;}
+.Contents .Cont28 li p.cont28txt01{font-size:14px;letter-spacing:-1.5px}
+
+/*찾아오시는길*/
+.Contents .Cont84 dl.Cont84List02{background-position:25px 24px}
+}
+
+

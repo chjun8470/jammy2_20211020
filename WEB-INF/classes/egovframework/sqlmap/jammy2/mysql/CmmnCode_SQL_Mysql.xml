@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CmmnCode">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="CmmnClCode" type="egovframework.jammy2.system.code.service.CmmnClCode"/>
+	<typeAlias  alias="CmmnClCodeVO" type="egovframework.jammy2.system.code.service.CmmnClCodeVO"/>
+	<typeAlias  alias="CmmnCode" type="egovframework.jammy2.system.code.service.CmmnCode"/>
+	<typeAlias  alias="CmmnCodeVO" type="egovframework.jammy2.system.code.service.CmmnCodeVO"/>
+	<typeAlias  alias="CmmnDetailCode"   type="egovframework.jammy2.cmm.service.CmmnDetailCode"/>
+	<typeAlias  alias="CmmnDetailCodeVO" type="egovframework.jammy2.system.code.service.CmmnDetailCodeVO"/>	
+						
+	<select id="CmmnCodeDAO.selectCmmnClCodeList" parameterClass="CmmnClCodeVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT  CL_CODE
+			     ,  CL_CODE_NM
+			     ,  USE_AT
+			  FROM  JMY_CMMN_CLCODE
+			 WHERE  1 = 1
+		]]>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
+				<![CDATA[CL_CODE LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCodeNm">
+				<![CDATA[CL_CODE_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="CodeList">
+				<![CDATA[USE_AT        = 'Y']]>
+			</isEqual>
+			 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnClCodeListTotCnt" parameterClass="CmmnClCodeVO" resultClass="int">
+		<![CDATA[
+			SELECT  COUNT(*) totcnt
+			  FROM  JMY_CMMN_CLCODE
+			 WHERE  1 = 1
+		]]>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCode">
+				<![CDATA[CL_CODE LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="clCodeNm">
+				<![CDATA[CL_CODE_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnClCodeDetail" parameterClass="CmmnClCode" resultClass="CmmnClCode">
+		<![CDATA[
+            SELECT  CL_CODE    clCode
+			     ,  CL_CODE_NM clCodeNm
+                 ,  CL_CODE_DC clCodeDc
+                 ,  USE_AT     useAt
+              FROM  JMY_CMMN_CLCODE
+             WHERE  CL_CODE    = #clCode#
+		]]>
+	</select>
+
+	<insert id="CmmnCodeDAO.insertCmmnClCode">
+		<![CDATA[
+		    INSERT
+		      INTO  JMY_CMMN_CLCODE
+		         (  CL_CODE
+		         ,  CL_CODE_NM
+		         ,  CL_CODE_DC
+		         ,  USE_AT
+		         ,  FRST_REGIST_PNTTM
+		         ,  FRST_REGISTER_ID
+		         ,  LAST_UPDT_PNTTM
+		         ,  LAST_UPDUSR_ID
+		         )
+		    VALUES
+		         (  #clCode#
+		         ,  #clCodeNm#
+		         ,  #clCodeDc#
+		         ,  #useAt#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         )
+		]]>
+	</insert>
+
+	<update id="CmmnCodeDAO.updateCmmnClCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_CLCODE
+               SET  CL_CODE_NM        = #clCodeNm#
+                 ,  CL_CODE_DC        = #clCodeDc#
+                 ,  USE_AT            = #useAt#
+                 ,  LAST_UPDT_PNTTM = sysdate()
+                 ,  LAST_UPDUSR_ID    = #lastUpdusrId#
+             WHERE  CL_CODE           = #clCode#
+		]]>
+	</update>
+
+	<delete id="CmmnCodeDAO.deleteCmmnClCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_CLCODE
+               SET  USE_AT  = 'N'
+             WHERE  CL_CODE = #clCode#
+		]]>
+	</delete>
+	
+	<select id="CmmnCodeDAO.selectCmmnCodeList" parameterClass="CmmnCodeVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT  B.CL_CODE_NM
+                 ,  B.CL_CODE
+			     ,  A.CODE_ID
+			     ,  A.CODE_ID_NM
+			     ,  A.USE_AT
+			  FROM  JMY_CMMN_CODE   A
+			     ,  JMY_CMMN_CLCODE B
+			 WHERE  A.CL_CODE = B.CL_CODE
+		]]>
+			<isNotEmpty prepend="AND" property="clCode">
+					A.CL_CODE = #clCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useAt">
+					A.USE_AT = "Y"
+			</isNotEmpty>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeId">
+				<![CDATA[A.CODE_ID LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeIdNm">
+				<![CDATA[A.CODE_ID_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnCodeListTotCnt" parameterClass="CmmnCodeVO" resultClass="int">
+		<![CDATA[
+			SELECT  COUNT(*) totcnt
+			  FROM  JMY_CMMN_CODE   A
+			     ,  JMY_CMMN_CLCODE B
+			 WHERE  A.CL_CODE = B.CL_CODE
+		]]>
+			<isNotEmpty prepend="AND" property="clCode">
+					A.CL_CODE = #clCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useAt">
+					A.USE_AT = "Y"
+			</isNotEmpty>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeId">
+				<![CDATA[A.CODE_ID LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeIdNm">
+				<![CDATA[A.CODE_ID_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnCodeDetail" parameterClass="CmmnCode" resultClass="CmmnCode">
+		<![CDATA[
+            SELECT  B.CL_CODE_NM clCodeNm
+                 ,  A.CL_CODE    clCode
+                 ,  A.CODE_ID    codeId
+			     ,  A.CODE_ID_NM codeIdNm
+                 ,  A.CODE_ID_DC codeIdDc
+                 ,  A.USE_AT     useAt
+			  FROM  JMY_CMMN_CODE   A
+			     ,  JMY_CMMN_CLCODE B
+			 WHERE  A.CL_CODE = B.CL_CODE
+               AND  A.CODE_ID = #codeId#
+		]]>
+	</select>
+
+	<insert id="CmmnCodeDAO.insertCmmnCode">
+		<![CDATA[
+		    INSERT
+		      INTO  JMY_CMMN_CODE
+		         (  CODE_ID
+		         ,  CODE_ID_NM
+		         ,  CODE_ID_DC
+		         ,  CL_CODE
+		         ,  USE_AT
+		         ,  FRST_REGIST_PNTTM
+		         ,  FRST_REGISTER_ID
+		         ,  LAST_UPDT_PNTTM
+		         ,  LAST_UPDUSR_ID
+		         )
+		    VALUES
+		         (  #codeId#
+		         ,  #codeIdNm#
+		         ,  #codeIdDc#
+		         ,  #clCode#
+		         ,  #useAt#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         )
+		]]>
+	</insert>
+
+	<update id="CmmnCodeDAO.updateCmmnCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_CODE
+               SET  CODE_ID_NM        = #codeIdNm#
+                 ,  CODE_ID_DC        = #codeIdDc#
+                 ,  USE_AT            = #useAt#
+                 ,  LAST_UPDT_PNTTM = sysdate()
+                 ,  LAST_UPDUSR_ID    = #lastUpdusrId#
+             WHERE  CODE_ID           = #codeId#
+		]]>
+	</update>
+
+	<delete id="CmmnCodeDAO.deleteCmmnCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_CODE
+               SET  USE_AT  = 'N'
+             WHERE  CODE_ID = #codeId#
+		]]>
+	</delete>
+	
+	<select id="CmmnCodeDAO.selectCmmnDetailCodeList" parameterClass="CmmnDetailCodeVO" resultClass="egovMap">
+		<![CDATA[
+			SELECT  A.CODE_ID
+			     ,  A.CODE
+			     ,  A.CODE_NM
+			     ,  A.USE_AT
+			     ,  A.DATA01
+			     ,  A.DATA02
+			     ,  A.DATA03
+			     ,  A.DATA04
+			     ,  A.DATA05
+			  FROM  JMY_CMMN_DETAILCODE A
+			     ,  JMY_CMMN_CODE       B
+			 WHERE 	B.USE_AT  = 'Y'
+			   AND  A.CODE_ID = B.CODE_ID
+		]]>
+			<isNotEmpty prepend="AND" property="clCode">
+					B.CL_CODE = #clCode#
+			</isNotEmpty>		
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeId">
+				<![CDATA[A.CODE_ID    LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="code">
+				<![CDATA[A.CODE    LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeNm">
+				<![CDATA[A.CODE_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+		  ORDER BY  A.CODE_ID ASC, A.POSITION ASC			
+			 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnDetailCodeListTotCnt" parameterClass="CmmnDetailCodeVO" resultClass="int">
+		<![CDATA[
+			SELECT  COUNT(*) totcnt
+			  FROM  JMY_CMMN_DETAILCODE A
+			     ,  JMY_CMMN_CODE       B
+			 WHERE 	B.USE_AT  = 'Y'
+			   AND  A.CODE_ID = B.CODE_ID
+		]]>
+			<isNotEmpty prepend="AND" property="clCode">
+					B.CL_CODE = #clCode#
+			</isNotEmpty>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeId">
+				<![CDATA[A.CODE_ID    LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="code">
+				<![CDATA[A.CODE    LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="codeNm">
+				<![CDATA[A.CODE_NM LIKE CONCAT('%', #searchKeyword#,'%')]]>
+			</isEqual>
+	</select>
+
+	<select id="CmmnCodeDAO.selectCmmnDetailCodeDetail" parameterClass="CmmnDetailCode" resultClass="CmmnDetailCode">
+		<![CDATA[
+            SELECT  A.CODE_ID    codeId
+                 ,  B.CODE_ID_NM codeIdNm
+                 ,  A.CODE       code
+                 ,  A.CODE_NM    codeNm
+                 ,  A.CODE_DC    codeDc
+			     ,  A.DATA01	 data01
+			     ,  A.DATA02	 data02
+			     ,  A.DATA03	 data03
+			     ,  A.DATA04	 data04
+			     ,  A.DATA05     data05      
+                 ,  A.USE_AT     useAt
+                 ,  A.POSITION   position
+              FROM  JMY_CMMN_DETAILCODE A
+                 ,  JMY_CMMN_CODE       B
+             WHERE  B.USE_AT  = 'Y'
+               AND  A.CODE_ID = B.CODE_ID
+               AND  A.CODE_ID = #codeId#
+			   AND  A.CODE    = #code#
+		]]>
+	</select>
+
+	<insert id="CmmnCodeDAO.insertCmmnDetailCode">
+		<![CDATA[
+		    INSERT
+		      INTO  JMY_CMMN_DETAILCODE
+		         (  CODE_ID
+		         ,  CODE
+		         ,  CODE_NM
+		         ,  CODE_DC
+		         ,  DATA01
+		         ,  DATA02
+		         ,  DATA03
+		         ,  DATA04
+		         ,  DATA05
+		         ,  USE_AT
+		         ,  POSITION
+		         ,  FRST_REGIST_PNTTM
+		         ,  FRST_REGISTER_ID
+		         ,  LAST_UPDT_PNTTM
+		         ,  LAST_UPDUSR_ID
+		         )
+		    VALUES
+		         (  #codeId#
+		         ,  #code#
+		         ,  #codeNm#
+		         ,  #codeDc#
+		         ,  #data01#
+		         ,  #data02#
+		         ,  #data03#
+		         ,  #data04#
+		         ,  #data05#
+		         ,  #useAt#
+		         ,  #position#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         ,  sysdate()
+		         ,  #frstRegisterId#
+		         )
+		]]>
+	</insert>
+
+	<update id="CmmnCodeDAO.updateCmmnDetailCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_DETAILCODE
+               SET  CODE_NM           = #codeNm#
+                 ,  CODE_DC           = #codeDc#
+                 ,  DATA01            = #data01#
+                 ,  DATA02            = #data02#
+                 ,  DATA03            = #data03#
+                 ,  DATA04            = #data04#
+                 ,  DATA05            = #data05#
+                 ,  USE_AT            = #useAt#
+                 ,  POSITION          = #position#
+                 ,  LAST_UPDT_PNTTM = sysdate()
+                 ,  LAST_UPDUSR_ID    = #lastUpdusrId#
+             WHERE  CODE_ID   = #codeId#
+               AND  CODE      = #code#
+		]]>
+	</update>
+
+	<delete id="CmmnCodeDAO.deleteCmmnDetailCode">
+		<![CDATA[
+            UPDATE  JMY_CMMN_DETAILCODE
+               SET  USE_AT    = 'N'
+             WHERE  CODE_ID   = #codeId#
+               AND  CODE      = #code#
+		]]>
+	</delete>
+				
+</sqlMap>

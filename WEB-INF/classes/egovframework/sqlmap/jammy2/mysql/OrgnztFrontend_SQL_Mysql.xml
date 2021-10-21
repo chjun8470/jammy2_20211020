@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrgnztFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="OrgnztVO" type="egovframework.jammy2.system.orgnzt.service.OrgnztVO"/>
+	<typeAlias  alias="OrgnztStaffVO" type="egovframework.jammy2.system.orgnzt.service.OrgnztStaffVO"/>
+	
+	<select id="OrgnztFrontendDAO.selectOrgnztList" parameterClass="OrgnztVO" resultClass="OrgnztVO">
+		SELECT  ORGNZT_ID			orgnztId
+			 ,  PARNTS_ORGNZT_ID	parntsOrgnztId
+			 ,  ORGNZT_NM			orgnztNm
+			 ,  TEL_NO				telNo
+			 ,  FAX_NO				faxNo
+			 ,  USE_AT				useAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+		  FROM  JMY_ORGNZT
+		 WHERE  1=1 AND USE_AT = "Y"
+	  ORDER BY  LFT ASC
+	</select>
+	
+	<select id="OrgnztFrontendDAO.selectChldrnOrgnztList" parameterClass="OrgnztVO" resultClass="OrgnztVO">
+		SELECT  NODE.ORGNZT_ID			orgnztId
+			 ,  NODE.PARNTS_ORGNZT_ID	parntsOrgnztId
+			 ,  NODE.ORGNZT_NM			orgnztNm
+			 ,  NODE.TEL_NO				telNo
+			 ,  NODE.FAX_NO				faxNo			 
+			 ,  NODE.USE_AT				useAt
+			 ,  NODE.LFT				lft
+			 ,  NODE.RGT				rgt
+			 ,  NODE.LVL				lvl
+		  FROM  JMY_ORGNZT NODE, JMY_ORGNZT PARENT
+		 WHERE  NODE.LFT BETWEEN PARENT.LFT 
+		   AND  PARENT.RGT
+		   AND  NODE.ORGNZT_ID != #orgnztId#
+		   AND  PARENT.ORGNZT_ID = #orgnztId#			
+		   AND PARENT.USE_AT = "Y" AND NODE.USE_AT = "Y" 
+	  ORDER BY  NODE.LFT ASC
+	</select>	
+	
+	<select id="OrgnztFrontendDAO.selectOrgnzt" parameterClass="OrgnztVO" resultClass="OrgnztVO">
+		SELECT	ORGNZT_ID			orgnztId
+			 ,  PARNTS_ORGNZT_ID	parntsOrgnztId
+			 ,  ORGNZT_NM			orgnztNm
+			 ,  ORGNZT_DC			orgnztDc
+			 ,  LOGIN_ID			loginId
+			 ,  PASSWORD			password
+			 ,  GROUP_ID			groupId
+			 ,  LEVEL_ID			levelId
+			 ,  TEL_NO				telNo
+			 ,  FAX_NO				faxNo			 
+			 ,  USE_AT				useAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+		  FROM  JMY_ORGNZT
+		 WHERE  ORGNZT_ID = #orgnztId# AND USE_AT = "Y"
+	</select>		
+	
+	<select id="OrgnztFrontendDAO.selectOrgnztStaffListCnt" parameterClass="OrgnztStaffVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_ORGNZT_STAFF A 
+	 LEFT JOIN  JMY_ORGNZT B
+			ON 	A.ORGNZT_ID = B.ORGNZT_ID 
+		 WHERE  1=1 AND A.STAFF_STTUS = "P"
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="orgnztNm"><![CDATA[B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="name"><![CDATA[A.NAME LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="telNo"><![CDATA[A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="email"><![CDATA[A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="asgnedArea"><![CDATA[A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="totalSearch"><![CDATA[
+					B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.NAME LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')
+				]]></isEqual>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orgnztId">
+				A.ORGNZT_ID = #orgnztId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchOrgnztId">
+				B.LFT BETWEEN #searchOrgnztLft# AND #searchOrgnztRgt# 
+			</isNotEmpty>			
+	</select>	
+	
+	<select id="OrgnztFrontendDAO.selectOrgnztStaffList" parameterClass="OrgnztStaffVO" resultClass="OrgnztStaffVO">
+		SELECT  A.ORGNZT_ID		orgnztId
+			 ,  B.ORGNZT_NM		orgnztNm
+			 ,  A.STAFF_ID		staffId
+			 ,  A.LOGIN_ID		loginId
+			 ,  A.PASSWORD		password			 
+			 ,  A.GROUP_ID		groupId
+			 ,  (SELECT GROUP_NM FROM JMY_AUTHOR_GROUP WHERE GROUP_ID = A.GROUP_ID)  AS groupNm
+			 ,  A.LEVEL_ID		levelId
+			 ,  (SELECT LEVEL_NM FROM JMY_AUTHOR_LEVEL WHERE LEVEL_ID = A.LEVEL_ID)  AS levelNm
+			 ,  STAFF_STTUS		staffSttus
+			 ,  A.NAME			name
+			 ,  A.RANK			rank
+			 ,  A.TEL_NO		telNo
+			 ,  A.HP_NO			hpNo
+			 ,  A.FAX_NO		faxNo
+			 ,  A.EMAIL			email
+			 ,  A.ASGNED_AREA	asgnedArea
+			 ,  A.MAIN_BSNSS	mainBsnss
+			 ,  A.PHOTO_FILE_ID	photoFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS,STRE_FILE_NM) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.PHOTO_FILE_ID AND FILE_SN = "0")  AS photoFileNm
+			 ,  A.POSITION		position
+			 ,  (
+					SELECT  GROUP_CONCAT(PARENT.ORGNZT_NM SEPARATOR " > ")			
+					  FROM  JMY_ORGNZT NODE
+					     ,  JMY_ORGNZT PARENT 
+					 WHERE  NODE.LFT BETWEEN PARENT.LFT 
+					   AND  PARENT.RGT
+					   AND  PARENT.LVL != 1
+					   AND  NODE.ORGNZT_ID = A.ORGNZT_ID
+				  ORDER BY  PARENT.LFT ASC			 
+			 ) AS orgnztPath			 
+		  FROM  JMY_ORGNZT_STAFF A 
+	 LEFT JOIN  JMY_ORGNZT B
+			ON  A.ORGNZT_ID = B.ORGNZT_ID
+		 WHERE  1=1 AND A.STAFF_STTUS = "P"
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="orgnztNm"><![CDATA[B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="name"><![CDATA[A.NAME LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="telNo"><![CDATA[A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="email"><![CDATA[A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="asgnedArea"><![CDATA[A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="totalSearch"><![CDATA[
+					B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.NAME LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')
+				]]></isEqual>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orgnztId">
+				A.ORGNZT_ID = #orgnztId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchOrgnztId">
+				B.LFT BETWEEN #searchOrgnztLft# AND #searchOrgnztRgt# 
+			</isNotEmpty>
+	  ORDER BY  B.LFT ASC, A.POSITION ASC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#		 
+	</select>	
+		
+	<select id="OrgnztFrontendDAO.selectOrgnztStaffListAll" parameterClass="OrgnztStaffVO" resultClass="OrgnztStaffVO">
+		SELECT  A.ORGNZT_ID		orgnztId
+			 ,  B.ORGNZT_NM		orgnztNm
+			 ,  A.STAFF_ID		staffId
+			 ,  A.LOGIN_ID		loginId
+			 ,  A.PASSWORD		password
+			 ,  A.GROUP_ID		groupId
+			 ,  A.LEVEL_ID		levelId
+			 ,  A.STAFF_STTUS	staffSttus
+			 ,  A.NAME			name
+			 ,  A.RANK			rank
+			 ,  A.TEL_NO		telNo
+			 ,  A.HP_NO			hpNo
+			 ,  A.FAX_NO		faxNo
+			 ,  A.EMAIL			email
+			 ,  A.ASGNED_AREA	asgnedArea
+			 ,  A.MAIN_BSNSS	mainBsnss
+			 ,  A.PHOTO_FILE_ID	photoFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS,STRE_FILE_NM) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.PHOTO_FILE_ID AND FILE_SN = "0")  AS photoFileNm
+			 ,  A.POSITION		position	
+			 ,  (
+					SELECT  GROUP_CONCAT(PARENT.ORGNZT_NM SEPARATOR " > ")			
+					  FROM  JMY_ORGNZT NODE
+					     ,  JMY_ORGNZT PARENT 
+					 WHERE  NODE.LFT BETWEEN PARENT.LFT 
+					   AND  PARENT.RGT
+					   AND  PARENT.LVL != 1
+					   AND  NODE.ORGNZT_ID = A.ORGNZT_ID
+				  ORDER BY  PARENT.LFT ASC			 
+			 ) AS orgnztPath
+		  FROM  JMY_ORGNZT_STAFF A 
+	 LEFT JOIN  JMY_ORGNZT B
+			ON  A.ORGNZT_ID = B.ORGNZT_ID
+		 WHERE  1=1 AND A.STAFF_STTUS = "P"
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="orgnztNm"><![CDATA[B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="name"><![CDATA[A.NAME LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="telNo"><![CDATA[A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="email"><![CDATA[A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="asgnedArea"><![CDATA[A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="totalSearch"><![CDATA[
+					B.ORGNZT_NM LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.NAME LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.TEL_NO LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.EMAIL LIKE CONCAT('%', #searchKeyword#,'%')
+					OR A.ASGNED_AREA LIKE CONCAT('%', #searchKeyword#,'%')
+				]]></isEqual>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orgnztId">
+				A.ORGNZT_ID = #orgnztId#
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="searchOrgnztId">
+				B.LFT BETWEEN #searchOrgnztLft# AND #searchOrgnztRgt# 
+			</isNotEmpty>
+	  ORDER BY  B.LFT ASC, A.POSITION ASC
+	</select>		
+		
+	<select id="OrgnztFrontendDAO.selectOrgnztStaff" parameterClass="OrgnztStaffVO" resultClass="OrgnztStaffVO">
+		SELECT  A.ORGNZT_ID				orgnztId
+			 ,  B.ORGNZT_NM				orgnztNm
+			 ,  A.STAFF_ID				staffId
+			 ,  A.LOGIN_ID				loginId
+			 ,  A.PASSWORD				password
+			 ,  A.GROUP_ID				groupId
+			 ,  A.LEVEL_ID				levelId			 
+			 ,  A.STAFF_STTUS			staffSttus
+			 ,  A.NAME					name
+			 ,  A.RANK					rank
+			 ,  A.TEL_NO				telNo
+			 ,  A.HP_NO					hpNo
+			 ,  A.FAX_NO				faxNo
+			 ,  A.EMAIL					email
+			 ,  A.ASGNED_AREA			asgnedArea
+			 ,  A.MAIN_BSNSS			mainBsnss
+			 ,  A.PHOTO_FILE_ID			photoFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS,STRE_FILE_NM) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.PHOTO_FILE_ID AND FILE_SN = "0")  AS photoFileNm
+			 ,  A.POSITION				position			 
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+			 ,  (
+					SELECT  GROUP_CONCAT(PARENT.ORGNZT_NM SEPARATOR " > ")			
+					  FROM  JMY_ORGNZT NODE
+					     ,  JMY_ORGNZT PARENT 
+					 WHERE  NODE.LFT BETWEEN PARENT.LFT 
+					   AND  PARENT.RGT
+					   AND  PARENT.LVL != 1
+					   AND  NODE.ORGNZT_ID = A.ORGNZT_ID
+				  ORDER BY  PARENT.LFT ASC			 
+			 ) AS orgnztPath
+		  FROM  JMY_ORGNZT_STAFF A 
+	 LEFT JOIN  JMY_ORGNZT B
+		    ON  A.ORGNZT_ID = B.ORGNZT_ID
+		 WHERE  A.STAFF_ID = #staffId#
+			<isNotEmpty prepend="AND" property="orgnztId">
+				A.ORGNZT_ID = #orgnztId#
+			</isNotEmpty>
+	</select>	
+	
+	<insert id="OrgnztFrontendDAO.insertOrgnztStaff">
+		INSERT 
+		  INTO  JMY_ORGNZT_STAFF
+		     (  ORGNZT_ID
+			 ,  STAFF_ID
+			 ,  LOGIN_ID
+			 ,  PASSWORD
+			 ,  GROUP_ID
+			 ,  LEVEL_ID
+			 ,  STAFF_STTUS
+			 ,  NAME
+			 ,  RANK
+			 ,  TEL_NO
+			 ,  HP_NO
+			 ,  FAX_NO
+			 ,  EMAIL
+			 ,  ASGNED_AREA
+			 ,  MAIN_BSNSS
+			 ,  PHOTO_FILE_ID
+			 ,  POSITION			 
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #orgnztId#
+			 ,  #staffId#
+			 ,  #loginId#
+			 ,  #password#
+			 ,  #groupId#
+			 ,  #levelId#
+			 ,  #staffSttus#
+			 ,  #name#
+			 ,  #rank#
+			 ,  #telNo#
+			 ,  #hpNo#
+			 ,  #faxNo#
+			 ,  #email#
+			 ,  #asgnedArea#
+			 ,  #mainBsnss#
+			 ,  #photoFileId#
+			 ,  #position#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="OrgnztFrontendDAO.updateOrgnztStaff">
+		UPDATE  JMY_ORGNZT_STAFF 
+		<dynamic prepend="SET">
+			<isNotNull property="orgnztId" prepend=",">
+				ORGNZT_ID = #orgnztId#
+			</isNotNull>
+			<isNotNull property="loginId" prepend=",">
+				LOGIN_ID = #loginId#
+			</isNotNull>
+			<isNotNull property="password" prepend=",">
+				PASSWORD = #password#
+			</isNotNull>
+			<isNotNull property="groupId" prepend=",">
+				GROUP_ID = #groupId#
+			</isNotNull>
+			<isNotNull property="levelId" prepend=",">
+				LEVEL_ID = #levelId#
+			</isNotNull>
+			<isNotNull property="staffSttus" prepend=",">
+				STAFF_STTUS = #staffSttus#
+			</isNotNull>
+			<isNotNull property="name" prepend=",">
+				NAME = #name#
+			</isNotNull>
+			<isNotNull property="rank" prepend=",">
+				RANK = #rank#
+			</isNotNull>
+			<isNotNull property="telNo" prepend=",">
+				TEL_NO = #telNo#
+			</isNotNull>
+			<isNotNull property="hpNo" prepend=",">
+				HP_NO = #hpNo#
+			</isNotNull>
+			<isNotNull property="faxNo" prepend=",">
+				FAX_NO = #faxNo#
+			</isNotNull>
+			<isNotNull property="email" prepend=",">
+				EMAIL = #email#
+			</isNotNull>
+			<isNotNull property="asgnedArea" prepend=",">
+				ASGNED_AREA = #asgnedArea#
+			</isNotNull>
+			<isNotNull property="mainBsnss" prepend=",">
+				MAIN_BSNSS = #mainBsnss#
+			</isNotNull>
+			<isNotNull property="photoFileId" prepend=",">
+				PHOTO_FILE_ID = #photoFileId#
+			</isNotNull>
+			<isNotNull property="position" prepend=",">
+				POSITION = #position#
+			</isNotNull>
+		</dynamic>
+		 WHERE  STAFF_ID = #staffId#		
+	</update>
+		
+</sqlMap>

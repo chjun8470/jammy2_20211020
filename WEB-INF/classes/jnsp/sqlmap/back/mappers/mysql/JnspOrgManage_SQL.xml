@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspOrgManageMapper">
+
+
+	<!-- 기관 목록 -->
+	<select id="getOrgManageList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT ORG_GRP_CD
+		 		 , ORG_GRP_NM
+				 , USER_IDX
+				 , ORG_TYPE
+				 , APPLY_CD
+				 , APPLY_REJECT
+				 , CI_FILE_SRC
+				 , AUTH_CD
+				 , AUTH_ORG_SITE_1
+				 , AUTH_ORG_SITE_2
+				 , AUTH_ORG_SITE_3
+				 , AREA_CD
+				 , ORNER_NM
+				 , CORP_NUM_1
+				 , CORP_NUM_2
+				 , CORP_PHONE
+				 , CORP_FAX
+				 , HOMEPAGE
+				 , ADDR1
+				 , ADDR2
+				 , ZIPCODE
+				 , MAP_X
+				 , MAP_Y
+				 , ORG_NOTE_1
+				 , BUSINESSCON
+				 , ORG_FILE_INFO
+				 , DATE_FORMAT(REG_DT,'%Y-%m-%d') as REG_DT
+				 , REG_IP
+				 , REG_IDX
+				 , UP_DT
+				 , UP_IP
+				 , UP_IDX
+
+			FROM TB_ORG_GRP
+			WHERE 1=1
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		]]>
+
+		<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[	AND ORG_GRP_CD = #{listOrgGrpCd} ]]>
+		</if>
+		<!--
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "NAME" and searchWord != ""'>
+						<![CDATA[	AND ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "ID" and searchWord != ""'>
+						<![CDATA[	AND ORG_GRP_CD LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+		-->
+
+		<if test='orgType != null and orgType != ""'>
+			<![CDATA[	AND ORG_TYPE LIKE '%${orgType}%' ]]>
+		</if>
+		<if test='applyCd != null and applyCd != ""'>
+			<![CDATA[	AND APPLY_CD LIKE '%${applyCd}%' ]]>
+		</if>
+		<if test='orgGrpNm != null and orgGrpNm != ""'>
+			<![CDATA[	AND ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+		</if>
+
+		<![CDATA[
+			ORDER BY ORG_GRP_CD ASC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<!-- 기관 total count -->
+	<select id="getOrgManageCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0) AS CNT
+			FROM TB_ORG_GRP
+			WHERE 1=1
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		]]>
+
+		<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[	AND ORG_GRP_CD = #{listOrgGrpCd} ]]>
+		</if>
+		<!--
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "NAME" and searchWord != ""'>
+						<![CDATA[	AND ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "ID" and searchWord != ""'>
+						<![CDATA[	AND ORG_GRP_CD LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+		-->
+
+		<if test='orgType != null and orgType != ""'>
+			<![CDATA[	AND ORG_TYPE LIKE '%${orgType}%' ]]>
+		</if>
+		<if test='applyCd != null and applyCd != ""'>
+			<![CDATA[	AND APPLY_CD LIKE '%${applyCd}%' ]]>
+		</if>
+		<if test='orgGrpNm != null and orgGrpNm != ""'>
+			<![CDATA[	AND ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+		</if>
+	</select>
+
+	<!-- 기관정보 상세보기 -->
+	<select id="getOrgDetail" parameterType="paramMap" resultType="paramMap" >
+				SELECT A.ORG_GRP_CD
+ 			 , A.ORG_GRP_NM
+			 , A.USER_IDX
+			 , A.ORG_TYPE
+			 , A.ORG_SECTION1
+			 , A.ORG_SECTION2
+			 , A.APPLY_CD
+			 , A.APPLY_REJECT
+			 , A.AUTH_CD
+			 , A.AUTH_ORG_SITE_1
+			 , A.AUTH_ORG_SITE_2
+			 , A.AUTH_ORG_SITE_3
+			 , A.AREA_CD
+			 , A.ORNER_NM
+			 , A.CORP_NUM_1
+			 , A.CORP_NUM_2
+			 , A.CORP_PHONE
+			 , A.CORP_FAX
+			 , A.HOMEPAGE
+			 , A.ADDR1
+			 , A.ADDR2
+			 , A.ZIPCODE
+			 , A.MAP_X
+			 , A.MAP_Y
+			 , A.ORG_NOTE_1
+			 , A.BUSINESSCON
+			 , DATE_FORMAT(A.REG_DT,'%Y-%m-%d') as REG_DT
+			 , A.REG_IP
+			 , A.REG_IDX
+			 , A.UP_DT
+			 , A.UP_IP
+			 , A.UP_IDX
+			 , A.COMPANY_TYPE_CD
+			 , A.AREA_LOCATION_CD
+			 , A.LAB_USE_YN
+			 , A.LAB_MAP_X
+			 , A.LAB_MAP_Y
+			 , A.LAB_NM
+			 , A.LAB_ADDR1
+			 , A.LAB_ADDR2
+			 , A.LAB_ZIPCODE
+			 , A.LAB_FAX
+			 , A.LAB_PHONE
+			 , A.WORK_TYPE
+			 , A.AGENCY_TYPE
+			 , A.OTHER_AREA_CD
+			 , A.ORG_ENG_NM
+			 , A.BUSINESSCON
+			 , A.BR1_AREA_CD
+			 , A.BR1_AREA
+			 , A.BR1_OTHER_AREA
+			 , A.BR1_ZIP_CODE
+			 , A.BR1_ADDR1
+			 , A.BR1_ADDR2
+			 , A.BR2_AREA_CD
+			 , A.BR2_AREA
+			 , A.BR2_OTHER_AREA
+			 , A.BR2_ZIP_CODE
+			 , A.BR2_ADDR1
+			 , A.BR2_ADDR2
+			 , DATE_FORMAT(A.DATE_OF_FOUNDATION, '%Y-%m-%d') AS DATE_OF_FOUNDATION
+			 , B.PSN_NM
+			 , B.USER_ID
+			 , CONCAT (C.FILE_PATH,C.TITLE) AS CI_FILE_SRC
+			 , C.FILE_ID AS CI_FILE_ID
+			 , C.TITLE AS CI_FILE_TITLE
+			 , CONCAT (D.FILE_PATH,D.TITLE) AS ORG_FILE_INFO
+ 			 , D.TITLE_ORG AS ORG_FILE_INFO_TITLE_ORG
+
+ 			 , D.FILE_ID AS ORG_FILE_ID
+
+			 , CONCAT (J.FILE_PATH,J.TITLE) AS BIZ_REG_DOC
+			 , J.FILE_ID AS BIZ_REG_DOC_FILE_ID
+			 , J.TITLE_ORG AS BIZ_REG_DOC_FILE_TITLE
+
+			 , F.CODE_NM AS COMPANY_NAME
+			 , G.CODE_NM AS AREA_NAME
+			 , H.CODE_NM AS AGENCY_NAME
+			 , I.CODE_NM AS OTHER_AREA
+		FROM TB_ORG_GRP A
+		LEFT JOIN TB_USER_COPY B ON (B.USER_IDX = A.USER_IDX)
+		LEFT JOIN TB_JNSP_FILE C ON (C.FILE_ID = A.CI_FILE_SRC)
+		LEFT JOIN TB_JNSP_FILE D ON (D.FILE_ID = A.ORG_FILE_INFO)
+		LEFT JOIN TB_JNSP_FILE J ON (J.FILE_ID = A.BIZ_REG_DOC)
+		LEFT JOIN TB_CODE F ON A.COMPANY_TYPE_CD = F.CODE_CD AND F.CODE_GRP_CD = 'CompanyType'
+		LEFT JOIN TB_CODE G ON A.AREA_LOCATION_CD = G.CODE_CD AND G.CODE_GRP_CD = 'AreaSigungu'
+		LEFT JOIN TB_CODE H ON A.AGENCY_TYPE = H.CODE_CD AND H.CODE_GRP_CD = 'AgencyType'
+		LEFT JOIN TB_CODE I ON A.OTHER_AREA_CD = I.CODE_CD AND I.CODE_GRP_CD = 'OtherArea'
+		WHERE A.ORG_GRP_CD = #{orgGrpCd}
+		  AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+	</select>
+
+	<update id="setOrgManageLvUpdate" parameterType="paramMap">
+		UPDATE TB_USER_COPY
+		   SET AUTH_LV = '70'
+		 WHERE USER_IDX = #{userIdxPre}
+			 AND USER_ID != 'admin'
+		   AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+	</update>
+	<update id="setOrgManageUpdate" parameterType="paramMap">
+				UPDATE TB_ORG_GRP SET
+ 			 ORG_GRP_NM = #{orgGrpNm}
+ 			 , ORG_SECTION1 = #{orgSection1}
+ 			 , ORG_SECTION2 = #{orgSection2}
+			 , USER_IDX = #{userIdx}
+			 , ORG_TYPE = #{orgType}
+			 , APPLY_CD = #{applyCd}
+			 , APPLY_REJECT = #{applyReject}
+			 , AUTH_CD = #{authCd}
+			 , AUTH_ORG_SITE_1 = #{authOrgSite1}
+			 , AUTH_ORG_SITE_2 = #{authOrgSite2}
+			 , AUTH_ORG_SITE_3 = #{authOrgSite3}
+			 , AREA_CD = #{areaCd}
+			 , ORNER_NM = #{ornerNm}
+			 , CORP_NUM_1 = #{corpNum1}
+			 , CORP_NUM_2 = #{corpNum2}
+			 , CORP_PHONE = #{corpPhone}
+			 , CORP_FAX = #{corpFax}
+			 , DATE_OF_FOUNDATION = #{dateOfFoundation}
+			 , HOMEPAGE = #{homepage}
+			 , ADDR1 = #{addr1}
+			 , ADDR2 = #{addr2}
+			 , ZIPCODE = #{zipcode}
+			 , MAP_X = #{mapX}
+			 , MAP_Y = #{mapY}
+			 , ORG_NOTE_1 = #{orgNote1}
+			 , BUSINESSCON = #{businessCon}
+			 , UP_DT = now()
+			 , UP_IP = #{upIp}
+			 , UP_IDX = #{upIdx}
+			 , CI_FILE_SRC = (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgCi' order by regist_dt desc limit 1)
+			 , ORG_FILE_INFO = (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgManage' order by regist_dt desc limit 1)
+			 , BIZ_REG_DOC = (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'bizRegDoc' order by regist_dt desc limit 1)
+			 , COMPANY_TYPE_CD =  #{companyType}
+			 , LAB_USE_YN = #{labUse}
+			 , LAB_MAP_X = #{labMapX}
+			 , LAB_MAP_Y = #{labMapY}
+			 , LAB_NM = #{labName}
+			 , LAB_ADDR1 = #{labAddr1}
+			 , LAB_ADDR2 = #{labAddr2}
+			 , LAB_ZIPCODE = #{labZipcode}
+			 , LAB_FAX = #{labFax}
+			 , LAB_PHONE = #{labPhone}
+			 , WORK_TYPE = #{workType}
+			 , AGENCY_TYPE = #{agencyType}
+			 , ORG_ENG_NM = #{orgEngNm}
+			 , AREA_LOCATION_CD = #{area}
+			 , OTHER_AREA_CD = #{otherAreaCd}
+			 , BR1_AREA_CD     =  #{br1AreaCd}
+			 , BR1_AREA        =  #{br1Area}
+			 , BR1_OTHER_AREA  =  #{br1OtherAreaCd}
+			 , BR1_ZIP_CODE    =  #{br1ZipCode}
+			 , BR1_ADDR1       =  #{br1Addr1}
+			 , BR1_ADDR2       =  #{br1Addr2}
+			 , BR2_AREA_CD     =  #{br2AreaCd}
+			 , BR2_AREA        =  #{br2Area}
+			 , BR2_OTHER_AREA  =  #{br2OtherAreaCd}
+			 , BR2_ZIP_CODE    =  #{br2ZipCode}
+			 , BR2_ADDR1       =  #{br2Addr1}
+			 , BR2_ADDR2       =  #{br2Addr2}
+		WHERE ORG_GRP_CD = #{orgGrpCd}
+		  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+	</update>
+
+	<update id="setOrgManageLvInsert" parameterType="paramMap">
+		UPDATE TB_USER_COPY
+		   SET AUTH_LV = '80'
+		 WHERE USER_IDX = #{userIdx}
+			 AND USER_ID != 'admin'
+		   AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+	</update>
+	<insert id="setOrgManageInsert" parameterType="paramMap">
+			INSERT INTO TB_ORG_GRP (
+				ORG_GRP_CD
+ 			 , ORG_GRP_NM
+ 			 , ORG_SECTION1
+ 			 , ORG_SECTION2
+			 , USER_IDX
+			 , ORG_TYPE
+			 , APPLY_CD
+			 , APPLY_REJECT
+			 , AUTH_CD
+			 , AUTH_ORG_SITE_1
+			 , AUTH_ORG_SITE_2
+			 , AUTH_ORG_SITE_3
+			 , AREA_CD
+			 , ORNER_NM
+			 , CORP_NUM_1
+			 , CORP_NUM_2
+			 , CORP_PHONE
+			 , CORP_FAX
+			 , DATE_OF_FOUNDATION
+			 , HOMEPAGE
+			 , ADDR1
+			 , ADDR2
+			 , ZIPCODE
+			 , MAP_X
+			 , MAP_Y
+			 , ORG_NOTE_1
+			 , BUSINESSCON
+			 , REG_DT
+			 , REG_IP
+			 , REG_IDX
+			 , CI_FILE_SRC
+			 , ORG_FILE_INFO
+			 , BIZ_REG_DOC
+			 , COMPANY_TYPE_CD
+			 , LAB_USE_YN
+			 , LAB_MAP_X
+			 , LAB_MAP_Y
+			 , LAB_NM
+			 , LAB_ADDR1
+			 , LAB_ADDR2
+			 , LAB_ZIPCODE
+			 , LAB_FAX
+			 , LAB_PHONE
+			 , WORK_TYPE
+			 , AGENCY_TYPE
+			 , ORG_ENG_NM
+			 , AREA_LOCATION_CD
+			 , OTHER_AREA_CD
+			 , BR1_AREA_CD
+			 , BR1_AREA
+			 , BR1_OTHER_AREA
+			 , BR1_ZIP_CODE
+			 , BR1_ADDR1
+			 , BR1_ADDR2
+			 , BR2_AREA_CD
+			 , BR2_AREA
+			 , BR2_OTHER_AREA
+			 , BR2_ZIP_CODE
+			 , BR2_ADDR1
+			 , BR2_ADDR2
+			 )
+			 VALUES(
+			   #{orgGrpCd}
+			 , #{orgGrpNm}
+			 , #{orgSection1}
+			 , #{orgSection2}
+			 , #{userIdx}
+			 , #{orgType}
+			 , #{applyCd}
+			 , #{applyReject}
+			 , #{authCd}
+			 , #{authOrgSite1}
+			 , #{authOrgSite2}
+			 , #{authOrgSite3}
+			 , #{areaCd}
+			 , #{ornerNm}
+			 , #{corpNum1}
+			 , #{corpNum2}
+			 , #{corpPhone}
+			 , #{corpFax}
+			 , #{dateOfFoundation}
+			 , #{homepage}
+			 , #{addr1}
+			 , #{addr2}
+			 , #{zipcode}
+			 , #{mapX}
+			 , #{mapY}
+			 , #{orgNote1}
+			 , #{businessCon}
+			 , now()
+			 , #{regIp}
+			 , #{regIdx}
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgCi')
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgManage')
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'bizRegDoc')
+			 , #{companyType}
+			 , #{labUse}
+			 , #{labMapX}
+			 , #{labMapY}
+			 , #{labName}
+			 , #{labAddr1}
+			 , #{labAddr2}
+			 , #{labZipcode}
+			 , #{labFax}
+			 , #{labPhone}
+			 , #{workType}
+			 , #{agencyType}
+			 , #{orgEngNm}
+			 , #{area}
+			 , #{otherAreaCd}
+			 , #{br1AreaCd}
+			 , #{br1Area}
+			 , #{br1OtherAreaCd}
+			 , #{br1ZipCode}
+			 , #{br1Addr1}
+			 , #{br1Addr2}
+			 , #{br2AreaCd}
+			 , #{br2Area}
+			 , #{br2OtherAreaCd}
+			 , #{br2ZipCode}
+			 , #{br2Addr1}
+			 , #{br2Addr2}
+			)
+	</insert>
+<update id="setOrgManageDelete" parameterType="paramMap">
+				UPDATE TB_ORG_GRP SET
+				DELETE_YN = 'Y'
+			 , UP_DT = now()
+			 , UP_IP = #{upIp}
+			 , UP_IDX = #{upIdx}
+		WHERE ORG_GRP_CD = #{orgGrpCd}
+
+	</update>
+
+	<select id="getCompanyType" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+			AND	CODE_GRP_CD = 'CompanyType'
+
+	</select>
+
+	<select id="getArea" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+		<if test="areaCd == 1">
+			AND CODE_GRP_CD = 'AreaSigungu'
+		</if>
+		<if test="areaCd == 2">
+			AND CODE_GRP_CD = 'OtherArea'
+		</if>
+	</select>
+
+	<select id="getAgencyType" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+			AND	CODE_GRP_CD = 'AgencyType'
+
+	</select>
+
+	<update id="statusApply" parameterType="paramMap">
+		UPDATE TB_ORG_GRP SET
+			APPLY_CD = #{status}
+		WHERE
+			ORG_GRP_CD = #{orgGrpCd}
+	</update>
+
+	<update id="statusReject" parameterType="paramMap">
+		UPDATE TB_ORG_GRP SET
+			APPLY_CD = #{status},
+			APPLY_REJECT = #{reject}
+		WHERE
+			ORG_GRP_CD = #{orgGrpCd}
+	</update>
+
+	<select id="corpNumCheck" parameterType="paramMap" resultType="java.lang.Integer">
+		SELECT
+			COUNT(0)
+		FROM
+			TB_ORG_GRP
+		WHERE
+			REPLACE(CORP_NUM_1, '-', '') = REPLACE(#{corpNum1}, '-', '')
+	</select>
+
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.service.impl.CmsCommonMapper">
+
+	<select id="getFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+		]]>
+		<![CDATA[
+				AND RND_EQU_IDX = #{rndEquIdx}
+			ORDER BY FILE_ID ASC
+		]]>
+	</select>
+
+
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_ID,
+					FILE_SEQ,
+					FILE_CAT,
+					TITLE,
+					REGIST_DT,
+					DOWN_CNT,
+					DELETE_YN,
+					PHOTO_CAT
+		 FROM
+					TB_RND_FILE
+			WHERE 1=1
+		]]>
+		<![CDATA[
+				AND RND_EQU_IDX = #{rndEquIdx}
+				AND FILE_ID = #{fileId}
+		]]>
+	</select>
+
+
+
+	<delete id="setFileDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		  FROM
+					TB_RND_FILE
+		 WHERE 1=1
+			AND RND_EQU_IDX = #{RND_EQU_IDX}
+			AND FILE_ID = #{fileId}
+		]]>
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						TB_RND_FILE
+			 WHERE 1=1
+			 AND RND_EQU_IDX = #{RND_EQU_IDX}
+		 ]]>
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(FILE_ID,0)) + 1 FROM TB_RND_FILE
+		  </selectKey>
+			INSERT INTO TB_RND_FILE
+			(
+				FILE_ID,
+				REQ_EQU_IDX,
+				FILE_PATH,
+				TITLE,
+				FILE_CAT,
+				TITLE_ORG,
+<!-- 				FILE_FULL_NM, -->
+<!-- 				FILE_SIZE, -->
+<!-- 				FILE_TYPE, -->
+<!-- 				FILE_SN, -->
+				REG_DT
+			)
+			VALUES
+			(
+				#{fileSeq},
+				#{reqEquIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+<!-- 				#{fileFullNm}, -->
+<!-- 				#{fileSize}, -->
+<!-- 				#{fileType}, -->
+<!-- 				#{fileSn}, -->
+				NOW()
+			)
+	</insert>
+
+
+</mapper>

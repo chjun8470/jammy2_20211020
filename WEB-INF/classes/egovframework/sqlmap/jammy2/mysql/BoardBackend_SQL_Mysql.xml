@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="BoardVO" type="egovframework.jammy2.board.service.BoardVO"/>
+	<typeAlias  alias="BoardArticleVO" type="egovframework.jammy2.board.service.BoardArticleVO"/>
+				
+	<select id="BoardBackendDAO.selectBoardListCnt" parameterClass="BoardVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_BOARD 
+		 WHERE  1=1			
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="boardNm">
+				BOARD_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>
+	
+	<select id="BoardBackendDAO.selectBoardList" parameterClass="BoardVO" resultClass="BoardVO">
+		SELECT  BOARD_ID			boardId
+			 ,  SITE_ID				siteId
+			 ,  BOARD_NM			boardNm
+			 ,  SKIN_NM				skinNm
+			 ,  MOBILE_SKIN_NM		mobileSkinNm
+		  FROM  JMY_BOARD
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="boardNm">
+				BOARD_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>
+	
+	<select id="BoardBackendDAO.selectBoardListAll" parameterClass="BoardVO" resultClass="BoardVO">
+		SELECT  BOARD_ID			boardId
+			 ,  SITE_ID				siteId
+			 ,  BOARD_NM			boardNm
+			 ,  SKIN_NM				skinNm
+			 ,  MOBILE_SKIN_NM		mobileSkinNm
+		  FROM  JMY_BOARD
+		 WHERE  1=1	
+			<isNotNull prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotNull>				
+	</select>
+	
+	<select id="BoardBackendDAO.selectBoard" parameterClass="BoardVO" resultClass="BoardVO">
+		SELECT  BOARD_ID		boardId
+			 ,  SITE_ID			siteId
+			 ,  BOARD_NM		boardNm
+			 ,  BOARD_SUMMARY	boardSummary
+			 ,  SKIN_NM			skinNm
+			 ,  MOBILE_SKIN_NM	mobileSkinNm	
+			 ,  BOARD_ADMIN		boardAdmin
+			 ,  BOARD_TY		boardTy
+			 ,  USE_CATEGORY_AT	useCategoryAt
+			 ,  CATEGORY		category
+			 ,  PERM_LVL_LIST	permLvlList
+			 ,  PERM_GRP_LIST	permGrpList
+			 ,  PERM_LVL_READ	permLvlRead
+			 ,  PERM_GRP_READ	permGrpRead
+			 ,  PERM_LVL_WRITE	permLvlWrite
+			 ,  PERM_GRP_WRITE	permGrpWrite
+			 ,  PERM_LVL_REPLY	permLvlReply
+			 ,  PERM_GRP_REPLY	permGrpReply
+			 ,  PERM_LVL_EDITOR	permLvlEditor
+			 ,  PERM_GRP_EDITOR	permGrpEditor
+			 ,  USE_SECRET_AT	useSecretAt
+			 ,  PER_PAGE		perPage
+			 ,  SUBJECT_LEN		subjectLen
+			 ,  NEW_ICON_PERIOD		newIconPeriod
+			 ,  SHOW_DELETED_AT		showDeletedAt
+			 ,  UPLOAD_COUNT	uploadCount
+			 ,  UPLOAD_SIZE		uploadSize
+			 ,  UPLOAD_EXT		uploadExt
+			 ,  HEAD_HTML		headHtml
+			 ,  TAIL_HTML		tailHtml
+			 ,  LIMIT_HTML		limitHtml
+			 ,  LIMIT_WORD		limitWord
+			 ,  CSS				css
+			 ,  CSS_UPDT_PNTTM	cssUpdtPnttm
+			 ,  CSS_UPDUSR_ID	cssUpdusrId
+		  FROM  JMY_BOARD
+		 WHERE  BOARD_ID = #boardId#	
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+	</select>
+	
+	<insert id="BoardBackendDAO.insertBoard">
+		INSERT 
+		  INTO  JMY_BOARD
+		     (  BOARD_ID
+			 ,  SITE_ID
+			 ,  BOARD_NM
+			 ,  BOARD_SUMMARY
+			 ,  BOARD_TY
+			 ,  SKIN_NM
+			 ,  MOBILE_SKIN_NM
+			 ,  BOARD_ADMIN
+			 ,  USE_CATEGORY_AT
+			 ,  CATEGORY
+			 ,  PERM_LVL_LIST
+			 ,  PERM_GRP_LIST
+			 ,  PERM_LVL_READ
+			 ,  PERM_GRP_READ
+			 ,  PERM_LVL_WRITE
+			 ,  PERM_GRP_WRITE
+			 ,  PERM_LVL_REPLY
+			 ,  PERM_GRP_REPLY
+			 ,  PERM_LVL_EDITOR
+			 ,  PERM_GRP_EDITOR
+			 ,  USE_SECRET_AT
+			 ,  PER_PAGE
+			 ,  SUBJECT_LEN
+			 ,  NEW_ICON_PERIOD
+			 ,  SHOW_DELETED_AT
+			 ,  UPLOAD_COUNT
+			 ,  UPLOAD_SIZE
+			 ,  UPLOAD_EXT
+			 ,  HEAD_HTML
+			 ,  TAIL_HTML
+			 ,  FRST_REGIST_PNTTM			 
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #boardId#
+			 ,  #siteId#
+			 ,  #boardNm#
+			 ,  #boardSummary#
+			 ,  #boardTy#
+			 ,  #skinNm#
+			 ,  #mobileSkinNm#
+			 ,  #boardAdmin#
+			 ,  #useCategoryAt#
+			 ,  #category#
+			 ,  #permLvlList#
+			 ,  #permGrpList#
+			 ,  #permLvlRead#
+			 ,  #permGrpRead#
+			 ,  #permLvlWrite#
+			 ,  #permGrpWrite#
+			 ,  #permLvlReply#
+			 ,  #permGrpReply#
+			 ,  #permLvlEditor#
+			 ,  #permGrpEditor#
+			 ,  #useSecretAt#
+			 ,  #perPage#
+			 ,  #subjectLen#
+			 ,  #newIconPeriod#
+			 ,  #showDeletedAt#
+			 ,  #uploadCount#
+			 ,  #uploadSize#
+			 ,  #uploadExt#
+			 ,  #headHtml#
+			 ,  #tailHtml#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="BoardBackendDAO.updateBoard">
+		UPDATE  JMY_BOARD 
+		   SET  BOARD_NM = #boardNm#
+			 ,  BOARD_SUMMARY = #boardSummary#
+			 ,  BOARD_TY = #boardTy#
+			 ,  SKIN_NM = #skinNm#
+			 ,  MOBILE_SKIN_NM = #mobileSkinNm#
+			 ,  BOARD_ADMIN = #boardAdmin#
+			 ,  USE_CATEGORY_AT = #useCategoryAt#
+			 ,  CATEGORY = #category#
+			 ,  PERM_LVL_LIST = #permLvlList#
+			 ,  PERM_GRP_LIST = #permGrpList#
+			 ,  PERM_LVL_READ = #permLvlRead#
+			 ,  PERM_GRP_READ = #permGrpRead#
+			 ,  PERM_LVL_WRITE = #permLvlWrite#
+			 ,  PERM_GRP_WRITE = #permGrpWrite#
+			 ,  PERM_LVL_REPLY = #permLvlReply#
+			 ,  PERM_GRP_REPLY = #permGrpReply#
+			 ,  PERM_LVL_EDITOR = #permLvlEditor#
+			 ,  PERM_GRP_EDITOR = #permGrpEditor#						
+			 ,  USE_SECRET_AT = #useSecretAt#
+			 ,  PER_PAGE = #perPage#
+			 ,  SUBJECT_LEN = #subjectLen#
+			 ,  NEW_ICON_PERIOD = #newIconPeriod#
+			 ,  SHOW_DELETED_AT = #showDeletedAt#
+			 ,  UPLOAD_COUNT = #uploadCount#
+			 ,  UPLOAD_SIZE = #uploadSize#
+			 ,  UPLOAD_EXT = #uploadExt#
+			 ,  HEAD_HTML = #headHtml#
+			 ,  TAIL_HTML = #tailHtml#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  BOARD_ID = #boardId#
+	</update>
+	
+	<update id="BoardBackendDAO.updateBoardCss">
+		UPDATE  JMY_BOARD 
+		   SET  CSS = #css#
+			 ,  CSS_UPDT_PNTTM = SYSDATE()
+			 ,  CSS_UPDUSR_ID = #cssUpdusrId#
+		 WHERE  BOARD_ID = #boardId#
+	</update>	
+	
+	<select id="BoardBackendDAO.selectBoardArticleListAll" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  ARTICLE_ID			articleId
+		     ,  SITE_ID				siteId
+			 ,  BOARD_ID			boardId
+			 ,  ARTICLE_GROUP_ID	articleGroupId
+			 ,  ARTICLE_NEXT_ID		articleNextId
+			 ,  ARTICLE_PARNTS_ID	articleParntsId
+			 ,  ARTICLE_SEQ			articleSeq
+			 ,  DEPTH				depth
+			 ,  CATEGORY_NM			categoryNm
+			 ,  SUBJECT				subject
+			 ,  WRITER_ID			writerId
+			 ,  WRITER_NM			writerNm
+			 ,  PASSWORD			password
+			 ,  CONTENT				content
+			 ,  ATCH_FILE_ID		atchFileId
+			 ,  THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  NOTICE_AT			noticeAt
+			 ,  SECRET_AT			secretAt
+			 ,  DELETED_AT			deletedAt
+			 ,  HITS				hits
+			 ,  DATA01				data01
+			 ,  DATA02				data02
+			 ,  DATA03				data03
+			 ,  DATA04				data04
+			 ,  DATA05				data05
+			 ,  DATA06				data06
+			 ,  DATA07				data07
+			 ,  DATA08				data08
+			 ,  DATA09				data09
+			 ,  DATA10				data10
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGUSR_IP		frstRegusrIp
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_IP		lastUpdusrIp			
+		  FROM  JMY_BOARD_ARTICLE
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="boardId">
+				BOARD_ID = #boardId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedAt">
+				DELETED_AT = #deletedAt#
+			</isNotEmpty>
+	  ORDER BY  ARTICLE_NEXT_ID DESC
+	</select>
+	
+    <delete id="BoardBackendDAO.deleteBoardArticle">
+		DELETE 
+		  FROM  JMY_BOARD_ARTICLE 
+		 WHERE  BOARD_ID = #boardId# 
+		   AND  ARTICLE_ID = #articleId#
+    </delete>  
+    
+    <delete id="BoardBackendDAO.deleteBoard">
+		DELETE 
+		  FROM  JMY_BOARD 
+		 WHERE  BOARD_ID = #boardId#
+    </delete>
+    
+	<select id="BoardBackendDAO.selectBoardArticleListCnt" parameterClass="BoardArticleVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_BOARD_ARTICLE 
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="boardId">
+				BOARD_ID = #boardId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				CATEGORY_NM = #categoryNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedAt">
+				DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>			
+	</select>
+	
+	<select id="BoardBackendDAO.selectBoardArticleList" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  ARTICLE_ID			articleId
+			 ,  SITE_ID				siteId
+			 ,  BOARD_ID			boardId
+			 ,  ARTICLE_GROUP_ID	articleGroupId
+			 ,  ARTICLE_NEXT_ID		articleNextId
+			 ,  ARTICLE_PARNTS_ID	articleParntsId
+			 ,  ARTICLE_SEQ			articleSeq
+			 ,  DEPTH				depth
+			 ,  CATEGORY_NM			categoryNm
+			 ,  SUBJECT				subject
+			 ,  WRITER_ID			writerId
+			 ,  WRITER_NM			writerNm
+			 ,  PASSWORD			password
+			 ,  CONTENT				content
+			 ,  ATCH_FILE_ID		atchFileId
+			 ,  (SELECT COUNT(*) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = t1.ATCH_FILE_ID)  AS atchFileCnt
+			 ,  THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = t1.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  NOTICE_AT			noticeAt
+			 ,  SECRET_AT			secretAt
+			 ,  DELETED_AT			deletedAt
+			 ,  HITS				hits
+			 ,  DATA01				data01
+			 ,  DATA02				data02
+			 ,  DATA03				data03
+			 ,  DATA04				data04
+			 ,  DATA05				data05
+			 ,  DATA06				data06
+			 ,  DATA07				data07
+			 ,  DATA08				data08
+			 ,  DATA09				data09
+			 ,  DATA10				data10			 
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm			 
+			 ,  DATEDIFF(now(), FRST_REGIST_PNTTM) registDateDiff
+			 ,  (SELECT BOARD_NM FROM JMY_BOARD WHERE BOARD_ID = t1.BOARD_ID)  AS boardNm		
+		  FROM  JMY_BOARD_ARTICLE t1
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="boardId">
+				BOARD_ID = #boardId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				CATEGORY_NM = #categoryNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedAt">
+				DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  ARTICLE_NEXT_ID DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+	
+	<update id="BoardBackendDAO.updateBoardArticleDeletedAtByChecked">
+		<isEqual property="deletedAt" compareValue="Y">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = SYSDATE()
+			     ,  DELUSR_IP = #delusrIp#
+			     <isNotNull property="delusrId">
+			     ,  DELUSR_ID = #delusrId#
+			     </isNotNull>
+			     ,  DELETE_MEMO = #deleteMemo#
+			 WHERE  ARTICLE_ID IN 
+				<iterate property="articleIds" open="(" conjunction="," close=")">
+				<![CDATA[
+					#articleIds[]#
+				]]>		   
+				</iterate>
+		</isEqual>
+		<isEqual property="deletedAt" compareValue="N">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = NULL
+			     ,  DELUSR_IP = NULL
+			     ,  DELUSR_ID = NULL
+			     ,  DELETE_MEMO = NULL
+			 WHERE  ARTICLE_ID IN 
+				<iterate property="articleIds" open="(" conjunction="," close=")">
+				<![CDATA[
+					#articleIds[]#
+				]]>		   
+				</iterate>
+		</isEqual>
+	</update>	
+	
+	<update id="BoardBackendDAO.moveBoardArticle">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  SITE_ID = #targetSiteId#
+		     ,  BOARD_ID = #targetBoardId#
+		 WHERE  ARTICLE_ID IN 
+			<iterate property="articleIds" open="(" conjunction="," close=")">
+			<![CDATA[
+				#articleIds[]#
+			]]>		   
+			</iterate>
+	</update>
+	
+	<select id="BoardBackendDAO.selectBoardArticle" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  ARTICLE_ID			articleId
+			 ,  SITE_ID				siteId
+			 ,  BOARD_ID			boardId
+			 ,  ARTICLE_GROUP_ID	articleGroupId
+			 ,  ARTICLE_NEXT_ID		articleNextId
+			 ,  ARTICLE_PARNTS_ID	articleParntsId
+			 ,  ARTICLE_SEQ			articleSeq
+			 ,  DEPTH				depth
+			 ,  CATEGORY_NM			categoryNm
+			 ,  SUBJECT				subject
+			 ,  WRITER_ID			writerId
+			 ,  WRITER_NM			writerNm
+			 ,  PASSWORD			password
+			 ,  CONTENT				content
+			 ,  ATCH_FILE_ID		atchFileId
+			 ,  THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = t1.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  NOTICE_AT			noticeAt
+			 ,  SECRET_AT			secretAt
+			 ,  DELETED_AT			deletedAt
+			 ,  HITS				hits
+			 ,  DATA01				data01
+			 ,  DATA02				data02
+			 ,  DATA03				data03
+			 ,  DATA04				data04
+			 ,  DATA05				data05
+			 ,  DATA06				data06
+			 ,  DATA07				data07
+			 ,  DATA08				data08
+			 ,  DATA09				data09
+			 ,  DATA10				data10
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGUSR_IP		frstRegusrIp
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_IP		lastUpdusrIp
+		     ,  DELETE_PNTTM		deletePnttm
+		     ,  DELUSR_IP 			delusrIp
+		     ,  DELUSR_ID 			delusrId
+		     ,  DELETE_MEMO			deleteMemo
+		  FROM  JMY_BOARD_ARTICLE 	t1
+		 WHERE  ARTICLE_ID = #articleId#
+			<isNotEmpty prepend="AND" property="boardId">
+				BOARD_ID = #boardId#
+			</isNotEmpty>
+	</select>
+		
+</sqlMap>

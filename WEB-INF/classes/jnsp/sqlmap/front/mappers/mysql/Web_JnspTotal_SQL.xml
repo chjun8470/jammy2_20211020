@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspTotalMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getJnspTotalList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						RND_EQU_IDX
+				,		EQUIP_CD
+				,		FIXED_ASET_NO
+				,		FIXED_ASET_NO_YN
+				,		KOR_NM
+				,		ENG_NM
+				,		MANUFACTURE_NM
+				,		MANUFACTURE_CD
+			FROM
+				TB_EQU_INFO
+			WHERE 1 = 1
+			  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			  AND USER_IDX = #{userIdx}
+			  AND STATE = 2
+			]]>
+
+			<if test='equipCd != null and equipCd != ""'>
+				<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+			</if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "manufacture" and searchWord != ""'>
+					<![CDATA[	AND MANUFACTURE_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "equipNm" and searchWord != ""'>
+					<![CDATA[
+						AND (KOR_NM LIKE '%${searchWord}%'
+						 OR ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+				<if test='searchType == "keyWord" and searchWord != ""'>
+					<![CDATA[
+						 AND (
+						 	CONCAT('|',KOR_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 OR CONCAT('|',ENG_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 )
+					]]>
+				</if>
+			</if>
+			<![CDATA[
+			ORDER BY RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<select id="getJnspTotalCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_EQU_INFO
+		  WHERE 1=1
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			AND USER_IDX = #{userIdx}
+			AND STATE = 2
+			<if test='equipCd != null and equipCd != ""'>
+				<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+			</if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "manufacture" and searchWord != ""'>
+					<![CDATA[	AND MANUFACTURE_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "equipNm" and searchWord != ""'>
+					<![CDATA[
+						AND (KOR_NM LIKE '%${searchWord}%'
+						 OR ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+				<if test='searchType == "keyWord" and searchWord != ""'>
+					<![CDATA[
+						AND (
+						 	CONCAT('|',KOR_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 OR CONCAT('|',ENG_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 )
+					]]>
+				</if>
+			</if>
+	</select>
+
+<!-- 	<select id="getJntp" parameterType="paramMap" resultType="paramMap" > -->
+<!-- 			SELECT -->
+<!-- 						RND_EQU_IDX -->
+<!-- 				,		FIXED_ASET_NO -->
+<!-- 				,		KOR_NM -->
+<!-- 				,		ENG_NM -->
+<!-- 				,		MANUFACTURE_NM -->
+<!-- 				,		BRANCH_CD -->
+<!-- 				,		TAKE_CD -->
+<!-- 				,		TAKE_SDT -->
+<!-- 				,		LOCATION -->
+<!-- 				,		EQUIP_DETAIL_FEATURE -->
+<!-- 				,		EQUIP_DETAIL_CAPABILITY -->
+<!-- 				,		EQUIP_DETAIL_EXAMPLE -->
+<!-- 				,		IMPORT_CD -->
+<!-- 				,		OPER_TEL -->
+<!-- 			FROM -->
+<!-- 				TB_EQU_INFO -->
+<!-- 			WHERE 1=1 -->
+<!-- 			AND RND_EQU_IDX = #{rndEquIdx} -->
+<!-- 	</select> -->
+	<select id="getJnsp" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+						RND_EQU_IDX
+				,		FIXED_ASET_NO
+				,		FIXED_ASET_NO_YN
+				,		EQUIP_CD
+				,		EQCP_ID
+				,		EQCP_NM
+				,		KOR_NM
+				,		ENG_NM
+				,		MANUFACTURE_CD
+				,		MANUFACTURE_NM
+				,		DEV_OPEN_YN
+				,		EQU_PRODUCE
+<!-- 				,		MODEL_CD -->
+<!-- 				,		MADE_CD -->
+<!-- 				,		MODEL_NM -->
+				,		USE_SCOPE_RANGE
+				,		USE_SCOPE_MEAN
+				,		TAKE_CD
+				,		TAKE_SDT
+				,		TAKE_EDT
+				,		TAKE_PRC
+				,		LOCATION
+				,		LOCATION_DTL
+				,		BRANCH_CD
+				,		BRANCH_NM
+				,		REGIST_CD
+				,		LAND_AREA
+				,		LAND_PRC
+				,		LAND_REASON
+				,		BUILD_AREA
+				,		FLOOR_UP
+				,		FLOOR_DOWN
+				,		BUILD_PRC
+				,		BUILD_REASON
+				,		EQUIP_LITTLE_TAKE_PRC
+				,		EQUIP_FACILITIES_TAKE_PRC
+				,		EQUIP_FACILITIES_YN
+				,		EQUIP_TAKE_PRC
+				,		TAKE_PRC_DOMESTIC
+				,		TAKE_PRC_FOREIGN
+				,		USE_SCOPE_REASON
+				,		USE_SCOPE_CD
+				,		USE_TYPE_CD
+				,		USE_TYPE_REASON
+				,		DISUSE_DT
+				,		DISUSE_TYPE
+				,		EQUIP_DETAIL_FEATURE
+				,		EQUIP_DETAIL_CAPABILITY
+				,		EQUIP_DETAIL_EXAMPLE
+				, 		DISUSE_VERDICT_DT
+				,		IMPORT_CD
+				,		OPER_TEL
+				,		DEV_SPEC
+				,		IDLE_DISUSE_CD
+				,		RND_INFO
+				,		RND_YN
+				,		BRANCH_CD1
+				,		BRANCH_CD2
+				,		BRANCH_CD3
+				,		TAKE_SOURCE
+				,		TAKE_SOURCE_DT
+<!-- 				,		SETUP_ID -->
+<!-- 				,		ST_STYPE -->
+<!-- 				,		ST_ROOM -->
+				,		RND_ST_DT
+				,		RND_ED_DT
+				,		RND_DIRECTOR
+				,		RND_DIVISION
+				,		RND_BIZ
+				,		RND_MAIN_ORG
+				,		RND_TASK
+				,		RND_COMMIT
+				,		RND_INFO
+				,		OPER_CHARGER
+				,		OPER_FAX
+				,		OPER_POSITION
+				,		OPER_EMAIL
+				,		OPER_ETC
+				,		DISUSE_ORGAN
+				,		REPLACE(REPLACE(KOR_KEY_WORD,'||',', '),'||','') AS KOR_KEY_WORD
+				,		REPLACE(REPLACE(ENG_KEY_WORD,'||',', '),'||','') AS ENG_KEY_WORD
+				,		NTIS_EQUIP_INFO
+				,		EQUIP_WARRANTY
+			FROM
+				TB_EQU_INFO
+			WHERE USER_IDX = #{userIdx}
+			AND RND_EQU_IDX = #{rndEquIdx}
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+
+	</select>
+
+	<select id="getJnspTotalBranchList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					CODE_GRP_CD
+				,	CODE_CD
+				,	CODE_NM
+			FROM
+				TB_CODE
+			WHERE 1 = 1
+
+			]]>
+
+			<if test='codeGrpCd != null and codeGrpCd != ""'>
+				<![CDATA[
+					AND CODE_GRP_CD = #{codeGrpCd}
+				]]>
+			</if>
+			<if test='codeCd != null and codeCd != ""'>
+				<![CDATA[
+					AND CODE_CD like '${codeCd}%'
+				]]>
+			</if>
+	</select>
+
+	<update id="setJnspDelete" parameterType="paramMap">
+			  UPDATE TB_EQU_INFO
+			  SET DELETE_YN = 'Y'
+				WHERE 1=1
+			 	  AND RND_EQU_IDX = #{rndEquIdx}
+				  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+				  AND USER_IDX = #{userIdx}
+	</update>
+
+	<insert id="setJnspRscInsert" parameterType="paramMap">
+
+			INSERT INTO TB_EQU_INFO
+			(
+						RND_EQU_IDX
+				,		FIXED_ASET_NO
+				,		EQUIP_CD
+				,		EQCP_ID
+				,		EQCP_NM
+				,		KOR_NM
+				,		ENG_NM
+				,		MANUFACTURE_CD
+				,		MANUFACTURE_NM
+<!-- 				,		MODEL_CD -->
+<!-- 				,		MADE_CD -->
+<!-- 				,		MODEL_NM -->
+				,		TAKE_CD
+				,		TAKE_PRC
+				,		TAKE_SDT
+				,		TAKE_EDT
+				,		LOCATION
+				,		LOCATION_DTL
+				,		BRANCH_CD
+				,		BRANCH_NM
+				,		REGIST_CD
+				,		LAND_AREA
+				,		LAND_PRC
+				,		LAND_REASON
+				,		BUILD_AREA
+				,		FLOOR_UP
+				,		FLOOR_DOWN
+				,		BUILD_PRC
+				,		BUILD_REASON
+				,		EQUIP_LITTLE_TAKE_PRC
+				,		EQUIP_FACILITIES_TAKE_PRC
+				,		EQUIP_FACILITIES_YN
+				,		EQUIP_TAKE_PRC
+				,		TAKE_PRC_DOMESTIC
+				,		TAKE_PRC_FOREIGN
+				,		USE_SCOPE_REASON
+				,		USE_SCOPE_CD
+				,		USE_SCOPE_RANGE
+				,		USE_SCOPE_MEAN
+				,		USE_TYPE_CD
+				,		USE_TYPE_REASON
+				,		DISUSE_DT
+				,		EQUIP_DETAIL_FEATURE
+				,		EQUIP_DETAIL_CAPABILITY
+				,		EQUIP_DETAIL_EXAMPLE
+				, 		DISUSE_VERDICT_DT
+				,		IMPORT_CD
+				,		OPER_TEL
+
+				,		IDLE_DISUSE_CD
+				,		USER_IDX
+				,		FIXED_ASET_NO_YN
+				,		KOR_LARGE_FAC_YN
+				,		USE_SCOPE
+				,		DISUSE_TYPE
+				,		DISUSE_ORGAN
+<!-- 				,		SETUP_ID -->
+<!-- 				,		ST_STYPE -->
+<!-- 				,		ST_ROOM -->
+				,		RND_INFO
+				,		RND_YN
+				,		BRANCH_CD1
+				,		BRANCH_CD2
+				,		BRANCH_CD3
+				,		KOR_KEY_WORD
+				,		ENG_KEY_WORD
+				,		OPER_CHARGER
+				,		OPER_FAX
+				,		OPER_POSITION
+				,		OPER_EMAIL
+				,		OPER_ETC
+				,		NTIS_EQUIP_INFO
+				,		EQU_PRODUCE
+			)
+			VALUES
+			(
+			 			#{rndEquIdx}
+				,		trim(#{fixedAsetNo})
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{engNm}
+				,		#{manufactureCd}
+				,		#{manufactureNm}
+<!-- 			,		#{modelCd} -->
+<!-- 			,		#{madeCd} -->
+<!-- 			,		#{modelNm} -->
+				,		#{takeCd}
+				,		#{takePrc}
+				,		#{takeSdt}
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{landArea}
+				,		#{landPrc}
+				,		#{landReason}
+				,		#{buildArea}
+				,		#{floorUp}
+				,		#{floorDown}
+				,		#{buildPrc}
+				,		#{buildReason}
+				,		#{equipLittleTakePrc}
+				,		#{equipFacilitiesTakePrc}
+				,		#{spcBuildYN}
+				,		#{equipTakePrc}
+				,		#{takePrcDomestic}
+				,		#{takePrcForeign}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{disuseDt}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTel}
+				,		#{idleDisuseCd}
+<!-- 			,		#{setupId}-->
+<!-- 			,		#{stStype} -->
+<!-- 			,		#{stRoom} -->
+				,		#{userIdx}
+				,		#{fixedAsetNone}
+				,		#{korLargeFacYn}
+				,		#{useScope}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{rndInfo}
+				,		#{rndYN}
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operCharger}
+				,		#{operFax}
+				,		#{operPosition}
+				,		#{operEmail}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{equProduce}
+			)
+
+	</insert>
+<insert id="setJnspInsert" parameterType="paramMap">
+
+			INSERT INTO TB_EQU_INFO
+			(
+						RND_EQU_IDX
+				,		FIXED_ASET_NO
+				,		EQUIP_CD
+				,		EQCP_ID
+				,		EQCP_NM
+				,		KOR_NM
+				,		KOR_LARGE_FAC_YN
+				,		ENG_NM
+				,		MANUFACTURE_CD
+				,		MANUFACTURE_NM
+				,		DEV_OPEN_YN
+<!-- 				,		MODEL_CD -->
+<!-- 				,		MADE_CD -->
+<!-- 				,		MODEL_NM -->
+				,		TAKE_CD
+				,		TAKE_PRC
+				,		TAKE_SDT
+				,		TAKE_EDT
+				,		LOCATION
+				,		LOCATION_DTL
+				,		BRANCH_CD
+				,		BRANCH_NM
+				,		REGIST_CD
+				,		USE_SCOPE_REASON
+				,		USE_SCOPE_CD
+				,		USE_SCOPE_RANGE
+				,		USE_SCOPE_MEAN
+				,		USE_TYPE_CD
+				,		USE_TYPE_REASON
+				,		DEV_SPEC
+				,		DISUSE_DT
+				,		DISUSE_TYPE
+				,		DISUSE_ORGAN
+				,		EQUIP_DETAIL_FEATURE
+				,		EQUIP_DETAIL_CAPABILITY
+				,		EQUIP_DETAIL_EXAMPLE
+				, 		DISUSE_VERDICT_DT
+				,		IMPORT_CD
+				,		OPER_TEL
+				,		USE_SCOPE
+				,		IDLE_DISUSE_CD
+				,		USER_IDX
+				,		RND_INFO
+<!-- 				,		SETUP_ID -->
+<!-- 				,		ST_STYPE -->
+<!-- 				,		ST_ROOM -->
+				,		BRANCH_CD1
+				,		BRANCH_CD2
+				,		BRANCH_CD3
+				,		TAKE_SOURCE
+				,		TAKE_SOURCE_DT
+				,		RND_ST_DT
+				,		RND_ED_DT
+				,		RND_DIRECTOR
+				,		RND_DIVISION
+				,		RND_BIZ
+				,		RND_MAIN_ORG
+				,		RND_TASK
+				,		RND_COMMIT
+				,		KOR_KEY_WORD
+				,		ENG_KEY_WORD
+				,		OPER_CHARGER
+				,		OPER_FAX
+				,		OPER_POSITION
+				,		OPER_EMAIL
+				,		OPER_ETC
+				,		NTIS_EQUIP_INFO
+				,		EQUIP_WARRANTY
+				,		EQU_PRODUCE
+			)
+			VALUES
+			(
+			 			#{rndEquIdx}
+				,		#{fixedAsetNo}
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{korLargeFacYn}
+				,		#{engNm}
+				,		#{manufactureCd}
+				,		#{manufactureNm}
+				,		#{devOpenYn}
+<!-- 			,		#{modelCd} -->
+<!-- 			,		#{madeCd} -->
+<!-- 			,		#{modelNm} -->
+				,		#{takeCd}
+				,		#{takePrc}
+				<choose>
+					<when test="takeDt=='' or takeDt==null">
+					,		#{takeSdt}
+					</when>
+					<otherwise>
+					,		#{takeDt}
+					</otherwise>
+				</choose>
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{devSpec}
+				,		#{disuseDt}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTel}
+				,		#{useScope}
+				,		#{idleDisuseCd}
+				,		#{userIdx}
+				,		#{rndInfo}
+<!-- 			,		#{setupId}-->
+<!-- 			,		#{stStype} -->
+<!-- 			,		#{stRoom} -->
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{takeSource}
+				,		#{takeSourceDt}
+				,		#{rndStDt}
+				,		#{rndEdDt}
+				,		#{rndDirector}
+				,		#{rndDivision}
+				,		#{rndBiz}
+				,		#{rndMainOrg}
+				,		#{rndTask}
+				,		#{rndCommit}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operCharger}
+				,		#{operFax}
+				,		#{operPosition}
+				,		#{operEmail}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{equipWarranty}
+				,		#{equProduce}
+			)
+
+	</insert>
+		<update id="setJnspUpdate" parameterType="paramMap">
+				UPDATE TB_EQU_INFO SET
+						FIXED_ASET_NO = #{fixedAsetNo}
+				,		EQUIP_CD = #{equipCd}
+				,		EQCP_ID = #{eqcpId}
+				,		EQCP_NM = #{eqcpNm}
+				,		KOR_NM = #{korNm}
+				,		ENG_NM = #{engNm}
+				,		MANUFACTURE_CD = #{manufactureCd}
+				,		MANUFACTURE_NM = #{manufactureNm}
+<!-- 			,		MODEL_CD = #{modelCd} -->
+<!-- 			,		MADE_CD = #{madeCd} -->
+<!-- 			,		MODEL_NM = #{modelNm} -->
+				,		TAKE_CD = #{takeCd}
+				,		TAKE_PRC = #{takePrc}
+				,		TAKE_SDT = #{takeSdt}
+				,		TAKE_EDT = #{takeEdt}
+				,		LOCATION = #{location}
+				,		LOCATION_DTL = #{locationDtl}
+				,		BRANCH_CD = #{branchCd}
+				,		BRANCH_NM = #{branchNm}
+				,		REGIST_CD = #{registCd}
+				,		USE_SCOPE_REASON = #{useScopeReason}
+				,		USE_SCOPE_CD = #{useScopeCd}
+				,		USE_SCOPE_RANGE = #{useScopeRange}
+				,		USE_SCOPE_MEAN = #{useScopeMean}
+				,		DISUSE_ORGAN = #{disuseOrgan}
+				,		USE_TYPE_CD = #{useTypeCd}
+				,		USE_TYPE_REASON = #{useTypeReason}
+				,		DEV_SPEC = #{devSpec}
+				,		DISUSE_DT	 = #{disuseDt}
+				,		EQUIP_DETAIL_FEATURE = #{equipDetailFeature}
+				,		EQUIP_DETAIL_CAPABILITY = #{equipDetailCapability}
+				,		EQUIP_DETAIL_EXAMPLE = #{equipDetailExample}
+				, 		DISUSE_VERDICT_DT = #{disuseVerdictDt}
+				,		IMPORT_CD = #{importCd}
+				,		OPER_TEL = #{operTel}
+				,		IDLE_DISUSE_CD = #{idleDisuseCd}
+				,		RND_INFO = #{rndInfo}
+				,		DEV_OPEN_YN = #{devOpenYn}
+<!-- 				,		SETUP_ID  = #{setupId}-->
+<!-- 				,		ST_STYPE  = #{stStype}-->
+<!-- 				,		ST_ROOM  = #{stRoom}-->
+				,		DISUSE_TYPE = #{disuseType}
+				,		BRANCH_CD1 = #{branchCd1}
+				,		BRANCH_CD2 = #{branchCd2}
+				,		BRANCH_CD3 = #{branchCd3}
+				,		TAKE_SOURCE = #{takeSource}
+				,		TAKE_SOURCE_DT = #{takeSourceDt}
+				,		RND_ST_DT =#{rndStDt}
+				,		RND_ED_DT = #{rndEdDt}
+				,		RND_DIRECTOR =#{rndDirector}
+				,		RND_DIVISION = #{rndDivision}
+				,		RND_BIZ = #{rndBiz}
+				,		RND_MAIN_ORG =#{rndMainOrg}
+				,		RND_TASK = #{rndTask}
+				,		RND_COMMIT = #{rndCommit}
+				,		KOR_KEY_WORD = #{korKeyWord}
+				,		ENG_KEY_WORD = #{engKeyWord}
+				,		OPER_CHARGER = #{operCharger}
+				,		OPER_FAX = #{operFax}
+				,		OPER_POSITION = #{operPosition}
+				,		OPER_EMAIL = #{operEmail}
+				,		OPER_ETC = #{operEtc}
+				,		NTIS_EQUIP_INFO = #{ntisEquipInfo}
+				,		EQUIP_WARRANTY = #{equipWarranty}
+				,		EQU_PRODUCE = #{equProduce}
+			 WHERE RND_EQU_IDX = #{rndEquIdx}
+			   AND USER_IDX = #{userIdx}
+			   AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+	</update>
+	<update id="setJnspRscUpdate" parameterType="paramMap">
+					UPDATE TB_EQU_INFO SET
+
+						FIXED_ASET_NO = trim(#{fixedAsetNo})
+				,		EQUIP_CD = #{equipCd}
+				,		EQCP_ID = #{eqcpId}
+				,		EQCP_NM = #{eqcpNm}
+				,		KOR_NM = #{korNm}
+				,		ENG_NM = #{engNm}
+				,		MANUFACTURE_CD = #{manufactureCd}
+				,		MANUFACTURE_NM = #{manufactureNm}
+<!-- 				,		MODEL_CD = #{modelCd} -->
+<!-- 				,		MADE_CD = #{madeCd} -->
+<!-- 				,		MODEL_NM = #{modelNm} -->
+				,		TAKE_CD = #{takeCd}
+				,		TAKE_SDT = #{takeSdt}
+				,		TAKE_EDT = #{takeEdt}
+				,		LOCATION = #{location}
+				,		LOCATION_DTL = #{locationDtl}
+				,		BRANCH_CD = #{branchCd}
+				,		BRANCH_NM = #{branchNm}
+				,		REGIST_CD = #{registCd}
+				,		LAND_AREA = #{landArea}
+				,		LAND_PRC = #{landPrc}
+				,		LAND_REASON = #{landReason}
+				,		BUILD_AREA = #{buildArea}
+				,		FLOOR_UP = #{floorUp}
+				,		FLOOR_DOWN = #{floorDown}
+				,		BUILD_PRC = #{buildPrc}
+				,		BUILD_REASON = #{buildReason}
+				,		DISUSE_ORGAN = #{disuseOrgan}
+				,		EQUIP_LITTLE_TAKE_PRC = #{equipLittleTakePrc}
+				,		EQUIP_FACILITIES_TAKE_PRC = #{equipFacilitiesTakePrc}
+				,		EQUIP_FACILITIES_YN = #{equipFacilitiesYN}
+				,		EQUIP_TAKE_PRC = #{equipTakePrc}
+				,		TAKE_PRC = #{takePrc}
+				,		TAKE_PRC_DOMESTIC = #{takePrcDomestic}
+				,		TAKE_PRC_FOREIGN = #{takePrcForeign}
+				,		USE_SCOPE_REASON = #{useScopeReason}
+				,		USE_SCOPE_CD = #{useScopeCd}
+				,		USE_SCOPE_RANGE = #{useScopeRange}
+				,		USE_SCOPE_MEAN = #{useScopeMean}
+				,		USE_TYPE_CD = #{useTypeCd}
+				,		USE_TYPE_REASON = #{useTypeReason}
+				,		DISUSE_DT = #{disuseDt}
+				,		EQUIP_DETAIL_FEATURE = #{equipDetailFeature}
+				,		EQUIP_DETAIL_CAPABILITY = #{equipDetailCapability}
+				,		EQUIP_DETAIL_EXAMPLE = #{equipDetailExample}
+				, 		DISUSE_VERDICT_DT = #{disuseVerdictDt}
+				,		IMPORT_CD = #{importCd}
+				,		OPER_TEL = #{operTel}
+				,		IDLE_DISUSE_CD = #{idleDisuseCd}
+				,		RND_INFO = #{rndInfo}
+				,		RND_YN = #{rndYN}
+<!-- 				,		SETUP_ID = #{setupId} -->
+<!-- 				,		ST_STYPE = #{stStype}  -->
+<!-- 				,		ST_ROOM = #{stRoom}  -->
+				,		KOR_KEY_WORD = #{korKeyWord}
+				,		ENG_KEY_WORD = #{engKeyWord}
+				,		DISUSE_TYPE = #{disuseType}
+				,		OPER_CHARGER = #{operCharger}
+				,		OPER_FAX = #{operFax}
+				,		OPER_POSITION = #{operPosition}
+				,		OPER_EMAIL = #{operEmail}
+				,		OPER_ETC = #{operEtc}
+				,		NTIS_EQUIP_INFO = #{ntisEquipInfo}
+				,		FIXED_ASET_NO_YN = #{fixedAsetNone}
+				,		EQU_PRODUCE = #{equProduce}
+				 WHERE RND_EQU_IDX = #{rndEquIdx}
+				   AND USER_IDX = #{userIdx}
+				   AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		</update>
+	<select id="getJnspAsetCheck" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_EQU_INFO
+		WHERE FIXED_ASET_NO = trim(#{fixedAsetNo})
+		  AND 	DELETE_YN != 'Y'
+
+
+		<if test="rndEquIdx!='' and rndEquIdx!=null">
+			AND RND_EQU_IDX != #{rndEquIdx}
+		</if>
+	</select>
+
+</mapper>

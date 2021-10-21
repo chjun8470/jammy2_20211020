@@ -1,0 +1,17 @@
+.tbl_calendar{width:100%; position:relative; border-collapse:collapse; border-right:1px solid #ddd; border-top:1px solid #ddd;}
+.tbl_calendar th,
+.tbl_calendar td {width:14%; padding:5px; border-left:1px solid #DDDDDD; border-bottom:1px solid #DDDDDD; overflow:hidden; vertical-align:top;}
+.tbl_calendar th {background:#f7f7f7; text-align:center;}
+.tbl_calendar td {height:80px; padding-top:5px;}
+.tbl_calendar td .sun {color:#fe7474;}
+.tbl_calendar td .sat {color:#1974d1;}
+.tbl_calendar td .date {font-size:11px; height:14px; font-weight:bold; vertical-align:top; margin:0; padding:0;}
+.tbl_calendar td .plan {font-size:11px; text-align:left; line-height:1.4;}
+.tbl_calendar td .today {color:#ec008c;}
+.tbl_calendar td .selday  {color:#91268f;}
+
+.schedule-daily{}
+.schedule-daily .daily-list{text-align:center;}
+.schedule-daily .daily-list .sun{color:#fe7474;}
+.schedule-daily .daily-list .sat{color:#1974d1;}
+.schedule-daily .daily-list .active{text-decoration:underline;}

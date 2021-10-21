@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspEduMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+
+	<select id="getJntisEduList" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							EDU_ID
+						,	EDU_NM
+						,	ORG_GRP_NM
+						,	EDU_ORD_ST_DT
+						,	EDU_ORD_ED_DT
+						,	EDU_ST_DT
+						,	EDU_ED_DT
+						,	EDU_TOTAL_TIME
+						,	EDU_PLACE
+						,	EDU_TEL
+						,	EDU_PURPOSE
+						,	EDU_CONTENT
+						,	EDU_INFO
+						,	EDU_TARGET
+						,	EDU_AUSPICES_NM
+						,	EDU_CUR
+						,	EDU_PEOPLE
+						,	(SELECT COUNT(*) FROM TB_EDU_RESV WHERE EDU_ID = TB_EDU.EDU_ID AND (DELETE_YN != 'Y' or DELETE_YN IS NULL) AND RESV_STATE!='40') AS EDU_ORD_PEOPLE
+						,CASE
+							WHEN now() >= EDU_ST_DT AND now() <= EDU_ED_DT THEN '수업중'
+							WHEN now() >  EDU_ED_DT THEN '수업종료'
+							WHEN now() >= EDU_ORD_ST_DT AND now()<=EDU_ORD_ED_DT THEN '접수중'
+							WHEN now() <  EDU_ORD_ST_DT THEN '접수대기'
+							WHEN now() >  EDU_ORD_ED_DT THEN '접수마감'
+						ELSE '알수없음' END EDU_ORD_STATE
+
+				FROM
+					TB_EDU
+				WHERE (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+
+			<if test='DateStart != "" and DateStart !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(EDU_ST_DT, '%Y-%m-%d') >= #{DateStart}
+			]]>
+		</if>
+		<if test='DateEnd != "" and DateEnd !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(EDU_ED_DT, '%Y-%m-%d') <= #{DateEnd}
+			]]>
+		</if>
+		<if test="searchType == 'TEACHING' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND EDU_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'INSTITUTIONS' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND ORG_GRP_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+			<![CDATA[
+			ORDER BY EDU_ID DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<select id="getJntisEduCalendarList" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							E.EDU_ID
+						,	E.EDU_NM
+						,	E.ORG_GRP_NM
+						,	E.EDU_ORD_ST_DT
+						,	E.EDU_ORD_ED_DT
+						,	E.EDU_ST_DT
+						,	E.EDU_ED_DT
+						,	E.EDU_TOTAL_TIME
+						,	E.EDU_CUR
+
+						,	E.EDU_ST_DT AS EEDU_ST_DT
+						,	E.EDU_ED_DT AS EEDU_ED_DT
+						,	DATE_FORMAT(E.EDU_ST_DT, '%Y') AS ST_YEAR
+						,	DATE_FORMAT(E.EDU_ED_DT, '%Y') AS ED_YEAR
+						,	TRIM(LEADING '0' FROM (DATE_FORMAT(E.EDU_ST_DT, '%m'))) AS ST_MONTH
+						,	TRIM(LEADING '0' FROM (DATE_FORMAT(E.EDU_ED_DT, '%m'))) AS ED_MONTH
+						,	DATE_FORMAT(E.EDU_ST_DT, '%d') AS ST_DAY
+						,	DATE_FORMAT(E.EDU_ED_DT, '%d') AS ED_DAY
+
+						,	E.EDU_PLACE
+						,	E.EDU_TEL
+						,	E.EDU_PURPOSE
+						,	E.EDU_CONTENT
+						,	E.EDU_INFO
+						,	E.EDU_TARGET
+						,	E.EDU_AUSPICES_NM
+						,   E.EDU_STATE
+
+						,	E.EDU_PEOPLE
+						,	(SELECT COUNT(*) FROM TB_EDU_RESV ER LEFT JOIN TB_EDU EU ON ER.EDU_ID = EU.EDU_ID WHERE (ER.DELETE_YN != 'Y' or ER.DELETE_YN IS NULL)  AND ER.RESV_STATE != '40') AS EDU_ORD_PEOPLE
+						,	CASE
+								WHEN now() >= E.EDU_ST_DT AND now() <= E.EDU_ED_DT THEN '수업중'
+								WHEN now() >  E.EDU_ED_DT THEN '수업종료'
+								WHEN now() >= E.EDU_ORD_ST_DT AND now()<=E.EDU_ORD_ED_DT THEN '접수중'
+								WHEN now() <  E.EDU_ORD_ST_DT THEN '접수대기'
+								WHEN now() >  E.EDU_ORD_ED_DT THEN '접수마감'
+								ELSE '알수없음' END EDU_ORD_STATE
+
+						,	E.DELETE_YN
+
+				FROM(
+							SELECT	*
+							  FROM	TB_EDU
+							 WHERE  DATE_FORMAT(EDU_ST_DT, '%Y') = '${year}'
+							   AND  DATE_FORMAT(EDU_ST_DT, '%m') = CONCAT('0','${month}')
+
+							UNION
+
+							SELECT	*
+				  			  FROM  TB_EDU
+				  			 WHERE  DATE_FORMAT(EDU_ED_DT, '%Y') = '${year}'
+				  		  	   AND  CONCAT('0', '${month}') BETWEEN DATE_FORMAT(EDU_ST_DT, '%m') and DATE_FORMAT(EDU_ED_DT, '%m')
+
+				  			UNION
+
+							SELECT	*
+							  FROM	TB_EDU
+					  	     WHERE  DATE_FORMAT(EDU_ED_DT, '%Y') = '${year}'
+							   AND  DATE_FORMAT(EDU_ED_DT, '%m') = CONCAT('0','${month}')
+					) E
+
+				WHERE (E.DELETE_YN != 'Y' or E.DELETE_YN IS NULL)
+			]]>
+
+			<if test='DateStart != "" and DateStart !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(E.EDU_ST_DT, '%Y-%m-%d') >= #{DateStart}
+			]]>
+		</if>
+		<if test='DateEnd != "" and DateEnd !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(E.EDU_ED_DT, '%Y-%m-%d') <= #{DateEnd}
+			]]>
+		</if>
+		<if test="searchType == 'TEACHING' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND E.EDU_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'INSTITUTIONS' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND E.ORG_GRP_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+			<![CDATA[
+			ORDER BY E.EDU_ID DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<select id="getJntisEduData" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+						
+					A.EDU_ID
+					, A.EDU_NM
+					, A.EDU_CUR
+					, A.EDU_USE_FLAG
+					, A.EDU_AUSPICES_NM
+					, A.ORG_GRP_CD
+					, A.ORG_GRP_NM
+					, A.EDU_ORD_ST_DT
+					, A.EDU_ORD_ED_DT
+					, A.EDU_ST_DT
+					, A.EDU_ED_DT
+					, A.EDU_TOTAL_TIME
+					, A.EDU_PLACE
+					, A.EDU_PLACE_DETAIL
+					, A.MAP_X
+					, A.MAP_Y
+					, A.EDU_TARGET
+					, A.EDU_PEOPLE
+					, A.EDU_FREE_YN
+					, A.EDU_PAY
+					, A.EDU_INSURANCE
+					, A.EDU_USER_SECTOR
+					, A.EDU_USER_DEPT
+					, A.EDU_USER_NM
+					, A.EDU_USER_TEL
+					, A.EDU_USER_CP_NO
+					, A.EDU_USER_EMAIL
+					, A.EDU_CONTENT
+					, A.MANAGER_USER_IDX
+					, A.CERTI_ORG
+					, A.CERTI_DIRECTOR
+					, A.ORG_STAMP_FILE
+					, A.ORG_INFO_FILE
+					, A.SIGN_IMG
+					, A.USER_IDX
+					, A.REG_DATE
+					, A.DELETE_YN
+					, A.CERTI_YN
+					, A.EDU_ORG_SUB_NM
+						,	(SELECT COUNT(*) FROM TB_EDU_RESV WHERE EDU_ID = A.EDU_ID AND (DELETE_YN != 'Y' or DELETE_YN IS NULL) AND RESV_STATE!='40') AS EDU_ORD_PEOPLE
+						, (select count(*) from TB_EDU_RESV WHERE EDU_ID = A.EDU_ID AND (DELETE_YN != 'Y' or DELETE_YN IS NULL) AND RESV_STATE not in ('30','40')) AS EDU_ORD_PEOPLE
+						, CASE
+							WHEN now() >= A.EDU_ST_DT AND now() <= A.EDU_ED_DT THEN '수업중'
+							WHEN now() > A.EDU_ED_DT THEN '수업종료'
+							WHEN now() >= A.EDU_ORD_ST_DT AND now() <= A.EDU_ORD_ED_DT THEN '접수중'
+							WHEN now() < A.EDU_ORD_ST_DT THEN '접수대기'
+							WHEN now() > A.EDU_ORD_ED_DT THEN '접수마감'
+						ELSE '알수없음' END EDU_ORD_STATE
+						, B.USER_ID AS MANAGER_USER_ID
+						, B.PSN_NM AS MANAGER_USER_NM
+						, B.TEL_NO AS MANAGER_TEL_NO
+						, B.CP_NO AS MANAGER_CP_NO
+						, B.EMAIL AS MANAGER_EMAIL
+						, B.DEPT_NM AS MANAGER_DEPT_NM
+						, B.POSITION_NM AS MANAGER_POSITION_NM
+						, D.ORG_GRP_NM AS MANAGER_ORG_GRP_NM
+			 			, E.FILE_ID AS INFO_FILE_ID
+			 			, E.TITLE_ORG AS INFO_FILE_TITLE
+				FROM
+					TB_EDU AS A
+			LEFT JOIN TB_USER_COPY AS B ON (A.MANAGER_USER_IDX = B.USER_IDX)
+			LEFT JOIN TB_ORG_GRP D ON (B.ORG_GRP_CD = D.ORG_GRP_CD)
+			LEFT JOIN TB_JNSP_FILE E ON (E.FILE_ID = A.ORG_INFO_FILE)
+				WHERE (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+				AND A.EDU_ID = #{eduId}
+			]]>
+	</select>
+
+	<select id="getJntisEduResvData" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+								SELECT
+						A.EDU_ID
+					,	A.USER_IDX
+					,	A.USER_NAME
+					,	A.USER_TEL
+					,	A.USER_EMAIL
+					,	A.RESV_STATE
+					,	A.RESV_REJECT
+					,	A.REG_IDX
+					,	DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') AS REG_DATE
+					,	A.RESV_CERTI_FILE
+					,	B.TITLE_ORG AS RESV_CERTI_FILE_TITLE
+				FROM TB_EDU_RESV AS A
+				LEFT JOIN TB_JNSP_FILE AS B
+				 ON B.DATA_IDX = A.EDU_RESV_ID
+				WHERE 1 = 1
+				AND (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+				AND A.EDU_ID = #{eduId}
+				AND A.USER_IDX = #{userIdx}
+			]]>
+	</select>
+
+	<select id="getJntisEduCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			<![CDATA[
+				SELECT
+					COUNT(0) AS CNT
+					FROM
+						TB_EDU
+					WHERE 1 = 1
+					AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+		<if test='DateStart != "" and DateStart !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(EDU_ST_DT, '%Y-%m-%d') >= #{DateStart}
+			]]>
+		</if>
+		<if test='DateEnd != "" and DateEnd !=NULL'>
+			<![CDATA[
+				AND DATE_FORMAT(EDU_ED_DT, '%Y-%m-%d') <= #{DateEnd}
+			]]>
+		</if>
+		<if test="searchType == 'TEACHING' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND EDU_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'INSTITUTIONS' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND ORG_GRP_NM LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+	<insert id="setJntisEduInsert" parameterType="paramMap" >
+		INSERT INTO TB_EDU_RESV
+		(
+			EDU_ID,
+			USER_IDX,
+			USER_NAME,
+			USER_TEL,
+			USER_EMAIL,
+			RESV_STATE,
+			REG_IDX,
+			REG_DATE,
+			DELETE_YN
+		)
+		VALUES
+		(
+			#{eduId},
+			#{userIdx},
+			#{userNm},
+			#{phone},
+			#{userEmail},
+			'10',
+			#{userIdx},
+			now(),
+			'N'
+		)
+
+	</insert>
+
+	<update id="setJntisEduStateChange" parameterType="paramMap" >
+		UPDATE TB_EDU_RESV SET
+		RESV_STATE = #{state} ,
+		UP_IDX = #{userIdx},
+		UP_DATE = now()
+
+		WHERE 1 = 1
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			AND EDU_RESV_ID = #{eduResvId}
+			AND USER_IDX = #{userIdx}
+	</update>
+
+	<update id="setJntisEduResvDelete" parameterType="paramMap" >
+		UPDATE TB_EDU_RESV SET
+		DELETE_YN = 'Y',
+		DELETE_IDX = #{userIdx},
+		DELETE_DATE = now()
+		WHERE 1 = 1
+			AND EDU_RESV_ID = #{eduResvId}
+			AND USER_IDX = #{userIdx}
+	</update>
+
+</mapper>

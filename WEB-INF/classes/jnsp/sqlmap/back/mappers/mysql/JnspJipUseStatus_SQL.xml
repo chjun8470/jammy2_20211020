@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspJipUseStatusMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getJipUseStatusList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.JIP_USE_IDX,
+					A.RIGHT_SECTION,
+					A.REGIST_INFO,
+					A.TRANSFER_SECTION,
+					A.TRANSFER_DATE,
+					A.TRANSFER_ST_DT,
+					A.TRANSFER_ED_DT,
+					A.TRANSFER_PERSON,
+					A.BROKERAGE_INSTITUTION,
+					A.FLAT_SUM_SKILL_FEE,
+					A.ORDINARY_SKILL_FEE,
+					A.NOTE,
+					A.ORG_GRP_CD,
+					A.REG_IDX,
+					A.STATE,
+					A.REJECT,
+					A.ETERNITY_YN,
+					A.TRANSFER_DELEGATE,
+					A.TRANSFER_POSITION,
+					A.TRANSFER_PHONE1,
+					A.TRANSFER_PHONE2,
+					A.TRANSFER_EMAIL,
+					B.APLC_NO,
+					B.INVENTION_KOR_NM,
+					B.INVENTION_ENG_NM,
+					B.OWN_ORG_NM,
+					C.APLC_NO AS D_APLC_NO,
+					C.USE_NM AS D_USE_NM,
+					C.OWN_ORG_NM AS D_OWN_ORG_NM,
+					D.INTRL_APLC_NO,
+					D.USE_NM AS B_USE_NM,
+					D.OWN_ORG_NM AS B_OWN_ORG_NM,
+					E.REG_NO,
+					E.USE_NM AS P_USE_NM,
+					E.OWN_ORG_NM AS P_OWN_ORG_NM,
+					F.KNOW_HOW_NO,
+					F.TCHNLGY_NM,
+					F.ORG_NM,
+					H.ORG_GRP_NM
+				FROM
+					    TB_JIP_USE_STATUS A
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL B
+					ON	A.REGIST_INFO = B.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN C
+					ON	A.REGIST_INFO = C.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND D
+					ON	A.REGIST_INFO = D.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM E
+					ON	A.REGIST_INFO = E.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW F
+					ON	A.REGIST_INFO = F.KNOW_HOW_NO
+				LEFT JOIN
+						TB_USER_COPY G
+					ON	A.REG_IDX = G.USER_IDX
+				LEFT JOIN
+						TB_ORG_GRP H
+					ON (B.OWN_ORG_NM = H.ORG_GRP_CD
+					OR C.OWN_ORG_NM = H.ORG_GRP_CD
+					OR D.OWN_ORG_NM = H.ORG_GRP_CD
+					OR E.OWN_ORG_NM = H.ORG_GRP_CD
+					OR F.ORG_NM = H.ORG_GRP_CD)
+			WHERE 1 = 1
+			]]>
+				<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+				</if>
+				<if test="seType != null and seType !=''">
+					AND A.RIGHT_SECTION = #{seType}
+				</if>
+				<if test="tfSe != null and tfSe != ''">
+					AND A.TRANSFER_SECTION = #{tfSe}
+				</if>
+				<if test="searchType == 'name'">
+					AND B.INVENTION_KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+					OR C.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+					OR D.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+					OR E.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'code'">
+					AND A.REGIST_INFO = #{searchWord}
+				</if>
+				<choose>
+					<when test="userAuth >= 90">
+
+					</when>
+					<when test="userAuth >= 70">
+						AND H.ORG_GRP_CD = #{orgCd}
+					</when>
+					<otherwise>
+						AND REG_IDX = #{userIdx}
+					</otherwise>
+				</choose>
+			<![CDATA[
+			orDER BY JIP_USE_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getJipUseStatusListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+			    TB_JIP_USE_STATUS A
+		LEFT JOIN
+				TB_SEARCH_PATENT_UTILITY_MODEL B
+			ON	A.REGIST_INFO = B.APLC_NO
+		LEFT JOIN
+				TB_SEARCH_DESIGN C
+			ON	A.REGIST_INFO = C.APLC_NO
+		LEFT JOIN
+				TB_SEARCH_BRAND D
+			ON	A.REGIST_INFO = D.INTRL_APLC_NO
+		LEFT JOIN
+				TB_SEARCH_PROGRAM E
+			ON	A.REGIST_INFO = E.REG_NO
+		LEFT JOIN
+				TB_SEARCH_KNOW_HOW F
+			ON	A.REGIST_INFO = F.KNOW_HOW_NO
+		LEFT JOIN
+				TB_USER_COPY G
+			ON	A.REG_IDX = G.USER_IDX
+		LEFT JOIN
+				TB_ORG_GRP H
+			ON (B.OWN_ORG_NM = H.ORG_GRP_CD
+			OR C.OWN_ORG_NM = H.ORG_GRP_CD
+			OR D.OWN_ORG_NM = H.ORG_GRP_CD
+			OR E.OWN_ORG_NM = H.ORG_GRP_CD
+			OR F.ORG_NM = H.ORG_GRP_CD)
+	 WHERE
+				1= 1
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="seType != null and seType !=''">
+					AND A.RIGHT_SECTION = #{seType}
+			</if>
+			<if test="tfSe != null and tfSe != ''">
+				AND A.TRANSFER_SECTION = #{tfSe}
+			</if>
+			<if test="searchType == 'name'">
+				AND B.INVENTION_KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR C.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR D.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR E.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'code'">
+				AND A.REGIST_INFO = #{searchWord}
+			</if>
+			<choose>
+				<when test="userAuth >= 90">
+
+				</when>
+				<when test="userAuth >= 70">
+					AND H.ORG_GRP_CD = #{orgCd}
+				</when>
+				<otherwise>
+					AND REG_IDX = #{userIdx}
+				</otherwise>
+			</choose>
+
+	</select>
+
+	<select id="getJipUseStatus" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.JIP_USE_IDX,
+					A.RIGHT_SECTION,
+					A.REGIST_INFO,
+					A.TRANSFER_SECTION,
+					A.TRANSFER_DATE,
+					A.TRANSFER_ST_DT,
+					A.TRANSFER_ED_DT,
+					A.TRANSFER_PERSON,
+					A.BROKERAGE_INSTITUTION,
+					A.FLAT_SUM_SKILL_FEE,
+					A.ORDINARY_SKILL_FEE,
+					A.NOTE,
+					A.ORG_GRP_CD,
+					A.REG_IDX,
+					A.STATE,
+					A.REJECT,
+					A.TRANSFER_DELEGATE,
+					A.TRANSFER_POSITION,
+					A.TRANSFER_PHONE1,
+					A.TRANSFER_PHONE2,
+					A.TRANSFER_EMAIL,
+					A.ETERNITY_YN,
+					B.APLC_NO,
+					B.INVENTION_KOR_NM,
+					B.INVENTION_ENG_NM,
+					B.OWN_ORG_NM,
+					C.APLC_NO AS D_APLC_NO,
+					C.USE_NM AS D_USE_NM,
+					C.OWN_ORG_NM AS D_OWN_ORG_NM,
+					D.INTRL_APLC_NO,
+					D.USE_NM AS B_USE_NM,
+					D.OWN_ORG_NM AS D_OWN_ORG_NM,
+					E.REG_NO,
+					E.USE_NM AS P_USE_NM,
+					E.OWN_ORG_NM AS P_OWN_ORG_NM,
+					F.KNOW_HOW_NO,
+					F.TCHNLGY_NM,
+					F.ORG_NM,
+					H.ORG_GRP_NM
+				FROM
+					    TB_JIP_USE_STATUS A
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL B
+					ON	A.REGIST_INFO = B.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN C
+					ON	A.REGIST_INFO = C.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND D
+					ON	A.REGIST_INFO = D.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM E
+					ON	A.REGIST_INFO = E.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW F
+					ON	A.REGIST_INFO = F.KNOW_HOW_NO
+				LEFT JOIN
+						TB_ORG_GRP H
+					ON (B.OWN_ORG_NM = H.ORG_GRP_CD
+					OR C.OWN_ORG_NM = H.ORG_GRP_CD
+					OR D.OWN_ORG_NM = H.ORG_GRP_CD
+					OR E.OWN_ORG_NM = H.ORG_GRP_CD
+					OR F.ORG_NM = H.ORG_GRP_CD)
+			 WHERE JIP_USE_IDX = #{jipUseIdx}
+	</select>
+
+	<delete id="setJipUseStatusDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_JIP_USE_STATUS
+			 WHERE JIP_USE_IDX = '${jipUseIdx}'
+	</delete>
+
+	<!-- <delete id="setAllUseStatusDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_JIP_USE_STATUS
+			 WHERE USE_STATUS_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{moduleInfoIdx}
+			</foreach>
+
+	</delete> -->
+
+	<insert id="insertJipUseStatus" parameterType="paramMap">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_JIP_USE_STATUS
+			(
+				JIP_USE_IDX,
+				RIGHT_SECTION,
+				REGIST_INFO,
+				TRANSFER_SECTION,
+				TRANSFER_DATE,
+				<choose>
+					<when test="transferStDt != null and transferStDt != ''">
+					TRANSFER_ST_DT,
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="transferEdDt != null and transferEdDt != ''">
+					TRANSFER_ED_DT,
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				TRANSFER_PERSON,
+				BROKERAGE_INSTITUTION,
+				FLAT_SUM_SKILL_FEE,
+				ORDINARY_SKILL_FEE,
+				NOTE,
+				ORG_GRP_CD,
+				REG_IDX,
+				REG_DT,
+				REG_IP,
+				TRANSFER_DELEGATE,
+				TRANSFER_POSITION,
+				TRANSFER_PHONE1,
+				TRANSFER_PHONE2,
+				TRANSFER_EMAIL,
+				ETERNITY_YN
+			)
+			VALUES
+			(
+				#{jipUseIdx},
+				#{rightSection},
+				#{registInfo},
+				#{transferSection},
+				#{transferDate},
+				<choose>
+					<when test="transferStDt != null and transferStDt != ''">
+					#{transferStDt},
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="transferEdDt != null and transferEdDt != ''">
+					#{transferEdDt},
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+				#{transferPerson},
+				#{brokerageInstitution},
+				#{flatSumSkillFee},
+				#{ordinarySkillFee},
+				#{note},
+				#{orgCd},
+				#{regIdx},
+				now(),
+				#{regIp},
+				#{transferDelegate},
+				#{transferPosition},
+				#{transferPhone1},
+				#{transferPhone2},
+				#{transferEmail},
+				#{eternityYN}
+			)
+	</insert>
+
+	<update id="setJipUseStatusUpdate" parameterType="paramMap">
+		UPDATE TB_JIP_USE_STATUS SET
+				RIGHT_SECTION = #{rightSection},
+				REGIST_INFO = #{registInfo},
+				TRANSFER_SECTION = #{transferSection},
+				TRANSFER_DATE = #{transferDate},
+				<choose>
+					<when test="transferStDt != null and transferStDt != ''">
+					TRANSFER_ST_DT = #{transferStDt},
+					</when>
+					<otherwise>
+					TRANSFER_ST_DT = NULL,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="transferEdDt != null and transferEdDt != ''">
+					TRANSFER_ED_DT = #{transferEdDt},
+					</when>
+					<otherwise>
+					TRANSFER_ED_DT = NULL,
+					</otherwise>
+				</choose>
+				TRANSFER_PERSON = #{transferPerson},
+				BROKERAGE_INSTITUTION = #{brokerageInstitution},
+				FLAT_SUM_SKILL_FEE = #{flatSumSkillFee},
+				ORDINARY_SKILL_FEE = #{ordinarySkillFee},
+				NOTE = #{note},
+				UP_IDX = #{upIdx},
+				UP_DT = now(),
+				UP_IP = #{upIp},
+				TRANSFER_DELEGATE = #{transferDelegate},
+				TRANSFER_POSITION = #{transferPosition},
+				TRANSFER_PHONE1 = #{transferPhone1},
+				TRANSFER_PHONE2 = #{transferPhone2},
+				TRANSFER_EMAIL = #{transferEmail},
+				ETERNITY_YN = #{eternityYN}
+		WHERE
+			JIP_USE_IDX = #{jipUseIdx}
+	</update>
+
+	<update id="setStateUpdate" parameterType="paramMap">
+		UPDATE TB_JIP_USE_STATUS SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+			JIP_USE_IDX = #{idx}
+	</update>
+
+	<select id="getJipUseStatusListExcel" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.JIP_USE_IDX,
+					A.RIGHT_SECTION,
+					A.REGIST_INFO,
+					A.TRANSFER_SECTION,
+					CONVERT(A.TRANSFER_DATE,CHAR) AS TRANSFER_DATE,
+					CONVERT(A.TRANSFER_ST_DT,CHAR) AS TRANSFER_ST_DT,
+					CONVERT(A.TRANSFER_ED_DT,CHAR) AS TRANSFER_ED_DT,
+					A.TRANSFER_PERSON,
+					A.BROKERAGE_INSTITUTION,
+					A.FLAT_SUM_SKILL_FEE,
+					A.ORDINARY_SKILL_FEE,
+					A.NOTE,
+					A.ORG_GRP_CD,
+					A.REG_IDX,
+					A.ETERNITY_YN,
+					A.TRANSFER_DELEGATE,
+					A.TRANSFER_POSITION,
+					A.TRANSFER_PHONE1,
+					A.TRANSFER_PHONE2,
+					A.TRANSFER_EMAIL,
+					B.APLC_NO,
+					B.INVENTION_KOR_NM,
+					B.INVENTION_ENG_NM,
+					B.OWN_ORG_NM,
+					C.APLC_NO AS D_APLC_NO,
+					C.USE_NM AS D_USE_NM,
+					C.OWN_ORG_NM AS D_OWN_ORG_NM,
+					D.INTRL_APLC_NO,
+					D.USE_NM AS B_USE_NM,
+					D.OWN_ORG_NM AS B_OWN_ORG_NM,
+					E.REG_NO,
+					E.USE_NM AS P_USE_NM,
+					E.OWN_ORG_NM AS P_OWN_ORG_NM,
+					F.KNOW_HOW_NO,
+					F.TCHNLGY_NM,
+					F.ORG_NM,
+					H.ORG_GRP_NM
+				FROM
+					    TB_JIP_USE_STATUS A
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL B
+					ON	A.REGIST_INFO = B.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN C
+					ON	A.REGIST_INFO = C.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND D
+					ON	A.REGIST_INFO = D.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM E
+					ON	A.REGIST_INFO = E.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW F
+					ON	A.REGIST_INFO = F.KNOW_HOW_NO
+				LEFT JOIN
+						TB_USER_COPY G
+					ON	A.REG_IDX = G.USER_IDX
+				LEFT JOIN
+						TB_ORG_GRP H
+					ON (B.OWN_ORG_NM = H.ORG_GRP_CD
+					OR C.OWN_ORG_NM = H.ORG_GRP_CD
+					OR D.OWN_ORG_NM = H.ORG_GRP_CD
+					OR E.OWN_ORG_NM = H.ORG_GRP_CD
+					OR F.ORG_NM = H.ORG_GRP_CD)
+			WHERE 1 = 1
+			]]>
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="seType != null and seType !=''">
+					AND A.RIGHT_SECTION = #{seType}
+			</if>
+			<if test="tfSe != null and tfSe != ''">
+				AND A.TRANSFER_SECTION = #{tfSe}
+			</if>
+			<if test="searchType == 'name'">
+				AND B.INVENTION_KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR C.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR D.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+				OR E.USE_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'code'">
+				AND A.REGIST_INFO = #{searchWord}
+			</if>
+				<choose>
+					<when test="userAuth >= 90">
+
+					</when>
+					<when test="userAuth >= 70">
+						AND H.ORG_GRP_CD = #{orgCd}
+					</when>
+					<otherwise>
+						AND REG_IDX = #{userIdx}
+					</otherwise>
+				</choose>
+	</select>
+
+
+</mapper>

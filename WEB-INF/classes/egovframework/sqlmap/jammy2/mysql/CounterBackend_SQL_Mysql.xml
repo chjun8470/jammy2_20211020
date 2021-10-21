@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CounterBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="CounterLogVO" type="egovframework.jammy2.counter.service.CounterLogVO"/>
+	<typeAlias  alias="CounterDayVO" type="egovframework.jammy2.counter.service.CounterDayVO"/>	
+	<typeAlias  alias="CounterPageVO" type="egovframework.jammy2.counter.service.CounterPageVO"/>
+
+	<select id="CounterBackendDAO.selectCounterDayListForHourly" parameterClass="CounterDayVO" resultClass="CounterDayVO">
+		<![CDATA[
+		SELECT
+			A.DAY_ID dayId, A.SITE_ID siteId, A.COUNT_DE countDe, A.YY yy, A.MM mm, A.DD dd, A.WW ww, 
+			A.HH0 hh0, A.HH1 hh1, A.HH2 hh2, A.HH3 hh3, A.HH4 hh4, A.HH5 hh5, A.HH6 hh6, A.HH7 hh7, A.HH8 hh8, A.HH9 hh9, A.HH10 hh10, A.HH11 hh11, A.HH12 hh12, 
+			A.HH13 hh13, A.HH14 hh14, A.HH15 hh15, A.HH16 hh16, A.HH17 hh17, A.HH18 hh18, A.HH19 hh19, A.HH20 hh20, A.HH21 hh21, A.HH22 hh22, A.HH23 hh23, 
+			A.UHH0 uhh0, A.UHH1 uhh1, A.UHH2 uhh2, A.UHH3 uhh3, A.UHH4 uhh4, A.UHH5 uhh5, A.UHH6 uhh6, A.UHH7 uhh7, A.UHH8 uhh8, A.UHH9 uhh9, A.UHH10 uhh10, A.UHH11 uhh11, A.UHH12 uhh12, 
+			A.UHH13 uhh13, A.UHH14 uhh14, A.UHH15 uhh15, A.UHH16 uhh16, A.UHH17 uhh17, A.UHH18 uhh18, A.UHH19 uhh19, A.UHH20 uhh20, A.UHH21 uhh21, A.UHH22 uhh22, A.UHH23 uhh23, 
+			A.HITS hits, A.UNIQ_HITS uniqHits
+		FROM
+			JMY_COUNTER_DAY A
+		WHERE
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND A.COUNT_DE >= #startDate# AND A.COUNT_DE <= #endDate#
+		]]>			
+	</select>
+	
+	<select id="CounterBackendDAO.selectCounterDayListForDaily" parameterClass="CounterDayVO" resultClass="CounterDayVO">
+		<![CDATA[
+		SELECT
+			A.DAY_ID dayId, A.SITE_ID siteId, A.COUNT_DE countDe, A.YY yy, A.MM mm, A.DD dd, A.WW ww, 
+			A.HH0 hh0, A.HH1 hh1, A.HH2 hh2, A.HH3 hh3, A.HH4 hh4, A.HH5 hh5, A.HH6 hh6, A.HH7 hh7, A.HH8 hh8, A.HH9 hh9, A.HH10 hh10, A.HH11 hh11, A.HH12 hh12, 
+			A.HH13 hh13, A.HH14 hh14, A.HH15 hh15, A.HH16 hh16, A.HH17 hh17, A.HH18 hh18, A.HH19 hh19, A.HH20 hh20, A.HH21 hh21, A.HH22 hh22, A.HH23 hh23, 
+			A.UHH0 uhh0, A.UHH1 uhh1, A.UHH2 uhh2, A.UHH3 uhh3, A.UHH4 uhh4, A.UHH5 uhh5, A.UHH6 uhh6, A.UHH7 uhh7, A.UHH8 uhh8, A.UHH9 uhh9, A.UHH10 uhh10, A.UHH11 uhh11, A.UHH12 uhh12, 
+			A.UHH13 uhh13, A.UHH14 uhh14, A.UHH15 uhh15, A.UHH16 uhh16, A.UHH17 uhh17, A.UHH18 uhh18, A.UHH19 uhh19, A.UHH20 uhh20, A.UHH21 uhh21, A.UHH22 uhh22, A.UHH23 uhh23, 
+			A.HITS hits, A.UNIQ_HITS uniqHits
+		FROM
+			JMY_COUNTER_DAY A
+		WHERE
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND A.COUNT_DE >= #startDate# AND A.COUNT_DE <= #endDate#
+		ORDER BY
+			A.COUNT_DE ASC
+		]]>			
+	</select>	
+
+	<select id="CounterBackendDAO.selectCounterDayListForWeekly" resultClass="CounterDayVO">
+	<![CDATA[		
+		SELECT 
+			A.WW ww, 
+			(
+				SELECT 
+					SUM(HITS) 
+				FROM 
+					JMY_COUNTER_DAY 
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND WW = A.WW AND COUNT_DE >= #startDate# AND COUNT_DE <= #endDate#
+			) AS hits, 
+			(
+				SELECT 
+					SUM(UNIQ_HITS) 
+				FROM 
+					JMY_COUNTER_DAY 
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND WW = A.WW AND COUNT_DE >= #startDate# AND COUNT_DE <= #endDate#
+			) AS uniqHits
+		FROM 
+			JMY_COUNTER_DAY AS A
+		WHERE 
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND A.COUNT_DE >= #startDate# AND A.COUNT_DE <= #endDate#
+		GROUP BY 
+			A.WW
+		ORDER BY 
+			A.WW ASC
+	]]>		
+	</select>
+
+	<select id="CounterBackendDAO.selectCounterDayListForMonthly" resultClass="CounterDayVO">
+	<![CDATA[		
+		SELECT 
+			SUBSTR(A.COUNT_DE, 1, 7) AS countDe, 
+			(
+				SELECT 
+					SUM(HITS) 
+				FROM 
+					JMY_COUNTER_DAY 
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND YY = A.YY AND MM = A.MM AND SUBSTR(COUNT_DE, 1, 7) >= #startDate# AND SUBSTR(COUNT_DE, 1, 7) <= #endDate#
+			) AS hits, 
+			(
+				SELECT 
+					SUM(UNIQ_HITS) 
+				FROM 
+					JMY_COUNTER_DAY 
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND YY = A.YY AND MM = A.MM AND SUBSTR(COUNT_DE, 1, 7) >= #startDate# AND SUBSTR(COUNT_DE, 1, 7) <= #endDate#
+			) AS uniqHits
+		FROM 
+			JMY_COUNTER_DAY AS A
+		WHERE 
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND SUBSTR(A.COUNT_DE, 1, 7) >= #startDate# AND SUBSTR(A.COUNT_DE, 1, 7) <= #endDate#
+		GROUP BY 
+			A.YY, A.MM
+		ORDER BY 
+			A.COUNT_DE ASC
+	]]>		
+	</select>
+	
+	<select id="CounterBackendDAO.selectCounterPageList" resultClass="CounterPageVO">
+	<![CDATA[		
+		SELECT
+			A.SITE_ID siteId,  
+			A.MENU_ID menuId, 
+			(
+				SELECT 
+					SUM(HITS) 
+				FROM 
+					JMY_COUNTER_PAGE
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND MENU_ID = A.MENU_ID AND COUNT_DE >= #startDate# AND COUNT_DE <= #endDate#
+			) AS hits,
+			B.MENU_NM menuNm			
+		FROM 
+			JMY_COUNTER_PAGE AS A, JMY_SITE_MENU AS B
+		WHERE 
+			A.SITE_ID = B.SITE_ID AND A.MENU_ID = B.MENU_ID
+			AND A.SITE_ID = #siteId# AND A.DEVICE = #device# AND A.COUNT_DE >= #startDate# AND A.COUNT_DE <= #endDate#
+		GROUP BY 
+			A.MENU_ID
+		ORDER BY 
+			B.LFT ASC
+	]]>		
+	</select>
+	
+	<select id="CounterBackendDAO.selectCounterLogListForBrowser" resultClass="CounterLogVO">
+	<![CDATA[		
+		SELECT 
+			BROWSER AS browser, 
+			(
+				SELECT 
+					SUM(HITS) 
+				FROM 
+					JMY_COUNTER_LOG
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND BROWSER = A.BROWSER AND SUBSTR(COUNT_DE, 1, 10) >= #startDate# AND SUBSTR(COUNT_DE, 1, 10) <= #endDate#
+			) AS hits
+		FROM 
+			JMY_COUNTER_LOG AS A
+		WHERE 
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND SUBSTR(A.COUNT_DE, 1, 10) >= #startDate# AND SUBSTR(A.COUNT_DE, 1, 10) <= #endDate#
+		GROUP BY 
+			A.BROWSER
+		ORDER BY 
+			A.HITS DESC
+	]]>		
+	</select>	
+
+	<select id="CounterBackendDAO.selectCounterLogListForOs" resultClass="CounterLogVO">
+	<![CDATA[		
+		SELECT 
+			OS AS os, 
+			(
+				SELECT 
+					SUM(HITS) 
+				FROM 
+					JMY_COUNTER_LOG
+				WHERE 
+					SITE_ID = A.SITE_ID AND DEVICE = #device# AND OS = A.OS AND SUBSTR(COUNT_DE, 1, 10) >= #startDate# AND SUBSTR(COUNT_DE, 1, 10) <= #endDate#
+			) AS hits
+		FROM 
+			JMY_COUNTER_LOG AS A
+		WHERE 
+			A.SITE_ID = #siteId# AND A.DEVICE = #device# AND SUBSTR(A.COUNT_DE, 1, 10) >= #startDate# AND SUBSTR(A.COUNT_DE, 1, 10) <= #endDate#
+		GROUP BY 
+			A.OS
+		ORDER BY 
+			A.HITS DESC
+	]]>		
+	</select>
+
+</sqlMap>

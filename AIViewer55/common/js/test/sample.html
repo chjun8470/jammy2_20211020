@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/jquery.contextMenu.js"></script>
+<script type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/syronex-colorpicker.js"></script>
+<script  type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/mousewheel.js"></script>
+<script  type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/AIDrawing.js"></script>
+<!--[if IE]>
+<style>
+v\:roundrect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:textbox {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:rect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:line {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:oval {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+</style>
+<![endif]-->
+<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8080/springViewer/AIViewer50/common/css/AIStyle.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8080/springViewer/AIViewer50/common/css/syronex-colorpicker.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8080/springViewer/AIViewer50/common/css/jquery-ui.css" />
+<style type="text/css">
+#cell_style_0
+{
+   font:bold 10pt/1.4 '돋움';
+   background-color:transparent;
+   
+}
+#cell_style_1
+{
+   font:9pt/1.4 '돋움';
+   text-align:center;
+   background-color:rgb(192, 192, 192);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_2
+{
+   font:9pt/1.4 '돋움';
+   padding:2pt 2pt 2pt 10pt; 
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_3
+{
+   font:9pt/1.4 '돋움';
+   padding:2pt 2pt 2pt 10pt; 
+   background-color:transparent;
+   border-top:1.0pt solid rgb(0, 0, 0);
+   border-bottom:1.0pt solid rgb(0, 0, 0);
+   border-left:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_4
+{
+   font:9pt/1.4 '돋움';
+   padding:2pt 2pt 2pt 10pt; 
+   background-color:transparent;
+   border-top:1.0pt solid rgb(0, 0, 0);
+   border-right:1.0pt solid rgb(0, 0, 0);
+   border-bottom:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_5
+{
+   font:9pt/1.4 '돋움';
+   text-align:center;
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_6
+{
+   font:9pt/1.4 '돋움';
+   text-align:right;
+   padding:2pt 10pt 2pt 2pt; 
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_7
+{
+   font:9pt/1.4 '돋움';
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_8
+{
+   font:9pt/1.4 '돋움';
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_9
+{
+   font:9pt/1.4 '돋움';
+   text-align:right;
+   padding:2pt 10pt 2pt 2pt; 
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_10
+{
+   font:9pt/1.4 '돋움';
+   text-align:center;
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_11
+{
+   font:bold 9pt/1.4 '돋움';
+   background-color:transparent;
+}
+#cell_style_12
+{
+   font:9pt/1.4 '돋움';
+   text-align:right;
+   background-color:transparent;
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_13
+{
+   font:9pt/1.4 '돋움';
+   background-color:rgb(192, 192, 192);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_14
+{
+   font:9pt/1.4 '돋움';
+   text-align:right;
+   background-color:rgb(192, 192, 192);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+</style>
+</head>
+<body style="font-size:10px;">
+<div id="loading" style="position:fixed; display:none; top:50%; left:50%; margin-top:-10px; margin-left:-110px; z-index:10000; ">
+<img src="http://localhost:8080/springViewer/AIViewer50//common/images/loadingbar2.gif" />
+</div>
+<div id="root" style="display:none;">
+<div id="menu" >
+<table border="0" align="center" width="50%" cellpadding="3">
+<tr>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_01.bmp" id="goToTop" onclick="goScroll(startPage);" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_02.bmp" id="goToPrev" onclick="goPrev();" value="Prev" />
+</td>
+<td>
+<select id="page" onchange="goToMove();">
+</select>
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_03.bmp" id="goToNext" onclick="goNext();" value="Next" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_04.bmp" id="goToBottom" onclick="goScroll(endPage);" value="Bottom" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_05.bmp" id="ZoomOut" onclick="ZoomOut();" value="축소" />
+</td>
+<td>
+<select id="size" onchange="ZoomInOut();">
+<option>50%</option>
+<option>60%</option>
+<option>70%</option>
+<option>80%</option>
+<option>90%</option>
+<option>100%</option>
+<option>110%</option>
+<option>120%</option>
+<option>130%</option>
+<option>140%</option>
+<option>150%</option>
+</select>
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_06.bmp" id="ZoomIn" onclick="ZoomIn();" value="확대" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_07.bmp" id="print" onclick="ImagePrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_10.bmp" id="pdfprint" onclick="PDFPrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_08.bmp" id="pdfConvert" onclick="PDFConvert();" value="pdf변환" />
+</td>
+<td>
+<input type="image" src="http://localhost:8080/springViewer/AIViewer50//common/images/d_09.bmp" id="excelConvert" onclick="ExcelConvert();" value="excel변환" />
+</td>
+</tr>
+</table>
+</div>
+<div id="report" name="report" >
+<div id="subreport">
+<div id="1" style="position:relative;margin-top:20pt;width:842pt;height:605pt">
+<div style="position:relative;margin-left:29pt;margin-top:27pt">
+<table style="width:785pt;height:500pt;margin-left:0pt;margin-top:0pt">
+<col style="width:52pt"/>
+<col style="width:28pt"/>
+<col style="width:10pt"/>
+<col style="width:10pt"/>
+<col style="width:5pt"/>
+<col style="width:5pt"/>
+<col style="width:50pt"/>
+<col style="width:25pt"/>
+<col style="width:15pt"/>
+<col style="width:20pt"/>
+<col style="width:50pt"/>
+<col style="width:5pt"/>
+<col style="width:5pt"/>
+<col style="width:20pt"/>
+<col style="width:55pt"/>
+<col style="width:5pt"/>
+<col style="width:10pt"/>
+<col style="width:20pt"/>
+<col style="width:4pt"/>
+<col style="width:36pt"/>
+<col style="width:10pt"/>
+<col style="width:5pt"/>
+<col style="width:65pt"/>
+<col style="width:15pt"/>
+<col style="width:60pt"/>
+<col style="width:30pt"/>
+<col style="width:50pt"/>
+<col style="width:30pt"/>
+<col style="width:90pt"/>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="29">▶&nbsp;프로젝트&nbsp;정보</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="2">Business&nbsp;Area</td>
+<td id="cell_style_2" colspan="11">KR01&nbsp;Cheil&nbsp;Worldwide</td>
+<td id="cell_style_1" colspan="3">프로젝트</td>
+<td id="cell_style_3" colspan="5">KRP00001001</td>
+<td id="cell_style_4" colspan="4">1001삼성석유화학뉴스</td>
+<td id="cell_style_1" colspan="2">광고주</td>
+<td id="cell_style_2" colspan="2">삼성석유화학</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="2">광고팀/담당자</td>
+<td id="cell_style_2" colspan="11">캠패인1팀</td>
+<td id="cell_style_2" colspan="3">배현철</td>
+<td id="cell_style_1" colspan="5">제작팀/담당자</td>
+<td id="cell_style_2" colspan="6">캠패인1팀</td>
+<td id="cell_style_2" colspan="2">김순희</td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="29">▶&nbsp;계획서내역</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5">통화1</td>
+<td id="cell_style_5" colspan="4">KRW</td>
+<td id="cell_style_5" colspan="3">청구예상액1</td>
+<td id="cell_style_6" colspan="4">11660.00</td>
+<td id="cell_style_5" colspan="3">지급계획금액1</td>
+<td id="cell_style_6" colspan="7">11660.00</td>
+<td id="cell_style_5" colspan="2">예상내수액1</td>
+<td id="cell_style_6" colspan="2">0.00</td>
+<td id="cell_style_5" colspan="2">예상내수율1()</td>
+<td id="cell_style_6">0.00</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5">통화2</td>
+<td id="cell_style_5" colspan="4">USD</td>
+<td id="cell_style_5" colspan="3">청구예상액2</td>
+<td id="cell_style_6" colspan="4">11660.00</td>
+<td id="cell_style_5" colspan="3">지급계힉금액2</td>
+<td id="cell_style_6" colspan="7">11660.00</td>
+<td id="cell_style_5" colspan="2">예상내수액2</td>
+<td id="cell_style_6" colspan="2">0.00</td>
+<td id="cell_style_5" colspan="2">예상내수율2()</td>
+<td id="cell_style_6">0.00</td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="29">▶&nbsp;프로젝트&nbsp;개요&nbsp;정보</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="7">제목</td>
+<td id="cell_style_1" colspan="22">상신내용</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_2" colspan="7">제작목적</td>
+<td id="cell_style_2" colspan="22">미국&nbsp;3대&nbsp;통신사&nbsp;Sprint사의&nbsp;Retail&nbsp;시자&nbsp;공략을&nbsp;위한&nbsp;PT출장</td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="17">▶&nbsp;프로젝트&nbsp;일정계획&nbsp;정보</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="10">기간</td>
+<td id="cell_style_1" colspan="19" rowspan="2">내용</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="6">시작일자</td>
+<td id="cell_style_1" colspan="4">종료일자</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_7" colspan="6"></td>
+<td id="cell_style_7" colspan="4"></td>
+<td id="cell_style_8" colspan="19"></td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="23">▶&nbsp;광고주&nbsp;계약내역</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="11">계약금액</td>
+<td id="cell_style_1" colspan="12">계약체결</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="3">통화</td>
+<td id="cell_style_1" colspan="8">사용금액</td>
+<td id="cell_style_1" colspan="7">체결일</td>
+<td id="cell_style_1" colspan="5">완료일</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5" colspan="3">KRW</td>
+<td id="cell_style_9" colspan="8">999,999,999,999.99</td>
+<td id="cell_style_10" colspan="7">1995</td>
+<td id="cell_style_10" colspan="5">1977</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5" colspan="3">USD</td>
+<td id="cell_style_9" colspan="8">999,999,999,999.99</td>
+<td id="cell_style_10" colspan="7">1995</td>
+<td id="cell_style_10" colspan="5">1977</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_11" colspan="23">▶&nbsp;청구계획</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="4">지급구분</td>
+<td id="cell_style_1" colspan="5">청구예정일</td>
+<td id="cell_style_1" colspan="5">통화</td>
+<td id="cell_style_1" colspan="6">사용금액</td>
+<td id="cell_style_1" colspan="3">청구비율</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5" colspan="4">잔금</td>
+<td id="cell_style_5" colspan="5">2012-09-10</td>
+<td id="cell_style_5" colspan="5">KRW</td>
+<td id="cell_style_6" colspan="6">999999999.99</td>
+<td id="cell_style_6" colspan="3">100.0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5" colspan="14">합계</td>
+<td id="cell_style_12" colspan="6"></td>
+<td id="cell_style_5" colspan="3"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="29">▶&nbsp;지급계획</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="19">협력업체</td>
+<td id="cell_style_1" colspan="5">통화</td>
+<td id="cell_style_1" colspan="5">예산(Doc.Amt)</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_7" colspan="19"></td>
+<td id="cell_style_7" colspan="5"></td>
+<td id="cell_style_7" colspan="5"></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="19" rowspan="2">예산합계</td>
+<td id="cell_style_13" colspan="5"></td>
+<td id="cell_style_13" colspan="5"></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_13" colspan="5"></td>
+<td id="cell_style_13" colspan="5"></td>
+</tr>
+</table>
+<!--[if gte vml 1]>
+<![endif]-->
+</div>
+</div><!--End of Page div-->
+<div id="2" style="position:relative;margin-top:20pt;width:842pt;height:605pt ">
+<div style="position:relative;margin-left:29pt;margin-top:27pt">
+<table style="width:785pt;height:92pt;margin-left:0pt;margin-top:0pt">
+<col style="width:149pt"/>
+<col style="width:206pt"/>
+<col style="width:100pt"/>
+<col style="width:71pt"/>
+<col style="width:150pt"/>
+<col style="width:109pt"/>
+<tr style="height:20pt">
+<td id="cell_style_0" colspan="6">▶&nbsp;실집행&nbsp;내역</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1">협력업체</td>
+<td id="cell_style_1">적요</td>
+<td id="cell_style_1">지급요청일자</td>
+<td id="cell_style_1">통화</td>
+<td id="cell_style_1">사용금액</td>
+<td id="cell_style_1">기표일자</td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_5"></td>
+<td id="cell_style_5"></td>
+<td id="cell_style_5"></td>
+<td id="cell_style_5"></td>
+<td id="cell_style_12"></td>
+<td id="cell_style_5"></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_1" colspan="3" rowspan="2">실집행내역&nbsp;합계</td>
+<td id="cell_style_13"></td>
+<td id="cell_style_14"></td>
+<td id="cell_style_13" rowspan="2"></td>
+</tr>
+<tr style="height:18pt">
+<td id="cell_style_13"></td>
+<td id="cell_style_14"></td>
+</tr>
+</table>
+<!--[if gte vml 1]>
+<![endif]-->
+</div>
+</div><!--End of Page div-->
+</div>
+</div><!--End of Report div-->
+<div id="flashPrint" style="position:absolute;left:200pt;top:10pt" ><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+id="AIprint" width="0" height="0" 
+codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"> 
+<param name="movie" value="http://localhost:8080/springViewer/AIViewer50//common/js/AIprint.swf" />
+<param name="quality" value="high" /> 
+<param name="bgcolor" value="#ffffff" /> 
+<embed src="http://localhost:8080/springViewer/AIViewer50//common/js/AIprint.swf" 
+quality="high" bgcolor="#ffffff" name="AIprint" 
+width="0" height="0"  
+type="application/x-shockwave-flash"  
+pluginspage="http://www.macromedia.com/shockwave/download/index.cgi? P1_Prod_Version=ShockwaveFlash">  
+</embed>  
+</object> 
+</div><script type="text/javascript" >
+var startPage 		= 1;
+var endPage 		= 2; 
+var currentPage 	= 1;
+var textInsert  	= 1;
+var imageInsert 	= 1;
+var pageWidth 	= 1123; 
+var report_leftMargin = 0;
+var report_width = '100';
+var report_widthUnit = '%';
+function PDFConvert(){
+location.href = reportUrl.replace('=HTML','=PDF') + "";
+}function PDFPrint(){
+pdfPrint('http://localhost:8080/springViewer/test/AIprint.jsp?nameTag=','[{"targetURL": "E:/log/AItoPDF-1766626092-130214020610500.pdf"}]',1123,793);
+}function ExcelConvert(){
+location.href = reportUrl.replace('=HTML','=EXCEL') + "";
+}function ImagePrint(){
+ajaxPrint(reportUrl.replace('=HTML','=IMAGE') + "");
+}</script>
+<script type="text/javascript" src="http://localhost:8080/springViewer/AIViewer50/common/js/aireport_ie9.js"></script>
+</div>
+<script language="javascript">
+document.getElementById('loading').style.display = "none";
+document.getElementById('root').style.display = "";
+</script>
+</body>
+</html>
+
+
+

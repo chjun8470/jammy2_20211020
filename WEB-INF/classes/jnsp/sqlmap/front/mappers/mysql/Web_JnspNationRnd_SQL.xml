@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspNationRndMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<!-- BACK -->
+	<select id="getNationRndBackList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					 UID
+					,SUBJECT
+					,CONTENT
+					,NEW_TYPE1
+					,NEW_TYPE2
+					,DATE_FORMAT(NEW_TYPE3,'%Y-%m-%d') AS NEW_TYPE3
+					,NEW_TYPE4
+					,NEW_TYPE5
+					,HIDDEN
+					,ID
+					,NAME
+					,DATE_FORMAT(D_REGIS,'%Y-%m-%d') AS REG_DT
+
+			  FROM	sci.rb_bbs_data
+
+			  WHERE SITE = '3'
+				AND BBS = '77'
+				AND NOTICE = '0'
+		]]>
+
+		<if test="outType == 'DISPLAY' and outType != '' and outType != null">
+			<![CDATA[
+				AND HIDDEN = '0'
+			]]>
+		</if>
+		<if test="outType == 'HIDDEN' and outType != '' and outType != null">
+			<![CDATA[
+				AND HIDDEN = '1'
+			]]>
+		</if>
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+
+			ORDER BY UID DESC
+			LIMIT ${firstRecord} , ${pageSize}
+	</select>
+
+	<!-- BACK -->
+	<select id="getNationRndBackListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(*)
+
+			  FROM sci.rb_bbs_data
+
+			 WHERE SITE = '3'
+			   AND BBS = '77'
+			   AND NOTICE = '0'
+		]]>
+
+		<if test="outType == 'DISPLAY' and outType != '' and outType != null">
+			<![CDATA[
+				AND HIDDEN = '0'
+			]]>
+		</if>
+		<if test="outType == 'HIDDEN' and outType != '' and outType != null">
+			<![CDATA[
+				AND HIDDEN = '1'
+			]]>
+		</if>
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+
+	<!-- FRONT -->
+	<select id="getNationRndList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					 UID
+					,SUBJECT
+					,CONTENT
+					,NEW_TYPE1
+					,NEW_TYPE2
+					,DATE_FORMAT(NEW_TYPE3,'%Y-%m-%d') AS NEW_TYPE3
+					,NEW_TYPE4
+					,NEW_TYPE5
+					,HIDDEN
+					,ID
+					,NAME
+					,DATE_FORMAT(D_REGIS,'%Y-%m-%d') AS REG_DT
+
+			  FROM	sci.rb_bbs_data
+
+			  WHERE SITE = '3'
+				AND BBS = '77'
+				AND NOTICE = '0'
+				AND HIDDEN = '0'
+		]]>
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+
+			ORDER BY UID DESC
+			LIMIT ${firstRecord} , ${pageSize}
+	</select>
+
+	<!-- FRONT -->
+	<select id="getNationRndListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(*)
+
+			  FROM sci.rb_bbs_data
+
+			 WHERE SITE = '3'
+			   AND BBS = '77'
+			   AND NOTICE = '0'
+			   AND HIDDEN = '0'
+		]]>
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+
+	<!-- 상세정보 -->
+	<select id="getNationRndData" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					UID
+					,SUBJECT
+					,CONTENT
+					,NEW_TYPE1
+					,NEW_TYPE2
+					,DATE_FORMAT(NEW_TYPE3,'%Y-%m-%d') AS NEW_TYPE3
+					,NEW_TYPE4
+					,NEW_TYPE5
+					,HIDDEN
+					,ID
+					,NAME
+					,DATE_FORMAT(D_REGIS,'%Y-%m-%d') AS REG_DT
+
+
+			 FROM sci.rb_bbs_data
+
+			WHERE SITE = '3'
+			  AND BBS = '77'
+			  AND NOTICE = '0'
+			  AND UID = #{uid}
+		]]>
+	</select>
+
+	<!-- 표시&미표시 수정 -->
+	<update id="setNationRndUpdate" parameterType="paramMap">
+			UPDATE sci.rb_bbs_data
+			   SET HIDDEN = #{hiddenYn}
+
+			 WHERE UID = #{uid}
+	</update>
+
+</mapper>

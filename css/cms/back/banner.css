@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+
+.album-wrap {position:relative; width:600px; height:256px; margin:0 auto; overflow:hidden;}
+.album-wrap ul.album {position:absolute;}
+.album-wrap ul.album li {float:left; width:600px;}

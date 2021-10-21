@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspEqReservationOrderMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getEqReservationOrderList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.EQU_ORDER_IDX,
+					A.RND_EQU_IDX,
+					A.USER_IDX,
+					A.ORDER_STATE,
+					A.PHONE,
+					A.ADDR1,
+					A.ADDR2,
+					A.ZIPCODE,
+					A.CORP_NM,
+					A.CORP_IDX,
+					A.USE_ST_DT,
+					A.USE_ED_DT,
+					DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d %H:%i') as ORDER_DT,
+					A.REJECT,
+					A.REAL_USE_ST_DT,
+					A.REAL_USE_ED_DT,
+					B.PSN_NM,
+					C.KOR_NM,
+					C.ENG_NM
+				FROM
+					    TB_EQU_ORDER A
+				LEFT JOIN
+						TB_USER_COPY B
+					ON A.USER_IDX = B.USER_IDX
+				LEFT JOIN
+						TB_EQU_INFO C
+					ON A.RND_EQU_IDX = C.RND_EQU_IDX
+					
+			WHERE 1 = 1
+				AND A.USER_IDX = '${userIdx}'
+			]]>
+				<!-- <if test='searchOrderState != null and searchOrderState != ""'>
+					<![CDATA[	
+						AND ( A.ORDER_STATE = '${searchOrderState}' )
+					]]>
+				</if> -->
+				
+				<if test='searchStDt != null and searchStDt != ""'>
+					<if test='searchEdDt == null or searchEdDt == ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '${searchStDt}' AND now() )
+						]]>
+					</if>
+					<if test='searchEdDt != null and searchEdDt != ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '${searchStDt}' AND '${searchEdDt}' )
+						]]>
+					</if>
+				</if>
+				
+				<if test='searchEdDt != null and searchEdDt != ""'>
+					<if test='searchStDt == null or searchStDt == ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '2016-01-01' AND '${searchStDt}' )
+						]]>
+					</if>
+				</if>
+				
+				
+				<if test='searchWord != null and searchWord != ""'>
+					<![CDATA[	
+						AND ( C.KOR_NM LIKE '%${searchWord}%'
+							OR C.ENG_NM LIKE '%${searchWord}%'
+							OR B.PSN_NM LIKE '%${searchWord}%' )
+					]]>
+				</if>
+				
+				<if test='orderState != null and orderState != ""'>
+					<if test='orderState != "ALL"'>
+					<![CDATA[	
+						AND ( A.ORDER_STATE = '${orderState}' )
+					]]>
+					</if>
+				</if>
+			
+			<![CDATA[
+			ORDER BY EQU_ORDER_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getEqReservationOrderListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+			    TB_EQU_ORDER A
+		LEFT JOIN
+				TB_USER_COPY B
+			ON A.USER_IDX = B.USER_IDX
+		LEFT JOIN
+				TB_EQU_INFO C
+			ON A.RND_EQU_IDX = C.RND_EQU_IDX
+			
+		 WHERE
+				1= 1
+			AND A.USER_IDX = '${userIdx}'
+			
+				<!-- <if test='searchOrderState != null and searchOrderState != ""'>
+					<![CDATA[	
+						AND ( A.ORDER_STATE = '${searchOrderState}' )
+					]]>
+				</if> -->
+				<if test='searchStDt != null and searchStDt != ""'>
+					<if test='searchEdDt == null or searchEdDt == ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '${searchStDt}' AND now() )
+						]]>
+					</if>
+					<if test='searchEdDt != null and searchEdDt != ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '${searchStDt}' AND '${searchEdDt}' )
+						]]>
+					</if>
+				</if>
+				
+				<if test='searchEdDt != null and searchEdDt != ""'>
+					<if test='searchStDt == null or searchStDt == ""'>
+						<![CDATA[	
+							AND ( DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d') BETWEEN '2016-01-01' AND '${searchStDt}' )
+						]]>
+					</if>
+				</if>
+				
+				<if test='searchWord != null and searchWord != ""'>
+					<![CDATA[	
+						AND ( C.KOR_NM LIKE '%${searchWord}%'
+							OR C.ENG_NM LIKE '%${searchWord}%'
+							OR B.PSN_NM LIKE '%${searchWord}%' )
+					]]>
+				</if>
+				
+				<if test='orderState != null and orderState != ""'>
+					<if test='orderState != "ALL"'>
+					<![CDATA[	
+						AND ( A.ORDER_STATE = '${orderState}' )
+					]]>
+					</if>
+				</if>
+
+	</select>
+
+	<select id="getEqReservationOrder" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.EQU_ORDER_IDX,
+					A.RND_EQU_IDX,
+					A.USER_IDX,
+					A.ORDER_STATE,
+					A.PHONE,
+					A.ADDR1,
+					A.ADDR2,
+					A.ZIPCODE,
+					A.CORP_NM,
+					A.CORP_IDX,
+					A.CORP_POSITION,
+					A.CORP_RESPONSIBLE_USER,
+					A.USE_MEAN,
+					A.USE_PURPOSE,
+					A.SAMPLE_MATTER,
+					A.SAMPLE_NM,
+					A.SAMPLE_NO,
+					A.USE_ST_DT,
+					A.USE_ED_DT,
+					DATE_FORMAT(A.ORDER_DT, '%Y-%m-%d %H:%i') as ORDER_DT,
+					A.REJECT,
+					A.PRICE_HOW,
+					A.USER_TYPE,
+					A.REAL_USE_ST_DT,
+					A.REAL_USE_ED_DT,
+					A.DEPT_NM,
+					A.ORDER_OPERATOR ,
+					DATE_FORMAT(A.ORDER_OPERATOR_DT, '%Y-%m-%d %H:%i') as ORDER_OPERATOR_DT,
+					A.ORG_RECEIPT_NO ,
+					
+					B.PSN_NM,
+					B.GENDER_TYPE_CD,
+					B.FRGN_YN,
+					B.USER_ID,
+					B.ORG_GRP_CD,
+					B.EMAIL,
+					B.TEL_NO,
+					B.CP_NO,
+					C.EQUIP_CD,
+					C.FIXED_ASET_NO,
+					C.KOR_NM,
+					C.ENG_NM,
+					C.MANUFACTURE_NM,
+					C.MODEL_NM,
+					C.TAKE_CD,
+					C.TAKE_PRC,
+					C.TAKE_SDT,
+					C.TAKE_EDT,
+					C.TAKE_EDT,
+					C.LOCATION_DTL,
+					C.BRANCH_NM,
+					C.IDLE_DISUSE_CD,
+					C.ST_STYPE,
+					C.ST_ROOM,
+					C.EQUIP_DETAIL_FEATURE,
+					C.EQUIP_DETAIL_CAPABILITY,
+					C.TAKE_PRC_FOREIGN,
+					C.TAKE_PRC_DOMESTIC,
+					C.USER_IDX,
+					D.REF_RSV_TEL,
+					D.REF_EQU_TEL,
+					D.HOW_USE,
+					D.RENTAL_INFO,
+					D.RSV_YN,
+					D.OWN_ORG_NM
+					
+				FROM
+					    TB_EQU_ORDER A
+					    
+				LEFT JOIN
+						TB_USER_COPY B
+					ON A.USER_IDX = B.USER_IDX
+				LEFT JOIN
+						TB_EQU_INFO C
+					ON A.RND_EQU_IDX = C.RND_EQU_IDX
+				LEFT JOIN
+						TB_EQU_GOODS D
+					ON A.RND_EQU_IDX = D.RND_EQU_IDX
+					
+			 WHERE EQU_ORDER_IDX = '${equOrderIdx}'
+	</select>
+
+	<delete id="setEqReservationOrderDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_EQU_ORDER
+			 WHERE EQU_ORDER_IDX = '${equOrderIdx}'
+	</delete>
+
+	<!-- <delete id="setAllEqReservationOrderDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_EQU_ORDER
+			 WHERE EQU_ORDER_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{equOrderIdx}
+			</foreach>
+
+	</delete> -->
+
+	<insert id="setEqReservationOrderInsert" parameterType="paramMap">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_EQU_ORDER
+			(
+				EQU_ORDER_IDX,
+				RND_EQU_IDX,
+				USER_IDX,
+				ORDER_STATE,
+				PHONE,
+				ADDR1,
+				ADDR2,
+				ZIPCODE,
+				CORP_NM,
+				CORP_IDX,
+				USE_ST_DT,
+				USE_ED_DT,
+				ORDER_DT,
+				REJECT,
+				REAL_USE_ST_DT,
+				REAL_USE_ED_DT
+			)
+			VALUES
+			(
+				#{equOrderIdx},
+				#{rndEquIdx},
+				#{userIdx},
+				1,
+				#{phone},
+				#{addr1},
+				#{addr2},
+				#{zipcode},
+				#{corpNm},
+				#{cormIdx},
+				#{useStDt},
+				#{useEdDt},
+				now(),
+				#{reject},
+				#{realUseStDt},
+				#{realUseEdDt}
+			)
+	</insert>
+	
+	
+	
+	<update id="setEqReservationOrderUpdate" parameterType="paramMap">
+	    UPDATE TB_EQU_ORDER SET
+				USER_TYPE = #{userType},
+				USE_MEAN = #{useMean},
+				ZIPCODE = #{zipCode},
+				ADDR1 = #{addr1},
+				ADDR2 = #{addr2},
+				DEPT_NM = #{deptNm},
+				CORP_POSITION = #{corpPosition},
+				CORP_RESPONSIBLE_USER = #{corpResponsibleUser},
+				
+			<choose>
+				<when test="realUseStDt !='' and realUseStDt != null">
+				REAL_USE_ST_DT = #{realUseStDt},
+				</when>
+			</choose>
+			<choose>
+				<when test="realUseEdDt !='' and realUseEdDt != null">
+				REAL_USE_ED_DT = #{realUseEdDt},
+				</when>
+			</choose>
+				
+				USE_PURPOSE = #{usePurpose},
+				SAMPLE_NM = #{sampleNm},
+				SAMPLE_NO = #{sampleNo},
+				SAMPLE_MATTER = #{sampleMatter}
+				
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+			
+			<!-- <if test='authLv != "99"'>
+				<![CDATA[	AND USER_IDX IN (SELECT U.USER_IDX FROM TB_USER_COPY U WHERE U.ORG_GRP_CD = #{orgGrpCd})]]>
+			</if> -->
+			
+	</update>
+	
+	
+	<update id="setEqReservationOrderOrderStateUpdate" parameterType="paramMap">
+		UPDATE TB_EQU_ORDER SET
+				
+				ORDER_STATE = #{orderState} , 
+				REJECT = #{reject}
+				
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+			
+			<!-- <if test='authLv != "99"'>
+				<![CDATA[	AND USER_IDX IN (SELECT U.USER_IDX FROM TB_USER_COPY U WHERE U.ORG_GRP_CD = #{orgGrpCd})]]>
+			</if> -->
+	</update>
+	
+	
+	<update id="setEqReservationOrderSatisfaction" parameterType="paramMap">
+		UPDATE TB_EQU_ORDER SET
+				
+				EQU_SATISFACTION = #{equSatisfaction}
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+			
+			<!-- <if test='authLv != "99"'>
+				<![CDATA[	AND USER_IDX IN (SELECT U.USER_IDX FROM TB_USER_COPY U WHERE U.ORG_GRP_CD = #{orgGrpCd})]]>
+			</if> -->
+	</update>
+	
+	<select id="getEqReservationOrderUser" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+                           U.USER_IDX,
+                           U.PSN_NM,
+                           U.GENDER_TYPE_CD,
+                           U.FRGN_YN,
+                           U.USER_ID,
+                           U.PASSWORD,
+                           U.EMAIL,
+                           U.EMAIL_RECV_YN,
+                           U.ZIPCD,
+                           U.ADDR1,
+                           U.ADDR2,
+                           U.TEL_NO,
+                           U.CP_NO,
+                           U.FAX_NO,
+                           U.DEPT_NM,
+                           U.POSITION_NM,
+                           U.USER_TYPE_CD,
+                           U.BIRTH_DATE,
+                           U.DELETE_YN,
+                           U.ORG_GRP_CD,
+                           U.AUTH_LV,
+                           DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+                           U.REG_IP,
+                           U.REG_IDX,
+                           U.UP_DT,
+                           U.UP_IP,
+                           U.UP_IDX,
+                           U.REJECT,
+                           CASE WHEN U.PRO_STATE="10" THEN "요청"
+                                      WHEN U.PRO_STATE="20" THEN "승인"
+                                      WHEN U.PRO_STATE="30" THEN "반려"
+                                    ELSE ""
+                                    END PRO_STATE,
+                           CASE WHEN U.USER_APP_STATE="10" THEN "요청"
+                                      WHEN U.USER_APP_STATE="20" THEN "승인"
+                                      WHEN U.USER_APP_STATE="30" THEN "반려"
+                                    ELSE ""
+                                    END USER_APP_STATE,
+                           O.ORG_GRP_NM,
+                           CASE WHEN O.ORG_TYPE="1" THEN "기업"
+                                      WHEN O.ORG_TYPE="2" THEN "기관/센터"
+                                    ELSE ""
+                                    END ORG_TYPE,
+                           O.APPLY_CD,
+                           O.APPLY_REJECT,
+                           O.CI_FILE_SRC,
+                           O.AUTH_CD,
+                           O.AUTH_ORG_SITE_1,
+                           O.AUTH_ORG_SITE_2,
+                           O.AUTH_ORG_SITE_3,
+                           O.AREA_CD,
+                           O.ORNER_NM,
+                           O.CORP_NUM_1,
+                           O.CORP_NUM_2,
+                           O.CORP_PHONE,
+                           O.CORP_FAX,
+                           O.HOMEPAGE,
+                           O.ADDR1 AS ORG_ADDR1,
+                           O.ADDR2 AS ORG_ADDR2,
+                           O.ZIPCODE,
+                           O.MAP_X,
+                           O.MAP_Y,
+                           O.ORG_NOTE_1,
+                           O.ORG_NOTE_2,
+                           O.ORG_NOTE_3,
+                           O.ORG_NOTE_4,
+                           O.ORG_FILE_INFO,
+                           O.REG_DT AS ORG_REG_DT,
+                           O.REG_IP AS ORG_REG_IP,
+                           O.REG_IDX AS ORG_REG_IDX,
+                           O.UP_DT AS ORG_UP_IP,
+                           O.UP_IP AS ORG_UP_IP,
+                           O.UP_IDX AS ORG_UP_IDX,
+                           O.SIGN_IMG,
+                           O.DELETE_YN,
+                           A.DATA01,
+                           A.DATA02,
+                           A.DATA03,
+                           A.DATA04,
+                           A.DATA05,
+                           A.DATA06,
+                           A.DATA07,
+                           A.DATA08,
+                           A.TEXT1,
+                           A.TEXT2
+
+                FROM
+                                 TB_USER_COPY AS U
+                LEFT JOIN
+                                 TB_ORG_GRP AS O
+                ON
+                                 U.ORG_GRP_CD = O.ORG_GRP_CD
+                LEFT JOIN
+                                 JMY_BOARD_ARTICLE AS A
+                ON
+                                 U.USER_IDX = A.NUM1 AND  A.BOARD_ID = '00014'
+                WHERE
+                                 1=1
+                AND
+                                 U.USER_IDX = #{userIdx}
+                AND
+                                 U.DELETE_YN != 'Y'
+				
+	</select>
+<!-- 	<select id="getEqReservationOrderUser" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+					 	  A.USER_IDX
+						, A.PSN_NM
+						, A.GENDER_TYPE_CD
+						, A.FRGN_YN
+						, A.USER_ID
+						, A.PASSWORD
+						, A.EMAIL
+						, A.EMAIL_RECV_YN
+						, A.TEL_NO
+						, A.CP_NO
+						, A.FAX_NO
+						, A.ZIPCD
+						, A.ADDR1
+						, A.ADDR2
+						, A.DEPT_NM
+						, A.POSITION_NM
+						, A.USER_TYPE_CD
+						, A.BIRTH_DATE
+						, A.DELETE_YN
+						, A.AUTH_LV
+						, DATE_FORMAT(A.REG_DT, '%y-%m-%d') AS REG_DT
+						, A.REG_IP
+						, A.REG_IDX
+						, A.UP_DT
+						, A.UP_IP
+						, A.UP_IDX
+						, CASE 	WHEN A.USER_APP_STATE="10" THEN "요청"
+							WHEN A.USER_APP_STATE="20" THEN "승인"
+							WHEN A.USER_APP_STATE="30" THEN "반려"
+							ELSE ""
+							END USER_APP_STATE
+						, B.ORG_GRP_CD
+						, B.ORG_GRP_NM
+						, B.ORG_TYPE
+						, B.ORNER_NM
+						, B.CORP_PHONE
+						, B.CORP_FAX
+						, B.ADDR1
+						, B.ADDR2
+						, B.ZIPCODE
+
+
+			FROM
+					TB_USER_COPY A
+			LEFT JOIN
+					TB_ORG_GRP B
+					ON A.USER_IDX = B.USER_IDX
+			WHERE 1=1
+			  AND A.USER_IDX = #{userIdx}
+			  AND B.ORG_GRP_CD = #{orgGrpCd}
+			  AND A.DELETE_YN != 'Y'
+				
+	</select> -->
+	
+
+
+</mapper>

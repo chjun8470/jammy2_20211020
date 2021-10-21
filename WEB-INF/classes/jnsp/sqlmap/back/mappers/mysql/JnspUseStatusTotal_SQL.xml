@@ -1,0 +1,1178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspUseStatusTotalMapper">
+
+	<select id="getUseStatusTotalTotalDataMap" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					CAST(SUM(EQ_INFO_CNT) AS SIGNED INTEGER) AS TOTAL1
+				,	CAST(SUM(EQ_INFO_PRICE) AS SIGNED INTEGER) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					EQ_DIV_USE_STATE IS NOT NULL
+			AND		EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalJeinetDataMap" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					EQ_REG_JEINET_NUM IS NOT NULL
+					AND	EQ_DIV_USE_STATE IS NOT NULL
+					AND	EQ_REG_JEINET_NUM <> ""
+					AND	EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalZeusDataMap" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					EQ_REG_ZEUS_NUM IS NOT NULL
+					AND	EQ_DIV_USE_STATE IS NOT NULL
+					AND	EQ_REG_ZEUS_NUM <> ""
+					AND	EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalEtubeDataMap" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_STATE = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					EQ_REG_ETUBE_NUM IS NOT NULL
+					AND EQ_DIV_USE_STATE IS NOT NULL
+					AND	EQ_REG_ETUBE_NUM <> ""
+					AND	EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+
+	<select id="getUseStatusTotalTotalDataMap2" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					COUNT(EQ_REG_JEINET_NUM) + COUNT(EQ_REG_ZEUS_NUM) + COUNT(EQ_REG_ETUBE_NUM) AS TOTAL1
+					,CAST(IF(SUM(EQ_INFO_CNT) > 0 ,SUM(EQ_INFO_CNT), '0') AS UNSIGNED)AS TOTAL2
+       				,CAST(IF(SUM(EQ_INFO_PRICE) > 0 ,SUM(EQ_INFO_PRICE), '0') AS UNSIGNED) AS TOTAL3
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_CNT) , '0') AS UNSIGNED) as TOTAL4
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_PRICE) , '0') AS UNSIGNED) as TOTAL5
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					((EQ_REG_JEINET_NUM <> "" AND EQ_REG_JEINET_NUM IS NOT NULL) OR (EQ_REG_ZEUS_NUM <> "" AND EQ_REG_ZEUS_NUM IS NOT NULL) OR (EQ_REG_ETUBE_NUM <> "" AND EQ_REG_ETUBE_NUM IS NOT NULL))
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalJeinetDataMap2" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					COUNT(EQ_REG_JEINET_NUM) + COUNT(EQ_REG_ZEUS_NUM) + COUNT(EQ_REG_ETUBE_NUM) AS TOTAL1
+					,CAST(IF(SUM(EQ_INFO_CNT) > 0 ,SUM(EQ_INFO_CNT), '0') AS UNSIGNED)AS TOTAL2
+       				,CAST(IF(SUM(EQ_INFO_PRICE) > 0 ,SUM(EQ_INFO_PRICE), '0') AS UNSIGNED) AS TOTAL3
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_CNT) , '0') AS UNSIGNED) as TOTAL4
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_PRICE) , '0') AS UNSIGNED) as TOTAL5
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					((EQ_REG_JEINET_NUM <> "" AND EQ_REG_JEINET_NUM IS NOT NULL))
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalZeusDataMap2" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					COUNT(EQ_REG_JEINET_NUM) + COUNT(EQ_REG_ZEUS_NUM) + COUNT(EQ_REG_ETUBE_NUM) AS TOTAL1
+					,CAST(IF(SUM(EQ_INFO_CNT) > 0 ,SUM(EQ_INFO_CNT), '0') AS UNSIGNED)AS TOTAL2
+       				,CAST(IF(SUM(EQ_INFO_PRICE) > 0 ,SUM(EQ_INFO_PRICE), '0') AS UNSIGNED) AS TOTAL3
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_CNT) , '0') AS UNSIGNED) as TOTAL4
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_PRICE) , '0') AS UNSIGNED) as TOTAL5
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					((EQ_REG_ZEUS_NUM <> "" AND EQ_REG_ZEUS_NUM IS NOT NULL))
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalEtubeDataMap2" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					COUNT(EQ_REG_JEINET_NUM) + COUNT(EQ_REG_ZEUS_NUM) + COUNT(EQ_REG_ETUBE_NUM) AS TOTAL1
+					,CAST(IF(SUM(EQ_INFO_CNT) > 0 ,SUM(EQ_INFO_CNT), '0') AS UNSIGNED)AS TOTAL2
+       				,CAST(IF(SUM(EQ_INFO_PRICE) > 0 ,SUM(EQ_INFO_PRICE), '0') AS UNSIGNED) AS TOTAL3
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_CNT) , '0') AS UNSIGNED) as TOTAL4
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_PRICE) , '0') AS UNSIGNED) as TOTAL5
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					((EQ_REG_ETUBE_NUM <> "" AND EQ_REG_ETUBE_NUM IS NOT NULL))
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalNJeinetDataMap" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					COUNT(EQ_REG_JEINET_NUM) + COUNT(EQ_REG_ZEUS_NUM) + COUNT(EQ_REG_ETUBE_NUM) AS TOTAL1
+					,CAST(IF(SUM(EQ_INFO_CNT) > 0 ,SUM(EQ_INFO_CNT), '0') AS UNSIGNED)AS TOTAL2
+       				,CAST(IF(SUM(EQ_INFO_PRICE) > 0 ,SUM(EQ_INFO_PRICE), '0') AS UNSIGNED) AS TOTAL3
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_CNT) , '0') AS UNSIGNED) as TOTAL4
+					,CAST(IF(EQ_INFO_SUB_YEAR*365 - ((365-DATEDIFF(CONCAT(DATE_FORMAT(EQ_INFO_DATE, '%Y'),'-01-01'), EQ_INFO_DATE)) + 365*(EQ_INFO_SUB_YEAR-1)) < 0 , SUM(EQ_INFO_PRICE) , '0') AS UNSIGNED) as TOTAL5
+			FROM
+					TB_USE_STATUS_TOTAL
+			WHERE
+					((EQ_REG_ZEUS_NUM <> "" AND EQ_REG_ZEUS_NUM IS NOT NULL) OR (EQ_REG_ETUBE_NUM <> "" AND EQ_REG_ETUBE_NUM IS NOT NULL))
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalTotalDataMap3" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_CNT ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL9
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_PRICE ELSE '0' END) AS COL10
+
+				FROM
+					TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_INFO_FROM IS NOT NULL
+				AND	EQ_INFO_FROM <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalJeinetDataMap3" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_CNT ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL9
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_PRICE ELSE '0' END) AS COL10
+
+				FROM
+					TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_JEINET_NUM IS NOT NULL
+				AND	EQ_INFO_FROM IS NOT NULL
+				AND	EQ_REG_JEINET_NUM <> ""
+				AND	EQ_INFO_FROM <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalZeusDataMap3" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_CNT ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL9
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_PRICE ELSE '0' END) AS COL10
+
+				FROM
+					TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ZEUS_NUM IS NOT NULL
+				AND	EQ_INFO_FROM IS NOT NULL
+				AND	EQ_REG_ZEUS_NUM <> ""
+				AND	EQ_INFO_FROM <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalEtubeDataMap3" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_CNT ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_INFO_FROM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_INFO_FROM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_INFO_FROM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				,	SUM(CASE WHEN EQ_INFO_FROM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL9
+				,	SUM(CASE WHEN EQ_INFO_FROM = '5' THEN EQ_INFO_PRICE ELSE '0' END) AS COL10
+
+				FROM
+					TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ETUBE_NUM IS NOT NULL
+				AND	EQ_INFO_FROM IS NOT NULL
+				AND	EQ_REG_ETUBE_NUM <> ""
+				AND	EQ_INFO_FROM <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalTotalDataMap4" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+				SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				FROM TB_USE_STATUS_TOTAL
+				WHERE EQ_DIV_USE_NM IS NOT NULL
+				AND EQ_DIV_USE_STATE != '4'
+				AND EQ_DIV_USE_NM <> ""
+				AND EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalJeinetDataMap4" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_JEINET_NUM IS NOT NULL
+				AND	EQ_DIV_USE_NM IS NOT NULL
+				AND EQ_DIV_USE_STATE != '4'
+				AND EQ_REG_JEINET_NUM <> ""
+				AND EQ_DIV_USE_NM <> ""
+				AND EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalZeusDataMap4" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ZEUS_NUM IS NOT NULL
+				AND	EQ_DIV_USE_NM IS NOT NULL
+				AND EQ_DIV_USE_STATE != '4'
+				AND EQ_REG_ZEUS_NUM <> ""
+				AND EQ_DIV_USE_NM <> ""
+				AND EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalEtubeDataMap4" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_CNT ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL7
+				,	SUM(CASE WHEN EQ_DIV_USE_NM = '4' THEN EQ_INFO_PRICE ELSE '0' END) AS COL8
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ETUBE_NUM IS NOT NULL
+				AND	EQ_DIV_USE_NM IS NOT NULL
+				AND EQ_DIV_USE_STATE != '4'
+				AND EQ_REG_ETUBE_NUM <> ""
+				AND EQ_DIV_USE_NM <> ""
+				AND EQ_DIV_USE_STATE <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalTotalDataMap5" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+				SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				FROM TB_USE_STATUS_TOTAL
+				WHERE EQ_DIV_USE_AREA IS NOT NULL
+				AND	EQ_DIV_USE_AREA <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalJeinetDataMap5" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_JEINET_NUM IS NOT NULL
+				AND EQ_DIV_USE_AREA IS NOT NULL
+				AND	EQ_REG_JEINET_NUM <> ""
+				AND	EQ_DIV_USE_AREA <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalZeusDataMap5" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ZEUS_NUM IS NOT NULL
+				AND EQ_DIV_USE_AREA IS NOT NULL
+				AND	EQ_REG_ZEUS_NUM <> ""
+				AND	EQ_DIV_USE_AREA <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusTotalEtubeDataMap5" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+					SUM(EQ_INFO_CNT) AS TOTAL1
+				,	SUM(EQ_INFO_PRICE) AS TOTAL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_CNT ELSE '0' END) AS COL1
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_CNT ELSE '0' END) AS COL2
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_CNT ELSE '0' END) AS COL3
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '1' THEN EQ_INFO_PRICE ELSE '0' END) AS COL4
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '2' THEN EQ_INFO_PRICE ELSE '0' END) AS COL5
+				,	SUM(CASE WHEN EQ_DIV_USE_AREA = '3' THEN EQ_INFO_PRICE ELSE '0' END) AS COL6
+				FROM TB_USE_STATUS_TOTAL
+				WHERE
+					EQ_REG_ETUBE_NUM IS NOT NULL
+				AND EQ_DIV_USE_AREA IS NOT NULL
+				AND	EQ_REG_ETUBE_NUM <> ""
+				AND	EQ_DIV_USE_AREA <> ""
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null ">
+			<![CDATA[
+				AND ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test="jointYear != '' and jointYear != null ">
+			<![CDATA[
+				AND JOINT_YEAR = #{jointYear}
+			]]>
+		</if>
+	</select>
+
+	<select id="getUseStatusList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.USE_STATUS_IDX,
+					A.JOINT_YEAR,
+					A.JEINET_EQU_NO,
+					A.NTIS_EQU_NO,
+					A.JOINT_USE_SECTION,
+					A.JOINT_USE_INSTITUTION,
+					A.DEPARTMENT,
+					CONVERT(A.JOINT_USE_ST_DT,CHAR) AS JOINT_USE_ST_DT,
+					CONVERT(A.JOINT_USE_ED_DT,CHAR) AS JOINT_USE_ED_DT,
+					A.USER_NAME,
+					A.USER_EMAIL,
+					A.USER_PHONE,
+					A.USE_TIME,
+					A.EARNINGS,
+					A.SAMPLE_COUNT,
+					A.STATE,
+					A.REJECT,
+					B.KOR_NM,
+					B.ENG_NM,
+					C.RND_EQU_IDX,
+					C.OWN_ORG
+				FROM
+					    TB_USE_STATUS A
+				LEFT JOIN
+						 TB_EQU_INFO B
+				ON	JEINET_EQU_NO = B.RND_EQU_IDX
+				LEFT JOIN
+						 TB_EQU_GOODS C
+				ON	B.RND_EQU_IDX = C.RND_EQU_IDX
+			WHERE 1 = 1
+			]]>
+			<if test="searchType != null and searchType != ''">
+				<if test="searchType == 'data1'">
+					AND A.JEINET_EQU_NO = #{searchWord}
+				</if>
+				<if test="searchType == 'data2'">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'data3'">
+					AND B.KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			</if>
+			<if test="orgGrpNm != null and orgGrpNm != ''">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{orgGrpNm},'%')
+			</if>
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="useYear != null and useYear != ''">
+					AND A.JOINT_YEAR = #{useYear}
+			</if>
+			<![CDATA[
+			ORDER BY USE_STATUS_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getTab6DataMap" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+					CAST(IFNULL(SUM(EQ_INFO_CNT), 0) as unsigned) as cnt1
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '1' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt2
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '2' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt3
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '3' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt4
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '4' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt5
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '5' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt6
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '6' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt7
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '7' THEN EQ_INFO_CNT ELSE null END), 0) as unsigned) as cnt8
+				,	CAST(IFNULL(SUM(EQ_INFO_PRICE), 0) as unsigned) as price1
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '1' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price2
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '2' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price3
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '3' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price4
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '4' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price5
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '5' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price6
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '6' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price7
+				,	CAST(IFNULL(SUM(CASE WHEN EQ_DIV_6T = '7' THEN EQ_INFO_PRICE ELSE null END), 0) as unsigned) as price8
+		FROM
+					TB_USE_STATUS_TOTAL
+		WHERE
+					1=1
+					]]>
+					<if test="type != '' and type != null ">
+						<choose>
+							<when test="type.equals('JEINET') ">
+							AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+							</when>
+							<when test="type.equals('ZEUS') ">
+							AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+							</when>
+							<when test="type.equals('ETUBE') ">
+							AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+							</when>
+						</choose>
+					</if>
+
+					<if test="orgGrpCd != '' and orgGrpCd != null ">
+						<![CDATA[
+							AND ORG_GRP_CD = #{orgGrpCd}
+						]]>
+					</if>
+					<if test="jointYear != '' and jointYear != null ">
+						<![CDATA[
+							AND JOINT_YEAR = #{jointYear}
+						]]>
+					</if>
+	</select>
+	<select id="getTab7DataMap" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+					CAST(T.eqYcnt as unsigned) as cnt1
+				,	CAST(T.eqNcnt as unsigned) as cnt2
+				,	CAST((T.eqYcnt + T.eqNcnt) as unsigned) as cnt3
+				,	CAST(ROUND(IFNULL(T.eqYcnt/T.eqNcnt*100, 0), 2) as unsigned) as cnt4
+				,	CAST(T.pubYcnt as unsigned) as cnt5
+				,	CAST(T.pubNcnt as unsigned) as cnt6
+				,	CAST((T.pubYcnt + T.pubNcnt) as unsigned) as cnt7
+				,	CAST(ROUND(IFNULL(T.pubYcnt/T.pubNcnt*100, 0), 2) as unsigned) as cnt8
+				,	CAST(T.eqYprice as unsigned) as price1
+				,	CAST(T.eqNprice as unsigned) as price2
+				,	CAST((T.eqYprice + T.eqNprice) as unsigned) as price3
+				,	CAST(ROUND(IFNULL(T.eqYprice/T.eqNprice*100, 0), 2) as unsigned) as price4
+				,	CAST(T.pubYprice as unsigned) as price5
+				,	CAST(T.pubNprice as unsigned) as price6
+				,	CAST((T.pubYprice + T.pubNprice) as unsigned) as price7
+				,	CAST(ROUND(IFNULL(T.pubYprice/T.pubNprice*100,0), 2) as unsigned) as price8
+		FROM
+					(
+						SELECT
+									IFNULL(SUM(CASE WHEN YEAR_EQ_USE='Y' THEN EQ_INFO_CNT ELSE null END), 0) as eqYcnt
+								,	IFNULL(SUM(CASE WHEN YEAR_EQ_USE='N' THEN EQ_INFO_CNT ELSE null END), 0) as eqNcnt
+								,	IFNULL(SUM(CASE WHEN YEAR_PUBLIC_USE='Y' THEN EQ_INFO_CNT ELSE null END), 0) as pubYcnt
+								,	IFNULL(SUM(CASE WHEN YEAR_PUBLIC_USE='N' THEN EQ_INFO_CNT ELSE null END), 0) as pubNcnt
+								,	IFNULL(SUM(CASE WHEN YEAR_EQ_USE='Y' THEN EQ_INFO_PRICE ELSE null END), 0) as eqYprice
+								,	IFNULL(SUM(CASE WHEN YEAR_EQ_USE='N' THEN EQ_INFO_PRICE ELSE null END), 0) as eqNprice
+								,	IFNULL(SUM(CASE WHEN YEAR_PUBLIC_USE='Y' THEN EQ_INFO_PRICE ELSE null END), 0) as pubYprice
+								,	IFNULL(SUM(CASE WHEN YEAR_PUBLIC_USE='N' THEN EQ_INFO_PRICE ELSE null END), 0) as pubNprice
+						FROM
+								TB_USE_STATUS_TOTAL
+						WHERE
+								1=1
+								]]>
+								<if test="orgGrpCd != '' and orgGrpCd != null ">
+									<![CDATA[
+										AND ORG_GRP_CD = #{orgGrpCd}
+									]]>
+								</if>
+								<if test="jointYear != '' and jointYear != null ">
+									<![CDATA[
+										AND JOINT_YEAR = #{jointYear}
+									]]>
+								</if>
+								<if test="type != '' and type != null ">
+									<choose>
+										<when test="type.equals('JEINET') ">
+										AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+										</when>
+										<when test="type.equals('ZEUS') ">
+										AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+										</when>
+										<when test="type.equals('ETUBE') ">
+										AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+										</when>
+									</choose>
+								</if>
+								<![CDATA[
+					) T
+	]]>
+	</select>
+
+
+	<select id="getTab8DataList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+					'type0' as eqInfoPriceType
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM in ('1', '2', '3','4'), T.EQ_INFO_CNT, null)),0) as unsigned) as cnt0
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='1', T.EQ_INFO_CNT, null)),0) as unsigned) as cnt1
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='2', T.EQ_INFO_CNT, null)),0) as unsigned) as cnt2
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='3', T.EQ_INFO_CNT, null)),0) as unsigned) as cnt3
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='4', T.EQ_INFO_CNT, null)),0) as unsigned) as cnt4
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM in ('1', '2', '3','4'), EQ_INFO_PRICE, null)),0) as unsigned) as sum0
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='1', T.EQ_INFO_PRICE, null)),0) as unsigned) as sum1
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='2', T.EQ_INFO_PRICE, null)),0) as unsigned) as sum2
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='3', T.EQ_INFO_PRICE, null)),0) as unsigned) as sum3
+				,	CAST(IFNULL(SUM(IF(T.EQ_DIV_USE_NM='4', T.EQ_INFO_PRICE, null)),0) as unsigned) as sum4
+		FROM
+					TB_USE_STATUS_TOTAL T
+		WHERE
+					1=1
+					]]>
+					<if test="orgGrpCd != '' and orgGrpCd != null ">
+						<![CDATA[
+							AND ORG_GRP_CD = #{orgGrpCd}
+						]]>
+					</if>
+					<if test="jointYear != '' and jointYear != null ">
+						<![CDATA[
+							AND JOINT_YEAR = #{jointYear}
+						]]>
+					</if>
+					<if test="type != '' and type != null ">
+						<choose>
+							<when test="type.equals('JEINET') ">
+							AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+							</when>
+							<when test="type.equals('ZEUS') ">
+							AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+							</when>
+							<when test="type.equals('ETUBE') ">
+							AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+							</when>
+						</choose>
+					</if>
+					<![CDATA[
+		UNION ALL
+		SELECT
+					T1.eqInfoPriceType
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM in ('1', '2', '3','4'), EQ_INFO_CNT, null)),0) as unsigned) as cnt0
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='1', EQ_INFO_CNT, null)),0) as unsigned) as cnt1
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='2', EQ_INFO_CNT, null)),0) as unsigned) as cnt2
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='3', EQ_INFO_CNT, null)),0) as unsigned) as cnt3
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='4', EQ_INFO_CNT, null)),0) as unsigned) as cnt4
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM in ('1', '2', '3','4'), EQ_INFO_PRICE, null)),0) as unsigned) as sum0
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='1', EQ_INFO_PRICE, null)),0) as unsigned) as sum1
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='2', EQ_INFO_PRICE, null)),0) as unsigned) as sum2
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='3', EQ_INFO_PRICE, null)),0) as unsigned) as sum3
+				,	CAST(IFNULL(SUM(IF(EQ_DIV_USE_NM='4', EQ_INFO_PRICE, null)),0) as unsigned) as sum4
+		FROM
+					(
+						SELECT 'type1' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type2' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type3' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type4' as eqInfoPriceType FROM dual
+					) T1
+					LEFT JOIN
+					(
+						SELECT
+									CASE
+										WHEN
+											EQ_INFO_PRICE >= 10000000 AND EQ_INFO_PRICE < 30000000 THEN 'type1'
+										WHEN
+											EQ_INFO_PRICE >= 30000000 AND EQ_INFO_PRICE < 100000000 THEN 'type2'
+										WHEN
+											EQ_INFO_PRICE >= 100000000 AND EQ_INFO_PRICE < 500000000 THEN 'type3'
+										WHEN
+											EQ_INFO_PRICE >= 500000000 THEN 'type4'
+									END as 	eqInfoPriceType
+								,	EQ_DIV_USE_NM
+								,	EQ_INFO_PRICE
+                                ,	EQ_INFO_CNT
+						FROM
+									TB_USE_STATUS_TOTAL
+						WHERE
+									1=1
+									]]>
+									<if test="orgGrpCd != '' and orgGrpCd != null ">
+										<![CDATA[
+											AND ORG_GRP_CD = #{orgGrpCd}
+										]]>
+									</if>
+									<if test="jointYear != '' and jointYear != null ">
+										<![CDATA[
+											AND JOINT_YEAR = #{jointYear}
+										]]>
+									</if>
+									<if test="type != '' and type != null ">
+										<choose>
+											<when test="type.equals('JEINET') ">
+											AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+											</when>
+											<when test="type.equals('ZEUS') ">
+											AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+											</when>
+											<when test="type.equals('ETUBE') ">
+											AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+											</when>
+										</choose>
+									</if>
+									<![CDATA[
+					) T2
+		ON
+					T1.eqInfoPriceType = T2.eqInfoPriceType
+		GROUP BY
+					eqInfoPriceType
+	]]>
+	</select>
+	<select id="getTab9DataList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+					'type0' as eqInfoPriceType
+				,	ROUND(CAST(IFNULL(SUM(T.YEAR_OPER_TIME)/SUM(T.YEAR_OPER_ABLETIME)*100,0) as unsigned)) as yearOperRate
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_ABLETIME),0) as unsigned) as yearOperAbletime
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_TIME),0) as unsigned) as yearOperTime
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_CENTER_GOV),0) as unsigned) as yearOperCenterGov
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_CENTER_ETC),0) as unsigned) as yearOperCenterEtc
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_OTHER),0) as unsigned) as yearOperOther
+				,	CAST(IFNULL(SUM(T.YEAR_OPER_OUT),0) as unsigned) as yearOperOut
+		FROM
+					TB_USE_STATUS_TOTAL T
+		WHERE
+					1=1
+					]]>
+					<if test="orgGrpCd != '' and orgGrpCd != null ">
+						<![CDATA[
+							AND ORG_GRP_CD = #{orgGrpCd}
+						]]>
+					</if>
+					<if test="jointYear != '' and jointYear != null ">
+						<![CDATA[
+							AND JOINT_YEAR = #{jointYear}
+						]]>
+					</if>
+					<if test="type != '' and type != null ">
+						<choose>
+							<when test="type.equals('JEINET') ">
+							AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+							</when>
+							<when test="type.equals('ZEUS') ">
+							AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+							</when>
+							<when test="type.equals('ETUBE') ">
+							AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+							</when>
+						</choose>
+					</if>
+					<![CDATA[
+		UNION ALL
+		SELECT
+					T1.eqInfoPriceType
+				,	ROUND(CAST(IFNULL(SUM(YEAR_OPER_TIME)/SUM(YEAR_OPER_ABLETIME)*100,0) as unsigned)) as yearOperRate
+				,	CAST(IFNULL(SUM(YEAR_OPER_ABLETIME),0) as unsigned) as yearOperAbletime
+				,	CAST(IFNULL(SUM(YEAR_OPER_TIME),0) as unsigned) as yearOperTime
+				,	CAST(IFNULL(SUM(YEAR_OPER_CENTER_GOV),0) as unsigned) as yearOperCenterGov
+				,	CAST(IFNULL(SUM(YEAR_OPER_CENTER_ETC),0) as unsigned) as yearOperCenterEtc
+				,	CAST(IFNULL(SUM(YEAR_OPER_OTHER),0) as unsigned) as yearOperOther
+				,	CAST(IFNULL(SUM(YEAR_OPER_OUT),0) as unsigned) as yearOperOut
+		FROM
+					(
+						SELECT 'type1' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type2' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type3' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type4' as eqInfoPriceType FROM dual
+					) T1
+					LEFT JOIN
+					(
+						SELECT
+									CASE
+										WHEN
+											EQ_INFO_PRICE >= 10000000 AND EQ_INFO_PRICE < 30000000 THEN 'type1'
+										WHEN
+											EQ_INFO_PRICE >= 30000000 AND EQ_INFO_PRICE < 100000000 THEN 'type2'
+										WHEN
+											EQ_INFO_PRICE >= 100000000 AND EQ_INFO_PRICE < 500000000 THEN 'type3'
+										WHEN
+											EQ_INFO_PRICE >= 500000000 THEN 'type4'
+									END as 	eqInfoPriceType
+								,	YEAR_OPER_TIME
+								,	YEAR_OPER_ABLETIME
+								,	YEAR_OPER_CENTER_GOV
+								,	YEAR_OPER_CENTER_ETC
+								,	YEAR_OPER_OTHER
+								,	YEAR_OPER_OUT
+						FROM
+									TB_USE_STATUS_TOTAL
+						WHERE
+									1=1
+									]]>
+									<if test="orgGrpCd != '' and orgGrpCd != null ">
+										<![CDATA[
+											AND ORG_GRP_CD = #{orgGrpCd}
+										]]>
+									</if>
+									<if test="jointYear != '' and jointYear != null ">
+										<![CDATA[
+											AND JOINT_YEAR = #{jointYear}
+										]]>
+									</if>
+									<if test="type != '' and type != null ">
+										<choose>
+											<when test="type.equals('JEINET') ">
+											AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+											</when>
+											<when test="type.equals('ZEUS') ">
+											AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+											</when>
+											<when test="type.equals('ETUBE') ">
+											AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+											</when>
+										</choose>
+									</if>
+									<![CDATA[
+					) T2
+		ON
+					T1.eqInfoPriceType = T2.eqInfoPriceType
+		GROUP BY
+					eqInfoPriceType
+	]]>
+	</select>
+
+	<select id="getTab10DataList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+					'type0' as eqInfoPriceType
+				,	CAST(IFNULL(SUM(T.YEAR_CNT_TOTAL),'0') AS UNSIGNED) as yearCntTotal
+				,	CAST(IFNULL(SUM(T.YEAR_CNT_CENTER_GOV),'0') AS UNSIGNED) as yearCntCenterGov
+				,	CAST(IFNULL(SUM(T.YEAR_CNT_CENTER_ETC),'0') AS UNSIGNED) as yearCntCenterEtc
+				,	CAST(IFNULL(SUM(T.YEAR_CNT_OTHER),'0') AS UNSIGNED) as yearCntOther
+				,	CAST(IFNULL(SUM(T.YEAR_CNT_CENTER_OUT),'0') AS UNSIGNED) as yearCntCenterOut
+				,	CAST(IFNULL(SUM(T.YEAR_PRICE),'0') AS UNSIGNED) as yearPrice
+		FROM
+					TB_USE_STATUS_TOTAL T
+		WHERE
+					1=1
+					]]>
+					<if test="orgGrpCd != '' and orgGrpCd != null ">
+						<![CDATA[
+							AND ORG_GRP_CD = #{orgGrpCd}
+						]]>
+					</if>
+					<if test="jointYear != '' and jointYear != null ">
+						<![CDATA[
+							AND JOINT_YEAR = #{jointYear}
+						]]>
+					</if>
+					<if test="type != '' and type != null ">
+						<choose>
+							<when test="type.equals('JEINET') ">
+							AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+							</when>
+							<when test="type.equals('ZEUS') ">
+							AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+							</when>
+							<when test="type.equals('ETUBE') ">
+							AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+							</when>
+						</choose>
+					</if>
+					<![CDATA[
+		UNION ALL
+		SELECT
+					T1.eqInfoPriceType
+				,	CAST(IFNULL(SUM(T2.YEAR_CNT_TOTAL),'0') AS UNSIGNED) as yearCntTotal
+				,	CAST(IFNULL(SUM(T2.YEAR_CNT_CENTER_GOV),'0') AS UNSIGNED) as yearCntTotal
+				,	CAST(IFNULL(SUM(T2.YEAR_CNT_CENTER_ETC),'0') AS UNSIGNED) as yearCntCenterEtc
+				,	CAST(IFNULL(SUM(T2.YEAR_CNT_OTHER),'0') AS UNSIGNED) as yearCntOther
+				,	CAST(IFNULL(SUM(T2.YEAR_CNT_CENTER_OUT),'0') AS UNSIGNED) as yearCntCenterOut
+				,	CAST(IFNULL(SUM(T2.YEAR_PRICE),'0') AS UNSIGNED) as yearPrice
+		FROM
+					(
+						SELECT 'type1' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type2' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type3' as eqInfoPriceType FROM dual
+						UNION ALL
+						SELECT 'type4' as eqInfoPriceType FROM dual
+					) T1
+					LEFT JOIN
+					(
+						SELECT
+									CASE
+										WHEN
+											EQ_INFO_PRICE >= 10000000 AND EQ_INFO_PRICE <= 30000000 THEN 'type1'
+										WHEN
+											EQ_INFO_PRICE >= 30000000 AND EQ_INFO_PRICE <= 100000000 THEN 'type2'
+										WHEN
+											EQ_INFO_PRICE >= 100000000 AND EQ_INFO_PRICE <= 500000000 THEN 'type3'
+										WHEN
+											EQ_INFO_PRICE >= 500000000 THEN 'type4'
+									END as 	eqInfoPriceType
+								,	YEAR_CNT_TOTAL
+								,	YEAR_CNT_CENTER_GOV
+								,	YEAR_CNT_CENTER_ETC
+								,	YEAR_CNT_OTHER
+								,	YEAR_CNT_CENTER_OUT
+								,	YEAR_PRICE
+						FROM
+									TB_USE_STATUS_TOTAL
+						WHERE
+									1=1
+									]]>
+									<if test="orgGrpCd != '' and orgGrpCd != null ">
+										<![CDATA[
+											AND ORG_GRP_CD = #{orgGrpCd}
+										]]>
+									</if>
+									<if test="jointYear != '' and jointYear != null ">
+										<![CDATA[
+											AND JOINT_YEAR = #{jointYear}
+										]]>
+									</if>
+									<if test="type != '' and type != null ">
+										<choose>
+											<when test="type.equals('JEINET') ">
+											AND EQ_REG_JEINET_NUM is not NULL AND EQ_REG_JEINET_NUM != ''
+											</when>
+											<when test="type.equals('ZEUS') ">
+											AND EQ_REG_ZEUS_NUM is not NULL AND EQ_REG_ZEUS_NUM != ''
+											</when>
+											<when test="type.equals('ETUBE') ">
+											AND EQ_REG_ETUBE_NUM is not NULL AND EQ_REG_ETUBE_NUM != ''
+											</when>
+										</choose>
+									</if>
+									<![CDATA[
+					) T2
+		ON
+					T1.eqInfoPriceType = T2.eqInfoPriceType
+		GROUP BY
+					eqInfoPriceType
+		]]>
+	</select>
+
+</mapper>

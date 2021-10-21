@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.service.impl.CmsBoardMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+
+	<select id="getBoardList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+		SELECT
+		 			BOARD_IDX,
+					SUBJECT,
+					CONTENTS,
+					HIT,
+					UP_DT,
+					UP_IP,
+					UP_ID,
+					REG_DT,
+					REG_IP,
+					REG_ID
+	 		FROM
+					BOARD_NOTICE
+			WHERE 1 = 1
+			]]>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "SUBJECT" and searchWord != ""'>
+					<![CDATA[	AND SUBJECT LIKE '%' || #{searchWord} || '%' ]]>
+				</if>
+				<if test='searchType == "CONTENTS" and searchWord != ""'>
+					<![CDATA[	 AND CONTENTS LIKE '%'|| #{searchWord} ||'%' ]]>
+				</if>
+			</if>
+			<![CDATA[
+			ORDER BY BOARD_IDX DESC
+			LIMIT ${firstRecord}, ${lastRecord}
+		]]>
+	</select>
+
+
+	<select id="getBoardListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+				BOARD_NOTICE
+	 WHERE
+				1= 1
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "SUBJECT" and searchWord != ""'>
+					AND SUBJECT LIKE '%' || #{searchWord} || '%'
+				</if>
+				<if test='searchType == "CONTENTS" and searchWord != ""'>
+					AND CONTENTS LIKE '%'|| #{searchWord} ||'%'
+				</if>
+			</if>
+	</select>
+
+	<select id="getBoard" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						BOARD_IDX,
+						SUBJECT,
+						CONTENTS,
+						HIT,
+						UP_DT,
+						UP_IP,
+						UP_ID,
+						REG_DT,
+						REG_IP,
+						REG_ID
+			  FROM
+						BOARD_NOTICE
+			 WHERE BOARD_IDX = ${boardIdx}
+	</select>
+
+	<delete id="setBoardDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						BOARD_NOTICE
+			 WHERE BOARD_IDX = ${boardIdx}
+	</delete>
+
+	<delete id="setAllBoardDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						BOARD_NOTICE
+			 WHERE BOARD_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{boardIdx}
+			</foreach>
+
+	</delete>
+
+	<insert id="setBoardInsert" parameterType="paramMap">
+	<!--
+		  <selectKey keyProperty="boardIdxSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM BOARD_IDX
+		  </selectKey>
+ -->
+			INSERT INTO BOARD_NOTICE
+			(
+				BOARD_IDX,
+				SUBJECT,
+				CONTENTS,
+				HIT,
+				REG_DT,
+				REG_IP,
+				REG_ID
+			)
+			VALUES
+			(
+				#{boardIdx},
+				#{subject},
+				#{contents},
+				0,
+				now(),
+				#{upIp},
+				#{upId}
+			)
+
+	</insert>
+
+	<update id="setBoardUpdate" parameterType="paramMap">
+			UPDATE BOARD_NOTICE SET
+						SUBJECT = #{subject},
+						CONTENTS = #{contents},
+						HIT = #{hit},
+						UP_DT = now(),
+						UP_IP = {hit},
+						UP_ID {hit},
+
+			 WHERE SNO = #{sno}
+	</update>
+
+</mapper>

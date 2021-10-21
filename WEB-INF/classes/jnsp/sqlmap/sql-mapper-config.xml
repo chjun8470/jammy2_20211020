@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+ 	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+    <typeAliases>
+       	<typeAlias alias="paramMap" type="java.util.HashMap"/>
+       	<typeAlias alias="staticVO" type="info.elsys.jnsp.comm.vo.StaticVO"/>
+       	<typeAlias alias="loginVO" type="info.elsys.jnsp.comm.vo.LoginVO"/>
+    </typeAliases>
+
+	<typeHandlers>
+		<typeHandler handler="egovframework.rte.psl.dataaccess.typehandler.CalendarMapperTypeHandler" />
+		<!-- Us7Ascii를 한글로 처리하기 위한 것 -->
+		<!-- <typeHandler handler="com.lexken.framework.typeHandler.Us7AscMapperTypeHandler" />
+		<typeHandler handler="com.lexken.framework.typeHandler.Us7AscMapperObjectTypeHandler" /> -->
+	</typeHandlers>
+	<mappers>
+
+		<!-- JEINET BACK -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspTotal_SQL.xml"/> 					<!-- 공통모튤 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspUser_SQL.xml"/> 					<!-- 회원관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspOrgUser_SQL.xml"/>					<!-- 기관회원 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspChangeOrg_SQL.xml"/> 				<!-- 기간회원변경신청 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspModule_SQL.xml"/>  				<!-- 모듈관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/Cms_Common_SQL.xml"/> 					<!-- 공통모튤 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBoard_SQL.xml"/>					<!-- 게시판관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_SQL.xml"/>				<!-- 공통게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Basic_SQL.xml"/>			<!-- 기본게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Reply_SQL.xml"/>			<!-- 답글게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_image_SQL.xml"/>			<!-- 이미지게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBoardCmt_SQL.xml"/>        		<!-- 답글게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Public_SQL.xml"/>			<!-- 전문가정보게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_ExpertInfo_SQL.xml"/>		<!-- 전문가정보게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Change_SQL.xml"/>			<!-- 담당자게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Consulting_SQL.xml"/>		<!-- 상담게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBoardProjectInfo_SQL.xml"/>		<!-- 지역사업정보게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBoardRndInfo_SQL.xml"/>		   <!-- 정부R&D사업등록 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBoardRndTeam_SQL.xml"/>		   <!-- 연구조직등록 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Data_SQL.xml"/>			<!-- 자료실게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_Inquiry_SQL.xml"/>			<!-- 문의게시판 -->
+
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBuildResearch_SQL.xml"/>   		<!-- 장비구축수요조사게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspExpertManage_SQL.xml"/>			<!-- 전문가관리게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEqReservation_SQL.xml"/>			<!-- 연구장비 예약 관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEqReservationStatus_SQL.xml"/>			<!-- JEINET 장비 예약/이용정보 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspUseStatusWrite_SQL.xml"/>	        	<!-- 연구장비활용실태조사표등록/확인  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspUseStatusTotal_SQL.xml"/>	        	<!-- 연구장비활용실태조사통계  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEquOperDiary_SQL.xml"/>	    	<!-- 운영일지  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEquOperLegal_SQL.xml"/>	    	<!-- 법정검사  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEquOperInner_SQL.xml"/>	    	<!-- 내부활용  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEquStatus_SQL.xml"/>	    		<!-- 장비현황  -->
+
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/Cms_AdminLogin_SQL.xml"/>				<!-- 관리자 로그인 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/Manage_Admin_SQL.xml"/>				<!-- 유지보수게시판 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspAvgEqCnstc_SQL.xml"/> 				<!-- 시설장비구축통계 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspAvgEqHnf_SQL.xml"/> 				<!-- 장비인력통계 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspOrgManage_SQL.xml"/>				<!-- 기관관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspAuthOrg_SQL.xml"/>					<!-- 기관권한관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspOrgModuleManager_SQL.xml"/>		<!-- 기관권한관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspCodeSQL.xml"/>         			<!-- 코드관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspMenuSQL.xml"/>         			<!-- 메뉴관리 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspAvgAgencyAdmin_SQL.xml"/>			<!-- 통계기관권 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspComBoard_OrgManage_SQL.xml"/>		<!-- 기관담당자 -->
+		
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspSmbRndExcel_SQL.xml"/>			<!-- 엑셀 -->
+
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspBanner_SQL.xml"/>					<!-- 게시판관리 -->
+
+		<!-- JIPBANK BACK -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspRegistration_SQL.xml"/>			<!-- 지식재산등록관리  -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspJipUseStatus_SQL.xml"/>    		<!-- 지식재산 활용실적 -->
+
+		<!-- JNTIS BACK-->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JntisEdu_SQL.xml"/>					<!-- 교육정보 -->
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JnspEventSQL.xml"/>					<!-- 행사정보 -->
+		
+		<mapper resource="jnsp/sqlmap/back/mappers/mysql/JntisJnrd_SQL.xml"/>					<!-- JNR&D통합관리 -->
+
+
+		<!-- JEINET FRONT -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspTotal_SQL.xml"/> 				<!-- 공통모튤 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspUser_SQL.xml"/> 				<!-- 회원가입 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_UserLogin_SQL.xml"/>				<!-- 유저로그인-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_Common_SQL.xml"/> 				<!-- 공통모튤 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_SQL.xml"/> 			<!-- 공통게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Basic_SQL.xml"/> 	<!-- 기본게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Change_SQL.xml"/> 	<!-- 담당자공간게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Consulting_SQL.xml"/><!-- 상담게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Cmt_SQL.xml"/> 		<!-- 게시판댓글 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspEqReservation_SQL.xml"/>		<!-- jeinet 예약 신청 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBuildResearch_SQL.xml"/>  	<!-- 장비구축수요조사 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Cmt_SQL.xml"/> 		<!-- 답글게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Consulting_SQL.xml"/><!-- 상담게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBuildResearch_SQL.xml"/>   	<!-- 장비구축수요조사 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_ExpertInfo_SQL.xml"/><!-- 상담게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Consulting_SQL.xml"/><!-- 상담게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Cmt_SQL.xml"/> 		<!-- 게시판댓글 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBuildResearch_SQL.xml"/>   	<!-- 장비구축수요조사 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Public_SQL.xml"/> 	<!-- 퍼블릭게시판-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBoardProjectInfo_SQL.xml"/>	<!-- 지역사업정보게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_Data_SQL.xml"/>			<!-- 자료실게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_OrgManage_SQL.xml"/>				<!-- 전문가정보게시판-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspEqReservationOrder_SQL.xml"/>	<!-- 마이페이지 예약정보-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspMyFav_SQL.xml"/>				<!-- 마이페이지 장바구니-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspEducation_SQL.xml"/>			<!-- 마이페이지 교육-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspAvgReEq_SQL.xml"/>			<!-- 연구장비 통계-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_SSO_SQL.xml"/>					<!-- SSO-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_image_SQL.xml"/>		<!-- 이미지게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBoardLatest_SQL.xml"/>		<!-- 최신글 가져오기 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspExpertManage_SQL.xml"/>		<!-- 전문가관리게시판 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspJipbankSearch_SQL.xml"/>		<!-- 지식재산 검색 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_ExpertInfo_SQL.xml"/><!-- 게시판댓글 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspNationRnd_SQL.xml"/>          <!-- 국가R&D -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspLocalRnd_SQL.xml"/>           <!-- 지역R&D -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspTotalNotice_SQL.xml"/>        <!-- 통합공지사항 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspComBoard_orgManage_SQL.xml"/> <!-- 기관담당자 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspBoardRndInfo_SQL.xml"/>		 <!-- 정부R&D사업등록 -->
+
+		<!-- JIPBANK FRONT -->
+
+
+		<!-- JNTIS FRONT-->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspEdu_SQL.xml"/>				<!-- 교육신청정보 -->
+		<mapper resource="jnsp/sqlmap/front/mappers/mysql/Web_JnspEvent_SQL.xml"/>				<!-- 행사정보 -->
+
+	</mappers>
+
+</configuration>

@@ -1,0 +1,143 @@
+
+/*녹색 버튼*/
+
+.btn_inp_g_01 { margin-left: 2px;display: inline-block; background: #73bb1e;
+	padding:0px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:21px;height:26px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #59a217 solid 1px;
+	min-width:60px;cursor:pointer;vertical-align:middle;
+}
+
+.btn_g_01 { margin-left: 2px;
+	display: inline-block; background: #73bb1e;padding:2px 5px 2px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #59a217 solid 1px;text-align: center;
+	min-width:60px;
+	cursor:pointer;
+}
+.btn_g_01 a {
+	color:#ffffff;display: inline-block;width:100%;height:100%;
+}
+
+.btn_g_01:hover {
+	display: inline-block; background: #6fb11d;padding:2px 5px 2px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #59a217 solid 1px;text-align: center;
+	min-width:60px;
+}
+
+
+
+/*흰색 버튼*/
+
+.btn_inp_w_01 { margin-left: 2px;display: inline-block; background: #ffffff;
+	padding:0px 5px;color:#666666;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:21px;height:26px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #dddddd solid 1px;
+	min-width:60px;cursor:pointer;vertical-align:middle;
+}
+
+.btn_w_01 { margin-left: 2px;
+	display: inline-block; background: #ffffff;padding:2px 5px 2px 5px;color:#666666;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #dddddd solid 1px;text-align: center;
+	min-width:60px;
+	cursor:pointer;
+}
+.btn_w_01 a {
+	color:#666666;display: inline-block;width:100%;height:100%;
+}
+
+.btn_w_01:hover {
+	display: inline-block; background: #f9f9f9;padding:2px 5px 2px 5px;color:#666666;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #dddddd solid 1px;text-align: center;
+	min-width:60px;
+}
+
+/*파랑 버튼*/
+.btn_inp_b_01 { margin-left: 2px;display: inline-block; background: #3d94f6;
+	padding:0px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:21px;height:26px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #337fed solid 1px;
+	min-width:60px;cursor:pointer;vertical-align:middle;
+}
+
+.btn_b_01 { margin-left: 2px;
+	display: inline-block; background: #3d94f6;padding:2px 5px 2px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #337fed solid 1px;text-align: center;
+	min-width:60px;
+	cursor:pointer;
+}
+.btn_b_01 a {
+	color:#ffffff;display: inline-block;width:100%;height:100%;
+}
+
+.btn_b_01:hover {
+	display: inline-block; background: #1c83f4;padding:2px 5px 2px 5px;color:#ffffff;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #337fed solid 1px;text-align: center;
+	min-width:60px;
+}
+
+/*노랑 버튼*/
+
+
+
+.btn_inp_y_01 { margin-left: 2px;display: inline-block; background: #ffec64;
+	padding:0px 5px;color:#333333;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:21px;height:26px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #ffaa22 solid 1px;
+	min-width:60px;cursor:pointer;vertical-align:middle;
+}
+
+.btn_y_01 { margin-left: 2px;
+	display: inline-block; background: #ffec64;padding:2px 5px 2px 5px;color:#333333;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #ffaa22 solid 1px;text-align: center;
+	min-width:60px;
+	cursor:pointer;
+}
+.btn_y_01 a {
+	color:#333333;display: inline-block;width:100%;height:100%;
+}
+
+.btn_y_01:hover {
+	display: inline-block; background: #ffe73e;padding:2px 5px 2px 5px;color:#333333;
+	font-family:'dotum';font-size: 12px;font-weight: bold;line-height:20px;height:auto;max-height:24px;
+	text-decoration:none;letter-spacing: -1px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+	border-radius: 4px;border: #ffaa22 solid 1px;text-align: center;
+	min-width:60px;
+}
+
+.excelBtn { 
+    padding: 5px;
+    background: #337fed;
+    display: inline-block;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 5px;
+	cursor: pointer;
+ }
+
+#excelForm .excelBtn {
+	padding: 5px 10px;
+    background: #337fed;
+    display: inline-block;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 5px;
+	cursor: pointer;
+}

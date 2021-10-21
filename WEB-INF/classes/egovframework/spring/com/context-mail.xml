@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"> 
+     
+    <!-- 일반용 
+    <bean id="EMSMailSender" 
+        class="org.springframework.mail.javamail.JavaMailSenderImpl" 
+        p:host="smtp.gmail.com"  
+        p:username="jammy2cms" 
+        p:password="jammytocms" /> 
+	-->
+	
+	<bean id="egovMultiPartEmail" class="info.elsys.jnsp.util.EmailSender"
+		p:host="smtp.gmail.com"
+		p:port="587" 
+		p:id="song014587@gmail.com" 
+		p:password="thdwldud12"
+		p:senderName="전남과학기술정보시스템"
+		p:emailAddress="song014587@gmail.com" />
+    <!-- 메일 연동 인터페이스에서 첨부파일 미사용(SSL 사용시) -->
+    <bean id="EMSMailSender" 
+        class="org.springframework.mail.javamail.JavaMailSenderImpl" 
+        p:host="smtp.gmail.com" 
+        p:port="465"
+        p:protocol="smtps" 
+        p:username="jammy2cms" 
+        p:password="jammytocms"> 
+        <property name="javaMailProperties"> 
+            <props> 
+                <prop key="mail.smtps.auth">true</prop> 
+                <prop key="mail.smtps.startls.enable">true</prop> 
+                <prop key="mail.smtps.debug">true</prop> 
+            </props> 
+        </property> 
+    </bean>
+        
+</beans> 

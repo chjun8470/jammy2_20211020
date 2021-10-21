@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PopupBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="Popup" type="egovframework.jammy2.popup.service.Popup"/>
+	<typeAlias  alias="PopupVO" type="egovframework.jammy2.popup.service.PopupVO"/>
+
+	<select id="PopupBackendDAO.selectPopupListCnt" parameterClass="PopupVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_POPUP A
+		 WHERE  1=1
+		   AND	A.POPUP_TY = #popupTy#
+		   	<isNotEmpty prepend="AND" property="searchSiteId">
+		   		FIND_IN_SET(#searchSiteId#, A.SHOW_SITE_IDS)
+		   	</isNotEmpty>		   
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="PopupBackendDAO.selectPopupList" parameterClass="PopupVO" resultClass="PopupVO">
+		SELECT  A.POPUP_ID				popupId
+			 ,  A.POPUP_TY				popupTy
+			 ,	A.DEVICE				device
+			 ,	A.TITLE					title
+			 ,	A.START_DT				startDt
+			 ,  A.END_DT				endDt
+			 ,	A.POPUP_WIDTH			popupWidth
+			 ,	A.POPUP_HEIGHT			popupHeight
+			 ,  A.POPUP_LEFT			popupLeft
+			 ,	A.POPUP_TOP				popupTop
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.EDITOR_ATCH_FILE_ID	editorAtchFileId
+			 ,  A.SCROLL_AT				scrollAt
+			 ,  A.CONTENT				content
+			 ,  A.LINK_URL				linkUrl
+			 ,  A.LINK_TARGET			linkTarget
+			 ,  A.POSITION				position
+			 ,  A.USE_AT				useAt
+			 ,  A.SHOW_SITE_IDS			showSiteIds
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+		  FROM  JMY_POPUP A
+		 WHERE  1=1	
+		   AND	A.POPUP_TY = #popupTy#
+		   	<isNotEmpty prepend="AND" property="searchSiteId">
+		   		FIND_IN_SET(#searchSiteId#, A.SHOW_SITE_IDS)
+		   	</isNotEmpty>
+		   	<isNotEmpty prepend="AND" property="device">
+		   		A.DEVICE = #device#
+		   	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.POSITION ASC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="PopupBackendDAO.selectPopup" parameterClass="PopupVO" resultClass="PopupVO">
+		SELECT  A.POPUP_ID				popupId
+			 ,  A.POPUP_TY				popupTy
+			 ,	A.TITLE					title
+			 ,	A.DEVICE				device
+			 ,	A.START_DT				startDt
+			 ,  A.END_DT				endDt
+			 ,	A.POPUP_WIDTH			popupWidth
+			 ,	A.POPUP_HEIGHT			popupHeight
+			 ,  A.POPUP_LEFT			popupLeft
+			 ,	A.POPUP_TOP				popupTop
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.EDITOR_ATCH_FILE_ID	editorAtchFileId
+			 ,  A.SCROLL_AT				scrollAt
+			 ,  A.CONTENT				content
+			 ,  A.LINK_URL				linkUrl
+			 ,  A.LINK_TARGET			linkTarget
+			 ,  A.POSITION				position
+			 ,  A.USE_AT				useAt
+			 ,  A.SHOW_SITE_IDS			showSiteIds
+		  FROM  JMY_POPUP A
+		 WHERE  A.POPUP_ID = #popupId#
+		   AND	A.POPUP_TY = #popupTy#
+	</select>	
+	
+	<insert id="PopupBackendDAO.insertPopup">
+		INSERT 
+		  INTO  JMY_POPUP
+		     (  POPUP_ID
+			 ,  POPUP_TY
+			 ,	DEVICE
+			 ,  TITLE
+			 ,  START_DT
+			 ,  END_DT
+			 ,  POPUP_WIDTH
+			 ,  POPUP_HEIGHT
+			 ,  POPUP_LEFT
+			 ,  POPUP_TOP
+			 ,  ATCH_FILE_ID
+			 ,  EDITOR_ATCH_FILE_ID
+			 ,  SCROLL_AT
+			 ,  CONTENT
+			 ,  LINK_URL
+			 ,  LINK_TARGET
+			 ,  POSITION
+			 ,  USE_AT
+			 ,  SHOW_SITE_IDS
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #popupId#
+			 ,  #popupTy#
+			 ,  #device#
+			 ,  #title#
+			 ,  #startDt#
+			 ,  #endDt#
+			 ,  #popupWidth#
+			 ,  #popupHeight#
+			 ,  #popupLeft#
+			 ,  #popupTop#
+			 ,  #atchFileId#
+			 ,  #editorAtchFileId#
+			 ,  #scrollAt#
+			 ,  #content#
+			 ,  #linkUrl#
+			 ,  #linkTarget#
+			 ,  #position#
+			 ,  #useAt#
+			 ,  #showSiteIds#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="PopupBackendDAO.updatePopup">
+		UPDATE  JMY_POPUP 
+		<dynamic prepend="SET">		   
+			<isNotNull property="popupTy" prepend=",">
+				POPUP_TY = #popupTy#
+			</isNotNull>
+			<isNotNull property="device" prepend=",">
+				DEVICE = #device#
+			</isNotNull>
+			<isNotNull property="title" prepend=",">
+				TITLE = #title#
+			</isNotNull>
+			<isNotNull property="startDt" prepend=",">
+				START_DT = #startDt#
+			</isNotNull>
+			<isNotNull property="endDt" prepend=",">
+				END_DT = #endDt#
+			</isNotNull>
+			<isNotNull property="popupWidth" prepend=",">
+				POPUP_WIDTH = #popupWidth#
+			</isNotNull>
+			<isNotNull property="popupHeight" prepend=",">
+				POPUP_HEIGHT = #popupHeight#
+			</isNotNull>
+			<isNotNull property="popupLeft" prepend=",">
+				POPUP_LEFT = #popupLeft#
+			</isNotNull>
+			<isNotNull property="popupTop" prepend=",">
+				POPUP_TOP = #popupTop#
+			</isNotNull>
+			<isNotNull property="atchFileId" prepend=",">
+				ATCH_FILE_ID = #atchFileId#
+			</isNotNull>
+			<isNotNull property="editorAtchFileId" prepend=",">
+				EDITOR_ATCH_FILE_ID = #editorAtchFileId#
+			</isNotNull>
+			<isNotNull property="scrollAt" prepend=",">
+				SCROLL_AT = #scrollAt#
+			</isNotNull>
+			<isNotNull property="content" prepend=",">
+				CONTENT = #content#
+			</isNotNull>
+			<isNotNull property="linkUrl" prepend=",">
+				LINK_URL = #linkUrl#
+			</isNotNull>
+			<isNotNull property="linkTarget" prepend=",">
+				LINK_TARGET = #linkTarget#
+			</isNotNull>
+			<isNotNull property="position" prepend=",">
+				POSITION = #position#
+			</isNotNull>
+			<isNotNull property="useAt" prepend=",">
+				USE_AT = #useAt#
+			</isNotNull>
+			<isNotNull property="showSiteIds" prepend=",">
+				SHOW_SITE_IDS = #showSiteIds#
+			</isNotNull>
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDT_PNTTM = SYSDATE()
+			</isNotNull>
+			<isNotNull property="lastUpdusrId" prepend=",">
+				LAST_UPDUSR_ID = #lastUpdusrId#
+			</isNotNull>
+		</dynamic>
+		 WHERE  POPUP_ID = #popupId#
+	</update>		
+	
+    <delete id="PopupBackendDAO.deletePopup">
+		DELETE 
+		  FROM  JMY_POPUP 
+		 WHERE  POPUP_ID = #popupId#
+    </delete>	
+	
+</sqlMap>

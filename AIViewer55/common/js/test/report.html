@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AIReport - 전자서명</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link type="text/css" rel="stylesheet" href="gwt24_chrome.css">
+  <style type="text/css">
+   
+    #signatureLink {
+      position:fixed;
+      bottom:20px;
+      right:7px;
+      color:blue;
+      cursor:pointer;
+    }
+    #signaturePanel {
+      position:fixed;
+      bottom:20px;
+      right:7px;
+      background-color: #9999ff;
+      display:none;
+    }
+  </style>
+  <script type="text/javascript">
+    var signatureContext = "http://localhost:8080/springViewer/";
+    var signatureParams = null;
+    var pdfConverterURL = "http://localhost:8080/springViewer/test/test002.jsp";
+
+    function showSignPanel() {
+      var slink = document.getElementById("signatureLink");
+      slink.style.display = "none";
+
+      var spanel = document.getElementById("signaturePanel");
+      spanel.style.display = "block";
+    }
+
+    function hideSignPanel(enableOpen) {
+      var spanel = document.getElementById("signaturePanel");
+      spanel.style.display = "none";
+
+      var slink = document.getElementById("signatureLink");
+      slink.style.display = "block";
+      if (enableOpen == true) {
+        slink.style.display = "block";
+      } else {
+        slink.style.display = "none";
+      }
+    }
+    
+    function onSignSuccess() {
+      window.location.replace("http://www.ai-report.com/");
+    }
+  </script>
+</head>
+<body>
+  <script type="text/javascript" src="/springViewer/signature/signature.nocache.js"></script>
+  <p><h1>AIReport body</h1></p>
+  <div id="signaturePanel" style="width:270px;height:200px;"></div>
+  <p id="signatureLink" onclick="showSignPanel();">전자서명</p>
+</body>
+</html>

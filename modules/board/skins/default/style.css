@@ -1,0 +1,90 @@
+@CHARSET "UTF-8";
+/* table */
+
+.list-table { 
+	border-top: 2px solid #585858;
+	border-bottom: 1px solid #a0a0a0;
+	background:#fff;
+}
+
+.list-table thead>tr>th {
+	line-height: 130%;
+	padding: 12px 0 14px;
+	border-bottom: 1px solid #a0a0a0;
+	color: #333;
+	background: url('./img/board_th_bg.gif') no-repeat 0 50%;
+	vertical-align: middle;
+	text-align:center;
+	font-weight:normal;
+	background-color:#f7f7f7;
+}
+.list-table thead>tr>th:first-child {background-image: none;}
+.list-table tbody>tr>th, .list-table tbody>tr>td {vertical-align: middle;}
+.list-table tbody>tr>th,
+.list-table tbody>tr>td{font-size:13px; padding:12px 0; color:#333; border-top:0; border-bottom:1px solid #dedede; text-align:center;}
+.list-table tbody>tr>td img{display:inline-block; margin:0 3px;}
+.list-table tbody>tr>td.subject{text-align:left;}
+.list-table tbody>tr.notice>th,
+.list-table tbody>tr.notice>td{background:#faf7f2; font-weight:bold;}
+.list-table tbody>tr>td a {color:#000; text-decoration:none; font-size:15px;}
+
+
+
+
+.inotice{display:inline-block; overflow:hidden; width:23px; height:15px; vertical-align:middle; background:url('./img/ico_notice.gif') no-repeat;}
+.inotice .txt{display:block; text-indent:-99999px;}
+.isecret{display:inline-block; overflow:hidden; width:9px; height:12px; vertical-align:middle; background:url('./img/ico_secret.gif') no-repeat;}
+.isecret .txt{display:block; text-indent:-99999px;}
+.inew{display:inline-block; overflow:hidden; width:10px; height:10px; margin-bottom:1px; background:url('./img/icon_new.png') no-repeat;}
+.inew .txt{display:block; text-indent:-99999px;}
+.ireply{display:inline-block; overflow:hidden; width:49px; height:18px; vertical-align:middle; background:url('./img/ico_reply.gif') no-repeat;}
+.ireply .txt{display:block; text-indent:-99999px;}
+.ireply.depth1{}
+.ireply.depth2{margin-left:20px;}
+.ireply.depth3{margin-left:45px;}
+.ireply.depth4{margin-left:70px;}
+.ireply.depth5{margin-left:95px;}
+
+.board{}
+.board .read-head{margin:0; padding:0; border-top: 2px solid #585858; background:#fff;}
+.board .read-head .subject{margin:0; padding:7px 15px; font-size:20px; border-bottom:1px solid #dedede;}
+.board .read-head .info{height:100%; margin:0; padding:12px 15px; border-bottom:1px solid #dedede;}
+.board .read-head .info:after{content:""; display:block; float:none; clear:both;}
+.board .read-head .info dt{float:left; padding:0 15px 0 0; margin:0; background: url('./img/board_th_bg.gif') no-repeat right 50%;}
+.board .read-head .info dd{float:left; margin:0 40px 0 0; padding:0 0 0 15px;}
+.board .read-head .file{height:100%; margin:0; padding:10px 15px; border-bottom:1px solid #eee;}
+.board .read-head .info:after{content:""; display:block; float:none; clear:both;}
+.board .read-head .file dt{float:left;}
+.board .read-head .file dd{padding:0 0 0 80px;}
+.board .read-content{margin:0; padding:20px 17px; border-bottom:1px solid #dedede; background:#fff;}
+.board .read-footer{margin:15px 0 0 0; padding:0;}
+
+.board .gallery-head{}
+.board .gallery-content{}
+.board .gallery-content .item{}
+.board .gallery-content .item .item-contain{padding:0px;}
+.board .gallery-content .item .photo{overflow:hidden; height:auto;}
+.board .gallery-content .item .photo a{display:block;}
+.board .gallery-content .item .info{margin:5px 0 0 0;}
+.board .gallery-footer{border-top:1px solid #ddd; padding-top:30px;}
+
+/* 글쓰기 */
+form .error {color:#ff0048;}
+form.form-horizontal .control-label {padding:5px 0 0 0;}
+form .essential {color:#c30000; font-size:16px; display:inline-block;}
+form .file_txt {display:block; height:25px; font-size:12px;}
+form .captcha_img {vertical-align:top;}
+form #captcha {height:75px; font-size:60px; width:160px; margin:0;}
+
+/* 삭제 */
+h4 {display:inline-block; margin:0 0 10px 0; padding:7px 10px 7px 10px; background:#dc0000; color:#fff;}
+.pass_box {width:60%; margin:0 auto; padding:10px 10px 10px 160px; border:1px dotted #424242; background: url('./img/notice_bg.png') no-repeat 20px 20px; background-color:#fff;}
+.pass_form {margin:15px 0; padding:10px 0; border-top: 1px solid #dedede; border-bottom: 1px solid #dedede;}
+.btn {font-size:12px; margin-top:-5px; vertical-align:middle;}
+.pass_input {height:32px; }
+.pass_box dl dd {padding:10px; background:#f7f7f7;}
+
+/* margin */
+
+.mgt0 {margin-top:0px;}
+.mgt10 {margin-top:10px;}

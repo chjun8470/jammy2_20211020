@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+<FontFace id="1" name="바탕"/>
+<FontFace id="2" name="궁서"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+<CharShape id="1" fontFace="1" height="14" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="2" fontFace="2" height="40" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="3" fontFace="2" height="15" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="4" fontFace="2" height="25" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="5" fontFace="0" height="18" fontColor="0" useHeight="y" bold="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" align="center"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="veiw" type="void" object="sheet10_A2|sheet10_A3|sheet10_A10|sheet10_F10|sheet10_A11|sheet10_F11|sheet10_A12|sheet10_F12|sheet10_A13|sheet10_F13|sheet10_A16|sheet10_A22"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" charShape="1" displayFormat="5/[DBNum4][$-412]General*"/>
+<CellObjectStyle name="cell_style_1" charShape="2" paraShape="1"/>
+<CellObjectStyle name="cell_style_2" charShape="3"/>
+<CellObjectStyle name="cell_style_3" charShape="4"/>
+<CellObjectStyle name="cell_style_4" charShape="5" paraShape="1"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

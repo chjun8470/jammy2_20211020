@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspBoardPublicMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+<select id="getBoardArticleList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.ARTICLE_ID,
+					A.SITE_ID,
+					A.BOARD_ID,
+					A.ARTICLE_GROUP_ID,
+					A.ARTICLE_NEXT_ID,
+					A.ARTICLE_PARNTS_ID,
+					A.ARTICLE_SEQ,
+					A.DEPTH,
+					A.CATEGORY_NM,
+					A.SUBJECT,
+					A.WRITER_ID,
+					A.WRITER_NM,
+					A.PASSWORD,
+					A.CONTENT,
+					A.ATCH_FILE_ID,
+					A.THUMB_ATCH_FILE_ID,
+					A.NOTICE_AT,
+					A.SECRET_AT,
+					A.DELETED_AT,
+					A.HITS,
+					A.DATA01,
+					A.DATA02,
+					A.DATA03,
+					A.DATA04,
+					A.DATA05,
+					A.DATA06,
+					A.DATA07,
+					A.DATA08,
+					A.DATA09,
+					A.DATA10,
+					A.DATA11,
+					A.DATA12,
+					A.DATA13,
+					A.DATA14,
+					A.DATA15,
+					A.DATA16,
+					A.DATA17,
+					A.DATA18,
+					A.DATA19,
+					A.DATA20,
+					A.NUM1,
+					A.NUM2,
+					A.NUM3,
+					A.NUM4,
+					A.NUM5,
+					A.TEXT1,
+					A.TEXT2,
+					A.TEXT3,
+					A.TEXT4,
+					A.TEXT5,
+					A.SHARE_BOARD_IDS,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					A.FRST_REGUSR_IP,
+					A.LAST_UPDUSR_ID,
+					A.LAST_UPDT_PNTTM,
+					A.LAST_UPDUSR_IP,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG
+
+			FROM	JMY_BOARD_ARTICLE A
+			LEFT JOIN TB_JNSP_FILE B ON B.DATA_IDX = A.ARTICLE_ID AND B.FILE_CAT != 'pdf'
+
+			WHERE	A.BOARD_ID = #{boardComIdx}
+
+		]]>
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[	AND A.DATA06 = #{searchState}	]]>
+		</if>
+
+		<if test='siteId != null and siteId != ""'>
+			<if test='siteId == "jntis"'>
+				<![CDATA[	AND DATA03 IN ('SCIENCE','INDUSTRIAL','STATS') ]]>
+			</if>
+			<if test='siteId == "jeinet"'>
+				<![CDATA[   AND DATA03 IN ('POLICY','LAWORD','ETC','STATS','TECHNOLOGY','MENUAL','BROCHURE') ]]>
+			</if>
+			<if test='siteId == "jipbank"'>
+				<![CDATA[   AND DATA03 IN ('KICT', 'ETC', 'EXCELLENCE', 'STATS') ]]>
+			</if>
+		</if>
+
+		<if test='searchPublicType != null and searchPublicType != ""'>
+			AND A.DATA03 IN
+			<foreach collection="searchPublicType" item="data01" index="index" separator="," open="(" close=")">
+    		#{data01}
+			</foreach>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[	AND A.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "CONTENT" and searchWord != ""'>
+				<![CDATA[	AND A.CONTENT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "GROUP" and searchWord != ""'>
+				<![CDATA[	AND A.DATA04 LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<if test='boardIdx != null and boardIdx != ""'>
+			<![CDATA[	AND B.DATA_IDX = #{boardIdx}	]]>
+		</if>
+		<if test='dataGrp != null and dataGrp != ""'>
+			<![CDATA[	AND B.DATA_GRP = #{dataGrp} ]]>
+		</if>
+		<!--
+		<if test='siteId != null and siteId != ""'>
+			<![CDATA[	AND A.SITE_ID = #{siteId} ]]>
+		</if>
+		-->
+
+		<if test='sortMode != null and sort_mode != ""'>
+			<if test='sortMode == "new_list"'>
+				ORDER BY A.FRST_REGIST_PNTTM DESC
+			</if>
+			<if test='sortMode == "popular_list"'>
+				ORDER BY A.HITS DESC
+			</if>
+			<if test='sortMode == "down_list"'>
+				ORDER BY B.DOWN_CNT DESC
+			</if>
+		</if>
+
+		<![CDATA[
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+
+	</select>
+
+	<select id="getBoardArticleListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT	COUNT(DISTINCT ARTICLE_ID)
+
+			FROM JMY_BOARD_ARTICLE A
+			LEFT JOIN TB_JNSP_FILE B ON B.DATA_IDX = A.ARTICLE_ID
+
+			WHERE	A.BOARD_ID = #{boardComIdx}
+		]]>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[	AND A.DATA06 = #{searchState}	]]>
+		</if>
+
+		<if test='siteId != null and siteId != ""'>
+			<if test='siteId == "jntis"'>
+				<![CDATA[	AND DATA03 IN ('SCIENCE','INDUSTRIAL','STATS') ]]>
+			</if>
+			<if test='siteId == "jeinet"'>
+				<![CDATA[   AND DATA03 IN ('POLICY','LAWORD','ETC','STATS','TECHNOLOGY','MENUAL','BROCHURE') ]]>
+			</if>
+			<if test='siteId == "jipbank"'>
+				<![CDATA[   AND DATA03 IN ('KICT', 'ETC', 'EXCELLENCE', 'STATS') ]]>
+			</if>
+		</if>
+
+		<if test='searchPublicType != null and searchPublicType != ""'>
+			AND A.DATA03 IN
+			<foreach collection="searchPublicType" item="data01" index="index" separator="," open="(" close=")">
+    		#{data01}
+			</foreach>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[	AND A.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "CONTENT" and searchWord != ""'>
+				<![CDATA[	AND A.CONTENT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "GROUP" and searchWord != ""'>
+				<![CDATA[	AND A.DATA04 LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<if test='boardIdx != null and boardIdx != ""'>
+			<![CDATA[	AND B.DATA_IDX = #{boardIdx}	]]>
+		</if>
+		<if test='dataGrp != null and dataGrp != ""'>
+			<![CDATA[	AND B.DATA_GRP = #{dataGrp} ]]>
+		</if>
+		<!--
+		<if test='siteId != null and siteId != ""'>
+			<![CDATA[	AND A.SITE_ID = #{siteId} ]]>
+		</if>
+		-->
+
+		<if test='sortMode != null and sort_mode != ""'>
+			<if test='sortMode == "new_list"'>
+				ORDER BY A.FRST_REGIST_PNTTM DESC
+			</if>
+			<if test='sortMode == "popular_list"'>
+				ORDER BY A.HITS DESC
+			</if>
+			<if test='sortMode == "down_list"'>
+				ORDER BY B.DOWN_CNT DESC
+			</if>
+		</if>
+	</select>
+
+	<select id="getBoardArticlePdfList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.ARTICLE_ID,
+					A.SITE_ID,
+					A.BOARD_ID,
+					A.ARTICLE_GROUP_ID,
+					A.ARTICLE_NEXT_ID,
+					A.ARTICLE_PARNTS_ID,
+					A.ARTICLE_SEQ,
+					A.DEPTH,
+					A.CATEGORY_NM,
+					A.SUBJECT,
+					A.WRITER_ID,
+					A.WRITER_NM,
+					A.PASSWORD,
+					A.CONTENT,
+					A.ATCH_FILE_ID,
+					A.THUMB_ATCH_FILE_ID,
+					A.NOTICE_AT,
+					A.SECRET_AT,
+					A.DELETED_AT,
+					A.HITS,
+					A.DATA01,
+					A.DATA02,
+					A.DATA03,
+					A.DATA04,
+					A.DATA05,
+					A.DATA06,
+					A.DATA07,
+					A.DATA08,
+					A.DATA09,
+					A.DATA10,
+					A.DATA11,
+					A.DATA12,
+					A.DATA13,
+					A.DATA14,
+					A.DATA15,
+					A.DATA16,
+					A.DATA17,
+					A.DATA18,
+					A.DATA19,
+					A.DATA20,
+					A.NUM1,
+					A.NUM2,
+					A.NUM3,
+					A.NUM4,
+					A.NUM5,
+					A.TEXT1,
+					A.TEXT2,
+					A.TEXT3,
+					A.TEXT4,
+					A.TEXT5,
+					A.SHARE_BOARD_IDS,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					A.FRST_REGUSR_IP,
+					A.LAST_UPDUSR_ID,
+					A.LAST_UPDT_PNTTM,
+					A.LAST_UPDUSR_IP,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG
+			FROM
+					JMY_BOARD_ARTICLE A
+			LEFT JOIN TB_JNSP_FILE B ON B.DATA_IDX = A.ARTICLE_ID AND B.FILE_CAT != 'pdf'
+			WHERE
+						A.BOARD_ID = #{boardComIdx}
+
+		]]>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[	AND A.DATA06 = #{searchState}	]]>
+		</if>
+
+		<if test='allYN != null and allYN != ""'>
+			<if test="allYN == 'all_jeinet'">
+				<![CDATA[	AND DATA03 IN ('POLICY','LAWORD','ETC','STATS','TECHNOLOGY','MENUAL','BROCHURE') ]]>
+			</if>
+			<if test="allYN == 'all_jipbank'">
+				<![CDATA[	AND A.DATA03 in ('KICT', 'ETC', 'EXCELLENCE', 'STATS') ]]>
+			</if>
+		</if>
+		<if test='sclas != null and sclas != ""'>
+			<![CDATA[	AND A.DATA03 = #{sclas} ]]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[	AND A.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "CONTENT" and searchWord != ""'>
+				<![CDATA[	AND A.CONTENT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "GROUP" and searchWord != ""'>
+				<![CDATA[	AND A.DATA04 LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<if test='boardIdx != null and boardIdx != ""'>
+			<![CDATA[	AND B.DATA_IDX = #{boardIdx}	]]>
+		</if>
+		<if test='dataGrp != null and dataGrp != ""'>
+			<![CDATA[	AND B.DATA_GRP = #{dataGrp} ]]>
+		</if>
+		<!--
+		<if test='siteId != null and siteId != ""'>
+			<![CDATA[	AND A.SITE_ID = #{siteId} ]]>
+		</if>
+		-->
+
+		<if test='sortMode != null and sort_mode != ""'>
+			<if test='sortMode == "new_list"'>
+				ORDER BY A.FRST_REGIST_PNTTM DESC
+			</if>
+			<if test='sortMode == "popular_list"'>
+				ORDER BY A.HITS DESC
+			</if>
+			<if test='sortMode == "down_list"'>
+				ORDER BY B.DOWN_CNT DESC
+			</if>
+		</if>
+
+		LIMIT ${firstRecord} , ${pageSize}
+
+	</select>
+
+	<update id="sethitUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+				HITS = HITS+1
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+
+		]]>
+	</update>
+	<select id="getBoardArticle" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					A.ARTICLE_ID,
+					A.SITE_ID,
+					A.BOARD_ID,
+					A.ARTICLE_GROUP_ID,
+					A.ARTICLE_NEXT_ID,
+					A.ARTICLE_PARNTS_ID,
+					A.ARTICLE_SEQ,
+					A.DEPTH,
+					A.CATEGORY_NM,
+					A.SUBJECT,
+					A.WRITER_ID,
+					A.WRITER_NM,
+					A.PASSWORD,
+					A.CONTENT,
+					A.ATCH_FILE_ID,
+					A.THUMB_ATCH_FILE_ID,
+					A.NOTICE_AT,
+					A.SECRET_AT,
+					A.DELETED_AT,
+					A.HITS,
+					A.DATA01,
+					A.DATA02,
+					A.DATA03,
+					A.DATA04,
+					A.DATA05,
+					A.DATA06,
+					A.DATA07,
+					A.DATA08,
+					A.DATA09,
+					A.DATA10,
+					A.DATA11,
+					A.DATA12,
+					A.DATA13,
+					A.DATA14,
+					A.DATA15,
+					A.DATA16,
+					A.DATA17,
+					A.DATA18,
+					A.DATA19,
+					A.DATA20,
+					A.NUM1,
+					A.NUM2,
+					A.NUM3,
+					A.NUM4,
+					A.NUM5,
+					A.TEXT1,
+					A.TEXT2,
+					A.TEXT3,
+					A.TEXT4,
+					A.TEXT5,
+					A.SHARE_BOARD_IDS,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d %H:%i:%s') AS FRST_REGIST_PNTTM_DT,
+					A.FRST_REGUSR_IP,
+					A.LAST_UPDUSR_ID,
+					A.LAST_UPDT_PNTTM,
+					DATE_FORMAT(A.LAST_UPDT_PNTTM, '%Y-%m-%d %H:%i:%s') AS LAST_UPDT_PNTTM_DT,
+					A.LAST_UPDUSR_IP,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG
+			FROM
+					JMY_BOARD_ARTICLE A
+			LEFT JOIN TB_JNSP_FILE B ON B.DATA_IDX = A.ARTICLE_ID AND B.FILE_CAT = 'pdf'
+			WHERE
+						A.BOARD_ID = #{boardComIdx}
+			AND
+						B.DATA_IDX = #{boardIdx}
+			GROUP BY A.ARTICLE_ID
+		]]>
+	</select>
+	<select id="getArticleSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(ARTICLE_SEQ)
+		FROM
+				JMY_BOARD_ARTICLE
+		WHERE
+     			BOARD_ID = #{boardComIdx}
+	</select>
+	<insert id="setBoardArticleInsert" parameterType="paramMap" >
+				INSERT INTO JMY_BOARD_ARTICLE
+		(
+					ARTICLE_ID,
+					SITE_ID,
+					BOARD_ID,
+					ARTICLE_GROUP_ID,
+					ARTICLE_NEXT_ID,
+					ARTICLE_PARNTS_ID,
+					ARTICLE_SEQ,
+					DEPTH,
+					CATEGORY_NM,
+					SUBJECT,
+					WRITER_ID,
+					WRITER_NM,
+					PASSWORD,
+					CONTENT,
+					ATCH_FILE_ID,
+					THUMB_ATCH_FILE_ID,
+					NOTICE_AT,
+					SECRET_AT,
+					DELETED_AT,
+					HITS,
+					DATA01,
+					DATA02,
+					DATA03,
+					DATA04,
+					DATA05,
+					DATA06,
+					DATA07,
+					DATA08,
+					DATA09,
+					DATA10,
+					DATA11,
+					DATA12,
+					DATA13,
+					DATA14,
+					DATA15,
+					DATA16,
+					DATA17,
+					DATA18,
+					DATA19,
+					DATA20,
+					NUM1,
+					NUM2,
+					NUM3,
+					NUM4,
+					NUM5,
+					TEXT1,
+					TEXT2,
+					TEXT3,
+					TEXT4,
+					TEXT5,
+					SHARE_BOARD_IDS,
+					FRST_REGIST_PNTTM,
+					FRST_REGUSR_IP
+		)VALUES
+		(
+					  #{articleIdx}
+				,	  #{siteId}
+				,     #{boardComIdx}
+				,     #{articleGroupId}
+				,     #{articlenextId}
+				,     #{articleParentsId}
+				,     #{articleSeq}
+				,     #{depth}
+				,     #{categoryNm}
+				,     #{subject}
+				,     #{regId}
+				,     #{regNm}
+				,     #{password}
+				,     #{content}
+				,     #{atchFileId}
+				,     #{thumbAtchFileId}
+				,     #{noticeAt}
+				,     #{secretAt}
+				,     #{deletedAt}
+				,     0
+				,     #{data01}
+				,     #{summary}
+				,     #{sclas}
+				,     #{publiccationOrg}
+				,     #{publiccationDt}
+				,     20
+				,     #{data07}
+				,     #{data08}
+				,     #{data09}
+				,     #{data10}
+				,     #{data11}
+				,     #{data12}
+				,     #{data13}
+				,     #{data14}
+				,     #{data15}
+				,     #{data16}
+				,     #{data17}
+				,     #{data18}
+				,     #{data19}
+				,     #{data20}
+				,     #{num1}
+				,     #{num2}
+				,     #{num3}
+				,     #{num4}
+				,     #{num5}
+				,     #{text1}
+				,     #{text2}
+				,     #{text3}
+				,     #{text4}
+				,     #{text5}
+				,     #{shareBoardIds}
+				,     now()
+				,     #{regIp}
+		)
+
+	</insert>
+	<update id="setBoardArticleUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+					ARTICLE_GROUP_ID= #{articleGroupId},
+					ARTICLE_NEXT_ID = #{articlenextId},
+					DEPTH = #{depth},
+					CATEGORY_NM = #{categoryNm},
+					SUBJECT = #{subject},
+					LAST_UPDUSR_ID = #{regId},
+					PASSWORD = #{password},
+					CONTENT = #{content},
+					ATCH_FILE_ID = #{atchFileId},
+					THUMB_ATCH_FILE_ID = #{thumbAtchFileId},
+					NOTICE_AT = #{noticeAt},
+					SECRET_AT =  #{secretAt},
+					DELETED_AT = #{deletedAt},
+					DATA01 =  #{data01},
+					DATA02 =  #{summary},
+					DATA03 =  #{sclas},
+					DATA04 =  #{publiccationOrg},
+					DATA05=  #{publiccationDt},
+					DATA06=  20,
+					DATA07=  #{data07},
+					DATA08=  #{data08},
+					DATA09=  #{data09},
+					DATA10=  #{data10},
+					DATA11=  #{data11},
+					DATA12=  #{data12},
+					DATA13=  #{data13},
+					DATA14=  #{data14},
+					DATA15=  #{data15},
+					DATA16=  #{data16},
+					DATA17=  #{data17},
+					DATA18=  #{data18},
+					DATA19=  #{data19},
+					DATA20=  #{data20},
+					NUM1=  #{num1},
+					NUM2=  #{num2},
+					NUM3=  #{num3},
+					NUM4=  #{num4},
+					NUM5=  #{num5},
+					TEXT1=  #{text1},
+					TEXT2=  #{text2},
+					TEXT3=  #{text3},
+					TEXT4=  #{text4},
+					TEXT5=  #{text5},
+					SHARE_BOARD_IDS = #{shareBoardIds},
+					LAST_UPDT_PNTTM = now(),
+					LAST_UPDUSR_IP = #{regIp}
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+		]]>
+	</update>
+
+	<delete id="getBoardCmtDelete" parameterType="paramMap">
+		 DELETE
+
+		   FROM	JMY_BOARD_ARTICLE_CMT
+
+		  WHERE ARTICLE_ID = #{boardIdx}
+	</delete>
+	<delete id="getBoardArticleDelete" parameterType="paramMap">
+		 DELETE
+		 FROM
+		 JMY_BOARD_ARTICLE
+		 WHERE
+				BOARD_ID = #{boardComIdx}
+		AND
+				ARTICLE_ID = #{boardIdx}
+	</delete>
+
+	<!-- Public게시판구분 -->
+	<select id="getPublicType" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				   CODE_GRP_CD,
+				   CODE_CD,
+				   CODE_NM
+
+			  FROM TB_CODE
+
+			 WHERE CODE_GRP_CD = 'PublicType'
+		]]>
+		<if test='siteId == "jntis"'>
+			   AND CODE_CD IN ('SCIENCE','INDUSTRIAL','STATS')
+		</if>
+		<if test='siteId == "jeinet"'>
+			   AND CODE_CD IN ('POLICY','LAWORD','ETC','STATS','TECHNOLOGY','MENUAL','BROCHURE')
+		</if>
+		<if test='siteId == "jipbank"'>
+			   AND CODE_CD IN ('ETC','EXCELLENCE','KICT','STATS')
+		</if>
+		<![CDATA[
+		  ORDER BY CODE_NM ASC
+		]]>
+	</select>
+
+</mapper>

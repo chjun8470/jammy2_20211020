@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ScheduleBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="ScheduleCalendarVO" type="egovframework.jammy2.schedule.service.ScheduleCalendarVO"/>
+	<typeAlias  alias="ScheduleInfoVO" type="egovframework.jammy2.schedule.service.ScheduleInfoVO"/>	
+						
+	<select id="ScheduleBackendDAO.selectScheduleCalendarListCnt" parameterClass="ScheduleCalendarVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_SCHEDULE_CALENDAR A
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="calndNm"><![CDATA[A.CALND_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="ScheduleBackendDAO.selectScheduleCalendarList" parameterClass="ScheduleCalendarVO" resultClass="ScheduleCalendarVO">
+		SELECT  A.CALND_ID				calndId
+			 ,  A.CALND_TY				calndTy
+			 ,  (SELECT CODE_NM FROM JMY_CMMN_DETAILCODE WHERE CODE_ID = "CMS003" AND CODE = A.CALND_TY)  AS calndTyNm
+			 ,  A.CALND_NM				calndNm
+			 ,  A.CALND_CAT_CODE		calndCatCode
+			 ,	A.USE_AT				useAt
+			 ,	A.PERM_GRP				permGrp
+			 ,  A.PERM_LVL				permLvl
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+		  FROM  JMY_SCHEDULE_CALENDAR A
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="calndNm"><![CDATA[A.CALND_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.CALND_ID DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>
+		
+	<select id="ScheduleBackendDAO.selectScheduleCalendar" parameterClass="ScheduleCalendarVO" resultClass="ScheduleCalendarVO">
+		SELECT  A.CALND_ID				calndId
+			 ,  A.CALND_TY				calndTy
+			 ,  A.CALND_NM				calndNm
+			 ,  A.CALND_CAT_CODE		calndCatCode
+			 ,	A.USE_AT				useAt
+			 ,	A.PERM_GRP				permGrp
+			 ,  A.PERM_LVL				permLvl
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SCHEDULE_CALENDAR A
+		 WHERE  A.CALND_ID = #calndId#
+	</select>	
+	
+	<insert id="ScheduleBackendDAO.insertScheduleCalendar">
+		INSERT 
+		  INTO  JMY_SCHEDULE_CALENDAR
+		     (  CALND_ID
+		     ,  CALND_TY
+			 ,  CALND_NM
+			 ,  CALND_CAT_CODE
+			 ,  USE_AT
+			 ,  PERM_GRP
+			 ,  PERM_LVL
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #calndId#
+		     ,  #calndTy#
+			 ,  #calndNm#
+			 ,  #calndCatCode#
+			 ,  #useAt#
+			 ,  #permGrp#
+			 ,  #permLvl#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="ScheduleBackendDAO.updateScheduleCalendar">
+		UPDATE  JMY_SCHEDULE_CALENDAR 
+		   SET  CALND_NM = #calndNm#
+		     ,  CALND_TY = #calndTy#
+		     ,  CALND_CAT_CODE = #calndCatCode#
+			 ,  USE_AT = #useAt#
+			 ,  PERM_GRP = #permGrp#
+			 ,  PERM_LVL = #permLvl#			 
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  CALND_ID = #calndId#
+	</update>		
+	
+    <delete id="ScheduleBackendDAO.deleteScheduleCalendar">
+		DELETE 
+		  FROM  JMY_SCHEDULE_CALENDAR 
+		 WHERE  CALND_ID = #calndId#
+    </delete>	
+    
+	<select id="ScheduleBackendDAO.selectScheduleInfoRetrieve" parameterClass="ScheduleInfoVO" resultClass="ScheduleInfoVO">
+		SELECT  A.SCHDUL_ID				schdulId
+		     ,  A.CALND_ID				calndId		     
+		     ,  A.SCHDUL_SE				schdulSe
+		     ,  (SELECT CODE_NM FROM JMY_CMMN_DETAILCODE WHERE CODE_ID = B.CALND_CAT_CODE AND CODE = A.SCHDUL_SE)  AS schdulSeNm
+			 ,	DATE_FORMAT(A.SCHDUL_BGNDE, '%Y%m%d%H%i')			schdulBgnde
+			 ,	DATE_FORMAT(A.SCHDUL_ENDDE, '%Y%m%d%H%i')			schdulEndde
+			 ,  A.SCHDUL_NM				schdulNm
+			 ,  A.SCHDUL_CN				schdulCn
+			 ,  A.SCHDUL_PLACE			schdulPlace
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10
+		  FROM  JMY_SCHEDULE_INFO A
+	 LEFT JOIN  JMY_SCHEDULE_CALENDAR B ON A.CALND_ID = B.CALND_ID
+		 WHERE  1=1	
+		   AND  A.CALND_ID = #calndId#
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="schdulNm"><![CDATA[A.CALND_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="searchMode">
+				<isEqual property="searchMode" compareValue="MONTH">
+					<isNotEmpty property="searchMonth">
+					 	<isNotEqual property="searchMonth" compareValue="">
+					 	 AND (#searchMonth# BETWEEN SUBSTRING(DATE_FORMAT(A.SCHDUL_BGNDE,'%Y%m%d'), 1, 6)  AND SUBSTRING(DATE_FORMAT(A.SCHDUL_ENDDE,'%Y%m%d'), 1, 6) ) 
+					 	</isNotEqual>
+					 </isNotEmpty>
+				</isEqual>
+				<isEqual property="searchMode" compareValue="WEEK">
+				<![CDATA[ 		 
+					AND ( 
+							( SUBSTRING(DATE_FORMAT(A.SCHDUL_BGNDE,'%Y%m%d'),1,8) > #schdulBgnde# AND SUBSTRING(DATE_FORMAT(A.SCHDUL_BGNDE,'%Y%m%d'),1,8) <= #schdulEndde#)
+							OR
+		 					( SUBSTRING(DATE_FORMAT(A.SCHDUL_ENDDE,'%Y%m%d'),1,8) > #schdulBgnde# AND SUBSTRING(DATE_FORMAT(A.SCHDUL_BGNDE,'%Y%m%d'),1,8) <= #schdulEndde#)
+						) 
+				]]>
+				</isEqual>
+				<isEqual property="searchMode" compareValue="DAILY">
+				<![CDATA[
+					AND (#searchDay# BETWEEN SUBSTRING(DATE_FORMAT(A.SCHDUL_BGNDE,'%Y%m%d'), 1, 8)  AND SUBSTRING(DATE_FORMAT(A.SCHDUL_ENDDE,'%Y%m%d'), 1, 8) )
+				]]> 
+				</isEqual>
+			</isNotEmpty>
+	</select>	    
+    
+	<select id="ScheduleBackendDAO.selectScheduleInfoListCnt" parameterClass="ScheduleInfoVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_SCHEDULE_INFO A
+		 WHERE  1=1
+		   AND  CALND_ID = #calndId#
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="schdulNm"><![CDATA[A.CALND_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="ScheduleBackendDAO.selectScheduleInfoList" parameterClass="ScheduleInfoVO" resultClass="ScheduleInfoVO">
+		SELECT  A.SCHDUL_ID				schdulId
+		     ,  A.CALND_ID				calndId		     
+		     ,  A.SCHDUL_SE				schdulSe
+		     ,  (SELECT CODE_NM FROM JMY_CMMN_DETAILCODE WHERE CODE_ID = B.CALND_CAT_CODE AND CODE = A.SCHDUL_SE)  AS schdulSeNm
+		     ,  A.SCHDUL_ORGNZT_ID		schdulOrgnztId
+		     ,  (SELECT ORGNZT_NM FROM JMY_ORGNZT WHERE ORGNZT_ID = A.SCHDUL_ORGNZT_ID)  AS schdulOrgnztNm
+		     ,  A.SCHDUL_CHARGER_NM		schdulChargerNm
+			 ,	A.SCHDUL_BGNDE			schdulBgnde
+			 ,	A.SCHDUL_ENDDE			schdulEndde
+			 ,  A.SCHDUL_NM				schdulNm
+			 ,  A.SCHDUL_CN				schdulCn
+			 ,  A.SCHDUL_PLACE			schdulPlace
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10			
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+		  FROM  JMY_SCHEDULE_INFO A
+	 LEFT JOIN  JMY_SCHEDULE_CALENDAR B ON A.CALND_ID = B.CALND_ID		  
+		 WHERE  1=1	
+		   AND  A.CALND_ID = #calndId#		 
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="schdulNm"><![CDATA[A.CALND_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.SCHDUL_ID DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="ScheduleBackendDAO.selectScheduleInfo" parameterClass="ScheduleInfoVO" resultClass="ScheduleInfoVO">
+		SELECT  A.SCHDUL_ID				schdulId
+		     ,  A.CALND_ID				calndId
+		     ,  A.SCHDUL_SE				schdulSe
+		     ,  (SELECT CODE_NM FROM JMY_CMMN_DETAILCODE WHERE CODE_ID = B.CALND_CAT_CODE AND CODE = A.SCHDUL_SE)  AS schdulSeNm
+		     ,  A.SCHDUL_ORGNZT_ID		schdulOrgnztId
+		     ,  (SELECT ORGNZT_NM FROM JMY_ORGNZT WHERE ORGNZT_ID = A.SCHDUL_ORGNZT_ID)  AS schdulOrgnztNm
+		     ,  A.SCHDUL_CHARGER_NM		schdulChargerNm		     
+			 ,	A.SCHDUL_BGNDE			schdulBgnde
+			 ,	A.SCHDUL_ENDDE			schdulEndde
+			 ,  A.SCHDUL_NM				schdulNm
+			 ,  A.SCHDUL_CN				schdulCn
+			 ,  A.SCHDUL_PLACE			schdulPlace
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGISTER_ID		frstRegisterId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SCHEDULE_INFO A
+	 LEFT JOIN  JMY_SCHEDULE_CALENDAR B ON A.CALND_ID = B.CALND_ID
+		 WHERE  SCHDUL_ID = #schdulId#
+	</select>	
+	
+	<insert id="ScheduleBackendDAO.insertScheduleInfo">
+		INSERT 
+		  INTO  JMY_SCHEDULE_INFO
+		     (  SCHDUL_ID
+		     ,  CALND_ID
+		     ,	SCHDUL_SE
+		     ,  SCHDUL_ORGNZT_ID
+		     ,  SCHDUL_CHARGER_NM
+			 ,	SCHDUL_BGNDE
+			 ,	SCHDUL_ENDDE
+			 ,  SCHDUL_NM
+			 ,  SCHDUL_CN
+			 ,  SCHDUL_PLACE
+			 ,  DATA01
+			 ,  DATA02
+			 ,  DATA03
+			 ,  DATA04
+			 ,  DATA05
+			 ,  DATA06
+			 ,  DATA07
+			 ,  DATA08
+			 ,  DATA09
+			 ,  DATA10
+			 ,  ATCH_FILE_ID
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #schdulId#
+		     ,  #calndId#
+		     ,	#schdulSe#
+		     ,  #schdulOrgnztId#
+		     ,  #schdulChargerNm#
+			 ,	#schdulBgnde#
+			 ,	#schdulEndde#
+			 ,  #schdulNm#
+			 ,  #schdulCn#
+			 ,  #schdulPlace#
+ 			 ,  #data01#
+			 ,  #data02#
+			 ,  #data03#
+			 ,  #data04#
+			 ,  #data05#
+			 ,  #data06#
+			 ,  #data07#
+			 ,  #data08#
+			 ,  #data09#
+			 ,  #data10#
+			 ,  #atchFileId#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="ScheduleBackendDAO.updateScheduleInfo">
+		UPDATE  JMY_SCHEDULE_INFO 
+		   SET  SCHDUL_SE = #schdulSe#
+		     ,  SCHDUL_ORGNZT_ID = #schdulOrgnztId#
+		     ,  SCHDUL_CHARGER_NM = #schdulChargerNm#
+		     ,  SCHDUL_BGNDE = #schdulBgnde#
+			 ,	SCHDUL_ENDDE = #schdulEndde#
+			 ,  SCHDUL_NM = #schdulNm#
+			 ,  SCHDUL_CN = #schdulCn#
+			 ,  SCHDUL_PLACE = #schdulPlace#
+			 ,  DATA01 = #data01#
+			 ,  DATA02 = #data02#
+			 ,  DATA03 = #data03#
+			 ,  DATA04 = #data04#
+			 ,  DATA05 = #data05#
+			 ,  DATA06 = #data06#
+			 ,  DATA07 = #data07#
+			 ,  DATA08 = #data08#
+			 ,  DATA09 = #data09#
+			 ,  DATA10 = #data10#
+			 ,  ATCH_FILE_ID = #atchFileId#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  SCHDUL_ID = #schdulId#
+	</update>		
+	
+    <delete id="ScheduleBackendDAO.deleteScheduleInfo">
+		DELETE 
+		  FROM  JMY_SCHEDULE_INFO 
+		 WHERE  SCHDUL_ID = #schdulId#
+    </delete>	    
+	
+</sqlMap>

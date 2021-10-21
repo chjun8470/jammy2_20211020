@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspBuildResearchMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getBoard" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					B.BOARD_ID,
+					B.SITE_ID,
+					B.BOARD_NM,
+					B.BOARD_SUMMARY,
+					B.BOARD_TY,
+					B.SKIN_NM,
+					B.BLOCK_PAGE,
+					B.LIST_SIZE,
+					B.PERM_CMT,
+					B.PERM_REPLY,
+					B.PERM_FILE,
+					B.PERM_EDITOR,
+					B.PERM_HTML,
+					B.PERM_NOTICE,
+					B.PERM_LVL_LIST,
+					B.PERM_GRP_LIST,
+					B.PERM_LVL_WRITE,
+					B.PERM_GRP_WRITE,
+					B.PERM_LVL_EDITOR,
+					B.PERM_GRP_EDITOR,
+					B.PERM_LVL_READ,
+					B.PERM_GRP_READ,
+					B.PERM_LVL_REPLY,
+					B.PERM_GRP_REPLY,
+					B.PERM_LVL_CMT_LIST,
+					B.PERM_GRP_CMT_LIST,
+					B.PERM_LVL_CMT_WRITE,
+					B.PERM_GRP_CMT_WRITE,
+					B.PERM_LVL_CMT_DEL,
+					B.PERM_GRP_CMT_DEL,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGISTER_ID
+					
+		FROM
+					JMY_BOARD AS B
+		WHERE
+					B.BOARD_ID = #{boardComIdx}	
+		]]>	
+	</select>
+	<select id="getBoardArticleList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT 
+					A.FILE_CAT,
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					B.DATA02,
+					B.DATA03,
+					B.DATA04,
+					B.DATA05,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP,
+					A.FILE_ID,
+					A.DATA_GRP,
+					A.DATA_IDX,
+					A.FILE_SEQ,
+					A.FILE_CAT,
+					A.TITLE,
+					A.REGIST_DT,
+					A.DOWN_CNT,
+					A.DELETE_YN,
+					A.PHOTO_CAT,
+					A.FILE_PATH,
+					A.FILE_SIZE,
+					A.TITLE_ORG,
+					C.USER_ID,
+					C.AUTH_LV
+			FROM
+					JMY_BOARD_ARTICLE AS B
+			LEFT JOIN TB_JNSP_FILE AS A
+				ON B.ARTICLE_ID = A.DATA_IDX
+			LEFT JOIN TB_USER_COPY AS C
+				ON B.WRITER_ID = C.USER_ID	
+			WHERE
+				B.BOARD_ID = #{boardComIdx}
+				
+		]]>
+		<if test ="boardComIdx.equals('00009')"> 
+			<choose>
+				<when test ="tab != null and tab != ''">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'build'
+				</otherwise>
+			</choose>
+		</if>	
+		<if test ="boardComIdx.equals('00035')"> 
+			<choose>
+				<when test ="tab != null and tab != ''">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'dem'
+				</otherwise>
+			</choose>
+		</if>
+		<if test ="boardComIdx.equals('00039')"> 
+			<choose>
+				<when test ="tab != null and tab != ''">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'dem'
+				</otherwise>
+			</choose>
+		</if>		
+		<if test='tabApp != null and tabApp != ""'>
+				AND B.DATA15 = #{tabApp}
+		</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[	AND B.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "WRITER_ID" and searchWord != ""'>
+				<![CDATA[	 AND B.WRITER_ID LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<![CDATA[
+			GROUP BY B.ARTICLE_ID 
+			ORDER BY B.ARTICLE_SEQ DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getBoardArticleListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				JMY_BOARD_ARTICLE AS B
+		LEFT JOIN TB_USER_COPY AS A
+				ON B.WRITER_ID = A.USER_ID
+		WHERE
+				B.BOARD_ID = #{boardComIdx}
+		<if test ="boardComIdx.equals('00009')">
+			<choose>	
+				<when test="tab != '' and tab != null">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'build'
+				</otherwise>
+			</choose>		
+		</if>	
+		<if test ="boardComIdx.equals('00035')">		
+			<choose>
+				<when test="tab != '' and tab != null">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'dem'
+				</otherwise>	
+			</choose>
+		</if>
+		<if test ="boardComIdx.equals('00039')">		
+			<choose>
+				<when test="tab != '' and tab != null">
+					AND B.DATA13 = #{tab}
+				</when>
+				<otherwise>
+					AND B.DATA13 = 'dem'
+				</otherwise>	
+			</choose>
+		</if>		
+		
+		<if test='tabApp != null and tabApp != ""'>
+				AND B.DATA15 = #{tabApp}
+		</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[	AND B.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "CONTENT" and searchWord != ""'>
+				<![CDATA[	 AND B.CONTENTS LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+	<update id="sethitUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+				HITS = HITS+1
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+			
+		]]>
+	</update>
+	<select id="getBoardArticle" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT 
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					B.DATA02,
+					B.DATA03,
+					B.DATA04,
+					B.DATA05,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP
+			FROM
+					JMY_BOARD_ARTICLE AS B
+			WHERE
+					B.ARTICLE_ID = #{boardIdx}	
+		]]>
+		<choose>
+			 <when test="beforeBoardComIdx != '' and beforeBoardComIdx != null">
+			 	AND B.BOARD_ID = #{beforeBoardComIdx}
+			 </when>
+			 <otherwise>
+				AND B.BOARD_ID = #{boardComIdx}
+			 </otherwise>
+		 </choose>
+		<if test ="tab != null and tab != ''">
+				AND B.DATA13 = #{tab}
+		</if>	
+	</select>
+	<select id="getArticleSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(ARTICLE_SEQ) 
+		FROM 
+				JMY_BOARD_ARTICLE
+		WHERE
+     			BOARD_ID = #{boardComIdx}	
+    </select>
+	<insert id="setBoardArticleInsert" parameterType="paramMap" >
+				INSERT INTO JMY_BOARD_ARTICLE
+		(			
+					ARTICLE_ID,
+					SITE_ID,
+					BOARD_ID,
+					ARTICLE_GROUP_ID,
+					ARTICLE_NEXT_ID,
+					ARTICLE_PARNTS_ID,
+					ARTICLE_SEQ,
+					DEPTH,
+					CATEGORY_NM,
+					SUBJECT,
+					WRITER_ID,
+					WRITER_NM,
+					PASSWORD,
+					CONTENT,
+					ATCH_FILE_ID,
+					THUMB_ATCH_FILE_ID,
+					NOTICE_AT,
+					SECRET_AT,
+					DELETED_AT,
+					HITS,
+					DATA01,
+					DATA02,
+					DATA03,
+					DATA04,
+					DATA05,
+					DATA06,
+					DATA07,
+					DATA08,
+					DATA09,
+					DATA10,
+					DATA11,
+					DATA12,
+					DATA13,
+					DATA14,
+					DATA15,
+					DATA16,
+					DATA17,
+					DATA18,
+					DATA19,
+					DATA20,
+					NUM1,
+					NUM2,
+					NUM3,
+					NUM4,
+					NUM5,
+					TEXT1,
+					TEXT2,
+					TEXT3,
+					TEXT4,
+					TEXT5,
+					SHARE_BOARD_IDS,
+					FRST_REGIST_PNTTM,
+					FRST_REGUSR_IP
+		)VALUES
+		(
+					  #{articleIdx}
+				,	  #{siteId}
+				,     #{boardComIdx}
+				,     #{articleGroupId}
+				,     #{articlenextId}
+				,     #{articleParentsId}
+				,     #{articleSeq}
+				,     #{depth}
+				,     #{categoryNm}
+				,     #{subject}
+				,     #{regId}
+				,     #{regNm}
+				,     #{password}
+				,     #{content}
+				,     #{atchFileId}
+				,     #{thumbAtchFileId}
+				,     #{noticeAt}
+				,     #{secretAt}
+				,     #{deletedAt}
+				,     0
+				,     #{pollurl}
+				,     #{pollemail}
+				,     #{pollfax}
+				,     #{pollstart}
+				,     #{pollend}
+				,     #{agenm}
+				,     #{answer}
+				,     #{email01}
+				,     #{email03}
+				,     #{pollfax01}
+				,     #{pollfax02}
+				,     #{pollfax03}
+				<choose>
+					<when test="tab != '' and tab != null">
+						,     #{tab}
+					</when>
+					<otherwise>
+						<if test="boardComIdx.equals('00009')">
+							,	  'build'
+						</if>
+						<if test="boardComIdx.equals('00035')">
+							,	  'dem'
+						</if>
+						<if test="boardComIdx.equals('00039')">
+							,	  'dem'
+						</if>
+					</otherwise>
+				</choose>
+				,     #{userId}
+				,     '1'
+				,     #{data16}
+				,     #{data17}
+				,     #{data18}
+				,     #{data19}
+				,     #{data20}
+				,     #{num1}
+				,     #{num2}
+				,     #{num3}
+				,     #{num4}
+				,     #{num5}
+				,     #{text1}
+				,     #{text2}
+				,     #{text3}
+				,     #{text4}
+				,     #{text5}
+				,     #{shareBoardIds}
+				,     now()
+				,     #{regIp}
+		)
+
+	</insert>
+	<update id="setBoardArticleUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+					SITE_ID = #{siteId},
+					ARTICLE_GROUP_ID= #{articleGroupId},
+					ARTICLE_NEXT_ID = #{articlenextId},
+					DEPTH = #{depth},
+					CATEGORY_NM = #{categoryNm},
+					SUBJECT = #{subject},
+					LAST_UPDUSR_ID = #{regId},
+					PASSWORD = #{password},
+					CONTENT = #{content},
+					ATCH_FILE_ID = #{atchFileId},
+					THUMB_ATCH_FILE_ID = #{thumbAtchFileId},
+					NOTICE_AT = #{noticeAt},
+					SECRET_AT =  #{secretAt},
+					DELETED_AT = #{deletedAt},
+					DATA01 =  #{pollurl},
+					DATA02 =  #{pollemail},
+					DATA03 =  #{pollfax},
+					DATA04 =  #{pollstart},
+					DATA05=  #{pollend},
+					DATA06=  #{agenm},
+					DATA07=  #{answer},
+					DATA08=  #{email01},
+					DATA09=  #{email03},
+					DATA10=  #{pollfax01},
+					DATA11=  #{pollfax02},
+					DATA12=  #{pollfax03},
+					DATA14=  #{userId},
+					DATA15=  #{sttus},
+					DATA16=  #{data16},
+					DATA17=  #{data17},
+					DATA18=  #{data18},
+					DATA19=  #{data19},
+					DATA20=  #{data20},
+					NUM1=  #{num1},
+					NUM2=  #{num2},
+					NUM3=  #{num3},
+					NUM4=  #{num4},
+					NUM5=  #{num5},
+					TEXT1=  #{text1},
+					TEXT2=  #{text2},
+					TEXT3=  #{text3},
+					TEXT4=  #{text4},
+					TEXT5=  #{text5},
+					SHARE_BOARD_IDS = #{shareBoardIds},
+					LAST_UPDUSR_ID = #{regNm},
+					LAST_UPDT_PNTTM = now(),
+					LAST_UPDUSR_IP = #{regIp}
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+			
+		]]>
+	</update>
+	<update id="setConfmUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+					DATA15 =  #{sttus},
+					DATA16 =  #{returnCn}
+					
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+			
+		]]>
+	</update>
+	<delete id="getBoardArticleDelete" parameterType="paramMap">
+		 DELETE
+		 FROM
+		 JMY_BOARD_ARTICLE
+		 WHERE
+				ARTICLE_ID = #{boardIdx}	
+		<choose>
+			 <when test="beforeBoardComIdx != '' and beforeBoardComIdx != null">
+			 	AND BOARD_ID = #{beforeBoardComIdx}
+			 </when>
+			 <otherwise>
+				AND BOARD_ID = #{boardComIdx}
+			 </otherwise>
+		 </choose>
+		<if test = "tab != '' and tab != null">
+				AND DATA13 = #{tab}
+		</if> 		
+	</delete>
+	<delete id="getBoardReplyDelete" parameterType="paramMap">
+		 DELETE
+		 FROM
+		 JMY_BOARD_ARTICLE
+		 WHERE
+				BOARD_ID = #{boardComIdx}
+		AND
+				ARTICLE_PARNTS_ID = #{boardIdx}	
+						
+	</delete>
+	<insert id="setBoardCmtInsert" parameterType="paramMap" >
+		INSERT INTO JMY_BOARD_ARTICLE_CMT
+		(
+					ARTICLE_ID,
+					CMT_CONTENT,
+					REG_USER_NM,
+					REG_ID,
+					REG_IP,
+					REG_DT
+		)VALUES
+		(
+					  #{boardIdx}
+				,     #{comment}
+				,     #{usernm}
+				,     #{regid}
+				,     #{regip}
+				,     now()
+
+		)
+	</insert>
+	<delete id="setBoardCmtDelete" parameterType="paramMap">
+		 DELETE
+		 FROM
+		 JMY_BOARD_ARTICLE_CMT
+		 WHERE CMT_IDX = #{cmtIdx}
+	</delete>
+	<select id="getBoardCmtListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					JMY_BOARD_ARTICLE_CMT
+		WHERE ARTICLE_ID = #{boardIdx}
+	</select>
+	<select id="getBoardCmtList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					CMT_IDX,
+					ARTICLE_ID,
+					CMT_SEQ,
+					CMT_CONTENT,
+					REG_USER_NM,
+					REG_ID,
+					REG_IP,
+					REG_DT
+
+			FROM
+					JMY_BOARD_ARTICLE_CMT
+			WHERE
+					ARTICLE_ID = #{boardIdx}
+		]]>
+		<![CDATA[
+			ORDER BY CMT_IDX ASC
+		]]>
+	</select>
+	<update id="setBoardCmtUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE_CMT SET
+						CMT_CONTENT = #{editComment},
+						UP_DT = now()
+			WHERE CMT_IDX = #{cmtIdx}
+
+		]]>
+	</update>
+	<select id="getJnspSelectList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT 
+			ORG_GRP_CD
+		   ,ORG_GRP_NM
+		   ,USER_IDX
+		FROM 
+			TB_ORG_GRP
+		]]>	
+	</select>
+	<select id="getUser" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT 
+				USER_IDX,
+				USER_ID,
+				AUTH_LV
+			FROM
+				TB_USER_COPY
+			WHERE 1 = 1
+				AND USER_ID = #{regId}
+		]]>	
+	</select>
+	
+</mapper>

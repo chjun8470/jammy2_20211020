@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspEquOperInnerMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getEquOperInnerList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.EQU_OPER_DIARY_IDX,
+					A.RND_EQU_IDX,
+					A.EQU_USER_NM,
+					A.ORG_SELECT,
+					A.ORG_GRP_CD,
+					A.DEPT_NM,
+					A.START_DT,
+					A.START_TIME,
+					A.END_DT,
+					A.END_TIME,
+					A.USE_USER_NM,
+					A.USE_USER_PHONE,
+					A.PURPOSE,
+					A.USE_NOTE,
+					A.SAMPLE_CNT,
+					A.RENTAL_FEE,
+					A.REG_IDX,
+					A.REG_DT,
+					A.REG_IP,
+					B.ORG_GRP_NM,
+					C.KOR_NM,
+					A.USE_TIME
+				FROM 
+					TB_EQU_OPER_DIARY A
+				LEFT JOIN 
+						TB_ORG_GRP B 
+				ON 
+						A.ORG_GRP_CD = B.ORG_GRP_CD 
+				LEFT JOIN 
+						TB_EQU_INFO C 
+				ON 
+						A.RND_EQU_IDX = C.RND_EQU_IDX
+				LEFT JOIN 
+						TB_EQU_GOODS D 
+				ON 
+						C.RND_EQU_IDX = D.RND_EQU_IDX 
+				WHERE 1= 1
+				AND 
+						A.REPORT_TYPE = 'inner'
+				AND 
+						C.DELETE_YN != 'Y'
+			]]>
+			<if test='authLv != "99" and authLv >= "70"'>
+				<![CDATA[
+					AND
+							D.OWN_ORG = #{orgGrpCd}
+				]]>
+			</if>
+			<if test='authLv != "99" and authLv == "70"'>
+				<![CDATA[
+					AND
+							D.OWN_ORG_SUB_NM = #{orgSubGrpCd}
+				]]>
+			</if>
+			
+			<if test="searchType == 'type1'">
+				AND A.USE_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type2'">
+				AND B.ORG_GRP_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type3'">
+				AND A.EQU_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type4'">
+				AND A.EQU_USER_ORG LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type5'">
+				AND A.EQU_USER_DEPT LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+				<!-- <choose>
+					<when test="userAuth >= 80">
+						AND ORG_GRP_CD = #{orgCd}
+					</when>
+					<otherwise>
+						AND REG_IDX = #{userIdX}
+					</otherwise>
+				</choose> -->
+			<![CDATA[
+			ORDER BY A.EQU_OPER_DIARY_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getEquOperInnerListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT 
+					COUNT(0) AS CNT 
+			FROM 
+					TB_EQU_OPER_DIARY A
+			LEFT JOIN 
+					TB_ORG_GRP B 
+			ON 
+					A.ORG_GRP_CD = B.ORG_GRP_CD 
+			LEFT JOIN 
+					TB_EQU_INFO C 
+			ON 
+					A.RND_EQU_IDX = C.RND_EQU_IDX
+			LEFT JOIN 
+					TB_EQU_GOODS D 
+			ON 
+					C.RND_EQU_IDX = D.RND_EQU_IDX 
+			WHERE 1= 1
+			AND 
+					A.REPORT_TYPE = 'inner'
+			AND 
+					C.DELETE_YN != 'Y'
+			<if test='authLv != "99" and authLv >= "70"'>
+				<![CDATA[
+					AND
+							D.OWN_ORG = #{orgGrpCd}
+				]]>
+			</if>
+			<if test='authLv != "99" and authLv == "70"'>
+				<![CDATA[
+					AND
+							D.OWN_ORG_SUB_NM = #{orgSubGrpCd}
+				]]>
+			</if>			
+			<if test="searchType == 'type1'">
+				AND A.USE_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type2'">
+				AND B.ORG_GRP_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type3'">
+			AND A.EQU_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type4'">
+				AND A.EQU_USER_ORG LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'type5'">
+				AND A.EQU_USER_DEPT LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+				<!-- <choose>
+					<when test="userAuth >= 80">
+						AND ORG_GRP_CD = #{orgCd}
+					</when>
+					<otherwise>
+						AND REG_IDX = #{userIdX}
+					</otherwise>
+				</choose> -->
+
+	</select>
+
+	<select id="getEquOperInner" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.EQU_OPER_DIARY_IDX,
+					A.EQU_USER_IDX,
+					A.RND_EQU_IDX,
+					A.EQU_USER_NM,
+					A.EQU_USER_ORG,
+					A.EQU_USER_DEPT,
+					A.EQU_USER_POSITION,
+					A.EQU_USER_PHONE,
+					A.EQU_USER_EMAIL,
+					A.ORG_SELECT,
+					A.ORG_GRP_CD,
+					A.DEPT_NM,
+					A.START_DT,
+					A.START_TIME,
+					A.END_DT,
+					A.END_TIME,
+					A.USE_USER_NM,
+					A.USE_USER_PHONE,
+					A.PURPOSE,
+					A.USE_NOTE,
+					A.SAMPLE_NM,
+					A.SAMPLE_NO,
+					A.SAMPLE_CNT,
+					A.RENTAL_FEE,
+					A.USE_TIME_A,
+					A.USE_TIME_B,
+					A.USE_TIME_C,
+					A.REG_IDX,
+					A.REG_DT,
+					A.REG_IP,
+					B.ORG_GRP_NM,
+					C.KOR_NM,
+					C.ENG_NM,
+					C.FIXED_ASET_NO,
+					C.NTIS_EQUIP_INFO,
+					C.ETUBE_EQUIP_INFO,
+					C.OPER_CHARGER,
+					C.OPER_POSITION,
+					C.OPER_EMAIL,
+					C.OPER_TEL,
+					C.OPER_FAX,
+					D.OWN_ORG_NM,
+					D.OWN_ORG_SUB_NM,
+					A.USE_TIME
+
+				FROM
+					    TB_EQU_OPER_DIARY A
+				LEFT JOIN
+						TB_ORG_GRP B
+				ON 	A.ORG_GRP_CD = B.ORG_GRP_CD
+				LEFT JOIN
+						TB_EQU_ORDER F
+				ON	A.EQU_ORDER_IDX = F.EQU_ORDER_IDX
+				LEFT JOIN
+						TB_EQU_INFO C
+				ON	A.RND_EQU_IDX = C.RND_EQU_IDX
+				LEFT JOIN
+						TB_EQU_GOODS D
+				ON  A.RND_EQU_IDX = D.RND_EQU_IDX
+			 WHERE EQU_OPER_DIARY_IDX = #{equOperDiaryIdx}
+	</select>
+
+	<delete id="setEquOperInnerDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_EQU_OPER_DIARY
+			 WHERE EQU_OPER_DIARY_IDX = '${equOperDiaryIdx}'
+	</delete>
+
+	<!-- <delete id="setAllEquOperInnerDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_EQU_OPER_DIARY
+			 WHERE EQU_OPER_DIARY_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{equOperInnerIdx}
+			</foreach>
+
+	</delete> -->
+
+	<insert id="setEquOperInnerInsert" parameterType="paramMap">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_EQU_OPER_DIARY
+			(
+				EQU_USER_IDX,
+				RND_EQU_IDX,
+				EQU_USER_NM,
+				EQU_USER_ORG,
+				EQU_USER_DEPT,
+				EQU_USER_POSITION,
+				EQU_USER_PHONE,
+				EQU_USER_EMAIL,
+				ORG_SELECT,
+				ORG_GRP_CD,
+				DEPT_NM,
+				START_DT,
+				START_TIME,
+				END_DT,
+				END_TIME,
+				USE_USER_NM,
+				USE_USER_PHONE,
+				PURPOSE,
+				USE_NOTE,
+				SAMPLE_NM,
+				SAMPLE_NO,
+				SAMPLE_CNT,
+				RENTAL_FEE,
+				REG_IDX,
+				REG_DT,
+				REG_IP,
+				USE_TIME,
+				USE_TIME_A,
+				USE_TIME_B,
+				USE_TIME_C,
+				REPORT_TYPE
+			)
+			VALUES
+			(
+				#{equUserIdx},
+				#{equIdx},
+				#{equUserName},
+				#{equUserOrg},
+				#{equUserDept},
+				#{equUserPosition},
+				#{equUserPhone},
+				#{equUserEmail},
+				#{orgSe},
+				#{orgCd},
+				#{deptNm},
+				#{startDate},
+				#{startTime},
+				#{endDate},
+				#{endTime},
+				#{userNm},
+				#{phone},
+				#{purpose},
+				#{useNote},
+				#{sampleNm},
+				#{sampleNo},
+				#{sampleCnt},
+				#{rentalFee},
+				#{regIdx},
+				now(),
+				#{regIp},
+				#{useTime},
+				#{useTimeA},
+				#{useTimeB},
+				#{useTimeC},
+				'inner'
+			)
+	</insert>
+
+	<update id="setEquOperInnerUpdate" parameterType="paramMap">
+		UPDATE TB_EQU_OPER_DIARY SET
+				RND_EQU_IDX = #{equIdx},
+				EQU_USER_IDX = #{equUserIdx},
+				EQU_USER_NM = #{equUserName},
+				EQU_USER_ORG = #{equUserOrg},
+				EQU_USER_DEPT = #{equUserDept},
+				EQU_USER_POSITION = #{equUserPosition},
+				EQU_USER_PHONE = #{equUserPhone},
+				EQU_USER_EMAIL = #{equUserEmail},
+				ORG_SELECT = #{orgSe},
+				ORG_GRP_CD = #{orgCd},
+				DEPT_NM = #{deptNm},
+				USE_USER_NM = #{userNm},
+				USE_USER_PHONE = #{phone},
+				START_DT = #{startDate},
+				START_TIME = #{startTime},
+				END_DT = #{endDate},
+				END_TIME = #{endTime},
+				PURPOSE = #{purpose},
+				USE_NOTE = #{useNote},
+				SAMPLE_NM = #{sampleNm},
+				SAMPLE_NO = #{sampleNo},
+				SAMPLE_CNT = #{sampleCnt},
+				RENTAL_FEE = #{rentalFee},
+				USE_TIME = #{useTime},
+				USE_TIME_A = #{useTimeA},
+				USE_TIME_B = #{useTimeB},
+				USE_TIME_C = #{useTimeC},
+				UP_IDX = #{upIdx},
+				UP_DT = now(),
+				UP_IP = #{upIp}
+		WHERE
+			EQU_OPER_DIARY_IDX = #{equOperDiaryIdx}
+	</update>
+
+</mapper>

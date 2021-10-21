@@ -1,0 +1,911 @@
+/* common */
+html,body,form {
+	font-family: "맑은 고딕", "Helvetica", "Arial",  "Verdana", "sans-serif";
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+	font-size: 9pt;
+	color: #FFFFFF;
+	background: #dfdedc;
+}
+
+.Clean {
+	clear: both;
+}
+
+/* 로그인페이지 */
+#loginmain {
+	margin: 0 auto;
+	width: 100%;
+}
+
+#loginhead {
+	margin: 0 auto;
+	width: 100%;
+	height: 80px;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+#loginbody {
+	width: 100%;
+	text-align: center;
+	background: #FFFFFF;
+}
+
+#loginfoot {
+	width: 100%;
+	height: 20px;
+}
+
+.loginUserinfo {
+	margin: 0 auto;
+	width: 500px;
+	color: #000000;
+	font-weight: bold;
+}
+
+.loginBox {
+	width: 100%;
+	text-align: center;
+	position: absolute; top: 30%;
+}
+
+.loginTitle {
+	width: 500px;
+	height: 70px;
+	border: 0px;
+	border-bottom: 1px solid #618a3e;
+	color: #FFFFFF;
+	font-size: 15pt;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	display: inline-block;
+	background: #2f2e2c;
+}
+
+.inpbox {
+	margin-bottom: 10px;
+	padding: 10px 10px 10px 10px;
+	width: 480px;
+	height: 30px;
+	border: 0;
+	font-size: 13pt;
+	background: #FFFFFF;
+}
+
+.inpsmit {
+	margin-bottom: 10px;
+	width: 500px;
+	height: 60px;
+	border: 0;
+	font-size: 15pt;
+	color: #EEEEEE;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	border-bottom: 1px solid #618a3e;
+	background: #2f2e2c;
+}
+
+.inpsmit:hover {
+	border: #618a3e;
+	text-shadow:0px 1px 0px #2f6627;
+	box-shadow: 1px 1px 1px 0px #52712d;
+	background-color: #6cab36;
+}
+
+.inpsmit:active {
+	position: relative;
+	top: 1px;
+}
+
+.loginHidd {
+	float: right;
+	height: 10px;
+}
+
+.loginHiddButt {
+	width: 10px;
+	height: 10px;
+	background: #dfdedc;
+	color: #dfdedc;
+	border: 0;
+}
+/* 로그인페이지 */
+
+/* 전체레이아웃 */
+#root_lable_group {
+	clear: both;
+	width: 100%;
+	text-align: center;
+}
+
+/* 마스터레이아웃 */
+.master_lable_group {
+	margin: 0 auto;
+	width: 1046px;
+}
+
+/* 메인레이아웃 */
+.main_lable_group {
+	float: left;
+	width: 700px;
+}
+
+/* 서브레이아웃 */
+.sub_lable_group {
+	float: left;
+	width: 240px;
+	padding-left: 5px;
+}
+
+/* 메뉴레이아웃 */
+.menu_lable_group {
+	float: left;
+	padding-left: 5px;
+	width: 95px;
+}
+
+/* 타이틀버튼 */
+.main_title_bar {
+	height: 30px;
+	line-height: 30px;
+	box-shadow: 1px 1px 1px 0px #232220;
+}
+
+/* 타이틀버튼 */
+.main_title_butt {
+	width: 100%;
+	height: 30px;
+	border: 0px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 9pt;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	border-bottom: 1px solid #618a3e;
+	background: #2f2e2c;
+}
+
+.main_title_butt:hover {
+	border: #618a3e;
+	text-shadow:0px 1px 0px #2f6627;
+	box-shadow: 1px 1px 1px 0px #52712d;
+	background-color: #6cab36;
+}
+
+.menu_bar {
+	height: 60px;
+	line-height: 60px;
+	box-shadow: 1px 1px 1px 0px #232220;
+}
+
+.menu_butt {
+	width: 100%;
+	height: 60px;
+	border: 0px;
+	border-bottom: 1px solid #618a3e;
+	color: #FFFFFF;
+	font-size: 9pt;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	background: #2f2e2c;
+}
+
+.menu_butt:hover {
+	border: #618a3e;
+	text-shadow:0px 1px 0px #2f6627;
+	box-shadow: 1px 1px 1px 0px #52712d;
+	background-color: #6cab36;
+}
+
+/* LINE 그룹 */
+.main_group_box {
+	height: 28px;
+	box-shadow: 1px 1px 1px 0px #c0c0c0;
+	background: #ffffff;
+}
+
+/* 모든 INPUT, SELECT */
+.main_input_box {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 24px;
+	line-height: 24px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #FFFFFF #FFFFFF #3c3c3c #FFFFFF;
+	color: #3c3c3c;
+	font-size: 9pt;
+}
+
+/* 일부 INPUT */
+.main_input_view {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid #FFFFFF;
+	color: #3c3c3c;
+	font-size: 9pt;
+}
+
+/* 특수 INPUT */
+.main_input_spc {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 71px;
+	height: 24px;
+	line-height: 24px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #FFFFFF #FFFFFF #3c3c3c #FFFFFF;
+	color: #3c3c3c;
+	font-size: 9pt;
+}
+
+/* 카피라이트 */
+.main_copy_bar {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 8pt;
+	text-align: center;
+	text-shadow:0px 1px 0px #2f6627;
+	background: #6cab36;
+	color: #FFFFFF;
+	box-shadow: 1px 1px 1px 0px #618a3e;
+}
+/* common */
+
+/* 타이틀바 */
+#toolbar_box {
+	float: left;
+	margin-bottom: 15px;
+	width: 100%;
+	height: 55px;
+	line-height: 55px;
+}
+
+#toolbar_bott {
+	float: left;
+	width: 100%;
+}
+
+.toolbar_top {
+	height: 50px;
+	line-height: 50px;
+	text-shadow: 0px 1px 0px #000000;
+	box-shadow: 0px 3px 1px 0px #618a3e;
+	background: #2f2e2c;
+}
+
+.toolbar_bott {
+	margin: 0 auto;
+	width: 956px;
+	height: 5px;
+	background: #0c0c0c;
+}
+
+.toolbar_in {
+	float: left;
+	font-size: 17pt;
+	text-align: left;
+	font-weight: bold;
+}
+
+.toolbar_banner {
+	width: 1045px;
+	text-align: center;
+	position:absolute;
+	display:none;
+ }
+ /* 타이틀바 */
+
+/* main info css */
+.ms_List_left {
+	padding-left: 10px;
+	float: left;
+	width: 90px;
+	height: 28px;
+	line-height: 28px;
+	text-align: left;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #3c3c3c;
+}
+
+.ms_List_right {
+	float: left;
+	margin: 0;
+	padding-right: 10px;
+	width: 585px;
+	height: 28px;
+	line-height: 28px;
+	text-align: left;
+	color: #3c3c3c;
+}
+/* main info css */
+
+/* sub info css */
+.ss_List_left {
+	float: left;
+	margin: 0px;
+	padding-left: 5px;
+	width: 82px;
+	height: 28px;
+	line-height: 28px;
+	text-align: left;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #3c3c3c;
+}
+
+.ss_List_right {
+	float: right;
+	margin: 0;
+	padding-right: 5px;
+	width: 145px;
+	height: 28px;
+	line-height: 28px;
+	text-align: right;
+	color: #3c3c3c;
+}
+/* sub info css */
+ 
+ /* 워터마크 */
+ .wm_main_input {
+	margin: 0;
+	padding: 0;
+	width: 400px;
+	height: 24px;
+	line-height: 24px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #FFFFFF #FFFFFF #3c3c3c #FFFFFF;
+	color: #3c3c3c;
+	font-size: 9pt;
+}
+
+.wm_sub_input {
+	margin: 0;
+	padding: 0;
+	width: 40px;
+	height: 24px;
+	line-height: 24px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #FFFFFF #FFFFFF #3c3c3c #FFFFFF;
+	text-align: center;
+	color: #3c3c3c;
+	font-size: 9pt;
+}
+/* 워터마크 */
+
+/* 로그아웃버튼 */
+.outButt {
+	margin-bottom: 5px;
+	width: 100%;
+	border: 0;
+	height: 28px;
+	line-height: 28px;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #FFFFFF;
+	display: inline-block;
+	text-decoration: none;
+	background: #8C8C8C;
+}
+
+.outButt:hover {
+	color: #5D5D5D;
+	background-color: #D5D5D5;
+}
+/* 로그아웃버튼 */
+
+/* DB처리버튼 */
+.main_group_db {
+	background: #2f2e2c;
+}
+
+.main_input_box_db {
+	width: 115px;
+	height: 27px;
+	border: 0;
+	display: inline-block;
+	color: #FFFFFF;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	background: #2f2e2c;
+}
+
+.main_input_box_db:hover {
+		background: #6cab36;
+}
+/* DB처리버튼 */
+
+/* DIV팝업 */
+#managerPop {
+	position: fixed;
+	z-index: 10;
+	display: none;
+	filter: alpha(opacity=80);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#60000000,endColorstr=#60000000);
+	background-color: rgba(0,0,0,0.5);
+	zoom: 1;
+}
+
+#opacity {
+	background: #000;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+#loading {
+	margin: 0 auto;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+	vertical-align: middle;
+	text-align: center;
+	display: none;
+	zoom: 1;
+}
+/* DIV팝업 */
+
+/* 로그팝업 */
+#log_title {
+	float: left;
+	margin-left: 10px;
+	line-height: 25px;
+	font-size: 11pt;
+	text-shadow: 0px 1px 0px #000000;
+	font-weight: bold;
+}
+
+.log_bar_butt {
+	border: 0px;
+	font-size: 9pt;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	color: #FFFFFF;
+}
+
+.log_bar_butt:hover {
+	border: #618a3e;
+}
+
+.pop_log_close {
+	margin-left: 5px;
+	width: 80px;
+	line-height: 25px;
+	background: #2f2e2c;
+}
+
+.pop_log_close:hover {
+	background: #43423f;
+}
+
+.pop_log_butt1 {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	background: #43423f;
+}
+
+.pop_log_butt2 {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	border-left: 1px solid #2f2e2c;
+	color: #000000;
+	background: #FFFFFF;
+	text-shadow: 0px 1px 0px #DDDDDD;
+}
+
+.pop_log_butt1:hover {
+	border-left: 1px solid #2f2e2c;
+	color: #000000;
+	background: #FFFFFF;
+	text-shadow: 0px 1px 0px #DDDDDD;
+}
+
+#callLoading {
+	position:absolute;
+	z-index: 10;
+	background: #FFFFFF;
+}
+
+ .logproview {
+ 	width: 850px;
+	height: 490px;
+	line-height: 490px;
+	text-align: center;
+}
+
+#log_main_bar {
+	width: 100%;
+}
+
+.log_main_view {
+	padding: 10px;
+	height: 469px;
+	line-height: 1.3em;
+	overflow-y: auto;
+	font-size: 13px;
+	font-family: arial;
+	color: #68686a;
+	background: #F6F6F6;
+}
+
+.log_main_test_view {
+	height: 489px;
+	line-height: 1.3em;
+	font-size: 13px;
+	font-family: arial;
+	color: #68686a;
+	background: #FFFFFF;
+}
+
+#log_bott_bar {
+	width: 100%;
+	height: 40px;
+	text-align: right;
+}
+
+#update {
+	float: right;
+	margin-right: 10px;
+	font-size: 10pt;
+	text-shadow:0px 1px 0px #a4a4a4;
+}
+
+#pop_conn_url {
+	clear: both;
+	width: 690px;
+	font-size: 9pt;
+}
+
+.pop_test_title {
+	clear: both;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background: #DDDDDD;
+	font-weight: bold;
+}
+
+.pop_test_title_option {
+	float: right;
+	width: 120px;
+}
+
+.pop_test_group {
+	clear: both;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px dashed #EEEEEE;
+}
+
+.pop_test_box {
+	clear: both;
+	width: 53px;
+	float: left;
+	height: 30px;
+}
+
+.pop_test_check {
+	float: left;
+	margin-left: 20px;
+	height: 25px;
+	line-height: 25px;
+}
+
+.pop_test_name {
+	float: left;
+	margin: 0;
+	padding-left: 10px;
+	font-size: 9pt;
+	height: 28px;
+	line-height: 28px;
+	border: 0;
+}
+
+.pop_test_value_title {
+	text-align: center;
+	font-size: 9pt;
+	height: 28px;
+	line-height: 28px;
+	border: 0;
+	font-weight: bold;
+}
+
+.pop_test_value {
+	float: right;
+	text-align: center;
+	font-size: 9pt;
+	width: 120px;
+	height: 28px;
+	line-height: 28px;
+	border: 0;
+}
+
+.pop_test_hidden_group {
+	clear: both;
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+	border-bottom: 1px dashed #EEEEEE;
+	display: none;
+}
+
+.pop_test_hidden_msg {
+	margin-left: 20px;
+	font-size: 9pt;
+	color: #3c3c3c;
+}
+
+.pop_test_start_butt {
+	height: 28px;
+	line-height: 28px;
+	width: 100%;
+	border: 0;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #68686a;
+}
+
+.pop_test_start_butt:hover {
+	color: #FFFFFF;
+	background: grey;
+}
+
+.pop_backup_group {
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+
+.pop_backup_log {
+	width: 100%;
+	height: 377px;
+	overflow-y: auto;
+}
+
+.pop_backup_log_group {
+	clear: both;
+	width: 100%;
+}
+
+.pop_backup_log_title {
+	width: 100%;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	background: #555555;
+	color: #FFFFFF;
+}
+
+.pop_backup_log_value1 {
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+	font-size: 9pt;
+}
+
+.pop_backup_log_value2 {
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+	font-size: 9pt;
+	background: #EEEEEE;
+}
+
+.pop_backup_msg {
+	width: 100%;
+	height: 25px;
+	line-height: 25px;
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+.pop_backup_butt {
+	height: 28px;
+	line-height: 28px;
+	width: 100%;
+	border: 0;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #68686a;
+	border-bottom: 1px solid #222222;
+}
+
+.pop_backup_butt:hover {
+	color: #FFFFFF;
+	background: grey;
+}
+
+.pop_rollback_butt {
+	height: 28px;
+	line-height: 28px;
+	width: 100%;
+	border: 0;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #68686a;
+	border-bottom: 1px solid #222222;
+}
+
+.pop_rollback_butt:hover {
+	color: #FFFFFF;
+	background: grey;
+}
+
+.pop_backup_line {
+	clear: both;
+	width: 100%;
+	height: 30px;
+	border: 1px solid #000000;
+}
+
+.pop_delete_group {
+	clear: both;
+	width: 100%;
+	min-height: 50px;
+}
+
+.pop_delete_title {
+	float: left;
+	width: 160px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: grey;
+	font-weight: bold;
+	margin-top: 70px;
+	margin-left: 3px;
+	background: #DDDDDD;
+	border: 1px solid #DDDDDD;
+}
+
+.pop_delete_value {
+	float: left;
+	width: 160px;
+	height: 150px;
+	line-height: 150px;
+	text-align: center;
+	margin-left: 3px;
+	font-size: 16pt;
+	border: 1px solid #DDDDDD;
+}
+
+.pop_delete_butt {
+	float: left;
+	width: 162px;
+	height: 40px;
+	line-height: 40px;
+	margin-left: 3px;
+	color: grey;
+	font-size: 9pt;
+	border: 1px solid #EEEEEE;
+	background: #EEEEEE;
+}
+
+.pop_delete_butt:hover {
+	background: #CCCCCC;
+}
+
+.pop_delete_title_all {
+	clear: both;
+	width: 820px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: grey;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-left: 5px;
+	background: #DDDDDD;
+	border: 1px solid #DDDDDD;
+}
+
+.pop_delete_butt_all {
+	clear: both;
+	width: 823px;
+	height: 40px;
+	margin-left: 5px;
+	color: grey;
+	font-size: 9pt;
+	border: 1px solid #EEEEEE;
+	background: #EEEEEE;
+}
+
+.pop_delete_butt_all:hover {
+	background: #CCCCCC;
+}
+/* 로그팝업 */
+
+/* 에러화면 */
+#errormain {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.errorBox {
+	width: 100%;
+	text-align: center;
+	position: absolute; top: 30%;
+}
+
+#errormenu {
+	margin: 0 auto;
+	width: 100%;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+#errorbody {
+	width: 100%;
+	text-align: center;
+}
+
+.errorcode {
+	margin: 0 auto;
+	width: 700px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: #FFFFFF;
+	font-size: 11pt;
+	font-family: arial;
+	color: #9d0206;
+}
+
+.errorTitle {
+	width: 700px;
+	height: 50px;
+	background: #2f2e2c;
+	border: 0px;
+	color: #FFFFFF;
+	font-size: 15pt;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	border-bottom: 1px solid #618a3e;
+}
+
+.errorbutt {
+	width: 700px;
+	height: 50px;
+	background: #2f2e2c;
+	border: 0px;
+	color: #FFFFFF;
+	font-size: 12pt;
+	font-weight: bold;
+	display: inline-block;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #000000;
+	border-bottom: 1px solid #618a3e;
+}
+
+.menu_butt:hover {
+	border: #618a3e;
+	text-shadow:0px 1px 0px #2f6627;
+	box-shadow: 1px 1px 1px 0px #52712d;
+	background-color: #6cab36;
+}
+/* 에러화면 */

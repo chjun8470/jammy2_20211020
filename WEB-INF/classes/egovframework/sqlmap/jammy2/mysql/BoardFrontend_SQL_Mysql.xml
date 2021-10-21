@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="BoardVO" type="egovframework.jammy2.board.service.BoardVO"/>
+	<typeAlias  alias="BoardArticleVO" type="egovframework.jammy2.board.service.BoardArticleVO"/>
+				
+	<select id="BoardFrontendDAO.selectBoardListAll" parameterClass="BoardVO" resultClass="BoardVO">
+		SELECT  A.BOARD_ID			boardId
+			 ,  A.SITE_ID			siteId
+			 ,  A.BOARD_NM			boardNm
+			 ,  A.SKIN_NM			skinNm
+			 ,  A.MOBILE_SKIN_NM	mobileSkinNm
+		  FROM  JMY_BOARD A
+		 WHERE  1=1	
+			<isNotNull prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotNull>				
+	</select>
+	
+	<select id="BoardFrontendDAO.selectBoard" parameterClass="BoardVO" resultClass="BoardVO">
+		SELECT  A.BOARD_ID			boardId
+			 ,  A.SITE_ID			siteId
+			 ,  A.BOARD_NM			boardNm
+			 ,  A.BOARD_SUMMARY		boardSummary
+			 ,  A.SKIN_NM			skinNm
+			 ,  A.MOBILE_SKIN_NM	mobileSkinNm	
+			 ,  A.BOARD_ADMIN		boardAdmin
+			 ,  A.BOARD_TY			boardTy
+			 ,  A.USE_CATEGORY_AT	useCategoryAt
+			 ,  A.CATEGORY			category
+			 ,  A.PERM_LVL_LIST		permLvlList
+			 ,  A.PERM_GRP_LIST		permGrpList
+			 ,  A.PERM_LVL_READ		permLvlRead
+			 ,  A.PERM_GRP_READ		permGrpRead
+			 ,  A.PERM_LVL_WRITE	permLvlWrite
+			 ,  A.PERM_GRP_WRITE	permGrpWrite
+			 ,  A.PERM_LVL_REPLY	permLvlReply
+			 ,  A.PERM_GRP_REPLY	permGrpReply
+			 ,  A.PERM_LVL_EDITOR	permLvlEditor
+			 ,  A.PERM_GRP_EDITOR	permGrpEditor
+			 ,  A.USE_SECRET_AT		useSecretAt
+			 ,  A.PER_PAGE			perPage
+			 ,  A.SUBJECT_LEN		subjectLen
+			 ,  A.NEW_ICON_PERIOD	newIconPeriod
+			 ,  A.USE_FB_DSTRBT_AT	useFbDstrbtAt
+			 ,  A.SHOW_DELETED_AT	showDeletedAt
+			 ,  A.UPLOAD_COUNT		uploadCount
+			 ,  A.UPLOAD_SIZE		uploadSize
+			 ,  A.UPLOAD_EXT		uploadExt
+			 ,  A.HEAD_HTML			headHtml
+			 ,  A.TAIL_HTML			tailHtml
+			 ,  A.LIMIT_HTML		limitHtml
+			 ,  A.LIMIT_WORD		limitWord
+		  FROM  JMY_BOARD A
+		 WHERE  A.BOARD_ID = #boardId#	
+			<isNotEmpty prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotEmpty>
+	</select>
+	
+	<select id="BoardFrontendDAO.selectBoardArticleListCnt" parameterClass="BoardArticleVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_BOARD_ARTICLE A 
+		 WHERE  1=1		 
+			<isNotEmpty prepend="AND" property="searchBoardIds">
+				(
+					A.BOARD_ID IN 
+					<iterate property="searchBoardIds" open="(" conjunction="," close=")">
+						#searchBoardIds[]#		   
+					</iterate>
+					<iterate property="searchBoardIds" open="OR" conjunction="OR" close="">
+						FIND_IN_SET(#searchBoardIds[]#, A.SHARE_BOARD_IDS)
+					</iterate>
+				)				
+			</isNotEmpty>		 
+			<isNotEmpty prepend="AND" property="boardId">
+				(A.BOARD_ID = #boardId# OR FIND_IN_SET(#boardId#, A.SHARE_BOARD_IDS))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				A.CATEGORY_NM = #categoryNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedAt">
+				A.DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="data01"> A.DATA01 = #data01#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data02"> A.DATA02 = #data02#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data03"> A.DATA03 = #data03#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data04"> A.DATA04 = #data04#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data05"> A.DATA05 = #data05#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data06"> A.DATA06 = #data06#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data07"> A.DATA07 = #data07#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data08"> A.DATA08 = #data08#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data09"> A.DATA09 = #data09#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data10"> A.DATA10 = #data10#</isNotEmpty>
+						
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				A.SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				A.CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				A.WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				A.WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				A.FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>			
+	</select>
+	
+	<select id="BoardFrontendDAO.selectBoardArticleList" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  A.ARTICLE_ID			articleId
+			 ,  A.SITE_ID				siteId
+			 ,  A.BOARD_ID				boardId
+			 ,  (SELECT BOARD_NM FROM JMY_BOARD WHERE BOARD_ID = A.BOARD_ID) AS boardNm
+			 ,  A.ARTICLE_GROUP_ID		articleGroupId
+			 ,  A.ARTICLE_NEXT_ID		articleNextId
+			 ,  A.ARTICLE_PARNTS_ID		articleParntsId
+			 ,  A.ARTICLE_SEQ			articleSeq
+			 ,  A.DEPTH					depth
+			 ,  A.CATEGORY_NM			categoryNm
+			 ,  A.SUBJECT				subject
+			 ,  A.WRITER_ID				writerId
+			 ,  A.WRITER_NM				writerNm
+			 ,  A.PASSWORD				password
+			 ,  A.CONTENT				content
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  (SELECT COUNT(*) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.ATCH_FILE_ID)  AS atchFileCnt
+			 ,  A.THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  A.NOTICE_AT				noticeAt
+			 ,  A.SECRET_AT				secretAt
+			 ,  A.DELETED_AT			deletedAt
+			 ,  A.HITS					hits
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10	
+			 ,  A.SHARE_BOARD_IDS		shareBoardIds		 
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm			 
+			 ,  DATEDIFF(now(), A.FRST_REGIST_PNTTM) registDateDiff		
+		  FROM  JMY_BOARD_ARTICLE A
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="searchBoardIds">
+				(
+					A.BOARD_ID IN 
+					<iterate property="searchBoardIds" open="(" conjunction="," close=")">
+						#searchBoardIds[]#		   
+					</iterate>
+					<iterate property="searchBoardIds" open="OR" conjunction="OR" close="">
+						FIND_IN_SET(#searchBoardIds[]#, A.SHARE_BOARD_IDS)
+					</iterate>
+				)				
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="boardId">
+				(A.BOARD_ID = #boardId# OR FIND_IN_SET(#boardId#, A.SHARE_BOARD_IDS))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				A.CATEGORY_NM = #categoryNm#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedAt">
+				A.DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="data01"> A.DATA01 = #data01#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data02"> A.DATA02 = #data02#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data03"> A.DATA03 = #data03#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data04"> A.DATA04 = #data04#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data05"> A.DATA05 = #data05#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data06"> A.DATA06 = #data06#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data07"> A.DATA07 = #data07#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data08"> A.DATA08 = #data08#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data09"> A.DATA09 = #data09#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data10"> A.DATA10 = #data10#</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				A.SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				A.CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				A.WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				A.WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				A.FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.ARTICLE_NEXT_ID DESC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+	
+	<select id="BoardFrontendDAO.selectBoardArticle" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  A.ARTICLE_ID			articleId
+			 ,  A.SITE_ID				siteId
+			 ,  A.BOARD_ID				boardId
+			 ,  (SELECT BOARD_NM FROM JMY_BOARD WHERE BOARD_ID = A.BOARD_ID) AS boardNm
+			 ,  A.ARTICLE_GROUP_ID		articleGroupId
+			 ,  A.ARTICLE_NEXT_ID		articleNextId
+			 ,  A.ARTICLE_PARNTS_ID		articleParntsId
+			 ,  A.ARTICLE_SEQ			articleSeq
+			 ,  A.DEPTH					depth
+			 ,  A.CATEGORY_NM			categoryNm
+			 ,  A.SUBJECT				subject
+			 ,  A.WRITER_ID				writerId
+			 ,  A.WRITER_NM				writerNm
+			 ,  A.PASSWORD				password
+			 ,  A.CONTENT				content
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  A.NOTICE_AT				noticeAt
+			 ,  A.SECRET_AT				secretAt
+			 ,  A.DELETED_AT			deletedAt
+			 ,  A.HITS					hits
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10
+			 ,  A.SHARE_BOARD_IDS		shareBoardIds
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGUSR_IP		frstRegusrIp
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_IP		lastUpdusrIp
+		     ,  A.DELETE_PNTTM			deletePnttm
+		     ,  A.DELUSR_IP 			delusrIp
+		     ,  A.DELUSR_ID 			delusrId
+		     ,  A.DELETE_MEMO			deleteMemo
+		  FROM  JMY_BOARD_ARTICLE A
+		 WHERE  A.ARTICLE_ID = #articleId#
+			<isNotEmpty prepend="AND" property="boardId">
+				(A.BOARD_ID = #boardId# OR FIND_IN_SET(#boardId#, A.SHARE_BOARD_IDS))
+			</isNotEmpty>
+	</select>
+	
+	<select id="BoardFrontendDAO.selectPrevBoardArticle" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  A.ARTICLE_ID			articleId
+			 ,  A.SITE_ID				siteId
+			 ,  A.BOARD_ID				boardId
+			 ,  (SELECT BOARD_NM FROM JMY_BOARD WHERE BOARD_ID = A.BOARD_ID) AS boardNm
+			 ,  A.ARTICLE_GROUP_ID		articleGroupId
+			 ,  A.ARTICLE_NEXT_ID		articleNextId
+			 ,  A.ARTICLE_PARNTS_ID		articleParntsId
+			 ,  A.ARTICLE_SEQ			articleSeq
+			 ,  A.DEPTH					depth
+			 ,  A.CATEGORY_NM			categoryNm
+			 ,  A.SUBJECT				subject
+			 ,  A.WRITER_ID				writerId
+			 ,  A.WRITER_NM				writerNm
+			 ,  A.PASSWORD				password
+			 ,  A.CONTENT				content
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  (SELECT COUNT(*) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.ATCH_FILE_ID)  AS atchFileCnt
+			 ,  A.THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  A.NOTICE_AT				noticeAt
+			 ,  A.SECRET_AT				secretAt
+			 ,  A.DELETED_AT			deletedAt
+			 ,  A.HITS					hits
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10		
+			 ,  A.SHARE_BOARD_IDS		shareBoardIds	 
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGUSR_IP		frstRegusrIp
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_IP		lastUpdusrIp			
+		  FROM  JMY_BOARD_ARTICLE A
+		 WHERE  (A.BOARD_ID = #boardId# OR FIND_IN_SET(#boardId#, A.SHARE_BOARD_IDS))  
+			<![CDATA[
+		   AND  A.ARTICLE_NEXT_ID < #articleNextId#
+			]]>
+			<isNotEmpty prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotEmpty>			
+			<isNotEmpty prepend="AND" property="secretAt">
+				A.SECRET_AT = #secretAt#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				A.CATEGORY_NM = #categoryNm#
+			</isNotEmpty>			
+			<isNotEmpty prepend="AND" property="deletedAt">
+				A.DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="data01"> A.DATA01 = #data01#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data02"> A.DATA02 = #data02#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data03"> A.DATA03 = #data03#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data04"> A.DATA04 = #data04#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data05"> A.DATA05 = #data05#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data06"> A.DATA06 = #data06#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data07"> A.DATA07 = #data07#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data08"> A.DATA08 = #data08#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data09"> A.DATA09 = #data09#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data10"> A.DATA10 = #data10#</isNotEmpty>				
+			
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				A.SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				A.CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				A.WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				A.WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				A.FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.ARTICLE_NEXT_ID DESC
+		 LIMIT  1
+	</select>
+	
+	<select id="BoardFrontendDAO.selectNextBoardArticle" parameterClass="BoardArticleVO" resultClass="BoardArticleVO">
+		SELECT  A.ARTICLE_ID			articleId
+			 ,  A.SITE_ID				siteId
+			 ,  A.BOARD_ID				boardId
+			 ,  (SELECT BOARD_NM FROM JMY_BOARD WHERE BOARD_ID = A.BOARD_ID) AS boardNm
+			 ,  A.ARTICLE_GROUP_ID		articleGroupId
+			 ,  A.ARTICLE_NEXT_ID		articleNextId
+			 ,  A.ARTICLE_PARNTS_ID		articleParntsId
+			 ,  A.ARTICLE_SEQ			articleSeq
+			 ,  A.DEPTH					depth
+			 ,  A.CATEGORY_NM			categoryNm
+			 ,  A.SUBJECT				subject
+			 ,  A.WRITER_ID				writerId
+			 ,  A.WRITER_NM				writerNm
+			 ,  A.PASSWORD				password
+			 ,  A.CONTENT				content
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  (SELECT COUNT(*) FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.ATCH_FILE_ID)  AS atchFileCnt
+			 ,  A.THUMB_ATCH_FILE_ID	thumbAtchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.THUMB_ATCH_FILE_ID AND FILE_SN = "0")  AS thumbAtchFileFullPath
+			 ,  A.NOTICE_AT				noticeAt
+			 ,  A.SECRET_AT				secretAt
+			 ,  A.DELETED_AT			deletedAt
+			 ,  A.HITS					hits
+			 ,  A.DATA01				data01
+			 ,  A.DATA02				data02
+			 ,  A.DATA03				data03
+			 ,  A.DATA04				data04
+			 ,  A.DATA05				data05
+			 ,  A.DATA06				data06
+			 ,  A.DATA07				data07
+			 ,  A.DATA08				data08
+			 ,  A.DATA09				data09
+			 ,  A.DATA10				data10			 
+			 ,  A.SHARE_BOARD_IDS		shareBoardIds
+			 ,  A.FRST_REGIST_PNTTM		frstRegistPnttm
+			 ,  A.FRST_REGUSR_IP		frstRegusrIp
+			 ,  A.LAST_UPDUSR_ID		lastUpdusrId
+			 ,  A.LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  A.LAST_UPDUSR_IP		lastUpdusrIp			
+		  FROM  JMY_BOARD_ARTICLE A
+		 WHERE  (A.BOARD_ID = #boardId# OR FIND_IN_SET(#boardId#, A.SHARE_BOARD_IDS)) 
+			<![CDATA[
+		   AND  A.ARTICLE_NEXT_ID > #articleNextId#
+			]]>
+			<isNotEmpty prepend="AND" property="siteId">
+				A.SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="secretAt">
+				A.SECRET_AT = #secretAt#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryNm">
+				A.CATEGORY_NM = #categoryNm#
+			</isNotEmpty>			
+			<isNotEmpty prepend="AND" property="deletedAt">
+				A.DELETED_AT = #deletedAt#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="data01"> A.DATA01 = #data01#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data02"> A.DATA02 = #data02#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data03"> A.DATA03 = #data03#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data04"> A.DATA04 = #data04#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data05"> A.DATA05 = #data05#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data06"> A.DATA06 = #data06#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data07"> A.DATA07 = #data07#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data08"> A.DATA08 = #data08#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data09"> A.DATA09 = #data09#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="data10"> A.DATA10 = #data10#</isNotEmpty>				
+			
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="subject">
+				A.SUBJECT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="content">
+				A.CONTENT LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerNm">
+				WRITER_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="writerId">
+				A.WRITER_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="frstRegistPnttm">
+				A.FRST_REGIST_PNTTM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.ARTICLE_NEXT_ID ASC
+		 LIMIT  1
+	</select>	
+	
+	<update id="BoardFrontendDAO.updateBoardArticleHits">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  HITS = HITS + 1
+		 WHERE  ARTICLE_ID = #articleId#
+	</update>	
+	
+	<select id="BoardFrontendDAO.selectBoardArticleParntsIdCnt" resultClass="Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_BOARD_ARTICLE
+		 WHERE  ARTICLE_PARNTS_ID = #articleParntsId#
+			<isNotEmpty prepend="AND" property="depth">
+			<![CDATA[
+				DEPTH > #depth#
+			]]>
+			</isNotEmpty>				
+	</select>
+	
+	<insert id="BoardFrontendDAO.insertBoardArticle">
+		INSERT 
+		  INTO  JMY_BOARD_ARTICLE
+		     (  ARTICLE_ID
+			 ,  SITE_ID
+			 ,  BOARD_ID
+			 ,  ARTICLE_GROUP_ID
+			 ,  ARTICLE_NEXT_ID
+			 ,  ARTICLE_PARNTS_ID
+			 ,  ARTICLE_SEQ
+			 ,  DEPTH
+			 ,  CATEGORY_NM
+			 ,  SUBJECT
+			 ,  WRITER_ID
+			 ,  WRITER_NM
+			 ,  PASSWORD
+			 ,  CONTENT
+			 ,  ATCH_FILE_ID
+			 ,  THUMB_ATCH_FILE_ID
+			 ,  NOTICE_AT
+			 ,  SECRET_AT
+			 ,  DATA01
+			 ,  DATA02
+			 ,  DATA03
+			 ,  DATA04
+			 ,  DATA05
+			 ,  DATA06
+			 ,  DATA07
+			 ,  DATA08
+			 ,  DATA09
+			 ,  DATA10			 
+			 ,  SHARE_BOARD_IDS
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGUSR_IP
+		     )
+		VALUES
+		     (  #articleId#
+			 ,  #siteId#
+			 ,  #boardId#
+			 ,  #articleGroupId#
+			 ,  #articleNextId#
+			 ,  #articleParntsId#
+			 ,  #articleSeq#
+			 ,  #depth#
+			 ,  #categoryNm#
+			 ,  #subject#
+			 ,  #writerId#
+			 ,  #writerNm#
+			 ,  #password#
+			 ,  #content#
+			 ,  #atchFileId#
+			 ,  #thumbAtchFileId#
+			 ,  #noticeAt#
+			 ,  #secretAt#
+			 ,  #data01#
+			 ,  #data02#
+			 ,  #data03#
+			 ,  #data04#
+			 ,  #data05#
+			 ,  #data06#
+			 ,  #data07#
+			 ,  #data08#
+			 ,  #data09#
+			 ,  #data10#		
+			 ,  #shareBoardIds# 
+			 ,  SYSDATE()
+			 ,  #frstRegusrIp#
+		     )			
+	</insert>	
+	
+	<select id="BoardFrontendDAO.selectMinBoardArticleNextId" resultClass="Integer">
+		SELECT  IFNULL(MIN(ARTICLE_NEXT_ID),-1) articleNextId
+		  FROM  JMY_BOARD_ARTICLE
+		 WHERE  1=1
+		   AND  NOTICE_AT = "Y"					
+	</select>
+	
+	<update id="BoardFrontendDAO.updateBoardArticleNextIdForWrite">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_NEXT_ID = ARTICLE_NEXT_ID + 1
+		 WHERE  NOTICE_AT = "Y"
+	</update>
+	
+	<update id="BoardFrontendDAO.updateBoardArticleAfterInsert">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_GROUP_ID = #articleGroupId#
+			 ,  ARTICLE_NEXT_ID = #articleNextId#
+			 ,  ARTICLE_PARNTS_ID = #articleParntsId#
+		 WHERE  ARTICLE_ID = #articleId#
+	</update>	
+	
+	<update id="BoardFrontendDAO.updateBoardArticleNextIdForReply">
+		<![CDATA[
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_NEXT_ID = ARTICLE_NEXT_ID + 1
+		 WHERE  ARTICLE_NEXT_ID >= #articleNextId#
+		]]>
+	</update>
+	
+	<update id="BoardFrontendDAO.updateBoardArticleSeqForReply">
+		<![CDATA[
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_SEQ = ARTICLE_SEQ + 1
+		 WHERE  ARTICLE_GROUP_ID = #articleGroupId# 
+		   AND  ARTICLE_SEQ >= #articleSeq#
+		]]>
+	</update>
+	
+	<select id="BoardFrontendDAO.selectMaxBoardArticleNextId" resultClass="Integer">
+		SELECT  IFNULL(MAX(ARTICLE_NEXT_ID),0) articleNextId
+		  FROM  JMY_BOARD_ARTICLE
+		 WHERE  1=1
+			<isEqual prepend="AND" property="noticeAt" compareValue="N">
+				<isGreaterThan property="articleGroupId" compareValue="0">				
+				<![CDATA[
+				ARTICLE_GROUP_ID < #articleGroupId# AND NOTICE_AT = "N"
+				]]>
+				</isGreaterThan>
+			</isEqual>
+	</select>	
+	
+	<update id="BoardFrontendDAO.updateBoardArticleNextIdDecrease">
+		<![CDATA[
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_NEXT_ID = ARTICLE_NEXT_ID - 1
+		 WHERE  ARTICLE_NEXT_ID >= #articleNextId#
+		]]>
+	</update>
+	
+	<update id="BoardFrontendDAO.updateBoardArticleNextIdForModify">
+		<![CDATA[
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  ARTICLE_NEXT_ID = ARTICLE_NEXT_ID + 1
+		 WHERE  (ARTICLE_NEXT_ID >= #articleNextId# AND NOTICE_AT = "N") 
+		    OR  (ARTICLE_NEXT_ID < #articleNextId# AND NOTICE_AT = "Y")
+		]]>
+	</update>
+	
+	<update id="BoardFrontendDAO.updateBoardArticle">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  CATEGORY_NM = #categoryNm#
+		     ,  SUBJECT = #subject#
+			 ,  CONTENT = #content#
+			 ,  NOTICE_AT = #noticeAt#
+			 ,  SECRET_AT = #secretAt#
+			 ,  ARTICLE_NEXT_ID = #articleNextId#
+			 ,  ATCH_FILE_ID = #atchFileId#
+			 ,  THUMB_ATCH_FILE_ID	= #thumbAtchFileId#
+			 ,  DATA01 = #data01#
+			 ,  DATA02 = #data02#
+			 ,  DATA03 = #data03#
+			 ,  DATA04 = #data04#
+			 ,  DATA05 = #data05#
+			 ,  DATA06 = #data06#
+			 ,  DATA07 = #data07#
+			 ,  DATA08 = #data08#
+			 ,  DATA09 = #data09#
+			 ,  DATA10 = #data10#			 
+			 ,  SHARE_BOARD_IDS = #shareBoardIds#
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_IP = #lastUpdusrIp#
+			 <isNotEmpty property="password">
+			 ,  PASSWORD = #password#
+			 </isNotEmpty>
+		 WHERE  ARTICLE_ID = #articleId#
+	</update>	
+	
+	<update id="BoardFrontendDAO.updateBoardArticleDeletedAt">
+		<isEqual property="deletedAt" compareValue="Y">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = SYSDATE()
+			     ,  DELUSR_IP = #delusrIp#
+			     <isNotNull property="delusrId">
+			     ,  DELUSR_ID = #delusrId#
+			     </isNotNull>
+			     ,  DELETE_MEMO = #deleteMemo#
+			 WHERE  BOARD_ID = #boardId#
+			   AND  ARTICLE_ID = #articleId#
+		</isEqual>
+		<isEqual property="deletedAt" compareValue="N">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = NULL
+			     ,  DELUSR_IP = NULL
+			     ,  DELUSR_ID = NULL
+			     ,  DELETE_MEMO = NULL
+			 WHERE  BOARD_ID = #boardId#
+			   AND  ARTICLE_ID = #articleId#
+		</isEqual>		
+	</update>
+	
+	<update id="BoardFrontendDAO.moveBoardArticle">
+		UPDATE  JMY_BOARD_ARTICLE 
+		   SET  SITE_ID = #targetSiteId#
+		     ,  BOARD_ID = #targetBoardId#
+		 WHERE  ARTICLE_ID IN 
+			<iterate property="articleIds" open="(" conjunction="," close=")">
+			<![CDATA[
+				#articleIds[]#
+			]]>		   
+			</iterate>
+	</update>
+	
+	<update id="BoardFrontendDAO.updateBoardArticleDeletedAtByChecked">
+		<isEqual property="deletedAt" compareValue="Y">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = SYSDATE()
+			     ,  DELUSR_IP = #delusrIp#
+			     <isNotNull property="delusrId">
+			     ,  DELUSR_ID = #delusrId#
+			     </isNotNull>
+			     ,  DELETE_MEMO = #deleteMemo#
+			 WHERE  ARTICLE_ID IN 
+				<iterate property="articleIds" open="(" conjunction="," close=")">
+				<![CDATA[
+					#articleIds[]#
+				]]>		   
+				</iterate>
+		</isEqual>
+		<isEqual property="deletedAt" compareValue="N">
+			UPDATE  JMY_BOARD_ARTICLE 
+			   SET  DELETED_AT = #deletedAt#
+			     ,  DELETE_PNTTM = NULL
+			     ,  DELUSR_IP = NULL
+			     ,  DELUSR_ID = NULL
+			     ,  DELETE_MEMO = NULL
+			 WHERE  ARTICLE_ID IN 
+				<iterate property="articleIds" open="(" conjunction="," close=")">
+				<![CDATA[
+					#articleIds[]#
+				]]>		   
+				</iterate>
+		</isEqual>
+	</update>	
+	
+    <delete id="BoardFrontendDAO.deleteBoardArticle">
+		DELETE 
+		  FROM  JMY_BOARD_ARTICLE 
+		 WHERE  BOARD_ID = #boardId# 
+		   AND  ARTICLE_ID = #articleId#
+    </delete>  
+
+		
+</sqlMap>

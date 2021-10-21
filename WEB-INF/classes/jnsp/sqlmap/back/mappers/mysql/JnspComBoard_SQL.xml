@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspComBoardMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getBoard" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					B.BOARD_ID,
+					B.BOARD_NM,
+					B.BOARD_SUMMARY,
+					B.BOARD_TY,
+					B.SITE_ID,
+					B.SKIN_NM,
+					B.BLOCK_PAGE,
+					B.LIST_SIZE,
+					B.PERM_CMT,
+					B.PERM_FILE,
+					B.PERM_EDITOR,
+					B.PERM_HTML,
+					B.PERM_NOTICE,
+					B.PERM_LVL_LIST,
+					B.PERM_GRP_LIST,
+					B.PERM_LVL_WRITE,
+					B.PERM_GRP_WRITE,
+					B.PERM_LVL_EDITOR,
+					B.PERM_GRP_EDITOR,
+					B.PERM_LVL_READ,
+					B.PERM_GRP_READ,
+					B.PERM_LVL_DEL,
+					B.PERM_GRP_DEL,
+					B.PERM_LVL_REPLY,
+					B.PERM_GRP_REPLY,
+					B.PERM_LVL_CMT_LIST,
+					B.PERM_GRP_CMT_LIST,
+					B.PERM_LVL_CMT_WRITE,
+					B.PERM_GRP_CMT_WRITE,
+					B.PERM_LVL_CMT_DEL,
+					B.PERM_GRP_CMT_DEL,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGISTER_ID
+
+		FROM
+					JMY_BOARD AS B
+		WHERE
+					B.BOARD_ID = #{boardComIdx}
+		]]>
+	</select>
+	<select id="getBoardAticle" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+			A.ARTICLE_ID
+			,A.WRITER_ID
+			,A.SUBJECT
+			,B.PSN_NM
+			,B.USER_TP
+			,B.USER_IDX
+			,B.ORG_GRP_CD
+			,B.AUTH_LV
+		FROM
+			JMY_BOARD_ARTICLE A
+			LEFT JOIN
+			TB_USER_COPY B
+			ON A.WRITER_ID = B.USER_ID
+		WHERE
+			B.DELETE_YN != 'Y'
+			AND A.ARTICLE_ID = #{boardIdx}
+		]]>
+	</select>
+	<select id="getNoticeListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT	COUNT(0) AS CNT
+
+			  FROM	JMY_BOARD_ARTICLE
+
+			 WHERE  NOTICE_AT = 'Y'
+		]]>
+	</select>
+
+	<select id="getNoticeList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					CASE (B.SITE_ID)
+					WHEN 'jeinet' THEN '연구장비정보망'
+					WHEN 'jipbank' THEN '지식재산정보은행'
+					WHEN 'jntis' THEN '전남과학기술정보시스템'
+					ELSE 'sample'
+					END AS SITE_NM,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					B.DATA02,
+					B.DATA03,
+					B.DATA04,
+					B.DATA05,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP,
+					A.FILE_ID,
+					A.DATA_GRP,
+					A.DATA_IDX,
+					A.FILE_SEQ,
+					A.FILE_CAT,
+					A.TITLE,
+					A.REGIST_DT,
+					A.DOWN_CNT,
+					A.DELETE_YN,
+					A.PHOTO_CAT,
+					A.FILE_PATH,
+					A.FILE_SIZE,
+					A.TITLE_ORG
+
+
+			   FROM	JMY_BOARD_ARTICLE AS B
+					LEFT JOIN TB_JNSP_FILE AS A ON A.DATA_IDX = B.ARTICLE_ID
+
+			  WHERE B.NOTICE_AT = 'Y'
+
+		   GROUP BY B.ARTICLE_ID
+
+	       ORDER BY B.FRST_REGIST_PNTTM DESC
+
+		  ]]>
+	</select>
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.krcgis.portal.biz.service.impl.BizCommonMapper">
+
+
+
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_IDX,
+					DATA_IDX,
+					DATA_TYPE,
+					FILE_PATH,
+					FILE_EXT,
+					FILE_NM,
+					FILE_ORGN_NM,
+					FILE_FULL_NM,
+					FILE_TYPE,
+					FILE_SIZE,
+					REG_DT
+		FROM
+					DATA_FILE
+			WHERE DATA_TYPE = ${dataType}
+				AND DATA_IDX = ${dataIdx}
+			ORDER BY REG_DT ASC
+		]]>
+	</select>
+
+
+
+	<delete id="setFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						DATA_FILE
+			 WHERE DATA_TYPE = #{dataType}
+				AND DATA_IDX = #{dataIdx}
+		]]>
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						DATA_FILE
+			 WHERE DATA_TYPE = #{dataType}
+		 ]]>
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		  <selectKey keyProperty="snoSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(NVL(FILE_IDX,0)) + 1 FROM DATA_FILE
+		  </selectKey>
+
+
+			INSERT INTO DATA_FILE
+			(
+					FILE_IDX,
+					DATA_IDX,
+					DATA_TYPE,
+					FILE_PATH,
+					FILE_EXT,
+					FILE_NM,
+					FILE_ORGN_NM,
+					FILE_FULL_NM,
+					FILE_TYPE,
+					FILE_SIZE,
+					REG_DT
+			)
+			VALUES
+			(
+				<if test="snoSeq == 0 or snoSeq == null">
+					1,
+				</if>
+				<if test='snoSeq >= 1'>
+				#{snoSeq},
+				</if>
+				#{bdGbn},
+				#{bdSno},
+				#{fileNm},
+				#{filePath},
+				#{fileOrgnNm},
+				#{fileSize},
+				SYSDATE
+			)
+	</insert>
+
+
+</mapper>

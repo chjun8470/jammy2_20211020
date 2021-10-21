@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspEquOperLegalMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getEquOperLegalList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					  A.EQU_OPER_LEGAL_IDX
+					, A.LEGAL_NM
+					, A.CORP_NM
+					, A.REQ_START_DT
+					, A.REQ_END_DT
+					, A.EQU_START_DT
+					, A.EQU_END_DT
+					, B.PSN_NM
+			FROM
+					TB_EQU_OPER_LEGAL A
+			LEFT JOIN
+					TB_OFFLINE_USER B
+			ON
+					A.USER_IDX = B.USER_IDX
+			LEFT JOIN TB_EQU_OPER_DIARY as C ON(C.EQU_OPER_LEGAL_IDX = A.EQU_OPER_LEGAL_IDX)
+					
+			WHERE
+					1 = 1
+		]]>
+		<if test='authLv != "99" and authLv >= "70"'>
+			<![CDATA[
+				AND
+						A.REG_ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test='authLv != "99" and authLv == "70"'>
+			<![CDATA[
+				AND
+						A.REG_DEPT_NM = #{orgSubGrpCd}
+			]]>
+		</if>
+		<choose>
+			<when test="searchType == 'LEGALNM'">
+				AND
+						A.LEGAL_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'USER'">
+				AND
+						B.PSN_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'CORP'">
+				AND
+						A.CORP_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type1'">
+				AND
+						C.EQU_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type2'">
+				AND
+						C.EQU_USER_ORG LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type3'">
+				AND
+						C.EQU_USER_DEPT LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+		</choose>
+		<![CDATA[
+			ORDER BY
+					A.EQU_OPER_LEGAL_IDX DESC
+			LIMIT
+					${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getEquOperLegalListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+				COUNT(0) AS CNT
+			FROM
+					TB_EQU_OPER_LEGAL A
+			LEFT JOIN
+					TB_OFFLINE_USER B
+			ON
+					A.USER_IDX = B.USER_IDX
+			LEFT JOIN TB_EQU_OPER_DIARY as C ON(C.EQU_OPER_LEGAL_IDX = A.EQU_OPER_LEGAL_IDX)
+			WHERE
+					1 = 1
+		]]>
+		<if test='authLv != "99" and authLv >= "70"'>
+			<![CDATA[
+				AND A.REG_ORG_GRP_CD = #{orgGrpCd}
+			]]>
+		</if>
+		<if test='authLv != "99" and authLv == "70"'>
+			<![CDATA[
+				AND A.REG_DEPT_NM = #{orgSubGrpCd}
+			]]>
+		</if>
+		<choose>
+			<when test="searchType == 'LEGALNM'">
+				AND
+						A.LEGAL_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'USER'">
+				AND
+						B.PSN_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'CORP'">
+				AND
+						A.CORP_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type1'">
+				AND
+						C.EQU_USER_NM LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type2'">
+				AND
+						C.EQU_USER_ORG LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+			<when test="searchType == 'type3'">
+				AND
+						C.EQU_USER_DEPT LIKE CONCAT('%',#{searchWord},'%')
+			</when>
+		</choose>
+	</select>
+
+	<select id="getEquOperLegal" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+				  A.EQU_OPER_LEGAL_IDX
+				, A.USER_IDX
+				, A.PHONE
+				, A.ADDR1
+				, A.ADDR2
+				, A.ZIPCODE
+				, A.CORP_NM
+				, A.CORP_POSITION
+				, A.CORP_RESPONSIBLE_USER
+				, A.DEPT_NM
+				, A.USER_TYPE
+				, A.USE_MEAN
+				, A.LEGAL_NM
+				, DATE_FORMAT(A.REQ_START_DT, '%Y-%m-%d') AS REQ_START_DT
+				, DATE_FORMAT(A.REQ_END_DT, '%Y-%m-%d') AS REQ_END_DT
+				, DATE_FORMAT(A.EQU_START_DT, '%Y-%m-%d') AS EQU_START_DT
+				, DATE_FORMAT(A.EQU_END_DT, '%Y-%m-%d') AS EQU_END_DT
+				, A.INSPEC_NM
+				, A.INSPEC_FEE
+				, A.USE_NOTE
+				, A.REG_ORG_GRP_CD
+				, A.REG_DEPT_NM
+				, A.REG_IDX
+				, DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DT
+				, A.REG_IP
+				, A.UP_IDX
+				, DATE_FORMAT(A.UP_DT, '%Y-%m-%d') AS UP_DT
+				, A.UP_IP
+				, B.PSN_NM
+		FROM
+				TB_EQU_OPER_LEGAL A
+		LEFT JOIN
+				TB_OFFLINE_USER B
+		ON
+				A.USER_IDX = B.USER_IDX
+		WHERE
+				1 = 1
+		AND
+				A.EQU_OPER_LEGAL_IDX = #{equOperLegalIdx}
+	</select>
+
+	<insert id="setEquOperLegalInsert" parameterType="paramMap">
+			INSERT INTO TB_EQU_OPER_LEGAL
+			(
+				  EQU_OPER_LEGAL_IDX
+				, USER_IDX
+				, CORP_NM
+				, CORP_POSITION
+				, DEPT_NM
+				, PHONE
+				, ADDR1
+				, ADDR2
+				, ZIPCODE
+				, CORP_RESPONSIBLE_USER
+				, USER_TYPE
+				, USE_MEAN
+				, LEGAL_NM
+				, REQ_START_DT
+				, REQ_END_DT
+				, EQU_START_DT
+				, EQU_END_DT
+				, INSPEC_NM
+				, INSPEC_FEE
+				, USE_NOTE
+				, REG_ORG_GRP_CD
+				, REG_DEPT_NM
+				, REG_IDX
+				, REG_DT
+				, REG_IP
+			)
+			VALUES
+			(
+				  #{equOperLegalIdx}
+				, #{userIdx}
+				, #{corpNm}
+				, #{corpPosition}
+				, #{deptNm}
+				, #{phone}
+				, #{addr1}
+				, #{addr2}
+				, #{zipCode}
+				, #{corpResponsibleUser}
+				, #{userType}
+				, #{useMean}
+				, #{legalNm}
+				, #{reqStartDate}
+				, #{reqEndDate}
+				, #{equStartDate}
+				, #{equEndDate}
+				, #{inspecNm}
+				, #{inspecFee}
+				, #{useNote}
+				, #{regOrgGrpCd}
+				, #{regDeptNm}
+				, #{regIdx}
+				, now()
+				, #{regIp}
+			)
+	</insert>
+
+	<update id="setEquOperLegalUpdate" parameterType="paramMap">
+		UPDATE TB_EQU_OPER_LEGAL SET
+				  PHONE                 = #{phone}
+				, ADDR1                 = #{addr1}
+				, ADDR2                 = #{addr2}
+				, ZIPCODE               = #{zipCode}
+				, USER_TYPE             = #{userType}
+				, USE_MEAN              = #{useMean}
+				, LEGAL_NM              = #{legalNm}
+				, REQ_START_DT          = #{reqStartDate}
+				, REQ_END_DT            = #{reqEndDate}
+				, EQU_START_DT          = #{equStartDate}
+				, EQU_END_DT            = #{equEndDate}
+				, INSPEC_NM             = #{inspecNm}
+				, INSPEC_FEE            = #{inspecFee}
+				, USE_NOTE              = #{useNote}
+				, UP_IDX                = #{upIdx}
+				, UP_DT                 = now()
+				, UP_IP                 = #{upIp}
+		WHERE
+			EQU_OPER_LEGAL_IDX = #{equOperLegalIdx}
+	</update>
+
+	<delete id="setEquOperLegalDelete" parameterType="paramMap">
+			DELETE
+
+			FROM
+					TB_EQU_OPER_LEGAL
+			WHERE
+					EQU_OPER_LEGAL_IDX = #{equOperLegalIdx}
+	</delete>
+
+	<select id="getEquOperLegalDiaryList" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+				A.EQU_OPER_DIARY_IDX,
+				A.RND_EQU_IDX,
+				A.EQU_ORDER_IDX,
+				A.EQU_USER_NM,
+				A.EQU_USER_ORG,
+				A.EQU_USER_DEPT,
+				A.EQU_USER_POSITION,
+				A.EQU_USER_PHONE,
+				A.EQU_USER_EMAIL,
+				A.ORG_SELECT,
+				A.ORG_GRP_CD,
+				A.DEPT_NM,
+				A.START_DT,
+				A.START_TIME,
+				A.END_DT,
+				A.END_TIME,
+				A.USE_USER_NM,
+				A.USE_USER_PHONE,
+				A.PURPOSE,
+				A.USE_NOTE,
+				A.SAMPLE_NM,
+				A.SAMPLE_NO,
+				A.SAMPLE_CNT,
+				A.RENTAL_FEE,
+				A.REG_IDX,
+				A.REG_DT,
+				A.REG_IP,
+				C.KOR_NM,
+				C.ENG_NM,
+				C.FIXED_ASET_NO,
+				A.USE_TIME,
+				A.USE_TIME_A,
+				A.USE_TIME_B,
+				A.USE_TIME_C,
+				D.OWN_ORG_NM,
+				D.OWN_ORG_SUB_NM
+		FROM
+				TB_EQU_OPER_DIARY A
+		LEFT JOIN
+				TB_EQU_INFO C
+		ON
+				A.RND_EQU_IDX = C.RND_EQU_IDX
+		LEFT JOIN
+				TB_EQU_GOODS D
+		ON
+				C.RND_EQU_IDX = D.RND_EQU_IDX
+		WHERE
+				A.EQU_OPER_LEGAL_IDX = #{equOperLegalIdx}
+		AND
+				A.REPORT_TYPE = 'legal'
+		ORDER BY
+				A.EQU_OPER_DIARY_IDX ASC
+	</select>
+
+	<insert id="setEquOperLegalDiaryInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_EQU_OPER_DIARY
+			(
+				  EQU_OPER_LEGAL_IDX
+				, RND_EQU_IDX
+				, EQU_USER_NM
+				, EQU_USER_ORG
+				, EQU_USER_DEPT
+				, EQU_USER_POSITION
+				, EQU_USER_PHONE
+				, EQU_USER_EMAIL
+				, USE_TIME_A
+				, USE_TIME_B
+				, USE_TIME_C
+				, USE_TIME
+				, SAMPLE_NM
+				, SAMPLE_NO
+				, SAMPLE_CNT
+				, REG_IDX
+				, REG_DT
+				, REG_IP
+				, REPORT_TYPE
+			)
+			VALUES
+			(
+				  #{equOperLegalIdx}
+				, #{equIdx}
+				, #{equUserName}
+				, #{equUserOrg}
+				, #{equUserDept}
+				, #{equUserPosition}
+				, #{equUserPhone}
+				, #{equUserEmail}
+				, #{useTimeA}
+				, #{useTimeB}
+				, #{useTimeC}
+				, #{useTime}
+				, #{sampleNm}
+				, #{sampleNo}
+				, #{sampleCnt}
+				, #{regIdx}
+		]]>
+		<choose>
+			<when test="regDt != '' and regDt != null">
+				, #{regDt}
+			</when>
+			<otherwise>
+				, now()
+			</otherwise>
+		</choose>
+		<![CDATA[
+				, #{regIp}
+				, 'legal'
+			)
+		]]>
+	</insert>
+
+	<delete id="setEquOperLegalDiaryDelete" parameterType="paramMap">
+			DELETE
+
+			FROM
+					TB_EQU_OPER_DIARY
+			WHERE
+					EQU_OPER_LEGAL_IDX = #{equOperLegalIdx}
+	</delete>
+
+</mapper>

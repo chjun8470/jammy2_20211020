@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.service.impl.WebSSOMapper">
+
+	<select id="getProofData" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+					USER_IDX
+				,   PROOF_YN
+			FROM
+				TB_USER_PROOF
+			WHERE 1 = 1
+			  AND PROOF_CODE = #{proofCode}
+			  AND PROOF_YN != 'Y'
+		]]>
+	</select>
+
+	<update id="setUserProofUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_USER_PROOF
+				SET
+					PROOF_YN = 'Y',
+					UP_DT = now()
+			WHERE 1 = 1
+			  AND USER_IDX = #{userIdx}
+			  AND PROOF_YN != 'Y'
+		]]>
+	</update>
+	<update id="setUserAppStateUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_USER_COPY
+				SET
+					EMAIL_CHECK_YN='Y',
+		]]>
+		<choose>
+			<when test=" userTp == '3' and userTp.equals('3')">
+				<![CDATA[
+					AUTH_LV = '70',
+				]]>
+			</when>
+			<when test=" userTp == '2' and userTp.equals('2')">
+				<![CDATA[
+					AUTH_LV = '10',
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					AUTH_LV = '01',
+				]]>
+			</otherwise>
+		</choose>
+		<![CDATA[
+					UP_DT = now()
+			WHERE USER_IDX = #{userIdx}
+			AND EMAIL_CHECK_YN != 'Y'
+		]]>
+	</update>
+
+
+	<insert id="setUserProofInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_USER_PROOF
+				(
+					USER_PROOF_IDX
+				,   USER_IDX
+				,   PROOF_CODE
+				,   PROOF_YN
+				,   REG_DT
+				)VALUES(
+					#{userProofIdx}
+				,   #{userIdx}
+				,   #{proofCode}
+				,   'N'
+				,   now()
+
+				)
+		]]>
+	</insert>
+
+	<update id="setUserDelete" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_USER_COPY SET
+					DELETE_YN = 'Y'
+			WHERE USER_IDX = #{userIdx}
+
+		]]>
+	</update>
+</mapper>

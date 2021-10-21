@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Emplyr">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="Emplyr" type="egovframework.jammy2.system.emplyr.service.Emplyr"/>
+	<typeAlias  alias="EmplyrVO" type="egovframework.jammy2.system.emplyr.service.EmplyrVO"/>
+				
+	<select id="EmplyrDAO.selectEmplyrListCnt" parameterClass="EmplyrVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_EMPLYR_INFO A 
+		 WHERE  1=1			
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="emplyrId"><![CDATA[A.EMPLYR_ID LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="userNm"><![CDATA[A.USER_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="EmplyrDAO.selectEmplyrList" parameterClass="EmplyrVO" resultClass="EmplyrVO">
+		SELECT  A.EMPLYR_ID			emplyrId
+			 ,  A.USER_NM			userNm
+			 ,  A.PASSWORD			password
+			 ,  A.OFCPS_NM			ofcpsNm
+			 ,  A.SEXDSTN_CODE		sexdstnCode
+			 ,  A.BRTHDY			brthdy
+			 ,  A.TEL_NO			telNo
+			 ,  A.FAX_NO			faxNo
+			 ,  A.HP_NO				hpNo
+			 ,  A.EMAIL				email
+			 ,  A.ZIP				zip
+			 ,  A.ADRES				adres
+			 ,  A.DETAIL_ADRES		detailAdres
+			 ,  A.EMPLYR_STTUS_CODE	emplyrSttusCode
+			 ,  A.SBSCRB_DE			sbscrbDe
+			 ,  A.MODIFY_DE			modifyDe
+			 ,  A.GROUP_ID		groupId
+			 ,  (SELECT GROUP_NM FROM JMY_AUTHOR_GROUP WHERE GROUP_ID = A.GROUP_ID)  AS groupNm
+			 ,  A.LEVEL_ID			levelId
+			 ,  (SELECT LEVEL_NM FROM JMY_AUTHOR_LEVEL WHERE LEVEL_ID = A.LEVEL_ID)  AS levelNm
+			 ,  A.ORGNZT_ID			orgnztId
+			 ,	A.ADMIN_SITE_ID		adminSiteId
+			 ,	A.ADMIN_MENU_IDS	adminMenuIds
+			 ,  A.ESNTL_ID			uniqId
+		  FROM  JMY_EMPLYR_INFO A
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="searchKeyword">
+				<isEqual property="searchCondition" compareValue="emplyrId"><![CDATA[A.EMPLYR_ID LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="userNm"><![CDATA[A.USER_NM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="EmplyrDAO.selectEmplyr" parameterClass="EmplyrVO" resultClass="EmplyrVO">
+		SELECT  A.EMPLYR_ID			emplyrId
+			 ,  A.USER_NM			userNm
+			 ,  A.PASSWORD			password
+			 ,  A.OFCPS_NM			ofcpsNm
+			 ,  A.SEXDSTN_CODE		sexdstnCode
+			 ,  A.BRTHDY			brthdy
+			 ,  A.TEL_NO			telNo
+			 ,  A.FAX_NO			faxNo
+			 ,  A.HP_NO				hpNo
+			 ,  A.EMAIL				email
+			 ,  A.ZIP				zip
+			 ,  A.ADRES				adres
+			 ,  A.DETAIL_ADRES		detailAdres
+			 ,  A.EMPLYR_STTUS_CODE	emplyrSttusCode
+			 ,  A.SBSCRB_DE			sbscrbDe
+			 ,  A.MODIFY_DE			modifyDe
+			 ,  A.GROUP_ID			groupId
+			 ,  A.LEVEL_ID			levelId
+			 ,  A.ORGNZT_ID			orgnztId
+			 ,	A.ADMIN_SITE_ID		adminSiteId
+			 ,	A.ADMIN_MENU_IDS	adminMenuIds
+			 ,  A.ESNTL_ID			uniqId
+		  FROM  JMY_EMPLYR_INFO A
+		 WHERE  A.EMPLYR_ID = #emplyrId#		
+	</select>	
+	
+	<insert id="EmplyrDAO.insertEmplyr" parameterClass="Emplyr">
+		INSERT 
+		  INTO  JMY_EMPLYR_INFO
+		     (  EMPLYR_ID
+			 ,  USER_NM
+			 ,  PASSWORD
+			 ,  OFCPS_NM
+			 ,  SEXDSTN_CODE
+			 ,  BRTHDY
+			 ,  TEL_NO
+			 ,  FAX_NO
+			 ,  HP_NO
+			 ,  EMAIL
+			 ,  ZIP
+			 ,  ADRES
+			 ,  DETAIL_ADRES
+			 ,  EMPLYR_STTUS_CODE
+			 ,  SBSCRB_DE
+			 ,  MODIFY_DE
+			 ,  GROUP_ID
+			 ,  LEVEL_ID
+			 ,  ORGNZT_ID
+			 ,	ADMIN_SITE_ID
+			 ,	ADMIN_MENU_IDS
+			 ,  ESNTL_ID			
+		     )
+		VALUES
+		     (  #emplyrId#
+			 ,  #userNm#
+			 ,  #password#
+			 ,  #ofcpsNm#
+			 ,  #sexdstnCode#
+			 ,  #brthdy#
+			 ,  #telNo#
+			 ,  #faxNo#
+			 ,  #hpNo#
+			 ,  #email#
+			 ,  #zip#
+			 ,  #adres#
+			 ,  #detailAdres#
+			 ,  #emplyrSttusCode#
+			 ,  #sbscrbDe#
+			 ,  #modifyDe#
+			 ,  #groupId#
+			 ,  #levelId#
+			 ,  #orgnztId#
+			 ,	#adminSiteId#
+			 ,	#adminMenuIds#
+			 ,  #uniqId#			
+		     )			
+	</insert>
+	
+	<update id="EmplyrDAO.updateEmplyr">
+		UPDATE  JMY_EMPLYR_INFO 
+		<dynamic prepend="SET">
+			<isNotNull property="userNm" prepend=",">
+				USER_NM = #userNm#
+			</isNotNull>
+			 <isNotEmpty property="password">
+		   	 ,	PASSWORD = #password#
+		   	 </isNotEmpty>
+			<isNotNull property="ofcpsNm" prepend=",">
+				OFCPS_NM = #ofcpsNm#
+			</isNotNull>
+			<isNotNull property="sexdstnCode" prepend=",">
+				SEXDSTN_CODE = #sexdstnCode#
+			</isNotNull>
+			<isNotNull property="brthdy" prepend=",">
+				BRTHDY = #brthdy#
+			</isNotNull>
+			<isNotNull property="telNo" prepend=",">
+				TEL_NO = #telNo#
+			</isNotNull>
+			<isNotNull property="faxNo" prepend=",">
+				FAX_NO = #faxNo#
+			</isNotNull>
+			<isNotNull property="hpNo" prepend=",">
+				HP_NO = #hpNo#
+			</isNotNull>
+			<isNotNull property="email" prepend=",">
+				EMAIL = #email#
+			</isNotNull>
+			<isNotNull property="zip" prepend=",">
+				ZIP = #zip#
+			</isNotNull>
+			<isNotNull property="adres" prepend=",">
+				ADRES = #adres#
+			</isNotNull>
+			<isNotNull property="detailAdres" prepend=",">
+				DETAIL_ADRES = #detailAdres#
+			</isNotNull>
+			<isNotNull property="emplyrSttusCode" prepend=",">
+				EMPLYR_STTUS_CODE = #emplyrSttusCode#
+			</isNotNull>
+			<isNotNull property="groupId" prepend=",">
+				GROUP_ID = #groupId#
+			</isNotNull>
+			<isNotNull property="levelId" prepend=",">
+				LEVEL_ID = #levelId#
+			</isNotNull>
+			<isNotNull property="orgnztId" prepend=",">
+				ORGNZT_ID = #orgnztId#
+			</isNotNull>
+			<isNotNull property="adminSiteId" prepend=",">
+				ADMIN_SITE_ID = #adminSiteId#
+			</isNotNull>
+			<isNotNull property="adminMenuIds" prepend=",">
+				ADMIN_MENU_IDS = #adminMenuIds#
+			</isNotNull>
+		</dynamic>		
+			 ,  MODIFY_DE = SYSDATE()
+		 WHERE  EMPLYR_ID = #emplyrId#				
+	</update>
+	
+	<delete id="EmplyrDAO.deleteEmplyr">
+		DELETE 
+		  FROM  JMY_EMPLYR_INFO 
+		 WHERE  EMPLYR_ID = #emplyrId#
+    </delete>	
+	
+</sqlMap>

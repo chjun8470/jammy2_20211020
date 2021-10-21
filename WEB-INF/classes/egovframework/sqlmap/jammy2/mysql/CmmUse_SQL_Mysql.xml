@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CmmUse">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="ComDefaultCodeVO" type="egovframework.jammy2.cmm.ComDefaultCodeVO"/>
+
+	<resultMap id="CmmCodeDetail" class="egovframework.jammy2.cmm.service.CmmnDetailCode">
+		<result property="codeId"    	column="CODE_ID"   	columnIndex="1"/>
+		<result property="code"  		column="CODE" 		columnIndex="2"/>
+		<result property="codeNm"   	column="CODE_NM"  	columnIndex="3"/>
+		<result property="codeDc"   	column="CODE_DC"  	columnIndex="4"/>
+		<result property="data01"   	column="DATA01"  	columnIndex="5"/>
+		<result property="data02"   	column="DATA02"  	columnIndex="6"/>
+		<result property="data03"   	column="DATA03"  	columnIndex="7"/>
+		<result property="data04"   	column="DATA04"  	columnIndex="8"/>
+		<result property="data05"   	column="DATA05"  	columnIndex="9"/>
+	</resultMap>
+
+	<select id="CmmUseDAO.selectCmmCodeDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+		SELECT  CODE_ID
+			 ,  CODE
+			 ,  CODE_NM
+			 ,  CODE_DC
+			 ,  DATA01
+			 ,  DATA02
+			 ,  DATA03
+			 ,  DATA04
+			 ,  DATA05
+		  FROM  JMY_CMMN_DETAILCODE
+		 WHERE  USE_AT = 'Y'
+		   AND  CODE_ID = #codeId#
+		 ORDER  BY POSITION ASC
+	</select>
+
+    <select id="CmmUseDAO.selectOgrnztIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+            <![CDATA[ 
+            SELECT 
+                #tableNm#     CODE_ID, 
+                ORGNZT_ID     CODE, 
+                ORGNZT_NM     CODE_NM, 
+                ORGNZT_DC     CODE_DC
+            FROM 
+                LETTNORGNZTINFO
+            WHERE 1=1
+            ]]>
+            <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">
+                ORGNZT_ID  LIKE  #detailConditionValue#
+            </isEqual>
+    </select>
+    
+    <select id="CmmUseDAO.selectGroupIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+            <![CDATA[ 
+            SELECT 
+                #tableNm#     CODE_ID, 
+                GROUP_ID     CODE, 
+                GROUP_NM     CODE_NM, 
+                GROUP_DC     CODE_DC
+            FROM 
+                LETTNAUTHORGROUPINFO
+            WHERE 1=1
+            ]]>
+            <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">
+                GROUP_ID  LIKE  #detailConditionValue#
+            </isEqual>
+    </select>
+    
+
+</sqlMap>            

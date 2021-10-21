@@ -1,0 +1,2251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspJipbankSearchMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<!-- [검색] 특허실용신안 데이터 개수 -->
+	<select id="getJipbankSearchPatentListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_SEARCH_PATENT_UTILITY_MODEL A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+
+				]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+								OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND (A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+	</select>
+
+	<!-- [검색] 디자인 데이터 개수 -->
+	<select id="getJipbankSearchDesignListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_SEARCH_DESIGN A
+		LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+				]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.DESIGN_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.DESIGN_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+	</select>
+
+	<!-- [검색] 상표 데이터 개수 -->
+	<select id="getJipbankSearchBrandListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_SEARCH_BRAND A
+		LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+				]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.PBLANC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.PBLANC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+	</select>
+
+	<!-- [검색] 프로그램 데이터 개수 -->
+	<select id="getJipbankSearchProgramListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_SEARCH_PROGRAM A
+		LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+				]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.PGM_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.PGM_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND  A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+	</select>
+
+	<!-- [검색] 노하우 데이터 개수 -->
+	<select id="getJipbankSearchKnowHowListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_SEARCH_KNOW_HOW A
+		LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+				]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+	</select>
+
+
+	<!-- [검색] 특허실용신안리스트 데이터 -->
+	<select id="getJipbankSearchPatentList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.SEARCH_PATENT_IDX
+				,		A.TCHNLGY_M_CL
+				,		A.INVENTION_KOR_NM
+				,		A.INVENTION_ENG_NM
+				,		A.ICP_CL
+				,		A.APLC_NO
+				,		A.APLC_DT
+				,		A.REG_NO
+				,		A.REG_DT
+				,CASE 	WHEN A.TCHNLGYY_GRADE="A" THEN "우수기술"
+						WHEN A.TCHNLGYY_GRADE="B" THEN "유망기술"
+						WHEN A.TCHNLGYY_GRADE="C" THEN "저가기술"
+						WHEN A.TCHNLGYY_GRADE="D" THEN "무상기술"
+						ELSE ""
+				END TCHNLGYY_GRADE
+				,		A.APLC_USER
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,CASE 	WHEN A.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+				   		WHEN A.BEFORE_INFO="B" THEN "양도"
+				   		WHEN A.BEFORE_INFO="C" THEN "전용실시"
+				  		WHEN A.BEFORE_INFO="D" THEN "통상실시"
+				   		WHEN A.BEFORE_INFO="E" THEN "무상이전"
+				   		WHEN A.BEFORE_INFO="F" THEN "이전불가"
+						ELSE ""
+				END BEFORE_INFO
+				,A.TECHNOLOGY_DC
+				,		A.AREA_SIGUNGU
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+
+			FROM
+				TB_SEARCH_PATENT_UTILITY_MODEL A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+								OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_PATENT_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- [검색] 디자인 데이터 -->
+	<select id="getJipbankSearchDesignList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.SEARCH_DESIGN_IDX
+				,		A.USE_NM
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.APLC_USER
+				,CASE 	WHEN A.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+				   		WHEN A.BEFORE_INFO="B" THEN "양도"
+				   		WHEN A.BEFORE_INFO="C" THEN "전용실시"
+				  		WHEN A.BEFORE_INFO="D" THEN "통상실시"
+				   		WHEN A.BEFORE_INFO="E" THEN "무상이전"
+				   		WHEN A.BEFORE_INFO="F" THEN "이전불가"
+						ELSE ""
+				END BEFORE_INFO
+				,		A.TCHNLGY_M_CL
+				,		A.APLC_NO
+				,		A.APLC_DT
+				,		A.REG_NO
+				,		A.REG_DT
+				,		A.TECHNOLOGY_DC
+
+				,		A.CREATION_USER
+				,		A.TCHNLGY_S_CL
+				,		A.INTRCN_DATA
+				,		A.USER_IDX
+				,		A.ORG_GRP_CD
+				,		A.AREA_SIGUNGU
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+
+			FROM
+				TB_SEARCH_DESIGN A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.DESIGN_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.DESIGN_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_DESIGN_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- [검색] 상표 데이터 -->
+	<select id="getJipbankSearchBrandList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.SEARCH_BRAND_IDX
+				,		A.USE_NM
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.APLC_USER
+				,CASE 	WHEN A.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+				   		WHEN A.BEFORE_INFO="B" THEN "양도"
+				   		WHEN A.BEFORE_INFO="C" THEN "전용실시"
+				  		WHEN A.BEFORE_INFO="D" THEN "통상실시"
+				   		WHEN A.BEFORE_INFO="E" THEN "무상이전"
+				   		WHEN A.BEFORE_INFO="F" THEN "이전불가"
+						ELSE ""
+				END BEFORE_INFO
+				,		A.TCHNLGY_M_CL
+				,		A.INTRL_APLC_NO
+				,		A.INTRL_APLC_DT
+				,		A.REG_NO
+				,		A.REG_DT
+				,		A.TECHNOLOGY_DC
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+
+			FROM
+				TB_SEARCH_BRAND A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+			AND A.RIGHT_STATUS in ('B','G','H')
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.PBLANC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.PBLANC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_BRAND_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- [검색] 프로그램 데이터 -->
+	<select id="getJipbankSearchProgramList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.SEARCH_PROGRAM_IDX
+				,		A.CRT_WORK_DE
+				,		A.PUBLICT_DE
+				,		A.REG_DE
+				,		A.REG_NO
+				,		A.USE_NM
+				,		A.PGM_AUTHOR
+				,		A.CRT_PARTICIPANT
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.TCHNLGY_M_CL
+				,CASE 	WHEN A.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+				   		WHEN A.BEFORE_INFO="B" THEN "양도"
+				   		WHEN A.BEFORE_INFO="C" THEN "전용실시"
+				  		WHEN A.BEFORE_INFO="D" THEN "통상실시"
+				   		WHEN A.BEFORE_INFO="E" THEN "무상이전"
+				   		WHEN A.BEFORE_INFO="F" THEN "이전불가"
+						ELSE ""
+				END BEFORE_INFO
+				,		A.PGM_DC
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+
+			FROM
+				TB_SEARCH_PROGRAM A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+
+			]]>
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.PGM_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+						AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.PGM_DC LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_PROGRAM_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- [검색] 노하우 데이터 -->
+	<select id="getJipbankSearchKnowHowList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.SEARCH_KNOWHOW_IDX
+				,		A.TCHNLGY_NM
+				,		A.ORG_NM
+				,		A.DEPT_NM
+				,		A.RSPNBER_USER_NM
+				,		A.RSPNBER_OFC_POSITION
+				,		A.RSPNBER_TEL_NO
+				,		A.RSPNBER_EMAIL
+				,		A.RSPNBER_MOBILE_PHONE
+				,		A.PARTICIPANT_POSITION
+				,		A.PARTICIPANT_USER_NAME
+				,		A.PARTICIPANT_OFC_POSITION
+				,		A.TECHNOLOGY_DC
+				,CASE 	WHEN A.BEFORE_INFO="E" THEN "무상이전"
+						WHEN A.BEFORE_INFO="G" THEN "유상이전"
+					   ELSE ""
+				END BEFORE_INFO
+				,		A.REG_DT
+				,		A.TCHNLGY_M_CL
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+
+			FROM
+				TB_SEARCH_KNOW_HOW A
+
+			LEFT JOIN TB_JNSP_FILE B ON (A.REPRSNT = B.DATA_IDX and B.DATA_GRP = 'registartion_img')
+
+			LEFT JOIN
+							TB_CODE_TYPE AS C
+			ON			A.TCHNLGY_M_CL = C.CODE
+			WHERE 1 = 1
+
+			AND A.STATE in ('2','6','7')
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchSelect == null or searchSelect == ""'>
+					<if test='searchSelectText != null and searchSelectText != ""'>
+						AND (A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							OR A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_KNOWHOW_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+
+
+	<!-- 한데이터 가져오기 Patent -->
+	<select id="getJipbankSearchPatentDetail" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.SEARCH_PATENT_IDX
+				,	A.APLC_NO
+				,	A.APLC_NATION
+				,	A.RIGHT_SE
+				,	A.INVENTION_KOR_NM
+				,	A.INVENTION_ENG_NM
+				,	A.RIGHT_STATUS
+				,	A.ICP_CL
+				,	A.APLC_USER
+				,	A.AGENT
+				,	A.INVENTOR
+				,	A.APLC_DT
+				,	A.REG_NO
+				,	A.REG_DT
+				,	A.PUBLIC_NO
+				,	A.PUBLIC_DT
+				,	A.REPRSNT
+				,	A.TECHNOLOGY_DC
+				,	A.DETAILED_STATEMENT
+				,	A.FIRST_PAYMENT_DT
+				,	A.YEAR_PAYMENT_DT
+				,	A.OWN_ORG_NM
+				,	A.OWN_DEPT_NM
+				,	A.TCHNLGY_M_CL
+				,	A.TCHNLGY_S_CL
+				,	A.AREA_SIGUNGU
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+
+				,	A.BEFORE_INFO
+				,	A.TCHNLGYY_GRADE
+				,	A.REFERENCE_DATA
+				,	A.NATION_NM
+
+				,	A.USER_IDX
+				,	A.ORG_GRP_CD
+				,	A.MANAGER_IDX
+
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.DATA_IDX 	AS 	IMG_DATA_IDX
+				,	B.FILE_SEQ 	AS 	IMG_FILE_SEQ
+				,	B.FILE_CAT 	AS 	IMG_FILE_CAT
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.DOWN_CNT 	AS 	IMG_DOWN_CNT
+				,	B.DELETE_YN AS 	IMG_DELETE_YN
+				,	B.PHOTO_CAT AS 	IMG_PHOTO_CAT
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+				,	B.FILE_SIZE AS 	IMG_FILE_SIZE
+				,	B.TITLE_ORG AS 	IMG_TITLE_ORG
+
+				,	C.FILE_ID 	AS 	STATE_FILE_ID
+				,	C.DATA_GRP 	AS 	STATE_DATA_GRP
+				,	C.DATA_IDX 	AS 	STATE_DATA_IDX
+				,	C.FILE_SEQ 	AS 	STATE_FILE_SEQ
+				,	C.FILE_CAT 	AS 	STATE_FILE_CAT
+				,	C.TITLE 		AS 	STATE_TITLE
+				,	C.DOWN_CNT 	AS 	STATE_DOWN_CNT
+				,	C.DELETE_YN AS 	STATE_DELETE_YN
+				,	C.PHOTO_CAT AS 	STATE_PHOTO_CAT
+				,	C.FILE_PATH AS 	STATE_FILE_PATH
+				,	C.FILE_SIZE AS 	STATE_FILE_SIZE
+				,	C.TITLE_ORG AS 	STATE_TITLE_ORG
+
+
+				,	( SELECT ROUND(AVG(STAR_SCORE),0)
+						FROM TB_STAR_SCORE
+						WHERE 1=1
+						AND SEARCH_CD = ${searchCd}
+						AND SEARCH_IDX = ${searchId}
+					) AS STAR_SCORE
+
+				,		CASE WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+								ELSE ""
+								END ORG_TYPE
+
+				,		O.ORG_GRP_NM
+				,		O.APPLY_CD
+				,		O.APPLY_REJECT
+				,		O.CI_FILE_SRC
+				,		O.AUTH_CD
+				,		O.AUTH_ORG_SITE_1
+				,		O.AUTH_ORG_SITE_2
+				,		O.AUTH_ORG_SITE_3
+				,		O.AREA_CD
+				,		O.ORNER_NM
+				,		O.CORP_NUM_1
+				,		O.CORP_NUM_2
+				,		O.CORP_PHONE
+				,		O.CORP_FAX
+				,		O.HOMEPAGE
+				,		O.ADDR1 AS ORG_ADDR1
+				,		O.ADDR2 AS ORG_ADDR2
+				,		O.ZIPCODE
+				,		O.MAP_X
+				,		O.MAP_Y
+				,		O.ORG_NOTE_1
+				,		O.ORG_NOTE_2
+				,		O.ORG_NOTE_3
+				,		O.ORG_NOTE_4
+				,		O.ORG_FILE_INFO
+				,		O.REG_DT AS ORG_REG_DT
+				,		O.REG_IP AS ORG_REG_IP
+				,		O.REG_IDX AS ORG_REG_IDX
+				,		O.UP_DT AS ORG_UP_IP
+				,		O.UP_IP AS ORG_UP_IP
+				,		O.UP_IDX AS ORG_UP_IDX
+				,		O.SIGN_IMG
+				,		O.DELETE_YN
+
+				,		F.FILE_ID 						AS CI_FILE_ID
+				,		F.FILE_PATH 					AS CI_FILE_PATH
+				,		F.TITLE 						AS CI_FILE_TITLE
+				,		CONCAT (F.FILE_PATH,F.TITLE) 	AS CI_FILE_SRC
+
+				,U.PSN_NM
+				,U.EMAIL
+				,U.TEL_NO
+				,U.DEPT_NM
+				,U.POSITION_NM
+
+				FROM
+					    TB_SEARCH_PATENT_UTILITY_MODEL A
+
+					LEFT JOIN TB_JNSP_FILE B
+						ON (A.REPRSNT = B.DATA_IDX)
+
+					LEFT JOIN TB_JNSP_FILE C
+						ON (A.DETAILED_STATEMENT = C.DATA_IDX)
+
+					LEFT JOIN
+						TB_ORG_GRP AS O
+						ON	(A.ORG_GRP_CD = O.ORG_GRP_CD)
+
+					LEFT JOIN
+						TB_JNSP_FILE F
+						ON (F.FILE_ID = O.CI_FILE_SRC)
+
+					LEFT JOIN	TB_USER_COPY U	ON (U.USER_IDX = A.MANAGER_IDX)
+
+			WHERE 1 = 1
+			 AND A.SEARCH_PATENT_IDX = ${searchId}
+	</select>
+
+	<!-- 한데이터 가져오기 Design -->
+	<select id="getJipbankSearchDesignDetail" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.SEARCH_DESIGN_IDX
+				,		A.APLC_NO
+				,		A.APLC_DT
+				,		A.PUBLIC_NO
+				,		A.PUBLIC_DT
+				,		A.REG_DT
+				,		A.RIGHT_STATUS
+				,		A.KOREA_CL
+				,		A.CREATION_USER
+				,		A.APLC_USER
+				,		A.AGENT
+				,		A.USE_NM
+				,		A.DESIGN_NO
+				,		A.INTRL_CL
+				,		A.REPRSNT
+				,		A.TECHNOLOGY_DC
+				,		A.DETAILED_STATEMENT
+				,		A.YEAR_PAYMENT_DT
+				,		A.DETAILED_STATEMENT
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.TCHNLGY_M_CL
+				,		A.TCHNLGY_S_CL
+				,		A.AREA_SIGUNGU
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+				,		A.BEFORE_INFO
+				,		A.INTRCN_DATA
+
+				,		A.USER_IDX
+				,		A.ORG_GRP_CD
+				,		A.MANAGER_IDX
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.DATA_IDX 	AS 	IMG_DATA_IDX
+				,	B.FILE_SEQ 	AS 	IMG_FILE_SEQ
+				,	B.FILE_CAT 	AS 	IMG_FILE_CAT
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.DOWN_CNT 	AS 	IMG_DOWN_CNT
+				,	B.DELETE_YN AS 	IMG_DELETE_YN
+				,	B.PHOTO_CAT AS 	IMG_PHOTO_CAT
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+				,	B.FILE_SIZE AS 	IMG_FILE_SIZE
+				,	B.TITLE_ORG AS 	IMG_TITLE_ORG
+
+				,	C.FILE_ID 	AS 	STATE_FILE_ID
+				,	C.DATA_GRP 	AS 	STATE_DATA_GRP
+				,	C.DATA_IDX 	AS 	STATE_DATA_IDX
+				,	C.FILE_SEQ 	AS 	STATE_FILE_SEQ
+				,	C.FILE_CAT 	AS 	STATE_FILE_CAT
+				,	C.TITLE 	AS 	STATE_TITLE
+				,	C.DOWN_CNT 	AS 	STATE_DOWN_CNT
+				,	C.DELETE_YN AS 	STATE_DELETE_YN
+				,	C.PHOTO_CAT AS 	STATE_PHOTO_CAT
+				,	C.FILE_PATH AS 	STATE_FILE_PATH
+				,	C.FILE_SIZE AS 	STATE_FILE_SIZE
+				,	C.TITLE_ORG AS 	STATE_TITLE_ORG
+
+				,	( SELECT ROUND(AVG(STAR_SCORE),0)
+						FROM TB_STAR_SCORE
+						WHERE 1=1
+						AND SEARCH_CD = ${searchCd}
+						AND SEARCH_IDX = ${searchId}
+					) AS STAR_SCORE
+
+				,		CASE WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+								ELSE ""
+								END ORG_TYPE
+
+				,		O.ORG_GRP_NM
+				,		O.APPLY_CD
+				,		O.APPLY_REJECT
+				,		O.CI_FILE_SRC
+				,		O.AUTH_CD
+				,		O.AUTH_ORG_SITE_1
+				,		O.AUTH_ORG_SITE_2
+				,		O.AUTH_ORG_SITE_3
+				,		O.AREA_CD
+				,		O.ORNER_NM
+				,		O.CORP_NUM_1
+				,		O.CORP_NUM_2
+				,		O.CORP_PHONE
+				,		O.CORP_FAX
+				,		O.HOMEPAGE
+				,		O.ADDR1 AS ORG_ADDR1
+				,		O.ADDR2 AS ORG_ADDR2
+				,		O.ZIPCODE
+				,		O.MAP_X
+				,		O.MAP_Y
+				,		O.ORG_NOTE_1
+				,		O.ORG_NOTE_2
+				,		O.ORG_NOTE_3
+				,		O.ORG_NOTE_4
+				,		O.ORG_FILE_INFO
+				,		O.REG_DT AS ORG_REG_DT
+				,		O.REG_IP AS ORG_REG_IP
+				,		O.REG_IDX AS ORG_REG_IDX
+				,		O.UP_DT AS ORG_UP_IP
+				,		O.UP_IP AS ORG_UP_IP
+				,		O.UP_IDX AS ORG_UP_IDX
+				,		O.SIGN_IMG
+				,		O.DELETE_YN
+
+				,		F.FILE_ID 						AS CI_FILE_ID
+				,		F.FILE_PATH 					AS CI_FILE_PATH
+				,		F.TITLE 						AS CI_FILE_TITLE
+				,		CONCAT (F.FILE_PATH,F.TITLE) 	AS CI_FILE_SRC
+
+				,U.PSN_NM
+				,U.EMAIL
+				,U.TEL_NO
+				,U.DEPT_NM
+				,U.POSITION_NM
+
+				FROM
+					    TB_SEARCH_DESIGN A
+					LEFT JOIN TB_JNSP_FILE B
+						ON A.REPRSNT = B.DATA_IDX
+
+					LEFT JOIN TB_JNSP_FILE C
+						ON A.DETAILED_STATEMENT = C.DATA_IDX
+
+					LEFT JOIN
+						TB_ORG_GRP AS O
+						ON	(A.ORG_GRP_CD = O.ORG_GRP_CD)
+
+					LEFT JOIN
+						TB_JNSP_FILE F
+						ON (F.FILE_ID = O.CI_FILE_SRC)
+
+					LEFT JOIN	TB_USER_COPY U	ON (U.USER_IDX = A.MANAGER_IDX)
+
+			WHERE 1 = 1
+			 AND A.SEARCH_DESIGN_IDX = ${searchId}
+	</select>
+
+	<!-- 한데이터 가져오기 Brand -->
+	<select id="getJipbankSearchBrandDetail" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.SEARCH_BRAND_IDX
+				,		A.INTRL_APLC_NO
+				,		A.INTRL_APLC_DT
+				,		A.RIGHT_CL
+				,		A.PBLANC_NO
+				,		A.PBLANC_DT
+				,		A.REG_NO
+				,		A.REG_DT
+				,		A.RIGHT_STATUS
+				,		A.GOODS_CL
+				,		A.FIGURE_CODE
+				,		A.APLC_USER
+				,		A.AGENT
+				,		A.USE_NM
+				,		A.REPRSNT
+				,		A.TECHNOLOGY_DC
+				,		A.DETAILED_STATEMENT
+				,		A.YEAR_PAYMENT_DT
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.TCHNLGY_M_CL
+				,		A.TCHNLGY_S_CL
+				,		A.AREA_SIGUNGU
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+
+				,		A.BEFORE_INFO
+				,		A.REFERENCE_DATA
+
+				,		A.USER_IDX
+				,		A.ORG_GRP_CD
+				,		A.MANAGER_IDX
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.DATA_IDX 	AS 	IMG_DATA_IDX
+				,	B.FILE_SEQ 	AS 	IMG_FILE_SEQ
+				,	B.FILE_CAT 	AS 	IMG_FILE_CAT
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.DOWN_CNT 	AS 	IMG_DOWN_CNT
+				,	B.DELETE_YN AS 	IMG_DELETE_YN
+				,	B.PHOTO_CAT AS 	IMG_PHOTO_CAT
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+				,	B.FILE_SIZE AS 	IMG_FILE_SIZE
+				,	B.TITLE_ORG AS 	IMG_TITLE_ORG
+
+				,	C.FILE_ID 	AS 	STATE_FILE_ID
+				,	C.DATA_GRP 	AS 	STATE_DATA_GRP
+				,	C.DATA_IDX 	AS 	STATE_DATA_IDX
+				,	C.FILE_SEQ 	AS 	STATE_FILE_SEQ
+				,	C.FILE_CAT 	AS 	STATE_FILE_CAT
+				,	C.TITLE 	AS 	STATE_TITLE
+				,	C.DOWN_CNT 	AS 	STATE_DOWN_CNT
+				,	C.DELETE_YN AS 	STATE_DELETE_YN
+				,	C.PHOTO_CAT AS 	STATE_PHOTO_CAT
+				,	C.FILE_PATH AS 	STATE_FILE_PATH
+				,	C.FILE_SIZE AS 	STATE_FILE_SIZE
+				,	C.TITLE_ORG AS 	STATE_TITLE_ORG
+
+				,	( SELECT ROUND(AVG(STAR_SCORE),0)
+						FROM TB_STAR_SCORE
+						WHERE 1=1
+						AND SEARCH_CD = ${searchCd}
+						AND SEARCH_IDX = ${searchId}
+					) AS STAR_SCORE
+
+				,		CASE WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+								ELSE ""
+								END ORG_TYPE
+
+				,		O.ORG_GRP_NM
+				,		O.APPLY_CD
+				,		O.APPLY_REJECT
+				,		O.CI_FILE_SRC
+				,		O.AUTH_CD
+				,		O.AUTH_ORG_SITE_1
+				,		O.AUTH_ORG_SITE_2
+				,		O.AUTH_ORG_SITE_3
+				,		O.AREA_CD
+				,		O.ORNER_NM
+				,		O.CORP_NUM_1
+				,		O.CORP_NUM_2
+				,		O.CORP_PHONE
+				,		O.CORP_FAX
+				,		O.HOMEPAGE
+				,		O.ADDR1 AS ORG_ADDR1
+				,		O.ADDR2 AS ORG_ADDR2
+				,		O.ZIPCODE
+				,		O.MAP_X
+				,		O.MAP_Y
+				,		O.ORG_NOTE_1
+				,		O.ORG_NOTE_2
+				,		O.ORG_NOTE_3
+				,		O.ORG_NOTE_4
+				,		O.ORG_FILE_INFO
+				,		O.REG_DT AS ORG_REG_DT
+				,		O.REG_IP AS ORG_REG_IP
+				,		O.REG_IDX AS ORG_REG_IDX
+				,		O.UP_DT AS ORG_UP_IP
+				,		O.UP_IP AS ORG_UP_IP
+				,		O.UP_IDX AS ORG_UP_IDX
+				,		O.SIGN_IMG
+				,		O.DELETE_YN
+
+				,		F.FILE_ID 						AS CI_FILE_ID
+				,		F.FILE_PATH 					AS CI_FILE_PATH
+				,		F.TITLE 						AS CI_FILE_TITLE
+				,		CONCAT (F.FILE_PATH,F.TITLE) 	AS CI_FILE_SRC
+
+				,U.PSN_NM
+				,U.EMAIL
+				,U.TEL_NO
+				,U.DEPT_NM
+				,U.POSITION_NM
+
+				FROM
+					    TB_SEARCH_BRAND A
+					LEFT JOIN TB_JNSP_FILE B
+						ON A.REPRSNT = B.DATA_IDX
+					LEFT JOIN TB_JNSP_FILE C
+						ON A.DETAILED_STATEMENT = C.DATA_IDX
+					LEFT JOIN
+						TB_ORG_GRP AS O
+						ON	(A.ORG_GRP_CD = O.ORG_GRP_CD)
+
+					LEFT JOIN
+						TB_JNSP_FILE F
+						ON (F.FILE_ID = O.CI_FILE_SRC)
+
+					LEFT JOIN	TB_USER_COPY U	ON (U.USER_IDX = A.MANAGER_IDX)
+			WHERE 1 = 1
+			 AND A.SEARCH_BRAND_IDX = ${searchId}
+	</select>
+
+	<!-- 한데이터 가져오기 Program -->
+	<select id="getJipbankSearchProgramDetail" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.SEARCH_PROGRAM_IDX
+				,		A.CRT_WORK_DE
+				,		A.PUBLICT_DE
+				,		A.REG_DE
+				,		A.REG_NO
+				,		A.USE_NM
+				,		A.PGM_AUTHOR
+				,		A.CRT_PARTICIPANT
+				,		A.OWN_ORG_NM
+				,		A.OWN_DEPT_NM
+				,		A.TCHNLGY_M_CL
+				,		A.TCHNLGY_S_CL
+				,		A.AREA_SIGUNGU
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+
+				,		A.BEFORE_INFO
+				,		A.PGM_DC
+				,		A.TCHNLGY_INTRCN_DATA
+
+				,		A.USER_IDX
+				,		A.ORG_GRP_CD
+				,		A.REPRSNT
+				,		A.MANAGER_IDX
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.DATA_IDX 	AS 	IMG_DATA_IDX
+				,	B.FILE_SEQ 	AS 	IMG_FILE_SEQ
+				,	B.FILE_CAT 	AS 	IMG_FILE_CAT
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.DOWN_CNT 	AS 	IMG_DOWN_CNT
+				,	B.DELETE_YN AS 	IMG_DELETE_YN
+				,	B.PHOTO_CAT AS 	IMG_PHOTO_CAT
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+				,	B.FILE_SIZE AS 	IMG_FILE_SIZE
+				,	B.TITLE_ORG AS 	IMG_TITLE_ORG
+
+				,	( SELECT ROUND(AVG(STAR_SCORE),0)
+						FROM TB_STAR_SCORE
+						WHERE 1=1
+						AND SEARCH_CD = ${searchCd}
+						AND SEARCH_IDX = ${searchId}
+					) AS STAR_SCORE
+
+
+				,		CASE WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+								ELSE ""
+								END ORG_TYPE
+
+				,		O.ORG_GRP_NM
+				,		O.APPLY_CD
+				,		O.APPLY_REJECT
+				,		O.CI_FILE_SRC
+				,		O.AUTH_CD
+				,		O.AUTH_ORG_SITE_1
+				,		O.AUTH_ORG_SITE_2
+				,		O.AUTH_ORG_SITE_3
+				,		O.AREA_CD
+				,		O.ORNER_NM
+				,		O.CORP_NUM_1
+				,		O.CORP_NUM_2
+				,		O.CORP_PHONE
+				,		O.CORP_FAX
+				,		O.HOMEPAGE
+				,		O.ADDR1 AS ORG_ADDR1
+				,		O.ADDR2 AS ORG_ADDR2
+				,		O.ZIPCODE
+				,		O.MAP_X
+				,		O.MAP_Y
+				,		O.ORG_NOTE_1
+				,		O.ORG_NOTE_2
+				,		O.ORG_NOTE_3
+				,		O.ORG_NOTE_4
+				,		O.ORG_FILE_INFO
+				,		O.REG_DT AS ORG_REG_DT
+				,		O.REG_IP AS ORG_REG_IP
+				,		O.REG_IDX AS ORG_REG_IDX
+				,		O.UP_DT AS ORG_UP_IP
+				,		O.UP_IP AS ORG_UP_IP
+				,		O.UP_IDX AS ORG_UP_IDX
+				,		O.SIGN_IMG
+				,		O.DELETE_YN
+
+				,		F.FILE_ID 						AS CI_FILE_ID
+				,		F.FILE_PATH 					AS CI_FILE_PATH
+				,		F.TITLE 						AS CI_FILE_TITLE
+				,		CONCAT (F.FILE_PATH,F.TITLE) 	AS CI_FILE_SRC
+
+				,U.PSN_NM
+				,U.EMAIL
+				,U.TEL_NO
+				,U.DEPT_NM
+				,U.POSITION_NM
+
+				FROM
+					    TB_SEARCH_PROGRAM A
+					LEFT JOIN TB_JNSP_FILE B
+						ON A.REPRSNT = B.DATA_IDX
+					LEFT JOIN
+						TB_ORG_GRP AS O
+						ON	(A.ORG_GRP_CD = O.ORG_GRP_CD)
+
+					LEFT JOIN
+						TB_JNSP_FILE F
+						ON (F.FILE_ID = O.CI_FILE_SRC)
+
+					LEFT JOIN	TB_USER_COPY U	ON (U.USER_IDX = A.MANAGER_IDX)
+
+			WHERE 1 = 1
+			 AND A.SEARCH_PROGRAM_IDX = ${searchId}
+	</select>
+
+	<!-- 한데이터 가져오기 KnowHow -->
+	<select id="getJipbankSearchKnowHowDetail" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.SEARCH_KNOWHOW_IDX
+				,		A.TCHNLGY_NM
+				,		A.ORG_NM
+				,		A.DEPT_NM
+				,		A.RSPNBER_USER_NM
+				,		A.RSPNBER_OFC_POSITION
+				,		A.RSPNBER_TEL_NO
+				,		A.RSPNBER_EMAIL
+				,		A.RSPNBER_MOBILE_PHONE
+				,		A.PARTICIPANT_POSITION
+				,		A.PARTICIPANT_USER_NAME
+				,		A.PARTICIPANT_OFC_POSITION
+				,		A.TECHNOLOGY_DC
+				,		A.BEFORE_INFO
+				,		A.TCHNLGY_INTRCN_DATA
+				,		A.REG_DT
+
+				,		A.USER_IDX
+				,		A.ORG_GRP_CD
+				,		A.REPRSNT
+				,		A.AREA_SIGUNGU
+				,		A.TCHNLGY_M_CL
+				,		A.TCHNLGY_S_CL
+				,		A.MANAGER_IDX
+
+				,	B.FILE_ID 	AS 	IMG_FILE_ID
+				,	B.DATA_GRP 	AS 	IMG_DATA_GRP
+				,	B.DATA_IDX 	AS 	IMG_DATA_IDX
+				,	B.FILE_SEQ 	AS 	IMG_FILE_SEQ
+				,	B.FILE_CAT 	AS 	IMG_FILE_CAT
+				,	B.TITLE 	AS 	IMG_TITLE
+				,	B.DOWN_CNT 	AS 	IMG_DOWN_CNT
+				,	B.DELETE_YN AS 	IMG_DELETE_YN
+				,	B.PHOTO_CAT AS 	IMG_PHOTO_CAT
+				,	B.FILE_PATH AS 	IMG_FILE_PATH
+				,	B.FILE_SIZE AS 	IMG_FILE_SIZE
+				,	B.TITLE_ORG AS 	IMG_TITLE_ORG
+
+				,	( SELECT ROUND(AVG(STAR_SCORE),0)
+						FROM TB_STAR_SCORE
+						WHERE 1=1
+						AND SEARCH_CD = ${searchCd}
+						AND SEARCH_IDX = ${searchId}
+					) AS STAR_SCORE
+
+				,		CASE WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+								ELSE ""
+								END ORG_TYPE
+
+				,		O.ORG_GRP_NM
+				,		O.APPLY_CD
+				,		O.APPLY_REJECT
+				,		O.CI_FILE_SRC
+				,		O.AUTH_CD
+				,		O.AUTH_ORG_SITE_1
+				,		O.AUTH_ORG_SITE_2
+				,		O.AUTH_ORG_SITE_3
+				,		O.AREA_CD
+				,		O.ORNER_NM
+				,		O.CORP_NUM_1
+				,		O.CORP_NUM_2
+				,		O.CORP_PHONE
+				,		O.CORP_FAX
+				,		O.HOMEPAGE
+				,		O.ADDR1 AS ORG_ADDR1
+				,		O.ADDR2 AS ORG_ADDR2
+				,		O.ZIPCODE
+				,		O.MAP_X
+				,		O.MAP_Y
+				,		O.ORG_NOTE_1
+				,		O.ORG_NOTE_2
+				,		O.ORG_NOTE_3
+				,		O.ORG_NOTE_4
+				,		O.ORG_FILE_INFO
+				,		O.REG_DT AS ORG_REG_DT
+				,		O.REG_IP AS ORG_REG_IP
+				,		O.REG_IDX AS ORG_REG_IDX
+				,		O.UP_DT AS ORG_UP_IP
+				,		O.UP_IP AS ORG_UP_IP
+				,		O.UP_IDX AS ORG_UP_IDX
+				,		O.SIGN_IMG
+				,		O.DELETE_YN
+
+				,		F.FILE_ID 						AS CI_FILE_ID
+				,		F.FILE_PATH 					AS CI_FILE_PATH
+				,		F.TITLE 						AS CI_FILE_TITLE
+				,		CONCAT (F.FILE_PATH,F.TITLE) 	AS CI_FILE_SRC
+
+				,U.PSN_NM
+				,U.EMAIL
+				,U.TEL_NO
+				,U.DEPT_NM
+				,U.POSITION_NM
+
+				FROM
+					    TB_SEARCH_KNOW_HOW A
+					LEFT JOIN TB_JNSP_FILE B
+						ON A.REPRSNT = B.DATA_IDX
+					LEFT JOIN
+						TB_ORG_GRP AS O
+						ON	(A.ORG_GRP_CD = O.ORG_GRP_CD)
+
+					LEFT JOIN	TB_JNSP_FILE F	ON (F.FILE_ID = O.CI_FILE_SRC)
+					LEFT JOIN	TB_USER_COPY U	ON (U.USER_IDX = A.MANAGER_IDX)
+
+			WHERE 1 = 1
+			 AND A.SEARCH_KNOWHOW_IDX = ${searchId}
+	</select>
+
+
+	<!-- 지역(시군구) 가져오기 KnowHow -->
+	<select id="getAreaSigunguList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'AreaSigungu'
+	</select>
+
+
+
+	<select id="getSearchCmtList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					SEARCH_CMT_IDX ,
+					SEARCH_IDX ,
+					SEARCH_CD ,
+					CMT_SEQ ,
+					CMT_CONTENT ,
+					REG_USER_NM ,
+					REG_ID ,
+					REG_DT
+
+			FROM
+					TB_SEARCH_CMT
+			WHERE
+					SEARCH_CD = #{searchCd}
+				AND SEARCH_IDX = #{searchId}
+		]]>
+
+		<![CDATA[
+			ORDER BY SEARCH_CMT_IDX ASC
+		]]>
+	</select>
+
+	<select id="getSearchCmtListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+	    SELECT
+				COUNT(0) AS CNT
+		FROM
+					TB_SEARCH_CMT
+		WHERE
+			SEARCH_CD = #{searchCd}
+			AND SEARCH_IDX = #{searchId}
+		]]>
+
+	</select>
+
+	<insert id="setSearchCmtInsert" parameterType="paramMap" >
+		INSERT INTO TB_SEARCH_CMT
+		(
+					SEARCH_CD,
+					SEARCH_IDX,
+					CMT_CONTENT,
+					REG_USER_NM,
+					REG_ID,
+					REG_DT
+		)VALUES
+		(
+					  #{searchCd}
+				,	  #{searchId}
+				,     #{cmtContent}
+				,     #{userNm}
+				,     #{regId}
+				,     now()
+
+		)
+	</insert>
+	<update id="setSearchCmtUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_CMT SET
+						CMT_CONTENT = #{cmtContent},
+						UP_ID 		= #{udId},
+						UP_DT 		= now()
+			WHERE SEARCH_CMT_IDX 	= #{searchCmtIdx}
+
+		]]>
+	</update>
+	<delete id="setSearchCmtDelete" parameterType="paramMap">
+		 DELETE
+		 	FROM
+		 TB_SEARCH_CMT
+		 WHERE SEARCH_CMT_IDX = #{searchCmtIdx}
+	</delete>
+
+
+	<!-- 별점 등록 -->
+	<insert id="setSearchStarScoreInsert" parameterType="paramMap">
+			INSERT INTO TB_STAR_SCORE
+			(
+				STAR_SCORE_IDX,
+				SEARCH_CD,
+				SEARCH_IDX,
+				STAR_SCORE,
+				USER_IDX
+			)
+			VALUES
+			(
+				#{starScoreIdx},
+				#{searchCd},
+				#{searchId},
+				#{searchStarScore},
+				#{userIdx}
+			)
+	</insert>
+
+
+	<!-- 특허실용신안리스트 JSON데이터 -->
+	<select id="getPatentApiList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+				,	(	SELECT
+							NAME
+						FROM	TB_CODE_TYPE
+						WHERE
+							DETH = 2
+						AND		( CODE = A.TCHNLGY_S_CL)
+					) AS TCHNLGY_S_CL_NAME
+
+			FROM
+				TB_SEARCH_PATENT_UTILITY_MODEL A
+
+
+			WHERE 1 = 1
+
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+								OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<if test='firstRecord != null and firstRecord != ""'>
+			<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+			ORDER BY A.SEARCH_PATENT_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if>
+			</if>
+	</select>
+
+	<!-- 디자인 JSON데이터 -->
+	<select id="getDesignApiList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+
+			FROM
+				TB_SEARCH_DESIGN A
+
+
+			WHERE 1 = 1
+
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.DESIGN_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+			<if test='firstRecord != null and firstRecord != ""'>
+			<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+			ORDER BY A.SEARCH_DESIGN_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if></if>
+	</select>
+
+	<!-- 상표 JSON데이터 -->
+	<select id="getBrandApiList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+
+
+			FROM
+				TB_SEARCH_BRAND A
+
+
+			WHERE 1 = 1
+
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+							AND ( A.PBLANC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+			<if test='firstRecord != null and firstRecord != ""'>
+			<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+			ORDER BY A.SEARCH_BRAND_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if>
+			</if>
+	</select>
+
+	<!-- 프로그램 JSON데이터 -->
+	<select id="getProgramApiLst" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+
+
+			FROM
+				TB_SEARCH_PROGRAM A
+
+
+			WHERE 1 = 1
+
+
+			]]>
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.PGM_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<if test='firstRecord != null and firstRecord != ""'>
+			<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+			ORDER BY A.SEARCH_PROGRAM_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if>
+			</if>
+	</select>
+
+	<!-- 노하우 JSON데이터 -->
+	<select id="getKnowHowApiList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+
+
+			FROM
+				TB_SEARCH_KNOW_HOW A
+
+
+			WHERE 1 = 1
+
+
+			]]>
+
+				<if test='searchSelect != null and searchSelect != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.TECHNOLOGY_DC LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+					</if>
+					<if test='searchSelect == 4'>
+					    <![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND A.AREA_SIGUNGU = #{searchArea}
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+			<if test='firstRecord != null and firstRecord != ""'>
+			<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+			ORDER BY A.SEARCH_KNOWHOW_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if>
+			</if>
+	</select>
+
+	<!-- 한데이터 가져오기 Patent 참조파일 S -->
+	<select id="getPatentFileList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								C.FILE_ID 	AS 	DOWN_FILE_ID
+							,	C.DATA_GRP 	AS 	DOWN_DATA_GRP
+							,	C.DATA_IDX 	AS 	DOWN_DATA_IDX
+							,	C.FILE_SEQ 	AS 	DOWN_FILE_SEQ
+							,	C.FILE_CAT 	AS 	DOWN_FILE_CAT
+							,	C.TITLE 		AS 	DOWN_TITLE
+							,	C.DOWN_CNT 	AS 	DOWN_DOWN_CNT
+							,	C.DELETE_YN AS 	DOWN_DELETE_YN
+							,	C.PHOTO_CAT AS 	DOWN_PHOTO_CAT
+							,	C.FILE_PATH AS 	DOWN_FILE_PATH
+							,	C.FILE_SIZE AS 	DOWN_FILE_SIZE
+							,	C.TITLE_ORG AS 	DOWN_TITLE_ORG
+
+			FROM
+					    	TB_SEARCH_PATENT_UTILITY_MODEL A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.REFERENCE_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_PATENT_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<select id="getPatentFileListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		 	SELECT
+						COUNT(0) AS CNT
+			FROM
+					    	TB_SEARCH_PATENT_UTILITY_MODEL A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.REFERENCE_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_PATENT_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<!-- 한데이터 가져오기 Patent 참조파일 E -->
+	<!-- 한데이터 가져오기 Design 참조파일 S -->
+	<select id="getDesignFileList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								C.FILE_ID 	AS 	DOWN_FILE_ID
+							,	C.DATA_GRP 	AS 	DOWN_DATA_GRP
+							,	C.DATA_IDX 	AS 	DOWN_DATA_IDX
+							,	C.FILE_SEQ 	AS 	DOWN_FILE_SEQ
+							,	C.FILE_CAT 	AS 	DOWN_FILE_CAT
+							,	C.TITLE 		AS 	DOWN_TITLE
+							,	C.DOWN_CNT 	AS 	DOWN_DOWN_CNT
+							,	C.DELETE_YN AS 	DOWN_DELETE_YN
+							,	C.PHOTO_CAT AS 	DOWN_PHOTO_CAT
+							,	C.FILE_PATH AS 	DOWN_FILE_PATH
+							,	C.FILE_SIZE AS 	DOWN_FILE_SIZE
+							,	C.TITLE_ORG AS 	DOWN_TITLE_ORG
+
+			FROM
+					    	TB_SEARCH_DESIGN A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_DESIGN_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<select id="getDesignFileListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		 	SELECT
+							COUNT(0) AS CNT
+			FROM
+					    	TB_SEARCH_DESIGN A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_DESIGN_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<!-- 한데이터 가져오기 Design 참조파일 E -->
+	<!-- 한데이터 가져오기 Brand 참조파일 S -->
+	<select id="getBrandFileList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								C.FILE_ID 	AS 	DOWN_FILE_ID
+							,	C.DATA_GRP 	AS 	DOWN_DATA_GRP
+							,	C.DATA_IDX 	AS 	DOWN_DATA_IDX
+							,	C.FILE_SEQ 	AS 	DOWN_FILE_SEQ
+							,	C.FILE_CAT 	AS 	DOWN_FILE_CAT
+							,	C.TITLE 		AS 	DOWN_TITLE
+							,	C.DOWN_CNT 	AS 	DOWN_DOWN_CNT
+							,	C.DELETE_YN AS 	DOWN_DELETE_YN
+							,	C.PHOTO_CAT AS 	DOWN_PHOTO_CAT
+							,	C.FILE_PATH AS 	DOWN_FILE_PATH
+							,	C.FILE_SIZE AS 	DOWN_FILE_SIZE
+							,	C.TITLE_ORG AS 	DOWN_TITLE_ORG
+
+			FROM
+					    	TB_SEARCH_BRAND A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.REFERENCE_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_BRAND_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+
+	</select>
+	<select id="getBrandFileListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+							COUNT(0) AS CNT
+			FROM
+					    	TB_SEARCH_BRAND A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.REFERENCE_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_BRAND_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+
+	</select>
+	<!-- 한데이터 가져오기 Brand 참조파일 E -->
+	<!-- 한데이터 가져오기 Program 참조파일 S -->
+	<select id="getProgramFileList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								C.FILE_ID 	AS 	DOWN_FILE_ID
+							,	C.DATA_GRP 	AS 	DOWN_DATA_GRP
+							,	C.DATA_IDX 	AS 	DOWN_DATA_IDX
+							,	C.FILE_SEQ 	AS 	DOWN_FILE_SEQ
+							,	C.FILE_CAT 	AS 	DOWN_FILE_CAT
+							,	C.TITLE 		AS 	DOWN_TITLE
+							,	C.DOWN_CNT 	AS 	DOWN_DOWN_CNT
+							,	C.DELETE_YN AS 	DOWN_DELETE_YN
+							,	C.PHOTO_CAT AS 	DOWN_PHOTO_CAT
+							,	C.FILE_PATH AS 	DOWN_FILE_PATH
+							,	C.FILE_SIZE AS 	DOWN_FILE_SIZE
+							,	C.TITLE_ORG AS 	DOWN_TITLE_ORG
+
+			FROM
+					    	TB_SEARCH_PROGRAM A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.TCHNLGY_INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_PROGRAM_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<select id="getProgramFileListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			 SELECT
+							COUNT(0) AS CNT
+			FROM
+					    	TB_SEARCH_PROGRAM A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.TCHNLGY_INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_PROGRAM_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<!-- 한데이터 가져오기 Program 참조파일 E -->
+	<!-- 한데이터 가져오기 KnowHow 참조파일 S -->
+	<select id="getKnowHowFileList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								C.FILE_ID 	AS 	DOWN_FILE_ID
+							,	C.DATA_GRP 	AS 	DOWN_DATA_GRP
+							,	C.DATA_IDX 	AS 	DOWN_DATA_IDX
+							,	C.FILE_SEQ 	AS 	DOWN_FILE_SEQ
+							,	C.FILE_CAT 	AS 	DOWN_FILE_CAT
+							,	C.TITLE 		AS 	DOWN_TITLE
+							,	C.DOWN_CNT 	AS 	DOWN_DOWN_CNT
+							,	C.DELETE_YN AS 	DOWN_DELETE_YN
+							,	C.PHOTO_CAT AS 	DOWN_PHOTO_CAT
+							,	C.FILE_PATH AS 	DOWN_FILE_PATH
+							,	C.FILE_SIZE AS 	DOWN_FILE_SIZE
+							,	C.TITLE_ORG AS 	DOWN_TITLE_ORG
+
+			FROM
+					    	TB_SEARCH_KNOW_HOW A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.TCHNLGY_INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_KNOWHOW_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<select id="getKnowHowFileListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		 	SELECT
+							COUNT(0) AS CNT
+			FROM
+					    	TB_SEARCH_KNOW_HOW A
+			LEFT JOIN
+							TB_JNSP_FILE C
+			ON
+							(A.TCHNLGY_INTRCN_DATA = C.DATA_IDX)
+			WHERE
+							1 = 1
+			AND
+							A.SEARCH_KNOWHOW_IDX = ${searchId}
+			AND
+							C.FILE_ID IS NOT NULL
+	</select>
+	<!-- 한데이터 가져오기 KnowHow 참조파일 E -->
+</mapper>

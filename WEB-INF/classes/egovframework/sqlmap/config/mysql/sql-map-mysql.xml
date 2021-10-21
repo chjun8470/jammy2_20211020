@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/Config_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/VersionControl_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/Program_SQL_Mysql.xml"/>	
+	
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/AdminMenu_SQL_Mysql.xml"/>	
+
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/CmmnCode_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/CmmUse_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/File_SQL_Mysql.xml"/>
+
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/User_SQL_Mysql.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/Author_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/Emplyr_SQL_Mysql.xml"/>
+	
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/Theme_SQL_Mysql.xml"/>
+	
+	<!-- 회원 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/MemberBackend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/MemberFrontend_SQL_Mysql.xml"/>
+	
+	<!-- 사이트 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/SiteBackend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/SiteFrontend_SQL_Mysql.xml"/>
+	
+	<!-- 게시판 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/BoardFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/BoardBackend_SQL_Mysql.xml"/>
+	
+	<!-- 스케쥴 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/ScheduleFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/ScheduleBackend_SQL_Mysql.xml"/>	
+	
+	<!-- 팝업 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/PopupFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/PopupBackend_SQL_Mysql.xml"/>
+	
+	<!-- 설문 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/SurveyFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/SurveyBackend_SQL_Mysql.xml"/>
+		
+	<!-- 부서 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/OrgnztFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/OrgnztBackend_SQL_Mysql.xml"/>
+	
+	<!-- 접속통계 -->
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/CounterFrontend_SQL_Mysql.xml"/>
+	<sqlMap resource="egovframework/sqlmap/jammy2/mysql/CounterBackend_SQL_Mysql.xml"/>
+	
+</sqlMapConfig>

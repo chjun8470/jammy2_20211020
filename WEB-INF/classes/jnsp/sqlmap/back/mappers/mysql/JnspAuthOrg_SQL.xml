@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspAuthOrgMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+
+
+	<!-- 기관 검색 -->
+	<select id="getOrgList" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+						 ORG_GRP_CD
+						,ORG_GRP_NM
+						,DELETE_YN
+
+				 FROM	TB_ORG_GRP
+
+				WHERE	(DELETE_YN != 'Y' or DELETE_YN IS NULL)
+				  AND	APPLY_CD = '20'
+			]]>
+			<if test="authLv != '99'">
+				<![CDATA[
+					AND ORG_GRP_CD = #{authOrgGrp}
+				]]>
+			</if>
+			<if test = ' orgGrpNm != null and orgGrpNm != "" '>
+				<![CDATA[
+					AND ORG_GRP_NM LIKE '%${orgGrpNm}%'
+				]]>
+			</if>
+			<![CDATA[
+				ORDER BY ORG_GRP_CD ASC
+			]]>
+	</select>
+
+
+
+
+
+	<!-- 기관 검색 -->
+	<select id="setOrgModAuthList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					DISTINCT
+					B.MODULE_INFO_IDX,
+					B.MB_NM
+
+			FROM	TB_AUTH_ORG_MODULE A
+			LEFT JOIN
+					TB_MODULE_INFO B
+				ON (A.MODULE_INFO_IDX = B.MODULE_INFO_IDX)
+
+			WHERE	B.USE_YN = 'Y'
+			  AND	A.ORG_GRP_CD = #{orgGrpCd}
+			]]>
+	</select>
+
+
+
+	<!-- 기관 검색 -->
+	<select id="getOrgModList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					C.MODULE_INFO_IDX,
+					C.MB_NM
+
+			FROM	TB_MODULE_INFO C
+			WHERE	C.USE_YN = 'Y'
+			  AND	C.MODULE_INFO_IDX NOT IN
+
+				(
+					SELECT
+							A.MODULE_INFO_IDX
+
+					FROM	TB_AUTH_ORG_MODULE A
+					WHERE 	A.ORG_GRP_CD =#{orgGrpCd}
+				)
+			]]>
+	</select>
+
+
+
+
+
+	<insert id="setOrgModAuthListAdd" parameterType="paramMap">
+
+			INSERT INTO TB_AUTH_ORG_MODULE
+			(
+				ORG_GRP_CD,
+				MODULE_INFO_IDX
+			) VALUES (
+				#{orgGrpCd},
+				#{moduleInfoIdx}
+			)
+
+	</insert>
+
+
+
+
+	<update id="setOrgModAuthListDel" parameterType="paramMap">
+
+		DELETE
+		FROM
+				TB_AUTH_ORG_MODULE
+		WHERE 	ORG_GRP_CD = #{orgGrpCd}
+		AND 	MODULE_INFO_IDX = #{moduleInfoIdx}
+
+	</update>
+	
+	
+	<insert id="setZeusInsertProc" parameterType="paramMap">
+
+			INSERT INTO TB_ZEUS
+			(
+				equipId,
+				korNm,
+				engNm,
+				organNm,
+				fixedAsetNo,
+				equipNo,
+				useScopeNm,
+				idleDisuseNm,
+				registId,
+				registDt,
+				statusNm
+			) VALUES (
+				#{equipId},
+				#{korNm},
+				#{engNm},
+				#{organNm},
+				#{fixedAsetNo},
+				#{equipNo},
+				#{useScopeNm},
+				#{idleDisuseNm},
+				#{registId},
+				#{registDt},
+				#{statusNm}
+			)
+			
+			<selectKey resultType="int" keyProperty="midx" order="AFTER">
+		        SELECT LAST_INSERT_ID()
+		    </selectKey>
+
+	</insert>
+	
+	
+	<select id="setZeusCheckCode"  parameterType="paramMap" resultType="java.lang.Integer">
+	
+		SELECT
+			SUM(TOT) as CNT
+		FROM
+		(
+			SELECT
+				count(0) as TOT
+			FROM
+				TB_EQU_INFO as a
+			WHERE
+				a.FIXED_ASET_NO = #{fixedAsetNo}
+				
+		
+			UNION ALL
+		
+			SELECT
+				count(0) as TOT
+			FROM
+				TB_ZEUS as b
+			WHERE
+				b.fixedAsetNo = #{fixedAsetNo}
+		) as AA
+	
+	</select>
+	
+	
+	<select id="setZeusUploadCount" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+				count(0) as CNT
+			FROM	
+				TB_ZEUS
+			WHERE 1
+			ORDER BY IDX DESC
+			
+			]]>
+	</select>
+	
+	
+	<select id="setZeusUploadList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				*
+			FROM	
+				TB_ZEUS
+			WHERE 1
+			ORDER BY IDX ASC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+	
+	
+	<update id="setZeusDetailProc" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_ZEUS SET
+				photoWebPath      = #{photoWebPath},
+				photoThumbWebPath = #{photoThumbWebPath},
+				operTel           = #{operTel},
+				importNm          = #{importNm},
+				example           = #{example},
+				capability        = #{capability},
+				feature           = #{feature},
+				mainOrganNm       = #{mainOrganNm},
+				location          = #{location},
+				areaNm            = #{areaNm},
+				idleDisuseNm      = #{idleDisuseNm},
+				useTypeNm         = #{useTypeNm},
+				useScopeRangeNm   = #{useScopeRangeNm},
+				useScopeNm        = #{useScopeNm},
+				registNm          = #{registNm},
+				endDt             = #{endDt},
+				startDt           = #{startDt},
+				sixCd             = #{sixCd},
+				organNm           = #{organNm},
+				subjectNm         = #{subjectNm},
+				busiNm            = #{busiNm},
+				officeCd          = #{officeCd},
+				takePrc           = #{takePrc},
+				takeDt            = #{takeDt},
+				takeNm            = #{takeNm},
+				branchNm          = #{branchNm},
+				modelNm           = #{modelNm},
+				manufactureNm     = #{manufactureNm},
+				engNm             = #{engNm},
+				korNm             = #{korNm},
+				fixedAsetNo       = #{fixedAsetNo},
+				equipNo           = #{equipNo},
+				registNm          = #{registNm},
+				detailYn          = 'Y'
+			WHERE
+				equipId = #{equipId}
+			
+			
+		]]>
+	</update>
+	
+
+
+</mapper>

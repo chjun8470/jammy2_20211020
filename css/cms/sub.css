@@ -1,0 +1,158 @@
+#container {
+/* 	background:url('/cms/imgs/sub/bg_sub.png') repeat-x center 0px #ffffff; */
+	position:relative;
+	min-height:600px;
+	min-width:1000px;
+}
+
+#container .contents{
+	width:1000px;
+
+	margin:0px auto;
+}
+
+#container .lnb{
+	position:absolute;
+	width:254px;
+	height:100%;
+	top:0px;
+	display:inline-block;
+}
+
+
+#container .lnb .title_box{
+	position:relative;
+	width:254px;
+	height:170px;
+	background:#0162a7;
+}
+#container .lnb .title_box .title_sub_txt{
+	position:absolute;
+	left:10px;
+	bottom:49px;
+	font-size:13px;
+	color:#ffffff;
+}
+
+#container .lnb .title_box .title_txt{
+	position:absolute;
+	left:10px;
+	bottom:10px;
+	font-size:30px;
+	color:#ffffff;
+}
+
+#container .lnb .lnb_menu{
+	width:210px;
+}
+
+#container .lnb .lnb_menu ul{
+	margin-top:30px;
+}
+
+#container .lnb .lnb_menu ul li{
+	height:48px;
+	line-height:48px;
+	border-bottom:2px solid #e0e0e0;
+	padding-left:10px;
+}
+
+#container .lnb .lnb_menu ul li a{
+	font-size:17px;
+	color:'#868686';
+	font-weight:bold;
+}
+
+#container .lnb .lnb_menu ul .on a{
+	font-size:17px;
+	color:#0162a7;
+}
+
+#container .content_center{
+	padding-top:170px;
+	padding-left:254px;
+	positon:relative;
+	width:730px;
+	display:inline-block;
+}
+
+#container .content_center .location{
+	width:100%;
+	text-align:right;
+	height:30px;
+	line-height:30px;
+}
+
+#container .content_center .conts_title{
+	background:url('/cms/imgs/sub/title_line.png') no-repeat 0px 0px;
+	padding-top:15px;
+	font-size:25px;
+}
+#container .content_center .conts{
+
+}
+
+
+
+
+/*로그인*/
+
+.login_box{background:url(/cms/imgs/sub/login_bg.jpg) center top no-repeat;height:233px;}
+.login_box h4{font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif; font-size:18px; color:#154881; padding:22px; font-weight:bold;float:left; }
+.login_box span{color:#4c4c4c; font-size:12px;font-weight:bold; font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif; float:right;padding-top:24px;padding-right:25px;}
+
+.login_box.login_inner { overflow:hidden; float:right;width:301px;height:104px; font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif;}
+.login_inner dl{ overflow:hidden; display:block;  float:left; margin-top:60px; margin-left:195px; width:270px;}
+.login_inner dt{ display:block; float:left; font-size:13px; color:#454545; font-weight:600; width:60px; padding:6px 18px 0 0;  text-align:right;font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif; }
+.login_inner dd input{ float:left; margin-bottom:5px; width:180px; padding:3px; border:1px solid #e4e4e4; font-size:13px; font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif; font-weight:normal;}
+.login_inner .btnlogin{ float:left; padding:60px 0 0 10px;}
+.login_inner .checkbox{ clear:both; text-align:center; padding:20px 0 0 250px; color:#717171;font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif;}
+.extbox{ padding:20px 0; text-align:center; font-family:'Nanum Gothic','나눔고딕',"맑은 고딕","Malgun gothic",sans-serif; font-size:13px; font-weight:600; color:#4f4f4f; }
+
+/*관리자페이지(160516)*/
+
+.header_rfsh {width:100%; height:48px;}
+.top_logo {background-color:#FFFFFF;}
+
+.top_menu {padding-left:264px; position:absolute; top:0px;}
+.top_menu a {letter-spacing:-1.6px; color:#61deff !important;}
+
+.menu_lft {width:294px; left:264px; top:0px; position:absolute; margin:0px;}
+.menu { background:url(../../img/sys/cont/top_line.jpg) no-repeat;width:294px; background-position-y:18px; left:558px; top:0px; position:absolute;}
+.menu_rgt {background:url(../../img/sys/cont/top_line.jpg) no-repeat;width:294px; background-position-y:18px; left:852px; top:0; position:absolute;}
+
+.user_dsc {background-color:#FFF; height:142px; border-left:1px solid #dfe3e6; border-right:1px solid #dfe3e6;}
+.user_dsc img {padding:20px 0 12px 96px; }
+.logout_box img {padding:20px 0 12px 58px; }
+
+.btn_logo a img {float:right; padding:10px 10px 0 0;}
+
+.user_name {text-align:center; }
+.user_name a {font-size:14px; font-weight:700;}
+.user_name span.profile_dsc {font-size:14px; font-weight:700;}
+p.profile_dsc {text-align:center;}
+span.profile_dsc {text-align:center;}
+
+.logout_box {background-color:#FFF; /*height:142px;*/ position:relative; z-index:1;border:1px solid #0298ce; }
+.logout_box_dn {position:relative; max-width:300px; /*height:142px;*/ line-height: 20px; text-align: center; background-color:#fff; box-width:249px; }
+.button_style {background-color:#fff; background-image:-webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(241,242,246,0.8)), to(rgba(225,228,236, 0.9))); }			
+.button_style:before {content:""; position:absolute; top:10px; bottom:10px; left:0; right: 0; box-shadow:0 0 15px rgba(0,0,0,0.6); border-radius:10px/100px; z-index:-2;}
+
+.logout_box.groups {/*height:260px;*/}
+
+
+.menuOn a {color:#FFFFFF !important; }
+
+
+.title_name {font-size:30px; padding:8px 0 0 20px;}
+
+.org_info_box {
+	border-top:1px solid #0298ce;
+	padding:10px 30px 10px 30px;
+	height:100%;
+	text-align:left;
+}
+.logout_box.groups .user_name {
+	padding:40px 30px 0 30px;
+	
+}

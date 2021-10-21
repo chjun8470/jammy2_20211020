@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+	/*topmenu*/
+
+
+
+	div.gnbGroup{display:block;}
+	#m_topmenu{margin-top:10px;display:block; width:320px; margin:0 auto }
+	#m_topmenu a{cursor:pointer;}
+	#m_topmenu > li{min-height:38px;background:#03619e;border-bottom:1px solid #2b81b8;font-weight:bold;font-size:16px;font-family:Malgun Gothic, "맑은 고딕";cursor:pointer;}
+	#m_topmenu > li.on{border-bottom:0;background:#686868;}
+	#m_topmenu > li > a{display:block;color:#fff;width:320px;height:27px;padding:11px 0 0 0;background:url(/kor/images/common/m_menu_off.gif) 300px center no-repeat;margin:0 auto;cursor:pointer;}
+	#m_topmenu > li.on > a{background:url(/kor/images/common/m_menu_on.gif) 300px center no-repeat;}
+	#m_topmenu > li > div{display:none;border-top:1px solid #3e3e3e;background:#efefef;}
+	#m_topmenu > li > div > ul > li{font-size:14px;min-height:36px;border-bottom:1px dotted #bdbdbd;}
+	#m_topmenu > li > div > ul > li > a{color:#494949;width:315px;margin:0 auto;display:block;height:27px;padding:9px 0 0 5px;}
+	#m_topmenu > li > div > ul > li > a:hover{color:#03619e;}
+	#m_topmenu > li > div > ul > li > a:active{color:#03619e;}
+	#m_topmenu > li > div > ul > li > a:focus{color:#03619e;}
+	#m_topmenu > li > div > ul > li > ul{border-top:1px dotted #bdbdbd;background:#ffffff;padding:8px 0;}
+	#m_topmenu > li > div > ul > li > ul > li{font-size:14px;line-height:120%;width:305px;margin:0 auto;padding:5px 0 5px 15px;}
+	#m_topmenu > li > div > ul > li > ul > li > a{color:#666666;}
+	#m_topmenu > li > div > ul > li > ul > li > a:hover{text-decoration:underline;}
+	
+	#header{height:auto;min-height:153px;background:url(/kor/images/common/m_header_bg.gif) center 143px no-repeat;}
+	#header div.logo{width:320px;}
+	#header h1{left:79px;}
+	div.top_util div.top_util_in{width:320px;}
+	ul.util li.lang{display:none;}
+
+	div.lnbGroup{display:none;}
+	div.m_menu{display:block;margin-top:73px;border-top:1px solid #c5c5c5;}
+	div.m_menu ul.m_menu_in{width:320px;margin:0 auto;height:36px;}
+	div.m_menu ul.m_menu_in li{float:left;font-family:Malgun Gothic, "맑은 고딕";display:inline-block;}
+	div.m_menu ul.m_menu_in li.m_menu_title{width:254px;border-right:1px solid #c5c5c5;height:26px;font-weight:bold;font-size:14px;color:#333;letter-spacing:-1px;padding:10px 0 0 20px;}
+	div.m_menu ul.m_menu_in li button{margin:0;padding:0;border:0;display:inline-block;border-right:1px solid #c5c5c5;cursor:pointer;}
+
+
+}

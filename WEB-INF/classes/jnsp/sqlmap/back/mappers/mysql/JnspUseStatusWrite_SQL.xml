@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspUseStatusWriteMapper">
+
+	<select id="getUseStatusList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.USE_STATUS_IDX,
+					A.JOINT_YEAR,
+					A.JEINET_EQU_NO,
+					A.NTIS_EQU_NO,
+					A.JOINT_USE_SECTION,
+					A.JOINT_USE_INSTITUTION,
+					A.DEPARTMENT,
+					CONVERT(A.JOINT_USE_ST_DT,CHAR) AS JOINT_USE_ST_DT,
+					CONVERT(A.JOINT_USE_ED_DT,CHAR) AS JOINT_USE_ED_DT,
+					A.USER_NAME,
+					A.USER_EMAIL,
+					A.USER_PHONE,
+					A.USE_TIME,
+					A.EARNINGS,
+					A.SAMPLE_COUNT,
+					A.STATE,
+					A.REJECT,
+					B.KOR_NM,
+					B.ENG_NM,
+					C.RND_EQU_IDX,
+					C.OWN_ORG
+				FROM
+					    TB_USE_STATUS A
+				LEFT JOIN
+						 TB_EQU_INFO B
+				ON	JEINET_EQU_NO = B.RND_EQU_IDX
+				LEFT JOIN
+						 TB_EQU_GOODS C
+				ON	B.RND_EQU_IDX = C.RND_EQU_IDX
+			WHERE 1 = 1
+			]]>
+			<if test="searchType != null and searchType != ''">
+				<if test="searchType == 'data1'">
+					AND A.JEINET_EQU_NO = #{searchWord}
+				</if>
+				<if test="searchType == 'data2'">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'data3'">
+					AND B.KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			</if>
+			<if test="orgGrpNm != null and orgGrpNm != ''">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{orgGrpNm},'%')
+			</if>
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="useYear != null and useYear != ''">
+					AND A.JOINT_YEAR = #{useYear}
+			</if>
+			<![CDATA[
+			ORDER BY USE_STATUS_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getUseStatusListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT
+					COUNT(0) AS CNT
+		FROM
+					TB_USE_STATUS A
+		LEFT JOIN
+					TB_EQU_INFO B
+		ON		A.JEINET_EQU_NO = B.RND_EQU_IDX
+		LEFT JOIN
+					TB_EQU_GOODS C
+		ON		B.RND_EQU_IDX = C.RND_EQU_IDX
+			WHERE 1 = 1
+			]]>
+			<if test="searchType != null and searchType != ''">
+				<if test="searchType == 'data1'">
+					AND A.JEINET_EQU_NO = #{searchWord}
+				</if>
+				<if test="searchType == 'data2'">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'data3'">
+					AND B.KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			</if>
+			<if test="orgGrpNm != null and orgGrpNm != ''">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{orgGrpNm},'%')
+			</if>
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="useYear != null and useYear != ''">
+					AND A.JOINT_YEAR = #{useYear}
+			</if>
+	</select>
+
+	<select id="getUseStatus" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.USE_STATUS_IDX,
+					A.ORG_GRP_NM,
+					A.JOINT_YEAR,
+					A.JEINET_EQU_NO,
+					A.NTIS_EQU_NO,
+					A.JOINT_USE_SECTION,
+					A.JOINT_USE_INSTITUTION,
+					A.DEPARTMENT,
+					A.JOINT_USE_ST_DT,
+					A.JOINT_USE_ED_DT,
+					A.USER_NAME,
+					A.USER_EMAIL,
+					A.USER_PHONE,
+					A.USE_TIME,
+					A.EARNINGS,
+					A.SAMPLE_COUNT,
+					A.STATE,
+					A.REJECT,
+					B.KOR_NM,
+					B.ENG_NM,
+					B.TAKE_SDT,
+					B.BRANCH_NM,
+					C.RND_EQU_IDX,
+					C.OWN_ORG,
+					C.OWN_ORG_NM
+				FROM
+					    TB_USE_STATUS A
+				LEFT JOIN
+						 TB_EQU_INFO B
+				ON	A.JEINET_EQU_NO = B.RND_EQU_IDX
+				LEFT JOIN
+						 TB_EQU_GOODS C
+				ON	B.RND_EQU_IDX = C.RND_EQU_IDX
+			 WHERE USE_STATUS_IDX = #{useStatusIdx}
+	</select>
+
+	<delete id="setUseStatusDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_USE_STATUS
+			 WHERE USE_STATUS_IDX = '${useStatusIdx}'
+	</delete>
+
+	<delete id="setAllUseStatusTotalDelete" parameterType="paramMap">
+		<![CDATA[
+			DELETE
+			FROM
+						TB_USE_STATUS_TOTAL
+			WHERE
+						USE_FILE_IDX = #{useFileIdx}
+				AND	ORG_GRP_CD = #{orgGrpCd}
+				AND	JOINT_YEAR = #{useYear}
+				AND	JOINT_USE_ST_DT = #{useStDt}
+				AND	JOINT_USE_ED_DT = #{useEdDt}
+		]]>
+	</delete>
+
+	<delete id="setAllUseStatusUserDelete" parameterType="paramMap">
+		<![CDATA[
+			DELETE
+			FROM
+						TB_USE_STATUS_USER
+			WHERE
+						USE_FILE_IDX = #{useFileIdx}
+				AND	ORG_GRP_CD = #{orgGrpCd}
+				AND	JOINT_YEAR = #{jointYear}
+				AND	JOINT_USE_ST_DT = #{jointUseStDt}
+				AND	JOINT_USE_ED_DT = #{jointUseEdDt}
+		]]>
+	</delete>
+
+	<insert id="insertUseStatusTotal" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_USE_STATUS_TOTAL
+			(
+					USE_STATUS_TOTAL_IDX
+				,	USE_FILE_IDX
+				,	ORG_GRP_CD
+				,	ORG_GRP_NM
+				,	JOINT_YEAR
+				,	JOINT_USE_ST_DT
+				,	JOINT_USE_ED_DT
+				,	EQ_REG_JEINET_NUM
+				,	EQ_REG_JEINET_STATE
+				,	EQ_REG_ZEUS_NUM
+				,	EQ_REG_ETUBE_NUM
+				,	EQ_REG_ORG_NUM
+				,	EQ_INFO_NM
+				,	EQ_INFO_HOW
+				,	EQ_INFO_DATE
+				,	EQ_INFO_FROM
+				,	EQ_INFO_PRICE
+				,	EQ_INFO_CNT
+				,	EQ_INFO_TOTAL
+				,	EQ_INFO_SUB_NUM
+				,	EQ_INFO_SUB_NM
+				,	EQ_INFO_SUB_YEAR
+				,	EQ_DIV_USE_NM
+				,	EQ_DIV_USE_ORIGIN
+				,	EQ_DIV_USE_AREA
+				,	EQ_DIV_USE_OBGECT
+				,	EQ_DIV_USE_USAGE
+				,	EQ_DIV_USE_STATE
+				,	EQ_DIV_6T
+				,	EQ_DIV_CITY
+				,	EQ_ORG_NM
+				,	EQ_ORG_CENTER
+				,	EQ_ORG_PLACE
+				,	YEAR_EQ_USE
+				,	YEAR_PUBLIC_USE
+				,	YEAR_BEFORE_USE
+				,	YEAR_BEFORE_DATE
+				,	YEAR_OPER_RATE
+				,	YEAR_OPER_ABLETIME
+				,	YEAR_OPER_TIME
+				,	YEAR_OPER_CENTER_GOV
+				,	YEAR_OPER_CENTER_ETC
+				,	YEAR_OPER_OTHER
+				,	YEAR_OPER_OUT
+				,	YEAR_CNT_TOTAL
+				,	YEAR_CNT_CENTER_GOV
+				,	YEAR_CNT_CENTER_ETC
+				,	YEAR_CNT_OTHER
+				,	YEAR_CNT_CENTER_OUT
+				,	YEAR_PRICE
+				,	YEAR_USE_TOTAL
+				,	YEAR_USE_ORG
+				,	YEAR_USE_COMP
+				,	YEAR_USE_ETC
+				,	MANAGER_ID
+				,	MANAGER_NM
+				,	MANAGER_AUTH
+				,	MANAGER_PH
+				,	MANAGER_EMAIL
+				,	ETC
+				,	REG_ID
+				,	REG_DT
+				,	REG_IP
+			)
+			VALUES
+			(
+					#{useStatusTotalIdx}
+				,	#{useFileIdx}
+				,	#{orgGrpCd}
+				,	#{orgGrpNm}
+				,	#{jointYear}
+				,	#{jointUseStDt}
+				,	#{jointUseEdDt}
+				,	#{eqRegJeinetNum}
+				,	#{eqRegJeinetState}
+				,	#{eqRegZeusNum}
+				,	#{eqRegEtubeNum}
+				,	#{eqRegOrgNum}
+				,	#{eqInfoNm}
+				,	#{eqInfoHow}
+				,	#{eqInfoDate}
+				,	#{eqInfoFrom}
+				,	#{eqInfoPrice}
+				,	#{eqInfoCnt}
+				,	#{eqInfoTotal}
+				,	#{eqInfoSubNum}
+				,	#{eqInfoSubNm}
+				,	#{eqInfoSubYear}
+				,	#{eqDivUseNm}
+				,	#{eqDivUseOrigin}
+				,	#{eqDivUseArea}
+				,	#{eqDivUseObgect}
+				,	#{eqDivUseUsage}
+				,	#{eqDivUseState}
+				,	#{eqDiv6t}
+				,	#{eqDivCity}
+				,	#{eqOrgNm}
+				,	#{eqOrgCenter}
+				,	#{eqOrgPlace}
+				,	#{yearEqUse}
+				,	#{yearPublicUse}
+				,	#{yearBeforeUse}
+				,	#{yearBeforeDate}
+				,	#{yearOperRate}
+				,	#{yearOperAbletime}
+				,	#{yearOperTime}
+				,	#{yearOperCenterGov}
+				,	#{yearOperCenterEtc}
+				,	#{yearOperOther}
+				,	#{yearOperOut}
+				,	#{yearCntTotal}
+				,	#{yearCntCenterGov}
+				,	#{yearCntCenterEtc}
+				,	#{yearCntOther}
+				,	#{yearCntCenterOut}
+				,	#{yearPrice}
+				,	#{yearUseTotal}
+				,	#{yearUseOrg}
+				,	#{yearUseComp}
+				,	#{yearUseEtc}
+				,	#{managerId}
+				,	#{managerNm}
+				,	#{managerAuth}
+				,	#{managerPh}
+				,	#{managerEmail}
+				,	#{etc}
+				,	#{regId}
+				,	now()
+				,	#{regIp}
+			)
+		]]>
+	</insert>
+
+	<insert id="insertUseStatusUser" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_USE_STATUS_USER
+			(
+					USE_STATUS_USER_IDX
+				,	USE_FILE_IDX
+				,	ORG_GRP_CD
+				,	ORG_GRP_NM
+				,	JOINT_YEAR
+				,	JOINT_USE_ST_DT
+				,	JOINT_USE_ED_DT
+				,	DEPT_NM
+				,	USER_TYPE_CD
+				,	CORP_NUM
+				,	CORP_AREA
+				,	CORP_CITY
+				,	REG_ID
+				,	REG_DT
+				,	REG_IP
+			)
+			VALUES
+			(
+					#{useStatusUserIdx}
+				,	#{useFileIdx}
+				,	#{orgGrpCd}
+				,	#{orgGrpNm}
+				,	#{jointYear}
+				,	#{jointUseStDt}
+				,	#{jointUseEdDt}
+				,	#{deptNm}
+				,	#{userTypeCd}
+				,	#{corpNum}
+				,	#{corpArea}
+				,	#{corpCity}
+				,	#{regId}
+				,	now()
+				,	#{regIp}
+			)
+		]]>
+	</insert>
+
+	<update id="setUseStatusUpdate" parameterType="paramMap">
+		UPDATE TB_USE_STATUS SET
+				ORG_GRP_NM = #{orgNm},
+				JOINT_YEAR = #{jointYear},
+				JEINET_EQU_NO = #{jeinetEquNo},
+				NTIS_EQU_NO = #{ntisEquNo},
+				JOINT_USE_SECTION = #{jointUseSection},
+				JOINT_USE_INSTITUTION = #{jointUseInstitution},
+				DEPARTMENT = #{department},
+				JOINT_USE_ST_DT = #{jointUseStDt},
+				JOINT_USE_ED_DT = #{jointUseEdDt},
+				USER_NAME = #{userName},
+				USER_EMAIL = #{userEmail},
+				USER_PHONE = #{userPhone},
+				USE_TIME = #{useTime},
+				EARNINGS = #{earnings},
+				SAMPLE_COUNT = #{sampleCount},
+				UP_ID = #{upId},
+				UP_DT = now(),
+				UP_IP = #{upIp}
+		WHERE
+			USE_STATUS_IDX = #{useStatusIdx}
+	</update>
+
+	<update id="setStateUpdate" parameterType="paramMap">
+		UPDATE TB_USE_STATUS SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+			USE_STATUS_IDX = #{idx}
+	</update>
+
+	<select id="getUseStatusExcelList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.USE_STATUS_IDX,
+					A.JEINET_EQU_NO,
+					A.NTIS_EQU_NO,
+					A.JOINT_USE_SECTION,
+					A.JOINT_USE_INSTITUTION,
+					A.DEPARTMENT,
+					CONVERT(A.JOINT_USE_ST_DT,CHAR) AS JOINT_USE_ST_DT,
+					CONVERT(A.JOINT_USE_ED_DT,CHAR) AS JOINT_USE_ED_DT,
+					A.USER_NAME,
+					A.USER_EMAIL,
+					A.USER_PHONE,
+					A.USE_TIME,
+					A.EARNINGS,
+					A.SAMPLE_COUNT,
+					A.STATE,
+					A.REJECT,
+					B.KOR_NM,
+					B.ENG_NM,
+					CONVERT(B.TAKE_SDT,CHAR) AS TAKE_SDT,
+					B.BRANCH_NM,
+					C.RND_EQU_IDX,
+					C.OWN_ORG,
+					C.OWN_ORG_NM
+				FROM
+					    TB_USE_STATUS A
+				LEFT JOIN
+						 TB_EQU_INFO B
+				ON	A.JEINET_EQU_NO = B.RND_EQU_IDX
+				LEFT JOIN
+						 TB_EQU_GOODS C
+				ON	B.RND_EQU_IDX = C.RND_EQU_IDX
+			WHERE 1 = 1
+			]]>
+			<if test="searchType != null and searchType != ''">
+				<if test="searchType == 'data1'">
+					AND A.JEINET_EQU_NO = #{searchWord}
+				</if>
+				<if test="searchType == 'data2'">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'data3'">
+					AND B.KOR_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			</if>
+			<if test="orgGrpNm != null and orgGrpNm != ''">
+					AND A.JOINT_USE_INSTITUTION LIKE CONCAT('%',#{orgGrpNm},'%')
+			</if>
+			<if test="stateType != null and stateType != ''">
+					AND A.STATE = #{stateType}
+			</if>
+			<if test="useYear != null and useYear != ''">
+					AND A.JOINT_YEAR = #{useYear}
+			</if>
+			<![CDATA[
+			ORDER BY USE_STATUS_IDX DESC
+		]]>
+	</select>
+
+</mapper>

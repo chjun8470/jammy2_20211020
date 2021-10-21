@@ -1,0 +1,178 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery.contextMenu.js"></script>
+<script type="text/javascript" src="/springViewer/AIViewer50/common/js/syronex-colorpicker.js"></script>
+<script  type="text/javascript" src="/springViewer/AIViewer50/common/js/mousewheel.js"></script>
+<script  type="text/javascript" src="/springViewer/AIViewer50/common/js/AIDrawing.js"></script>
+<!--[if IE]>
+<style>
+v\:roundrect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:textbox {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:rect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:line {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:oval {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+</style>
+<![endif]-->
+<link rel="stylesheet" type="text/css" media="screen" href="/springViewer/AIViewer50/common/css/AIStyle.css" />
+<link rel="stylesheet" type="text/css" href="/springViewer/AIViewer50/common/css/syronex-colorpicker.css" />
+<link rel="stylesheet" type="text/css" href="/springViewer/AIViewer50/common/css/jquery-ui.css" />
+<style type="text/css">
+#cell_style_0
+{
+   font:11pt/1.4 '굴림';
+   background-color:transparent;
+}
+</style>
+</head>
+<body style="font-size:10px;">
+<div id="loading" style="position:fixed; display:none; top:50%; left:50%; margin-top:-10px; margin-left:-110px; z-index:10000; ">
+<img src="/springViewer/AIViewer50//common/images/loadingbar2.gif" />
+</div>
+<div id="root" style="display:none;">
+<div id="menu" >
+<table border="0" align="center" width="50%" cellpadding="3">
+<tr>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_01.bmp" id="goToTop" onclick="goScroll(startPage);" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_02.bmp" id="goToPrev" onclick="goPrev();" value="Prev" />
+</td>
+<td>
+<select id="page" onchange="goToMove();">
+</select>
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_03.bmp" id="goToNext" onclick="goNext();" value="Next" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_04.bmp" id="goToBottom" onclick="goScroll(endPage);" value="Bottom" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_05.bmp" id="ZoomOut" onclick="ZoomOut();" value="축소" />
+</td>
+<td>
+<select id="size" onchange="ZoomInOut();">
+<option>50%</option>
+<option>60%</option>
+<option>70%</option>
+<option>80%</option>
+<option>90%</option>
+<option>100%</option>
+<option>110%</option>
+<option>120%</option>
+<option>130%</option>
+<option>140%</option>
+<option>150%</option>
+</select>
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_06.bmp" id="ZoomIn" onclick="ZoomIn();" value="확대" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_07.bmp" id="print" onclick="ImagePrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_10.bmp" id="pdfprint" onclick="PDFPrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_08.bmp" id="pdfConvert" onclick="PDFConvert();" value="pdf변환" />
+</td>
+<td>
+<input type="image" src="/springViewer/AIViewer50//common/images/d_09.bmp" id="excelConvert" onclick="ExcelConvert();" value="excel변환" />
+</td>
+</tr>
+</table>
+</div>
+<div id="report" name="report" >
+<div id="subreport">
+<div id="1" style="position:relative;margin-top:20pt;width:595pt;height:852pt">
+<div style="position:relative;margin-left:154pt;margin-top:123pt">
+<table style="width:320pt;height:560pt;margin-left:0pt;margin-top:0pt">
+<col style="width:80pt"/>
+<col style="width:80pt"/>
+<col style="width:160pt"/>
+<tr style="height:20pt">
+<td></td>
+<td id="cell_style_0">html&nbsp;테스트</td>
+<td></td>
+</tr>
+<tr style="height:40pt">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:500pt">
+<td id="cell_style_0" colspan="3"><div id="ckeditor" style="position:relative;width:300pt;height:200pt" + >
+<h1><img alt="Saturn V carrying Apollo 11" class="right" src="sample.jpg" /> Apollo 11</h1><p><b>Apollo 11</b> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p><p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p></div>
+</td>
+</tr>
+</table>
+<canvas id="v1_1_1" width="426.67" height="746.67" style="position:absolute;left:0pt;top:0pt">
+<script>
+initCanvas("v1_1_1")
+</script>
+</canvas>
+</div>
+</div><!--End of Page div-->
+</div>
+</div><!--End of Report div-->
+<div id="flashPrint" style="position:absolute;left:200pt;top:10pt" ><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+id="AIprint" width="0" height="0" 
+codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"> 
+<param name="movie" value="/springViewer/AIViewer50//common/js/AIprint.swf" />
+<param name="quality" value="high" /> 
+<param name="bgcolor" value="#ffffff" /> 
+<embed src="/springViewer/AIViewer50//common/js/AIprint.swf" 
+quality="high" bgcolor="#ffffff" name="AIprint" 
+width="0" height="0"  
+type="application/x-shockwave-flash"  
+pluginspage="http://www.macromedia.com/shockwave/download/index.cgi? P1_Prod_Version=ShockwaveFlash">  
+</embed>  
+</object> 
+</div><script type="text/javascript" >
+var startPage 		= 1;
+var endPage 		= 1; 
+var currentPage 	= 1;
+var textInsert  	= 1;
+var imageInsert 	= 1;
+var pageWidth 	= 793; 
+var report_leftMargin = 0;
+var report_width = '100';
+var report_widthUnit = '%';
+function PDFConvert(){
+location.href = reportUrl.replace('=HTML','=PDF') + "";
+}function PDFPrint(){
+pdfPrint('/springViewer/test/AIprint.jsp?nameTag=','[{"targetURL": "E:/log/AItoPDF-892354932-130217115938868.pdf"}]',793,1123);
+}function ExcelConvert(){
+location.href = reportUrl.replace('=HTML','=EXCEL') + "";
+}function ImagePrint(){
+ajaxPrint(reportUrl.replace('=HTML','=IMAGE') + "");
+}</script>
+<script type="text/javascript" src="/springViewer/AIViewer50/common/js/aireport_ie9.js"></script>
+</div>
+<script language="javascript">
+document.getElementById('loading').style.display = "none";
+document.getElementById('root').style.display = "";
+</script>
+</body>
+</html>
+
+
+

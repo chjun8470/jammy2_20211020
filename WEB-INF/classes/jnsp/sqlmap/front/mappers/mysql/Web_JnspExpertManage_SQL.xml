@@ -1,0 +1,1963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspExpertManageMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getExpertList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					U.USER_IDX,
+					U.PSN_NM,
+					U.GENDER_TYPE_CD,
+					U.FRGN_YN,
+					U.USER_ID,
+					U.PASSWORD,
+					U.EMAIL,
+					U.EMAIL_RECV_YN,
+					U.ZIPCD,
+					U.ADDR1,
+					U.ADDR2,
+					U.TEL_NO,
+					U.CP_NO,
+					U.FAX_NO,
+					U.DEPT_NM,
+					U.POSITION_NM,
+					U.USER_TYPE_CD,
+					U.BIRTH_DATE,
+					U.DELETE_YN,
+					U.ORG_GRP_CD,
+					U.AUTH_LV,
+					DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+					U.REG_IP,
+					U.REG_IDX,
+					U.UP_DT,
+					U.UP_IP,
+					U.UP_IDX,
+					U.REJECT,
+					U.PRO_JIPBANK,
+					U.PRO_JEINET,
+					U.PRO_JNTIS_RND,
+					U.PRO_JNTIS_COMPANY,
+					U.PRO_JNTIS_EDUCATION,
+					U.PRO_JNTIS_ETC,
+					U.PRO_USER_INTEREST_WORLD,
+					U.PRO_JNTIS_CONSULTING,
+					U.PRO_JNTIS_MARKETING,
+					U.PRO_JNTIS_PLANNING,
+					U.PRO_USER_BIRTHPLACE,
+					CASE 	WHEN U.PRO_STATE="10" THEN "요청"
+							WHEN U.PRO_STATE="20" THEN "승인"
+						   WHEN U.PRO_STATE="30" THEN "반려"
+						   ELSE ""
+						   END PRO_STATE,
+					CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+							WHEN U.USER_APP_STATE="20" THEN "승인"
+						   WHEN U.USER_APP_STATE="30" THEN "반려"
+						   ELSE ""
+						   END USER_APP_STATE,
+					O.ORG_GRP_NM,
+					CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+							WHEN O.ORG_TYPE="2" THEN "기관/센터"
+						   ELSE ""
+						   END ORG_TYPE,
+					O.APPLY_CD,
+					O.APPLY_REJECT,
+					O.CI_FILE_SRC,
+					O.AUTH_CD,
+					O.AUTH_ORG_SITE_1,
+					O.AUTH_ORG_SITE_2,
+					O.AUTH_ORG_SITE_3,
+					O.AREA_CD,
+					O.ORNER_NM,
+					O.CORP_NUM_1,
+					O.CORP_NUM_2,
+					O.CORP_PHONE,
+					O.CORP_FAX,
+					O.HOMEPAGE,
+					O.ADDR1 AS ORG_ADDR1,
+					O.ADDR2 AS ORG_ADDR2,
+					O.ZIPCODE,
+					O.MAP_X,
+					O.MAP_Y,
+					O.ORG_NOTE_1,
+					O.ORG_NOTE_2,
+					O.ORG_NOTE_3,
+					O.ORG_NOTE_4,
+					O.ORG_FILE_INFO,
+					O.REG_DT AS ORG_REG_DT,
+					O.REG_IP AS ORG_REG_IP,
+					O.REG_IDX AS ORG_REG_IDX,
+					O.UP_DT AS ORG_UP_IP,
+					O.UP_IP AS ORG_UP_IP,
+					O.UP_IDX AS ORG_UP_IDX,
+					O.SIGN_IMG,
+					O.DELETE_YN,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG,
+					FA.NAME AS EX_MAJOR_NAME,
+					FB.NAME AS EX_REALM_NAME,
+					FC.NAME AS EX_MAJOR_PLURAL_NAME,
+					FD.NAME AS EX_REALM_PLURAL_NAME,
+					U.PRO_USER_AREA,
+					(SELECT TC.CODE_NM FROM TB_CODE as TC WHERE TC.CODE_GRP_CD = 'X' AND TC.CODE_CD = U.PRO_SMB_CODE1) as CODENAME,
+					(SELECT ea.SC_DEGREE FROM TB_EXPERT_ACADEMIC_CAREER as ea WHERE ea.USER_IDX = U.USER_IDX ORDER BY ea.SC_START DESC LIMIT 1 ) as SC_DEGREE
+			FROM		TB_USER_COPY 		AS U
+			LEFT JOIN	TB_ORG_GRP 			AS O	ON	U.ORG_GRP_CD = O.ORG_GRP_CD
+			LEFT JOIN	TB_JNSP_FILE 		AS B	ON	B.DATA_IDX = U.USER_ID
+			LEFT JOIN	TB_EXPERT_FIELD 	AS F	ON	F.USER_IDX  = U.USER_IDX
+			LEFT JOIN	TB_CODE_SC 			AS FA	ON	F.EX_MAJOR = FA.CODE
+			LEFT JOIN	TB_CODE_SC	 		AS FB	ON	F.EX_REALM = FB.CODE
+			LEFT JOIN	TB_CODE_SC 			AS FC	ON	F.EX_MAJOR_PLURAL = FC.CODE
+			LEFT JOIN	TB_CODE_SC 			AS FD	ON F.EX_REALM_PLURAL = FD.CODE
+			-- LEFT JOIN	(SELECT * FROM TB_EXPERT_ACADEMIC_CAREER ORDER BY SC_START DESC LIMIT 0,1)	AS EAC	ON EAC.USER_IDX = U.USER_IDX
+			WHERE
+						U.PRO_STATE = '20'
+		]]>
+		<if test='proJntisPlanning != null and proJntisPlanning != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_PLANNING = 'Y' ]]>
+		</if>
+		<if test='proJntisRnd != null and proJntisRnd != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_RND = 'Y' ]]>
+		</if>
+		<if test='proJntisCompany != null and proJntisCompany != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_COMPANY = 'Y' ]]>
+		</if>
+		<if test='proJeinet != null and proJeinet != ""'>
+				<![CDATA[	AND U.PRO_JEINET = 'Y' ]]>
+		</if>
+		<if test='proJipbank != null and proJipbank != ""'>
+				<![CDATA[	AND U.PRO_JIPBANK = 'Y' ]]>
+		</if>
+		<if test='proJntisEducation != null and proJntisEducation != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_EDUCATION = 'Y' ]]>
+		</if>
+		<if test='proJntisConsulting != null and proJntisConsulting != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_CONSULTING = 'Y' ]]>
+		</if>
+		<if test='proJntisMarketing != null and proJntisMarketing != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_MARKETING = 'Y' ]]>
+		</if>
+		<if test='proJntisEtc != null and proJntisEtc != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_ETC = 'Y' ]]>
+		</if>
+		
+		<if test='ProUserBirthplace != null and ProUserBirthplace != ""'>
+				<![CDATA[	AND U.PRO_USER_BIRTHPLACE = '${ProUserBirthplace}' ]]>
+		</if>
+						
+						
+		<if test='siteId == "jeinet" '>
+				<![CDATA[	AND U.PRO_JEINET = 'Y' ]]>
+		</if>
+		<if test='siteId == "jipbank" '>
+				<![CDATA[	AND U.PRO_JIPBANK = 'Y' ]]>
+		</if>
+		<if test='code_b != null and code_b != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE1 = '${code_b}' ]]>
+		</if>
+		<if test='code_m != null and code_m != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE2 = '${code_m}' ]]>
+		</if>
+		<if test='code_s != null and code_s != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE3 = '${code_s}' ]]>
+		</if>
+		
+		<if test='team_1 != null and team_1 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM1 = 'Y' ]]>
+		</if>
+		<if test='team_2 != null and team_2 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM2 = 'Y' ]]>
+		</if>
+		<if test='team_3 != null and team_3 != ""'>
+		
+		
+				<![CDATA[	AND U.PRO_SMB_TEAM3 = 'Y' ]]>
+		</if>
+		<if test='team_4 != null and team_4 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM4 = 'Y' ]]>
+		</if>
+		<if test='team_5 != null and team_5 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM5 = 'Y' ]]>
+		</if>
+		<if test='team_6 != null and team_6 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM6 = 'Y' ]]>
+		</if>
+		<if test='team_7 != null and team_7 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM7 = 'Y' ]]>
+		</if>
+		<if test='team_8 != null and team_8 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM8 = 'Y' ]]>
+		</if>
+		
+		<if test='academic != null and academic != ""'>
+				<![CDATA[	AND EAC.SC_DEGREE = '${academic}' ]]>
+		</if>
+		
+		
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ORG" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "DEPT" and searchWord != ""'>
+				<![CDATA[	AND U.DEPT_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "POSITION" and searchWord != ""'>
+				<![CDATA[	AND U.POSITION_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<!-- <if test='searchType == "MAJOR" and searchWord != ""'>
+				<![CDATA[	AND FA.NAME LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "AREA" and searchWord != ""'>
+				<![CDATA[	AND U.PRO_USER_BIRTHPLACE LIKE '%${searchWord}%' ]]>
+			</if> -->
+		</if>
+		<![CDATA[
+			ORDER BY F.EX_REG_DT DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+	<select id="getExpertListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+						TB_USER_COPY AS U
+			LEFT JOIN
+						TB_ORG_GRP AS O
+			ON
+						U.ORG_GRP_CD = O.ORG_GRP_CD
+			LEFT JOIN
+						TB_JNSP_FILE AS B
+			ON
+						B.DATA_IDX = U.USER_ID
+			LEFT JOIN
+						TB_EXPERT_FIELD AS F
+			ON
+						F.USER_IDX  = U.USER_ID
+			LEFT JOIN	(SELECT * FROM TB_EXPERT_ACADEMIC_CAREER ORDER BY SC_START DESC LIMIT 0,1)	AS EAC	ON EAC.USER_IDX = U.USER_IDX
+			WHERE
+						U.PRO_STATE = '20'
+		<if test='proJntisPlanning != null and proJntisPlanning != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_PLANNING = 'Y' ]]>
+		</if>
+		<if test='proJntisRnd != null and proJntisRnd != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_RND = 'Y' ]]>
+		</if>
+		<if test='proJntisCompany != null and proJntisCompany != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_COMPANY = 'Y' ]]>
+		</if>
+		<if test='proJeinet != null and proJeinet != ""'>
+				<![CDATA[	AND U.PRO_JEINET = 'Y' ]]>
+		</if>
+		<if test='proJipbank != null and proJipbank != ""'>
+				<![CDATA[	AND U.PRO_JIPBANK = 'Y' ]]>
+		</if>
+		<if test='proJntisEducation != null and proJntisEducation != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_EDUCATION = 'Y' ]]>
+		</if>
+		<if test='proJntisConsulting != null and proJntisConsulting != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_CONSULTING = 'Y' ]]>
+		</if>
+		<if test='proJntisMarketing != null and proJntisMarketing != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_MARKETING = 'Y' ]]>
+		</if>
+		<if test='proJntisEtc != null and proJntisEtc != ""'>
+				<![CDATA[	AND U.PRO_JNTIS_ETC = 'Y' ]]>
+		</if>
+		
+		<if test='ProUserBirthplace != null and ProUserBirthplace != ""'>
+				<![CDATA[	AND U.PRO_USER_BIRTHPLACE = '${ProUserBirthplace}' ]]>
+		</if>
+		
+		<if test='academic != null and academic != ""'>
+				<![CDATA[	AND EAC.SC_DEGREE = '${academic}' ]]>
+		</if>
+						
+						
+		<if test='siteId == "jeinet" '>
+				<![CDATA[	AND U.PRO_JEINET = 'Y' ]]>
+		</if>
+		<if test='siteId == "jipbank" '>
+				<![CDATA[	AND U.PRO_JIPBANK = 'Y' ]]>
+		</if>
+		<if test='code_b != null and code_b != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE1 = '${code_b}' ]]>
+		</if>
+		<if test='code_m != null and code_m != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE2 = '${code_m}' ]]>
+		</if>
+		<if test='code_s != null and code_s != ""'>
+				<![CDATA[	AND U.PRO_SMB_CODE3 = '${code_s}' ]]>
+		</if>
+		
+		<if test='team_1 != null and team_1 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM1 = 'Y' ]]>
+		</if>
+		<if test='team_2 != null and team_2 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM2 = 'Y' ]]>
+		</if>
+		<if test='team_3 != null and team_3 != ""'>
+		
+		
+				<![CDATA[	AND U.PRO_SMB_TEAM3 = 'Y' ]]>
+		</if>
+		<if test='team_4 != null and team_4 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM4 = 'Y' ]]>
+		</if>
+		<if test='team_5 != null and team_5 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM5 = 'Y' ]]>
+		</if>
+		<if test='team_6 != null and team_6 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM6 = 'Y' ]]>
+		</if>
+		<if test='team_7 != null and team_7 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM7 = 'Y' ]]>
+		</if>
+		<if test='team_8 != null and team_8 != ""'>
+				<![CDATA[	AND U.PRO_SMB_TEAM8 = 'Y' ]]>
+		</if>
+		
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ORG" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "DEPT" and searchWord != ""'>
+				<![CDATA[	AND U.DEPT_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "POSITION" and searchWord != ""'>
+				<![CDATA[	AND U.POSITION_NM LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+	<select id="getExpert" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					U.USER_IDX,
+					U.PSN_NM,
+					U.GENDER_TYPE_CD,
+					U.FRGN_YN,
+					U.USER_ID,
+					U.PASSWORD,
+					U.EMAIL,
+					U.EMAIL_RECV_YN,
+					U.ZIPCD,
+					U.ADDR1,
+					U.ADDR2,
+					U.TEL_NO,
+					U.CP_NO,
+					U.FAX_NO,
+					U.DEPT_NM,
+					U.POSITION_NM,
+					U.USER_TYPE_CD,
+					U.BIRTH_DATE,
+					U.DELETE_YN,
+					U.ORG_GRP_CD,
+					U.AUTH_LV,
+					DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+					U.REG_IP,
+					U.REG_IDX,
+					U.UP_DT,
+					U.UP_IP,
+					U.UP_IDX,
+					U.REJECT,
+					U.PRO_JIPBANK,
+					U.PRO_JEINET,
+					U.PRO_JNTIS_RND,
+					U.PRO_JNTIS_COMPANY,
+					U.PRO_JNTIS_EDUCATION,
+					U.PRO_JNTIS_CONSULTING,
+					U.PRO_JNTIS_MARKETING,
+					U.PRO_JNTIS_PLANNING,
+					U.PRO_JNTIS_ETC,
+					U.PRO_USER_INTEREST_WORLD,
+					U.PRO_USER_FORG,
+					U.PRO_USER_BIRTHPLACE,
+					(SELECT tc1.CODE_NM FROM TB_CODE as tc1 WHERE tc1.CODE_GRP_CD = 'X' AND tc1.CODE_CD = U.PRO_SMB_CODE1 ) as PRO_SMB_CODE1,
+					(SELECT tc2.CODE_NM FROM TB_CODE as tc2 WHERE tc2.CODE_GRP_CD = 'Y' AND tc2.CODE_CD = U.PRO_SMB_CODE2 ) as PRO_SMB_CODE2,
+					(SELECT tc3.CODE_NM FROM TB_CODE as tc3 WHERE tc3.CODE_GRP_CD = 'Z' AND tc3.CODE_CD = U.PRO_SMB_CODE3 ) as PRO_SMB_CODE3,
+					(SELECT ea.SC_DEGREE FROM TB_EXPERT_ACADEMIC_CAREER as ea WHERE ea.USER_IDX = U.USER_IDX ORDER BY ea.SC_START DESC LIMIT 1 ) as SC_DEGREE,
+					(SELECT ef.EX_DETAIL FROM TB_EXPERT_FIELD as ef WHERE ef.USER_IDX = U.USER_IDX) as EX_DETAIL,
+					U.PRO_STATE,
+					CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+							WHEN U.USER_APP_STATE="20" THEN "승인"
+						   WHEN U.USER_APP_STATE="30" THEN "반려"
+						   ELSE ""
+						   END USER_APP_STATE,
+					O.ORG_GRP_NM,
+					CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+							WHEN O.ORG_TYPE="2" THEN "기관/센터"
+						   ELSE ""
+						   END ORG_TYPE,
+					O.APPLY_CD,
+					O.APPLY_REJECT,
+					O.CI_FILE_SRC,
+					O.AUTH_CD,
+					O.AUTH_ORG_SITE_1,
+					O.AUTH_ORG_SITE_2,
+					O.AUTH_ORG_SITE_3,
+					O.AREA_CD,
+					O.ORNER_NM,
+					O.CORP_NUM_1,
+					O.CORP_NUM_2,
+					O.CORP_PHONE,
+					O.CORP_FAX,
+					O.HOMEPAGE,
+					O.ADDR1 AS ORG_ADDR1,
+					O.ADDR2 AS ORG_ADDR2,
+					O.ZIPCODE,
+					O.MAP_X,
+					O.MAP_Y,
+					O.ORG_NOTE_1,
+					O.ORG_NOTE_2,
+					O.ORG_NOTE_3,
+					O.ORG_NOTE_4,
+					O.ORG_FILE_INFO,
+					O.REG_DT AS ORG_REG_DT,
+					O.REG_IP AS ORG_REG_IP,
+					O.REG_IDX AS ORG_REG_IDX,
+					O.UP_DT AS ORG_UP_IP,
+					O.UP_IP AS ORG_UP_IP,
+					O.UP_IDX AS ORG_UP_IDX,
+					O.SIGN_IMG,
+					O.DELETE_YN,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG,
+					U.PRO_USER_AREA
+			FROM
+						TB_USER_COPY AS U
+			LEFT JOIN
+						TB_ORG_GRP AS O
+			ON
+						U.ORG_GRP_CD = O.ORG_GRP_CD
+			LEFT JOIN
+						TB_JNSP_FILE AS B
+			ON
+						B.DATA_IDX = U.USER_ID
+			WHERE
+						U.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+	<!-- 등록 시 유저 업데이트 S -->
+	<update id="setUserProYnUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_USER_COPY SET
+		]]>
+			<if test='proJipbank != null and proJipbank != ""'>
+				<![CDATA[	PRO_JIPBANK = #{proJipbank}, ]]>
+			</if>
+			<if test='proJeinet != null and proJeinet != ""'>
+				<![CDATA[	PRO_JEINET = #{proJeinet}, ]]>
+			</if>
+			<if test='proJntisRnd != null and proJntisRnd != ""'>
+				<![CDATA[	PRO_JNTIS_RND = #{proJntisRnd}, ]]>
+			</if>
+			<if test='proJntisCompany != null and proJntisCompany != ""'>
+				<![CDATA[	PRO_JNTIS_COMPANY = #{proJntisCompany}, ]]>
+			</if>
+			<if test='proJntisEducation != null and proJntisEducation != ""'>
+				<![CDATA[	PRO_JNTIS_EDUCATION = #{proJntisEducation}, ]]>
+			</if>
+			<if test='proJntisEtc != null and proJntisEtc != ""'>
+				<![CDATA[	PRO_JNTIS_ETC = #{proJntisEtc}, ]]>
+			</if>
+			<if test='proJntisConsulting != null and proJntisConsulting != ""'>
+				<![CDATA[	PRO_JNTIS_CONSULTING = #{proJntisConsulting}, ]]>
+			</if>
+			<if test='proJntisMarketing != null and proJntisMarketing != ""'>
+				<![CDATA[	PRO_JNTIS_MARKETING = #{proJntisMarketing}, ]]>
+			</if>
+			<if test='proJntisPlanning != null and proJntisPlanning != ""'>
+				<![CDATA[	PRO_JNTIS_PLANNING = #{proJntisPlanning}, ]]>
+			</if>
+			<if test='proUserInterestWorld != null and proUserInterestWorld != ""'>
+				<![CDATA[	PRO_USER_INTEREST_WORLD = #{proUserInterestWorld}, ]]>
+			</if>
+		<![CDATA[
+					PRO_STATE = #{proState}
+			WHERE
+					USER_IDX = #{userIdx}
+		]]>
+	</update>
+	<!-- 등록 시 유저 업데이트 E -->
+	<!-- 승인, 반려 S -->
+	<update id="userDataUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_USER_COPY SET
+						PRO_STATE = #{mode}
+			WHERE USER_IDX = #{userIdx}
+		]]>
+	</update>
+	<!-- 승인, 반려 E -->
+	<!-- 유저정보 업데이트 S -->
+	<update id="userInfoUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_USER_COPY SET
+					BIRTH_DATE = #{birthDate},
+					TEL_NO = #{telNo},
+					CP_NO = #{cpNo},
+					EMAIL = #{email},
+					PRO_USER_FORG = #{proUserForg},
+					PRO_USER_BIRTHPLACE = #{ProUserBirthplace},
+					PRO_USER_AREA = #{area}
+
+			WHERE
+					USER_IDX = #{userIdx}
+		]]>
+	</update>
+	<!-- 유저정보 업데이트 E -->
+
+
+<!-- SELECT S -->
+	<!-- 학력정보 S -->
+	<select id="getExpertSCList" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+			 			A.IDX,
+			 			A.SC_NM,
+			 			A.SC_LOCATION,
+			 			A.SC_START,
+			 			A.SC_FINISH,
+			 			A.SC_MAJOR,
+			 			A.SC_DEGREE
+			 FROM
+						TB_EXPERT_ACADEMIC_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.SC_START ASC
+			LIMIT 0,1
+	</select>
+	<select id="getExpertSCListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_ACADEMIC_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 학력정보 E -->
+	<!-- 경력정보 S -->
+	<select id="getExpertCRList" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+			 			A.IDX,
+			 			A.USER_IDX,
+			 			A.CR_NM,
+			 			A.CR_LOCATION,
+			 			A.CR_START,
+			 			A.CR_FINISH,
+			 			A.CR_DEPT,
+			 			A.CR_WORK
+			 FROM
+						TB_EXPERT_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertCRListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 경력정보 E -->
+	<!-- 대외활동 S -->
+	<select id="getExpertACList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+			 			A.IDX,
+			 			A.AC_NM,
+			 			A.AC_START,
+			 			A.AC_FINISH,
+			 			A.AC_DEPT,
+			 			A.AC_WORK
+			 FROM
+						TB_EXPERT_ACTIVITY AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertACListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_ACTIVITY AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 대외활동 E -->
+	<!-- 연구개발과제(프로젝트) 수행실적 S -->
+	<select id="getExpertRDList" parameterType="paramMap" resultType="paramMap" >
+					SELECT
+			 			A.IDX,
+			 			A.RD_SERIAL_NUM,
+			 			A.RD_ORG_NM,
+			 			A.RD_BUSINESS_NM,
+			 			A.RD_NM,
+			 			A.RD_START,
+			 			A.RD_FINISH,
+			 			A.RD_EXPENSES,
+			 			A.RD_FORM
+			 FROM
+						TB_EXPERT_RND_RESULT AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertRDListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_RND_RESULT AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 연구개발과제(프로젝트) 수행실적 E -->
+	<!-- 연구논문 실적 S -->
+	<select id="getExpertRPList" parameterType="paramMap" resultType="paramMap" >
+					SELECT
+			 			A.IDX,
+			 			A.RP_SERIAL_NUM,
+			 			A.RP_NM,
+			 			A.RP_TYPE,
+			 			A.RP_JOURNAL_NM,
+			 			A.RP_START
+			 FROM
+						TB_EXPERT_RESEARCH_PAPER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertRPListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_RESEARCH_PAPER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 연구논문 실적 E -->
+	<!-- 지식재산 실적 S -->
+	<select id="getExpertIPList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+			 			A.IDX,
+			 			A.IP_SERIAL_NUM,
+			 			A.IP_NM,
+			 			A.IP_TYPE,
+			 			A.IP_PUBLICATION,
+			 			A.IP_START
+			 FROM
+						TB_EXPERT_IN_PROPERTY AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertIPListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_IN_PROPERTY AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 지식재산 실적 E -->
+	<!-- 수상실적 S -->
+	<select id="getExpertAWList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+			 			A.IDX,
+			 			A.AW_SERIAL_NUM,
+			 			A.AW_BADGE,
+			 			A.AW_START,
+			 			A.AW_PRESENT,
+			 			A.AW_CONTENT
+			 FROM
+						TB_EXPERT_AWARD_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertAWListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_AWARD_CAREER AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 수상실적 E -->
+	<!-- 자격사항 S -->
+	<select id="getExpertQUList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+			 			A.IDX,
+			 			A.QU_SERIAL_NUM,
+			 			A.QU_START,
+			 			A.QU_ORG_NM,
+			 			A.QU_DIVIDE,
+			 			A.QU_NM
+			 FROM
+						TB_EXPERT_QUALIFICATION AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertQUListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_QUALIFICATION AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 자격사항 E -->
+	<!-- 전문분야 S -->
+	<select id="getExpertEXList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						A.EX_POLICY_PLAN,
+						A.EX_RESEARCH_DEV,
+						A.EX_COMPANY_SUPPORT,
+						A.EX_JIP,
+						A.EX_JNSP,
+						A.EX_POWER_TRAINING,
+						A.EX_BASE_CONSTRUCT,
+						A.EX_CONSULTING,
+						A.EX_MARKETING,
+						A.EX_MAJOR,
+						A.EX_REALM,
+						A.EX_DETAIL  AS EX_DETAIL_NAME,
+						A.EX_MAJOR_PLURAL,
+						A.EX_REALM_PLURAL,
+						A.EX_DETAIL_PLURAL AS EX_DETAIL_PLURAL_NAME,
+						B.NAME AS EX_MAJOR_NAME,
+						C.NAME AS EX_REALM_NAME,
+						E.NAME AS EX_MAJOR_PLURAL_NAME,
+						F.NAME AS EX_REALM_PLURAL_NAME
+			FROM
+						TB_EXPERT_FIELD AS A
+			LEFT JOIN	TB_CODE_SC AS B	ON	A.EX_MAJOR = B.CODE
+			LEFT JOIN	TB_CODE_SC AS C	ON	A.EX_REALM = C.CODE
+			LEFT JOIN	TB_CODE_SC AS E	ON	A.EX_MAJOR_PLURAL = E.CODE
+			LEFT JOIN	TB_CODE_SC AS F	ON A.EX_REALM_PLURAL = F.CODE
+
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<select id="getExpertEXListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			 FROM
+						TB_EXPERT_FIELD AS A
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 전문분야 E -->
+	<!-- 연구분야 S -->
+	<select id="getExpertREList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.RE_DETH1,
+					A.RE_DETH2,
+					A.RE_DETH3,
+					A.RE_NOTE,
+					B.NAME AS RE_DETH1_NAME,
+					C.NAME AS RE_DETH2_NAME,
+					D.NAME AS RE_DETH3_NAME
+
+			FROM
+					TB_EXPERT_FIELD_RESEARCH AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.RE_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.RE_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.RE_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+	</select>
+	<select id="getExpertREListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_EXPERT_FIELD_RESEARCH AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.RE_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.RE_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.RE_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 연구분야 E -->
+	<!-- 심사분야 S -->
+	<select id="getExpertEVList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.EV_DETH1,
+					A.EV_DETH2,
+					A.EV_DETH3,
+					A.EV_NOTE,
+					B.NAME AS EV_DETH1_NAME,
+					C.NAME AS EV_DETH2_NAME,
+					D.NAME AS EV_DETH3_NAME
+
+			FROM
+					TB_EXPERT_FIELD_EVALUATE AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.EV_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.EV_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.EV_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+
+	</select>
+	<select id="getExpertEVListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_EXPERT_FIELD_EVALUATE AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.EV_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.EV_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.EV_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 심사분야 E -->
+	<!-- 컨설팅분야 S -->
+	<select id="getExpertCOList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.CO_DETH1,
+					A.CO_DETH2,
+					A.CO_DETH3,
+					A.CO_NOTE,
+					B.NAME AS CO_DETH1_NAME,
+					C.NAME AS CO_DETH2_NAME,
+					D.NAME AS CO_DETH3_NAME
+
+			FROM
+					TB_EXPERT_FIELD_CONSULTING AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.CO_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.CO_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.CO_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+
+	</select>
+	<select id="getExpertCOListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_EXPERT_FIELD_CONSULTING AS A
+			LEFT JOIN
+					TB_CODE_TYPE AS B
+			ON
+					A.CO_DETH1 = B.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS C
+			ON
+					A.CO_DETH2 = C.CODE
+			LEFT JOIN
+					TB_CODE_TYPE AS D
+			ON
+					A.CO_DETH3 = D.CODE
+			WHERE
+					A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 컨설팅분야 E -->
+	<!-- 외부평가 수행실적  S -->
+	<select id="getExpertResultEvList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.EV_NAME,
+					A.EV_ORG,
+					A.EV_SDATE,
+					A.EV_EDATE,
+					A.EV_CONTENT
+
+			FROM
+					TB_EXPERT_RESULT_EV AS A
+			WHERE
+					A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+
+	</select>
+	<select id="getExpertResultEvListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_EXPERT_RESULT_EV AS A
+			WHERE
+					A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 외부평가 수행실적 E -->
+	<!-- 컨설팅 수행실적  S -->
+	<select id="getExpertResultConList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					A.CON_NAME,
+					A.CON_ORG,
+					A.CON_SDATE,
+					A.CON_EDATE,
+					A.CON_CONTENT
+
+			FROM
+					TB_EXPERT_RESULT_CON AS A
+			WHERE
+					A.USER_IDX = #{userIdx}
+			ORDER BY A.IDX ASC
+
+	</select>
+	<select id="getExpertResultConListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_EXPERT_RESULT_CON AS A
+			WHERE
+					A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 컨설팅 수행실적 E -->
+<!-- SELECT E -->
+<!-- INSERT S -->
+	<!-- 학력정보 S -->
+	<insert id="setJnspUserSCInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_ACADEMIC_CAREER (
+													USER_IDX,
+													SC_NM,
+													SC_LOCATION,
+													SC_START,
+													SC_FINISH,
+													SC_MAJOR,
+													SC_DEGREE
+									)VALUES(
+													#{userIdx},
+													#{scNm},
+													#{scLocation},
+													#{scStart},
+													#{scFinish},
+													#{scMajor},
+													#{scDegree}
+									)
+	</insert>
+	<!-- 학력정보 E  -->
+	<!-- 경력정보 S -->
+	<insert id="setJnspUserCRInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_CAREER (
+													USER_IDX,
+													CR_NM,
+													CR_LOCATION,
+													CR_START,
+													CR_FINISH,
+													CR_DEPT,
+													CR_WORK
+									)VALUES(
+													#{userIdx},
+													#{crNm},
+													#{crLocation},
+													#{crStart},
+													#{crFinish},
+													#{crDept},
+													#{crWork}
+									)
+	</insert>
+	<!-- 경력정보 E  -->
+	<!-- 대외활동 S -->
+	<insert id="setJnspUserACInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_ACTIVITY (
+													USER_IDX,
+													AC_NM,
+													AC_START,
+													AC_FINISH,
+													AC_DEPT,
+													AC_WORK
+									)VALUES(
+													#{userIdx},
+													#{acNm},
+													#{acStart},
+													#{acFinish},
+													#{acDept},
+													#{acWork}
+									)
+	</insert>
+	<!-- 대외활동 E  -->
+	<!-- 연구개발과제(프로젝트) 수행실적 S -->
+	<insert id="setJnspUserRDInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_RND_RESULT (
+													USER_IDX,
+													RD_SERIAL_NUM,
+													RD_ORG_NM,
+													RD_BUSINESS_NM,
+													RD_NM,
+													RD_START,
+													RD_FINISH,
+													RD_EXPENSES,
+													RD_FORM
+									)VALUES(
+													#{userIdx},
+													#{rdSerialNum},
+													#{rdOrgNm},
+													#{rdBusinessNm},
+													#{rdNm},
+													#{rdStart},
+													#{rdFinish},
+													#{rdExpenses},
+													#{rdForm}
+									)
+	</insert>
+	<!-- 연구개발과제(프로젝트) 수행실적 E -->
+	<!-- 연구논문 실적 S -->
+	<insert id="setJnspUserRPInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_RESEARCH_PAPER (
+													USER_IDX,
+													RP_SERIAL_NUM,
+													RP_NM,
+													RP_TYPE,
+													RP_JOURNAL_NM,
+													RP_START
+									)VALUES(
+													#{userIdx},
+													#{rpSerialNum},
+													#{rpNm},
+													#{rpType},
+													#{rpJournalNm},
+													#{rpStart}
+									)
+	</insert>
+	<!-- 연구논문 실적 E  -->
+	<!-- 지식재산실적 S -->
+	<insert id="setJnspUserIPInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_IN_PROPERTY (
+													USER_IDX,
+													IP_SERIAL_NUM,
+													IP_NM,
+													IP_TYPE,
+													IP_PUBLICATION,
+													IP_START
+									)VALUES(
+													#{userIdx},
+													#{ipSerialNum},
+													#{ipNm},
+													#{ipType},
+													#{ipPublication},
+													#{ipStart}
+									)
+	</insert>
+	<!-- 지식재산실적 E  -->
+	<!-- 수상실적 S -->
+	<insert id="setJnspUserAWInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_AWARD_CAREER (
+													USER_IDX,
+													AW_SERIAL_NUM,
+													AW_BADGE,
+													AW_START,
+													AW_PRESENT,
+													AW_CONTENT
+									)VALUES(
+													#{userIdx},
+													#{awSerialNum},
+													#{awBadge},
+													#{awStart},
+													#{awPresent},
+													#{awContent}
+									)
+	</insert>
+	<!-- 수상실적 E  -->
+	<!-- 자격사항 S -->
+	<insert id="setJnspUserQUInsert" parameterType="paramMap">
+		INSERT INTO TB_EXPERT_QUALIFICATION (
+													USER_IDX,
+													QU_SERIAL_NUM,
+													QU_START,
+													QU_ORG_NM,
+													QU_DIVIDE,
+													QU_NM
+									)VALUES(
+													#{userIdx},
+													#{quSerialNum},
+													#{quStart},
+													#{quOrgNm},
+													#{quDivide},
+													#{quNm}
+									)
+	</insert>
+	<!-- 자격사항 E  -->
+	<!-- 전문분야 S -->
+	<insert id="setJnspUserEXInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_FIELD (
+														USER_IDX,
+														EX_POLICY_PLAN,
+														EX_RESEARCH_DEV,
+														EX_COMPANY_SUPPORT,
+														EX_JIP,
+														EX_JNSP,
+														EX_POWER_TRAINING,
+														EX_BASE_CONSTRUCT,
+														EX_CONSULTING,
+														EX_MARKETING,
+														EX_MAJOR,
+														EX_REALM,
+														EX_DETAIL,
+														EX_MAJOR_PLURAL,
+														EX_REALM_PLURAL,
+														EX_DETAIL_PLURAL
+									)VALUES(
+													#{userIdx},
+													#{policyPlan},
+													#{researchDev},
+													#{companySupport},
+													#{jip},
+													#{jnsp},
+													#{powerTraining},
+													#{baseContracture},
+													#{consulting},
+													#{marketing},
+													#{exMajor},
+													#{exRealm},
+													#{exDetail},
+													#{pluralExMajor},
+													#{pluralExRealm},
+													#{pluralExDetail}
+									)
+	</insert>
+	<!-- 전문분야 E  -->
+	<!-- 연구분야 S -->
+	<insert id="setJnspUserREInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_FIELD_RESEARCH (
+													USER_IDX,
+													RE_DETH1,
+													RE_DETH2,
+													RE_DETH3,
+													RE_NOTE
+										)VALUES(
+													#{userIdx},
+													#{reDeth1},
+													#{reDeth2},
+													#{reDeth3},
+													#{reNote}
+										)
+	</insert>
+	<!-- 연구분야 E -->
+	<!-- 심사분야 S -->
+	<insert id="setJnspUserEVInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_FIELD_EVALUATE (
+													USER_IDX,
+													EV_DETH1,
+													EV_DETH2,
+													EV_DETH3,
+													EV_NOTE
+										)VALUES(
+													#{userIdx},
+													#{evDeth1},
+													#{evDeth2},
+													#{evDeth3},
+													#{evNote}
+										)
+	</insert>
+	<!-- 심사분야 E -->
+	<!-- 컨설팅분야 S -->
+	<insert id="setJnspUserCOInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_FIELD_CONSULTING (
+													USER_IDX,
+													CO_DETH1,
+													CO_DETH2,
+													CO_DETH3,
+													CO_NOTE
+										)VALUES(
+													#{userIdx},
+													#{coDeth1},
+													#{coDeth2},
+													#{coDeth3},
+													#{coNote}
+										)
+	</insert>
+	<!-- 컨설팅분야 E -->
+	<!-- 외부평가 수행실적 S -->
+	<insert id="setJnspUserResultEvInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_RESULT_EV (
+													USER_IDX,
+													EV_NAME,
+													EV_ORG,
+													EV_SDATE,
+													EV_EDATE,
+													EV_CONTENT
+										)VALUES(
+													#{userIdx},
+													#{evName},
+													#{evOrg},
+													#{evSdate},
+													#{evEdate},
+													#{evContent}
+										)
+	</insert>
+	<!-- 외부평가 수행실적 E -->
+	<!-- 컨설팅 수행실적 S -->
+	<insert id="setJnspUserResultConInsert" parameterType="paramMap">
+			INSERT INTO TB_EXPERT_RESULT_CON (
+													USER_IDX,
+													CON_NAME,
+													CON_ORG,
+													CON_SDATE,
+													CON_EDATE,
+													CON_CONTENT
+										)VALUES(
+													#{userIdx},
+													#{conName},
+													#{conOrg},
+													#{conSdate},
+													#{conEdate},
+													#{conContent}
+										)
+	</insert>
+	<!-- 컨설팅 수행실적 E -->
+
+<!-- INSERT E -->
+<!-- DELETE S -->
+	<!-- 학력정보 S -->
+	<delete id="delExpertSC" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_ACADEMIC_CAREER
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 학력정보 E -->
+	<!-- 경력정보 S -->
+	<delete id="delExpertCR" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_CAREER
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 경력정보 E -->
+	<!-- 대외활동 S -->
+	<delete id="delExpertAC" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_ACTIVITY
+			 WHERE
+						USER_IDX = #{userIdx}
+
+	</delete>
+	<!-- 대외활동 E -->
+	<!-- 연구개발과제(프로젝트) 수행실적 S -->
+	<delete id="delExpertRD" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_RND_RESULT
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 연구개발과제(프로젝트) 수행실적 E -->
+	<!-- 연구논문 실적 S -->
+	<delete id="delExpertRP" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_RESEARCH_PAPER
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 연구논문 실적 E -->
+	<!-- 지식재산 실적 S -->
+	<delete id="delExpertIP" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_IN_PROPERTY
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 지식재산 실적 E -->
+	<!-- 수상실적 S -->
+	<delete id="delExpertAW" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_AWARD_CAREER
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 수상실적 E -->
+	<!-- 자격사항 S -->
+	<delete id="delExpertQU" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_QUALIFICATION
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 자격사항 E -->
+	<!-- 전문분야 S -->
+	<delete id="delExpertEX" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_FIELD
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 전문분야 E -->
+	<!-- 연구분야 S -->
+	<delete id="delExpertRE" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_FIELD_RESEARCH
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 연구분야 E -->
+	<!-- 심사분야 S -->
+	<delete id="delExpertEV" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_FIELD_EVALUATE
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 심사분야 E -->
+	<!-- 컨설팅분야 S -->
+	<delete id="delExpertCO" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_FIELD_CONSULTING
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 컨설팅분야 E -->
+	<!-- 외부평가 수행실적 S -->
+	<delete id="delExpertResultEv" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_RESULT_EV
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 외부평가 수행실적 E -->
+	<!-- 컨설팅 수행실적 S -->
+	<delete id="delExpertResultCon" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_EXPERT_RESULT_CON
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+	<!-- 컨설팅 수행실적 E -->
+<!-- DELETE E -->
+
+<!-- 전공계열 SELECT S -->
+	<!-- DETH1 S -->
+	<select id="getMajorDeth1List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_SC
+			WHERE
+					DETH = 1;
+	</select>
+	<!-- DETH1 E -->
+	<!-- DETH2 S -->
+	<select id="getMajorDeth2List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_SC
+			WHERE
+					DETH = 2
+			AND
+					CODE LIKE '${deth1}%'
+	</select>
+	<select id="getMajorDeth2ListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_CODE_SC
+			WHERE
+					DETH = 2
+			AND
+					CODE LIKE '${deth1}%'
+	</select>
+	<!-- DETH2 E -->
+	<!-- DETH3 S -->
+	<select id="getMajorDeth3List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_SC
+			WHERE
+					DETH = 3
+			AND
+					CODE LIKE '${deth2}%'
+	</select>
+	<select id="getMajorDeth3ListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_CODE_SC
+			WHERE
+					DETH = 3
+			AND
+					CODE LIKE '${deth2}%'
+	</select>
+	<!-- DETH3 E -->
+<!-- 전공계열 SELECT E -->
+<!-- 국가과학기술표주분류 SELECT S -->
+	<!-- DETH1 S -->
+	<select id="getStandardDeth1List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_TYPE
+			WHERE
+					DETH = 1;
+	</select>
+	<!-- DETH1 E -->
+	<!-- DETH2 S -->
+	<select id="getStandardDeth2List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_TYPE
+			WHERE
+					DETH = 2
+			AND
+					CODE LIKE '${deth3}%'
+	</select>
+	<select id="getStandardDeth2ListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_CODE_TYPE
+			WHERE
+					DETH = 2
+			AND
+					CODE LIKE '${deth3}%'
+	</select>
+	<!-- DETH2 E -->
+	<!-- DETH3 S -->
+	<select id="getStandardDeth3List" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					CODE ,
+					DETH ,
+					NAME
+			FROM
+					TB_CODE_TYPE
+			WHERE
+					DETH = 3
+			AND
+					CODE LIKE '${deth4}%'
+	</select>
+	<select id="getStandardDeth3ListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+					TB_CODE_TYPE
+			WHERE
+					DETH = 3
+			AND
+					CODE LIKE '${deth4}%'
+	</select>
+	<!-- DETH3 E -->
+<!-- 국가과학기술표주분류 SELECT E -->
+
+
+
+
+
+	<select id="getUserListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					TB_USER_COPY AS U
+		WHERE
+					U.PRO_STATE LIKE 'N'
+		OR
+					U.PRO_STATE IS NULL
+		OR
+						U.PRO_STATE LIKE ''
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ID" and searchWord != ""'>
+				<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+	<select id="getUserList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						U.USER_IDX,
+						USER_ID,
+						U.PSN_NM,
+						U.PRO_STATE
+			FROM
+						TB_USER_COPY AS U
+			WHERE
+						U.PRO_STATE LIKE 'N'
+			OR
+						U.PRO_STATE IS NULL
+			OR
+						U.PRO_STATE LIKE ''
+		]]>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ID" and searchWord != ""'>
+				<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<![CDATA[
+			ORDER BY U.PSN_NM DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+
+
+
+
+	<select id="getUser" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						U.USER_IDX,
+						U.PSN_NM,
+						U.GENDER_TYPE_CD,
+						U.FRGN_YN,
+						U.USER_ID,
+						U.EMAIL,
+						U.EMAIL_RECV_YN,
+						U.ZIPCD,
+						U.ADDR1,
+						U.ADDR2,
+						U.TEL_NO,
+						U.CP_NO,
+						U.FAX_NO,
+						U.DEPT_NM,
+						U.POSITION_NM,
+						U.USER_TYPE_CD,
+						U.BIRTH_DATE,
+						U.DELETE_YN,
+						U.ORG_GRP_CD,
+						U.AUTH_LV,
+						U.REG_DT,
+						U.REG_IP,
+						U.UP_IDX,
+						U.USER_APP_STATE,
+						U.REJECT,
+						U.PRO_STATE
+			FROM
+						TB_USER_COPY AS U
+			WHERE
+						U.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+	<select id="getExpertEXList2" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						A.EX_POLICY_PLAN,
+						A.EX_RESEARCH_DEV,
+						A.EX_COMPANY_SUPPORT,
+						A.EX_JIP,
+						A.EX_JNSP,
+						A.EX_POWER_TRAINING,
+						A.EX_BASE_CONSTRUCT,
+						A.EX_CONSULTING,
+						A.EX_MARKETING,
+						A.EX_MAJOR,
+						A.EX_REALM,
+						A.EX_DETAIL,
+						A.EX_MAJOR_PLURAL,
+						A.EX_REALM_PLURAL,
+						A.EX_DETAIL_PLURAL,
+						B.NAME AS EX_MAJOR_NAME,
+						C.NAME AS EX_REALM_NAME,
+						D.NAME AS EX_DETAIL_NAME,
+						E.NAME AS EX_MAJOR_PLURAL_NAME,
+						F.NAME AS EX_REALM_PLURAL_NAME,
+						G.NAME AS EX_DETAIL_PLURAL_NAME
+			FROM
+						TB_EXPERT_FIELD AS A
+			LEFT JOIN
+						TB_CODE_SC AS B
+			ON
+						A.EX_MAJOR = B.CODE
+			LEFT JOIN
+						TB_CODE_SC AS C
+			ON
+						A.EX_REALM = C.CODE
+			LEFT JOIN
+						TB_CODE_SC AS D
+			ON
+						A.EX_DETAIL = D.CODE
+			LEFT JOIN
+						TB_CODE_SC AS E
+			ON
+						A.EX_MAJOR_PLURAL = E.CODE
+			LEFT JOIN
+						TB_CODE_SC AS F
+			ON
+						A.EX_REALM_PLURAL = F.CODE
+			LEFT JOIN
+						TB_CODE_SC AS G
+			ON
+						A.EX_DETAIL_PLURAL = G.CODE
+			 WHERE
+						A.USER_IDX = #{userIdx}
+	</select>
+	<!-- 첨부파일삭제 S -->
+	<delete id="delUserFile" parameterType="paramMap">
+			DELETE
+			 FROM
+						TB_JNSP_FILE
+			 WHERE
+			 			DATA_GRP = 'expertManage'
+			 AND
+						DATA_IDX = #{userId}
+	</delete>
+	<!-- 첨부파일삭제 E -->
+<!-- 지역(시군구) 가져오기 S -->
+	<select id="getAreaSigunguList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'AreaSigungu'
+	</select>
+	<select id="getAreaList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'OtherArea'
+	</select>
+<!-- 지역(시군구) 가져오기 E -->
+	
+	<select id="getBizList1" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'X'
+	</select>
+	
+	
+	<select id="getCodeBList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'B'
+	</select>
+	
+	
+	<select id="getBizSearch" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			
+			<if test='codeNext != null and codeNext != ""'>
+				<if test='codeNext == "2"'>
+					<![CDATA[	AND CODE_GRP_CD = 'Y' AND CODE_CD like '%${codeX}%'  ]]>
+				</if>
+				<if test='codeNext == "3"'>
+					<![CDATA[	AND CODE_GRP_CD = 'Z' AND CODE_CD like '%${codeX}%'  ]]>
+				</if>
+			</if>
+			
+	</select>
+	
+	
+	<select id="getTeamList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'Team'
+	</select>
+	
+	
+	
+	<select id="getExpertManageUser" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					U.USER_IDX,
+					U.PSN_NM,
+					U.GENDER_TYPE_CD,
+					U.FRGN_YN,
+					U.USER_ID,
+					U.PASSWORD,
+					U.EMAIL,
+					U.EMAIL_RECV_YN,
+					U.ZIPCD,
+					U.ADDR1,
+					U.ADDR2,
+					U.TEL_NO,
+					U.CP_NO,
+					U.FAX_NO,
+					U.DEPT_NM,
+					U.POSITION_NM,
+					U.USER_TYPE_CD,
+					U.BIRTH_DATE,
+					U.DELETE_YN,
+					U.ORG_GRP_CD,
+					U.AUTH_LV,
+					DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+					U.REG_IP,
+					U.REG_IDX,
+					U.UP_DT,
+					U.UP_IP,
+					U.UP_IDX,
+					U.REJECT,
+					U.PRO_JIPBANK,
+					U.PRO_JEINET,
+					U.PRO_JNTIS_RND,
+					U.PRO_JNTIS_COMPANY,
+					U.PRO_JNTIS_EDUCATION,
+					U.PRO_JNTIS_ETC,
+					U.PRO_USER_INTEREST_WORLD,
+					U.PRO_JNTIS_CONSULTING,
+					U.PRO_JNTIS_MARKETING,
+					U.PRO_JNTIS_PLANNING,
+					U.PRO_USER_BIRTHPLACE,
+					CASE 	WHEN U.PRO_STATE="10" THEN "요청"
+							WHEN U.PRO_STATE="20" THEN "승인"
+						   WHEN U.PRO_STATE="30" THEN "반려"
+						   ELSE ""
+						   END PRO_STATE,
+					CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+							WHEN U.USER_APP_STATE="20" THEN "승인"
+						   WHEN U.USER_APP_STATE="30" THEN "반려"
+						   ELSE ""
+						   END USER_APP_STATE,
+					O.ORG_GRP_NM,
+					CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+							WHEN O.ORG_TYPE="2" THEN "기관/센터"
+						   ELSE ""
+						   END ORG_TYPE,
+					O.APPLY_CD,
+					O.APPLY_REJECT,
+					O.CI_FILE_SRC,
+					O.AUTH_CD,
+					O.AUTH_ORG_SITE_1,
+					O.AUTH_ORG_SITE_2,
+					O.AUTH_ORG_SITE_3,
+					O.AREA_CD,
+					O.ORNER_NM,
+					O.CORP_NUM_1,
+					O.CORP_NUM_2,
+					O.CORP_PHONE,
+					O.CORP_FAX,
+					O.HOMEPAGE,
+					O.ADDR1 AS ORG_ADDR1,
+					O.ADDR2 AS ORG_ADDR2,
+					O.ZIPCODE,
+					O.MAP_X,
+					O.MAP_Y,
+					O.ORG_NOTE_1,
+					O.ORG_NOTE_2,
+					O.ORG_NOTE_3,
+					O.ORG_NOTE_4,
+					O.ORG_FILE_INFO,
+					O.REG_DT AS ORG_REG_DT,
+					O.REG_IP AS ORG_REG_IP,
+					O.REG_IDX AS ORG_REG_IDX,
+					O.UP_DT AS ORG_UP_IP,
+					O.UP_IP AS ORG_UP_IP,
+					O.UP_IDX AS ORG_UP_IDX,
+					O.SIGN_IMG,
+					O.DELETE_YN,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG,
+					FA.NAME AS EX_MAJOR_NAME,
+					FB.NAME AS EX_REALM_NAME,
+					FC.NAME AS EX_MAJOR_PLURAL_NAME,
+					FD.NAME AS EX_REALM_PLURAL_NAME,
+					U.PRO_USER_AREA,
+					(SELECT TC.CODE_NM FROM TB_CODE as TC WHERE TC.CODE_GRP_CD = 'X' AND TC.CODE_CD = U.PRO_SMB_CODE1) as CODENAME
+			FROM		TB_USER_COPY 		AS U
+			LEFT JOIN	TB_ORG_GRP 			AS O	ON	U.ORG_GRP_CD = O.ORG_GRP_CD
+			LEFT JOIN	TB_JNSP_FILE 		AS B	ON	B.DATA_IDX = U.USER_ID
+			LEFT JOIN	TB_EXPERT_FIELD 	AS F	ON	F.USER_IDX  = U.USER_IDX
+			LEFT JOIN	TB_CODE_SC 			AS FA	ON	F.EX_MAJOR = FA.CODE
+			LEFT JOIN	TB_CODE_SC	 		AS FB	ON	F.EX_REALM = FB.CODE
+			LEFT JOIN	TB_CODE_SC 			AS FC	ON	F.EX_MAJOR_PLURAL = FC.CODE
+			LEFT JOIN	TB_CODE_SC 			AS FD	ON F.EX_REALM_PLURAL = FD.CODE
+			LEFT JOIN	(SELECT * FROM TB_EXPERT_ACADEMIC_CAREER ORDER BY SC_START DESC LIMIT 0,1)	AS EAC	ON EAC.USER_IDX = U.USER_IDX
+			WHERE
+						U.PRO_STATE = '20'
+						U.USER_IDX = #{memidx}
+		]]>
+	
+	</select>
+	
+
+
+</mapper>

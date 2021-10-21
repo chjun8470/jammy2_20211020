@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspBannerMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<!-- 배너 리스트 가져오기 -->
+	<select id="getBannerList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT A.BANNER_IDX,
+			       A.BANNER_NAME,
+			       A.BANNER_LINK,
+			       A.ORDER_NO,
+			       B.FILE_ID,
+			       B.DATA_GRP,
+			       B.DATA_IDX,
+			       B.FILE_SEQ,
+			       B.FILE_CAT,
+			       B.TITLE,
+			       B.REGIST_DT,
+			       B.DOWN_CNT,
+			       B.DELETE_YN,
+			       B.PHOTO_CAT,
+			       B.FILE_PATH,
+			       B.FILE_SIZE,
+			       B.TITLE_ORG,
+			       B.MAIN_YN
+			FROM   TB_PMS_BANNER           AS A
+			       INNER JOIN TB_JNSP_FILE AS B
+			       ON     A.BANNER_IDX = B.DATA_IDX
+			       AND    B.DATA_GRP   = 'banner'
+			WHERE  1=1
+		]]>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "BANNER_IDX" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_IDX LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BANNER_NAME" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_NAME LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BANNER_LINK" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_LINK LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ALL" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_LINK LIKE '%${searchWord}%'
+							OR A.BANNER_NAME LIKE '%${searchWord}%'
+							OR A.BANNER_IDX LIKE '%${searchWord}%'
+				]]>
+			</if>
+		</if>
+		<![CDATA[
+			ORDER BY A.BANNER_IDX DESC
+			LIMIT ${firstRecord}  , ${pageSize}
+		]]>
+	</select>
+	
+	
+	<!-- 배너 리스트 개수 -->
+	<select id="getBannerListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					TB_PMS_BANNER AS A
+		WHERE
+			1=1
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "BANNER_IDX" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_IDX LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BANNER_NAME" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_NAME LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BANNER_LINK" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_LINK LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ALL" and searchWord != ""'>
+				<![CDATA[	AND A.BANNER_LINK LIKE '%${searchWord}%'
+							OR A.BANNER_NAME LIKE '%${searchWord}%'
+							OR A.BANNER_IDX LIKE '%${searchWord}%'
+				]]>
+			</if>
+		</if>
+	</select>
+	
+	
+	<!-- 배너 등록 -->
+	<insert id="setBannerInsert" parameterType="paramMap" >
+		INSERT INTO TB_PMS_BANNER
+		(
+						BANNER_IDX
+				,		BANNER_NAME
+				,		BANNER_LINK
+				,		ORDER_NO
+		)VALUES
+		(
+					  #{bannerIdx}
+				,	  #{bannerName}
+				,     #{bannerLink}
+				,     #{orderNo}
+		)
+	</insert>
+
+
+	<!-- 배너 수정 -->
+	<update id="setBannerUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_PMS_BANNER
+			SET    BANNER_IDX  = #{dataIdx},
+			       BANNER_NAME = #{bannerName},
+			       BANNER_LINK = #{bannerLink},
+			       ORDER_NO    = #{orderNo}
+			WHERE  BANNER_IDX  = #{dataIdx}
+
+		]]>
+	</update>
+	
+	
+	<!-- 배너 삭제 -->
+	<delete id="setBannerDelete" parameterType="paramMap">
+			DELETE FROM TB_PMS_BANNER
+			WHERE BANNER_IDX = #{dataIdx}
+
+	</delete>
+
+
+</mapper>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspBoardInquiryMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+	<select id="getBoardArticleList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.ARTICLE_ID,
+					A.SITE_ID,
+					A.BOARD_ID,
+					A.ARTICLE_GROUP_ID,
+					A.ARTICLE_NEXT_ID,
+					A.ARTICLE_PARNTS_ID,
+					A.ARTICLE_SEQ,
+					A.DEPTH,
+					A.CATEGORY_NM,
+					A.SUBJECT,
+					A.WRITER_ID,
+					A.WRITER_NM,
+					A.PASSWORD,
+					A.CONTENT,
+					A.ATCH_FILE_ID,
+					A.THUMB_ATCH_FILE_ID,
+					A.NOTICE_AT,
+					A.SECRET_AT,
+					A.DELETED_AT,
+					A.HITS,
+					A.DATA01,
+					A.DATA02,
+					A.DATA03,
+					A.DATA04,
+					A.DATA05,
+					A.DATA06,
+					A.DATA07,
+					A.DATA08,
+					A.DATA09,
+					A.DATA10,
+					A.DATA11,
+					A.DATA12,
+					A.DATA13,
+					A.DATA14,
+					A.DATA15,
+					A.DATA16,
+					A.DATA17,
+					A.DATA18,
+					A.DATA19,
+					A.DATA20,
+					A.NUM1,
+					A.NUM2,
+					A.NUM3,
+					A.NUM4,
+					A.NUM5,
+					A.TEXT1,
+					A.TEXT2,
+					A.TEXT3,
+					A.TEXT4,
+					A.TEXT5,
+					A.SHARE_BOARD_IDS,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					A.FRST_REGUSR_IP,
+					A.LAST_UPDUSR_ID,
+					A.LAST_UPDT_PNTTM,
+					A.LAST_UPDUSR_IP,
+					B.FILE_ID,
+					B.DATA_GRP,
+					B.DATA_IDX,
+					B.FILE_SEQ,
+					B.FILE_CAT,
+					B.TITLE,
+					B.REGIST_DT,
+					B.DOWN_CNT,
+					B.DELETE_YN,
+					B.PHOTO_CAT,
+					B.FILE_PATH,
+					B.FILE_SIZE,
+					B.TITLE_ORG
+
+			 FROM   JMY_BOARD_ARTICLE AS A
+
+		     LEFT JOIN TB_JNSP_FILE AS B ON B.DATA_IDX = A.ARTICLE_ID
+
+			WHERE	A.BOARD_ID = #{boardComIdx}
+			  AND   A.NOTICE_AT = 'N'
+			]]>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "SUBJECT" and searchWord != ""'>
+					<![CDATA[ AND A.SUBJECT LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "CONTENT" and searchWord != ""'>
+					<![CDATA[ AND A.CONTENT LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "WRITER" and searchWord != ""'>
+					<![CDATA[ AND (A.WRITER_ID LIKE '%${searchWord}%' OR A.WRITER_NM LIKE '%${searchWord}%') ]]>
+				</if>
+			</if>
+		<![CDATA[
+			GROUP BY
+					 A.ARTICLE_ID
+
+			ORDER BY A.ARTICLE_SEQ DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getBoardArticleListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+
+		SELECT	COUNT(0) AS CNT
+
+		  FROM	JMY_BOARD_ARTICLE
+
+		 WHERE  BOARD_ID = #{boardComIdx}
+
+		   AND  NOTICE_AT = 'N'
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[ AND SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "CONTENT" and searchWord != ""'>
+				<![CDATA[ AND CONTENT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "WRITER" and searchWord != ""'>
+				<![CDATA[ AND (WRITER_ID LIKE '%${searchWord}%' OR WRITER_NM LIKE '%${searchWord}%') ]]>
+			</if>
+		</if>
+	</select>
+
+	<update id="sethitUpdate" parameterType="paramMap">
+		<![CDATA[
+
+			UPDATE JMY_BOARD_ARTICLE SET
+				   HITS = HITS+1
+
+			WHERE  BOARD_ID = #{boardComIdx}
+
+			  AND  ARTICLE_ID = #{boardIdx}
+
+		]]>
+	</update>
+	<select id="getBoardArticle" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					B.DATA02,
+					B.DATA03,
+					B.DATA04,
+					B.DATA05,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP
+			FROM
+					JMY_BOARD_ARTICLE AS B
+			WHERE
+					B.BOARD_ID = #{boardComIdx}
+			AND
+					B.ARTICLE_ID = #{boardIdx}
+		]]>
+	</select>
+	<select id="getArticleSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+					MAX(ARTICLE_SEQ)
+			FROM
+					JMY_BOARD_ARTICLE
+			WHERE
+	     			BOARD_ID = #{boardComIdx}
+     	]]>
+	</select>
+	<insert id="setBoardArticleInsert" parameterType="paramMap" >
+				INSERT INTO JMY_BOARD_ARTICLE
+		(
+					ARTICLE_ID,
+					SITE_ID,
+					BOARD_ID,
+					ARTICLE_GROUP_ID,
+					ARTICLE_NEXT_ID,
+					ARTICLE_PARNTS_ID,
+					ARTICLE_SEQ,
+					DEPTH,
+					CATEGORY_NM,
+					SUBJECT,
+					WRITER_ID,
+					WRITER_NM,
+					PASSWORD,
+					CONTENT,
+					ATCH_FILE_ID,
+					THUMB_ATCH_FILE_ID,
+					NOTICE_AT,
+					SECRET_AT,
+					DELETED_AT,
+					HITS,
+					DATA01,
+					DATA02,
+					DATA03,
+					DATA04,
+					DATA05,
+					DATA06,
+					DATA07,
+					DATA08,
+					DATA09,
+					DATA10,
+					DATA11,
+					DATA12,
+					DATA13,
+					DATA14,
+					DATA15,
+					DATA16,
+					DATA17,
+					DATA18,
+					DATA19,
+					DATA20,
+					NUM1,
+					NUM2,
+					NUM3,
+					NUM4,
+					NUM5,
+					TEXT1,
+					TEXT2,
+					TEXT3,
+					TEXT4,
+					TEXT5,
+					SHARE_BOARD_IDS,
+					FRST_REGIST_PNTTM,
+					FRST_REGUSR_IP
+		)VALUES
+		(
+					  #{articleIdx}
+				,     #{siteId}
+				,     #{boardComIdx}
+				,     #{articleGroupId}
+				,     #{articlenextId}
+				,     #{articleParentsId}
+				,     #{articleSeq}
+				,     #{depth}
+				,     #{categoryNm}
+				,     #{subject}
+				,     #{regId}
+				,     #{regNm}
+				,     #{password}
+				,     #{content}
+				,     #{atchFileId}
+				,     #{thumbAtchFileId}
+				,     #{noticeAt}
+				,     #{secretAt}
+				,     #{deletedAt}
+				,     0
+				,     #{data01}
+				,     #{data02}
+				,     #{data03}
+				,     #{data04}
+				,     #{data05}
+				,     #{data06}
+				,     #{data07}
+				,     #{data08}
+				,     #{data09}
+				,     #{data10}
+				,     #{data11}
+				,     #{data12}
+				,     #{data13}
+				,     #{data14}
+				,     #{data15}
+				,     #{data16}
+				,     #{data17}
+				,     #{data18}
+				,     #{data19}
+				,     #{data20}
+				,     #{num1}
+				,     #{num2}
+				,     #{num3}
+				,     #{num4}
+				,     #{num5}
+				,     #{text1}
+				,     #{text2}
+				,     #{text3}
+				,     #{text4}
+				,     #{text5}
+				,     #{shareBoardIds}
+				,     now()
+				,     #{regIp}
+		)
+
+	</insert>
+	<update id="setBoardArticleUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+					ARTICLE_GROUP_ID= #{articleGroupId},
+					ARTICLE_NEXT_ID = #{articlenextId},
+					DEPTH = #{depth},
+					CATEGORY_NM = #{categoryNm},
+					SUBJECT = #{subject},
+					LAST_UPDUSR_ID = #{regId},
+					PASSWORD = #{password},
+					CONTENT = #{content},
+					ATCH_FILE_ID = #{atchFileId},
+					THUMB_ATCH_FILE_ID = #{thumbAtchFileId},
+					NOTICE_AT = #{noticeAt},
+					SECRET_AT =  #{secretAt},
+					DELETED_AT = #{deletedAt},
+					DATA01=  #{data01},
+					DATA02=  #{data02},
+					DATA03=  #{data03},
+					DATA04=  #{data04},
+					DATA05=  #{data05},
+					DATA06=  #{data06},
+					DATA07=  #{data07},
+					DATA08=  #{data08},
+					DATA09=  #{data09},
+					DATA10=  #{data10},
+					DATA11=  #{data11},
+					DATA12=  #{data12},
+					DATA13=  #{data13},
+					DATA14=  #{data14},
+					DATA15=  #{data15},
+					DATA16=  #{data16},
+					DATA17=  #{data17},
+					DATA18=  #{data18},
+					DATA19=  #{data19},
+					DATA20=  #{data20},
+					NUM1=  #{num1},
+					NUM2=  #{num2},
+					NUM3=  #{num3},
+					NUM4=  #{num4},
+					NUM5=  #{num5},
+					TEXT1=  #{text1},
+					TEXT2=  #{text2},
+					TEXT3=  #{text3},
+					TEXT4=  #{text4},
+					TEXT5=  #{text5},
+					SHARE_BOARD_IDS = #{shareBoardIds},
+					LAST_UPDT_PNTTM = now(),
+					LAST_UPDUSR_IP = #{regIp}
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+		]]>
+	</update>
+
+	<delete id="setBoardCmtDelete" parameterType="paramMap">
+		 DELETE
+
+		   FROM	JMY_BOARD_ARTICLE_CMT
+
+		  WHERE ARTICLE_ID = #{boardIdx}
+	</delete>
+	<delete id="setBoardArticleDelete" parameterType="paramMap">
+		 DELETE
+
+		   FROM JMY_BOARD_ARTICLE
+
+		  WHERE	BOARD_ID = #{boardComIdx}
+
+		    AND	ARTICLE_ID = #{boardIdx}
+	</delete>
+
+</mapper>

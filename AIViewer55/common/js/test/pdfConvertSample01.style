@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림체"/>
+<FontFace id="1" name="돋움체"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0"/>
+<CharShape id="1" fontFace="1" height="14" fontColor="0" bold="y"/>
+<CharShape id="2" fontFace="0" height="10" fontColor="0"/>
+<CharShape id="3" fontFace="1" height="10" fontColor="0"/>
+<CharShape id="4" fontFace="1" height="10" fontColor="0" bold="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" align="center"/>
+<ParaShape id="2" margin="5,2,2,2" align="center"/>
+<ParaShape id="3" margin="5,2,2,2"/>
+<ParaShape id="4" align="right"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="page_header" type="repeat" object="sheet10_H1|sheet10_H3|sheet10_J3|sheet10_L3|sheet10_N3|sheet10_H4|sheet10_J4|sheet10_L4|sheet10_N4|sheet10_A5|sheet10_B5|sheet10_E5|sheet10_F5|sheet10_H5|sheet10_I5|sheet10_L5|sheet10_I6|sheet10_J6|sheet10_L6|sheet10_M6|sheet10_A7|sheet10_B7|sheet10_I7|sheet10_J7|sheet10_I8|sheet10_J8|sheet10_L8|sheet10_M8"/>
+<AIBand name="data" type="repeat" parent="page_header" object="sheet20_A2|sheet20_B2|sheet20_C2|sheet20_D2|sheet20_E2|sheet20_F2|sheet20_G2"/>
+<AIBand name="header" type="repeat_header" parent="data" object="sheet20_A1|sheet20_B1|sheet20_C1|sheet20_D1|sheet20_E1|sheet20_F1|sheet20_G1"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+<AIFrame name="frame1">
+<AIBand name="VoidBand2030" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" charShape="1"/>
+<CellObjectStyle name="cell_style_1" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_2" charShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_3" charShape="3" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_4" charShape="3" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_5" charShape="3" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_6" charShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_7" charShape="3" leftBorder="1" topBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_8" charShape="4" paraShape="1" fillColor="12632256" topBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_9" charShape="3" paraShape="4" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

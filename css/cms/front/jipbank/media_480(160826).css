@@ -1,0 +1,737 @@
+@charset "utf-8";
+
+@media only screen and (max-width: 768px){
+
+.Wrap { width:100%; min-width:320px; overflow:hidden; font-family:'NanumGothic', 'Malgun Gothic', dotum }
+
+/* 헤더 */
+.HeaderWrap { width:100%; height:52px; background:url(/img/jipbank/common/bg_HeaderWrap3.png) center top no-repeat }
+.Headerinner { width:100%; position:relative; margin:0 auto }
+
+/* 탑 메뉴 */
+.top_menu { display:none }
+/*topmenu*/
+div.gnbGroup{display:block;}
+.m_nav_wrap{z-index:100;top:42px;display:block;text-indent:0;position:absolute;width:100%}
+#s_m_topmenu{margin-top:10px;display:block;}
+#s_m_topmenu a{cursor:pointer;}
+#s_m_topmenu > li{min-height:38px;background:#3db2e8;border-bottom:1px solid #2b81b8;font-weight:600;font-size:16px;cursor:pointer;}
+#s_m_topmenu > li.on{border-bottom:0;background:#559cc4;}
+#s_m_topmenu > li > a{display:block;color:#fff;width:90%;height:31px;padding:11px 0 0 0px;margin:0 auto;cursor:pointer;background:url(/img/jipbank/common/icon_open.png) right center no-repeat}
+#s_m_topmenu > li.on > a{background:url(/img/jipbank/common/icon_close.png) right center no-repeat;}
+#s_m_topmenu > li > div{display:none;border-top:1px solid #3e3e3e;background:#efefef;}
+#s_m_topmenu > li > div > ul > li{font-size:14px;min-height:36px;border-bottom:1px dotted #bdbdbd;}
+#s_m_topmenu > li > div > ul > li > a{color:#5b5a5a;width:90%;margin:0 auto;display:block;height:27px;padding:9px 0 0 15px;}
+#s_m_topmenu > li > div > ul > li > a:hover{color:#03619e;}
+#s_m_topmenu > li > div > ul > li > a:active{color:#03619e;}
+#s_m_topmenu > li > div > ul > li > a:focus{color:#03619e;}
+#s_m_topmenu > li > div > ul > li > ul{border-top:1px dotted #bdbdbd;background:#ffffff;padding:8px 0;}
+#s_m_topmenu > li > div > ul > li > ul > li{font-size:14px;line-height:120%;width:90%;margin:0 auto;padding:5px 0 5px 25px;}
+#s_m_topmenu > li > div > ul > li > ul > li > a{color:#929292;}
+#s_m_topmenu > li > div > ul > li > ul > li > a:hover{text-decoration:underline;}
+
+/* 로고 */
+.logo { width:101px; height:32px; z-index:10000; margin:10px 0 0 10px;position:absolute; }
+.logo a img { width:101px; height:auto;padding-top:3px }
+
+/* 모바일메뉴 */
+.m_menu { display:block; width:24px; float:right }
+.m_menu .m_menu_btn { width:24px; height:17px; padding:0; background:none; border:none; margin-top:18px;position:absolute;right:2% }
+
+
+/* 검색 */
+.search { display:none }
+
+/* 상단메뉴 */
+.gnbBox { display:none }
+
+
+
+
+/* 메인 비주얼 */
+.MainVIsualWrap { width:100%; height:633px; background:url(/img/jipbank/main3/m_Visual01.jpg) center top no-repeat }
+.MainVIsualWrap .MainVisualBox { width:320px; margin:0 auto }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox { position:absolute; width:238px; height:104px; float:left; margin:38px 0 0 66px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt01 { float:right }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt02 { float:right; margin:10px 0 0 0 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt03 { float:right; margin:9px 0 10px 0 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt01 img { width:182px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt02 img { width:236px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt03 img { width:238px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox { width:186px; height:27px; float:right; margin:0px 0 0 0px; clear:both }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .SrchForm { width:126px; height:23px; float:left; border:2px solid #0081af; background-color:#fff; padding:0 0 0 7px; margin:0 0 0 0px;
+                                                                        font-size:12px; letter-spacing:-0.05em; color:#323232 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .Btn_VSrch { width:44px; height:27px; float:left; text-indent:-9999px; background:url(/img/jipbank/main3/m_Btn_VSrch.gif) no-repeat;
+                                                                         padding:0; margin:0 0 0 5px; border:none }
+																		 
+
+/* 퀵링크/등록기술 */
+.QuickLink { width:320px; height:416px; background:url(/img/jipbank/main3/m_bg_QuickLink.png) no-repeat; margin:201px 0 0 0 }
+.QuickLink .QuickBox { width:280px; height:235px; margin:0 auto; padding-top:30px }
+.QuickLink .QuickBox li { width:93px; height:75px; float:left; text-align:center; vertical-align:middle; padding:0px 0 0 0 }
+.QuickLink .StatusBox { width:280px; height:150px; border-top:1px solid #8096a0; margin:0 auto }
+.QuickLink .StatusBox .StatusTit { width:57px; height:17px; float:left; margin:24px 0 0 0 }
+.QuickLink .StatusBox .StatusTit img { width:57px; height:17px }
+.QuickLink .StatusBox .StatusTotal { float:right; text-align:right; font-size:12px; font-weight:600; letter-spacing:-0.05em; color:#ffff93; margin:22px 0 0 0 }
+.QuickLink .StatusBox .CategoryBox { width:280px; height:100px; float:left; margin:19px 0 0 0; background:url(/img/jipbank/main3/gap_status.gif) 140px 14px no-repeat }
+.QuickLink .StatusBox .CategoryBox dl.Category01 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:20px }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dt { width:55px; float:left; color:#fff }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dd { width:50px; float:right; text-align:right; color:#ffffae; margin:0 15px 0 0 }
+.QuickLink .StatusBox .CategoryBox dl.Category02 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:20px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dt { width:55px; float:left; color:#fff; margin:0 0 0 15px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dd { width:50px; float:right; text-align:right; color:#ffffae }	
+
+
+/* 탭메뉴 */
+.MainTabWrap { width:100%; height:245px; margin:0 auto; margin-top:15px }
+.MainTabWrap .TabMenuWrap { width:320px; height:41px; margin:0 auto }
+.MainTabWrap .TabMenuWrap ul { width:320px; height:41px; float:left; font-size:11px; font-weight:400 }
+.MainTabWrap .TabMenuWrap ul li { height:28px; float:left; text-align:center; background-color:#00698f; padding:13px 0 0 0 }
+.MainTabWrap .TabMenuWrap ul li a { width:50px; height:41px; padding:13px 15px 15px 15px; color:#96c5d6 }
+.MainTabWrap .TabMenuWrap ul li.tab01 a.on{ width:80px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab1_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab02 a.on{ width:80px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab2_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab03 a.on{ width:80px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab3_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab04 a.on{ width:80px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab4_ovr.gif) no-repeat }
+
+.MainTabWrap .TabBtnWrap { width:100%; height:204px }
+.MainTabWrap .TabBtnWrap .TabBox01 { width:100%; height:204px; background:url(/img/jipbank/main3/m_bg_MainTab01.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 .TabBox01_gap { display:none }
+.MainTabWrap .TabBtnWrap .TabBox01 ul { width:320px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li { width:146px; height:49px; float:left; padding:19px 0 0 14px; background:url(/img/jipbank/main3/tb_MainTab1_menu_bg.png) 119px 12px no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit01 { font-size:12px; font-weight:600; color:#53c9db }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit02 { font-size:16px; letter-spacing:-0.05em; color:#fff; margin:3px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit03 { font-size:13px; letter-spacing:-0.05em; color:#fff; margin:3px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li.side { width:146px; padding:19px 0 0 14px; }
+
+.MainTabWrap .TabBtnWrap .TabBox02 { width:100%; height:204px; background:url(/img/jipbank/main3/m_bg_MainTab02.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox02 .TabBox02_gap { display:none }
+.MainTabWrap .TabBtnWrap .TabBox02 ul { width:320px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li { width:106px; height:57px; float:left; padding:11px 0 0 0; text-align:center }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02_icon { height:28px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02_icon img { height:28px }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit { clear:both; font-size:13px; font-weight:600; letter-spacing:-0.05em; margin:6px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li.side { width:106px }
+
+.MainTabWrap .TabBtnWrap .TabBox03 { width:100%; height:204px; background:url(/img/jipbank/main3/m_bg_MainTab03.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox03 .TabBox03_gap { display:none }
+.MainTabWrap .TabBtnWrap .TabBox03 ul { width:320px; height:68px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw { width:12px; height:204px; float:left; margin:0px 0 0 0; padding:0; border:none; background:none }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw img { width:12px; height:24px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw2 { width:12px; height:204px; float:left; margin:0px 0 0 0; padding:0; border:none; background:none; margin-top:-136px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw2 img { width:12px; height:24px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li { width:296px; height:68px; float:left; font-size:11px; letter-spacing:-0.1em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .img_map { width:36px; height:40px; float:left; vertical-align:middle; margin:14px 0 0 15px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .img_map img { width:36px; height:40px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency01 { width:110px; float:left; text-align:center; margin:17px 0 0 10px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency02 { width:110px; float:left; text-align:center; margin:17px 0 0 10px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency03 { width:110px; float:left; text-align:center; margin:10px 0 0 10px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency04 { width:110px; float:left; text-align:center; margin:10px 0 0 10px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center { width:296px; height:68px; float:left; font-size:11px; letter-spacing:-0.1em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .img_map { width:36px; height:40px; float:left; vertical-align:middle; margin:14px 0 0 15px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .img_map img { width:36px; height:40px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency01 { width:110px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency02 { width:110px; float:left; text-align:center; margin:17px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency03 { width:110px; float:left; text-align:center; margin:10px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency04 { width:110px; float:left; text-align:center; margin:10px 0 0 5px }
+
+.MainTabWrap .TabBtnWrap .TabBox04 { width:100%; height:204px; background:url(/img/jipbank/main3/m_bg_MainTab04.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox04 ul { width:320px; height:39px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li { width:64px; height:25px; float:left; font-size:12px; letter-spacing:-0.05em; text-align:center; padding:15px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li.first { width:64px }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li a { color:#fff }																	 
+
+
+
+
+.ContBox01 { width:320px; height:490px; margin:0 auto; margin-top:15px; }
+/* 공지사항/지원사업 */
+.ContBox01 .NoticeWrap { width:288px; height:232px; float:left; border:1px solid #ebebeb; padding:0px 15px 0 15px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox { width:288px; height:30px; border-bottom:1px solid #dcdcdc; margin:15px 0 0 0 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .Notice_gap { width:1px; height:10px; float:left; margin:5px 10px 0 10px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li { width:52px; float:left; font-size:14px; letter-spacing:-0.05em; }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li a { color:#323232 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on { padding-bottom:11px; border-bottom:3px solid #0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on a { color:#0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .btn_more { width:20px; height:20px; float:right }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .btn_more img { width:20px; height:20px }
+.ContBox01 .NoticeWrap .NoticeListBox { width:288px; height:187px; font-size:11px; margin:0px 0 0 0 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 { width:197x; height:172px; float:left; margin-top:15px }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li { font-size:11px; letter-spacing:-0.03em; line-height:24px; padding:0 0 0 12px; background:url(/img/jipbank/main3/icon_notice_li.gif) left 10px no-repeat }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li a { color:#666 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox02 { display:none }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 { width:91px; height:172px; float:right; margin-top:15px }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 li { font-size:11px; letter-spacing:-0.015em; color:#afafaf; line-height:24px; text-align:right }
+/* POPUP ZONE */
+.ContBox01 .popupzone { clear:both;position:relative;float:left; width:320px; height:241px; margin-top:15px}
+.ContBox01 .popupzone h3.Titpopupzone {font-size:18px;font-weight:normal;height:30px;background:url(/img/jipbank/main3/bg_popupzone.gif) left top no-repeat; padding:20px 0 0 0;color:#444}
+.ContBox01 .popupzone ul.PopupList li a img{ width:318px; height:189px; border:1px solid #ebebeb }
+.ContBox01 .popupzone ul.PopupControl {width:81px;float:right;position:absolute;top:20px;right:0}
+
+
+
+
+.ContBox02 { width:100%; height:100%; float:left; margin:0 auto; margin-top:15px; background-color:#f2f2f2; background-image:none }
+/* 포토뉴스/기술사업화 제품/우수사례 */
+.ContBox02 .ImgListWrap01 { width:320px; margin:0 auto; padding-top:0 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox { width:320px; height:28px; border-bottom:1px solid #b4b4b4; margin-top:15px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .ImgList_gap { width:1px; float:left; height:15px; margin:4px 12px 0 12px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li { height:20px; float:left; font-size:14px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li a { color:#878787 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab01 { display:none }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab02 { width:55px; background:none; padding-left:0px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab03 { width:55px; background:none; padding-left:0px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on { padding-bottom:7px; border-bottom:2px solid #0081af }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on a { color:#323232 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox { width:95px; float:left; margin-left:60px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li { font-size:12px; float:left; padding-top:2px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.newest { background:none; padding-left:0px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.lookup { background:none; padding-left:0px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .btn_more { width:20px; height:20px; float:right }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .btn_more img { width:20px; height:20px }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap01 ul.ImgListBox { width:320px; margin:0 auto; margin-top:15px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li { height:111px; float:left; padding:0 3px 0 2px; margin:0 0 15px 0 }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li.end{display:none}
+.ContBox02 .ImgListWrap01 ul.ImgListBox li img { width:154px; height:111px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em { background-color:rgba(44,114,199,0.8); position:relative; top:-27px; float:left; padding:7px 0 7px 5px; font-style:normal; width:149px; text-align:left }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em a { color:#fff; font-weight:600; font-size:12px; padding-left:10px 0 }
+
+/* PUBLICATION */
+.ContBox02 .ImgListWrap02 { width:320px; margin:0 auto; padding:15px 0 0 0; border-top:1px solid #d1d1d1;clear:both }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 { width:320px; height:28px; border-bottom:1px solid #b4b4b4 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .ImgList_gap { width:1px; float:left; height:15px; margin:4px 12px 0 12px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title { width:92px; height:20px; float:left; font-size:14px; background:none; padding:0px 0px 7px 0px; border-bottom:2px solid #0081af }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li a { color:#323232 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox { width:95px; float:left; margin-left:103px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li { font-size:12px; float:left }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.newest { background:none; padding-left:0px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.lookup { background:none; padding-left:0px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .btn_more { width:20px; height:20px; float:right }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .btn_more img { width:20px; height:20px; float:right }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 { width:320px; margin:0 auto; margin-top:15px;clear:both }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li { height:215px; float:left; padding:0 3px 0 2px; margin:0 0 15px 0 }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li.end{display:none}
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li img { width:154px; height:215px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em { background-color:rgba(44,114,199,0.8); position:relative; top:-27px; float:left; padding:7px 0 7px 5px; font-style:normal; width:149px; text-align:left }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em a { color:#fff; font-weight:600; font-size:12px; padding-left:10px 0 }
+
+
+
+
+/* 배너 */
+.BannerWrap{width:100%; background:url(/img/main/bg_banner.png) 0 23px repeat-x;height:108px;clear:both}
+.BannerWrap .Banner{width:320px;margin:0 auto;}
+.BannerWrap .Banner h3.TitBanner{ width:75px; height:53px; float:left;padding-top:42px;font-weight:600;color:#444; font-size:12px; background:url(/img/main/line_banner.gif) 68px 30px no-repeat}
+.BannerWrap .Banner ul.BannerControl{ clear:both;float:left;height:15px; padding-top:0px; width:74px;margin:-31px 0 0 0px}
+.BannerWrap .Banner ul.BannerControl li{float:left}
+.BannerWrap .Banner ul.BannerControl li a{width:15px;height:15px;cursor:pointer;text-indent:-9999px;display:block}
+.BannerWrap .Banner ul.BannerControl li a.BtnPrev{background:url(/img/main/m_btn_prev01.gif) no-repeat;width:16px}
+.BannerWrap .Banner ul.BannerControl li a.BtnNext{background:url(/img/main/m_btn_next01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnStop{background:url(/img/main/m_btn_stop01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnPlay{background:url(/img/main/m_btn_play01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerList{position:absolute;left:80px;top:45px;overflow:hidden;min-width:107px;width:100%;max-width:107px;height:30px;vertical-align:middle;}
+.BannerWrap .Banner ul.BannerList li{display:inline;padding:0px 15px;}
+.BannerWrap .Banner ul.BannerList li a{position:absolute;width:155px;top:0px;left:0px;}
+.BannerWrap .Banner .JeonNam{float:right; background:url(/img/main/line_banner02.gif) no-repeat;width:103px;margin-top:-65px;margin-left:0px;padding:21px 0 30px 13px;cursor:pointer}
+.BannerWrap .Banner .JeonNam .JeonNamCi{width:103px}
+.BannerWrap .Banner .JeonNam .JeonNamCi img.JeonNamImg{width:100px}
+
+
+
+
+/* 서브 */
+.SubWrap { width:100%; min-height:90px; height: 165px; }
+.SubBox { width:100%; margin:0 auto; padding:0;height:164px }
+.TxtSubBox{padding-top:12px;border-top:#0081af solid 2px; padding:61px 0 0 22px; }
+.TxtSubBox img{width:260px;padding:10px 0 0 10px}
+
+/* 레프트메뉴 */
+#leftMenu { display:none }
+
+/* 콘텐츠 */
+.ContWrap { width:100%; margin:0 auto;padding-bottom:50px }
+.ContWrap .cont_top { width:100%; height:108px; margin:0 auto; border-bottom:1px solid #d6d6d6; padding:0 10px 0 10px; }
+.ContWrap .cont_top .cont_tit { font-size:23px; font-weight:600; letter-spacing:-0.05em; color:#282828;margin-top:43px}
+.ContWrap .cont_top .navi { clear:both; font-size:11px; font-weight:600; letter-spacing:-0.03em; color:#a6a6a6; float:left; margin-top:6px }
+
+.Contents { width:96%; margin:0 auto; margin-top:30px;clear:both}
+
+/*JIPBANK소개*/
+.cont_sample { min-height:650px; background:url(/img/jipbank/common/bg_sub3.jpg) right top no-repeat }
+p.txt1 { font-size:20px; font-weight:600; letter-spacing:-0.05em; color:#225a61 }
+p.txt2 { font-size:15px; font-weight:400; letter-spacing:-0.03em; color:#39767d; margin-top:7px; width:200px; line-height:20px }
+p.txt3 { font-size:11px; font-weight:400; color:#b4b4b4; margin-top:10px }
+p.txt4 { font-size:13px; font-weight:400; letter-spacing:-0.05em; color:5a5a5a; margin-top:30px; line-height:23px }
+
+/* 푸터 */
+.FooterWrap { clear:both; width:100%; min-width:320px; height:250px; overflow:hidden; background-color:#e0e0e0; border:none }
+.FooterBox { width:100%; margin:0 auto; padding:0 10px 0 10px }
+.f_menu { width:100%; float:none; margin-top:15px; margin-bottom:0px }
+.f_menu ul li { font-size:11px; font-weight:600; letter-spacing:-0.05em; float:left; line-height:20px; background:url(/img/common/f_line.gif) top right no-repeat;background-position-y:4px }
+.f_menu ul li.first{padding-left:10px}
+.f_menu ul li.end { background:none; padding-top:3px }
+.f_menu ul li a { color:#000 }
+.f_site { width:100%; margin-top:15px }
+.f_site ul li { width:320px; float:left;margin-left:10px }
+.f_site .select_site { width:140px; height:28px; border:1px solid #d9d9d9; font-family:'NanumGothic', 'Malgun Gothic', dotum; font-size:12px; font-weight:600; color:#444; padding:0 0 0 10px; float:left }
+.f_site .select_site { padding:5px 3px 5px 10px\9 }
+.f_site p.btn_area { float:left; margin-left:5px }
+.f_site p.btn_area .btn_move { cursor: pointer; float:right; width:56px; height:28px; padding:0; margin:0 auto; margin-left:5pxs }
+.f_info { width:100%;margin-left:10px;padding-top:10px}
+.f_info .f_info1 { width:100%; float:left; font-size:11px; font-weight:600; letter-spacing:-0.05em; color:#4d4d4d; line-height:19px; margin-bottom:5px }
+.f_info .f_info2 { width:100%; height:20px; float:left; font-size:12px; font-weight:600; color:#fff; margin-bottom:5px;}
+.f_info .f_info2 .f_tel { width:118px; height:17px; padding:3px 0 0 11px; float:left }
+.f_info .f_info2 .f_fax { width:122px; height:17px; padding:3px 0 0 8px; float:left }
+.f_info .f_info3 { width:90%; font-size:11px; font-weight:600; letter-spacing:-0.05em; color:#969696 }
+
+
+
+
+
+
+
+
+/* 게시판 160612 */
+.basic_grid2 {height: auto;	border-top-left-radius:6px;	border-top-right-radius:6px; border:1px #ebebeb solid; border-top:3px #707070 solid; padding-bottom:50px;}
+
+.list_top_1 .b_srchBox_1 .b_srch { float:left; width:186px; height:32px; border:1px solid #dbdbdb; margin-left:20px; clear:both; margin-top:10px; }
+.list_top_1 .b_srchBox_1 .b_srch .b_srch_txt { float:left; width:176px; height:27px; border:none; padding-left:7px; margin:5px 0 0 5px }
+
+.b_srch_dn {float:left; margin-top: 10px;}
+.b_srch_dn .b_go_btn {width:76px; height:34px; background-color:#3b88b7; border:none; color:white; font-weight:600; float:left; }
+
+/*JIPBANK소개*/
+.Contents .Cont24{background:url(/img/jipbank/cont/m_bg_cont24.png) right top no-repeat}
+.Contents .Cont24 .Cont24Img{width:310px;padding-top:6px}
+.Contents .Cont24 .Cont24txt{width:283px;padding:15px 0 32px 27px;line-height:22px;font-size:13px}
+.Contents .Cont24  ol li{width:210px}
+
+.Contents .Cont28{background:none;padding:0;margin:0 auto;width:212px}
+.Contents .Cont28 li{width:175px;height:30px;padding-left:50px;text-align:left;margin:0 auto;}
+.Contents .Cont28 li.cont28_list01{background:url(/img/jipbank/cont/bg_cont28_list01.png) left center no-repeat;padding-top:14px;height:60px;padding-right:10px}
+.Contents .Cont28 li.cont28_list02{background:url(/img/jipbank/cont/bg_cont28_list02.png) left center no-repeat;padding-top:14px;height:60px;padding-right:10px}
+.Contents .Cont28 li.cont28_list03{background:url(/img/jipbank/cont/bg_cont28_list03.png) left center no-repeat;padding-top:14px;height:60px;padding-right:10px}
+.Contents .Cont28 li.cont28_list04{background:url(/img/jipbank/cont/bg_cont28_list04.png) left center no-repeat;padding-top:14px;height:60px;float:left;padding-right:10px}
+.Contents .Cont28 li.cont28_list05{background:url(/img/jipbank/cont/bg_cont28_list05.png) left center no-repeat;padding-top:14px;height:60px;float:left;padding-right:10px}
+.Contents .Cont28 li.cont28_list06{background:url(/img/jipbank/cont/bg_cont28_list06.png) left center no-repeat;padding-top:14px;height:60px;float:left;padding-right:10px}
+.Contents .Cont28 li.cont28_list07{background:url(/img/jipbank/cont/bg_cont28_list07.png) left center no-repeat;padding-top:14px;height:60px;padding-right:10px}
+.Contents .Cont28 li.cont28_list08{background:url(/img/jipbank/cont/bg_cont28_list08.png) left center no-repeat;padding-top:14px;height:60px;padding-right:10px}
+
+/*찾아오는길*/
+.Contents .Cont84 dl{padding:23px 0 16px 0;width:90%;height:auto}
+.Contents .Cont84 dl.Cont84List01{background:none;float:none}
+.Contents .Cont84 dl.Cont84List02{background:none;padding-left:0;float:none;width:90%}
+.Contents .Cont84 dl.Cont84List03{background:none}
+.Contents .Cont84 dl.Cont84List04{background:none}
+.Contents .Cont84 dl.Cont84List05{background:none}
+.Contents .Cont84 dl dt{font-weight:600}
+.Contents .Cont84 dl dd{padding-top:10px}
+
+
+
+
+
+/* 탭메뉴 ver2 */ 
+.tabBox2 { width:100% }
+.tabBox2 ul { width:100%; height:44px; display:block; font-size:11px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
+.tabBox2 ul li { width:15%; height:28px; float:left; padding-top:14px; border:1px solid #e1e1e1; margin:0 3px 0px 0  }
+.tabBox2 ul li a { color:#9b9b9b }
+.tabBox2 ul li.on { width:15%; border:1px solid #00baff; background:url(/img/board/bg_tab_ovr.png) left top no-repeat }
+.tabBox2 ul li.on a { color:#00baff }
+.tabBox2 ul li.end { margin-right:0 }
+
+
+
+
+
+/* b_btn_area */
+.b_btn_area { width:100%; height:36px; float:left; margin-top:17px }
+.b_btn_area .btn_rgt { width:60px; height:26px; float:right; background-color:#3c69ad; padding:0px 0 0 0; font-size:12px; letter-spacing:-0.03em; color:#fff; border:none; margin-left:10px }
+.b_btn_area .btn_rgt2 { width:60px; height:26px; float:right; background-color:#9f9d9f; padding:0px 0 0 0; font-size:12px; letter-spacing:-0.03em; color:#fff; border:none; margin-left:10px }
+.b_btn_area .btn_lft { width:60px; height:26px; float:left; background-color:#3c69ad; padding:0px 0 0 0; font-size:12px; letter-spacing:-0.03em; color:#fff; border:none }
+.b_btn_area .btn_lft2 { width:60px; height:26px; float:left; background-color:#9f9d9f; padding:0px 0 0 0; font-size:12px; letter-spacing:-0.03em; color:#fff; border:none }
+
+
+
+
+
+/* 160629 검색부분*/
+
+/* JEINET소개 > JEINET 참여기관 */
+.list_top002 { width:100%; height:27px }
+.list_top002 .board_count002 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:4px }
+
+.b_srchBox002 { float:right; width:205px; height:28px; margin:0px 0px 0 0px }
+.b_srch002 { float:left; width:203px; height:26px; border:1px solid #dbdbdb; margin-left:0px }
+.b_srch002 .b_srch_txt002 { float:left; width:151px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srch002 .b_go_btn002 { float:right; width:20px; height:18px; margin:4px 15px 0 0px }
+
+
+/* 이용안내 > 예약신청 */
+.list_top003 { width:100%; height:auto; position:relative }
+.list_top003 .board_count003 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+.list_top003 .publist_top_wrap003 { clear:both; width:100%; margin-top:7px }
+.list_top003 .publist_top_wrap003 .b_srchBox003 { float:left; width:100%; height:auto; margin:0px 0px 0 0px}
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_selectBox003 { width:100%; float:left; margin:0 0 7px 0 }
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_selectBox003 .b_select003 { float:left; width:24%; height:28px; font-size:11px; color:#646464; padding:0; margin-left:4px }
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_selectBox003 .b_select003_first { float:left; width:24%; height:28px; font-size:11px; color:#646464; padding:0; margin:0 0px 0 0; border:1px solid #dbdbdb }
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_srch003 { clear:both; float:left; width:99%; height:26px; border:1px solid #dbdbdb }
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_srch003 .b_srch_txt003 { float:left; width:90%; height:17px; border:none; padding-left:0px; margin:5px 0 0 5px }
+.list_top003 .publist_top_wrap003 .b_srchBox003 .b_srch003 .b_go_btn003 { float:right; width:20px; height:18px; margin:4px 5px 0 0px }
+.list_top003 .publist_top_wrap003 .b_srchBox_gap003 { float:left; width:1px; height:28px; margin-left:5px; display:none }
+.list_top003 .publist_top_wrap003 .b_srchBox_gap003 img { height:28px }
+.list_top003 .publist_top_wrap003 .b_btn_listBox003 { clear:both; float:left; width:auto; min-width:65px; margin:7px 0 0 0 }
+.list_top003 .publist_top_wrap003 .b_btn_listBox003 .b_btn_block003 { float:left; width:24px; height:24px; border:none; padding:0; background:none }
+.list_top003 .publist_top_wrap003 .b_btn_listBox003 .b_btn_blog003 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top003 .publist_top_wrap003 .b_btn_listBox003 .b_btn_list003 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top003 .publist_top_wrap003 .b_btn_listBox003 .b_btn_calendar003 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+
+/* 연구장비상담 > 장비이용상담 */
+.list_top004 { width:100%; height:27px }
+.list_top004 .board_count004 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+
+.b_srchBox004 { float:right; width:177px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox004 .b_select004 { float:right; width:50px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #dbdbdb }
+.b_srchBox004 .b_srch004 { float:right; width:122px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox004 .b_srch004 .b_srch_txt004 { float:left; width:73px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox004 .b_srch004 .b_go_btn004 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 연구장비자료실 > 연구장비자료 > 연구장비메뉴얼 */
+.list_top005 { width:100%; height:27px }
+.list_top005 .board_count005 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+.list_top005 .b_srchBox_gap005 { display:none }
+.list_top005 .b_btn_listBox005 { clear:both; float:right; width:auto; min-width:65px; margin:10px 0 0 5px }
+.list_top005 .b_btn_listBox005 .b_btn_block005 { float:left; width:24px; height:24px; border:none; padding:0; background:none }
+.list_top005 .b_btn_listBox005 .b_btn_blog005 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top005 .b_btn_listBox005 .b_btn_list005 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top005 .b_btn_listBox005 .b_btn_calendar005 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+
+.b_srchBox005 { float:right; width:177px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox005 .b_select005 { float:left; width:50px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #dbdbdb }
+.b_srchBox005 .b_srch005 { float:left; width:122px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox005 .b_srch005 .b_srch_txt005 { float:left; width:73px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox005 .b_srch005 .b_go_btn005 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 연구장비자료실 > 연구장비자료 > 지식자료 */
+.list_top006 { width:100%; height:27px }
+.list_top006 .board_count006 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+
+.b_srchBox006 { float:right; width:177px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox006 .b_select006 { float:right; width:50px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #dbdbdb }
+.b_srchBox006 .b_srch006 { float:right; width:122px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox006 .b_srch006 .b_srch_txt006 { float:left; width:73px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox006 .b_srch006 .b_go_btn006 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 전문가정보 > JEINET 멘토 */
+.list_top007 { width:100%; height:27px }
+.list_top007 .board_count007 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+
+.b_srchBox007 { float:right; width:177px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox007 .b_select007 { float:right; width:50px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #dbdbdb }
+.b_srchBox007 .b_srch007 { float:right; width:122px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox007 .b_srch007 .b_srch_txt007 { float:left; width:73px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox007 .b_srch007 .b_go_btn007 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 전문가정보 > 기관담당자 정보 */
+.list_top008 { width:100%; height:27px }
+.list_top008 .board_count008 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+
+.b_srchBox008 { float:right; width:227px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox008 .b_srch008 { float:right; width:172px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox008 .b_srch008 .b_srch_txt008 { float:left; width:123px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox008 .b_srch008 .b_go_btn008 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 커뮤니티 > 수요조사 > 장비구축 */
+.list_top009 { width:100%; height:27px }
+.list_top009 .board_count009 { float:left; font-size:14px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:5px }
+
+.b_srchBox009 { float:right; width:177px; height:28px; margin:0px 0px 0 0px }
+.b_srchBox009 .b_select009 { float:right; width:50px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #dbdbdb }
+.b_srchBox009 .b_srch009 { float:right; width:122px; height:26px; border:1px solid #dbdbdb; margin-left:3px }
+.b_srchBox009 .b_srch009 .b_srch_txt009 { float:left; width:73px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox009 .b_srch009 .b_go_btn009 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 통계정보 > 연구장비구축통계 */
+.list_top010 { clear:both; width:100%; height:37px; margin:0 0 30px 0 }
+
+.list_top010 .b_btn_sortlistBox010 { float:left; width:193px; margin-left:0px }
+.b_srchBox010 { float:right; width:111px; height:38px; margin:0px 0px 0 0px }
+.b_srchBox010 .b_srch010 { float:left; width:103px; height:36px; border:1px solid #dbdbdb; margin-left:0px }
+.b_srchBox010 .b_srch010 .b_srch_txt010 { float:left; width:70px; height:27px; border:none; padding-left:3px; margin:5px 0 0 3px }
+.b_srchBox010 .b_srch010 .b_go_btn010 { float:right; width:20px; height:18px; margin:9px 5px 0 0px }
+
+
+/* 통계정보 > 연구장비 인력통계 */
+.list_top011 { clear:both; width:100%; height:27px; margin:0 0 30px 0 }
+
+.b_srchBox011 { width:267px; height:28px; float:right; margin:0px 0px 0 0px }
+.b_srchBox011 label { float:left; margin:5px 0 0 0 }
+.b_srchBox011 .b_srch011 { float:left; width:203px; height:26px; border:1px solid #dbdbdb; margin-left:5px }
+.b_srchBox011 .b_srch011 .b_srch_txt011 { float:left; width:147px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox011 .b_srch011 .b_go_btn011 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+
+/* 통계정보 > JEINET 활용통계 */
+.list_top012 { clear:both; width:100%; height:37px; margin-bottom:15px }
+
+.b_srchBox012 { width:430px; height:100%; float:right; margin:0px 0px 0 0px }
+.b_srchBox012 .b_chck012 { width:155px; float:right }
+.b_srchBox012 .b_chck012 label { line-height:38px; margin:0 8px 0 0 } 
+.b_srchBox012 .b_srch012 { clear:both; float:right; width:260px; height:36px; border:none }
+.b_srchBox012 .b_srch012 .b_between { float:left; margin:12px 5px 0 5px }
+.b_srchBox012 .b_srch012 .b_srch_txt012 { float:left; width:100px; height:27px; border:none; border:1px solid #dbdbdb; padding-left:5px; margin:5px 0 0 0px }
+.b_srchBox012 .b_srch012 .b_go_btn012 { float:right; width:22px; height:20px; margin:8px 0 0 0px }
+
+
+.list_top013 { width:100%; height:37px }
+.list_top013 .board_count013 { float:left; font-size:12px; font-weight:400; letter-spacing:-0.03em; color:#858585; margin-top:4px }
+
+.b_srchBox013 { float:right; width:260px; height:28px; margin:0px 0px 7px 0px }
+.b_srchBox013 .b_select013 { float:left; width:100px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 3px; border:1px solid #dbdbdb }
+.b_srchBox013 .b_srch013 { float:left; width:153px; height:26px; border:1px solid #dbdbdb; margin-left:5px }
+.b_srchBox013 .b_srch013 .b_srch_txt013 { float:left; width:97px; height:17px; border:none; padding-left:3px; margin:5px 0 0 5px }
+.b_srchBox013 .b_srch013 .b_go_btn013 { float:right; width:20px; height:18px; margin:4px 7px 0 0px }
+
+.list_top013 .list_sort { clear:both; float:right; margin-bottom:7px }
+
+.list_top013 .b_srchBox_gap013 { display:none }
+.list_top013 .b_btn_listBox013 { clear:both; float:right; width:auto; min-width:65px; margin:0px 0 0 5px }
+.list_top013 .b_btn_listBox013 .b_btn_block013 { float:left; width:24px; height:24px; border:none; padding:0; background:none }
+.list_top013 .b_btn_listBox013 .b_btn_blog013 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top013 .b_btn_listBox013 .b_btn_list013 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+.list_top013 .b_btn_listBox013 .b_btn_calendar013 { float:left; width:24px; height:24px; border:none; padding:0; background:none; margin-left:14px }
+
+
+
+
+
+
+
+/* write002 */
+.basic_writeWrap002 { width:100%; float:left }
+table.skin_write002 { width:100%; font-size:12px; letter-spacing:-0.03em; border-top:1px solid #00baff; border-bottom:1px solid #e1e1e1; border-collapse:collapse }
+table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+table.skin_write002 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
+table.skin_write002 td { text-align:left; font-weight:400; color:#646464; padding:10px 10px 10px 10px; border-bottom:1px solid #e1e1e1 }
+table.skin_write002 td .txtBox002 { width:600px; height:350px }
+table.skin_write002 td.p_top_btm_6 { padding-top:6px; padding-bottom:6px }
+table.skin_write002 td.r_line_none { border-right:none }
+
+.input_txt00201 { width:98%; height:28px; font-size:12px; padding-left:10px; border:1px solid #dbdbdb; }
+.select00201 { float:left; width:100%; height:24px; float:left; font-size:11px; font-weight:400; color:#646464; padding:0 0 0 0px; border:1px solid #dbdbdb; margin:0 0 3px 0 }
+.select_file00201 { width:152px; font-size:11px }
+.b_btn_00201 { width:28px; height:28px; border:none; background:none; padding:0; vertical-align:middle }
+.b_btn_00201 img { width:28px; height:28px; }
+
+
+/* write003 */
+.basic_writeWrap003 { width:100%; float:left }
+table.skin_write003 { width:100%; font-size:12px; letter-spacing:-0.03em; border-top:1px solid #00baff; border-bottom:1px solid #e1e1e1; border-collapse:collapse }
+table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+table.skin_write003 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
+table.skin_write003 td { text-align:left; font-weight:400; color:#646464; padding:10px 10px 10px 10px; border-bottom:1px solid #e1e1e1 }
+table.skin_write003 td.p_top_btm_6 { padding-top:6px; padding-bottom:6px }
+table.skin_write003 td.r_line_none { border-right:none }
+
+.input_txt00301 { width:98%; height:28px; font-size:12px; padding-left:10px; border:1px solid #dbdbdb; }
+.input_txtBox00301 { width:96% !important; height:100px !important; font-size:12px; padding:10px; border:1px solid #dbdbdb; }
+.select00301 { float:left; width:137px; height:35px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 5px; border:1px solid #dbdbdb }
+.redTxt { color:#f00; margin-bottom:0px; font-size:12px }
+
+
+/* write004 */
+.basic_writeWrap004 { width:100%; float:left }
+table.skin_write004 { width:100%; font-size:12px; letter-spacing:-0.03em; border-top:1px solid #00baff; border-bottom:1px solid #e1e1e1; border-collapse:collapse }
+table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+table.skin_write004 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
+table.skin_write004 td { text-align:left; font-weight:400; color:#646464; padding:10px 10px 10px 10px; border-bottom:1px solid #e1e1e1 }
+table.skin_write004 td .txtBox002 { width:600px; height:350px }
+table.skin_write004 td.p_top_btm_6 { padding-top:6px; padding-bottom:6px }
+table.skin_write004 td.r_line_none { border-right:none }
+
+.input_txt00401 { width:70%; height:24px; font-size:12px; padding-left:10px; border:1px solid #dbdbdb; }
+.checkBox00401 { width:55px; float:right; margin:6px 0 0 0 }
+.select00401 { width:152px; font-size:11px }
+.b_btn_00401 { width:28px; height:28px; border:none; background:none; padding:0; vertical-align:middle }
+.b_btn_00401 img { width:28px; height:28px; }
+
+
+/* write005 */
+.basic_writeWrap005 { width:100%; float:left }
+table.skin_write005 { width:100%; font-size:12px; letter-spacing:-0.03em; border-top:1px solid #00baff; border-bottom:1px solid #e1e1e1; border-collapse:collapse; margin-bottom:30px }
+table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+table.skin_write005 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
+table.skin_write005 th.r_line_none { border-right:none }
+table.skin_write005 td { text-align:left; font-weight:400; color:#646464; padding:10px 3px 10px 3px; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1 }
+table.skin_write005 td.p_top_btm_6 { padding-top:6px; padding-bottom:6px }
+table.skin_write005 td.r_line_none { border-right:none }
+
+.input_txt00501 { width:93%; height:24px; font-size:12px; padding-left:5px; border:1px solid #dbdbdb; }
+.input_txt00502 { width:86%; height:24px; font-size:12px; padding-left:5px; border:1px solid #dbdbdb; }
+.input_txt00503 { width:69%; height:24px; font-size:12px; padding-left:5px; border:1px solid #dbdbdb; }
+.select00501 { width:100%; border:1px solid #ebebeb; padding:5px 0 5px 0 }
+.checkBox00501 { width:65px; float:left; margin:0 7px 0 0; font-size:12px }
+.checkBox00502 { width:53px; float:left; margin:0 7px 0 0; font-size:12px }
+table.skin_write005 td textarea { width:719px; height:350px }
+.b_btn_00501 { width:28px; height:28px; border:none; background:none; padding:0; vertical-align:middle }
+.b_btn_00501 img { width:28px; height:28px; }
+.zoom005 { float:right }
+.zoom005 .btn_add005 { width:20px; height:20px; font-size:14px; color:#fff; background-color:#999; border:none; margin-top:5px }
+.zoom005 .btn_del005 { width:20px; height:20px; font-size:14px; color:#fff; background-color:#999; border:none; margin-top:5px }
+
+
+
+
+/*찾아오는길*/
+.Contents .Cont94 dl{padding:20px 0 16px 0;width:90%;height:auto}
+.Contents .Cont94 dl.Cont94List01{background:none;float:none}
+.Contents .Cont94 dl.Cont94List02{background:none;padding-left:0;float:none;width:90%}
+.Contents .Cont94 dl.Cont94List03{background:none}
+.Contents .Cont94 dl.Cont94List04{background:none}
+.Contents .Cont94 dl.Cont94List05{background:none}
+.Contents .Cont94 dl dt{font-weight:600}
+.Contents .Cont94 dl dd{padding-top:10px}
+
+/*이메일무단수집거부*/
+.Contents .basicWrap .dsc_img{background:none;padding:20px}
+
+
+
+
+/* list_top */
+.Patent_search { width:100%; height:224px; margin:30px 0 30px 0; background-color:#deebef }
+
+
+/* 검색 */
+.Patent_search .p_srchBox { width:95%; height:42px; margin:0 auto; padding-top:13px; border-bottom:1px solid #c6d7dd }
+.Patent_search .p_srchBox .p_kinds { width:50px; height:22px; float:left; border-right:1px solid #a3bac1; font-size:14px; color:#4a5558; letter-spacing:-0.03em; text-align:left; margin:4px 12px 0 0; line-height:19px }
+.Patent_search .p_srchBox .p_srch_txt { float:left; width:118px; height:26px; border:1px solid #cadde3; padding:0 0 0 5px; margin-left:5px; background-color:#fff }
+.Patent_search .p_srchBox .p_srch_txt2 { float:left; width:221px; height:26px; border:1px solid #cadde3; padding:0 0 0 5px; background-color:#fff }
+.Patent_search .p_srchBox .p_select { float:left; width:98px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #cadde3 }
+.Patent_search .p_srchBox .p_select2 { float:left; width:98px; height:28px; font-size:12px; font-weight:400; color:#646464; padding:0 0 0 0; border:1px solid #cadde3; margin-left:5px }
+
+.Patent_search .p_btnBox { width:100%; height:49px; margin:0 auto; border-bottom:none }
+.Patent_search .p_btnBox .p_btn_rgt { width:50px; height:27px; float:right; background-color:#3c69ad; padding:0 0 0 0; margin:0 0 0 0; font-size:12px; letter-spacing:-0.03em; color:#fff; border:none }
+
+
+
+.result_none { width:320px; height:208px; float:left; margin-top:0px; text-indent:-9999px; background:url(/img/board/result_none2.png) no-repeat }
+
+
+.nctg{ position:relative; z-index:4; width:112px; float:left; background-color:#fff }
+.btn_nctg{ display:block; overflow:hidden; width:101px; height:33px; padding:5px 0 0 10px; border:1px solid #cadde3; background:url(/img/common/select_arw.png) 95px center no-repeat; line-height:27px;
+           font-size:13px; color:#4a4a4a }
+a.btn_nctg:hover,a.btn_nctg:visited{ text-decoration:none }
+.nctg_on .btn_nctg{ background:url(/img/common/select_arw2.png) 95px center no-repeat; }
+.cpress_lst{ position:absolute; top:40px; width:111px; padding:5px 0 4px; border:1px solid #cadde3; border-top:0; background-color:#fff }
+.cpress_lst li{ width:101px; line-height:20px }
+.cpress_lst li a{ display:block; width:101px; padding-left:10px; font-size:13px; color:#888; letter-spacing:-1px }
+.cpress_lst li a:hover{ color:#888 }
+.cpress_lst li a:visited{ color:#888 }
+.cpress_lst li.on a,.cpress_lst li.on a:hover,.cpress_lst li.on a:visited{ color:#000 }
+.cpress_lst li.bad a{ color:#ccc; text-decoration:none; cursor:default }
+
+
+
+.Patent_srchWrap { width:100% }
+.Patent_srchWrap .tit_p_srch { width:312px; height:75px; margin:0 auto; margin-bottom:20px }
+.Patent_srchWrap .txt_p_info { width:379px; height:110px; margin:0 auto; margin-top:50px }
+
+
+.Patent_listWrap { width:100%; float:left }
+.Patent_listWrap .result_none { width:749px; height:208px }
+.Patent_listWrap .PatentBox { width:100%; float:left; margin-bottom:45px }
+.Patent_listWrap .PatentBox .tit_patent01 { font-size:14px; font-weight:600; letter-spacing:-0.03em; color:#125ab3; float:left }
+.Patent_listWrap .PatentBox .patent_count { font-size:12px; font-weight:400; letter-spacing:-0.03em; color:#1e1e1e; float:left; margin:2px 0 0 7px }
+.Patent_listWrap .PatentBox ul.patent_list { width:100%; float:left; margin:8px 0 0 0; padding:0 0 10px 0; border-bottom:1px solid #a9a9a9 }
+.Patent_listWrap .PatentBox ul.patent_list li { min-height:140px; margin-top:15px; padding:0 0 15px 0; border-bottom:1px solid #ebebeb;clear:both;display:inline-block }
+.Patent_listWrap .PatentBox ul.patent_list li .shape { width:60px; height:21px; float:left; margin:0 5px 0 0; }
+.Patent_listWrap .PatentBox ul.patent_list li h3 { width:240px; height:19px; font-size:13px; font-weight:400; padding-top:2px; letter-spacing:-0.03em; color:#00516e; float:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info { width:100%; float:left; margin:15px 0 0 0 }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info .patent_img { width:119px; height:96px; float:left; margin-right:16px; border:4px solid #f1f1f1 }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info .patent_img img { width:119px !important; height:96px !important }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info dl { width:247px; height:90px; float:left; margin:5px 0 0 0 }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info dl dt { clear:both; float:left; font-size:12px; font-weight:400; letter-spacing:-0.03em; color:#8c8c8c; margin:0 0 5px 0 }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info dl dd { float:left; font-size:12px; font-weight:400; letter-spacing:-0.03em; color:#464646; margin:0 0 5px 0 }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info .btn_open { width:56px; height:20px; float:right; background:none; border:none; padding:0; margin:0; margin-top:84px; }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info .info_text { width:100%; float:left; font-size:12px; font-weight:400; letter-spacing:-0.03em; line-height:20px; color:#8c8c8c; margin:15px 0 0 0;
+                                                                        padding:13px 0 0 0; border-top:1px solid #ebebeb;display:inline-block;clear:both }
+.Patent_listWrap .PatentBox ul.patent_list li .patent_info .info_text .btn_off { width:56px; height:20px; float:right; background:none; border:none; padding:0; margin:0; margin-top:15px }
+.Patent_listWrap .PatentBox ul.patent_list .more { width:100%; text-align:center; float:left; font-size:14px; font-weight:600; letter-spacing:-0.03em; margin:10px 0 0 0 }
+.Patent_listWrap .PatentBox ul.patent_list .more a { color:#0081af }
+
+
+
+/* 이미지 게시판 리스트 */
+.Patent_listWrap .PatentBox ul.patent_imglist { width:100%; float:left; margin:15px 0 0 0; padding:0 0 10px 0; border-bottom:1px solid #a9a9a9 }
+.Patent_listWrap .PatentBox ul.patent_imglist li { width:144px; height:185px; float:left; margin:10px 4px 15px 4px }
+.Patent_listWrap .PatentBox ul.patent_imglist li .shape { width:60px; height:21px; float:left; margin:0 5px 0 0; }
+.Patent_listWrap .PatentBox ul.patent_imglist li h3 { font-size:13px; font-weight:400; letter-spacing:-0.03em; color:#00516e; float:left; padding-top:3px; width:75px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.Patent_listWrap .PatentBox ul.patent_imglist li .patent_info { width:100%; float:left; margin:15px 0 0 0 }
+.Patent_listWrap .PatentBox ul.patent_imglist li .patent_info .patent_img { width:140px; height:141px; float:left; margin-right:16px }
+.Patent_listWrap .PatentBox ul.patent_imglist li .patent_info .patent_img img { width:136px !important; height:137px !important; border:4px solid #f1f1f1 }
+.Patent_listWrap .PatentBox ul.patent_imglist .more { width:100%; text-align:center; float:left; font-size:14px; font-weight:600; letter-spacing:-0.03em; border-top:1px solid #ebebeb; padding:13px 0 0 0 }
+.Patent_listWrap .PatentBox ul.patent_imglist .more a { color:#0081af }
+
+
+
+.Patent_viewWrap { width:100%; float:left; border-top:1px solid #34a5cd }
+.P_contBox { width:100%; height:362px; margin-top:15px; border-bottom:1px solid #c8c8c8 }
+.P_contBox .p_img_view { width:187px; height:143px; float:left; border:4px solid #f1f1f1 }
+.P_contBox .p_img_view .p_img { width:155px; height:50px; margin:47px 0 0 15px }
+.P_contBox .tit_patent02 { clear:both; float:left; font-size:14px; font-weight:600; letter-spacing:-0.03em; color:#125ab3; margin:15px 0 0 0 }
+.P_contBox .tit_patent03 { float:left; font-size:14px; font-weight:600; letter-spacing:-0.03em; color:#464646; margin:15px 0 0 10px; width:65%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.P_contBox .info_text02 { width:100%; height:60px; float:left; font-size:12px; font-weight:400; letter-spacing:-0.03em; line-height:20px; color:#8c8c8c; margin:15px 0 0 0; overflow:hidden; text-overflow:ellipsis }
+.P_contBox .btn_apply { width:78px; height:40px; float:right; font-size:13px; font-weight:600; letter-spacing:-0.03em; color:#464646; border:1px solid #646464; background:none; padding:0; margin:0; 
+                        margin-top:40px }
+.P_contBox .scoreBox { height:13px; float:left; margin:15px 0 0 0 }
+.P_contBox .scoreBox .check_score { width:13px; height:13px; float:left; background:none; padding:0; margin:0; margin-right:6px }
+.P_contBox .scoreBox .star_score { height:13px; float:left; margin-right:20px }	
+.P_contBox .scoreBox .btn_rating { clera:both; float:left; font-size:14px; font-weight:600; letter-spacing:-0.05em; margin:15px 0 0 15px }
+.P_contBox .scoreBox .btn_rating a { color:#000 }
+
+
+.P_contBox2 { width:100%; float:left; font-size:12px; letter-spacing:-0.05em; border-collapse:collapse; margin:30px 0 0 0 }
+table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+.P_contBox2 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
+.P_contBox2 th.title { font-size:13px; font-weight:600; letter-spacing:-0.075em; color:#305869; padding:10px 0 10px 0; border:none; background-color:#eff5f7 }
+.P_contBox2 th.lft_line { border-left:1px solid #e1e1e1 }
+.P_contBox2 th.row2 { font-size:12px; line-height:20px; padding:2px 0 2px 10px }
+.P_contBox2 td { text-align:left; font-weight:400; color:#646464; padding:10px 0 10px 10px; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1 }
+.P_contBox2 td .shape2 { width:60px; height:21px }
+.P_contBox2 td.row2 { font-size:12px; line-height:20px; padding:2px 0 2px 10px }
+.P_contBox2 td.jip_info { height:127px; font-size:12px; font-weight:400; letter-spacing:-0.03em; line-height:20px; color:#8c8c8c; padding-right:13px; vertical-align:text-top }
+.P_contBox2 td.jip_info2 { height:auto; padding:16px 0 16px 10px; vertical-align:text-top }
+.P_contBox2 td .jip_data { background:url(/img/board/ico_file.png) left center no-repeat; padding-left:20px; border:none; font-size:12px; letter-spacing:-0.03em; color:#646464 }
+.P_contBox2 td .ideaBox { width:100%; }
+.P_contBox2 td .ideaBox .input_idea { clear:both; width:71%; height:30px; float:left; border:1px solid #dcdcdc; background-color:#fff;padding:0 0 0 3px; margin-top:10px }
+.P_contBox2 td .ideaBox .btn_write { float:right;width:70px; height:32px; background-color:#3b5c8a; border:none; padding:0; margin:10px 5px 0 5px; font-size:14px; font-weight:400; letter-spacing:-0.05em; color:#fff }
+.P_contBox2 td .ideaBox .idea_none { float:left;font-size:12px; font-weight:400; letter-spacing:-0.03em; line-height:20px; color:#8c8c8c; margin:10px 0 0 0; padding-right:13px; vertical-align:text-top }
+.P_contBox2 td .ideaBox ul.idea_list {float:left } 
+.P_contBox2 td .ideaBox ul.idea_list li { width:100%; height:41px; padding:16px 0 17px 0; border-bottom:1px solid #ebebeb }
+.P_contBox2 td .ideaBox ul.idea_list li .idea_name { font-size:13px; font-weight:600; letter-spacing:-0.03em; color:#1e1e1e; float:left; margin:0 0 0 15px }
+.P_contBox2 td .ideaBox ul.idea_list li .idea_date { font-size:12px; color:#787878; float:left; margin:0 0 0 15px }
+.P_contBox2 td .ideaBox ul.idea_list li .idea_txt { clear:both; font-size:13px; letter-spacing:-0.03em; color:#464646; float:left; margin:10px 0 0 15px  }
+.P_contBox2 td.represent_img { text-align:center }
+.P_contBox2 td.represent_img img { max-width:200px; max-height:184px }
+.P_contBox2 td.r_line_none { border-right:none !important }
+
+.P_contBox2 .scoreBox {width:100%; height:13px; margin:0 auto; margin-bottom:16px }
+.P_contBox2 .scoreBox .check_score { width:10px; height:10px; float:left; background:none; padding:0; margin:0; margin-top:2px; margin-right:2px }
+.P_contBox2 .scoreBox .star_score { height:11px; float:left; margin-right:2px }	
+.P_contBox2 .scoreBox .btn_rating { clear:both; float:left; font-size:13px; font-weight:600; letter-spacing:-0.05em; margin:7px 0 0 0  }
+.P_contBox2 .scoreBox .btn_rating a { color:#000 }
+
+}

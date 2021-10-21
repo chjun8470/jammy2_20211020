@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspEquStatusMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+	<select id="getEquStatusCount" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT COUNT(0) as CNT, IFNULL(ROUND(SUM(A.TAKE_PRC), -4),0) as TAKE_PRC FROM TB_EQU_INFO AS A
+			LEFT JOIN TB_EQU_GOODS AS B
+			ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			WHERE ( A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			AND A.STATE = '2'
+			AND A.EQUIP_CD = #{equipCd}
+			AND A.TAKE_CD = #{takeCd}
+		]]>
+
+		<if test="listOrgGrpCd != '' and listOrgGrpCd != null" >
+		<![CDATA[
+			AND B.OWN_ORG = #{listOrgGrpCd}
+		]]>
+		</if>
+		<if test="searchType == 'useScopeCd'" >
+		<![CDATA[
+			AND A.USE_SCOPE_CD = #{useScopeCd}
+		]]>
+		</if>
+		<if test="searchType == 'idleDisuseCd'" >
+		<![CDATA[
+			AND A.IDLE_DISUSE_CD = #{idleDisuseCd}
+		]]>
+		</if>
+	</select>
+	<select id="getEquStatusList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				EQUIP_CD,
+				TAKE_CD,
+				CASE WHEN EQUIP_CD = 1 THEN '장비' ELSE '시설' END EQUIP_NM,
+			    CASE WHEN TAKE_CD = 1 THEN '구매' ELSE '개발' END TAKE_NM,
+				COUNT(*) AS ALLCOUNT
+
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND USE_SCOPE_CD = 1 AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS SCOPE1
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND USE_SCOPE_CD = 2 AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS SCOPE2
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND USE_SCOPE_CD = 3 AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS SCOPE3
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND IDLE_DISUSE_CD = '01' AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS DISUSE01
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND IDLE_DISUSE_CD = '02' AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS DISUSE02
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND IDLE_DISUSE_CD = '03' AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS DISUSE03
+				,(SELECT count(*) FROM TB_EQU_INFO AS B WHERE A.EQUIP_CD = B.EQUIP_CD AND IDLE_DISUSE_CD = '04' AND A.TAKE_CD = B.TAKE_CD AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)) AS DISUSE04
+
+
+			FROM TB_EQU_INFO AS A
+			WHERE (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+				<!-- <![CDATA[	AND A.RND_EQU_IDX IN (SELECT RND_EQU_IDX FROM TB_EQU_GOODS WHERE OWN_ORG = #{orgGrpCd})]]> -->
+				<!-- AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg}) -->
+			<![CDATA[
+					GROUP BY EQUIP_CD,TAKE_CD
+			]]>
+				<!-- <if test="searchType == 'name'">
+					AND MB_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'url'">
+					AND PAGE_CD LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			<![CDATA[
+			orDER BY EQU_INFO_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]> -->
+	</select>
+
+<!-- 	<select id="getEquStatusListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+				TB_EQU_INFO
+	 WHERE
+				1= 1
+			<if test="searchType == 'name'">
+				AND MB_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'url'">
+				AND PAGE_CD LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+
+	</select> -->
+
+	<select id="getEquStatus" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+			COUNT(*) AS ALLCOUNT,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND USE_SCOPE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1S1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND USE_SCOPE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1S2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND USE_SCOPE_CD = '3' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1S3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND USE_SCOPE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2S1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND USE_SCOPE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2S2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND USE_SCOPE_CD = '3' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2S3,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND USE_SCOPE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1S1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND USE_SCOPE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1S2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND USE_SCOPE_CD = '3' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1S3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND USE_SCOPE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2S1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND USE_SCOPE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2S2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND USE_SCOPE_CD = '3' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2S3,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '01' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1DISUSE1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '02' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1DISUSE2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '03' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1DISUSE3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '04' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET1DISUSE4,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '01' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2DISUSE1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '02' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2DISUSE2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '03' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2DISUSE3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '04' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS ET2DISUSE4,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '01' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1DISUSE1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '02' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1DISUSE2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '03' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1DISUSE3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND IDLE_DISUSE_CD = '04' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT1DISUSE4,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '01' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2DISUSE1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '02' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2DISUSE2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '03' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2DISUSE3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND IDLE_DISUSE_CD = '04' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS PT2DISUSE4,
+
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS COUNT1,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '1' AND TAKE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS COUNT2,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '1' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS COUNT3,
+			(SELECT COUNT(*) FROM TB_EQU_INFO B WHERE EQUIP_CD = '2' AND TAKE_CD = '2' AND B.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{userOrg})) AS COUNT4
+
+		FROM
+		   TB_EQU_INFO A
+		WHERE 1 = 1
+	</select>
+
+	<select id="getJnspTotalList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.RND_EQU_IDX
+				,		A.EQUIP_CD
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_NM
+				,		A.MODEL_CD
+				,		A.TAKE_PRC
+			FROM
+				TB_EQU_INFO AS A
+				LEFT JOIN TB_EQU_GOODS AS B
+				ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			WHERE (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			AND A.STATE = '2'
+
+			]]>
+
+			  <if test="listOrgGrpCd != null and listOrgGrpCd != ''">
+			  	AND B.OWN_ORG = #{listOrgGrpCd}
+			  </if>
+
+			  <if test="equCd != null and equCd != ''">
+			  	AND A.EQUIP_CD = #{equCd}
+			  </if>
+			  <if test="takeCd != null and takeCd != ''">
+			  	AND A.TAKE_CD = #{takeCd}
+			  </if>
+			  <if test="scope != null and scope != ''">
+			  	AND A.USE_SCOPE_CD = #{scope}
+			  </if>
+			  <if test="disUse != null and disUse != ''">
+			  	AND A.IDLE_DISUSE_CD = #{disUse}
+			  </if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "manufacture" and searchWord != ""'>
+					<![CDATA[	AND A.MODEL_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "equipNm" and searchWord != ""'>
+					<![CDATA[
+						AND (A.KOR_NM LIKE '%${searchWord}%'
+						 OR A.ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+				<if test='searchType == "keyWord" and searchWord != ""'>
+					<![CDATA[
+						 AND (
+						 	CONCAT(',',A.KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+						 OR CONCAT(',',A.ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+						 )
+					]]>
+				</if>
+			</if>
+			<![CDATA[
+			ORDER BY A.RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<select id="getJnspTotalCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+			TB_EQU_INFO AS A
+			LEFT JOIN TB_EQU_GOODS AS B
+			ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			WHERE (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			AND A.STATE = '2'
+			]]>
+
+			  <if test="listOrgGrpCd != null and listOrgGrpCd != ''">
+			  	AND B.OWN_ORG = #{listOrgGrpCd}
+			  </if>
+
+			  <if test="equCd != null and equCd != ''">
+			  	AND A.EQUIP_CD = #{equCd}
+			  </if>
+			  <if test="takeCd != null and takeCd != ''">
+			  	AND A.TAKE_CD = #{takeCd}
+			  </if>
+			  <if test="scope != null and scope != ''">
+			  	AND A.USE_SCOPE_CD = #{scope}
+			  </if>
+			  <if test="disUse != null and disUse != ''">
+			  	AND A.IDLE_DISUSE_CD = #{disUse}
+			  </if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "manufacture" and searchWord != ""'>
+					<![CDATA[	AND A.MODEL_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "equipNm" and searchWord != ""'>
+					<![CDATA[
+						AND (A.KOR_NM LIKE '%${searchWord}%'
+						 OR A.ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+				<if test='searchType == "keyWord" and searchWord != ""'>
+					<![CDATA[
+						 AND (
+						 	CONCAT(',',A.KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+						 OR CONCAT(',',A.ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+						 )
+					]]>
+				</if>
+			</if>
+	</select>
+
+</mapper>

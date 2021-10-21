@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspLocalRndMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<!-- BACK -->
+	<select id="getLocalRndBackList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					 SITE_ID
+					,ARTICLE_ID 
+					,SUBJECT
+					,CONTENT				
+					,WRITER_NM
+					
+					,DATE_FORMAT(FRST_REGIST_PNTTM,'%Y-%m-%d') AS REG_DT
+
+			  FROM	JMY_BOARD_ARTICLE
+
+			  WHERE (BOARD_ID = 00006 OR BOARD_ID = 00033)
+		]]>
+		
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+
+			ORDER BY ARTICLE_SEQ DESC
+			LIMIT ${firstRecord} , ${pageSize}
+	</select>
+
+	<!-- BACK -->
+	<select id="getLocalRndBackListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(*)
+
+			   FROM	JMY_BOARD_ARTICLE
+
+			  WHERE (BOARD_ID = 00006 OR BOARD_ID = 00033)
+		]]>
+		
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+
+	<!-- FRONT -->
+	<select id="getLocalRndList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					 SITE_ID
+					,ARTICLE_ID 
+					,SUBJECT
+					,CONTENT				
+					,WRITER_NM
+					,C.CODE_NM
+					,DATE_FORMAT(FRST_REGIST_PNTTM,'%Y-%m-%d') AS REG_DT
+
+			  FROM	JMY_BOARD_ARTICLE 
+			  LEFT JOIN TB_CODE C
+			  ON C.CODE_GRP_CD = 'SupportType'
+			  AND C.CODE_CD = DATA01
+
+			  WHERE (BOARD_ID = 00006 OR BOARD_ID = 00033)
+		]]>
+		
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+
+			ORDER BY ARTICLE_SEQ DESC
+			LIMIT ${firstRecord} , ${pageSize}
+	</select>
+
+	<!-- FRONT -->
+	<select id="getLocalRndListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(*)
+
+			   FROM	JMY_BOARD_ARTICLE
+			    
+			  LEFT JOIN TB_CODE C
+			  ON C.CODE_GRP_CD = 'SupportType'
+			  AND C.CODE_CD = DATA01
+
+			  WHERE (BOARD_ID = 00006 OR BOARD_ID = 00033)
+		]]>
+		
+
+		<if test="searchType == 'SUBJECT' and searchWord != '' and searchWord != null">
+			<![CDATA[
+				AND SUBJECT LIKE '%${searchWord}%'
+			]]>
+		</if>
+		<if test="searchType == 'CONTENT' and searchWord != '' and searchWord != null ">
+			<![CDATA[
+				AND CONTENT LIKE '%${searchWord}%'
+			]]>
+		</if>
+	</select>
+
+	<!-- 상세정보 -->
+	<select id="getLocalRndData" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT					
+					ARTICLE_ID,
+					SITE_ID,
+					BOARD_ID,
+					ARTICLE_GROUP_ID,
+					ARTICLE_NEXT_ID,
+					ARTICLE_PARNTS_ID,
+					ARTICLE_SEQ,
+					DEPTH,
+					CATEGORY_NM,
+					SUBJECT,
+					WRITER_ID,
+					WRITER_NM,
+					PASSWORD,
+					CONTENT,
+					ATCH_FILE_ID,
+					THUMB_ATCH_FILE_ID,
+					NOTICE_AT,
+					SECRET_AT,
+					DELETED_AT,
+					HITS,
+					DATA01,
+					DATA02,
+					DATA03,
+					DATA04,
+					DATA05,
+					DATA06,
+					DATA07,
+					DATA08,
+					DATA09,
+					DATA10,
+					DATA11,
+					DATA12,
+					DATA13,
+					DATA14,
+					DATA15,
+					DATA16,
+					DATA17,
+					DATA18,
+					DATA19,
+					DATA20,
+					NUM1,
+					NUM2,
+					NUM3,
+					NUM4,
+					NUM5,
+					TEXT1,
+					TEXT2,
+					TEXT3,
+					TEXT4,
+					TEXT5,
+					SHARE_BOARD_IDS,
+					DATE_FORMAT(FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					FRST_REGUSR_IP,
+					LAST_UPDUSR_ID,
+					LAST_UPDT_PNTTM,
+					LAST_UPDUSR_IP
+
+			  FROM	JMY_BOARD_ARTICLE
+
+			  WHERE (BOARD_ID = 00006 OR BOARD_ID = 00033)
+			  AND ARTICLE_ID  = #{articleId}
+		]]>
+	</select>
+
+	<!-- 표시&미표시 수정 -->
+	<update id="setLocalRndUpdate" parameterType="paramMap">
+			UPDATE sci.rb_bbs_data
+			   SET HIDDEN = #{hiddenYn}
+
+			 WHERE UID = #{uid}
+	</update>
+
+</mapper>

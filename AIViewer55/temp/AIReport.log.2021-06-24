@@ -1,0 +1,6 @@
+2021-06-24 11:54:08 [ERROR :: com.activeintra.manager.AIScriptManager.errorLogging(Unknown Source)] AIScriptManager #1100 [Chrome9] 
+2021-06-24 11:54:08 [ERROR :: com.activeintra.manager.AIScriptManager.errorLogging(Unknown Source)] AIScriptManager #1140 Trial  expired 
+2021-06-24 11:54:08 [ERROR :: com.activeintra.manager.AIScriptManager.init(Unknown Source)] #9993 There was a problem with the license. 
+2021-06-24 11:54:10 [ERROR :: com.activeintra.manager.AIScriptManager.errorLogging(Unknown Source)] AIScriptManager #1100 [Chrome9] 
+2021-06-24 11:54:10 [ERROR :: com.activeintra.manager.AIScriptManager.errorLogging(Unknown Source)] AIScriptManager #1140 Trial  expired 
+2021-06-24 11:54:10 [ERROR :: com.activeintra.manager.AIScriptManager.init(Unknown Source)] #9993 There was a problem with the license. 

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SurveyFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SurveyVO" type="egovframework.jammy2.survey.service.SurveyVO"/>
+	<typeAlias  alias="SurveyQuestionVO" type="egovframework.jammy2.survey.service.SurveyQuestionVO"/>
+	<typeAlias  alias="SurveyExampleVO" type="egovframework.jammy2.survey.service.SurveyExampleVO"/>
+	<typeAlias  alias="SurveyVoteVO" type="egovframework.jammy2.survey.service.SurveyVoteVO"/>
+					
+	<select id="SurveyFrontendDAO.selectSurveyListCnt" parameterClass="SurveyVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_SURVEY A
+		 WHERE  1=1
+		   AND	A.USE_YN = "Y"
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>
+
+	<select id="SurveyFrontendDAO.selectSurveyList" parameterClass="SurveyVO" resultClass="SurveyVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,	A.TITLE				title
+			 ,  A.CONTENT			content
+			 ,	A.BGNDE				bgnde
+			 ,	A.ENDDE				endde
+			 ,  A.OPEN_YN			openYn
+			 ,  A.USE_YN			useYn
+			 ,  A.DPLCTN_YN			dplctnYn
+			 ,  A.RESULT_OPEN_YN	resultOpenYn
+			 ,  (
+			 		<![CDATA[
+			 		CASE (IF (CURDATE() >= A.BGNDE AND CURDATE() <= A.ENDDE, "TRUE", "FALSE"))
+			 		WHEN "TRUE" THEN "ING"
+			 		ELSE (IF (CURDATE() > A.ENDDE, "COMPLETE", "PRE"))
+			 		END
+			 		]]>
+			 	) AS progress
+			 ,  (
+			 		SELECT  IFNULL(COUNT(SRVY_ID),0) 
+			 		  FROM  JMY_SURVEY_VOTE 
+			 		 WHERE  SRVY_ID = A.SRVY_ID
+			 	) AS voteCnt
+		  FROM  JMY_SURVEY A
+		 WHERE  1=1
+		   AND	A.USE_YN = "Y"
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="title">
+				A.TITLE LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  A.SRVY_ID DESC
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+	</select>
+
+	<select id="SurveyFrontendDAO.selectSurvey" parameterClass="SurveyVO" resultClass="SurveyVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,	A.TITLE				title
+			 ,  A.CONTENT			content
+			 ,	A.BGNDE				bgnde
+			 ,	A.ENDDE				endde
+			 ,  A.OPEN_YN			openYn
+			 ,  A.USE_YN			useYn
+			 ,  A.DPLCTN_YN			dplctnYn
+			 ,  A.RESULT_OPEN_YN	resultOpenYn
+			 ,  (
+			 		<![CDATA[
+			 		CASE (IF (CURDATE() >= A.BGNDE AND CURDATE() <= A.ENDDE, "TRUE", "FALSE"))
+			 		WHEN "TRUE" THEN "ING"
+			 		ELSE (IF (CURDATE() > A.ENDDE, "COMPLETE", "PRE"))
+			 		END
+			 		]]>
+			 	) AS progress
+			 ,  (
+			 		SELECT  IFNULL(COUNT(SRVY_ID),0) 
+			 		  FROM  JMY_SURVEY_VOTE 
+			 		 WHERE  SRVY_ID = A.SRVY_ID
+			 	) AS voteCnt
+		  FROM  JMY_SURVEY A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.USE_YN = "Y"
+	</select>
+
+	<select id="SurveyFrontendDAO.selectSurveyQuestionList" parameterClass="SurveyQuestionVO" resultClass="SurveyQuestionVO">
+		SELECT  A.SRVY_ID			srvyId
+			 ,  A.SRVY_QSTN_ID		srvyQstnId
+			 ,	A.QSTN_TY			qstnTy
+			 ,  A.QSTN_TITLE		qstnTitle
+			 ,	A.REQUIRED_YN		requiredYn
+			 ,	A.MIN_CHKED_NUM		minChkedNum
+			 ,  A.POSITION			position
+			 ,  (
+			 		SELECT  IFNULL(COUNT(*),0) 
+			 		  FROM  JMY_SURVEY_ANSWER 
+			 		 WHERE  SRVY_ID = A.SRVY_ID AND SRVY_QSTN_ID = A.SRVY_QSTN_ID
+			 	) AS totalAnswerCnt
+		  FROM  JMY_SURVEY_QUESTION A
+		 WHERE  A.SRVY_ID = #srvyId#
+	  ORDER BY  A.POSITION ASC				
+	</select>	
+    
+	<select id="SurveyFrontendDAO.selectSurveyExampleList" parameterClass="SurveyExampleVO" resultClass="SurveyExampleVO">	
+		SELECT  A.SRVY_ID			srvyId
+			 ,  A.SRVY_QSTN_ID		srvyQstnId
+			 ,  A.SRVY_EX_ID		srvyExId
+			 ,	A.EX_KEY			exKey
+			 ,  A.EX_TITLE			exTitle
+			 ,  (
+			 		SELECT  IFNULL(COUNT(*),0) 
+			 		  FROM  JMY_SURVEY_ANSWER 
+			 		 WHERE  SRVY_ID = A.SRVY_ID AND SRVY_QSTN_ID = A.SRVY_QSTN_ID AND SRVY_EX_ID = A.SRVY_EX_ID
+			 	) AS answerCnt
+		  FROM  JMY_SURVEY_EXAMPLE A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.SRVY_QSTN_ID = #srvyQstnId#
+	  ORDER BY  A.EX_KEY ASC				
+	</select>	
+	
+	<insert id="SurveyBackendDAO.insertSurveyVote">
+		INSERT 
+		  INTO  JMY_SURVEY_VOTE
+		     (  SRVY_VOTE_ID
+		     ,  SRVY_ID
+			 ,  REGIST_PNTTM
+			 ,  REGIST_IP
+			 ,  REGISTER_ID
+		     )
+		VALUES
+		     (  #srvyVoteId#
+			 ,  #srvyId#
+			 ,  SYSDATE()
+			 ,  #registIp#		 
+			 ,  #registerId#
+		     )			
+	</insert>	
+	
+	<insert id="SurveyBackendDAO.insertSurveyAnswer">
+		INSERT 
+		  INTO  JMY_SURVEY_ANSWER
+		     (  SRVY_ANSR_ID
+		     ,  SRVY_ID
+		     ,  SRVY_VOTE_ID
+			 ,  SRVY_QSTN_ID
+			 ,  SRVY_EX_ID
+			 ,  REMARKS
+		     )
+		VALUES
+		     (  #srvyAnsrId#
+			 ,  #srvyId#
+			 ,  #srvyVoteId#
+			 ,  #srvyQstnId#
+			 ,  #srvyExId#
+			 ,  #remarks#
+		     )			
+	</insert>		
+	
+	<select id="SurveyFrontendDAO.selectSurveyVoteByRegistIp" parameterClass="SurveyVoteVO" resultClass="SurveyVoteVO">	
+		SELECT  A.SRVY_VOTE_ID 		srvyVoteId
+			 ,  A.SRVY_ID			srvyId
+			 ,  A.REGIST_PNTTM		registPnttm
+			 ,	A.REGIST_IP			registIp
+			 ,  A.REGISTER_ID		registerId
+		  FROM  JMY_SURVEY_VOTE A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.REGIST_IP = #registIp#
+		 LIMIT  1
+	</select>    
+
+	<select id="SurveyFrontendDAO.selectSurveyVoteByRegisterId" parameterClass="SurveyVoteVO" resultClass="SurveyVoteVO">	
+		SELECT  A.SRVY_VOTE_ID 		srvyVoteId
+			 ,  A.SRVY_ID			srvyId
+			 ,  A.REGIST_PNTTM		registPnttm
+			 ,	A.REGIST_IP			registIp
+			 ,  A.REGISTER_ID		registerId
+		  FROM  JMY_SURVEY_VOTE A
+		 WHERE  A.SRVY_ID = #srvyId#
+		   AND	A.REGISTER_ID = #registerId#
+		 LIMIT  1		   
+	</select> 	
+	
+</sqlMap>

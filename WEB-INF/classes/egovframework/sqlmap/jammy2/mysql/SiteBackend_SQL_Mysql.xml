@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SiteBackend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SiteInfoVO" type="egovframework.jammy2.site.service.SiteInfoVO"/>
+	<typeAlias  alias="SiteMenuVO" type="egovframework.jammy2.site.service.SiteMenuVO"/>
+	<typeAlias  alias="SiteMenuJsonVO" type="egovframework.jammy2.site.service.SiteMenuJsonVO"/>
+	<typeAlias  alias="SiteContentVO" type="egovframework.jammy2.site.service.SiteContentVO"/>
+	<typeAlias  alias="SiteContentSatisfactionVO" type="egovframework.jammy2.site.service.SiteContentSatisfactionVO"/>
+	<typeAlias  alias="SiteDomainVO" type="egovframework.jammy2.site.service.SiteDomainVO"/>
+		
+	<select id="SiteBackendDAO.selectSiteInfoListAll" parameterClass="SiteInfoVO" resultClass="SiteInfoVO">
+		SELECT  SITE_ID			siteId
+			 ,  SITE_NM			siteNm
+			 ,  SITE_TITLE		siteTitle
+			 ,  SITE_LANG		siteLang
+			 ,  THEME_ID		themeId
+			 ,  LAYOUT			layout
+			 ,  USE_MOBILE_AT	useMobileAt
+			 ,  MOBILE_THEME_ID	mobileThemeId
+			 ,  MOBILE_LAYOUT	mobileLayout
+			 ,  SERVICE_STTUS	serviceSttus
+		  FROM  JMY_SITE_INFO
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+	  ORDER BY  POSITION ASC
+	</select>		
+	
+	<select id="SiteBackendDAO.selectSiteInfoListCnt" parameterClass="SiteInfoVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_SITE_INFO 
+		 WHERE  1=1			
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="siteId">
+				SITE_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="siteNm">
+				SITE_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="SiteBackendDAO.selectSiteInfoList" parameterClass="SiteInfoVO" resultClass="SiteInfoVO">
+		SELECT  SITE_ID			siteId
+			 ,  SITE_NM			siteNm
+			 ,  SITE_TITLE		siteTitle
+			 ,  SITE_LANG		siteLang
+			 ,  THEME_ID		themeId
+			 ,  LAYOUT			layout
+			 ,  USE_MOBILE_AT	useMobileAt
+			 ,  MOBILE_THEME_ID	mobileThemeId
+			 ,  MOBILE_LAYOUT	mobileLayout
+			 ,  SERVICE_STTUS	serviceSttus		
+		  FROM  JMY_SITE_INFO
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="siteId">
+				SITE_ID = #siteId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="siteId">
+				SITE_ID LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="siteNm">
+				SITE_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>	
+	  ORDER BY  POSITION ASC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="SiteBackendDAO.selectSiteInfo" parameterClass="SiteInfoVO" resultClass="SiteInfoVO">
+		SELECT  SITE_ID			siteId
+			 ,  SITE_NM			siteNm
+			 ,  SITE_TITLE		siteTitle
+			 ,  SITE_LANG		siteLang
+			 ,  THEME_ID		themeId
+			 ,  LAYOUT			layout
+			 ,  USE_MOBILE_AT	useMobileAt
+			 ,  MOBILE_THEME_ID	mobileThemeId
+			 ,  MOBILE_LAYOUT	mobileLayout
+			 ,  SERVICE_STTUS	serviceSttus
+			 ,  POSITION		position
+		  FROM  JMY_SITE_INFO
+		 WHERE  SITE_ID = #siteId#		
+	</select>	
+	
+	<insert id="SiteBackendDAO.insertSiteInfo">
+		INSERT 
+		  INTO  JMY_SITE_INFO
+		     (  SITE_ID
+			 ,  SITE_NM
+			 ,  SITE_TITLE
+			 ,  SITE_LANG
+			 ,  THEME_ID
+			 ,  LAYOUT
+			 ,  USE_MOBILE_AT
+			 ,  MOBILE_THEME_ID
+			 ,  MOBILE_LAYOUT
+			 ,  SERVICE_STTUS
+			 ,  POSITION
+			 ,  FRST_REGIST_PNTTM			 
+			 ,  FRST_REGISTER_ID			 
+		     )
+		VALUES
+		     (  #siteId#
+			 ,  #siteNm#
+			 ,  #siteTitle#
+			 ,  #siteLang#
+			 ,  #themeId#
+			 ,  #layout#
+			 ,  #useMobileAt#
+			 ,  #mobileThemeId#
+			 ,  #mobileLayout#
+			 ,  #serviceSttus#
+			 ,  #position#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#			 
+		     )			
+	</insert>
+	
+	<update id="SiteBackendDAO.updateSiteInfo">
+		UPDATE  JMY_SITE_INFO 
+		   SET  SITE_NM = #siteNm#
+			 ,  SITE_TITLE = #siteTitle#
+			 ,  SITE_LANG = #siteLang#
+			 ,  THEME_ID = #themeId#
+			 ,  LAYOUT = #layout#
+			 ,  USE_MOBILE_AT = #useMobileAt#
+			 ,  MOBILE_THEME_ID	= #mobileThemeId#
+			 ,  MOBILE_LAYOUT = #mobileLayout#
+			 ,  SERVICE_STTUS = #serviceSttus#
+			 ,  POSITION = #position#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()			 
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#				 
+		 WHERE  SITE_ID = #siteId#
+	</update>		
+	
+    <delete id="SiteBackendDAO.deleteSiteInfo">
+		DELETE 
+		  FROM  JMY_SITE_INFO 
+		 WHERE  SITE_ID = #siteId#
+    </delete>
+    
+	<select id="SiteBackendDAO.selectSiteMenuList" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  SITE_ID				siteId
+			 ,  DEVICE				device		
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam	
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout
+			 ,  USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  MNG_ORGNZT_ID		mngOrgnztId
+			 ,  MNG_STAFF_ID		mngStaffId
+			 ,  SHOW_CPYRGT_AT		showCpyrgtAt
+			 ,  SHOW_AT				showAt
+			 ,  USE_AT				useAt
+			 ,  LVL					lvl
+			 ,  USE_STFS_AT			useStfsAt
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device#
+	  ORDER BY  LFT ASC
+	</select>
+	
+	<select id="SiteBackendDAO.selectSiteMenuJsonList" parameterClass="SiteMenuJsonVO" resultClass="SiteMenuJsonVO">
+		SELECT  SITE_ID				siteId
+			 ,  DEVICE				device		
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam	
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout			 
+			 ,  SHOW_AT				showAt
+			 ,  LVL					lvl
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl			 
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device#
+		   AND  USE_AT = "Y"
+	  ORDER BY  LFT ASC
+	</select>	
+	
+	<select id="SiteBackendDAO.selectParntsSiteMenuList" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  PARENT.SITE_ID			siteId		
+			 ,  PARENT.DEVICE			device
+			 ,  PARENT.MENU_ID			menuId
+			 ,  PARENT.PARNTS_MENU_ID	parntsMenuId
+			 ,  PARENT.MENU_NM			menuNm
+			 ,  PARENT.MENU_TY			menuTy
+			 ,  PARENT.LINK_TARGET		linkTarget
+			 ,  PARENT.LINK_MENU_ID		linkMenuId
+			 ,  PARENT.LINK_BOARD_ID	linkBoardId
+			 ,  PARENT.LINK_URL			linkUrl
+			 ,  PARENT.LINK_PARAM		linkParam
+			 ,  PARENT.THEME_ID			themeId			
+			 ,  PARENT.LAYOUT			layout
+			 ,  PARENT.USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  PARENT.MNG_ORGNZT_ID	mngOrgnztId
+			 ,  PARENT.MNG_STAFF_ID		mngStaffId
+			 ,  PARENT.SHOW_CPYRGT_AT	showCpyrgtAt			
+			 ,  PARENT.SHOW_AT			showAt
+			 ,  PARENT.USE_AT			useAt
+			 ,  PARENT.LVL				lvl
+			 ,  PARENT.USE_STFS_AT		useStfsAt
+			 ,  PARENT.PERM_GRP			permGrp
+			 ,  PARENT.PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU NODE
+		     ,  JMY_SITE_MENU PARENT 
+		 WHERE  NODE.LFT BETWEEN PARENT.LFT AND PARENT.RGT
+		   AND  PARENT.MENU_ID != #menuId#
+		   AND  NODE.MENU_ID = #menuId#
+		   AND  PARENT.SITE_ID = #siteId#
+		   AND  NODE.SITE_ID = #siteId#
+		   AND  PARENT.DEVICE = #device#
+		   AND  NODE.DEVICE = #device#
+	  ORDER BY  PARENT.LFT ASC
+	</select>		
+	
+	<select id="SiteBackendDAO.selectChldrnSiteMenuList" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  NODE.SITE_ID			siteId		
+			 ,  NODE.DEVICE				device
+			 ,  NODE.MENU_ID			menuId
+			 ,  NODE.PARNTS_MENU_ID		parntsMenuId
+			 ,  NODE.MENU_NM			menuNm
+			 ,  NODE.MENU_TY			menuTy
+			 ,  NODE.LINK_TARGET		linkTarget
+			 ,  NODE.LINK_MENU_ID		linkMenuId
+			 ,  NODE.LINK_BOARD_ID		linkBoardId
+			 ,  NODE.LINK_URL			linkUrl
+			 ,  NODE.LINK_PARAM			linkParam
+			 ,  NODE.THEME_ID			themeId			
+			 ,  NODE.LAYOUT				layout
+			 ,  NODE.USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  NODE.MNG_ORGNZT_ID		mngOrgnztId
+			 ,  NODE.MNG_STAFF_ID		mngStaffId
+			 ,  NODE.SHOW_CPYRGT_AT		showCpyrgtAt
+			 ,  NODE.SHOW_AT			showAt
+			 ,  NODE.USE_AT				useAt
+			 ,  NODE.LVL				lvl
+			 ,  NODE.USE_STFS_AT		useStfsAt
+			 ,  NODE.PERM_GRP			permGrp
+			 ,  NODE.PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU NODE
+		     ,  JMY_SITE_MENU PARENT 
+		 WHERE  NODE.LFT BETWEEN PARENT.LFT AND PARENT.RGT
+		   AND  NODE.MENU_ID != #menuId#
+		   AND  PARENT.MENU_ID = #menuId#
+		   AND  PARENT.SITE_ID = #siteId#
+		   AND  NODE.SITE_ID = #siteId#
+		   AND  PARENT.DEVICE = #device#
+		   AND  NODE.DEVICE = #device#
+	  ORDER BY  NODE.LFT ASC
+	</select>	
+	
+	<select id="SiteBackendDAO.selectSiteMenu" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  SITE_ID				siteId		
+			 ,  DEVICE				device
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout
+			 ,  USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  MNG_ORGNZT_ID		mngOrgnztId
+			 ,  MNG_STAFF_ID		mngStaffId
+			 ,  SHOW_CPYRGT_AT		showCpyrgtAt			
+			 ,  SHOW_AT				showAt
+			 ,  USE_AT				useAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+			 ,  USE_STFS_AT			useStfsAt
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_ID = #menuId#		
+	</select>
+	
+	<select id="SiteBackendDAO.selectSiteMenuByMenuTy" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  SITE_ID				siteId		
+			 ,  DEVICE				device
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout
+			 ,  USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  MNG_ORGNZT_ID		mngOrgnztId
+			 ,  MNG_STAFF_ID		mngStaffId
+			 ,  SHOW_CPYRGT_AT		showCpyrgtAt			
+			 ,  SHOW_AT				showAt
+			 ,  USE_AT				useAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+			 ,  USE_STFS_AT			useStfsAt
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_TY = #menuTy#
+		   AND  LINK_URL = #linkUrl#
+		 LIMIT  1		
+	</select>
+	
+	<select id="SiteBackendDAO.selectSiteMenuRootMenuId" parameterClass="SiteMenuVO" resultClass="java.lang.Integer">
+		SELECT  IFNULL(MAX(MENU_ID),0) AS menuId
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  PARNTS_MENU_ID = 0
+	</select>	
+	
+	<insert id="SiteBackendDAO.insertSiteMenu">
+		<selectKey resultClass="java.lang.Integer" keyProperty="menuId">
+			SELECT  IFNULL(MAX(MENU_ID),0)+1 AS MENU_ID 
+			  FROM  JMY_SITE_MENU
+			 WHERE  SITE_ID = #siteId# 
+			   AND  DEVICE = #device#
+		</selectKey>	
+		<![CDATA[
+		INSERT 
+		  INTO  JMY_SITE_MENU
+		     (  SITE_ID
+			 ,  DEVICE
+			 ,  MENU_ID
+			 ,  PARNTS_MENU_ID
+			 ,  MENU_NM
+			 ,  MENU_TY
+			 ,  LINK_TARGET
+			 ,  LINK_MENU_ID
+			 ,  LINK_BOARD_ID
+			 ,  LINK_URL
+			 ,  LINK_PARAM
+			 ,  POPUP_PARAM
+			 ,  THEME_ID
+			 ,  LAYOUT
+			 ,  USE_MNG_STAFF_AT
+			 ,  MNG_ORGNZT_ID
+			 ,  MNG_STAFF_ID	
+			 ,  SHOW_CPYRGT_AT		
+			 ,  SHOW_AT
+			 ,  USE_AT
+			 ,  LFT
+			 ,  RGT
+			 ,  LVL
+			 ,  USE_STFS_AT
+			 ,  PERM_GRP
+			 ,  PERM_LVL
+			 ,  FRST_REGIST_PNTTM			 
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #siteId#
+			 ,  #device#
+			 ,  #menuId#
+			 ,  #parntsMenuId#
+			 ,  #menuNm#
+			 ,  #menuTy#
+			 ,  #linkTarget#
+			 ,  #linkMenuId#
+			 ,  #linkBoardId#
+			 ,  #linkUrl#
+			 ,  #linkParam#
+			 ,  #popupParam#
+			 ,  #themeId#
+			 ,  #layout#
+			 ,  #useMngStaffAt#
+			 ,  #mngOrgnztId#
+			 ,  #mngStaffId#	
+			 ,  #showCpyrgtAt#		
+			 ,  #showAt#
+			 ,  #useAt#
+			 ,  #lft#
+			 ,  #rgt#
+			 ,  #lvl#
+			 ,  #useStfsAt#
+			 ,  #permGrp#
+			 ,  #permLvl#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#			 
+		     )			
+		]]>
+	</insert>
+	
+	<update id="SiteBackendDAO.updateSiteMenu">
+		UPDATE  JMY_SITE_MENU 
+		   SET  MENU_NM = #menuNm#
+			 ,  MENU_TY = #menuTy#
+			 ,  LINK_TARGET = #linkTarget#
+			 ,  LINK_MENU_ID = #linkMenuId#
+			 ,  LINK_BOARD_ID = #linkBoardId#
+			 ,  LINK_URL = #linkUrl#
+			 ,  LINK_PARAM = #linkParam#
+			 ,  POPUP_PARAM = #popupParam#
+			 ,  THEME_ID = #themeId#
+			 ,  USE_MNG_STAFF_AT = #useMngStaffAt#
+			 ,  MNG_ORGNZT_ID = #mngOrgnztId#
+			 ,  MNG_STAFF_ID = #mngStaffId#	
+			 ,  SHOW_CPYRGT_AT = #showCpyrgtAt#		
+			 ,  LAYOUT = #layout#
+			 ,  SHOW_AT = #showAt#
+			 ,  USE_AT = #useAt#
+			 ,  USE_STFS_AT = #useStfsAt#
+			 ,  PERM_GRP = #permGrp#
+			 ,  PERM_LVL = #permLvl#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()			 
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#				 
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_ID = #menuId#
+	</update>	
+	
+	<update id="SiteBackendDAO.updateChldrnSiteMenu">
+		UPDATE  JMY_SITE_MENU 
+		   SET  SITE_ID = #siteId#
+			<isEqual property="updateChldrnsLayout" compareValue="Y">
+			 ,  THEME_ID = #themeId#
+			 ,  LAYOUT = #layout#
+			</isEqual>
+			<isEqual property="updateChldrnsMngStaff" compareValue="Y">
+			 ,  USE_MNG_STAFF_AT = #useMngStaffAt#
+			 ,  MNG_ORGNZT_ID = #mngOrgnztId#
+			 ,  MNG_STAFF_ID = #mngStaffId#				
+			</isEqual>
+			<isEqual property="updateChldrnsStfs" compareValue="Y">
+			 ,  USE_STFS_AT = #useStfsAt#
+			</isEqual>
+			<isEqual property="updateChldrnsCpyrgtAt" compareValue="Y">
+			,  SHOW_CPYRGT_AT = #showCpyrgtAt#
+			</isEqual>			
+		<![CDATA[
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  (LFT > #lft# AND RGT < #rgt#)
+		]]>
+	</update>	
+	
+	<update id="SiteBackendDAO.updateSiteMenuLftForInsert">
+	<![CDATA[
+		UPDATE  JMY_SITE_MENU 
+		   SET  LFT = LFT + 2	
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  LFT > #lft#
+	]]>
+	</update>
+	
+	<update id="SiteBackendDAO.updateSiteMenuRgtForInsert">
+	<![CDATA[
+		UPDATE  JMY_SITE_MENU 
+		   SET  RGT = RGT + 2	
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  RGT > #rgt#
+	]]>			
+	</update>	
+	
+    <delete id="SiteBackendDAO.deleteSiteMenu">
+		DELETE 
+		  FROM  JMY_SITE_MENU 
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  LFT BETWEEN #lft# 
+		   AND  #rgt#
+    </delete>	
+    
+    <delete id="SiteBackendDAO.deleteSiteMenuBySiteId">
+		DELETE 
+		  FROM  JMY_SITE_MENU 
+		 WHERE  SITE_ID = #siteId#
+    </delete>	    
+    
+	<update id="SiteBackendDAO.updateSiteMenuLftForDelete">
+	<![CDATA[
+		UPDATE  JMY_SITE_MENU 
+		   SET  LFT = LFT - #width#	
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  LFT > #lft#
+	]]>
+	</update>
+	
+	<update id="SiteBackendDAO.updateSiteMenuRgtForDelete">
+	<![CDATA[
+		UPDATE  JMY_SITE_MENU 
+		   SET  RGT = RGT - #width#	
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  RGT > #rgt#
+	]]>			
+	</update>    
+	
+	<update id="SiteBackendDAO.updateSiteMenuMove">
+		UPDATE  JMY_SITE_MENU 
+		   SET  PARNTS_MENU_ID = #parntsMenuId#
+			 ,  LVL = #lvl#
+			 ,  LFT = #lft#
+			 ,  RGT = #rgt#							
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND MENU_ID = #menuId#
+	</update>    
+	
+	<select id="SiteBackendDAO.selectSiteContent" parameterClass="SiteContentVO" resultClass="SiteContentVO">
+		SELECT  CONTENT_ID			contentId
+			 ,  SITE_ID				siteId
+			 ,  DEVICE				device		
+			 ,  MENU_ID				menuId
+			 ,  CONTENT				content
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGISTER_ID	frstRegisterId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SITE_CONTENT
+		 WHERE  CONTENT_ID = #contentId#					
+	</select>
+
+	<select id="SiteBackendDAO.selectSiteContentByMenu" parameterClass="SiteContentVO" resultClass="SiteContentVO">
+		SELECT  CONTENT_ID			contentId
+			 ,  SITE_ID				siteId
+			 ,  DEVICE				device		
+			 ,  MENU_ID				menuId
+			 ,  CONTENT				content
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGISTER_ID	frstRegisterId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SITE_CONTENT
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_ID = #menuId#					
+	</select>
+		
+	<insert id="SiteBackendDAO.insertSiteContent">
+		INSERT 
+		  INTO  JMY_SITE_CONTENT
+		     (  CONTENT_ID
+			 ,  SITE_ID
+			 ,  DEVICE
+			 ,  MENU_ID
+			 ,  CONTENT
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+			 ,  LAST_UPDT_PNTTM
+		     )
+		VALUES
+		     (  #contentId#
+			 ,  #siteId#
+			 ,  #device#
+			 ,  #menuId#
+			 ,  #content#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+			 ,  SYSDATE()			 
+		     )			
+	</insert>
+	
+	<update id="SiteBackendDAO.updateSiteContent">
+		UPDATE  JMY_SITE_CONTENT 
+		   SET  CONTENT = #content#
+		     ,  LAST_UPDT_PNTTM = SYSDATE()
+		     ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  CONTENT_ID = #contentId#
+	</update>	
+		
+    <delete id="SiteBackendDAO.deleteSiteContentBySiteId">
+		DELETE 
+		  FROM  JMY_SITE_CONTENT 
+		 WHERE  SITE_ID = #siteId#
+    </delete>		
+
+	<insert id="SiteBackendDAO.insertSiteContentSatisfaction">
+		INSERT 
+		  INTO  JMY_SITE_CONTENT_SATISFACTION
+		     (  STSFDG_ID
+			 ,  SITE_ID
+			 ,  DEVICE
+			 ,  MENU_ID
+			 ,  WRTER_ID
+			 ,  WRTER_NM
+			 ,  STSFDG
+			 ,  STSFDG_CN
+			 ,  REGIST_PNTTM
+			 ,  REGISTER_IP
+		     )
+		VALUES
+		     (  #stsfdgId#
+			 ,  #siteId#
+			 ,  #device#
+			 ,  #menuId#
+			 ,  #wrterId#
+			 ,  #wrterNm#
+			 ,  #stsfdg#
+			 ,  #stsfdgCn#
+			 ,  SYSDATE()
+			 ,  #registerIp#
+		     )			
+	</insert>	
+	
+	<select id="SiteBackendDAO.selectSiteDomainList" parameterClass="SiteDomainVO" resultClass="SiteDomainVO">
+		SELECT  DOMAIN_ID			domainId
+			 ,  PARNTS_DOMAIN_ID	parntsDomainId
+			 ,  DOMAIN				domain
+			 ,  SITE_ID				siteId
+			 ,  MOBILE_YN			mobileYn
+		  FROM  JMY_SITE_DOMAIN
+		 WHERE  1=1
+		 		<isNotEmpty property="siteId">
+		   AND  SITE_ID = #siteId#
+		   		</isNotEmpty>		   	
+	  ORDER BY  DOMAIN ASC
+	</select>
+	
+	<select id="SiteBackendDAO.selectSiteDomain" parameterClass="SiteDomainVO" resultClass="SiteDomainVO">
+		SELECT  DOMAIN_ID			domainId
+			 ,  PARNTS_DOMAIN_ID	parntsDomainId
+			 ,  DOMAIN				domain
+			 ,  SITE_ID				siteId
+			 ,  MOBILE_YN			mobileYn
+		  FROM  JMY_SITE_DOMAIN
+		 WHERE  1=1
+		   AND  DOMAIN_ID = #domainId#			
+	</select>
+	
+	<select id="SiteBackendDAO.selectSiteDomainByUrl" parameterClass="SiteDomainVO" resultClass="SiteDomainVO">
+		SELECT  DOMAIN_ID			domainId
+			 ,  PARNTS_DOMAIN_ID	parntsDomainId
+			 ,  DOMAIN				domain
+			 ,  SITE_ID				siteId
+			 ,  MOBILE_YN			mobileYn
+		  FROM  JMY_SITE_DOMAIN
+		 WHERE  1=1
+		   AND  DOMAIN = #domain#			
+	</select>	
+	
+	<insert id="SiteBackendDAO.insertSiteDomain">
+		INSERT 
+		  INTO  JMY_SITE_DOMAIN
+		     (  DOMAIN_ID
+		     ,  PARNTS_DOMAIN_ID		     
+		     ,  DOMAIN
+			 ,  SITE_ID	
+			 ,  MOBILE_YN
+		     )
+		VALUES
+		     (  #domainId#
+		     ,  #parntsDomainId#
+		     ,  #domain#
+			 ,  #siteId#
+			 ,  #mobileYn#
+		     )			
+	</insert>
+	
+	<update id="SiteBackendDAO.updateSiteDomain">
+		UPDATE  JMY_SITE_DOMAIN
+		   SET  DOMAIN = #domain#
+			 ,  SITE_ID = #siteId#			
+			 ,  MOBILE_YN = #mobileYn#	 
+		 WHERE  DOMAIN_ID = #domainId#
+	</update>	
+	
+    <delete id="SiteBackendDAO.deleteSiteDomain">
+		DELETE 
+		  FROM  JMY_SITE_DOMAIN 
+		 WHERE  (DOMAIN_ID = #domainId# OR PARNTS_DOMAIN_ID = #domainId#) 
+    </delete>
+    
+	<select id="SiteBackendDAO.selectSiteContentSatisfactionList" parameterClass="SiteContentSatisfactionVO" resultClass="SiteContentSatisfactionVO">
+		SELECT  A.SITE_ID		siteId
+			 ,  A.DEVICE		device
+			 ,  A.MENU_ID		menuId  
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID AND STSFDG = 10) AS stsfdg10Count
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID AND STSFDG = 8) AS stsfdg8Count
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID AND STSFDG = 6) AS stsfdg6Count
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID AND STSFDG = 4) AS stsfdg4Count
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID AND STSFDG = 2) AS stsfdg2Count
+			 ,  (SELECT COUNT(*) FROM JMY_SITE_CONTENT_SATISFACTION WHERE SITE_ID = A.SITE_ID AND DEVICE = A.DEVICE AND MENU_ID = A.MENU_ID) AS stsfdgTotal
+			 ,  (
+					SELECT  GROUP_CONCAT(PARENT.MENU_NM SEPARATOR " > ")			
+					  FROM  JMY_SITE_MENU NODE
+					     ,  JMY_SITE_MENU PARENT 
+					 WHERE  NODE.LFT BETWEEN PARENT.LFT AND PARENT.RGT					 
+					   AND  PARENT.LVL != 1
+					   AND  NODE.MENU_ID = A.MENU_ID
+					   AND  PARENT.SITE_ID = A.SITE_ID
+					   AND  NODE.SITE_ID = A.SITE_ID
+					   AND  PARENT.DEVICE = A.DEVICE
+					   AND  NODE.DEVICE = A.DEVICE				 					 
+				  ORDER BY  PARENT.LFT ASC			 
+			 ) AS menuPath
+		  FROM  JMY_SITE_CONTENT_SATISFACTION A, JMY_SITE_MENU B 
+		 WHERE  A.SITE_ID = #siteId#
+		   AND  A.DEVICE = #device#	 		
+		   AND  (A.SITE_ID = B.SITE_ID AND A.DEVICE = B.DEVICE AND A.MENU_ID = B.MENU_ID)
+	  GROUP BY  A.MENU_ID
+	  ORDER BY  B.LFT ASC
+	</select>    
+	
+	<select id="SiteBackendDAO.selectSiteContentSatisfactionCommentList" parameterClass="SiteContentSatisfactionVO" resultClass="SiteContentSatisfactionVO">
+		SELECT  A.STSFDG_ID		stsfdgId
+			 ,  A.SITE_ID		siteId
+			 ,  A.DEVICE		device  
+			 ,  A.MENU_ID		menuId
+			 ,  A.WRTER_ID		wrterId
+			 ,  A.WRTER_NM		wrterNm
+			 ,  A.STSFDG		stsfdg
+			 ,  A.STSFDG_CN		stsfdgCn
+			 ,  A.REGIST_PNTTM	registPnttm
+			 ,  A.REGISTER_IP	registerIp
+		  FROM  JMY_SITE_CONTENT_SATISFACTION A
+		 WHERE  A.SITE_ID = #siteId#
+		   AND  A.DEVICE = #device#	 		
+		   AND  A.MENU_ID = #menuId#
+			<![CDATA[				   
+		   AND  LENGTH(A.STSFDG_CN) > 0
+			]]>		   
+	  ORDER BY  A.REGIST_PNTTM DESC
+	</select>	
+	
+</sqlMap>

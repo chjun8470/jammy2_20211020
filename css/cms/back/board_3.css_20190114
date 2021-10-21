@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+.h4_tit { background:url(/img/board/icon_tit.png) left center no-repeat; padding-left:23px; font-size:18px; font-weight:600; letter-spacing:-0.05em; color:#323232; margin-bottom:10px }
+/* 탭메뉴 */ 
+.tabBox_pub { width:100%; float:left; margin-bottom:28px ; margin-left:8px;}
+.tabBox_pub ul {  width:1000px; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
+.tabBox_pub ul li { width:156px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
+.tabBox_pub ul li a { color:#9b9b9b }
+.tabBox_pub ul li.on { width:156px; border:1px solid #00baff; background:url(/img/board/bg_tab_ovr.png) left top no-repeat }
+.tabBox_pub ul li.on a { color:#00baff }
+.tabBox_pub ul li.end { margin-right:0 }
+
+
+
+/*block list*/
+.list_top .publist_top_wrap{float:right}
+.list_top .publist_top_wrap .b_srchBox, .list_top .publist_top_wrap .b_srchBox_gap,.list_top .publist_top_wrap .b_btn_listBox{float:left}
+.list_top .publist_top_wrap .list_sort button{height:38px;padding:0;border:0;float:left}
+.list_top .publist_top_wrap .list_sort button.sort01{width:72px}
+.list_top .publist_top_wrap .list_sort button.sort02{width:72px}
+.list_top .publist_top_wrap .list_sort button.sort03{width:95px}
+.ContWrap  .Contents .pub_list ul.pub_list_block{border-top:1px solid #00baff;margin-top:108px;}
+.ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}
+.ContWrap  .Contents .pub_list ul.pub_list_block li.end{margin-right:0}
+.ContWrap  .Contents .pub_list ul.pub_list_block li p.tit_publist{padding:10px;height:44px;text-align:left;color:#000;}
+.pub_list ul.pub_list_blog{border-top:1px solid #00baff;margin-top:108px;}
+.pub_list ul.pub_list_blog li{float:left;padding:30px 0;border-bottom:1px solid #dbdbdb}
+.pub_list ul.pub_list_blog li p.img_publist_blog{float:left;border:7px solid #f1f1f1;margin-right:30px}
+.pub_list ul.pub_list_blog li .explanation p.tit_publist_blog01 a{font-size:24px;letter-spacing:-1px;color:#323232}
+.pub_list ul.pub_list_blog li .explanation p.txt_publist_blog01 {padding:20px 0}
+.pub_list ul.pub_list_blog li .explanation p.txt_publist_blog01 a{color:#787878;font-size:13px;}
+.pub_list ul.pub_list_blog li .explanation p.txt_publist_blog02 a{color:#464646;font-size:16px; letter-spacing:-1px;line-height:25px;}
+.pub_list ul.pub_list_blog li .explanation p.txt_publist_blog02{height:174px}
+.pub_list ul.pub_list_blog li.end{margin-right:0}
+.pub_list ul.pub_list_blog li p.tit_publist{padding:10px;height:44px;text-align:left;color:#000;}
+
+
+/* pubview */
+.basic_pubviewWrap2 {}
+.basic_pubviewWrap2 .h4_tit{background:url(../../../img/board/icon_tit.png) left 45px no-repeat;padding-left:23px;font-size:18px;font-weight:600;letter-spacing:-0.05em;color:#323232;margin-bottom:10px;border-top:1px solid #dbdbdb; padding-top:44px}
+.basic_pubviewWrap2 .pubview_text{padding:20px 0}
+.basic_pubviewWrap2 .pubview_text p{color:#464646;line-height:26px;font-size:15px;letter-spacing:-0.05em;padding:5px 0 5px 24px}
+
+.PubCont{text-align:center}
+p.TitPubView{font-size:36px;font-weight:normal;letter-spacing:-1px;color:#323232;padding-top:58px}
+p.TxtPubView2{padding:20px 0}
+.b_ContBox .PubCont p.down_publist{padding-bottom:30px}

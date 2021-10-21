@@ -1,0 +1,101 @@
+/* CSS Document */
+
+
+/* 장비상세조회 */
+.MoreView{padding-bottom:28px}
+.MoreView dl{height:50px;border:1px solid #ebebeb;width:463px;line-height:47px}
+.MoreView dl.MoreView01{float:left;border-right:none;border-bottom:none}
+.MoreView dl.MoreView02{float:right;border-bottom:none}
+.MoreView dl.MoreView03{float:left;border-right:none;margin-bottom:28px}
+.MoreView dl.MoreView04{float:right;margin-bottom:28px}
+.MoreView dl dt{background:url(../../../img/jipbank/common/mp_2dep_icon.png) 0 24px no-repeat;padding-left:10px;color:#666;font-size:16px;font-weight:600;margin-left:15px;float:left;padding-right:10px;}
+.MoreView dl dd{margin-left:15px;float:left}
+.MoreView dl dd.no_line{background:none}
+.MoreView dl dd.line{background:url(../../../img/jipbank/common/top_menu_gap.gif) 0 21px no-repeat;padding-left:16px}
+.MoreView dl dd.on{color:#3b88b7;border-bottom:3px solid #1884b2;font-weight:600}
+
+.MoreViewList01{padding:20px;border:1px solid #ebebeb;clear:both;height:282px;background:#fafafa}
+
+.MoreImg{float:left;height:282px;border:1px solid #ebebeb;margin-right:39px;line-height:35px}
+
+.MoreTxt{float:right;width:479px}
+.MoreTxt .MoreTop{border:1px solid #ebebeb;padding:5px;width:470px;font-size:11px;float:right;margin-bottom:20px;}
+.MoreTxt .MoreTop span.MoreTopNo{display:block;width:463px;overflow:hidden}
+.MoreTxt .MoreTop .star_publist_blog01{float:right;line-height:13px}
+.MoreTxt .MoreTop .star_publist_blog01 a{color:#2aade5;line-height:15px;font-size:14px}
+.MoreTxt .MoreTop{}
+.MoreTxt h4.MoreViewTit{font-size:23px;color:#0c5473;font-weight:600;letter-spacing:-1px}
+.MoreTxt h4.MoreViewTit span.MoreViewTit02{padding-left:15px;color:#323232;font-size:14px;letter-spacing:-0.5px}
+.MoreTxt dl{line-height:28px;font-size:15px;color:#444;padding-top:20px;padding-bottom:20px}
+.MoreTxt dl dt{float:left;width:132px;color:#3b87b8;font-weight:600}
+.MoreTxt dl dd{}
+.MoreTxt dl dd.map{width:741px;height:273px;background:#ebebeb}
+.MoreTxt .b_btn_area3{height:36px}
+.MoreTxt .b_btn_area3 button.btn_lft{width:235px;height:33px;padding:0;float:left;border:1px solid #464646;background:#fff;font-size:16px;letter-spacing:-0.03em;color:#000}
+
+
+.MoreViewEX{padding-top:30px;clear:both}
+.MoreViewEX dl{background:#fafafa}
+.MoreViewEX dl dt{float:left;backgound:#fafafa;color:#666;font-weight:600;width:162px;border-top:1px solid #ebebeb;padding:21px 15px;display:block;}
+.MoreViewEX dl dd{border-top:1px solid #ebebeb;margin-left:183px;padding:21px 18px;background:#fff;line-height:23px}
+.MoreViewEX dl dd.map{width:747px;height:273px;padding:0}
+
+.basicWrap .h3_tit{font-size:22px;font-weight:600;letter-spacing:-1px;color:#333;padding:15px;border:1px solid #ebebeb;margin-top:32px;margin-bottom:10px}
+.basicWrap .h4_tit{background:url(/img/board/icon_tit.png) left 45px no-repeat;padding-left:23px;font-size:18px;font-weight:600;letter-spacing:-0.05em;color:#323232;margin-bottom:10px;padding-top:44px}
+.basicWrap li{padding-left:20px;line-height:25px}
+.basicWrap p{text-align:right;line-height:25px}
+
+/*이미지*/
+.sub_img_wrap img{width:100%;max-width:930px}
+
+/*160621추가*/
+.h4_style_1 {padding:18px 0 0 0;font-size:18px;font-weight:600;}
+.p_box_1 p {text-align:justify !important;}
+
+/*JIPBANK소개*/
+.Cont24{background:url(/img/jipbank/cont/bg_cont24.png) right top no-repeat}
+.Cont24 .Cont24Img{width:431px;padding-top:55px}
+.Cont24 .Cont24txt{width:558px;padding:28px 0 121px 39px;font-size:15px;line-height:34px}
+.Cont24 ol{}
+.Cont24 li{float:left;width:205px;font-size:13px;color:#666;height:54px;padding:32px 0 0 80px;margin-left:20px}
+.Cont24 li.cont24_01{background:url(/img/jipbank/cont/bg_cont24_01.png) left center no-repeat;padding-top:38px;height:48px}
+.Cont24 li.cont24_02{background:url(/img/jipbank/cont/bg_cont24_02.png) left center no-repeat;padding-top:22px;height:64px}
+.Cont24 li.cont24_03{background:url(/img/jipbank/cont/bg_cont24_03.png) left center no-repeat}
+.Cont24 li.cont24_04{background:url(/img/jipbank/cont/bg_cont24_04.png) left center no-repeat}
+.Cont24 li.cont24_05{background:url(/img/jipbank/cont/bg_cont24_05.png) left center no-repeat}
+.Cont24 li.cont24_06{background:url(/img/jipbank/cont/bg_cont24_06.png) left center no-repeat}
+.Cont24 li.cont24_07{background:url(/img/jipbank/cont/bg_cont24_07.png) left center no-repeat}
+
+/*이용방법 및 절차*/
+.Cont28{background:url(/img/jipbank/cont/bg_cont28.jpg) center top no-repeat;height:752px;padding:58px 85px 107px 85px}
+.Cont28 li{width:187px;text-align:center;float:left;letter-spacing:-1px}
+.Cont28 li.cont28_list01{padding-right:99px;padding-top:104px}
+.Cont28 li.cont28_list02{padding-right:99px;padding-top:104px}
+.Cont28 li.cont28_list03{padding-top:117px}
+.Cont28 li.cont28_list04{padding-top:257px;float:right}
+.Cont28 li.cont28_list05{padding-right:99px;padding-top:259px;float:right}
+.Cont28 li.cont28_list06{padding-top:259px;float:right;padding-right:99px;}
+.Cont28 li.cont28_list07{padding-right:99px;padding-top:259px}
+.Cont28 li.cont28_list08{padding-right:99px;padding-top:259px}
+.Cont28 li p.cont28txt01{font-size:16px;color:#1e1e1e;line-height:27px}
+.Cont28 li p.cont28txt02{font-size:11px;color:#787878}
+
+/*오시는길*/
+#testMap{border:1px solid #ebebeb; width:100%!important; height:400px; margin:0 0 20px 0!important}
+.Cont84{background:#f9f9f9}
+.Cont84 dl{border-bottom:1px solid #ededed;padding:23px 0 16px 102px;height:68px;margin:0 20px}
+.Cont84 dl.Cont84List01{float:left;background:url(/img/common/map_icon01.png) 25px 24px no-repeat}
+.Cont84 dl.Cont84List01 dt{padding-top:8px}
+.Cont84 dl.Cont84List02{float:left;background:url(/img/common/map_icon02.png) 15px 24px  no-repeat;margin-right:0;width:306px;padding-left:92px}
+.Cont84 dl.Cont84List02 dt{padding-top:8px}
+.Cont84 dl.Cont84List03{background:url(/img/common/map_icon03.png) 25px 24px  no-repeat;clear:both;}
+.Cont84 dl.Cont84List04{background:url(/img/common/map_icon04.png) 25px 24px  no-repeat}
+.Cont84 dl.Cont84List05{background:url(/img/common/map_icon05.png) 25px 24px  no-repeat;border-bottom:none}
+.Cont84 dl dt{font-size:16px;color:#1e1e1e;padding-bottom:5px}
+.Cont84 dl dd{font-size:13px;color:#323232;line-height:20px}
+
+/*이메일무단수집거부*/
+.dsc_img{border:1px solid #ebebeb; background:url(/img/common/bg_email.jpg) 33px 26px no-repeat;text-align:left;padding:20px 20px 20px 155px}
+.dsc_img p.email01{color:#8e474f;font-size:13px;font-weight:600;letter-spacing:-1px;text-align:left}
+.dsc_img p.email02{font-size:12px;letter-spacing:-1px;text-align:left}
+

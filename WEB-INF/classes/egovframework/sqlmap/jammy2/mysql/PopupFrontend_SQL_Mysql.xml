@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PopupFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="Popup" type="egovframework.jammy2.popup.service.Popup"/>
+	<typeAlias  alias="PopupVO" type="egovframework.jammy2.popup.service.PopupVO"/>
+			
+	<select id="PopupFrontendDAO.selectPopupListByToday" parameterClass="PopupVO" resultClass="PopupVO">
+		SELECT  A.POPUP_ID				popupId
+			 ,  A.POPUP_TY				popupTy
+			 ,	A.TITLE					title
+			 ,	A.DEVICE				device
+			 ,	A.START_DT				startDt
+			 ,  A.END_DT				endDt
+			 ,	A.POPUP_WIDTH			popupWidth
+			 ,	A.POPUP_HEIGHT			popupHeight
+			 ,  A.POPUP_LEFT			popupLeft
+			 ,	A.POPUP_TOP				popupTop
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  (SELECT CONCAT(FILE_STRE_COURS, STRE_FILE_NM) AS ATCH_FILE_FULL_PATH FROM JMY_FILE_DETAIL WHERE ATCH_FILE_ID = A.ATCH_FILE_ID AND FILE_SN = "0")  AS atchFileFullPath
+			 ,  A.EDITOR_ATCH_FILE_ID	editorAtchFileId
+			 ,  A.SCROLL_AT				scrollAt
+			 ,  A.CONTENT				content
+			 ,  A.LINK_URL				linkUrl
+			 ,  A.LINK_TARGET			linkTarget
+			 ,  A.SHOW_SITE_IDS			showSiteIds
+		  FROM  JMY_POPUP A
+		 WHERE  <![CDATA[ DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') >= A.START_DT AND DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') <= A.END_DT ]]> 
+		   AND  A.USE_AT = "Y"
+		   AND	FIND_IN_SET(#searchSiteId#, A.SHOW_SITE_IDS)
+		   AND  A.POPUP_TY = #popupTy#	   
+		   AND  (A.DEVICE = "ALL" OR A.DEVICE = #device#)
+	  ORDER BY  A.POSITION ASC	
+	</select>
+			
+	<select id="PopupFrontendDAO.selectPopup" parameterClass="PopupVO" resultClass="PopupVO">
+		SELECT  A.POPUP_ID				popupId
+			 ,  A.POPUP_TY				popupTy
+			 ,	A.DEVICE				device
+			 ,	A.TITLE					title
+			 ,	A.START_DT				startDt
+			 ,  A.END_DT				endDt
+			 ,	A.POPUP_WIDTH			popupWidth
+			 ,	A.POPUP_HEIGHT			popupHeight
+			 ,  A.POPUP_LEFT			popupLeft
+			 ,	A.POPUP_TOP				popupTop
+			 ,  A.ATCH_FILE_ID			atchFileId
+			 ,  A.EDITOR_ATCH_FILE_ID	editorAtchFileId
+			 ,  A.SCROLL_AT				scrollAt
+			 ,  A.CONTENT				content
+			 ,  A.LINK_URL				linkUrl
+			 ,  A.LINK_TARGET			linkTarget
+			 ,  A.POSITION				position
+			 ,  A.SHOW_SITE_IDS			showSiteIds
+		  FROM  JMY_POPUP A
+		 WHERE  A.POPUP_ID = #popupId#
+		   AND	A.POPUP_TY = #popupTy#
+		   AND	A.USE_AT = "Y"
+		   AND	FIND_IN_SET(#searchSiteId#, A.SHOW_SITE_IDS)
+	</select>		
+	
+</sqlMap>

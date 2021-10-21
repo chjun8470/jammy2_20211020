@@ -1,0 +1,3725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspRegistrationMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getUtilityList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+								A.SEARCH_PATENT_IDX,
+								A.APLC_NO,
+								A.INVENTION_KOR_NM,
+								A.INVENTION_ENG_NM,
+								A.ICP_CL,
+								A.APLC_USER,
+								A.AGENT,
+								A.INVENTOR,
+								A.APLC_DT,
+								A.REG_NO,
+								A.REG_DT,
+								A.PUBLIC_NO,
+								A.PUBLIC_DT,
+								A.TCHNLGY_M_CL,
+								A.STATE,
+								A.MANAGER_IDX,
+								A.OWN_ORG_NM,
+								A.OWN_DEPT_NM,
+
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+
+								C.ORG_GRP_NM,
+								C.ORG_ENG_NM,
+								D.ORG_GRP_SUB_NM,
+								E.PSN_NM
+
+				FROM
+					   	 		TB_SEARCH_PATENT_UTILITY_MODEL A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+				WHERE 1 = 1
+]]>
+
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='authLv != "99" and authLv >= "70"'>
+                <if test='userTp == "3"'>
+                     <![CDATA[  AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd}) ]]>
+                </if>
+                <if test='userTp == "4"'>
+                     <![CDATA[  AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd} AND DEPT_NM = #{deptNm}) ]]>
+                </if>
+            </if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1 '>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.INVENTOR LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+								OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTOR LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_PATENT_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getDesignList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+								A.SEARCH_DESIGN_IDX,
+								A.STATE,
+								A.APLC_NO,
+								A.APLC_DT,
+								A.PUBLIC_NO,
+								A.PUBLIC_DT,
+								A.REG_DT,
+								A.KOREA_CL,
+								A.CREATION_USER,
+								A.APLC_USER,
+								A.AGENT,
+								A.USE_NM,
+								A.DESIGN_NO,
+								A.INTRL_CL,
+								A.OWN_ORG_NM,
+								A.OWN_DEPT_NM,
+								A.TCHNLGY_M_CL,
+								A.MANAGER_IDX,
+
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+
+								C.ORG_GRP_NM,
+								C.ORG_ENG_NM,
+								D.ORG_GRP_SUB_NM,
+								E.PSN_NM
+
+				FROM
+					    		TB_SEARCH_DESIGN AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+			WHERE 1 = 1
+]]>
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.CREATION_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.CREATION_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_DESIGN_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getBrandList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+								A.SEARCH_BRAND_IDX,
+								A.INTRL_APLC_NO,
+								A.INTRL_APLC_DT,
+								A.PBLANC_NO,
+								A.PBLANC_DT,
+								A.REG_NO,
+								A.REG_DT,
+								A.GOODS_CL,
+								A.FIGURE_CODE,
+								A.APLC_USER,
+								A.AGENT,
+								A.USE_NM,
+								A.OWN_ORG_NM,
+								A.OWN_DEPT_NM,
+								A.TCHNLGY_M_CL,
+								A.STATE,
+								A.MANAGER_IDX,
+
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+
+								C.ORG_GRP_NM,
+								C.ORG_ENG_NM,
+								D.ORG_GRP_SUB_NM,
+								E.PSN_NM
+
+				FROM
+					    		TB_SEARCH_BRAND AS A
+
+				LEFT JOIN 	TB_JNSP_FILE 	B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+			WHERE 1 = 1
+		]]>
+
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.INTRL_APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.INTRL_APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_BRAND_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getProgramList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+								A.SEARCH_PROGRAM_IDX,
+								A.CRT_WORK_DE,
+								A.PUBLICT_DE,
+								A.REG_DE,
+								A.REG_NO,
+								A.USE_NM,
+								A.PGM_AUTHOR,
+								A.CRT_PARTICIPANT,
+								A.OWN_ORG_NM,
+								A.OWN_DEPT_NM,
+								A.TCHNLGY_M_CL,
+								A.TCHNLGY_S_CL,
+								A.REPRSNT,
+								A.AREA_SIGUNGU,
+								A.AREA,
+								A.BEFORE_INFO,
+								A.PGM_DC,
+								A.TCHNLGY_INTRCN_DATA,
+								A.STATE,
+								A.MANAGER_IDX,
+
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+
+								C.ORG_GRP_NM,
+								C.ORG_ENG_NM,
+								D.ORG_GRP_SUB_NM,
+								E.PSN_NM
+
+				FROM
+					    		TB_SEARCH_PROGRAM A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+			WHERE 1 = 1
+			]]>
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.CRT_PARTICIPANT LIKE CONCAT('%', #{searchSelectText}, '%'))
+
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.CRT_PARTICIPANT LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_PROGRAM_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getKnowHowList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+								A.SEARCH_KNOWHOW_IDX,
+								A.TCHNLGY_NM,
+								A.KNOW_HOW_NO,
+								A.ORG_NM,
+								A.DEPT_NM,
+								A.RSPNBER_USER_NM,
+								A.RSPNBER_OFC_POSITION,
+								A.RSPNBER_TEL_NO,
+								A.RSPNBER_EMAIL,
+								A.RSPNBER_MOBILE_PHONE,
+								A.BEFORE_INFO,
+								A.STATE,
+								A.TCHNLGY_M_CL,
+								A.MANAGER_IDX,
+
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+
+								C.ORG_GRP_NM,
+								C.ORG_ENG_NM,
+								D.ORG_GRP_SUB_NM,
+								E.PSN_NM
+
+				FROM
+					   	 		TB_SEARCH_KNOW_HOW A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+
+			WHERE 1 = 1
+			]]>
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.RSPNBER_USER_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.RSPNBER_USER_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+			<![CDATA[
+			ORDER BY A.SEARCH_KNOWHOW_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getUtilityListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+					COUNT(0) AS CNT
+	   	FROM
+					TB_SEARCH_PATENT_UTILITY_MODEL AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+		WHERE
+				1= 1
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.INVENTOR LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+								OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTOR LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTION_KOR_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.INVENTION_ENG_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+	</select>
+
+	<select id="getDesignListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+					COUNT(0) AS CNT
+	 	FROM
+					TB_SEARCH_DESIGN AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+		WHERE
+				1= 1
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.CREATION_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.CREATION_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+	</select>
+
+	<select id="getBrandListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+					COUNT(0) AS CNT
+	  	FROM
+					TB_SEARCH_BRAND AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+		WHERE
+				1= 1
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+							AND ( A.INTRL_APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						AND ( A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	A.INTRL_APLC_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.APLC_USER LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+	</select>
+
+	<select id="getProgramListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+					COUNT(0) AS CNT
+	   	FROM
+					TB_SEARCH_PROGRAM AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.OWN_ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.OWN_DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+		WHERE
+				1= 1
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+							AND ( A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.CRT_PARTICIPANT LIKE CONCAT('%', #{searchSelectText}, '%'))
+
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND ( 	 A.REG_NO LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.CRT_PARTICIPANT LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.USE_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+							)
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND  A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.OWN_ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+	</select>
+
+	<select id="getKnowHowListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+	   	FROM
+				TB_SEARCH_KNOW_HOW AS A
+
+				LEFT JOIN TB_JNSP_FILE 		B	ON (A.REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN 	TB_ORG_GRP 		C	ON (A.ORG_NM = C.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB 	D	ON (A.DEPT_NM = D.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	E	ON (A.MANAGER_IDX = E.USER_IDX)
+
+		WHERE
+				1= 1
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND A.OWN_ORG_NM = #{listOrgGrpCd}
+			]]>
+			</if>
+			<if test='searchSelectText != null and searchSelectText != ""'>
+					<if test='searchSelect == 1'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 2'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 3'>
+						<![CDATA[
+						]]>
+					</if>
+					<if test='searchSelect == 4'>
+						<![CDATA[
+						AND ( A.RSPNBER_USER_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 5'>
+						<![CDATA[
+							AND ( A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+					<if test='searchSelect == 10'>
+						<![CDATA[
+							AND (  A.RSPNBER_USER_NM LIKE CONCAT('%', #{searchSelectText}, '%')
+									OR A.TCHNLGY_NM LIKE CONCAT('%', #{searchSelectText}, '%'))
+						]]>
+					</if>
+				</if>
+
+				<if test='searchArea != null and searchArea != ""'>
+					<![CDATA[
+						AND ( A.AREA_SIGUNGU LIKE CONCAT('%', #{searchArea}, '%'))
+					]]>
+				</if>
+
+				<if test='reDeth1 != null and reDeth1 != ""'>
+					<![CDATA[
+						AND A.TCHNLGY_M_CL = ${reDeth1}
+					]]>
+					<if test='reDeth2 != null and reDeth2 != ""'>
+						<![CDATA[
+							AND A.TCHNLGY_S_CL = ${reDeth2}
+						]]>
+					</if>
+				</if>
+				<if test='searchState != null and searchState != ""'>
+					<![CDATA[
+						AND A.STATE = ${searchState}
+					]]>
+				</if>
+
+				<if test='ownOrgNmText != null and ownOrgNmText != ""'>
+					<![CDATA[
+						AND ( A.ORG_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_GRP_NM LIKE CONCAT('%', #{ownOrgNmText}, '%') OR C.ORG_ENG_NM  LIKE CONCAT('%', #{ownOrgNmText}, '%'))
+					]]>
+				</if>
+
+	</select>
+
+	<select id="getUtility" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+							U.SEARCH_PATENT_IDX,
+							U.USER_IDX,
+							U.APLC_NO,
+							CASE 	WHEN U.APLC_NATION="A" THEN "대한민국"
+									WHEN U.APLC_NATION="B" THEN U.NATION_NM
+								  	ELSE ""
+							END APLC_NATION,
+							CASE 	WHEN U.RIGHT_SE="A" THEN "특허"
+									WHEN U.RIGHT_SE="B" THEN "실용실안"
+								   	ELSE ""
+							END RIGHT_SE,
+							U.INVENTION_KOR_NM,
+							U.INVENTION_ENG_NM,
+							CASE 	WHEN U.RIGHT_STATUS="A" THEN "거절"
+									WHEN U.RIGHT_STATUS="B" THEN "등록"
+								   	WHEN U.RIGHT_STATUS="C" THEN "소멸"
+								  	WHEN U.RIGHT_STATUS="D" THEN "무효"
+								   	WHEN U.RIGHT_STATUS="E" THEN "취하"
+								   	WHEN U.RIGHT_STATUS="F" THEN "포기"
+								   	WHEN U.RIGHT_STATUS="G" THEN "출원(공개)"
+								   	WHEN U.RIGHT_STATUS="H" THEN "출원(미공개)"
+									ELSE ""
+							END RIGHT_STATUS,
+							U.ICP_CL,
+							U.APLC_USER,
+							U.AGENT,
+							U.INVENTOR,
+							U.APLC_DT,
+							U.REG_NO,
+							U.REG_DT,
+							U.PUBLIC_NO,
+							U.PUBLIC_DT,
+							U.REPRSNT,
+							U.TECHNOLOGY_DC,
+							U.DETAILED_STATEMENT,
+							U.FIRST_PAYMENT_DT,
+							U.YEAR_PAYMENT_DT,
+							U.OWN_ORG_NM,
+							U.OWN_DEPT_NM,
+							U.TCHNLGY_M_CL AS U_TCHNLGY_M_CL,
+							U.TCHNLGY_S_CL AS U_TCHNLGY_S_CL,
+							CASE 	WHEN U.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+									WHEN U.BEFORE_INFO="B" THEN "양도"
+							   		WHEN U.BEFORE_INFO="C" THEN "전용실시"
+							   		WHEN U.BEFORE_INFO="D" THEN "통상실시"
+							  		WHEN U.BEFORE_INFO="E" THEN "무상이전"
+							  		WHEN U.BEFORE_INFO="F" THEN "이전불가"
+									ELSE ""
+							END BEFORE_INFO,
+							CASE 	WHEN U.TCHNLGYY_GRADE="A" THEN "우수기술"
+								WHEN U.TCHNLGYY_GRADE="B" THEN "유망기술"
+							   WHEN U.TCHNLGYY_GRADE="C" THEN "저가기술"
+							   WHEN U.TCHNLGYY_GRADE="D" THEN "무상기술"
+								ELSE ""
+							   END TCHNLGYY_GRADE,
+							U.REFERENCE_DATA,
+							U.NATION_NM,
+							U.AREA_SIGUNGU,
+							U.AREA,
+							U.STATE,
+							U.MANAGER_IDX,
+							C.NAME AS TCHNLGY_M_CL,
+							CC.NAME AS TCHNLGY_S_CL,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							SG.ORG_GRP_SUB_NM,
+							M.PSN_NM,
+							M.EMAIL,
+							M.TEL_NO,
+							M.DEPT_NM,
+							M.POSITION_NM,
+							N.ORG_GRP_NM AS MANAGER_ORG,
+
+							B.FILE_ID 	AS 	IMG_FILE_ID,
+							B.DATA_GRP 	AS 	IMG_DATA_GRP,
+							B.DATA_IDX 	AS 	IMG_DATA_IDX,
+							B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+							B.FILE_CAT 	AS 	IMG_FILE_CAT,
+							B.TITLE 	AS 	IMG_TITLE,
+							B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+							B.DELETE_YN AS 	IMG_DELETE_YN,
+							B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+							B.FILE_PATH AS 	IMG_FILE_PATH,
+							B.FILE_SIZE AS 	IMG_FILE_SIZE,
+							B.TITLE_ORG AS 	IMG_TITLE_ORG,
+							CASE
+									WHEN U.AREA = "1" THEN Y.CODE_NM
+									WHEN U.AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+
+
+				FROM
+					    		TB_SEARCH_PATENT_UTILITY_MODEL AS U
+
+				LEFT JOIN		TB_CODE_TYPE AS C	ON 	(U.TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN		TB_CODE_TYPE AS CC	ON	(U.TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN 		TB_JNSP_FILE 	B	ON	(U.REPRSNT = B.DATA_IDX AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN		TB_CODE AS 		Y	ON	(U.AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN		TB_CODE AS 		X 	ON	(U.AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 		TB_ORG_GRP 		G	ON 	(U.OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 		TB_ORG_GRP_SUB SG	ON 	(U.OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 		TB_USER_COPY 	M	ON 	(U.MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 		N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+
+				WHERE
+			 			 	U.SEARCH_PATENT_IDX = #{idx}
+	</select>
+
+	<select id="getDesign" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+							D.SEARCH_DESIGN_IDX,
+							D.USER_IDX,
+							D.APLC_NO,
+							D.APLC_DT,
+							D.PUBLIC_NO,
+							D.PUBLIC_DT,
+							D.REG_DT,
+							D.REG_NO,
+							CASE 	WHEN D.RIGHT_STATUS="A" THEN "거절"
+									WHEN D.RIGHT_STATUS="B" THEN "등록"
+								  	WHEN D.RIGHT_STATUS="C" THEN "소멸"
+								   	WHEN D.RIGHT_STATUS="D" THEN "무효"
+								   	WHEN D.RIGHT_STATUS="E" THEN "취하"
+								   	WHEN D.RIGHT_STATUS="F" THEN "포기"
+								   	WHEN D.RIGHT_STATUS="G" THEN "출원(공개)"
+									ELSE ""
+							END RIGHT_STATUS,
+							D.KOREA_CL,
+							D.CREATION_USER,
+							D.APLC_USER,
+							D.AGENT,
+							D.USE_NM,
+							D.DESIGN_NO,
+							D.INTRL_CL,
+							D.REPRSNT,
+							D.TECHNOLOGY_DC,
+							D.DETAILED_STATEMENT,
+							D.YEAR_PAYMENT_DT,
+							D.OWN_ORG_NM,
+							D.OWN_DEPT_NM,
+							D.TCHNLGY_M_CL AS D_TCHNLGY_M_CL,
+							D.TCHNLGY_S_CL AS D_TCHNLGY_S_CL,
+							CASE 	WHEN D.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+									WHEN D.BEFORE_INFO="B" THEN "양도"
+							   		WHEN D.BEFORE_INFO="C" THEN "전용실시"
+							   		WHEN D.BEFORE_INFO="D" THEN "통상실시"
+							   		WHEN D.BEFORE_INFO="E" THEN "무상이전"
+							   		WHEN D.BEFORE_INFO="F" THEN "이전불가"
+									ELSE ""
+							END BEFORE_INFO,
+							D.INTRCN_DATA,
+							D.AREA_SIGUNGU,
+							D.AREA,
+							D.STATE,
+							D.MANAGER_IDX,
+							C.NAME AS TCHNLGY_M_CL,
+							CC.NAME AS TCHNLGY_S_CL,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							SG.ORG_GRP_SUB_NM,
+							M.PSN_NM,
+							M.EMAIL,
+							M.TEL_NO,
+							M.DEPT_NM,
+							M.POSITION_NM,
+							N.ORG_GRP_NM AS MANAGER_ORG,
+
+							B.FILE_ID 	AS 	IMG_FILE_ID,
+							B.DATA_GRP 	AS 	IMG_DATA_GRP,
+							B.DATA_IDX 	AS 	IMG_DATA_IDX,
+							B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+							B.FILE_CAT 	AS 	IMG_FILE_CAT,
+							B.TITLE 	AS 	IMG_TITLE,
+							B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+							B.DELETE_YN AS 	IMG_DELETE_YN,
+							B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+							B.FILE_PATH AS 	IMG_FILE_PATH,
+							B.FILE_SIZE AS 	IMG_FILE_SIZE,
+							B.TITLE_ORG AS 	IMG_TITLE_ORG,
+							CASE
+									WHEN D.AREA = "1" THEN Y.CODE_NM
+									WHEN D.AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    		TB_SEARCH_DESIGN AS D
+
+				LEFT JOIN		TB_CODE_TYPE AS C	ON 	(D.TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN		TB_CODE_TYPE AS CC	ON	(D.TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN 		TB_JNSP_FILE 	B	ON	(D.REPRSNT = B.DATA_IDX AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN		TB_CODE AS 		Y	ON	(D.AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN		TB_CODE AS 		X 	ON	(D.AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 		TB_ORG_GRP 		G	ON 	(D.OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 		TB_ORG_GRP_SUB SG	ON 	(D.OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 		TB_USER_COPY 	M	ON 	(D.MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 		N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+			 	WHERE
+			 					D.SEARCH_DESIGN_IDX = #{idx}
+	</select>
+
+	<select id="getBrand" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+							B.SEARCH_BRAND_IDX,
+							B.USER_IDX,
+							B.INTRL_APLC_NO,
+							B.INTRL_APLC_DT,
+							CASE 	WHEN B.RIGHT_CL="A" THEN "상표"
+									WHEN B.RIGHT_CL="B" THEN "서비스표"
+							  	 	WHEN B.RIGHT_CL="C" THEN "업무표장"
+							   		WHEN B.RIGHT_CL="D" THEN "단체표장"
+							   		WHEN B.RIGHT_CL="E" THEN "지리적표시단체표장"
+							   		WHEN B.RIGHT_CL="F" THEN "상표/서비스"
+							   		WHEN B.RIGHT_CL="G" THEN "증명표장"
+									WHEN B.RIGHT_CL="H" THEN "지리적표시증명표장"
+									WHEN B.RIGHT_CL="I" THEN "국제등록상표(마드리드)"
+									ELSE ""
+							END RIGHT_CL,
+							B.PBLANC_NO,
+							B.PBLANC_DT,
+							B.REG_NO,
+							B.REG_DT,
+							CASE 	WHEN B.RIGHT_STATUS="A" THEN "거절"
+									WHEN B.RIGHT_STATUS="B" THEN "등록"
+								  	WHEN B.RIGHT_STATUS="C" THEN "소멸"
+								   	WHEN B.RIGHT_STATUS="D" THEN "무효"
+								   	WHEN B.RIGHT_STATUS="E" THEN "취하"
+								   	WHEN B.RIGHT_STATUS="F" THEN "포기"
+								   	WHEN B.RIGHT_STATUS="G" THEN "출원(공개)"
+								   	WHEN B.RIGHT_STATUS="H" THEN "출원(미공개)"
+									ELSE ""
+							END RIGHT_STATUS,
+							B.GOODS_CL,
+							B.FIGURE_CODE,
+							B.APLC_USER,
+							B.AGENT,
+							B.USE_NM,
+							B.REPRSNT,
+							B.TECHNOLOGY_DC,
+							B.DETAILED_STATEMENT,
+							B.YEAR_PAYMENT_DT,
+							B.OWN_ORG_NM,
+							B.OWN_DEPT_NM,
+							B.TCHNLGY_M_CL AS B_TCHNLGY_M_CL,
+							B.TCHNLGY_S_CL AS B_TCHNLGY_S_CL,
+							CASE 	WHEN B.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+									WHEN B.BEFORE_INFO="B" THEN "양도"
+							   		WHEN B.BEFORE_INFO="C" THEN "전용실시"
+							   		WHEN B.BEFORE_INFO="D" THEN "통상실시"
+							   		WHEN B.BEFORE_INFO="E" THEN "무상이전"
+							   		WHEN B.BEFORE_INFO="F" THEN "이전불가"
+									ELSE ""
+							END BEFORE_INFO,
+							B.REFERENCE_DATA,
+							B.AREA_SIGUNGU,
+							B.AREA,
+							B.STATE,
+							B.MANAGER_IDX,
+							C.NAME AS TCHNLGY_M_CL,
+							CC.NAME AS TCHNLGY_S_CL,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							SG.ORG_GRP_SUB_NM,
+							M.PSN_NM,
+							M.EMAIL,
+							M.TEL_NO,
+							M.DEPT_NM,
+							M.POSITION_NM,
+							N.ORG_GRP_NM AS MANAGER_ORG,
+
+							BB.FILE_ID 	AS 	IMG_FILE_ID,
+							BB.DATA_GRP 	AS 	IMG_DATA_GRP,
+							BB.DATA_IDX 	AS 	IMG_DATA_IDX,
+							BB.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+							BB.FILE_CAT 	AS 	IMG_FILE_CAT,
+							BB.TITLE 	AS 	IMG_TITLE,
+							BB.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+							BB.DELETE_YN AS 	IMG_DELETE_YN,
+							BB.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+							BB.FILE_PATH AS 	IMG_FILE_PATH,
+							BB.FILE_SIZE AS 	IMG_FILE_SIZE,
+							BB.TITLE_ORG AS 	IMG_TITLE_ORG,
+							CASE
+									WHEN B.AREA = "1" THEN Y.CODE_NM
+									WHEN B.AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    			TB_SEARCH_BRAND AS B
+
+				LEFT JOIN		TB_CODE_TYPE AS C	ON 	(B.TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN		TB_CODE_TYPE AS CC	ON	(B.TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN 		TB_JNSP_FILE 	BB	ON	(B.REPRSNT = BB.DATA_IDX AND BB.DATA_GRP = 'registartion_img')
+				LEFT JOIN		TB_CODE AS 		Y	ON	(B.AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN		TB_CODE AS 		X 	ON	(B.AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 		TB_ORG_GRP 		G	ON 	(B.OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 		TB_ORG_GRP_SUB SG	ON 	(B.OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 		TB_USER_COPY 	M	ON 	(B.MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 		N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+			 	WHERE
+			 						B.SEARCH_BRAND_IDX = #{idx}
+	</select>
+
+	<select id="getProgram" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+							P.SEARCH_PROGRAM_IDX,
+							P.USER_IDX,
+							P.CRT_WORK_DE,
+							P.PUBLICT_DE,
+							P.REG_DE,
+							P.REG_NO,
+							P.USE_NM,
+							P.PGM_AUTHOR,
+							P.CRT_PARTICIPANT,
+							P.OWN_ORG_NM,
+							P.OWN_DEPT_NM,
+							P.TCHNLGY_M_CL AS P_TCHNLGY_M_CL,
+							P.TCHNLGY_S_CL AS P_TCHNLGY_S_CL,
+							CASE 	WHEN P.BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+									WHEN P.BEFORE_INFO="B" THEN "양도"
+							   		WHEN P.BEFORE_INFO="C" THEN "전용실시"
+							   		WHEN P.BEFORE_INFO="D" THEN "통상실시"
+							   		WHEN P.BEFORE_INFO="E" THEN "무상이전"
+							   		WHEN P.BEFORE_INFO="F" THEN "이전불가"
+									ELSE ""
+							END BEFORE_INFO,
+							P.PGM_DC,
+							P.TCHNLGY_INTRCN_DATA,
+							P.REPRSNT,
+							P.AREA_SIGUNGU,
+							P.AREA,
+							P.STATE,
+							P.MANAGER_IDX,
+							C.NAME AS TCHNLGY_M_CL,
+							CC.NAME AS TCHNLGY_S_CL,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							SG.ORG_GRP_SUB_NM,
+							M.PSN_NM,
+							M.EMAIL,
+							M.TEL_NO,
+							M.DEPT_NM,
+							M.POSITION_NM,
+							N.ORG_GRP_NM AS MANAGER_ORG,
+
+							B.FILE_ID 	AS 	IMG_FILE_ID,
+							B.DATA_GRP 	AS 	IMG_DATA_GRP,
+							B.DATA_IDX 	AS 	IMG_DATA_IDX,
+							B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+							B.FILE_CAT 	AS 	IMG_FILE_CAT,
+							B.TITLE 	AS 	IMG_TITLE,
+							B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+							B.DELETE_YN AS 	IMG_DELETE_YN,
+							B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+							B.FILE_PATH AS 	IMG_FILE_PATH,
+							B.FILE_SIZE AS 	IMG_FILE_SIZE,
+							B.TITLE_ORG AS 	IMG_TITLE_ORG,
+							CASE
+									WHEN P.AREA = "1" THEN Y.CODE_NM
+									WHEN P.AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+			FROM
+					    		TB_SEARCH_PROGRAM AS P
+
+				LEFT JOIN		TB_CODE_TYPE AS C	ON 	(P.TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN		TB_CODE_TYPE AS CC	ON	(P.TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN 		TB_JNSP_FILE 	B	ON	(P.REPRSNT = B.DATA_IDX AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN		TB_CODE AS 		Y	ON	(P.AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN		TB_CODE AS 		X 	ON	(P.AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 		TB_ORG_GRP 		G	ON 	(P.OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 		TB_ORG_GRP_SUB SG	ON 	(P.OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 		TB_USER_COPY 	M	ON 	(P.MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 		N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+			WHERE
+								P.SEARCH_PROGRAM_IDX = #{idx}
+	</select>
+
+	<select id="getKnowHow" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+							H.SEARCH_KNOWHOW_IDX,
+							H.USER_IDX,
+							H.KNOW_HOW_NO,
+							H.TCHNLGY_NM,
+							H.ORG_NM,
+							H.DEPT_NM,
+							H.RSPNBER_USER_NM,
+							H.RSPNBER_OFC_POSITION,
+							H.RSPNBER_TEL_NO,
+							H.RSPNBER_EMAIL,
+							H.RSPNBER_MOBILE_PHONE,
+							H.PARTICIPANT_POSITION,
+							H.PARTICIPANT_USER_NAME,
+							H.PARTICIPANT_OFC_POSITION,
+							H.TECHNOLOGY_DC,
+							CASE 	WHEN H.BEFORE_INFO="E" THEN "무상이전"
+									WHEN H.BEFORE_INFO="G" THEN "유상이전"
+								   ELSE ""
+							END BEFORE_INFO,
+							H.TCHNLGY_INTRCN_DATA,
+							H.REG_DT,
+							H.REPRSNT,
+							H.AREA_SIGUNGU,
+							H.AREA,
+							H.STATE,
+							H.MANAGER_IDX,
+							H.TCHNLGY_M_CL AS H_TCHNLGY_M_CL,
+							H.TCHNLGY_S_CL AS H_TCHNLGY_S_CL,
+							C.NAME AS TCHNLGY_M_CL,
+							CC.NAME AS TCHNLGY_S_CL,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							SG.ORG_GRP_SUB_NM,
+							M.PSN_NM,
+							M.EMAIL,
+							M.TEL_NO,
+							M.DEPT_NM,
+							M.POSITION_NM,
+							N.ORG_GRP_NM AS MANAGER_ORG,
+
+							B.FILE_ID 	AS 	IMG_FILE_ID,
+							B.DATA_GRP 	AS 	IMG_DATA_GRP,
+							B.DATA_IDX 	AS 	IMG_DATA_IDX,
+							B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+							B.FILE_CAT 	AS 	IMG_FILE_CAT,
+							B.TITLE 	AS 	IMG_TITLE,
+							B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+							B.DELETE_YN AS 	IMG_DELETE_YN,
+							B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+							B.FILE_PATH AS 	IMG_FILE_PATH,
+							B.FILE_SIZE AS 	IMG_FILE_SIZE,
+							B.TITLE_ORG AS 	IMG_TITLE_ORG,
+							CASE
+									WHEN H.AREA = "1" THEN Y.CODE_NM
+									WHEN H.AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    		TB_SEARCH_KNOW_HOW AS H
+
+				LEFT JOIN		TB_CODE_TYPE AS C	ON 	(H.TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN		TB_CODE_TYPE AS CC	ON	(H.TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN 		TB_JNSP_FILE 	B	ON	(H.REPRSNT = B.DATA_IDX AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN		TB_CODE AS 		Y	ON	(H.AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN		TB_CODE AS 		X 	ON	(H.AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 		TB_ORG_GRP 		G	ON 	(H.ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 		TB_ORG_GRP_SUB SG	ON 	(H.DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 		TB_USER_COPY 	M	ON 	(H.MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 		N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+				WHERE
+								H.SEARCH_KNOWHOW_IDX = #{idx}
+	</select>
+
+	<update id="setUtilityUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_PATENT_UTILITY_MODEL SET
+					APLC_NO= #{utilityAplcNo},
+					APLC_NATION = #{utilityAplcNation},
+					RIGHT_SE = #{utilityRightSe},
+					INVENTION_KOR_NM = #{utilityInventionKorNm},
+					INVENTION_ENG_NM = #{utilityInventionEngNm},
+					RIGHT_STATUS = #{utilityRightStatus},
+					ICP_CL = #{utilityIcpCl},
+					APLC_USER = #{utilityAplcUser},
+					AGENT = #{utilityAgent},
+					INVENTOR = #{utilityInventor},
+					APLC_DT = #{utilityAplcDt},
+					REG_NO =  #{utilityRegNo},
+					REG_DT = #{utilityRegDt},
+					PUBLIC_NO=  #{utilityPublicNo},
+					PUBLIC_DT=  #{utilityPublicDt},
+					REPRSNT=  #{utilityReprsnt},
+					TECHNOLOGY_DC=  #{utilityTechnologyDc},
+					DETAILED_STATEMENT=  #{utilityDetailedStatement},
+					FIRST_PAYMENT_DT=  #{utilityFirstPaymentDt},
+					YEAR_PAYMENT_DT=  #{utilityYearPaymentDt},
+					OWN_ORG_NM=  #{OwnOrg},
+					OWN_DEPT_NM=  #{OwnDept},
+					TCHNLGY_M_CL=  #{utilityTchnlgyMCl},
+					TCHNLGY_S_CL=  #{utilityTchnlgySCl},
+					BEFORE_INFO=  #{utilityBeforeInfo},
+					TCHNLGYY_GRADE=  #{utilityTchnlgyyGrade},
+					REFERENCE_DATA=  #{utilityReferenceData},
+					NATION_NM=  #{utilityNationNm},
+					AREA_SIGUNGU= #{utilitysearchArea},
+					AREA= #{utilityArea},
+					MANAGER_IDX = #{ManagerIdx}
+			WHERE
+					SEARCH_PATENT_IDX = #{idx}
+		]]>
+	</update>
+
+	<update id="setDesignUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_DESIGN SET
+					APLC_NO= #{designAplcNo},
+					APLC_DT = #{designAplcDt},
+					PUBLIC_NO = #{designPublicNo},
+					PUBLIC_DT = #{designPublicDt},
+					REG_DT = #{designRegDt},
+					REG_NO = #{designRegNo},
+					RIGHT_STATUS = #{designRightStatus},
+					KOREA_CL = #{designKoreaCl},
+					CREATION_USER = #{designCreationUser},
+					APLC_USER = #{designAplcUser},
+					AGENT = #{designAgent},
+					USE_NM = #{designUseNm},
+					DESIGN_NO =  #{designDesignNo},
+					INTRL_CL = #{designIntrlCl},
+					REPRSNT=  #{designReprsnt},
+					TECHNOLOGY_DC=  #{designTechnologyDc},
+					DETAILED_STATEMENT=  #{designDetailedStatement},
+					YEAR_PAYMENT_DT=  #{designYearPaymentDt},
+					OWN_ORG_NM=  #{OwnOrg},
+					OWN_DEPT_NM=  #{OwnDept},
+					TCHNLGY_M_CL=  #{designTchnlgyMCl},
+					TCHNLGY_S_CL=  #{designTchnlgySCl},
+					BEFORE_INFO=  #{designBeforeInfo},
+					INTRCN_DATA=  #{designIntrcnData},
+					AREA_SIGUNGU= #{designsearchArea},
+					AREA= #{designArea},
+					MANAGER_IDX = #{ManagerIdx}
+			WHERE
+					SEARCH_DESIGN_IDX = #{idx}
+		]]>
+	</update>
+
+	<update id="setBrandUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_BRAND SET
+					INTRL_APLC_NO= #{brandIntrlAplcNo},
+					INTRL_APLC_DT = #{brandIntrlAplcDt},
+					RIGHT_CL = #{brandRightCl},
+					PBLANC_NO = #{brandPblancNo},
+					PBLANC_DT = #{brandPblancDt},
+					REG_NO = #{brandRegNo},
+					REG_DT = #{brandRegDt},
+					RIGHT_STATUS = #{brandRightStatus},
+					GOODS_CL = #{brandGoodsCl},
+					FIGURE_CODE = #{brandFigureCode},
+					APLC_USER = #{brandAplcUser},
+					AGENT =  #{brandAgent},
+					USE_NM = #{brandUseNm},
+					REPRSNT=  #{brandReprsnt},
+					TECHNOLOGY_DC=  #{brandTechnologyDc},
+					DETAILED_STATEMENT=  #{brandDetailedStatement},
+					YEAR_PAYMENT_DT=  #{brandYearPaymentDt},
+					OWN_ORG_NM=  #{OwnOrg},
+					OWN_DEPT_NM=  #{OwnDept},
+					TCHNLGY_M_CL=  #{brandTchnlgyMCl},
+					TCHNLGY_S_CL=  #{brandTchnlgySCl},
+					BEFORE_INFO=  #{brandBeforeInfo},
+					REFERENCE_DATA=  #{brandReferenceData},
+					AREA_SIGUNGU= #{brandsearchArea},
+					AREA= #{brandArea},
+					MANAGER_IDX = #{ManagerIdx}
+			WHERE
+					SEARCH_BRAND_IDX = #{idx}
+		]]>
+	</update>
+
+	<update id="setProgramUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_PROGRAM SET
+					CRT_WORK_DE= #{programCrtWorkDe},
+					PUBLICT_DE = #{programPublictDe},
+					REG_DE = #{programRegDe},
+					REG_NO = #{programRegNo},
+					USE_NM = #{programUseNm},
+					PGM_AUTHOR = #{programPgmAuthor},
+					CRT_PARTICIPANT = #{programCrtParticipant},
+					OWN_ORG_NM = #{OwnOrg},
+					OWN_DEPT_NM = #{OwnDept},
+					TCHNLGY_M_CL = #{programTchnlgyMCl},
+					TCHNLGY_S_CL = #{programTchnlgySCl},
+					BEFORE_INFO =  #{programBeforeInfo},
+					PGM_DC = #{programPgmDc},
+					TCHNLGY_INTRCN_DATA=  #{programTchnlgyIntrcnData},
+					REPRSNT=  #{utility_reprsnt},
+					AREA_SIGUNGU= #{programsearchArea},
+					AREA= #{programArea},
+					MANAGER_IDX = #{ManagerIdx}
+			WHERE
+					SEARCH_PROGRAM_IDX = #{idx}
+		]]>
+	</update>
+
+	<update id="setKnowHowUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_SEARCH_KNOW_HOW SET
+					TCHNLGY_NM= #{knowhowTchnlgyNm},
+					ORG_NM = #{OwnOrg},
+					DEPT_NM = #{OwnDept},
+					RSPNBER_USER_NM = #{knowhowRspnberUserNm},
+					RSPNBER_OFC_POSITION = #{knowhowRspnberOfcPosition},
+					RSPNBER_TEL_NO = #{knowhowRspnberTelNo},
+					RSPNBER_EMAIL = #{knowhowRspnberEmail},
+					RSPNBER_MOBILE_PHONE = #{knowhowRspnberMobilePhone},
+					PARTICIPANT_POSITION = #{knowhowParticipantPosition},
+					PARTICIPANT_USER_NAME = #{knowhowParticipantUserName},
+					PARTICIPANT_OFC_POSITION = #{knowhowParticipantOfcPosition},
+					TECHNOLOGY_DC =  #{knowhowTechnologyDc},
+					BEFORE_INFO = #{knowhowBeforeInfo},
+					TCHNLGY_INTRCN_DATA=  #{knowhowTchnlgyIntrcnData},
+					REG_DT=  #{knowhowRegDt},
+					REPRSNT=  #{utility_reprsnt},
+					AREA_SIGUNGU= #{knowhowsearchArea},
+					AREA= #{knowhowArea},
+					TCHNLGY_M_CL = #{knowhowTchnlgyMCl},
+					TCHNLGY_S_CL = #{knowhowTchnlgySCl},
+					MANAGER_IDX = #{ManagerIdx}
+			WHERE
+					SEARCH_KNOWHOW_IDX = #{idx}
+		]]>
+	</update>
+
+
+
+	<delete id="deleteUtilityModel" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_SEARCH_PATENT_UTILITY_MODEL
+			 WHERE SEARCH_PATENT_IDX = '${idx}'
+	</delete>
+
+	<delete id="deleteDesign" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_SEARCH_DESIGN
+			 WHERE SEARCH_DESIGN_IDX = '${idx}'
+	</delete>
+
+	<delete id="deleteBrand" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_SEARCH_BRAND
+			 WHERE SEARCH_BRAND_IDX = '${idx}'
+	</delete>
+
+	<delete id="deleteProgram" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_SEARCH_PROGRAM
+			 WHERE SEARCH_PROGRAM_IDX = '${idx}'
+	</delete>
+
+	<delete id="deleteKnowHow" parameterType="paramMap">
+			 DELETE
+			    FROM
+					TB_SEARCH_KNOW_HOW
+			 WHERE SEARCH_KNOWHOW_IDX = '${idx}'
+	</delete>
+
+
+
+	<!-- 특허실용 -->
+	<insert id="insertUtilityModel" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_PATENT_IDX">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_SEARCH_PATENT_UTILITY_MODEL
+			(
+					APLC_NO,
+					APLC_NATION,
+					RIGHT_SE,
+					INVENTION_KOR_NM,
+					INVENTION_ENG_NM,
+					RIGHT_STATUS,
+					ICP_CL,
+					APLC_USER,
+					AGENT,
+					INVENTOR,
+					APLC_DT,
+					REG_NO,
+					REG_DT,
+					PUBLIC_NO,
+					PUBLIC_DT,
+					REPRSNT,
+					TECHNOLOGY_DC,
+					DETAILED_STATEMENT,
+					FIRST_PAYMENT_DT,
+					YEAR_PAYMENT_DT,
+					OWN_ORG_NM,
+					OWN_DEPT_NM,
+					TCHNLGY_M_CL,
+					TCHNLGY_S_CL,
+					BEFORE_INFO,
+					TCHNLGYY_GRADE,
+					REFERENCE_DATA,
+					NATION_NM,
+					AREA_SIGUNGU,
+					AREA,
+					USER_IDX,
+					ORG_GRP_CD,
+					MANAGER_IDX
+			)
+			VALUES
+			(
+					#{utilityAplcNo},
+					#{utilityAplcNation},
+					#{utilityRightSe},
+					#{utilityInventionKorNm},
+					#{utilityInventionEngNm},
+					#{utilityRightStatus},
+					#{utilityIcpCl},
+					#{utilityAplcUser},
+					#{utilityAgent},
+					#{utilityInventor},
+					#{utilityAplcDt},
+					#{utilityRegNo},
+					#{utilityRegDt},
+					#{utilityPublicNo},
+					#{utilityPublicDt},
+					#{utilityReprsnt},
+					#{utilityTechnologyDc},
+					#{utilityDetailedStatement},
+					#{utilityFirstPaymentDt},
+					#{utilityYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{utilityTchnlgyMCl},
+					#{utilityTchnlgySCl},
+					#{utilityBeforeInfo},
+					#{utilityTchnlgyyGrade},
+					#{utilityReferenceData},
+					#{utilityNationNm},
+					#{utilitysearchArea},
+					#{utilityArea},
+					#{user_idx},
+					#{org_grp_cd},
+					#{ManagerIdx}
+			)
+	</insert>
+
+	<!-- 디자인 -->
+	<insert id="insertDesign" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_DESIGN_IDX">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_SEARCH_DESIGN
+			(
+					APLC_NO,
+					APLC_DT,
+					PUBLIC_NO,
+					PUBLIC_DT,
+					REG_DT,
+					REG_NO,
+					RIGHT_STATUS,
+					KOREA_CL,
+					CREATION_USER,
+					APLC_USER,
+					AGENT,
+					USE_NM,
+					DESIGN_NO,
+					INTRL_CL,
+					REPRSNT,
+					TECHNOLOGY_DC,
+					DETAILED_STATEMENT,
+					YEAR_PAYMENT_DT,
+					OWN_ORG_NM,
+					OWN_DEPT_NM,
+					TCHNLGY_M_CL,
+					TCHNLGY_S_CL,
+					BEFORE_INFO,
+					INTRCN_DATA,
+					AREA_SIGUNGU,
+					AREA,
+					USER_IDX,
+					ORG_GRP_CD,
+					MANAGER_IDX
+			)
+			VALUES
+			(
+					#{designAplcNo},
+					#{designAplcDt},
+					#{designPublicNo},
+					#{designPublicDt},
+					#{designRegDt},
+					#{designRegNo},
+					#{designRightStatus},
+					#{designKoreaCl},
+					#{designCreationUser},
+					#{designAplcUser},
+					#{designAgent},
+					#{designUseNm},
+					#{designDesignNo},
+					#{designIntrlCl},
+					#{designReprsnt},
+					#{designTechnologyDc},
+					#{designDetailedStatement},
+					#{designYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{designTchnlgyMCl},
+					#{designTchnlgySCl},
+					#{designBeforeInfo},
+					#{designIntrcnData},
+					#{designsearchArea},
+					#{designArea},
+					#{user_idx},
+					#{org_grp_cd},
+					#{ManagerIdx}
+			)
+	</insert>
+
+	<!-- 상표 -->
+	<insert id="insertBrand" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_BRAND_IDX">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_SEARCH_BRAND
+			(
+					INTRL_APLC_NO,
+					INTRL_APLC_DT,
+					RIGHT_CL,
+					PBLANC_NO,
+					PBLANC_DT,
+					REG_NO,
+					REG_DT,
+					RIGHT_STATUS,
+					GOODS_CL,
+					FIGURE_CODE,
+					APLC_USER,
+					AGENT,
+					USE_NM,
+					REPRSNT,
+					TECHNOLOGY_DC,
+					DETAILED_STATEMENT,
+					YEAR_PAYMENT_DT,
+					OWN_ORG_NM,
+					OWN_DEPT_NM,
+					TCHNLGY_M_CL,
+					TCHNLGY_S_CL,
+					BEFORE_INFO,
+					REFERENCE_DATA,
+					AREA_SIGUNGU,
+					AREA,
+					USER_IDX,
+					ORG_GRP_CD,
+					MANAGER_IDX
+			)
+			VALUES
+			(
+					#{brandIntrlAplcNo},
+					#{brandIntrlAplcDt},
+					#{brandRightCl},
+					#{brandPblancNo},
+					#{brandPblancDt},
+					#{brandRegNo},
+					#{brandRegDt},
+					#{brandRightStatus},
+					#{brandGoodsCl},
+					#{brandFigureCode},
+					#{brandAplcUser},
+					#{brandAgent},
+					#{brandUseNm},
+					#{brandReprsnt},
+					#{brandTechnologyDc},
+					#{brandDetailedStatement},
+					#{brandYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{brandTchnlgyMCl},
+					#{brandTchnlgySCl},
+					#{brandBeforeInfo},
+					#{brandReferenceData},
+					#{brandsearchArea},
+					#{brandArea},
+					#{user_idx},
+					#{org_grp_cd},
+					#{ManagerIdx}
+			)
+	</insert>
+
+	<!-- 프로그램 -->
+	<insert id="insertProgram" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_PROGRAM_IDX">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_SEARCH_PROGRAM
+			(
+                	CRT_WORK_DE,
+					PUBLICT_DE,
+					REG_DE,
+					REG_NO,
+					USE_NM,
+					PGM_AUTHOR,
+					CRT_PARTICIPANT,
+					OWN_ORG_NM,
+					OWN_DEPT_NM,
+					TCHNLGY_M_CL,
+					TCHNLGY_S_CL,
+					BEFORE_INFO,
+					PGM_DC,
+					TCHNLGY_INTRCN_DATA,
+					REPRSNT,
+					AREA_SIGUNGU,
+					AREA,
+	                USER_IDX,
+					ORG_GRP_CD,
+					MANAGER_IDX
+			)
+			VALUES
+			(
+					#{programCrtWorkDe},
+					#{programPublictDe},
+					#{programRegDe},
+					#{programRegNo},
+					#{programUseNm},
+					#{programPgmAuthor},
+					#{programCrtParticipant},
+					#{OwnOrg},
+					#{OwnDept},
+					#{programTchnlgyMCl},
+					#{programTchnlgySCl},
+					#{programBeforeInfo},
+					#{programPgmDc},
+					#{programTchnlgyIntrcnData},
+					#{programReprsnt},
+					#{programsearchArea},
+					#{programArea},
+					#{user_idx},
+					#{org_grp_cd},
+					#{ManagerIdx}
+			)
+	</insert>
+
+	<!-- 노하우 -->
+	<insert id="insertKnowHow" parameterType="paramMap" useGeneratedKeys="true" keyProperty="SEARCH_KNOWHOW_IDX">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_SEARCH_KNOW_HOW
+			(
+					TCHNLGY_NM,
+					KNOW_HOW_NO,
+					ORG_NM,
+					DEPT_NM,
+					RSPNBER_USER_NM,
+					RSPNBER_OFC_POSITION,
+					RSPNBER_TEL_NO,
+					RSPNBER_EMAIL,
+					RSPNBER_MOBILE_PHONE,
+					PARTICIPANT_POSITION,
+					PARTICIPANT_USER_NAME,
+					PARTICIPANT_OFC_POSITION,
+					TECHNOLOGY_DC,
+					BEFORE_INFO,
+					TCHNLGY_INTRCN_DATA,
+					REG_DT,
+					REPRSNT,
+					AREA_SIGUNGU,
+					AREA,
+					TCHNLGY_M_CL,
+					TCHNLGY_S_CL,
+	                USER_IDX,
+					ORG_GRP_CD,
+					MANAGER_IDX
+
+			)
+			VALUES
+			(
+					#{knowhowTchnlgyNm},
+					#{knowHowNo},
+					#{OwnOrg},
+					#{OwnDept},
+					#{knowhowRspnberUserNm},
+					#{knowhowRspnberOfcPosition},
+					#{knowhowRspnberTelNo},
+					#{knowhowRspnberEmail},
+					#{knowhowRspnberMobilePhone},
+					#{knowhowParticipantPosition},
+					#{knowhowParticipantUserName},
+					#{knowhowParticipantOfcPosition},
+					#{knowhowTechnologyDc},
+					#{knowhowBeforeInfo},
+					#{knowhowTchnlgyIntrcnData},
+					#{knowhowRegDt},
+					#{knowhowReprsnt},
+					#{knowhowsearchArea},
+					#{knowhowArea},
+					#{knowhowTchnlgyMCl},
+					#{knowhowTchnlgySCl},
+					#{user_idx},
+					#{org_grp_cd},
+					#{ManagerIdx}
+			)
+	</insert>
+
+	<select id="getUtilitySeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(SEARCH_PATENT_IDX)
+		FROM
+				TB_SEARCH_PATENT_UTILITY_MODEL
+	</select>
+
+	<select id="getDesignSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(SEARCH_DESIGN_IDX)
+		FROM
+				TB_SEARCH_DESIGN
+	</select>
+
+	<select id="getBrandSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(SEARCH_BRAND_IDX)
+		FROM
+				TB_SEARCH_BRAND
+	</select>
+
+	<select id="getProgramSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(SEARCH_PROGRAM_IDX)
+		FROM
+				TB_SEARCH_PROGRAM
+	</select>
+
+	<select id="getKnowHowSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				MAX(SEARCH_KNOWHOW_IDX)
+		FROM
+				TB_SEARCH_KNOW_HOW
+	</select>
+
+	<!-- 지역(시군구) 가져오기 KnowHow -->
+	<select id="getAreaSigunguList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'AreaSigungu'
+	</select>
+	<select id="getAreaList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'OtherArea'
+	</select>
+
+	<update id="setUtilityUpdateState" parameterType="paramMap">
+		UPDATE TB_SEARCH_PATENT_UTILITY_MODEL SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+					SEARCH_PATENT_IDX = #{idx}
+	</update>
+
+	<update id="setDesignUpdateState" parameterType="paramMap">
+		UPDATE TB_SEARCH_DESIGN SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+					SEARCH_DESIGN_IDX = #{idx}
+	</update>
+
+	<update id="setBrandUpdateState" parameterType="paramMap">
+		UPDATE TB_SEARCH_BRAND SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+					SEARCH_BRAND_IDX = #{idx}
+	</update>
+
+	<update id="setProgramUpdateState" parameterType="paramMap">
+		UPDATE TB_SEARCH_PROGRAM SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+					SEARCH_PROGRAM_IDX = #{idx}
+	</update>
+
+	<update id="setKnowHowUpdateState" parameterType="paramMap">
+		UPDATE TB_SEARCH_KNOW_HOW SET
+				STATE = #{state},
+				REJECT = #{reject}
+		WHERE
+					SEARCH_KNOWHOW_IDX = #{idx}
+	</update>
+
+
+
+	<!-- 승인 시 특허실용수정 S -->
+	<delete id="setUtilityUpInsertDel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					TB_SEARCH_PATENT_UTILITY_MODEL_UPDATE
+			 WHERE SEARCH_PATENT_IDX = #{idx}
+	</delete>
+	<insert id="setUtilityUpInsert" parameterType="paramMap">
+		INSERT INTO TB_SEARCH_PATENT_UTILITY_MODEL_UPDATE
+			(
+					UP_APLC_NO,
+					UP_APLC_NATION,
+					UP_RIGHT_SE,
+					UP_INVENTION_KOR_NM,
+					UP_INVENTION_ENG_NM,
+					UP_RIGHT_STATUS,
+					UP_ICP_CL,
+					UP_APLC_USER,
+					UP_AGENT,
+					UP_INVENTOR,
+					UP_APLC_DT,
+					UP_REG_NO,
+					UP_REG_DT,
+					UP_PUBLIC_NO,
+					UP_PUBLIC_DT,
+					UP_REPRSNT,
+					UP_TECHNOLOGY_DC,
+					UP_DETAILED_STATEMENT,
+					UP_FIRST_PAYMENT_DT,
+					UP_YEAR_PAYMENT_DT,
+					UP_OWN_ORG_NM,
+					UP_OWN_DEPT_NM,
+					UP_TCHNLGY_M_CL,
+					UP_TCHNLGY_S_CL,
+					UP_BEFORE_INFO,
+					UP_TCHNLGYY_GRADE,
+					UP_REFERENCE_DATA,
+					UP_NATION_NM,
+					UP_AREA_SIGUNGU,
+					UP_AREA,
+					UP_MANAGER_IDX,
+					UP_USER_IDX,
+					UP_ORG_GRP_CD,
+					SEARCH_PATENT_IDX
+			)
+			VALUES
+			(
+					#{utilityAplcNo},
+					#{utilityAplcNation},
+					#{utilityRightSe},
+					#{utilityInventionKorNm},
+					#{utilityInventionEngNm},
+					#{utilityRightStatus},
+					#{utilityIcpCl},
+					#{utilityAplcUser},
+					#{utilityAgent},
+					#{utilityInventor},
+					#{utilityAplcDt},
+					#{utilityRegNo},
+					#{utilityRegDt},
+					#{utilityPublicNo},
+					#{utilityPublicDt},
+					#{utilityReprsnt},
+					#{utilityTechnologyDc},
+					#{utilityDetailedStatement},
+					#{utilityFirstPaymentDt},
+					#{utilityYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{utilityTchnlgyMCl},
+					#{utilityTchnlgySCl},
+					#{utilityBeforeInfo},
+					#{utilityTchnlgyyGrade},
+					#{utilityReferenceData},
+					#{utilityNationNm},
+					#{utilitysearchArea},
+					#{utilityArea},
+					#{ManagerIdx},
+					#{regIdx},
+					#{regOrgGrpCd},
+					#{idx}
+			)
+	</insert>
+	<update id="setUtilityCopy" parameterType="paramMap">
+			UPDATE
+							TB_SEARCH_PATENT_UTILITY_MODEL AS A, TB_SEARCH_PATENT_UTILITY_MODEL_UPDATE AS B
+			SET
+							A.APLC_NO = B.UP_APLC_NO,
+							A.APLC_NATION = B.UP_APLC_NATION,
+							A.RIGHT_SE = B.UP_RIGHT_SE,
+							A.INVENTION_KOR_NM = B.UP_INVENTION_KOR_NM,
+							A.INVENTION_ENG_NM = B.UP_INVENTION_ENG_NM,
+							A.RIGHT_STATUS = B.UP_RIGHT_STATUS,
+							A.ICP_CL = B.UP_ICP_CL,
+							A.APLC_USER = B.UP_APLC_USER,
+							A.AGENT = B.UP_AGENT,
+							A.INVENTOR = B.UP_INVENTOR,
+							A.APLC_DT = B.UP_APLC_DT,
+							A.REG_NO = B.UP_REG_NO,
+							A.REG_DT = B.UP_REG_DT,
+							A.PUBLIC_NO = B.UP_PUBLIC_NO,
+							A.PUBLIC_DT = B.UP_PUBLIC_DT,
+							A.REPRSNT = B.UP_REPRSNT,
+							A.TECHNOLOGY_DC = B.UP_TECHNOLOGY_DC,
+							A.DETAILED_STATEMENT = B.UP_DETAILED_STATEMENT,
+							A.FIRST_PAYMENT_DT = B.UP_FIRST_PAYMENT_DT,
+							A.YEAR_PAYMENT_DT = B.UP_YEAR_PAYMENT_DT,
+							A.OWN_ORG_NM = B.UP_OWN_ORG_NM,
+							A.OWN_DEPT_NM = B.UP_OWN_DEPT_NM,
+							A.TCHNLGY_M_CL = B.UP_TCHNLGY_M_CL,
+							A.TCHNLGY_S_CL = B.UP_TCHNLGY_S_CL,
+							A.BEFORE_INFO = B.UP_BEFORE_INFO,
+							A.TCHNLGYY_GRADE = B.UP_TCHNLGYY_GRADE,
+							A.REFERENCE_DATA = B.UP_REFERENCE_DATA,
+							A.NATION_NM = B.UP_NATION_NM,
+							A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU,
+							A.AREA = B.UP_AREA,
+							A.MANAGER_IDX = B.UP_MANAGER_IDX,
+							A.USER_IDX = B.UP_USER_IDX,
+							A.ORG_GRP_CD = B.UP_ORG_GRP_CD
+
+
+			WHERE
+							A.SEARCH_PATENT_IDX = B.SEARCH_PATENT_IDX
+			AND
+							A.SEARCH_PATENT_IDX = #{idx}
+	</update>
+	<select id="getUtilityView" parameterType="paramMap" resultType="paramMap" >
+							SELECT
+								U.SEARCH_PATENT_IDX,
+								Z.UP_USER_IDX AS USER_IDX,
+								Z.UP_APLC_NO AS APLC_NO,
+								CASE 	WHEN Z.UP_APLC_NATION="A" THEN "대한민국"
+										WHEN Z.UP_APLC_NATION="B" THEN Z.UP_NATION_NM
+									  	ELSE ""
+								END APLC_NATION,
+								CASE 	WHEN Z.UP_RIGHT_SE="A" THEN "특허"
+										WHEN Z.UP_RIGHT_SE="B" THEN "실용실안"
+									   	ELSE ""
+								END RIGHT_SE,
+								Z.UP_INVENTION_KOR_NM AS INVENTION_KOR_NM,
+								Z.UP_INVENTION_ENG_NM AS INVENTION_ENG_NM,
+								CASE 	WHEN Z.UP_RIGHT_STATUS="A" THEN "거절"
+										WHEN Z.UP_RIGHT_STATUS="B" THEN "등록"
+									   WHEN Z.UP_RIGHT_STATUS="C" THEN "소멸"
+									  	WHEN Z.UP_RIGHT_STATUS="D" THEN "무효"
+									   WHEN Z.UP_RIGHT_STATUS="E" THEN "취하"
+									   WHEN Z.UP_RIGHT_STATUS="F" THEN "포기"
+									   WHEN Z.UP_RIGHT_STATUS="G" THEN "출원(공개)"
+									   WHEN Z.UP_RIGHT_STATUS="H" THEN "출원(미공개)"
+										ELSE ""
+								END RIGHT_STATUS,
+								Z.UP_ICP_CL AS ICP_CL,
+								Z.UP_APLC_USER AS APLC_USER,
+								Z.UP_AGENT AS AGENT,
+								Z.UP_INVENTOR AS INVENTOR,
+								Z.UP_APLC_DT AS APLC_DT,
+								Z.UP_REG_NO AS REG_NO,
+								Z.UP_REG_DT AS REG_DT,
+								Z.UP_PUBLIC_NO AS PUBLIC_NO,
+								Z.UP_PUBLIC_DT AS PUBLIC_DT,
+								Z.UP_REPRSNT AS REPRSNT,
+								Z.UP_TECHNOLOGY_DC AS TECHNOLOGY_DC,
+								Z.UP_DETAILED_STATEMENT AS DETAILED_STATEMENT,
+								Z.UP_FIRST_PAYMENT_DT AS FIRST_PAYMENT_DT,
+								Z.UP_YEAR_PAYMENT_DT AS YEAR_PAYMENT_DT,
+								Z.UP_OWN_ORG_NM AS OWN_ORG_NM,
+								Z.UP_OWN_DEPT_NM AS OWN_DEPT_NM,
+								Z.UP_TCHNLGY_M_CL AS U_TCHNLGY_M_CL,
+								Z.UP_TCHNLGY_S_CL AS U_TCHNLGY_S_CL,
+								CASE 		WHEN Z.UP_BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+											WHEN Z.UP_BEFORE_INFO="B" THEN "양도"
+								   			WHEN Z.UP_BEFORE_INFO="C" THEN "전용실시"
+								   			WHEN Z.UP_BEFORE_INFO="D" THEN "통상실시"
+								  			WHEN Z.UP_BEFORE_INFO="E" THEN "무상이전"
+								   			WHEN Z.UP_BEFORE_INFO="F" THEN "이전불가"
+											ELSE ""
+								END BEFORE_INFO,
+								CASE 		WHEN Z.UP_TCHNLGYY_GRADE="A" THEN "우수기술"
+											WHEN Z.UP_TCHNLGYY_GRADE="B" THEN "유망기술"
+										   WHEN Z.UP_TCHNLGYY_GRADE="C" THEN "저가기술"
+										   WHEN Z.UP_TCHNLGYY_GRADE="D" THEN "무상기술"
+											ELSE ""
+								END TCHNLGYY_GRADE,
+								Z.UP_REFERENCE_DATA AS REFERENCE_DATA,
+								Z.UP_NATION_NM AS NATION_NM,
+								Z.UP_AREA_SIGUNGU AS AREA_SIGUNGU,
+								Z.UP_AREA AS AREA,
+								Z.UP_MANAGER_IDX AS MANAGER_IDX,
+								U.REJECT,
+								U.STATE_DT,
+								U.STATE,
+								C.NAME AS TCHNLGY_M_CL,
+								CC.NAME AS TCHNLGY_S_CL,
+								G.ORG_GRP_NM,
+								G.ORG_ENG_NM,
+								SG.ORG_GRP_SUB_NM,
+								M.PSN_NM,
+								M.EMAIL,
+								M.TEL_NO,
+								M.DEPT_NM,
+								M.POSITION_NM,
+								N.ORG_GRP_NM AS MANAGER_ORG,
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.DATA_IDX 	AS 	IMG_DATA_IDX,
+								B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+								B.FILE_CAT 	AS 	IMG_FILE_CAT,
+								B.TITLE 		AS 	IMG_TITLE,
+								B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+								B.DELETE_YN AS 	IMG_DELETE_YN,
+								B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+								B.FILE_SIZE AS 	IMG_FILE_SIZE,
+								B.TITLE_ORG AS 	IMG_TITLE_ORG,
+								CASE
+									WHEN Z.UP_AREA = "1" THEN Y.CODE_NM
+									WHEN Z.UP_AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+
+				FROM
+					    		TB_SEARCH_PATENT_UTILITY_MODEL AS U
+				LEFT JOIN
+								TB_SEARCH_PATENT_UTILITY_MODEL_UPDATE AS Z
+				ON
+								U.SEARCH_PATENT_IDX = Z.SEARCH_PATENT_IDX
+
+				LEFT JOIN	TB_CODE_TYPE AS C	ON	(Z.UP_TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN	TB_CODE_TYPE AS CC	ON	(Z.UP_TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN	TB_JNSP_FILE AS	B	ON	(Z.UP_REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN	TB_CODE 	 AS Y	ON	(Z.UP_AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN	TB_CODE 	 AS X	ON	(Z.UP_AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 	TB_ORG_GRP 		G	ON 	(Z.UP_OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB SG	ON 	(Z.UP_OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	M	ON 	(Z.UP_MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 	N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+				WHERE
+			 			 	 	U.SEARCH_PATENT_IDX = #{idx}
+	</select>
+	<select id="getUtilityCompare" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+									A.APLC_NO,
+									A.APLC_NATION,
+									A.RIGHT_SE,
+									A.INVENTION_KOR_NM,
+									A.INVENTION_ENG_NM,
+									A.RIGHT_STATUS,
+									A.ICP_CL,
+									A.APLC_USER,
+									A.AGENT,
+									A.INVENTOR,
+									A.APLC_DT,
+									A.REG_NO,
+									A.REG_DT,
+									A.PUBLIC_NO,
+									A.PUBLIC_DT,
+									A.REPRSNT,
+									A.TECHNOLOGY_DC,
+									A.DETAILED_STATEMENT,
+									A.FIRST_PAYMENT_DT,
+									A.YEAR_PAYMENT_DT,
+									A.OWN_ORG_NM,
+									A.OWN_DEPT_NM,
+									A.TCHNLGY_M_CL,
+									A.TCHNLGY_S_CL,
+									A.BEFORE_INFO,
+									A.TCHNLGYY_GRADE,
+									A.REFERENCE_DATA,
+									A.NATION_NM,
+									A.USER_IDX,
+									A.ORG_GRP_CD,
+									A.AREA_SIGUNGU,
+									A.AREA,
+									A.MANAGER_IDX,
+									B.UP_MANAGER_IDX,
+									B.UP_APLC_NO,
+									B.UP_APLC_NATION,
+									B.UP_RIGHT_SE,
+									B.UP_INVENTION_KOR_NM,
+									B.UP_INVENTION_ENG_NM,
+									B.UP_RIGHT_STATUS,
+									B.UP_ICP_CL,
+									B.UP_APLC_USER,
+									B.UP_AGENT,
+									B.UP_INVENTOR,
+									B.UP_APLC_DT,
+									B.UP_REG_NO,
+									B.UP_REG_DT,
+									B.UP_PUBLIC_NO,
+									B.UP_PUBLIC_DT,
+									B.UP_REPRSNT,
+									B.UP_TECHNOLOGY_DC,
+									B.UP_DETAILED_STATEMENT,
+									B.UP_FIRST_PAYMENT_DT,
+									B.UP_FIRST_PAYMENT_DT,
+									B.UP_YEAR_PAYMENT_DT,
+									B.UP_OWN_ORG_NM,
+									B.UP_OWN_DEPT_NM,
+									B.UP_TCHNLGY_M_CL,
+									B.UP_TCHNLGY_S_CL,
+									B.UP_BEFORE_INFO,
+									B.UP_TCHNLGYY_GRADE,
+									B.UP_NATION_NM,
+									B.UP_USER_IDX,
+									B.UP_ORG_GRP_CD,
+									B.UP_AREA_SIGUNGU,
+									B.UP_AREA
+				FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL AS A
+				LEFT JOIN
+									TB_SEARCH_PATENT_UTILITY_MODEL_UPDATE AS B
+				ON
+									A.SEARCH_PATENT_IDX = B.SEARCH_PATENT_IDX
+				WHERE
+									A.SEARCH_PATENT_IDX = #{idx}
+	</select>
+<!-- 승인 시 특허실용수정 E -->
+<!-- 승인 시 디자인수정 S -->
+	<delete id="setDesignUpInsertDel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					TB_SEARCH_DESIGN_UPDATE
+			 WHERE SEARCH_DESIGN_IDX = #{idx}
+	</delete>
+	<insert id="setDesignUpInsert" parameterType="paramMap">
+		INSERT INTO TB_SEARCH_DESIGN_UPDATE
+			(
+					UP_APLC_NO,
+					UP_APLC_DT,
+					UP_PUBLIC_NO,
+					UP_PUBLIC_DT,
+					UP_REG_DT,
+					UP_REG_NO,
+					UP_RIGHT_STATUS,
+					UP_KOREA_CL,
+					UP_CREATION_USER,
+					UP_APLC_USER,
+					UP_AGENT,
+					UP_USE_NM,
+					UP_DESIGN_NO,
+					UP_INTRL_CL,
+					UP_REPRSNT,
+					UP_TECHNOLOGY_DC,
+					UP_DETAILED_STATEMENT,
+					UP_YEAR_PAYMENT_DT,
+					UP_OWN_ORG_NM,
+					UP_OWN_DEPT_NM,
+					UP_TCHNLGY_M_CL,
+					UP_TCHNLGY_S_CL,
+					UP_BEFORE_INFO,
+					UP_INTRCN_DATA,
+					UP_AREA_SIGUNGU,
+					UP_AREA,
+					UP_MANAGER_IDX,
+					UP_USER_IDX,
+					UP_ORG_GRP_CD,
+					SEARCH_DESIGN_IDX
+			)
+			VALUES
+			(
+					#{designAplcNo},
+					#{designAplcDt},
+					#{designPublicNo},
+					#{designPublicDt},
+					#{designRegDt},
+					#{designRegNo},
+					#{designRightStatus},
+					#{designKoreaCl},
+					#{designCreationUser},
+					#{designAplcUser},
+					#{designAgent},
+					#{designUseNm},
+					#{designDesignNo},
+					#{designIntrlCl},
+					#{designReprsnt},
+					#{designTechnologyDc},
+					#{designDetailedStatement},
+					#{designYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{designTchnlgyMCl},
+					#{designTchnlgySCl},
+					#{designBeforeInfo},
+					#{designIntrcnData},
+					#{designsearchArea},
+					#{designArea},
+					#{ManagerIdx},
+					#{regIdx},
+					#{regOrgGrpCd},
+					#{idx}
+			)
+	</insert>
+	<update id="setDesignCopy" parameterType="paramMap">
+			UPDATE
+							TB_SEARCH_DESIGN AS A, TB_SEARCH_DESIGN_UPDATE AS B
+			SET
+							A.APLC_NO = B.UP_APLC_NO,
+							A.APLC_DT = B.UP_APLC_DT,
+							A.PUBLIC_NO = B.UP_PUBLIC_NO,
+							A.PUBLIC_DT = B.UP_PUBLIC_DT,
+							A.REG_DT = B.UP_REG_DT,
+							A.REG_NO = B.UP_REG_NO,
+							A.RIGHT_STATUS = B.UP_RIGHT_STATUS,
+							A.KOREA_CL = B.UP_KOREA_CL,
+							A.CREATION_USER = B.UP_CREATION_USER,
+							A.APLC_USER = B.UP_APLC_USER,
+							A.AGENT = B.UP_AGENT,
+							A.USE_NM = B.UP_USE_NM,
+							A.DESIGN_NO = B.UP_DESIGN_NO,
+							A.INTRL_CL = B.UP_INTRL_CL,
+							A.REPRSNT = B.UP_REPRSNT,
+							A.TECHNOLOGY_DC = B.UP_TECHNOLOGY_DC,
+							A.DETAILED_STATEMENT = B.UP_DETAILED_STATEMENT,
+							A.YEAR_PAYMENT_DT = B.UP_YEAR_PAYMENT_DT,
+							A.OWN_ORG_NM = B.UP_OWN_ORG_NM,
+							A.OWN_DEPT_NM = B.UP_OWN_DEPT_NM,
+							A.TCHNLGY_M_CL = B.UP_TCHNLGY_M_CL,
+							A.TCHNLGY_S_CL = B.UP_TCHNLGY_S_CL,
+							A.BEFORE_INFO = B.UP_BEFORE_INFO,
+							A.INTRCN_DATA = B.UP_INTRCN_DATA,
+							A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU,
+							A.AREA = B.UP_AREA,
+							A.MANAGER_IDX = B.UP_MANAGER_IDX,
+							A.USER_IDX = B.UP_USER_IDX,
+							A.ORG_GRP_CD = B.UP_ORG_GRP_CD
+			WHERE
+							A.SEARCH_DESIGN_IDX = B.SEARCH_DESIGN_IDX
+			AND
+							A.SEARCH_DESIGN_IDX = #{idx}
+	</update>
+	<select id="getDesignView" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								D.SEARCH_DESIGN_IDX,
+								Z.UP_USER_IDX AS USER_IDX,
+								Z.UP_APLC_NO AS APLC_NO,
+								Z.UP_APLC_DT AS APLC_DT,
+								Z.UP_PUBLIC_NO AS PUBLIC_NO,
+								Z.UP_PUBLIC_DT AS PUBLIC_DT,
+								Z.UP_REG_DT AS REG_DT,
+								Z.UP_REG_NO AS REG_NO,
+								CASE 		WHEN Z.UP_RIGHT_STATUS="A" THEN "거절"
+											WHEN Z.UP_RIGHT_STATUS="B" THEN "등록"
+									  		WHEN Z.UP_RIGHT_STATUS="C" THEN "소멸"
+									   	WHEN Z.UP_RIGHT_STATUS="D" THEN "무효"
+									   	WHEN Z.UP_RIGHT_STATUS="E" THEN "취하"
+									   	WHEN Z.UP_RIGHT_STATUS="F" THEN "포기"
+									   	WHEN Z.UP_RIGHT_STATUS="G" THEN "출원(공개)"
+										ELSE ""
+								END RIGHT_STATUS,
+								Z.UP_KOREA_CL AS KOREA_CL,
+								Z.UP_CREATION_USER AS CREATION_USER,
+								Z.UP_APLC_USER AS APLC_USER,
+								Z.UP_AGENT AS AGENT,
+								Z.UP_USE_NM AS USE_NM,
+								Z.UP_DESIGN_NO AS DESIGN_NO,
+								Z.UP_INTRL_CL AS INTRL_CL,
+								Z.UP_REPRSNT AS REPRSNT,
+								Z.UP_TECHNOLOGY_DC AS TECHNOLOGY_DC,
+								Z.UP_DETAILED_STATEMENT AS DETAILED_STATEMENT,
+								Z.UP_YEAR_PAYMENT_DT AS YEAR_PAYMENT_DT,
+								Z.UP_OWN_ORG_NM AS OWN_ORG_NM,
+								Z.UP_OWN_DEPT_NM AS OWN_DEPT_NM,
+								Z.UP_TCHNLGY_M_CL AS D_TCHNLGY_M_CL,
+								Z.UP_TCHNLGY_S_CL AS D_TCHNLGY_S_CL,
+								CASE 		WHEN Z.UP_BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+											WHEN Z.UP_BEFORE_INFO="B" THEN "양도"
+								   			WHEN Z.UP_BEFORE_INFO="C" THEN "전용실시"
+								   			WHEN Z.UP_BEFORE_INFO="D" THEN "통상실시"
+								  			WHEN Z.UP_BEFORE_INFO="E" THEN "무상이전"
+								   			WHEN Z.UP_BEFORE_INFO="F" THEN "이전불가"
+											ELSE ""
+								END BEFORE_INFO,
+								Z.UP_INTRCN_DATA AS INTRCN_DATA,
+								Z.UP_AREA_SIGUNGU AS AREA_SIGUNGU,
+								Z.UP_AREA AS AREA,
+								Z.UP_MANAGER_IDX AS MANAGER_IDX,
+								D.STATE,
+								D.REJECT,
+								D.STATE_DT,
+								C.NAME AS TCHNLGY_M_CL,
+								CC.NAME AS TCHNLGY_S_CL,
+								G.ORG_GRP_NM,
+								G.ORG_ENG_NM,
+								SG.ORG_GRP_SUB_NM,
+								M.PSN_NM,
+								M.EMAIL,
+								M.TEL_NO,
+								M.DEPT_NM,
+								M.POSITION_NM,
+								N.ORG_GRP_NM AS MANAGER_ORG,
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.DATA_IDX 	AS 	IMG_DATA_IDX,
+								B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+								B.FILE_CAT 	AS 	IMG_FILE_CAT,
+								B.TITLE 	AS 	IMG_TITLE,
+								B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+								B.DELETE_YN AS 	IMG_DELETE_YN,
+								B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+								B.FILE_SIZE AS 	IMG_FILE_SIZE,
+								B.TITLE_ORG AS 	IMG_TITLE_ORG,
+								CASE
+									WHEN Z.UP_AREA = "1" THEN Y.CODE_NM
+									WHEN Z.UP_AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    		TB_SEARCH_DESIGN AS D
+				LEFT JOIN
+								TB_SEARCH_DESIGN_UPDATE AS Z
+				ON
+								D.SEARCH_DESIGN_IDX = Z.SEARCH_DESIGN_IDX
+
+				LEFT JOIN	TB_CODE_TYPE AS C	ON	(Z.UP_TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN	TB_CODE_TYPE AS CC	ON	(Z.UP_TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN	TB_JNSP_FILE AS	B	ON	(Z.UP_REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN	TB_CODE 	 AS Y	ON	(Z.UP_AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN	TB_CODE 	 AS X	ON	(Z.UP_AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 	TB_ORG_GRP 		G	ON 	(Z.UP_OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB SG	ON 	(Z.UP_OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	M	ON 	(Z.UP_MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 	N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+			 	WHERE
+			 					D.SEARCH_DESIGN_IDX = #{idx}
+	</select>
+	<select id="getDesignCompare" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+									A.APLC_NO,
+									A.APLC_DT,
+									A.PUBLIC_NO,
+									A.PUBLIC_DT,
+									A.REG_DT,
+									A.REG_NO,
+									A.RIGHT_STATUS,
+									A.KOREA_CL,
+									A.CREATION_USER,
+									A.APLC_USER,
+									A.AGENT,
+									A.USE_NM,
+									A.DESIGN_NO,
+									A.INTRL_CL,
+									A.REPRSNT,
+									A.TECHNOLOGY_DC,
+									A.DETAILED_STATEMENT,
+									A.YEAR_PAYMENT_DT,
+									A.OWN_ORG_NM,
+									A.OWN_DEPT_NM,
+									A.TCHNLGY_M_CL,
+									A.TCHNLGY_S_CL,
+									A.BEFORE_INFO,
+									A.INTRCN_DATA,
+									A.AREA_SIGUNGU,
+									A.AREA,
+									A.USER_IDX,
+									A.ORG_GRP_CD,
+									A.MANAGER_IDX,
+									B.UP_MANAGER_IDX,
+									B.UP_APLC_NO,
+									B.UP_APLC_DT,
+									B.UP_PUBLIC_NO,
+									B.UP_PUBLIC_DT,
+									B.UP_REG_DT,
+									B.UP_REG_NO,
+									B.UP_RIGHT_STATUS,
+									B.UP_KOREA_CL,
+									B.UP_CREATION_USER,
+									B.UP_APLC_USER,
+									B.UP_AGENT,
+									B.UP_USE_NM,
+									B.UP_DESIGN_NO,
+									B.UP_INTRL_CL,
+									B.UP_REPRSNT,
+									B.UP_TECHNOLOGY_DC,
+									B.UP_DETAILED_STATEMENT,
+									B.UP_YEAR_PAYMENT_DT,
+									B.UP_OWN_ORG_NM,
+									B.UP_OWN_DEPT_NM,
+									B.UP_TCHNLGY_M_CL,
+									B.UP_TCHNLGY_S_CL,
+									B.UP_BEFORE_INFO,
+									B.UP_INTRCN_DATA,
+									B.UP_AREA_SIGUNGU,
+									B.UP_AREA,
+									B.UP_USER_IDX,
+									B.UP_ORG_GRP_CD
+				FROM
+									TB_SEARCH_DESIGN AS A
+				LEFT JOIN
+									TB_SEARCH_DESIGN_UPDATE AS B
+				ON
+									A.SEARCH_DESIGN_IDX = B.SEARCH_DESIGN_IDX
+				WHERE
+									A.SEARCH_DESIGN_IDX = #{idx}
+	</select>
+<!-- 승인 시 디자인수정 E -->
+<!-- 승인 시 상표 수정 S -->
+	<delete id="setBrandUpInsertDel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					TB_SEARCH_BRAND_UPDATE
+			 WHERE SEARCH_BRAND_IDX = #{idx}
+	</delete>
+	<insert id="setBrandUpInsert" parameterType="paramMap">
+		INSERT INTO TB_SEARCH_BRAND_UPDATE
+			(
+					UP_INTRL_APLC_NO,
+					UP_INTRL_APLC_DT,
+					UP_RIGHT_CL,
+					UP_PBLANC_NO,
+					UP_PBLANC_DT,
+					UP_REG_NO,
+					UP_REG_DT,
+					UP_RIGHT_STATUS ,
+					UP_GOODS_CL,
+					UP_FIGURE_CODE,
+					UP_APLC_USER,
+					UP_AGENT,
+					UP_USE_NM,
+					UP_REPRSNT,
+					UP_TECHNOLOGY_DC,
+					UP_DETAILED_STATEMENT,
+					UP_YEAR_PAYMENT_DT,
+					UP_OWN_ORG_NM,
+					UP_OWN_DEPT_NM,
+					UP_TCHNLGY_M_CL,
+					UP_TCHNLGY_S_CL,
+					UP_BEFORE_INFO,
+					UP_REFERENCE_DATA,
+					UP_AREA_SIGUNGU,
+					UP_AREA,
+					UP_MANAGER_IDX,
+					UP_USER_IDX,
+					SEARCH_BRAND_IDX
+			)
+			VALUES
+			(
+					#{brandIntrlAplcNo},
+					#{brandIntrlAplcDt},
+					#{brandRightCl},
+					#{brandPblancNo},
+					#{brandPblancDt},
+					#{brandRegNo},
+					#{brandRegDt},
+					#{brandRightStatus},
+					#{brandGoodsCl},
+					#{brandFigureCode},
+					#{brandAplcUser},
+					#{brandAgent},
+					#{brandUseNm},
+					#{brandReprsnt},
+					#{brandTechnologyDc},
+					#{brandDetailedStatement},
+					#{brandYearPaymentDt},
+					#{OwnOrg},
+					#{OwnDept},
+					#{brandTchnlgyMCl},
+					#{brandTchnlgySCl},
+					#{brandBeforeInfo},
+					#{brandReferenceData},
+					#{brandsearchArea},
+					#{brandArea},
+					#{ManagerIdx},
+					#{regIdx},
+					#{idx}
+			)
+
+	</insert>
+	<update id="setBrandCopy" parameterType="paramMap">
+			UPDATE
+							TB_SEARCH_BRAND AS A, TB_SEARCH_BRAND_UPDATE AS B
+			SET
+							A.INTRL_APLC_NO = B.UP_INTRL_APLC_NO,
+							A.INTRL_APLC_DT = B.UP_INTRL_APLC_DT,
+							A.RIGHT_CL = B.UP_RIGHT_CL,
+							A.PBLANC_NO = B.UP_PBLANC_NO,
+							A.PBLANC_DT = B.UP_PBLANC_DT,
+							A.REG_NO = B.UP_REG_NO,
+							A.REG_DT = B.UP_REG_DT,
+							A.RIGHT_STATUS = B.UP_RIGHT_STATUS ,
+							A.GOODS_CL = B.UP_GOODS_CL,
+							A.FIGURE_CODE = B.UP_FIGURE_CODE,
+							A.APLC_USER = B.UP_APLC_USER,
+							A.AGENT = B.UP_AGENT,
+							A.USE_NM = B.UP_USE_NM,
+							A.REPRSNT = B.UP_REPRSNT,
+							A.TECHNOLOGY_DC = B.UP_TECHNOLOGY_DC,
+							A.DETAILED_STATEMENT = B.UP_DETAILED_STATEMENT,
+							A.YEAR_PAYMENT_DT = B.UP_YEAR_PAYMENT_DT,
+							A.OWN_ORG_NM = B.UP_OWN_ORG_NM,
+							A.OWN_DEPT_NM = B.UP_OWN_DEPT_NM,
+							A.TCHNLGY_M_CL = B.UP_TCHNLGY_M_CL,
+							A.TCHNLGY_S_CL = B.UP_TCHNLGY_S_CL,
+							A.BEFORE_INFO = B.UP_BEFORE_INFO,
+							A.REFERENCE_DATA = B.UP_REFERENCE_DATA,
+							A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU,
+							A.AREA = B.UP_AREA,
+							A.MANAGER_IDX = B.UP_MANAGER_IDX,
+							A.USER_IDX = B.UP_USER_IDX
+			WHERE
+							A.SEARCH_BRAND_IDX = B.SEARCH_BRAND_IDX
+			AND
+							A.SEARCH_BRAND_IDX = #{idx}
+	</update>
+	<select id="getBrandView" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+									B.SEARCH_BRAND_IDX,
+									Z.UP_USER_IDX AS USER_IDX,
+									Z.UP_INTRL_APLC_NO AS INTRL_APLC_NO,
+									Z.UP_INTRL_APLC_DT AS INTRL_APLC_DT,
+									CASE 		WHEN Z.UP_RIGHT_CL="A" THEN "상표"
+												WHEN Z.UP_RIGHT_CL="B" THEN "서비스표"
+									  	 		WHEN Z.UP_RIGHT_CL="C" THEN "업무표장"
+									   		WHEN Z.UP_RIGHT_CL="D" THEN "단체표장"
+									   		WHEN Z.UP_RIGHT_CL="E" THEN "지리적표시단체표장"
+									   		WHEN Z.UP_RIGHT_CL="F" THEN "상표/서비스"
+									   		WHEN Z.UP_RIGHT_CL="G" THEN "증명표장"
+												WHEN Z.UP_RIGHT_CL="H" THEN "지리적표시증명표장"
+												WHEN Z.UP_RIGHT_CL="I" THEN "국제등록상표(마드리드)"
+												ELSE ""
+									END RIGHT_CL,
+									Z.UP_PBLANC_NO AS PBLANC_NO,
+									Z.UP_PBLANC_DT AS PBLANC_DT,
+									Z.UP_REG_NO AS REG_NO,
+									Z.UP_REG_DT AS REG_DT,
+									CASE 	WHEN Z.UP_RIGHT_STATUS="A" THEN "거절"
+											WHEN Z.UP_RIGHT_STATUS="B" THEN "등록"
+										  	WHEN Z.UP_RIGHT_STATUS="C" THEN "소멸"
+										   	WHEN Z.UP_RIGHT_STATUS="D" THEN "무효"
+										   	WHEN Z.UP_RIGHT_STATUS="E" THEN "취하"
+										   	WHEN Z.UP_RIGHT_STATUS="F" THEN "포기"
+										   	WHEN Z.UP_RIGHT_STATUS="G" THEN "출원(공개)"
+										   	WHEN Z.UP_RIGHT_STATUS="H" THEN "출원(미공개)"
+											ELSE ""
+									END RIGHT_STATUS,
+									Z.UP_GOODS_CL AS GOODS_CL,
+									Z.UP_FIGURE_CODE AS FIGURE_CODE,
+									Z.UP_APLC_USER AS APLC_USER,
+									Z.UP_AGENT AS AGENT,
+									Z.UP_USE_NM AS USE_NM,
+									Z.UP_REPRSNT AS REPRSNT,
+									Z.UP_TECHNOLOGY_DC AS TECHNOLOGY_DC,
+									Z.UP_DETAILED_STATEMENT AS DETAILED_STATEMENT,
+									Z.UP_YEAR_PAYMENT_DT AS YEAR_PAYMENT_DT,
+									Z.UP_OWN_ORG_NM AS OWN_ORG_NM,
+									Z.UP_OWN_DEPT_NM AS OWN_DEPT_NM,
+									Z.UP_TCHNLGY_M_CL AS B_TCHNLGY_M_CL,
+									Z.UP_TCHNLGY_S_CL AS B_TCHNLGY_S_CL,
+									CASE 		WHEN Z.UP_BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+											WHEN Z.UP_BEFORE_INFO="B" THEN "양도"
+								   			WHEN Z.UP_BEFORE_INFO="C" THEN "전용실시"
+								   			WHEN Z.UP_BEFORE_INFO="D" THEN "통상실시"
+								  			WHEN Z.UP_BEFORE_INFO="E" THEN "무상이전"
+								   			WHEN Z.UP_BEFORE_INFO="F" THEN "이전불가"
+											ELSE ""
+									END BEFORE_INFO,
+									Z.UP_REFERENCE_DATA AS REFERENCE_DATA,
+									Z.UP_AREA_SIGUNGU AS AREA_SIGUNGU,
+									Z.UP_AREA AS AREA,
+									Z.UP_MANAGER_IDX AS MANAGER_IDX,
+									B.STATE,
+									B.REJECT,
+									C.NAME AS TCHNLGY_M_CL,
+									CC.NAME AS TCHNLGY_S_CL,
+									G.ORG_GRP_NM,
+									G.ORG_ENG_NM,
+									SG.ORG_GRP_SUB_NM,
+									M.PSN_NM,
+									M.EMAIL,
+									M.TEL_NO,
+									M.DEPT_NM,
+									M.POSITION_NM,
+									N.ORG_GRP_NM AS MANAGER_ORG,
+
+									BB.FILE_ID 		AS 	IMG_FILE_ID,
+									BB.DATA_GRP 	AS 	IMG_DATA_GRP,
+									BB.DATA_IDX 	AS 	IMG_DATA_IDX,
+									BB.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+									BB.FILE_CAT 	AS 	IMG_FILE_CAT,
+									BB.TITLE 		AS 	IMG_TITLE,
+									BB.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+									BB.DELETE_YN 	AS 	IMG_DELETE_YN,
+									BB.PHOTO_CAT 	AS 	IMG_PHOTO_CAT,
+									BB.FILE_PATH 	AS 	IMG_FILE_PATH,
+									BB.FILE_SIZE 	AS 	IMG_FILE_SIZE,
+									BB.TITLE_ORG 	AS 	IMG_TITLE_ORG,
+									CASE
+									WHEN Z.UP_AREA = "1" THEN Y.CODE_NM
+									WHEN Z.UP_AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    			TB_SEARCH_BRAND AS B
+				LEFT JOIN
+									TB_SEARCH_BRAND_UPDATE AS Z
+				ON
+									B.SEARCH_BRAND_IDX = Z.SEARCH_BRAND_IDX
+
+				LEFT JOIN	TB_CODE_TYPE AS C	ON	(Z.UP_TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN	TB_CODE_TYPE AS CC	ON	(Z.UP_TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN	TB_JNSP_FILE AS	BB	ON	(Z.UP_REPRSNT = BB.DATA_IDX	AND BB.DATA_GRP = 'registartion_img')
+				LEFT JOIN	TB_CODE 	 AS Y	ON	(Z.UP_AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN	TB_CODE 	 AS X	ON	(Z.UP_AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 	TB_ORG_GRP 		G	ON 	(Z.UP_OWN_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB SG	ON 	(Z.UP_OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	M	ON 	(Z.UP_MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 	N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+			 	WHERE
+			 						B.SEARCH_BRAND_IDX = #{idx}
+	</select>
+	<select id="getBrandCompare" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+									A.INTRL_APLC_NO,
+									A.INTRL_APLC_DT,
+									A.RIGHT_CL,
+									A.PBLANC_NO,
+									A.PBLANC_DT,
+									A.REG_NO,
+									A.REG_DT,
+									A.RIGHT_STATUS,
+									A.GOODS_CL,
+									A.FIGURE_CODE,
+									A.APLC_USER,
+									A.AGENT,
+									A.USE_NM,
+									A.REPRSNT,
+									A.TECHNOLOGY_DC,
+									A.DETAILED_STATEMENT,
+									A.YEAR_PAYMENT_DT,
+									A.OWN_ORG_NM,
+									A.OWN_DEPT_NM,
+									A.TCHNLGY_M_CL,
+									A.TCHNLGY_S_CL,
+									A.BEFORE_INFO,
+									A.REFERENCE_DATA,
+									A.AREA_SIGUNGU,
+									A.AREA,
+									A.USER_IDX,
+									A.MANAGER_IDX,
+									B.UP_MANAGER_IDX,
+									B.UP_INTRL_APLC_NO,
+									B.UP_INTRL_APLC_DT,
+									B.UP_RIGHT_CL,
+									B.UP_PBLANC_NO,
+									B.UP_PBLANC_DT,
+									B.UP_REG_NO,
+									B.UP_REG_DT,
+									B.UP_RIGHT_STATUS ,
+									B.UP_GOODS_CL,
+									B.UP_FIGURE_CODE,
+									B.UP_APLC_USER,
+									B.UP_AGENT,
+									B.UP_USE_NM,
+									B.UP_REPRSNT,
+									B.UP_TECHNOLOGY_DC,
+									B.UP_DETAILED_STATEMENT,
+									B.UP_YEAR_PAYMENT_DT,
+									B.UP_OWN_ORG_NM,
+									B.UP_OWN_DEPT_NM,
+									B.UP_TCHNLGY_M_CL,
+									B.UP_TCHNLGY_S_CL,
+									B.UP_BEFORE_INFO,
+									B.UP_REFERENCE_DATA,
+									B.UP_AREA_SIGUNGU,
+									B.UP_AREA,
+									B.UP_USER_IDX
+				FROM
+									TB_SEARCH_BRAND AS A
+				LEFT JOIN
+									TB_SEARCH_BRAND_UPDATE AS B
+				ON
+									A.SEARCH_BRAND_IDX = B.SEARCH_BRAND_IDX
+				WHERE
+									A.SEARCH_BRAND_IDX = #{idx}
+	</select>
+<!-- 승인 시 상표 수정 E -->
+<!-- 승인 시 프로그램 수정 S -->
+	<delete id="setProgramUpInsertDel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					TB_SEARCH_PROGRAM_UPDATE
+			 WHERE SEARCH_PROGRAM_IDX = #{idx}
+	</delete>
+	<insert id="setProgramUpInsert" parameterType="paramMap">
+		INSERT INTO TB_SEARCH_PROGRAM_UPDATE
+			(
+					UP_CRT_WORK_DE,
+					UP_PUBLICT_DE,
+					UP_REG_DE,
+					UP_REG_NO,
+					UP_USE_NM,
+					UP_PGM_AUTHOR,
+					UP_CRT_PARTICIPANT,
+					UP_OWN_ORG_NM,
+					UP_OWN_DEPT_NM,
+					UP_TCHNLGY_M_CL,
+					UP_TCHNLGY_S_CL,
+					UP_BEFORE_INFO,
+					UP_PGM_DC,
+					UP_TCHNLGY_INTRCN_DATA,
+					UP_AREA_SIGUNGU,
+					UP_AREA,
+					UP_MANAGER_IDX,
+					UP_USER_IDX,
+					UP_ORG_GRP_CD,
+					UP_REPRSNT,
+					SEARCH_PROGRAM_IDX
+			)
+			VALUES
+			(
+					#{programCrtWorkDe},
+					#{programPublictDe},
+					#{programRegDe},
+					#{programRegNo},
+					#{programUseNm},
+					#{programPgmAuthor},
+					#{programCrtParticipant},
+					#{OwnOrg},
+					#{OwnDept},
+					#{programTchnlgyMCl},
+					#{programTchnlgySCl},
+					#{programBeforeInfo},
+					#{programPgmDc},
+					#{programTchnlgyIntrcnData},
+					#{programsearchArea},
+					#{programArea},
+					#{ManagerIdx},
+					#{regIdx},
+					#{regOrgGrpCd},
+					#{utility_reprsnt},
+					#{idx}
+			)
+	</insert>
+	<update id="setProgramCopy" parameterType="paramMap">
+			UPDATE
+							TB_SEARCH_PROGRAM AS A, TB_SEARCH_PROGRAM_UPDATE AS B
+			SET
+							A.CRT_WORK_DE = B.UP_CRT_WORK_DE,
+							A.PUBLICT_DE = B.UP_PUBLICT_DE,
+							A.REG_DE = B.UP_REG_DE,
+							A.REG_NO = B.UP_REG_NO,
+							A.USE_NM = B.UP_USE_NM,
+							A.PGM_AUTHOR = B.UP_PGM_AUTHOR,
+							A.CRT_PARTICIPANT = B.UP_CRT_PARTICIPANT,
+							A.OWN_ORG_NM = B.UP_OWN_ORG_NM,
+							A.OWN_DEPT_NM = B.UP_OWN_DEPT_NM,
+							A.TCHNLGY_M_CL = B.UP_TCHNLGY_M_CL,
+							A.TCHNLGY_S_CL = B.UP_TCHNLGY_S_CL,
+							A.BEFORE_INFO = B.UP_BEFORE_INFO,
+							A.PGM_DC = B.UP_PGM_DC,
+							A.TCHNLGY_INTRCN_DATA = B.UP_TCHNLGY_INTRCN_DATA,
+							A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU,
+							A.AREA = B.UP_AREA,
+							A.MANAGER_IDX = B.UP_MANAGER_IDX,
+							A.REPRSNT = B.UP_REPRSNT,
+							A.USER_IDX = B.UP_USER_IDX,
+							A.ORG_GRP_CD = B.UP_ORG_GRP_CD
+			WHERE
+							A.SEARCH_PROGRAM_IDX = B.SEARCH_PROGRAM_IDX
+			AND
+							A.SEARCH_PROGRAM_IDX = #{idx}
+	</update>
+	<select id="getProgramView" parameterType="paramMap" resultType="paramMap" >
+						SELECT
+								P.SEARCH_PROGRAM_IDX,
+								Z.UP_USER_IDX AS USER_IDX,
+								Z.UP_CRT_WORK_DE AS CRT_WORK_DE,
+								Z.UP_PUBLICT_DE AS PUBLICT_DE,
+								Z.UP_REG_DE AS REG_DE,
+								Z.UP_REG_NO AS REG_NO,
+								Z.UP_USE_NM AS USE_NM,
+								Z.UP_PGM_AUTHOR AS PGM_AUTHOR,
+								Z.UP_CRT_PARTICIPANT AS CRT_PARTICIPANT,
+								Z.UP_OWN_ORG_NM AS OWN_ORG_NM,
+								Z.UP_OWN_DEPT_NM AS OWN_DEPT_NM,
+								Z.UP_TCHNLGY_M_CL AS P_TCHNLGY_M_CL,
+								Z.UP_TCHNLGY_S_CL AS P_TCHNLGY_S_CL,
+								CASE 		WHEN Z.UP_BEFORE_INFO="A" THEN "양도, 전용실시, 통상실시"
+											WHEN Z.UP_BEFORE_INFO="B" THEN "양도"
+								   			WHEN Z.UP_BEFORE_INFO="C" THEN "전용실시"
+								   			WHEN Z.UP_BEFORE_INFO="D" THEN "통상실시"
+								  			WHEN Z.UP_BEFORE_INFO="E" THEN "무상이전"
+								   			WHEN Z.UP_BEFORE_INFO="F" THEN "이전불가"
+											ELSE ""
+								END BEFORE_INFO,
+								Z.UP_PGM_DC AS PGM_DC,
+								Z.UP_TCHNLGY_INTRCN_DATA AS TCHNLGY_INTRCN_DATA,
+								Z.UP_REPRSNT AS REPRSNT,
+								Z.UP_AREA_SIGUNGU AS AREA_SIGUNGU,
+								Z.UP_AREA AS AREA,
+								Z.UP_MANAGER_IDX AS MANAGER_IDX,
+								P.STATE,
+								P.REJECT,
+								P.STATE_DT,
+								C.NAME AS TCHNLGY_M_CL,
+								CC.NAME AS TCHNLGY_S_CL,
+								G.ORG_GRP_NM,
+								G.ORG_ENG_NM,
+								SG.ORG_GRP_SUB_NM,
+								M.PSN_NM,
+								M.EMAIL,
+								M.TEL_NO,
+								M.DEPT_NM,
+								M.POSITION_NM,
+								N.ORG_GRP_NM AS MANAGER_ORG,
+								B.FILE_ID 	AS 	IMG_FILE_ID,
+								B.DATA_GRP 	AS 	IMG_DATA_GRP,
+								B.DATA_IDX 	AS 	IMG_DATA_IDX,
+								B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+								B.FILE_CAT 	AS 	IMG_FILE_CAT,
+								B.TITLE 	   AS 	IMG_TITLE,
+								B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+								B.DELETE_YN AS 	IMG_DELETE_YN,
+								B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+								B.FILE_PATH AS 	IMG_FILE_PATH,
+								B.FILE_SIZE AS 	IMG_FILE_SIZE,
+								B.TITLE_ORG AS 	IMG_TITLE_ORG,
+								CASE
+									WHEN Z.UP_AREA = "1" THEN Y.CODE_NM
+									WHEN Z.UP_AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+			FROM
+					    		TB_SEARCH_PROGRAM AS P
+			LEFT JOIN
+								TB_SEARCH_PROGRAM_UPDATE AS Z
+			ON
+								P.SEARCH_PROGRAM_IDX = Z.SEARCH_PROGRAM_IDX
+
+			LEFT JOIN	TB_CODE_TYPE AS C	ON	(Z.UP_TCHNLGY_M_CL = C.CODE)
+			LEFT JOIN	TB_CODE_TYPE AS CC	ON	(Z.UP_TCHNLGY_S_CL = CC.CODE)
+			LEFT JOIN	TB_JNSP_FILE AS	B	ON	(Z.UP_REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+			LEFT JOIN	TB_CODE 	 AS Y	ON	(Z.UP_AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+			LEFT JOIN	TB_CODE 	 AS X	ON	(Z.UP_AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+			LEFT JOIN 	TB_ORG_GRP 		G	ON 	(Z.UP_OWN_ORG_NM = G.ORG_GRP_CD)
+			LEFT JOIN 	TB_ORG_GRP_SUB SG	ON 	(Z.UP_OWN_DEPT_NM = SG.ORG_GRP_SUB_CD)
+			LEFT JOIN 	TB_USER_COPY 	M	ON 	(Z.UP_MANAGER_IDX = M.USER_IDX)
+			LEFT JOIN 		TB_ORG_GRP 	N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+			WHERE
+								P.SEARCH_PROGRAM_IDX =#{idx}
+	</select>
+	<select id="getProgramCompare" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+								A.CRT_WORK_DE,
+								A.PUBLICT_DE,
+								A.REG_DE,
+								A.REG_NO,
+								A.USE_NM,
+								A.PGM_AUTHOR,
+								A.CRT_PARTICIPANT,
+								A.OWN_ORG_NM,
+								A.OWN_DEPT_NM,
+								A.TCHNLGY_M_CL,
+								A.TCHNLGY_S_CL,
+								A.BEFORE_INFO,
+								A.PGM_DC,
+								A.TCHNLGY_INTRCN_DATA,
+								A.AREA_SIGUNGU,
+								A.AREA,
+								A.REPRSNT,
+								A.USER_IDX,
+								A.ORG_GRP_CD,
+								A.MANAGER_IDX,
+								B.UP_MANAGER_IDX,
+								B.UP_CRT_WORK_DE,
+								B.UP_PUBLICT_DE,
+								B.UP_REG_DE,
+								B.UP_REG_NO,
+								B.UP_USE_NM,
+								B.UP_PGM_AUTHOR,
+								B.UP_CRT_PARTICIPANT,
+								B.UP_OWN_ORG_NM,
+							   	B.UP_OWN_DEPT_NM,
+								B.UP_TCHNLGY_M_CL,
+								B.UP_TCHNLGY_S_CL,
+								B.UP_BEFORE_INFO,
+								B.UP_PGM_DC,
+								B.UP_TCHNLGY_INTRCN_DATA,
+								B.UP_AREA_SIGUNGU,
+								B.UP_AREA,
+								B.UP_REPRSNT,
+								B.UP_USER_IDX,
+							   	B.UP_ORG_GRP_CD
+			FROM
+								TB_SEARCH_PROGRAM AS A
+			LEFT JOIN
+								TB_SEARCH_PROGRAM_UPDATE AS B
+			ON
+								A.SEARCH_PROGRAM_IDX = B.SEARCH_PROGRAM_IDX
+			WHERE
+								A.SEARCH_PROGRAM_IDX = #{idx}
+	</select>
+<!-- 승인 시 프로그램 수정 E -->
+<!-- 승인 시 노하우 수정 S -->
+	<delete id="setKnowHowUpInsertDel" parameterType="paramMap">
+			 DELETE
+			 FROM
+					TB_SEARCH_KNOW_HOW_UPDATE
+			 WHERE SEARCH_KNOWHOW_IDX = #{idx}
+	</delete>
+	<insert id="setKnowHowUpInsert" parameterType="paramMap">
+		INSERT INTO TB_SEARCH_KNOW_HOW_UPDATE
+			(
+					UP_TCHNLGY_NM,
+					UP_ORG_NM,
+					UP_DEPT_NM,
+					UP_RSPNBER_USER_NM,
+					UP_RSPNBER_OFC_POSITION,
+					UP_RSPNBER_TEL_NO,
+					UP_RSPNBER_EMAIL,
+					UP_RSPNBER_MOBILE_PHONE,
+					UP_PARTICIPANT_POSITION,
+					UP_PARTICIPANT_USER_NAME,
+					UP_PARTICIPANT_OFC_POSITION,
+					UP_TECHNOLOGY_DC,
+					UP_BEFORE_INFO,
+					UP_TCHNLGY_INTRCN_DATA,
+					UP_REG_DT,
+					UP_AREA_SIGUNGU,
+					UP_AREA,
+					UP_TCHNLGY_M_CL,
+					UP_TCHNLGY_S_CL,
+					SEARCH_KNOWHOW_IDX,
+					UP_MANAGER_IDX,
+					UP_USER_IDX,
+					UP_REPRSNT,
+					UP_ORG_GRP_CD
+			)
+			VALUES
+			(
+					#{knowhowTchnlgyNm},
+					#{OwnOrg},
+					#{OwnDept},
+					#{knowhowRspnberUserNm},
+					#{knowhowRspnberOfcPosition},
+					#{knowhowRspnberTelNo},
+					#{knowhowRspnberEmail},
+					#{knowhowRspnberMobilePhone},
+					#{knowhowParticipantPosition},
+					#{knowhowParticipantUserName},
+					#{knowhowParticipantOfcPosition},
+					#{knowhowTechnologyDc},
+					#{knowhowBeforeInfo},
+					#{knowhowTchnlgyIntrcnData},
+					#{knowhowRegDt},
+					#{knowhowsearchArea},
+					#{knowhowArea},
+					#{knowhowTchnlgyMCl},
+					#{knowhowTchnlgySCl},
+					#{idx},
+					#{ManagerIdx},
+					#{regIdx},
+					#{utility_reprsnt},
+					#{regOrgGrpCd}
+			)
+	</insert>
+	<update id="setKnowHowCopy" parameterType="paramMap">
+			UPDATE
+							TB_SEARCH_KNOW_HOW AS A, TB_SEARCH_KNOW_HOW_UPDATE AS B
+			SET
+							A.TCHNLGY_NM = B.UP_TCHNLGY_NM,
+							A.ORG_NM = B.UP_ORG_NM,
+							A.DEPT_NM = B.UP_DEPT_NM,
+							A.RSPNBER_USER_NM = B.UP_RSPNBER_USER_NM,
+							A.RSPNBER_OFC_POSITION = B.UP_RSPNBER_OFC_POSITION,
+							A.RSPNBER_TEL_NO = B.UP_RSPNBER_TEL_NO,
+							A.RSPNBER_EMAIL = B.UP_RSPNBER_EMAIL,
+							A.RSPNBER_MOBILE_PHONE = B.UP_RSPNBER_MOBILE_PHONE,
+							A.PARTICIPANT_POSITION = B.UP_PARTICIPANT_POSITION,
+							A.PARTICIPANT_USER_NAME = B.UP_PARTICIPANT_USER_NAME,
+							A.PARTICIPANT_OFC_POSITION = B.UP_PARTICIPANT_OFC_POSITION,
+							A.TECHNOLOGY_DC = B.UP_TECHNOLOGY_DC,
+							A.BEFORE_INFO = B.UP_BEFORE_INFO,
+							A.TCHNLGY_INTRCN_DATA = B.UP_TCHNLGY_INTRCN_DATA,
+							A.REG_DT = B.UP_REG_DT,
+							A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU,
+							A.AREA = B.UP_AREA,
+							A.TCHNLGY_M_CL = B.UP_TCHNLGY_M_CL,
+							A.TCHNLGY_S_CL = B.UP_TCHNLGY_M_CL,
+							A.MANAGER_IDX = B.UP_MANAGER_IDX,
+							A.USER_IDX = B.UP_USER_IDX,
+							A.REPRSNT = B.UP_REPRSNT,
+							A.ORG_GRP_CD = B.UP_ORG_GRP_CD
+			WHERE
+							A.SEARCH_KNOWHOW_IDX = B.SEARCH_KNOWHOW_IDX
+			AND
+							A.SEARCH_KNOWHOW_IDX = #{idx}
+	</update>
+	<select id="getKnowHowView" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+									H.SEARCH_KNOWHOW_IDX,
+									Z.UP_USER_IDX AS USER_IDX,
+									Z.UP_KNOW_HOW_NO AS KNOW_HOW_NO,
+									Z.UP_TCHNLGY_NM AS TCHNLGY_NM,
+									Z.UP_ORG_NM AS ORG_NM,
+									Z.UP_DEPT_NM AS DEPT_NM,
+									Z.UP_RSPNBER_USER_NM AS RSPNBER_USER_NM,
+									Z.UP_RSPNBER_OFC_POSITION AS RSPNBER_OFC_POSITION,
+									Z.UP_RSPNBER_TEL_NO AS RSPNBER_TEL_NO,
+									Z.UP_RSPNBER_EMAIL AS RSPNBER_EMAIL,
+									Z.UP_RSPNBER_MOBILE_PHONE AS RSPNBER_MOBILE_PHONE,
+									Z.UP_PARTICIPANT_POSITION AS PARTICIPANT_POSITION,
+									Z.UP_PARTICIPANT_USER_NAME AS PARTICIPANT_USER_NAME,
+									Z.UP_PARTICIPANT_OFC_POSITION AS PARTICIPANT_OFC_POSITION,
+									Z.UP_TECHNOLOGY_DC AS TECHNOLOGY_DC,
+									CASE 	WHEN Z.UP_BEFORE_INFO="E" THEN "무상이전"
+											WHEN Z.UP_BEFORE_INFO="G" THEN "유상이전"
+										   	ELSE ""
+									END BEFORE_INFO,
+									Z.UP_TCHNLGY_INTRCN_DATA AS TCHNLGY_INTRCN_DATA,
+									Z.UP_REG_DT AS REG_DT,
+									Z.UP_REPRSNT AS REPRSNT,
+									Z.UP_AREA_SIGUNGU AS AREA_SIGUNGU,
+									Z.UP_AREA AS AREA,
+									Z.UP_TCHNLGY_M_CL AS H_TCHNLGY_M_CL,
+									Z.UP_TCHNLGY_S_CL AS H_TCHNLGY_S_CL,
+									Z.UP_MANAGER_IDX AS MANAGER_IDX,
+									H.STATE,
+									H.REJECT,
+									H.STATE_DT,
+
+									C.NAME AS TCHNLGY_M_CL,
+									CC.NAME AS TCHNLGY_S_CL,
+									G.ORG_GRP_NM,
+									G.ORG_ENG_NM,
+									SG.ORG_GRP_SUB_NM,
+									M.PSN_NM,
+									M.EMAIL,
+									M.TEL_NO,
+									M.DEPT_NM,
+									M.POSITION_NM,
+									N.ORG_GRP_NM AS MANAGER_ORG,
+
+									B.FILE_ID 	AS 	IMG_FILE_ID,
+									B.DATA_GRP 	AS 	IMG_DATA_GRP,
+									B.DATA_IDX 	AS 	IMG_DATA_IDX,
+									B.FILE_SEQ 	AS 	IMG_FILE_SEQ,
+									B.FILE_CAT 	AS 	IMG_FILE_CAT,
+									B.TITLE 		AS 	IMG_TITLE,
+									B.DOWN_CNT 	AS 	IMG_DOWN_CNT,
+									B.DELETE_YN AS 	IMG_DELETE_YN,
+									B.PHOTO_CAT AS 	IMG_PHOTO_CAT,
+									B.FILE_PATH AS 	IMG_FILE_PATH,
+									B.FILE_SIZE AS 	IMG_FILE_SIZE,
+									B.TITLE_ORG AS 	IMG_TITLE_ORG,
+									CASE
+									WHEN Z.UP_AREA = "1" THEN Y.CODE_NM
+									WHEN Z.UP_AREA = "2" THEN X.CODE_NM
+									ELSE ""
+							END AREA_CODE
+				FROM
+					    			TB_SEARCH_KNOW_HOW AS H
+				LEFT JOIN
+									TB_SEARCH_KNOW_HOW_UPDATE	AS Z
+				ON
+									H.SEARCH_KNOWHOW_IDX = Z.SEARCH_KNOWHOW_IDX
+				LEFT JOIN	TB_CODE_TYPE AS C	ON	(Z.UP_TCHNLGY_M_CL = C.CODE)
+				LEFT JOIN	TB_CODE_TYPE AS CC	ON	(Z.UP_TCHNLGY_S_CL = CC.CODE)
+				LEFT JOIN	TB_JNSP_FILE AS	B	ON	(Z.UP_REPRSNT = B.DATA_IDX	AND B.DATA_GRP = 'registartion_img')
+				LEFT JOIN	TB_CODE 	 AS Y	ON	(Z.UP_AREA_SIGUNGU = Y.CODE_CD AND	Y.CODE_GRP_CD = 'AreaSigungu')
+				LEFT JOIN	TB_CODE 	 AS X	ON	(Z.UP_AREA_SIGUNGU = X.CODE_CD AND X.CODE_GRP_CD = 'OtherArea')
+				LEFT JOIN 	TB_ORG_GRP 		G	ON 	(Z.UP_ORG_NM = G.ORG_GRP_CD)
+				LEFT JOIN 	TB_ORG_GRP_SUB SG	ON 	(Z.UP_DEPT_NM = SG.ORG_GRP_SUB_CD)
+				LEFT JOIN 	TB_USER_COPY 	M	ON 	(Z.UP_MANAGER_IDX = M.USER_IDX)
+				LEFT JOIN 		TB_ORG_GRP 	N	ON 	(M.ORG_GRP_CD = N.ORG_GRP_CD)
+
+
+				WHERE
+									H.SEARCH_KNOWHOW_IDX = #{idx}
+	</select>
+	<select id="getKnowHowCompare" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+									A.TCHNLGY_NM,
+									A.KNOW_HOW_NO,
+									A.ORG_NM,
+									A.DEPT_NM,
+									A.RSPNBER_USER_NM,
+									A.RSPNBER_OFC_POSITION,
+									A.RSPNBER_TEL_NO,
+									A.RSPNBER_EMAIL,
+									A.RSPNBER_MOBILE_PHONE,
+									A.PARTICIPANT_POSITION,
+									A.PARTICIPANT_USER_NAME,
+									A.PARTICIPANT_OFC_POSITION,
+									A.TECHNOLOGY_DC,
+									A.BEFORE_INFO,
+									A.TCHNLGY_INTRCN_DATA,
+									A.REG_DT,
+									A.AREA_SIGUNGU,
+									A.AREA,
+									A.TCHNLGY_M_CL,
+									A.TCHNLGY_S_CL,
+									A.USER_IDX,
+									A.REPRSNT,
+									A.ORG_GRP_CD,
+									A.MANAGER_IDX,
+									B.UP_MANAGER_IDX,
+									B.UP_TCHNLGY_NM,
+									B.UP_KNOW_HOW_NO,
+									B.UP_ORG_NM,
+									B.UP_DEPT_NM,
+									B.UP_RSPNBER_USER_NM,
+									B.UP_RSPNBER_OFC_POSITION,
+									B.UP_RSPNBER_TEL_NO,
+									B.UP_RSPNBER_EMAIL,
+									B.UP_RSPNBER_MOBILE_PHONE,
+									B.UP_PARTICIPANT_POSITION,
+									B.UP_PARTICIPANT_USER_NAME,
+									B.UP_PARTICIPANT_OFC_POSITION,
+								   B.UP_TECHNOLOGY_DC,
+								   B.UP_BEFORE_INFO,
+									B.UP_TCHNLGY_INTRCN_DATA,
+								   B.UP_REG_DT,
+									B.UP_AREA_SIGUNGU,
+									B.UP_AREA,
+									B.UP_TCHNLGY_M_CL,
+									B.UP_TCHNLGY_S_CL,
+									B.UP_USER_IDX,
+									B.UP_REPRSNT,
+									B.UP_ORG_GRP_CD
+				FROM
+									TB_SEARCH_KNOW_HOW AS A
+				LEFT JOIN
+									TB_SEARCH_KNOW_HOW_UPDATE AS B
+				ON
+									A.SEARCH_KNOWHOW_IDX = B.SEARCH_KNOWHOW_IDX
+				WHERE
+									A.SEARCH_KNOWHOW_IDX = #{idx}
+	</select>
+<!-- 승인 시 노하우 수정 E -->
+<!-- 출원번호 등록확인 S -->
+	<select id="getNoCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT SUM(F.cnt) FROM (
+				SELECT COUNT(0) cnt FROM TB_SEARCH_DESIGN AS D WHERE D.APLC_NO = #{noCnt} UNION ALL
+				SELECT COUNT(0) cnt FROM TB_SEARCH_KNOW_HOW AS H WHERE H.KNOW_HOW_NO = #{noCnt} UNION ALL
+				SELECT COUNT(0) cnt FROM TB_SEARCH_PROGRAM AS P WHERE P.REG_NO =  #{noCnt} UNION ALL
+				SELECT COUNT(0) cnt FROM TB_SEARCH_PATENT_UTILITY_MODEL AS U WHERE U.APLC_NO = #{noCnt} UNION ALL
+				SELECT COUNT(0) cnt FROM TB_SEARCH_BRAND AS B WHERE B.INTRL_APLC_NO = #{noCnt}
+			)F
+	</select>
+<!-- 출원번호 등록확인 E -->
+
+<!-- 회원목록 S -->
+	<select id="getUserList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+						U.USER_IDX,
+						U.PSN_NM,
+						U.GENDER_TYPE_CD,
+						U.FRGN_YN,
+						U.USER_ID,
+						U.PASSWORD,
+						U.EMAIL,
+						U.EMAIL_RECV_YN,
+						U.ZIPCD,
+						U.ADDR1,
+						U.ADDR2,
+						U.TEL_NO,
+						U.CP_NO,
+						U.FAX_NO,
+						U.DEPT_NM,
+						U.POSITION_NM,
+						U.USER_TYPE_CD,
+						U.BIRTH_DATE,
+						U.DELETE_YN,
+						U.ORG_GRP_CD,
+						U.AUTH_LV,
+						CASE
+							WHEN U.AUTH_LV ="01" THEN "일반회원"
+							WHEN U.AUTH_LV ="10" THEN "기업회원"
+				  	 		WHEN U.AUTH_LV ="70" THEN "기관담당자"
+				  	 		WHEN U.AUTH_LV ="80" THEN "기관관리자"
+				  	 		WHEN U.AUTH_LV ="99" THEN "최고관리자"
+				   		ELSE ""
+				   		END AUTH_LV_NAME,
+						DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+						U.REG_IP,
+						U.REG_IDX,
+						U.UP_DT,
+						U.UP_IP,
+						U.UP_IDX,
+						U.REJECT,
+						U.PRO_STATE,
+						CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+								WHEN U.USER_APP_STATE="20" THEN "승인"
+							   WHEN U.USER_APP_STATE="30" THEN "반려"
+							   ELSE ""
+							   END USER_APP_STATE,
+						O.ORG_GRP_NM,
+						CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+								WHEN O.ORG_TYPE="2" THEN "기관/센터"
+							   ELSE ""
+							   END ORG_TYPE,
+						O.APPLY_CD,
+						O.APPLY_REJECT,
+						O.CI_FILE_SRC,
+						O.AUTH_CD,
+						O.AUTH_ORG_SITE_1,
+						O.AUTH_ORG_SITE_2,
+						O.AUTH_ORG_SITE_3,
+						O.AREA_CD,
+						O.ORNER_NM,
+						O.CORP_NUM_1,
+						O.CORP_NUM_2,
+						O.CORP_PHONE,
+						O.CORP_FAX,
+						O.HOMEPAGE,
+						O.ADDR1 AS ORG_ADDR1,
+						O.ADDR2 AS ORG_ADDR2,
+						O.ZIPCODE,
+						O.MAP_X,
+						O.MAP_Y,
+						O.ORG_NOTE_1,
+						O.ORG_NOTE_2,
+						O.ORG_NOTE_3,
+						O.ORG_NOTE_4,
+						O.ORG_FILE_INFO,
+						O.REG_DT AS ORG_REG_DT,
+						O.REG_IP AS ORG_REG_IP,
+						O.REG_IDX AS ORG_REG_IDX,
+						O.UP_DT AS ORG_UP_IP,
+						O.UP_IP AS ORG_UP_IP,
+						O.UP_IDX AS ORG_UP_IDX,
+						O.SIGN_IMG,
+						O.DELETE_YN
+
+			FROM
+						TB_USER_COPY AS U
+			LEFT JOIN
+						TB_ORG_GRP AS O
+			ON
+						U.ORG_GRP_CD = O.ORG_GRP_CD
+			WHERE
+							 (U.DELETE_YN != 'Y' or U.DELETE_YN IS NULL)
+			]]>
+
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND U.ORG_GRP_CD = #{listOrgGrpCd}
+			]]>
+			</if>
+			<![CDATA[
+			ORDER BY U.PSN_NM ASC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getUserListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT	COUNT(0) AS CNT
+
+			  FROM	TB_USER_COPY AS U
+		 LEFT JOIN	TB_ORG_GRP AS O
+				ON	U.ORG_GRP_CD = O.ORG_GRP_CD
+
+			 WHERE  (U.DELETE_YN != 'Y' or U.DELETE_YN IS NULL)
+			   
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND U.ORG_GRP_CD = #{listOrgGrpCd}
+			]]>
+			</if>
+
+
+	</select>
+<!-- 회원목록 E -->
+<!-- 기관, 부서정보 S -->
+	<!-- 기관 정보 -->
+	<select id="getOrgList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						O.ORG_GRP_CD,
+						O.ORG_GRP_NM,
+						O.USER_IDX,
+						O.ORG_TYPE,
+						O.APPLY_CD,
+						O.APPLY_REJECT,
+						O.CI_FILE_SRC,
+						O.AUTH_CD,
+						O.AUTH_ORG_SITE_1,
+						O.AUTH_ORG_SITE_2,
+						O.AUTH_ORG_SITE_3 ,
+						O.AREA_CD ,
+						O.ORNER_NM ,
+						O.CORP_NUM_1 ,
+						O.CORP_NUM_2 ,
+						O.CORP_PHONE ,
+						O.CORP_FAX ,
+						O.HOMEPAGE,
+						O.ADDR1 ,
+						O.ADDR2 ,
+						O.ZIPCODE ,
+						O.MAP_X ,
+						O.MAP_Y ,
+						O.ORG_NOTE_1 ,
+						O.ORG_NOTE_2 ,
+						O.ORG_NOTE_3 ,
+						O.ORG_NOTE_4 ,
+						O.ORG_FILE_INFO ,
+						O.REG_DT ,
+						O.REG_IP ,
+						O.REG_IDX ,
+						O.UP_DT ,
+						O.UP_IP ,
+						O.UP_IDX ,
+						O.SIGN_IMG
+
+			FROM
+						TB_ORG_GRP AS O
+			WHERE  O.ORG_TYPE = '2'
+			<if test='searchWord != null and searchWord != ""'>
+			<![CDATA[
+				AND O.ORG_GRP_NM like concat( '%',  #{searchWord} ,'%' )
+			]]>
+			</if>
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND O.ORG_GRP_CD = #{listOrgGrpCd}
+			]]>
+			</if>
+
+			<![CDATA[
+			ORDER BY O.ORG_GRP_NM DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+	<!-- 기관정보 카운트 -->
+	<select id="getOrgListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+						TB_ORG_GRP AS O
+		WHERE  O.ORG_TYPE = '2'
+		
+			<if test='searchWord != null and searchWord != ""'>
+			<![CDATA[
+				AND O.ORG_GRP_NM like concat( '%',  #{searchWord} ,'%' )
+			]]>
+			</if>
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND O.ORG_GRP_CD = #{listOrgGrpCd}
+			]]>
+			</if>
+	</select>
+	<!-- 기관부서 정보 -->
+	<select id="getOrgSubList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					OS.ORG_GRP_SUB_CD,
+					OS.ORG_GRP_SUB_NM,
+					OS.ORG_ZIPCODE,
+					OS.ORG_ADDR1,
+					OS.ORG_ADDR2,
+					OS.ORG_PHONE,
+					OS.ORG_FAX
+			FROM
+					TB_ORG_GRP_SUB AS OS
+			WHERE
+					OS.ORG_GRP_CD = #{orgGrpCd}
+			<if test='searchWord != null and searchWord != ""'>
+			<![CDATA[
+				AND OS.ORG_GRP_SUB_NM like concat( '%',  #{searchWord} ,'%' )
+			]]>
+			</if>
+			ORDER BY OS.ORG_GRP_SUB_NM DESC
+	</select>
+	<!-- 기관부서 정보 카운트 -->
+	<select id="getOrgSubListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_ORG_GRP_SUB AS OS
+		WHERE
+				OS.ORG_GRP_CD = #{orgGrpCd}
+	</select>
+<!-- 기관, 부서정보 E -->
+</mapper>

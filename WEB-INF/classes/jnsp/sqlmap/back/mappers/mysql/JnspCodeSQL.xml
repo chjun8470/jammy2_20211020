@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspCodeMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getCodeGrpList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+					CODE_GRP_CD,
+					CODE_GRP_NM
+
+			  FROM
+			  		TB_CODE_GRP
+
+			  WHERE 1 = 1
+		]]>
+		<if test='selCodeGrp != "" and searchCodeWord != ""'>
+				AND CODE_GRP_CD LIKE '%${selCodeGrp}%'
+		</if>
+		<if test='searchType1 == "gCd" and searchCodeGrpWord != ""'>
+				AND CODE_GRP_CD LIKE '%${searchCodeGrpWord}%'
+		</if>
+		<if test='searchType1 == "gNm" and searchCodeGrpWord != ""'>
+				AND CODE_GRP_NM LIKE '%${searchCodeGrpWord}%'
+		</if>
+
+		<![CDATA[
+				ORDER BY CODE_GRP_IDX ASC
+		]]>
+	</select>
+
+	<select id="getCodeList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+					CODE_IDX,
+					CODE_GRP_CD,
+					CODE_CD,
+					CODE_NM,
+					CMT
+			  FROM
+				    TB_CODE
+
+			  WHERE CODE_GRP_CD = #{code_grp_cd}
+
+		]]>
+		<if test='code_type == "cCd" and code_word != ""'>
+				AND CODE_CD LIKE '%${code_word}%'
+		</if>
+		<if test='code_type == "cNm" and code_word != ""'>
+				AND CODE_NM LIKE '%${code_word}%'
+		</if>
+		<![CDATA[
+			ORDER BY CODE_IDX ASC
+		]]>
+	</select>
+
+	<select id="getGroupCheckCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+
+			 SELECT
+					COUNT(*) AS CNT
+			   FROM
+					TB_CODE_GRP
+			  WHERE CODE_GRP_CD = #{code_grp_cd}
+
+	</select>
+
+	<select id="getCodeCheckCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+
+			SELECT
+					COUNT(*) AS CNT
+			FROM
+					TB_CODE
+
+			WHERE	CODE_CD = #{code_cd}
+			  AND	CODE_GRP_CD = #{code_grp_cd}
+
+	</select>
+
+	<insert id="setGroupInsert" parameterType="paramMap">
+
+		<selectKey keyProperty="codeGrpIdx" resultType="int" order="BEFORE">
+			SELECT MAX(IFNULL(CODE_GRP_IDX,0)) + 1 FROM TB_CODE_GRP
+		</selectKey>
+
+			INSERT INTO	TB_CODE_GRP
+				(
+					CODE_GRP_IDX,
+					CODE_GRP_CD,
+					CODE_GRP_NM,
+					REG_DT,
+					REG_IDX,
+					REG_IP
+				)
+			VALUES
+				(
+					#{codeGrpIdx},
+					#{code_grp_cd},
+					#{code_grp_nm},
+					now(),
+					#{regId},
+					#{regIp}
+				)
+	</insert>
+
+	<insert id="setCodeInsert" parameterType="paramMap">
+
+		  <selectKey keyProperty="codeIdx" resultType="int" order="BEFORE">
+		  	  SELECT MAX(IFNULL(CODE_IDX,0)) + 1 FROM TB_CODE
+		  </selectKey>
+
+			INSERT INTO TB_CODE
+				(
+					CODE_IDX,
+					CODE_GRP_CD,
+					CODE_CD,
+					CODE_NM,
+					CMT,
+					REG_DT,
+					REG_IDX,
+					REG_IP
+				)
+			VALUES
+				(
+					#{codeIdx},
+					#{code_grp_cd},
+					#{code_cd},
+					#{code_nm},
+					#{cmt},
+					now(),
+					#{regId},
+					#{regIp}
+				)
+	</insert>
+
+	<select id="getCodeIdxCheck" parameterType="paramMap" resultType="java.lang.Integer" >
+
+			SELECT
+					CODE_IDX
+			FROM
+					TB_CODE
+
+			WHERE	CODE_CD = #{code_cd}
+			  AND	CODE_GRP_CD = #{code_grp_cd}
+
+	</select>
+
+	<update id="setCodeUpdate" parameterType="paramMap">
+
+			UPDATE
+					TB_CODE
+			   SET
+					CODE_CD = #{code_cd},
+					CODE_NM = #{code_nm},
+					CMT = #{cmt},
+					UP_DT = now(),
+					UP_IDX = #{upId},
+					UP_IP = #{upIp}
+
+			  WHERE CODE_IDX = #{code_idx}
+
+	</update>
+
+	<select id="getCodeDelCheckCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+
+			 SELECT
+					COUNT(*) AS CNT
+			   FROM
+					TB_CODE
+			  WHERE CODE_GRP_CD = #{code_grp_cd}
+
+	</select>
+
+	<delete id="setGroupDelete" parameterType="paramMap">
+			 DELETE FROM
+					TB_CODE_GRP
+			 WHERE
+			 		CODE_GRP_CD = #{code_grp_cd}
+	</delete>
+
+	<delete id="setCodeDelete" parameterType="paramMap">
+			 DELETE FROM
+					TB_CODE
+			 WHERE
+			 		CODE_GRP_CD = #{code_grp_cd}
+	</delete>
+
+	<select id="getCodeAreaNm" parameterType="paramMap" resultType="java.lang.String" >
+
+		SELECT
+			CODE_NM
+		FROM
+			TB_CODE
+		WHERE CODE_CD = #{code_cd}
+		<if test=' area == "2" ' >
+			AND CODE_GRP_CD = 'OtherArea'
+		</if>
+		<if test=' area == "1" ' >
+			AND CODE_GRP_CD = 'AreaSigungu'
+		</if>
+
+	</select>
+</mapper>

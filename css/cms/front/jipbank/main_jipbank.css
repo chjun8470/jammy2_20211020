@@ -1,0 +1,197 @@
+/* CSS Document */
+
+/* 메인 비주얼 */
+.MainVIsualWrap { width:100%; height:497px; background:url(/img/jipbank/main3/Visual01.jpg) center top no-repeat }
+.MainVIsualWrap .MainVisualBox { width:1200px; margin:0 auto }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox { position:absolute; width:431px; height:176px; float:left; margin:142px 0 0 405px }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt01 { float:right }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt02 { float:right; margin:15px 0 0 0; clear:both }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VTxt03 { float:right; margin:11px 0 20px 0; clear:both }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox { width:358px; height:46px; margin:0px 0 0 73px; clear:both }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .SrchForm { width:270px; height:42px; float:left; border:2px solid #0081af; background-color:#fff; padding:0 0 0 15px; margin:0 0 0 0px;
+                                                                        font-size:14px; letter-spacing:-0.05em; color:#323232 }
+.MainVIsualWrap .MainVisualBox .VisualTxtBox .VisualSrchBox .Btn_VSrch { width:64px; height:46px; float:left; text-indent:-9999px; background:url(/img/jipbank/main3/Btn_VSrch.gif) no-repeat;
+                                                                         padding:0; margin:0 0 0 5px; border:none }
+
+
+/* 퀵링크/등록기술 */
+.QuickLink { width:330px; height:497px; float:right; background:url(/img/jipbank/main3/bg_QuickLink.png) no-repeat }
+.QuickLink .QuickBox { width:330px; height:315px; }
+.QuickLink .QuickBox li { width:110px; height:81px; float:left; text-align:center; vertical-align:middle; padding:24px 0 0 0 }
+.QuickLink .StatusBox { width:280px; height:181px; border-top:1px solid #8096a0; margin:0 auto }
+.QuickLink .StatusBox .StatusTit { width:64px; height:19px; float:left; margin:30px 0 0 0 }
+.QuickLink .StatusBox .StatusTotal { float:right; text-align:right; font-size:16px; font-weight:600; letter-spacing:-0.05em; color:#ffff93; margin:31px 0 0 0 }
+.QuickLink .StatusBox .CategoryBox { width:280px; height:100px; float:left; margin:18px 0 0 0; background:url(/img/jipbank/main3/gap_status.gif) 140px 26px no-repeat }
+.QuickLink .StatusBox .CategoryBox dl.Category01 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dt { width:60px; float:left; color:#fff }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dd { width:57px; float:right; text-align:right; color:#ffffae; margin:0 23px 0 0 }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dd:after {content:'건'; margin-left:2px;}
+
+.QuickLink .StatusBox .CategoryBox dl.Category02 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dt { width:60px; float:left; color:#fff; margin:0 0 0 20px }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dd { width:60px; float:right; text-align:right; color:#ffffae }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dd:after {content:'건'; margin-left:2px;}
+
+
+/* 탭메뉴 */
+.MainTabWrap { width:100%; height:127px; margin:0 auto; margin-top:-45px }
+.MainTabWrap .TabMenuWrap { width:1200px; height:45px; margin:0 auto }
+.MainTabWrap .TabMenuWrap ul { width:600px; height:45px; float:left; font-size:16px; font-weight:400 }
+.MainTabWrap .TabMenuWrap ul li { height:32px; float:left; text-align:center; background-color:#00698f; padding:13px 0 0 0 }
+.MainTabWrap .TabMenuWrap ul li a { width:92px; height:45px; padding:13px 29px 15px 29px; color:#96c5d6 }
+.MainTabWrap .TabMenuWrap ul li.tab01 a.on{ width:150px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab1_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab02 a.on{ width:150px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab2_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab03 a.on{ width:150px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab3_ovr.gif) no-repeat }
+.MainTabWrap .TabMenuWrap ul li.tab04 a.on{ width:150px; color:#fff; background:url(/img/jipbank/main3/bg_MainTab4_ovr.gif) no-repeat }
+
+.MainTabWrap .TabBtnWrap { width:100%; height:82px }
+.MainTabWrap .TabBtnWrap .TabBox01 { width:100%; height:82px; background:url(/img/jipbank/main3/bg_PcTab01.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 .TabBox01_gap { width:2px; height:53px; float:left; margin:16px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul { width:1200px; height:82px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li { width:177px; height:65px; float:left; padding:17px 0 0 21px; background:url(/img/jipbank/main3/MainTab1_menu_bg.png) 150px 9px no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit01 { font-size:16px; font-weight:600; color:#53c9db }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit02 { font-size:20px; letter-spacing:-0.05em; color:#fff; margin:7px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li .TabTit03 { font-size:19px; letter-spacing:-0.05em; color:#fff; margin:7px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox01 ul li.side { width:178px; padding-left:20px }
+
+.MainTabWrap .TabBtnWrap .TabBox02 { width:100%; height:82px; background:url(/img/jipbank/main3/bg_PcTab02.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox02 .TabBox02_gap { width:2px; height:53px; float:left; margin:16px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox02 ul { width:1200px; height:82px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li { width:148px; height:66px; float:left; padding:16px 0 0 0; text-align:center }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02_icon { height:34px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit { clear:both; font-size:14px; font-weight:600; letter-spacing:-0.05em; margin:6px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li .Tab02Tit a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox02 ul li.side { width:149px }
+
+.MainTabWrap .TabBtnWrap .TabBox03 { width:100%; height:82px; background:url(/img/jipbank/main3/bg_PcTab03.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox03 .TabBox03_gap { width:2px; height:53px; float:left; margin:16px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox03 ul { width:1200px; height:82px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox03 ul .btn_arw { width:15px; height:30px; float:left; margin:28px 0 0 0; padding:0; border:none; background:none }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li { width:384px; height:82px; float:left; font-size:13px; letter-spacing:-0.05em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li a { color:#fff }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .img_map { width:56px; height:60px; float:left; vertical-align:middle; margin:11px 0 0 25px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency01 { width:132px; float:left; text-align:center; margin:20px 0 0 12px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency02 { width:132px; float:left; text-align:center; margin:20px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency03 { width:132px; float:left; text-align:center; margin:14px 0 0 12px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li .agency04 { width:132px; float:left; text-align:center; margin:14px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center { width:398px; height:82px; float:left; font-size:13px; letter-spacing:-0.05em }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .img_map { width:56px; height:60px; float:left; vertical-align:middle; margin:11px 0 0 25px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency01 { width:132px; float:left; text-align:center; margin:20px 0 0 12px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency02 { width:132px; float:left; text-align:center; margin:20px 0 0 5px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency03 { width:132px; float:left; text-align:center; margin:14px 0 0 12px }
+.MainTabWrap .TabBtnWrap .TabBox03 ul li.center .agency04 { width:132px; float:left; text-align:center; margin:14px 0 0 5px }
+
+.MainTabWrap .TabBtnWrap .TabBox04 { width:100%; height:82px; background:url(/img/jipbank/main3/bg_PcTab04.gif) center top no-repeat }
+.MainTabWrap .TabBtnWrap .TabBox04 ul { width:1200px; height:82px; margin:0 auto }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li { width:109px; height:21px; float:left; font-size:16px; letter-spacing:-0.05em; text-align:center; padding:15px 0 0 0 }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li.first { width:95px }
+.MainTabWrap .TabBtnWrap .TabBox04 ul li a { color:#fff }
+
+
+
+.ContBox01 { width:1200px; height:328px; margin:0 auto; margin-top:25px; }
+/* 공지사항/지원사업 */
+.ContBox01 .NoticeWrap { width:787px; height:328px; float:left; border:1px solid #ebebeb; padding:0 30px 0 30px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox { width:787px; height:45px; border-bottom:1px solid #dcdcdc; margin:24px 0 0 0 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .Notice_gap { width:1px; height:14px; float:left; margin:8px 15px 0 15px }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li { width:76px; float:left; font-size:20px; letter-spacing:-0.05em; }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li a { color:#323232 }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on { padding-bottom:20px; border-bottom:3px solid #0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox li.on a { color:#0081af }
+.ContBox01 .NoticeWrap ul.NoticeMenuBox .btn_more { width:29px; height:29px; float:right }
+.ContBox01 .NoticeWrap .NoticeListBox { width:787px; height:210px; font-size:14px; margin:20px 0 0 0 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 { width:520px; height:220px; float:left }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li { font-size:14px; letter-spacing:-0.03em; line-height:32px; padding:0 0 0 12px; background:url(/img/jipbank/main3/icon_notice_li.gif) left 14px no-repeat ;height:30px;overflow:hidden;}
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox01 li a { color:#666 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox02 { width:187px; height:220px; float:left }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox02 li { font-size:14px; letter-spacing:-0.05em; color:#0081af; line-height:32px; text-align:right; margin:0 10px 0 0 }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 { width:80px; height:220px; float:right }
+.ContBox01 .NoticeWrap .NoticeListBox ul.ListBox03 li { font-size:14px; letter-spacing:-0.015em; color:#afafaf; line-height:32px; text-align:right }
+/* POPUP ZONE */
+.ContBox01 .popupzone {position:relative;float:right; height:255px}
+.ContBox01 .popupzone h3.Titpopupzone {font-size:22px;font-weight:normal;height:43px;background:url(/img/jipbank/main3/bg_popupzone.gif) left top no-repeat; padding:25px 0 10px 0;color:#444}
+.ContBox01 .popupzone h3.Titpopupzone span {}
+.ContBox01 .popupzone ul.PopupControl {width:85px;float:right;position:absolute;top:27px;right:0}
+.ContBox01 .popupzone ul.PopupControl li {float:left}
+.ContBox01 .popupzone ul.PopupControl li a {width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+.ContBox01 .popupzone ul.PopupControl li a.BtnPrev {background:url(/img/jipbank/main3/btn_prev01.gif) no-repeat;width:21px}
+.ContBox01 .popupzone ul.PopupControl li a.BtnNext {background:url(/img/jipbank/main3/btn_next01.gif) no-repeat}
+.ContBox01 .popupzone ul.PopupControl li a.BtnStop {background:url(/img/jipbank/main3/btn_stop01.gif) no-repeat}
+.ContBox01 .popupzone ul.PopupControl li a.BtnPlay {background:url(/img/jipbank/main3/btn_play01.gif) no-repeat}
+.ContBox01 .popupzone ul.PopupList li {}
+.ContBox01 .popupzone ul.PopupList li a{}
+.ContBox01 .popupzone ul.PopupList li a img{ width:333px; height:250px; border:1px solid #ebebeb }
+
+
+.ContBox02 { width:100%; height:712px; margin:0 auto; margin-top:25px; background:url(/img/jipbank/main3/bg_ContBox02.gif) left top repeat-x }
+/* 포토뉴스/기술사업화 제품/우수사례 */
+.ContBox02 .ImgListWrap01 { width:1200px; height:261px; margin:0 auto; padding:28px 0 0 0 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox { width:1200px; height:41px; border-bottom:1px solid #b4b4b4 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .ImgList_gap { width:1px; float:left; height:15px; margin:4px 15px 0 12px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li { height:23px; float:left; font-size:18px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li a { color:#878787 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab01 { width:72px; background:url(/img/jipbank/main3/icon_imglist1_ovr.png) left 0px no-repeat; padding-left:39px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab02 { width:120px; background:url(/img/jipbank/main3/icon_imglist2_ovr.png) left 0px no-repeat; padding-left:41px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.tab03 { width:73px; background:url(/img/jipbank/main3/icon_imglist3_ovr.png) left 0px no-repeat; padding-left:29px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on { padding-bottom:17px; border-bottom:2px solid #0081af }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox li.on a { color:#323232 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox { width:170px; float:left; margin-left:680px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li { font-size:14px; float:left; padding-top:3px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.newest { background:url(/img/jipbank/main3/icon_newest.png) 0px 3px no-repeat; padding-left:25px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox ul.ListSortBox li.lookup { background:url(/img/jipbank/main3/icon_lookup.png) 0px 3px no-repeat; padding-left:27px }
+.ContBox02 .ImgListWrap01 ul.ImgListMenuBox .btn_more { width:29px; height:29px; float:right }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap01 ul.ImgListBox { width:1200px; margin:0 auto; margin-top:25px; height:157px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li { height:157px; float:left; padding:0 11px 0 12px }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em { background-color:rgba(44,114,199,0.8); position:relative; top:-37px; float:left; padding:11px 0 11px 10px; font-style:normal; width:207px; text-align:center; }
+.ContBox02 .ImgListWrap01 ul.ImgListBox li em a { color:#fff; font-weight:600; font-size:13px; padding-left:10px 0 }
+
+/* PUBLICATION */
+.ContBox02 .ImgListWrap02 { width:1200px; height:394px; margin:0 auto; padding:30px 0 0 0 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 { width:1200px; height:41px; border-bottom:1px solid #b4b4b4 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .ImgList_gap { width:1px; float:left; height:15px; margin:4px 15px 0 15px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title { width:140px; height:23px; float:left; font-size:18px; background:url(/img/jipbank/main3/icon_imglist4.png) left 0px no-repeat; padding:0px 0px 17px 30px;border-bottom:2px solid #0081af; }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title.addlink01 { width:100px; background:url(/img/jipbank/main3/icon_imglist4_add1.png) left 0px no-repeat;border-bottom:0; }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title.addlink02 { width:140px; background:url(/img/jipbank/main3/icon_imglist4_add2.png) left 0px no-repeat;border-bottom:0; }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li.title.addlink03 { width:125px; background:url(/img/jipbank/main3/icon_imglist4_add3.png) left 0px no-repeat;border-bottom:0; }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 li a { color:#323232 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox { width:170px; float:left; margin-left:335px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li { font-size:14px; float:left; padding-top:2px; line-height:18px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li a { color:#646464 }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.newest { background:url(/img/jipbank/main3/icon_newest.png) 0px 2px no-repeat; padding-left:25px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 ul.ListSortBox li.lookup { background:url(/img/jipbank/main3/icon_lookup.png) 0px 2px no-repeat; padding-left:27px }
+.ContBox02 .ImgListWrap02 ul.ImgListMenuBox02 .btn_more { width:29px; height:29px; float:right }
+/* 이미지 리스트 */
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 { width:1200px; margin:0 auto; margin-top:25px; height:304px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li { height:304px; float:left; padding:0 11px 0 11px }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em { background-color:rgba(44,114,199,0.8); position:relative; top:-37px; float:left; padding:11px 0; font-style:normal; width:217px; text-align:center }
+.ContBox02 .ImgListWrap02 ul.ImgListBox02 li em a { color:#fff; font-weight:600; font-size:13px; padding-left:10px 0 }
+
+
+
+
+
+
+
+
+
+
+/* banner */
+.BannerWrap{width:100%; background:url(/img/main/bg_banner.png) 0 23px repeat-x;height:108px;clear:both}
+.BannerWrap .Banner{width:1200px;margin:0 auto;}
+.BannerWrap .Banner h3.TitBanner{float:left;padding-top:48px;font-weight:600;color:#444}
+.BannerWrap .Banner ul.BannerControl{float:left;background:url(/img/main/line_banner.gif) 104px 0px no-repeat;height:55px; padding-top:16px; width:111px;margin:32px 0 0 16px}
+.BannerWrap .Banner ul.BannerControl li{float:left}
+.BannerWrap .Banner ul.BannerControl li a{width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+.BannerWrap .Banner ul.BannerControl li a.BtnPrev{background:url(/img/main/btn_prev01.gif) no-repeat;width:21px}
+.BannerWrap .Banner ul.BannerControl li a.BtnNext{background:url(/img/main/btn_next01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnStop{background:url(/img/main/btn_stop01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnPlay{background:url(/img/main/btn_play01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerList{position:absolute;left:200px;top:45px;overflow:hidden;min-width:160px;width:100%;max-width:730px;height:30px;vertical-align:middle;}
+.BannerWrap .Banner ul.BannerList li{display:inline;padding:0px 15px;}
+.BannerWrap .Banner ul.BannerList li a{position:absolute;width:155px;top:0px;left:0px;}
+.BannerWrap .Banner .JeonNam{float:right; background:url(/img/main/line_banner02.gif) no-repeat;width:227px;margin-top:31px;margin-left:18px;padding:12px 0 30px 20px;cursor:pointer}
+.BannerWrap .Banner .JeonNam .JeonNamCi{width:214px}
+.BannerWrap .Banner .JeonNam .JeonNamCi img.JeonNamImg{width:100%}

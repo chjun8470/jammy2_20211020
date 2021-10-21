@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Author">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="AuthorGroup" type="egovframework.jammy2.system.author.service.AuthorGroup"/>
+	<typeAlias  alias="AuthorGroupVO" type="egovframework.jammy2.system.author.service.AuthorGroupVO"/>
+	<typeAlias  alias="AuthorLevel" type="egovframework.jammy2.system.author.service.AuthorLevel"/>
+	<typeAlias  alias="AuthorLevelVO" type="egovframework.jammy2.system.author.service.AuthorLevelVO"/>
+						
+	<select id="AuthorDAO.selectAuthorGroupList" parameterClass="AuthorGroupVO" resultClass="AuthorGroupVO">
+		SELECT  GROUP_ID			groupId
+			 ,  GROUP_NM			groupNm
+			 ,  GROUP_CREAT_DE		groupCreatDe
+			 ,  GROUP_DC			groupDc
+		  FROM  JMY_AUTHOR_GROUP
+	</select>
+
+    <select id="AuthorDAO.selectAuthorGroup" parameterClass="AuthorGroupVO" resultClass="AuthorGroupVO">
+		SELECT  GROUP_ID		groupId
+		     ,  GROUP_NM		groupNm
+		     ,  GROUP_DC		groupDc
+		     ,  GROUP_CREAT_DE	groupCreatDe
+		  FROM  JMY_AUTHOR_GROUP 
+         WHERE  GROUP_ID = #groupId#
+    </select>
+    
+	<insert id="AuthorDAO.insertAuthorGroup">
+		INSERT 
+		  INTO  JMY_AUTHOR_GROUP
+		     (  GROUP_ID
+			 ,  GROUP_NM
+			 ,  GROUP_DC
+			 ,  GROUP_CREAT_DE 
+			 )
+		VALUES 
+		     (  #groupId#
+			 ,  #groupNm#
+			 ,  #groupDc#
+			 ,  now()
+			 )
+	</insert>    
+	
+	<update id="AuthorDAO.updateAuthorGroup">
+		UPDATE  JMY_AUTHOR_GROUP 
+		   SET  GROUP_NM = #groupNm#
+			 ,  GROUP_DC = #groupDc#
+			 ,  GROUP_CREAT_DE = now()
+	  	 WHERE  GROUP_ID = #groupId#
+	</update>	
+	
+	<delete id="AuthorDAO.deleteAuthorGroup">
+		DELETE 
+		  FROM  JMY_AUTHOR_GROUP 
+		 WHERE  GROUP_ID=#groupId#	
+	</delete>
+
+	<select id="AuthorDAO.selectAuthorLevelList" parameterClass="AuthorLevelVO" resultClass="AuthorLevelVO">
+		SELECT  LEVEL_ID			levelId
+			 ,  LEVEL_NM			levelNm
+			 ,  LEVEL_CREAT_DE		levelCreatDe
+			 ,  LEVEL_DC			levelDc
+		  FROM  JMY_AUTHOR_LEVEL
+	</select>	
+	
+    <select id="AuthorDAO.selectAuthorLevel" parameterClass="AuthorLevelVO" resultClass="AuthorLevelVO">
+		SELECT  LEVEL_ID		levelId
+		     ,  LEVEL_NM		levelNm
+		     ,  LEVEL_DC		levelDc
+		     ,  LEVEL_CREAT_DE	levelCreatDe
+		  FROM  JMY_AUTHOR_LEVEL 
+         WHERE  LEVEL_ID = #levelId#
+    </select>
+    
+	<insert id="AuthorDAO.insertAuthorLevel">
+		INSERT 
+		  INTO  JMY_AUTHOR_LEVEL
+		     (  LEVEL_ID
+			 ,  LEVEL_NM
+			 ,  LEVEL_DC
+			 ,  LEVEL_CREAT_DE 
+			 )
+		VALUES 
+		     (  #levelId#
+			 ,  #levelNm#
+			 ,  #levelDc#
+			 ,  now()
+			 )
+	</insert>    
+	
+	<update id="AuthorDAO.updateAuthorLevel">
+		UPDATE  JMY_AUTHOR_LEVEL 
+		   SET  LEVEL_NM = #levelNm#
+			 ,  LEVEL_DC = #levelDc#
+			 ,  LEVEL_CREAT_DE = now()
+	  	 WHERE  LEVEL_ID = #levelId#
+	</update>	
+	
+	<delete id="AuthorDAO.deleteAuthorLevel">
+		DELETE 
+		  FROM  JMY_AUTHOR_LEVEL 
+		 WHERE  LEVEL_ID=#levelId#	
+	</delete>	
+				
+</sqlMap>

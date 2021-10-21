@@ -1,0 +1,248 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="/rpt/viewer/common/js/jquery.min.js"></script>
+<script type="text/javascript" src="/rpt/viewer/common/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/rpt/viewer/common/js/jquery.contextMenu.js"></script>
+<script type="text/javascript" src="/rpt/viewer/common/js/syronex-colorpicker.js"></script>
+<script  type="text/javascript" src="/rpt/viewer/common/js/mousewheel.js"></script>
+<script  type="text/javascript" src="/rpt/viewer/common/js/AIDrawing.js"></script>
+<!--[if IE]>
+<style>
+v\:roundrect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:textbox {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:rect {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:line {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+v\:oval {behavior:url(#default#VML);display:inline-block;overflow:hidden;}
+</style>
+<![endif]-->
+<link rel="stylesheet" type="text/css" media="screen" href="/rpt/viewer/common/css/AIStyle.css" />
+<link rel="stylesheet" type="text/css" href="/rpt/viewer/common/css/syronex-colorpicker.css" />
+<link rel="stylesheet" type="text/css" href="/rpt/viewer/common/css/jquery-ui.css" />
+<style type="text/css">
+#cell_style_0
+{
+   font:bold 18pt/1.4 '굴림';
+   text-decoration:underline;
+   text-align:center;
+   background-color:transparent;
+}
+#cell_style_1
+{
+   font:9pt/1.4 '굴림';
+   background-color:transparent;
+}
+#cell_style_2
+{
+   background-color:transparent;
+}
+#cell_style_3
+{
+   text-align:center;
+   padding:2pt 1pt 2pt 1pt; 
+   background-color:transparent;
+}
+#cell_style_4
+{
+   text-align:right;
+   background-color:transparent;
+}
+#cell_style_5
+{
+   background-color:transparent;
+}
+#cell_style_6
+{
+   font:10pt/1.4 '굴림';
+   text-align:center;
+   background-color:rgb(255, 255, 255);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_7
+{
+   font:12pt/1.4 '굴림';
+   text-align:center;
+   background-color:rgb(255, 255, 255);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_8
+{
+   font:12pt/1.4 '굴림';
+   background-color:rgb(255, 255, 255);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_9
+{
+   font:12pt/1.4 '굴림';
+   text-align:right;
+   background-color:rgb(255, 255, 255);
+   border:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_10
+{
+   background-color:rgb(255, 255, 255);
+   border-top:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_11
+{
+   text-align:right;
+   background-color:rgb(255, 255, 255);
+   border-top:1.0pt solid rgb(0, 0, 0);
+}
+#cell_style_12
+{
+   font:10pt/1.4 '굴림';
+   text-align:right;
+   background-color:rgb(255, 255, 255);
+   border-top:1.0pt solid rgb(0, 0, 0);
+}
+</style>
+</head>
+<body style="font-size:10px;">
+<div id="loading" style="position:fixed; display:none; top:50%; left:50%; margin-top:-10px; margin-left:-110px; z-index:10000; ">
+<img src="/rpt/viewer//common/images/loadingbar2.gif" />
+</div>
+<div id="root" style="display:none;">
+<div id="menu" >
+<table border="0" align="center" width="50%" cellpadding="3">
+<tr>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_01.bmp" id="goToTop" onclick="goScroll(startPage);" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_02.bmp" id="goToPrev" onclick="goPrev();" value="Prev" />
+</td>
+<td>
+<select id="page" onchange="goToMove();">
+</select>
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_03.bmp" id="goToNext" onclick="goNext();" value="Next" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_04.bmp" id="goToBottom" onclick="goScroll(endPage);" value="Bottom" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_07.bmp" id="print" onclick="ImagePrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_10.bmp" id="pdfprint" onclick="PDFPrint();" value="인쇄" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_08.bmp" id="pdfConvert" onclick="PDFConvert();" value="pdf변환" />
+</td>
+<td>
+<input type="image" src="/rpt/viewer//common/images/d_09.bmp" id="excelConvert" onclick="ExcelConvert();" value="excel변환" />
+</td>
+</tr>
+</table>
+</div>
+<div id="report" name="report" >
+<div id="subreport">
+<div id="1" style="position:relative;margin-top:-3pt">
+<div style="position:relative;margin-left:41pt;margin-top:69pt">
+<table style="width:512pt;height:189pt;margin-left:0pt;margin-top:0pt">
+<col style="width:72pt"/>
+<col style="width:80pt"/>
+<col style="width:179pt"/>
+<col style="width:118pt"/>
+<col style="width:63pt"/>
+<tr style="height:60pt">
+<td id="cell_style_0" colspan="5">청구내역</td>
+</tr>
+<tr style="height:20pt">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_1">계산서발행일자:</td>
+<td id="cell_style_2">2013.&nbsp;01.&nbsp;25</td>
+<td id="cell_style_3">협력업체명&nbsp;:&nbsp;(주)신세계</td>
+<td id="cell_style_4" colspan="2">한국&nbsp;와이어스&nbsp;옥외광고(2012~2015)</td>
+</tr>
+<tr style="height:37pt">
+<td id="cell_style_6">계산서<br/>발행일자</td>
+<td id="cell_style_6">프로젝트코드</td>
+<td id="cell_style_6">프로젝트명</td>
+<td id="cell_style_6">광고주</td>
+<td id="cell_style_6">금액</td>
+</tr>
+<tr style="height:32pt">
+<td id="cell_style_7">2013.&nbsp;01.&nbsp;25</td>
+<td id="cell_style_8">KRP00076001</td>
+<td id="cell_style_8">한국&nbsp;와이어스&nbsp;옥외광고(2012~2015)</td>
+<td id="cell_style_8">(주)스타벅스커피코리아</td>
+<td id="cell_style_9">77,900</td>
+</tr>
+<tr style="height:20pt">
+<td id="cell_style_10">합&nbsp;&nbsp;&nbsp;&nbsp;계&nbsp;:</td>
+<td></td>
+<td></td>
+<td id="cell_style_11"></td>
+<td id="cell_style_12">77,900</td>
+</tr>
+</table>
+<!--[if gte vml 1]>
+<![endif]-->
+</div>
+</div><!--End of Page div-->
+</div>
+</div><!--End of Report div-->
+<div id="flashPrint" style="position:absolute;left:200pt;top:10pt" ><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+id="AIprint" width="0" height="0" 
+codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"> 
+<param name="movie" value="/rpt/viewer//common/js/AIprint.swf" />
+<param name="quality" value="high" /> 
+<param name="bgcolor" value="#ffffff" /> 
+<embed src="/rpt/viewer//common/js/AIprint.swf" 
+quality="high" bgcolor="#ffffff" name="AIprint" 
+width="0" height="0"  
+type="application/x-shockwave-flash"  
+pluginspage="http://www.macromedia.com/shockwave/download/index.cgi? P1_Prod_Version=ShockwaveFlash">  
+</embed>  
+</object> 
+</div><script type="text/javascript" >
+var startPage 		= 1;
+var endPage 		= 1; 
+var currentPage 	= 1;
+var textInsert  	= 1;
+var imageInsert 	= 1;
+var pageWidth 	= 793; 
+var report_leftMargin = 0;
+var report_width = '100';
+var report_widthUnit = '%';
+function PDFConvert(){
+location.href = reportUrl.replace('HTML','PDF') + "&pjtCd=KRP00076001&langKeyCd=ko&compCd=Y1B0&endDt=20130131&strDt=20121201&bareaCd=YAB0&vndrCd=EA0000005"
+}function PDFPrint(){
+pdfPrint('/rpt/common/AIprint.jsp?nameTag=','[{"targetURL": "/temp/AItoPDF-429132275-130201102828966.pdf"}]',793,1123);
+}function ExcelConvert(){
+location.href = reportUrl.replace('HTML','EXCEL') + "&pjtCd=KRP00076001&langKeyCd=ko&compCd=Y1B0&endDt=20130131&strDt=20121201&bareaCd=YAB0&vndrCd=EA0000005"
+}function ImagePrint(){
+ajaxPrint(reportUrl.replace('HTML','IMAGE') + "&pjtCd=KRP00076001&langKeyCd=ko&compCd=Y1B0&endDt=20130131&strDt=20121201&bareaCd=YAB0&vndrCd=EA0000005")
+}</script>
+<script type="text/javascript" src="/rpt/viewer/common/js/aireport.js"></script>
+</div>
+<script language="javascript">
+document.getElementById('loading').style.display = "none";
+document.getElementById('root').style.display = "";
+</script>
+</body>
+</html>
+
+
+

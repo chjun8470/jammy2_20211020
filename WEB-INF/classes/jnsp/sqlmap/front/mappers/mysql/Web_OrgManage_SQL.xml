@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspOrgManageMapper">
+	<!-- 기관 목록 -->
+	<select id="getOrgManageList" parameterType="paramMap" resultType="paramMap" >
+			SELECT A.ORG_GRP_CD
+	 			 , A.ORG_GRP_NM
+				 , A.USER_IDX
+				 , A.ORG_TYPE
+				 , A.APPLY_CD
+				 , A.APPLY_REJECT
+				 , CONCAT (C.FILE_PATH,C.TITLE) AS CI_FILE_SRC
+			 	 , C.FILE_ID AS CI_FILE_ID
+			 	 , C.TITLE AS CI_FILE_TITLE
+				 , A.AUTH_CD
+				 , A.AUTH_ORG_SITE_1
+				 , A.AUTH_ORG_SITE_2
+				 , A.AUTH_ORG_SITE_3
+				 , A.AREA_CD
+				 , A.ORNER_NM
+				 , A.CORP_NUM_1
+				 , A.CORP_NUM_2
+				 , A.CORP_PHONE
+				 , A.CORP_FAX
+				 , A.HOMEPAGE
+				 , A.ADDR1
+				 , A.ADDR2
+				 , A.ZIPCODE
+				 , A.MAP_X
+				 , A.MAP_Y
+				 , A.ORG_NOTE_1
+				 , A.BUSINESSCON
+				 , A.ORG_FILE_INFO
+				 , DATE_FORMAT(A.REG_DT,'%Y-%m-%d') as REG_DT
+				 , A.REG_IP
+				 , A.REG_IDX
+				 , A.UP_DT
+				 , A.UP_IP
+				 , A.UP_IDX
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_JNSP_FILE C ON (C.FILE_ID = A.CI_FILE_SRC)
+			WHERE 1=1
+			<choose>
+				<when test='popCheck=="Y"'>
+					AND A.APPLY_CD != '30'
+				</when>
+				<otherwise>
+			AND A.APPLY_CD = '20'
+				</otherwise>
+			</choose>
+			<if test = 'userTp == "2"' >
+				AND A.ORG_TYPE = '2'
+			</if>
+			<if test = 'userTp == "1"' >
+				AND A.ORG_TYPE = '1'
+			</if>
+			AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			<if test='orgGrpNm != null and orgGrpNm != ""'>
+				<![CDATA[	AND A.ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+			</if>
+
+			<if test='authOrgSite != null and authOrgSite != ""'>
+				<![CDATA[	AND A.AUTH_ORG_SITE_${authOrgSite} = 'Y' ]]>
+			</if>
+			<if test='orgType != null and orgType != ""'>
+				<![CDATA[	AND A.ORG_TYPE=#{orgType} ]]>
+			</if>
+			<![CDATA[
+			ORDER BY A.ORG_GRP_CD DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- 기관 total count -->
+	<select id="getOrgManageCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT COUNT(0) AS CNT
+		FROM TB_ORG_GRP
+		WHERE 1=1
+			<choose>
+				<when test='popCheck=="Y"'>
+					AND APPLY_CD != '30'
+				</when>
+				<otherwise>
+			AND APPLY_CD = '20'
+				</otherwise>
+			</choose>
+			<if test = 'userTp == "2"' >
+				AND ORG_TYPE = '2'
+			</if>
+			<if test = 'userTp == "1"' >
+				AND ORG_TYPE = '1'
+			</if>
+		AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			<if test='orgGrpNm != null and orgGrpNm != ""'>
+				<![CDATA[	AND ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+			</if>
+			<if test='authOrgSite != null and authOrgSite != ""'>
+				<![CDATA[	AND AUTH_ORG_SITE_${authOrgSite} = 'Y' ]]>
+			</if>
+			<if test='orgType != null and orgType != ""'>
+				<![CDATA[	AND ORG_TYPE=#{orgType} ]]>
+			</if>
+	</select>
+
+	<!-- 기관정보 상세보기 -->
+	<select id="getOrgDetail" parameterType="paramMap" resultType="paramMap" >
+				SELECT A.ORG_GRP_CD
+ 			 , A.ORG_GRP_NM
+			 , A.USER_IDX
+			 , A.ORG_TYPE
+			 , A.APPLY_CD
+			 , A.APPLY_REJECT
+			 , A.AUTH_CD
+			 , A.AUTH_ORG_SITE_1
+			 , A.AUTH_ORG_SITE_2
+			 , A.AUTH_ORG_SITE_3
+			 , A.AREA_CD
+			 , A.ORNER_NM
+			 , A.CORP_NUM_1
+			 , A.CORP_NUM_2
+			 , A.CORP_PHONE
+			 , A.CORP_FAX
+			 , A.HOMEPAGE
+			 , A.ADDR1
+			 , A.ADDR2
+			 , A.ZIPCODE
+			 , A.MAP_X
+			 , A.MAP_Y
+			 , A.ORG_NOTE_1
+			 , A.BUSINESSCON
+			 , DATE_FORMAT(A.REG_DT,'%Y-%m-%d') as REG_DT
+			 , A.REG_IP
+			 , A.REG_IDX
+			 , A.UP_DT
+			 , A.UP_IP
+			 , A.UP_IDX
+			 , A.COMPANY_TYPE_CD
+			 , A.AREA_LOCATION_CD
+			 , A.LAB_USE_YN
+			 , A.LAB_MAP_X
+			 , A.LAB_MAP_Y
+			 , A.LAB_NM
+			 , A.LAB_ADDR1
+			 , A.LAB_ADDR2
+			 , A.LAB_ZIPCODE
+			 , A.LAB_FAX
+			 , A.LAB_PHONE
+			 , A.WORK_TYPE
+			 , A.AGENCY_TYPE
+			 , A.OTHER_AREA_CD
+			 , A.ORG_ENG_NM
+			 , A.BUSINESSCON
+			 , B.PSN_NM
+			 , B.USER_ID
+			 , CONCAT (C.FILE_PATH,C.TITLE) AS CI_FILE_SRC
+			 , C.FILE_ID AS CI_FILE_ID
+			 , C.TITLE AS CI_FILE_TITLE
+			 , CONCAT (D.FILE_PATH,D.TITLE) AS ORG_FILE_INFO
+ 			 , D.TITLE_ORG AS ORG_FILE_INFO_TITLE_ORG
+
+ 			 , D.FILE_ID AS ORG_FILE_ID
+
+			 , CONCAT (J.FILE_PATH,J.TITLE) AS BIZ_REG_DOC
+			 , J.FILE_ID AS BIZ_REG_DOC_FILE_ID
+			 , J.TITLE_ORG AS BIZ_REG_DOC_FILE_TITLE
+
+			 , F.CODE_NM AS COMPANY_NAME
+			 , G.CODE_NM AS AREA_NAME
+			 , H.CODE_NM AS AGENCY_NAME
+			 , I.CODE_NM AS OTHER_AREA
+		FROM TB_ORG_GRP A
+		LEFT JOIN TB_USER_COPY B ON (B.USER_IDX = A.USER_IDX)
+		LEFT JOIN TB_JNSP_FILE C ON (C.FILE_ID = A.CI_FILE_SRC)
+		LEFT JOIN TB_JNSP_FILE D ON (D.FILE_ID = A.ORG_FILE_INFO)
+		LEFT JOIN TB_JNSP_FILE J ON (J.FILE_ID = A.BIZ_REG_DOC)
+		LEFT JOIN TB_CODE F ON A.COMPANY_TYPE_CD = F.CODE_CD AND F.CODE_GRP_CD = 'CompanyType'
+		LEFT JOIN TB_CODE G ON A.AREA_LOCATION_CD = G.CODE_CD AND G.CODE_GRP_CD = 'AreaSigungu'
+		LEFT JOIN TB_CODE H ON A.AGENCY_TYPE = H.CODE_CD AND H.CODE_GRP_CD = 'AgencyType'
+		LEFT JOIN TB_CODE I ON A.OTHER_AREA_CD = I.CODE_CD AND I.CODE_GRP_CD = 'OtherArea'
+		WHERE A.ORG_GRP_CD = #{orgGrpCd}
+		  AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		  <if test='authOrgSite != null and authOrgSite != ""'>
+				<![CDATA[	AND A.AUTH_ORG_SITE_${authOrgSite} = 'Y' ]]>
+			</if>
+	</select>
+
+	<!-- 기관 목록 -->
+	<select id="getOrgUserList" parameterType="paramMap" resultType="paramMap" >
+			SELECT A.ORG_GRP_CD
+	 			 , A.ORG_GRP_NM
+				 , A.USER_IDX
+				 , A.ORG_TYPE
+				 , A.AUTH_CD
+				 , A.AUTH_ORG_SITE_1
+				 , A.AUTH_ORG_SITE_2
+				 , A.AUTH_ORG_SITE_3
+				 , A.AREA_CD
+				 , A.ORNER_NM
+				 , B.PSN_NM
+			 	 , B.USER_ID
+			 	 , B.CP_NO
+			 	 , B.DEPT_NM
+			 	 , B.POSITION_NM
+			 	 , B.EMAIL
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_USER_COPY B ON (B.USER_IDX = A.USER_IDX)
+			WHERE 1=1
+			AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			AND A.ORG_TYPE = '2'
+
+			AND B.AUTH_LV >= '70'
+			AND A.AUTH_CD='2'
+			AND A.AUTH_ORG_SITE_1='Y'
+			<if test='orgGrpNm != null and orgGrpNm != ""'>
+				<![CDATA[	AND A.ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+			</if>
+			<if test='authOrgSite != null and authOrgSite != ""'>
+				<![CDATA[	AND A.AUTH_ORG_SITE_${authOrgSite} = 'Y' ]]>
+			</if>
+			<![CDATA[
+			ORDER BY A.ORG_GRP_CD DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+
+	<!-- 기관 total count -->
+	<select id="getOrgUserCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT COUNT(0) AS CNT
+		FROM TB_ORG_GRP AS A
+		LEFT JOIN TB_USER_COPY B ON (B.USER_IDX = A.USER_IDX)
+		WHERE 1=1
+			AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			AND A.ORG_TYPE = '2'
+
+			AND B.AUTH_LV >= '70'
+			AND A.AUTH_CD='2'
+			AND A.AUTH_ORG_SITE_1='Y'
+			<if test='orgGrpNm != null and orgGrpNm != ""'>
+				<![CDATA[	AND A.ORG_GRP_NM LIKE '%${orgGrpNm}%' ]]>
+			</if>
+			<if test='authOrgSite != null and authOrgSite != ""'>
+				<![CDATA[	AND A.AUTH_ORG_SITE_${authOrgSite} = 'Y' ]]>
+			</if>
+	</select>
+
+	<!-- 기관 total count -->
+	<insert id="setOrgManageInsert" parameterType="paramMap">
+			INSERT INTO TB_ORG_GRP (
+				ORG_GRP_CD
+ 			 , ORG_GRP_NM
+ 			 , ORG_SECTION1
+ 			 , ORG_SECTION2
+			 , USER_IDX
+			 , ORG_TYPE
+			 , APPLY_CD
+			 , APPLY_REJECT
+			 , AUTH_CD
+			 , AUTH_ORG_SITE_1
+			 , AUTH_ORG_SITE_2
+			 , AUTH_ORG_SITE_3
+			 , AREA_CD
+			 , ORNER_NM
+			 , CORP_NUM_1
+			 , CORP_NUM_2
+			 , CORP_PHONE
+			 , CORP_FAX
+			 , DATE_OF_FOUNDATION
+			 , HOMEPAGE
+			 , ADDR1
+			 , ADDR2
+			 , ZIPCODE
+			 , MAP_X
+			 , MAP_Y
+			 , ORG_NOTE_1
+			 , BUSINESSCON
+			 , REG_DT
+			 , REG_IP
+			 , REG_IDX
+			 , CI_FILE_SRC
+			 , ORG_FILE_INFO
+			 , BIZ_REG_DOC
+			 , COMPANY_TYPE_CD
+			 , LAB_USE_YN
+			 , LAB_MAP_X
+			 , LAB_MAP_Y
+			 , LAB_NM
+			 , LAB_ADDR1
+			 , LAB_ADDR2
+			 , LAB_ZIPCODE
+			 , LAB_FAX
+			 , LAB_PHONE
+			 , WORK_TYPE
+			 , AGENCY_TYPE
+			 , ORG_ENG_NM
+			 , AREA_LOCATION_CD
+			 , OTHER_AREA_CD
+			 , BR1_AREA_CD
+			 , BR1_AREA
+			 , BR1_OTHER_AREA
+			 , BR1_ZIP_CODE
+			 , BR1_ADDR1
+			 , BR1_ADDR2
+			 , BR2_AREA_CD
+			 , BR2_AREA
+			 , BR2_OTHER_AREA
+			 , BR2_ZIP_CODE
+			 , BR2_ADDR1
+			 , BR2_ADDR2
+			 )
+			 VALUES(
+			   #{orgGrpCd}
+			 , #{orgGrpNm}
+			 , #{orgSection1}
+			 , #{orgSection2}
+			 , #{userIdx}
+			 , #{orgType}
+			 , #{applyCd}
+			 , #{applyReject}
+			 , #{authCd}
+			 , #{authOrgSite1}
+			 , #{authOrgSite2}
+			 , #{authOrgSite3}
+			 , #{areaCd}
+			 , #{ornerNm}
+			 , #{corpNum1}
+			 , #{corpNum2}
+			 , #{corpPhone}
+			 , #{corpFax}
+			 , #{dateOfFoundation}
+			 , #{homepage}
+			 , #{addr1}
+			 , #{addr2}
+			 , #{zipcode}
+			 , #{mapX}
+			 , #{mapY}
+			 , #{orgNote1}
+			 , #{businessCon}
+			 , now()
+			 , #{regIp}
+			 , #{regIdx}
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgCi')
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'orgManage')
+			 , (SELECT FILE_ID FROM TB_JNSP_FILE WHERE DATA_IDX = #{orgGrpCd} AND DATA_GRP= 'bizRegDoc')
+			 , #{companyType}
+			 , #{labUse}
+			 , #{labMapX}
+			 , #{labMapY}
+			 , #{labName}
+			 , #{labAddr1}
+			 , #{labAddr2}
+			 , #{labZipcode}
+			 , #{labFax}
+			 , #{labPhone}
+			 , #{workType}
+			 , #{agencyType}
+			 , #{orgEngNm}
+			 , #{area}
+			 , #{otherAreaCd}
+			 , #{br1AreaCd}
+			 , #{br1Area}
+			 , #{br1OtherAreaCd}
+			 , #{br1ZipCode}
+			 , #{br1Addr1}
+			 , #{br1Addr2}
+			 , #{br2AreaCd}
+			 , #{br2Area}
+			 , #{br2OtherAreaCd}
+			 , #{br2ZipCode}
+			 , #{br2Addr1}
+			 , #{br2Addr2}
+			)
+	</insert>
+
+	<select id="getCompanyType" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+			AND	CODE_GRP_CD = 'CompanyType'
+
+	</select>
+
+	<select id="getArea" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+		<if test="areaCd == 1">
+			AND CODE_GRP_CD = 'AreaSigungu'
+		</if>
+		<if test="areaCd == 2">
+			AND CODE_GRP_CD = 'OtherArea'
+		</if>
+	</select>
+
+	<select id="getAgencyType" parameterType="paramMap" resultType="paramMap">
+		SELECT
+				CODE_IDX,
+				CODE_CD,
+				CODE_NM
+		FROM
+				TB_CODE
+		WHERE 1 = 1
+			AND	CODE_GRP_CD = 'AgencyType'
+
+	</select>
+
+</mapper>

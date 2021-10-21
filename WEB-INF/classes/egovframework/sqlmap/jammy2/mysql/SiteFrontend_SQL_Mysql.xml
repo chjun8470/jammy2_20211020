@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SiteFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SiteInfoVO" type="egovframework.jammy2.site.service.SiteInfoVO"/>
+	<typeAlias  alias="SiteMenuVO" type="egovframework.jammy2.site.service.SiteMenuVO"/>
+	<typeAlias  alias="SiteContentVO" type="egovframework.jammy2.site.service.SiteContentVO"/>
+	<typeAlias  alias="SiteDomainVO" type="egovframework.jammy2.site.service.SiteDomainVO"/>
+		
+	<select id="SiteFrontendDAO.selectSiteInfo" parameterClass="SiteInfoVO" resultClass="SiteInfoVO">
+		SELECT  SITE_ID			siteId
+			 ,  SITE_NM			siteNm
+			 ,  SITE_TITLE		siteTitle
+			 ,  SITE_LANG		siteLang
+			 ,  THEME_ID		themeId
+			 ,  LAYOUT			layout
+			 ,  USE_MOBILE_AT	useMobileAt
+			 ,  MOBILE_THEME_ID	mobileThemeId
+			 ,  MOBILE_LAYOUT	mobileLayout
+			 ,  SERVICE_STTUS	serviceSttus
+			 ,  POSITION		position
+		  FROM  JMY_SITE_INFO
+		 WHERE  SITE_ID = #siteId#		
+	</select>	
+	
+	<select id="SiteFrontendDAO.selectSiteMenu" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  SITE_ID				siteId		
+			 ,  DEVICE				device
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout
+			 ,  USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  MNG_ORGNZT_ID		mngOrgnztId
+			 ,  MNG_STAFF_ID		mngStaffId
+			 ,  SHOW_CPYRGT_AT		showCpyrgtAt			
+			 ,  SHOW_AT				showAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+			 ,  USE_STFS_AT			useStfsAt
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_ID = #menuId#	
+		   AND  USE_AT = "Y"	
+	</select>
+	
+	<select id="SiteFrontendDAO.selectSiteMenuByMenuTy" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  SITE_ID				siteId		
+			 ,  DEVICE				device
+			 ,  MENU_ID				menuId
+			 ,  PARNTS_MENU_ID		parntsMenuId
+			 ,  MENU_NM				menuNm
+			 ,  MENU_TY				menuTy
+			 ,  LINK_TARGET			linkTarget
+			 ,  LINK_MENU_ID		linkMenuId
+			 ,  LINK_BOARD_ID		linkBoardId
+			 ,  LINK_URL			linkUrl
+			 ,  LINK_PARAM			linkParam
+			 ,  THEME_ID			themeId
+			 ,  LAYOUT				layout
+			 ,  USE_MNG_STAFF_AT	useMngStaffAt
+			 ,  MNG_ORGNZT_ID		mngOrgnztId
+			 ,  MNG_STAFF_ID		mngStaffId
+			 ,  SHOW_CPYRGT_AT		showCpyrgtAt			
+			 ,  SHOW_AT				showAt
+			 ,  LFT					lft
+			 ,  RGT					rgt
+			 ,  LVL					lvl
+			 ,  USE_STFS_AT			useStfsAt
+			 ,  PERM_GRP			permGrp
+			 ,  PERM_LVL			permLvl			
+		  FROM  JMY_SITE_MENU
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_TY = #menuTy#
+		   AND  LINK_URL = #linkUrl#
+		   AND  USE_AT = "Y"			   
+		 LIMIT  1		
+	</select>	
+	
+	<select id="SiteFrontendDAO.selectParntsSiteMenuList" parameterClass="SiteMenuVO" resultClass="SiteMenuVO">
+		SELECT  PARENT.SITE_ID			siteId		
+			 ,  PARENT.DEVICE			device
+			 ,  PARENT.MENU_ID			menuId
+			 ,  PARENT.PARNTS_MENU_ID	parntsMenuId
+			 ,  PARENT.MENU_NM			menuNm
+			 ,  PARENT.USE_AT			useAt
+			 ,  PARENT.LVL				lvl
+		  FROM  JMY_SITE_MENU NODE
+		     ,  JMY_SITE_MENU PARENT 
+		 WHERE  NODE.LFT BETWEEN PARENT.LFT AND PARENT.RGT
+		   AND  PARENT.MENU_ID != #menuId#
+		   AND  NODE.MENU_ID = #menuId#
+		   AND  PARENT.SITE_ID = #siteId#
+		   AND  NODE.SITE_ID = #siteId#
+		   AND  PARENT.DEVICE = #device#
+		   AND  NODE.DEVICE = #device#
+		   AND  PARENT.USE_AT = "Y"
+		   AND  NODE.USE_AT = "Y"
+	  ORDER BY  PARENT.LFT ASC
+	</select>	
+	
+	<select id="SiteFrontendDAO.selectSiteContentByMenu" parameterClass="SiteContentVO" resultClass="SiteContentVO">
+		SELECT  CONTENT_ID			contentId
+			 ,  SITE_ID				siteId
+			 ,  DEVICE				device		
+			 ,  MENU_ID				menuId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_SITE_CONTENT
+		 WHERE  SITE_ID = #siteId# 
+		   AND  DEVICE = #device# 
+		   AND  MENU_ID = #menuId#
+		   AND  USE_AT = "Y"	
+	</select>	
+	
+	<insert id="SiteFrontendDAO.insertSiteContentSatisfaction">
+		INSERT 
+		  INTO  JMY_SITE_CONTENT_SATISFACTION
+		     (  STSFDG_ID
+			 ,  SITE_ID
+			 ,  DEVICE
+			 ,  MENU_ID
+			 ,  WRTER_ID
+			 ,  WRTER_NM
+			 ,  STSFDG
+			 ,  STSFDG_CN
+			 ,  REGIST_PNTTM
+			 ,  REGISTER_IP
+		     )
+		VALUES
+		     (  #stsfdgId#
+			 ,  #siteId#
+			 ,  #device#
+			 ,  #menuId#
+			 ,  #wrterId#
+			 ,  #wrterNm#
+			 ,  #stsfdg#
+			 ,  #stsfdgCn#
+			 ,  SYSDATE()
+			 ,  #registerIp#
+		     )			
+	</insert>	
+	
+	<select id="SiteFrontendDAO.selectSiteDomainByUrl" parameterClass="SiteDomainVO" resultClass="SiteDomainVO">
+		SELECT  DOMAIN_ID			domainId
+			 ,  DOMAIN				domain
+			 ,  SITE_ID				siteId
+			 ,  MOBILE_YN			mobileYn
+		  FROM  JMY_SITE_DOMAIN
+		 WHERE  1=1
+		   AND  DOMAIN = #domain#			
+	</select>		
+	
+</sqlMap>

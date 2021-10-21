@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+
+
+
+body {font-size:12px;font-family: 나눔고딕, 'NanumGothic', 맑은 고딕 ,돋움, 굴림, Dotum, Gulim, sans-serif;}
+.nanum{ font-family: 나눔고딕, 'NanumGothic', 맑은 고딕;}
+/*********************************************************/
+/*	reset */
+/*********************************************************/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+dl,ul,ol,menu,li {list-style:none}
+img {border:0;}
+blockquote, q {quotes: none}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none}
+input,select,textarea,button {vertical-align:middle;}
+button {border:0 none;background-color:transparent;cursor:pointer}
+
+a {text-decoration:none; color:#898989;}
+a:active, a:hover {text-decoration:none}
+address,caption,cite,code,dfn,em,var {font-style:normal;font-weight:normal}
+table {border-collapse:collapse;border-spacing: 0}
+caption, legend {display:none;}
+
+/*********************************************************/
+/*basic*/
+/*********************************************************/
+
+.f_l {float:left}
+.f_r {float:right}
+.cl_b {clear:both}
+.overflow {overflow:hidden;}
+.show {display:block}
+.hide02 {display:none}
+.skip {position:absolute;top:-5000px;text-indent:-5000px;font-size:0;line-height:0;width:0;height:0;}/*내용과 영역 모두 숨김*/
+.skip_txt {display:block;overflow:hidden;font-size:0px;line-height:0;text-indent:-9999px}/*텍스트만 숨김*/
+
+.txt_l {text-align:left;}
+.txt_c {text-align:center;}
+.txt_r {text-align:right;}
+
+.bold {font-weight:bold;}
+.normal {font-weight:normal;}
+
+.bgnone{background:none !important;}
+
+.underline {text-decoration:underline;}
+.vmiddle{ vertical-align:middle; }
+
+

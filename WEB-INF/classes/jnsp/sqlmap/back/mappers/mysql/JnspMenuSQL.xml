@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspMenuMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getMenuList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+			        PMS_MENU_IDX,
+			       PMS_TMENU,
+			       PARENT_PMS_MENU_IDX,
+			       DETH,
+			       SET_DETH1,
+			       SET_DETH2,
+			       PMS_MENU_NAME,
+			       PMS_MENU_TYPE,
+			       PMS_MENU_URL,
+			       PMS_MENU_AUTH,
+		           ORDER_NO,
+		           ICON_NO,
+		           `USE` as USEY
+			  FROM TB_PMS_MENU
+			 ORDER BY CAST(ORDER_NO AS SIGNED) ASC
+		]]>
+	</select>
+
+	<select id="getNowMenu" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+			       PMS_MENU_IDX,
+			       PMS_TMENU,
+			       PARENT_PMS_MENU_IDX,
+			       DETH,
+			       SET_DETH1,
+			       SET_DETH2,
+			       PMS_MENU_NAME,
+			       PMS_MENU_TYPE,
+			       PMS_MENU_URL,
+			       PMS_MENU_AUTH,
+		           ORDER_NO,
+		           ICON_NO
+			  FROM TB_PMS_MENU
+			 WHERE PMS_MENU_URL LIKE '${pmsMenuUrl}%'
+			     AND DETH > 0
+		]]>
+	</select>
+
+	<select id="getMenuDataList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+			       PMS_MENU_IDX,
+			       PMS_TMENU,
+			       PARENT_PMS_MENU_IDX,
+			       DETH,
+			       SET_DETH1,
+			       SET_DETH2,
+			       PMS_MENU_NAME,
+			       PMS_MENU_TYPE,
+			       PMS_MENU_URL,
+			       PMS_MENU_AUTH,
+		           ORDER_NO,
+		           ICON_NO
+			  FROM TB_PMS_MENU
+			  WHERE PMS_TMENU = #{subtmenu}
+			 ORDER BY CAST(ORDER_NO AS SIGNED) ASC
+		]]>
+	</select>
+	<select id="getMenuView" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+			       PMS_MENU_IDX,
+			       PMS_TMENU,
+			       PARENT_PMS_MENU_IDX,
+			       DETH,
+			       SET_DETH1,
+			       SET_DETH2,
+			       PMS_MENU_NAME,
+			       PMS_MENU_TYPE,
+			       PMS_MENU_URL,
+			       PMS_MENU_AUTH,
+		           ORDER_NO,
+		           ICON_NO
+			  FROM TB_PMS_MENU
+			WHERE PMS_MENU_IDX  = #{menuIdx}
+			]]>
+	</select>
+
+	<update id="setMenuEditProc" parameterType="paramMap"  >
+		<![CDATA[
+				UPDATE TB_PMS_MENU  SET
+					PMS_TMENU = #{pmsTmenu},
+					PARENT_PMS_MENU_IDX = #{parentPmsMenuIdx},
+					DETH = #{deth},
+					SET_DETH1 = #{setDeth1},
+					SET_DETH2 = #{setDeth2},
+					PMS_MENU_NAME = #{pmsMenuName},
+					PMS_MENU_TYPE = #{pmsMenuType},
+					PMS_MENU_URL = #{pmsMenuUrl},
+					PMS_MENU_AUTH = #{pmsMenuAuth},
+					UP_IDX = #{upIdx},
+					UP_DT = NOW(),
+					UP_IP = #{upIp},
+					ORDER_NO = #{orderNo},
+					ICON_NO = #{iconNo}
+				WHERE
+					PMS_MENU_IDX = #{pmsMenuIdx}
+			]]>
+	</update>
+
+	<update id="setMenuOrderProc" parameterType="paramMap"  >
+		<![CDATA[
+				UPDATE TB_PMS_MENU  SET
+					ORDER_NO = ORDER_NO + 1
+				WHERE
+						 PMS_TMENU = #{pmsTmenu}
+				AND    PMS_MENU_IDX != #{pmsMenuIdx}
+				AND ORDER_NO >= #{orderNo}
+			]]>
+	</update>
+
+
+	<update id="setMenuDelProc" parameterType="paramMap"  >
+		<![CDATA[
+				UPDATE TB_PMS_MENU  SET
+					DEL_YN = 'N'
+				WHERE
+					PMS_MENU_IDX = #{pmsMenuIdx}
+			]]>
+	</update>
+
+
+	<insert id="setMenuWriteProc" parameterType="paramMap"  >
+			<selectKey keyProperty="orderSeq" resultType="int" order="BEFORE">
+    		 SELECT MAX(CAST(ORDER_NO AS SIGNED)) AS ORDER_NO FROM TB_PMS_MENU WHERE PMS_TMENU = #{pmsTmenu}
+		  </selectKey>
+
+
+		<![CDATA[
+				INSERT INTO TB_PMS_MENU
+					(
+					PMS_TMENU,
+					PARENT_PMS_MENU_IDX,
+					DETH,
+					SET_DETH1,
+					SET_DETH2,
+					PMS_MENU_NAME,
+					PMS_MENU_TYPE,
+					PMS_MENU_URL,
+					PMS_MENU_AUTH,
+					REG_IDX,
+					REG_DT,
+					REG_IP,
+					ORDER_NO
+					)
+					VALUES
+					(
+					#{pmsTmenu},
+					#{parentPmsMenuIdx},
+					#{deth},
+					#{setDeth1},
+					#{setDeth2},
+					#{pmsMenuName},
+					#{pmsMenuType},
+					#{pmsMenuUrl},
+					#{pmsMenuAuth},
+					#{regIdx},
+					now(),
+					#{regIp},
+					#{orderSeq}
+					);
+
+			]]>
+	</insert>
+
+
+
+</mapper>

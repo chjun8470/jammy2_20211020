@@ -1,0 +1,2017 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JntisJnrdMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+
+	
+	<insert id="setJntisJnrdInsert" parameterType="paramMap" >
+		<![CDATA[
+				INSERT INTO TB_JNRD_INFO (
+					`CODE`,
+					TYPE_A,
+					CNAME,
+					BNAME,
+					B_ANAME,
+					S_DATE,
+					E_DATE,
+					B_TPRICE,
+					YEAR_TYPE,
+					B_CH,
+					B_SD,
+					B_ED,
+					B_PATH,
+					AN_NAME,
+					CN_NAME,
+					CEN_TYPE,
+					ORG_AGE,
+					DEP_NAME,
+					DEP_TYPE,
+					DEP_CODE,
+					BUS_IMP_TYPE,
+					BUS_IMP_CODE,
+					DIRECTOR,
+					DIR_TEL,
+					DIR_EMAIL,
+					DIR_TYPE1,
+					DIR_TYPE2,
+					DIR_TYPE3,
+					DIR_TYPE4,
+					DIR_TYPE5,
+					DIR_TYPE6,
+					MAN_CNAME,
+					MAN_PNAME,
+					MAN_ANAME,
+					MAN_SPOT,
+					MAN_TEL,
+					`COMMENT`
+				)VALUES(
+					#{code},
+					#{typeA},
+					#{cname},
+					#{bname},
+					#{baname},
+					#{sdate},
+					#{edate},
+					#{btprice},
+					#{yeartype},
+					#{bch},
+					#{bsd},
+					#{bed},
+					#{bpath},
+					#{anname},
+					#{cnname},
+					#{centype},
+					#{orgage},
+					#{depname},
+					#{deptype},
+					#{depcode},
+					#{busimptype},
+					#{busimpcode},
+					#{director},
+					#{dirtel},
+					#{emailx},
+					#{dirtype1},
+					#{dirtype2},
+					#{dirtype3},
+					#{dirtype4},
+					#{dirtype5},
+					#{dirtype6},
+					#{mancname},
+					#{manpname},
+					#{mananame},
+					#{manspot},
+					#{mantel},
+					#{comment}
+				)
+				
+		]]>
+	</insert>
+	
+	
+	<update id="setJntisJnrdModify" parameterType="paramMap" >
+		<![CDATA[
+				UPDATE TB_JNRD_INFO SET
+					`CODE` = #{code},
+					TYPE_A = #{typeA},
+					CNAME = #{cname},
+					BNAME = #{bname},
+					B_ANAME = #{baname},
+					S_DATE = #{sdate},
+					E_DATE = #{edate},
+					B_TPRICE = #{btprice},
+					YEAR_TYPE = #{yeartype},
+					B_CH = #{bch},
+					B_SD = #{bsd},
+					B_ED = #{bed},
+					B_PATH = #{bpath},
+					AN_NAME = #{anname},
+					CN_NAME = #{cnname},
+					CEN_TYPE = #{centype},
+					ORG_AGE = #{orgage},
+					DEP_NAME = #{depname},
+					DEP_TYPE = #{deptype},
+					DEP_CODE = #{depcode},
+					BUS_IMP_TYPE = #{busimptype},
+					BUS_IMP_CODE = #{busimpcode},
+					DIRECTOR = #{director},
+					DIR_TEL = #{dirtel},
+					DIR_EMAIL = #{emailx},
+					DIR_TYPE1 = #{dirtype1},
+					DIR_TYPE2 = #{dirtype2},
+					DIR_TYPE3 = #{dirtype3},
+					DIR_TYPE4 = #{dirtype4},
+					DIR_TYPE5 = #{dirtype5},
+					DIR_TYPE6 = #{dirtype6},
+					MAN_CNAME = #{mancname},
+					MAN_PNAME = #{manpname},
+					MAN_ANAME = #{mananame},
+					MAN_SPOT = #{manspot},
+					MAN_TEL = #{mantel},
+					`COMMENT` = #{comment}
+				WHERE
+					IDX = #{infoIdx}
+				
+				
+		]]>
+	</update>
+	
+	
+	<select id="setJntisJnrdInsertIdx" parameterType="paramMap" resultType="java.lang.Integer">
+		<![CDATA[
+		
+		SELECT LAST_INSERT_ID() as INFO_IDX FROM TB_JNRD_INFO LIMIT 1
+		
+		]]>
+	</select>
+	
+	
+	<select id="setJntisJnrdLastIdx" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+		SELECT 
+			COUNT(IDX)+1 as IDX
+		FROM 
+			TB_JNRD_INFO
+		WHERE
+			SUBSTRING_INDEX(`CODE`,'-',2) LIKE '%${year}%'
+		ORDER BY IDX DESC 
+		LIMIT 1
+		
+		]]>
+	</select>
+	
+	
+	<delete id="setJntisJnrdBusinessDelete" parameterType="paramMap">
+		<![CDATA[
+			DELETE FROM TB_JNRD_INFO_BUSINESS WHERE IDX = #{delCode}
+		]]>
+	</delete>
+	
+	
+	<insert id="setJntisJnrdBusinessInsert" parameterType="paramMap" >
+	<![CDATA[
+	
+		INSERT INTO TB_JNRD_INFO_BUSINESS (
+		
+			INFO_IDX,
+			BIS_YEAR,
+			BIS_SDATE,
+			BIS_EDATE,
+			BIS_TYPE,
+			BIS_PRICE_1,
+			BIS_PRICE_2,
+			BIS_PRICE_3,
+			BIS_PRICE_4,
+			BIS_N
+		
+		)VALUES(
+		
+			#{infoIdx},
+			#{bisYear},
+			#{bisSdate},
+			#{bisEdate},
+			#{bisType},
+			#{bisPrice_1},
+			#{bisPrice_2},
+			#{bisPrice_3},
+			#{bisPrice_4},
+			#{bisn}
+		
+		)
+	
+	]]>
+	</insert>
+	
+	
+	<update id="setJntisJnrdBusinessModify" parameterType="paramMap" >
+	<![CDATA[
+	
+		UPDATE TB_JNRD_INFO_BUSINESS SET
+		
+			INFO_IDX = #{infoIdx},
+			BIS_YEAR = #{bisYear},
+			BIS_SDATE = #{bisSdate},
+			BIS_EDATE = #{bisEdate},
+			BIS_TYPE = #{bisType},
+			BIS_PRICE_1 = #{bisPrice_1},
+			BIS_PRICE_2 = #{bisPrice_2},
+			BIS_PRICE_3 = #{bisPrice_3},
+			BIS_PRICE_4 = #{bisPrice_4},
+			BIS_N = #{bisn}
+		WHERE
+			IDX = #{bid}	
+		
+	
+	]]>
+	</update>
+	
+	
+	<delete id="delExpertResultCon" parameterType="paramMap">
+		DELETE
+		FROM
+			TB_JNRD_INFO_BUSINESS
+		WHERE
+			INFO_IDX = #{infoIdx}
+	</delete>
+	
+	
+	<select id="getSupportList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'SupportMinistry'
+	</select>
+	
+	<select id="getRndStageList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'RNDstage'
+	</select>
+	
+	<select id="getRndPurposeList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'RNDpurpose'
+	</select>
+	
+	<select id="getScienceBList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'scienceB'
+	</select>
+	
+	<select id="getEmphasisBList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'emphasisB'
+	</select>
+	
+	<select id="getTbList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = '6TB'
+	</select>
+	
+	<select id="getIndustryList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'Industry'
+	</select>
+	
+	<select id="getBlueList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'Blue'
+	</select>
+	
+	<select id="getAgencyList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'Agencylist'
+	</select>
+	
+	<select id="getApplicationList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'Application'
+	</select>
+	
+	<select id="getTechnologyList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					CODE_GRP_CD
+				,		CODE_CD
+				,		CODE_NM
+				,		CMT
+				,		REG_IDX
+				,		REG_DT
+				,		REG_IP
+				,		UP_IDX
+				,		UP_DT
+				,		UP_IP
+
+				FROM
+						TB_CODE
+
+			WHERE 1 = 1
+			 AND CODE_GRP_CD = 'TechnologyTransfer'
+	</select>
+	
+	
+	<insert id="setJntisJnrdM1Insert" useGeneratedKeys="true" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1 (
+					M_CODE,
+					M_TYPE,
+					B_TYPE,
+					C_TYPE,
+					M_NAME,
+					M_BNAME,
+					H_NAME,
+					M_SDATE,
+					M_EDATE,
+					M_ING,
+					M_MONTH,
+					M_DATE,
+					M_USER
+				)VALUES(
+					#{mcode},
+					#{mtype},
+					#{btype},
+					#{ctype},
+					#{mname},
+					#{mbname},
+					#{hname},
+					#{msdate},
+					#{medate},
+					#{ming},
+					#{mMonth},
+					NOW(),
+					#{regId}
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="midx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	
+	<update id="setJntisJnrdM1Modify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1 SET
+					M_CODE = #{mcode},
+					M_TYPE = #{mtype},
+					B_TYPE = #{btype},
+					C_TYPE = #{ctype},
+					M_NAME = #{mname},
+					M_BNAME = #{mbname},
+					H_NAME = #{hname},
+					M_SDATE = #{msdate},
+					M_EDATE = #{medate},
+					M_ING = #{ming},
+					M_MONTH = #{mMonth},
+					M_DATE = NOW(),
+					M_USER = #{regId}
+				WHERE
+					IDX = #{midx}
+		]]>
+	</update>
+	
+	
+	<select id="setJntisJnrdM1LastIdx" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+		SELECT 
+			COUNT(IDX)+1 as IDX
+		FROM 
+			TB_JNRD_M1
+		WHERE
+			SUBSTRING_INDEX(`M_CODE`,'-',2) LIKE '%${year}%'
+		ORDER BY IDX DESC 
+		LIMIT 1
+		
+		]]>
+	</select>
+	
+	
+	<insert id="setJntisJnrdNpSetInsert" useGeneratedKeys="true" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_PRICE (
+					M_IDX,
+					NP_SET,
+					NP_YEAR,
+					NP_DATE,
+					NP_USER
+				)VALUES(
+					#{midx},
+					"1",
+					#{year},
+					NOW(),
+					#{regId}
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="midx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<delete id="setJntisJnrdNpSetDelInsert" parameterType="paramMap">
+		<![CDATA[
+			DELETE FROM TB_JNRD_M1_PRICE WHERE M_IDX = #{midx} AND NP_SET = '1' AND NP_YEAR = #{year} 
+		]]>
+		
+	</delete>
+	
+	
+	<insert id="setJntisJnrdM1PriceInfoInsert" useGeneratedKeys="true" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_PRICE (
+					M_IDX,
+					NP_SET,
+					NP_YEAR,
+					NP_TYPE1,
+					NP_TYPE2,
+					NP_TYPE3,
+					NP_TPRICE,
+					NP_PRICE1,
+					NP_PRICE2,
+					NP_PRICE3,
+					NP_PRICE4,
+					NP_PRICE5,
+					NP_FTYPE1,
+					NP_FTYPE2,
+					NP_FTYPE3,
+					NP_FTYPE4,
+					NP_OTEXT1,
+					NP_OTEXT2,
+					NP_OTEXT3,
+					NP_OTEXT4,
+					NP_OTEXT5,
+					NP_OCODE,
+					NP_OTEXT6,
+					NP_OTEXT7,
+					NP_OTEXT8,
+					NP_OTEXT9,
+					NP_OTEXT10,
+					NP_WTEXT1,
+					NP_WTEXT2,
+					NP_WTEXT3,
+					NP_WTEXT4,
+					NP_WTEXT5,
+					NP_WTEXT6,
+					NP_WTEXT7,
+					NP_WTEXT8,
+					NP_XTEXT1,
+					NP_XTEXT2,
+					NP_XTEXT3,
+					NP_XTEXT4,
+					NP_XTEXT5,
+					NP_XTEXT6,
+					XCOMMENT,
+					NP_DATE,
+					NP_USER
+				)VALUES(
+					#{midx},
+					#{npset},
+					#{npyear},					
+					#{nptype1},
+					#{nptype2},
+					#{nptype3},
+					#{nptotprice},
+					#{npprice1},
+					#{npprice2},
+					#{npprice3},
+					#{npprice4},
+					#{npprice5},
+					#{npftype1},
+					#{npftype2},
+					#{npftype3},
+					#{npftype4},
+					#{npotext1},
+					#{npotext2},
+					#{npotext3},
+					#{npotext4},
+					#{npotext5},
+					#{npocode},
+					#{npotext6},
+					#{npotext7},
+					#{npotext8},
+					#{npotext9},
+					#{npotext10},
+					#{npwtext1},
+					#{npwtext2},
+					#{npwtext3},
+					#{npwtext4},
+					#{npwtext5},
+					#{npwtext6},
+					#{npwtext7},
+					#{npwtext8},
+					#{npxtext1},
+					#{npxtext2},
+					#{npxtext3},
+					#{npxtext4},
+					#{npxtext5},
+					#{npxtext6},
+					#{xcomment},
+					NOW(),
+					#{regId}
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="midx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	
+	<delete id="setJntisJnrdM1PriceInfoDelete" parameterType="paramMap">
+		<![CDATA[
+			DELETE FROM TB_JNRD_M1_PRICE WHERE IDX = #{xidx}
+		]]>
+	</delete>
+	
+	
+	<update id="setJntisJnrdM1PriceInfoModify" useGeneratedKeys="true" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_PRICE SET
+					NP_SET = #{npset},
+					NP_YEAR = #{npyear},
+					NP_TYPE1 = #{nptype1},
+					NP_TYPE2 = #{nptype2},
+					NP_TYPE3 = #{nptype3},
+					NP_TPRICE = #{nptotprice},
+					NP_PRICE1 = #{npprice1},
+					NP_PRICE2 = #{npprice2},
+					NP_PRICE3 = #{npprice3},
+					NP_PRICE4 = #{npprice4},
+					NP_PRICE5 = #{npprice5},
+					NP_FTYPE1 = #{npftype1},
+					NP_FTYPE2 = #{npftype2},
+					NP_FTYPE3 = #{npftype3},
+					NP_FTYPE4 = #{npftype4},
+					NP_OTEXT1 = #{npotext1},
+					NP_OTEXT2 = #{npotext2},
+					NP_OTEXT3 = #{npotext3},
+					NP_OTEXT4 = #{npotext4},
+					NP_OTEXT5 = #{npotext5},
+					NP_OCODE = #{npocode},
+					NP_OTEXT6 = #{npotext6},
+					NP_OTEXT7 = #{npotext7},
+					NP_OTEXT8 = #{npotext8},
+					NP_OTEXT9 = #{npotext9},
+					NP_OTEXT10 = #{npotext10},
+					NP_WTEXT1 = #{npwtext1},
+					NP_WTEXT2 = #{npwtext2},
+					NP_WTEXT3 = #{npwtext3},
+					NP_WTEXT4 = #{npwtext4},
+					NP_WTEXT5 = #{npwtext5},
+					NP_WTEXT6 = #{npwtext6},
+					NP_WTEXT7 = #{npwtext7},
+					NP_WTEXT8 = #{npwtext8},
+					NP_XTEXT1 = #{npxtext1},
+					NP_XTEXT2 = #{npxtext2},
+					NP_XTEXT3 = #{npxtext3},
+					NP_XTEXT4 = #{npxtext4},
+					NP_XTEXT5 = #{npxtext5},
+					NP_XTEXT6 = #{npxtext6},
+					XCOMMENT = #{xcomment},
+					NP_DATE = NOW(),
+					NP_USER = #{regId}
+				WHERE
+					IDX = #{xidx}
+				
+					
+				
+		]]>
+	</update>
+	
+	
+	
+	
+	
+	<insert id="setJntisJnrdResultFormInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT (
+					M_IDX,
+					RE_YEAR,
+					RE_SET,
+					RE_TYPE,
+					RE_PERSON,
+					RE_PRICE,
+					RE_COMMENT,
+					RE_USER,
+					RE_DATE
+				)VALUES(
+					#{midx},
+					#{reyear},
+					#{reset},					
+					#{retype},
+					#{reperson},
+					#{reprice},
+					#{recomment},
+					#{regId},
+					NOW()
+					
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="mridx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<update id="setJntisJnrdResultFormModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT SET
+					RE_YEAR = #{reyear},
+					RE_SET = #{reset},
+					RE_TYPE = #{retype},
+					RE_PERSON = #{reperson},
+					RE_PRICE = #{reprice},
+					RE_COMMENT = #{recomment},
+					RE_USER = #{regId},
+					RE_DATE = NOW()
+				WHERE
+					IDX = #{idx}
+		]]>
+	</update>
+	
+	
+	
+	<insert id="setJntisJnrdResultINFOInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT_INFO (
+					R_IDX,
+					R_TYPE,
+					R_NAME,
+					R_ANAME,
+					R_DATE
+				)VALUES(
+					#{ridx},
+					#{rtype},
+					#{rname},					
+					#{raname},
+					#{rdate}
+					
+				)
+		]]>
+	</insert>
+	
+	<update id="setJntisJnrdResultINFOModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT_INFO SET
+					R_TYPE = #{rtype},
+					R_NAME = #{rname},
+					R_ANAME = #{raname},
+					R_DATE = #{rdate}
+				WHERE
+					IDX = #{infoidx}
+		]]>
+	</update>
+	
+	<insert id="setJntisJnrdResultSEInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT_SE (
+					R_IDX,
+					SE_TYPE,
+					SE_NUMBER,
+					SE_DATE,
+					SE_NAME,
+					SE_SETDATE
+				)VALUES(
+					#{ridx},
+					#{setype},
+					#{senumber},					
+					#{sedate},
+					#{sename},
+					#{sesetdate}
+				)
+		]]>		
+	</insert>
+	
+	<update id="setJntisJnrdResultSEModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT_SE SET
+					SE_TYPE = #{setype},
+					SE_NUMBER = #{senumber},
+					SE_DATE = #{sedate},
+					SE_NAME = #{sename},
+					SE_SETDATE = #{sesetdate}
+				WHERE
+					IDE = #{seidx}
+		]]>		
+	</update>
+	
+	<insert id="setJntisJnrdResultTECHInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT_TECH (
+					R_IDX,
+					TE_TYPE,
+					TE_TYPE1,
+					TE_TYPE2,
+					TE_PRICE,
+					TE_NPRICE,
+					TE_NNAME,
+					TE_GNAME
+				)VALUES(
+					#{ridx},
+					#{tetype},
+					#{tetype1},					
+					#{tetype2},
+					#{teprice},
+					#{tenprice},
+					#{tenname},
+					#{tegname}
+				)
+		]]>		
+	</insert>
+	
+	<update id="setJntisJnrdResultTECHModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT_TECH SET
+					TE_TYPE = #{tetype},
+					TE_TYPE1 = #{tetype1},
+					TE_TYPE2 = #{tetype2},
+					TE_PRICE = #{teprice},
+					TE_NPRICE = #{tenprice},
+					TE_NNAME = #{tenname},
+					TE_GNAME = #{tegname}
+				WHERE
+					IDX = #{techidx}
+		]]>		
+	</update>
+	
+	<insert id="setJntisJnrdResultBUSInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT_BUS (
+					R_IDX,
+					BUS_TYPE,
+					BUS_NAME,
+					BUS_STATUS,
+					BUS_PRICE,
+					BUS_NUM,
+					BUS_TOTPRICE
+				)VALUES(
+					#{ridx},
+					#{bustype1},
+					#{busname},					
+					#{busstatus},
+					#{busprice},
+					#{busnum},
+					#{bustotprice}
+				)
+		]]>
+		
+	</insert>
+	
+	<update id="setJntisJnrdResultBUSModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT_BUS SET
+					BUS_TYPE = #{bustype1},
+					BUS_NAME = #{busname},
+					BUS_STATUS = #{busstatus},
+					BUS_PRICE = #{busprice},
+					BUS_NUM = #{busnum},
+					BUS_TOTPRICE = #{bustotprice} 
+				WHERE
+					IDX = #{busidx}
+		]]>		
+	</update>
+	
+	<insert id="setJntisJnrdResultPPSInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_M1_RESULT_PPS (
+					R_IDX,
+					PPS_TYPE1,
+					PPS_NAME,
+					PPS_XNAME,
+					PPS_TYPE,
+					PPS_NUM,
+					PPS_DATE
+				)VALUES(
+					#{ridx},
+					#{ppstype1},
+					#{ppsname},					
+					#{ppsxname},
+					#{ppstype},
+					#{ppsnum},
+					#{ppsdate}
+				)
+		]]>		
+	</insert>
+	
+	<update id="setJntisJnrdResultPPSModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_M1_RESULT_PPS SET
+					PPS_TYPE1 = #{ppstype1},
+					PPS_NAME = #{ppsname},
+					PPS_XNAME = #{ppsxname},
+					PPS_TYPE = #{ppstype},
+					PPS_NUM = #{ppsnum},
+					PPS_DATE = #{ppsdate}
+				WHERE
+					IDX = #{ppsidx}
+		]]>		
+	</update>
+	
+	
+	
+	<update id="setJntisJnrdCxWriteModify" parameterType="paramMap">
+		<![CDATA[
+			
+			UPDATE TB_JNRD_CX SET
+			`CX_YEAR`   = #{cxyear},
+			`CX_CODE`   = #{cxcode},
+			`CX_TYPE1`  = #{cxtype1},
+			`CX_TYPE2`  = #{cxtype2},
+			`CX_CNAME`  = #{cx_cname},
+			`CX_PNAME`  = #{cx_pname},
+			`CX_UNAME`  = #{cx_uname},
+			`CX_SPOT`   = #{cx_spot},
+			`CX_TEL`    = #{cx_tel},
+			`CX_HP`     = #{cx_hp},
+			`CX_MAIL1`  = #{cx_mail1},
+			`CX_XUSER`  = #{cx_xuser},
+			`CX_XTEXT1` = #{cx_xtext1},
+			`CX_XTEXT2` = #{cx_xtext2},
+			`CX_XTEXT3` = #{cx_xtext3},
+			`CX_XTEXT4` = #{cx_xtext4},
+			`CX_XTEXT5` = #{cx_xtext5},
+			`CX_XTEXT6` = #{cx_xtext6},
+			`CX_MAIL2`  = #{cx_mail2},
+			`CX_A1`     = #{cx_a1},
+			`CX_A2`     = #{cx_a2},
+			`CX_A3`     = #{cx_a3},
+			`CX_A4`     = #{cx_a4},
+			`CX_A5`     = #{cx_a5},
+			`CX_A6`     = #{cx_a6},
+			`CX_A7`     = #{cx_a7},
+			`CX_B1`     = #{cx_b1},
+			`CX_B2`     = #{cx_b2},
+			`CX_B3`     = #{cx_b3},
+			`CX_B4`     = #{cx_b4},
+			`CX_B5`     = #{cx_b5},
+			`CX_B6`     = #{cx_b6},
+			`CX_B7`     = #{cx_b7},
+			`CX_MAIL3`  = #{cx_mail3},
+			`CX_C1`     = #{cx_c1},
+			`CX_C2`     = #{cx_c2},
+			`CX_D1`     = #{cx_d1},
+			`CX_D2`     = #{cx_d2},
+			`CX_D3`     = #{cx_d3},
+			`CX_D4`     = #{cx_d4},
+			`CX_D5`     = #{cx_d5},
+			`CX_D6`     = #{cx_d6},
+			`CX_D7`     = #{cx_d7},
+			`CX_D8`     = #{cx_d8},
+			`CX_COMMENT` = #{cx_comment},
+			`CX_USERID` = #{regId},
+			`CX_DATE` = now()
+			WHERE `IDX` = #{cxIdx};
+		]]>
+	</update>
+	
+	
+	
+	
+	<insert id="setJntisJnrdCxWriteInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_CX (
+					`CX_YEAR`,
+					`CX_CODE`,
+					`CX_TYPE1`,
+					`CX_TYPE2`,
+					`CX_CNAME`,
+					`CX_PNAME`,
+					`CX_UNAME`,
+					`CX_SPOT`,
+					`CX_TEL`,
+					`CX_HP`,
+					`CX_MAIL1`,
+					`CX_XUSER`,
+					`CX_XTEXT1`,
+					`CX_XTEXT2`,
+					`CX_XTEXT3`,
+					`CX_XTEXT4`,
+					`CX_XTEXT5`,
+					`CX_XTEXT6`,
+					`CX_MAIL2`,
+					`CX_A1`,
+					`CX_A2`,
+					`CX_A3`,
+					`CX_A4`,
+					`CX_A5`,
+					`CX_A6`,
+					`CX_A7`,
+					`CX_B1`,
+					`CX_B2`,
+					`CX_B3`,
+					`CX_B4`,
+					`CX_B5`,
+					`CX_B6`,
+					`CX_B7`,
+					`CX_MAIL3`,
+					`CX_C1`,
+					`CX_C2`,
+					`CX_D1`,
+					`CX_D2`,
+					`CX_D3`,
+					`CX_D4`,
+					`CX_D5`,
+					`CX_D6`,
+					`CX_D7`,
+					`CX_D8`,
+					`CX_COMMENT`,
+					`CX_USERID`,
+					`CX_DATE`
+				)VALUES(
+					#{cxyear},
+					#{cxcode},
+					#{cxtype1},
+					#{cxtype2},
+					#{cx_cname},
+					#{cx_pname},
+					#{cx_uname},
+					#{cx_spot},
+					#{cx_tel},
+					#{cx_hp},
+					#{cx_mail1},
+					#{cx_xuser},
+					#{cx_xtext1},
+					#{cx_xtext2},
+					#{cx_xtext3},
+					#{cx_xtext4},
+					#{cx_xtext5},
+					#{cx_xtext6},
+					#{cx_mail2},
+					#{cx_a1},
+					#{cx_a2},
+					#{cx_a3},
+					#{cx_a4},
+					#{cx_a5},
+					#{cx_a6},
+					#{cx_a7},
+					#{cx_b1},
+					#{cx_b2},
+					#{cx_b3},
+					#{cx_b4},
+					#{cx_b5},
+					#{cx_b6},
+					#{cx_b7},
+					#{cx_mail3},
+					#{cx_c1},
+					#{cx_c2},
+					#{cx_d1},
+					#{cx_d2},
+					#{cx_d3},
+					#{cx_d4},
+					#{cx_d5},
+					#{cx_d6},
+					#{cx_d7},
+					#{cx_d8},
+					#{cx_comment},
+					#{regId},
+					now()
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="cxidx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	<select id="setJntisJnrdCxInsertIdx" parameterType="paramMap" resultType="java.lang.Integer">
+		<![CDATA[
+		
+		SELECT LAST_INSERT_ID() as INFO_IDX FROM TB_JNRD_CX LIMIT 1
+		
+		]]>
+	</select>
+	
+	<select id="setJntisJnrdCxCodeLastIdx" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+		SELECT 
+			COUNT(IDX)+1 as IDX
+		FROM 
+			TB_JNRD_CX
+		WHERE
+			SUBSTRING_INDEX(`CX_CODE`,'-',1) LIKE '%${year}%'
+		ORDER BY IDX DESC 
+		LIMIT 1
+		
+		]]>
+	</select>
+	
+	
+	<insert id="setJntisJnrdCxTypeAWriteInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_CX_DATA1 (
+					`CX_IDX`,
+					`TX_YEAR`,
+					`TX_TYPE`,
+					`TX_DATE`,
+					`TX_NAME`,
+					`TX_BNAME`,
+					`TX_CNAME`,
+					`TX_SDATE`,
+					`TX_EDATE`,
+					`TX_MONTH`,
+					`TX_PRICE1`,
+					`TX_PRICE2`,
+					`TX_PRICE3`,
+					`TX_PRICE4`,
+					`TX_PRICE5`,
+					`TX_PRICE6`,
+					`TX_USERIDX`,
+					`TX_DATETIME`
+				)VALUES(
+					#{cxidx},
+					#{txyear},
+					#{txtype},
+					#{txdate},
+					#{txname},
+					#{tx_bname},
+					#{tx_cname},
+					#{tx_sdate},
+					#{tx_edate},
+					#{tx_tmonth},
+					#{tx_price1},
+					#{tx_price2},
+					#{tx_price3},
+					#{tx_price4},
+					#{tx_price5},
+					#{tx_price6},
+					#{regId},
+					now()
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="tidx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	
+	<update id="setJntisJnrdCxTypeAWriteModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_CX_DATA1 SET
+					`CX_IDX` = #{cxidx},
+					`TX_YEAR`= #{txyear},
+					`TX_TYPE` = #{txtype},
+					`TX_DATE` = #{txdate},
+					`TX_NAME` = #{txname},
+					`TX_BNAME` = #{tx_bname},
+					`TX_CNAME` = #{tx_cname},
+					`TX_SDATE` = #{tx_sdate},
+					`TX_EDATE` = #{tx_edate},
+					`TX_MONTH` = #{tx_tmonth},
+					`TX_PRICE1` = #{tx_price1},
+					`TX_PRICE2` = #{tx_price2},
+					`TX_PRICE3` = #{tx_price3},
+					`TX_PRICE4` = #{tx_price4},
+					`TX_PRICE5` = #{tx_price5},
+					`TX_PRICE6` = #{tx_price6},
+					`TX_USERIDX` = #{regId},
+					`TX_DATETIME` = now()
+				WHERE
+					IDX = #{tidx}
+		]]>
+	</update>
+	
+	
+	<insert id="setJntisJnrdCxTypeBWriteInsert" parameterType="paramMap">
+		<![CDATA[
+				INSERT INTO TB_JNRD_CX_DATA2 (
+					`CX_IDX`,
+					`YX_YEAR`,
+					`YX_STATUS`,
+					`YX_TYPE1`,
+					`YX_TYPE2`,
+					`YX_NAME`,
+					`YX_DNAME`,
+					`YX_BNAME`,
+					`YX_SDATE`,
+					`YX_EDATE`,
+					`MING`,
+					`YX_TMONTH`,
+					`YX_PRICE1`,
+					`YX_PRICE2`,
+					`YX_PRICE3`,
+					`YX_PRICE4`,
+					`YX_PRICE5`,
+					`YX_PRICE6`,
+					`YX_CTYPE`,
+					`YX_CNAME`,
+					`YX_YNAME`,
+					`YX_CONT1`,
+					`YX_CONT1_TEXT`,
+					`YX_CONT2`,
+					`YX_CONT3`,
+					`YX_CONT4`,
+					`YX_CONT5`,
+					`YX_CONT6`,
+					`YX_CONT7`,
+					`YX_CONT8`,
+					`YX_HCONT1`,
+					`YX_HCONT2`,
+					`YX_HCONT3`,
+					`YX_HCONT4`,
+					`YX_HCONT5`,
+					`YX_HCONT6`,
+					`YX_MAIL`,
+					`YX_COMMENT`,
+					`YX_USERID`,
+					`YX_DATETIME`
+				)VALUES(
+					#{cxidx},
+					#{yxyear},
+					#{yxstatus},
+					#{yxtype1},
+					#{yxtype2},
+					#{yx_name},
+					#{yx_dname},
+					#{yx_bname},
+					#{yx_sdate},
+					#{yx_edate},
+					#{ming},
+					#{yx_tmonth},
+					#{yx_price1},
+					#{yx_price2},
+					#{yx_price3},
+					#{yx_price4},
+					#{yx_price5},
+					#{yx_price6},
+					#{yx_ctype},					
+					#{yx_cname},
+					#{yx_yname},
+					#{yx_cont1},
+					#{yx_cont1_text},
+					#{yx_cont2},
+					#{yx_cont3},
+					#{yx_cont4},
+					#{yx_cont5},
+					#{yx_cont6},
+					#{yx_cont7},
+					#{yx_cont8},					
+					#{yx_hcont1},
+					#{yx_hcont2},
+					#{yx_hcont3},
+					#{yx_hcont4},
+					#{yx_hcont5},
+					#{yx_hcont6},
+					#{yx_mail},
+					#{yx_comment},					
+					#{regId},
+					now()
+				)
+		]]>
+		<selectKey resultType="int" keyProperty="tidx" order="AFTER">
+	        SELECT LAST_INSERT_ID()
+	    </selectKey>
+	</insert>
+	
+	
+	<update id="setJntisJnrdCxTypeBWriteModify" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_JNRD_CX_DATA2 SET
+					`CX_IDX` = #{cxidx},
+					`YX_YEAR` = #{yxyear},
+					`YX_STATUS` = #{yxstatus},
+					`YX_TYPE1` = #{yxtype1},
+					`YX_TYPE2` = #{yxtype2},
+					`YX_NAME` = #{yx_name},
+					`YX_DNAME` = #{yx_dname},
+					`YX_BNAME` = #{yx_bname},
+					`YX_SDATE` = #{yx_sdate},
+					`YX_EDATE` = #{yx_edate},
+					`MING` = #{ming},
+					`YX_TMONTH` = #{yx_tmonth},
+					`YX_PRICE1` = #{yx_price1},
+					`YX_PRICE2` = #{yx_price2},
+					`YX_PRICE3` = #{yx_price3},
+					`YX_PRICE4` = #{yx_price4},
+					`YX_PRICE5` = #{yx_price5},
+					`YX_PRICE6` = #{yx_price6},
+					`YX_CTYPE` = #{yx_ctype},
+					`YX_CNAME` = #{yx_cname},
+					`YX_YNAME` = #{yx_yname},
+					`YX_CONT1` = #{yx_cont1},
+					`YX_CONT1_TEXT` = #{yx_cont1_text},
+					`YX_CONT2` = #{yx_cont2},
+					`YX_CONT3` = #{yx_cont3},
+					`YX_CONT4` = #{yx_cont4},
+					`YX_CONT5` = #{yx_cont5},
+					`YX_CONT6` = #{yx_cont6},
+					`YX_CONT7` = #{yx_cont7},
+					`YX_CONT8` = #{yx_cont8},
+					`YX_HCONT1` = #{yx_hcont1},
+					`YX_HCONT2` = #{yx_hcont2},
+					`YX_HCONT3` = #{yx_hcont3},
+					`YX_HCONT4` = #{yx_hcont4},
+					`YX_HCONT5` = #{yx_hcont5},
+					`YX_HCONT6` = #{yx_hcont6},
+					`YX_MAIL` = #{yx_mail},
+					`YX_COMMENT` = #{yx_comment},
+					`YX_USERID` = #{regId},
+					`YX_DATETIME` = now()
+				WHERE
+					IDX = #{tidx}
+		]]>
+	</update>
+	
+	
+	
+	
+	
+	
+	<select id="getJnrdRndList1Cnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			<![CDATA[
+				SELECT
+					COUNT(0) AS CNT
+					FROM
+						TB_JNRD_INFO
+					WHERE 1
+			]]>
+			<if test='typea1 != null and typea1 != "" or typea2 != null and typea2 != "" or typea3 != null and typea3 != ""'>
+				AND TYPE_A IN ('${typea1}','${typea2}','${typea3}')
+			</if>
+			
+			
+			<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+				<![CDATA[ 
+					AND '${sdate}' BETWEEN S_DATE AND E_DATE
+					AND '${edate}' BETWEEN S_DATE AND E_DATE  
+				]]>
+			</if>
+			
+			
+			
+			<if test='bed != null and bed != ""'>
+				<![CDATA[	AND B_ED = '${bed}' ]]>
+			</if>
+			
+			<if test='cname != null and cname != ""'>
+				<![CDATA[	AND CNAME = '${cname}' ]]>
+			</if>
+			
+			<if test='bname != null and bname != ""'>
+				<![CDATA[	AND BNAME LIKE '%${bname}%' ]]>
+			</if>
+			
+	</select>
+	
+	<select id="getJnrdRndList1" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+					*
+				FROM
+					TB_JNRD_INFO
+				WHERE 1
+			]]>
+			<if test='typea1 != null and typea1 != "" or typea2 != null and typea2 != "" or typea3 != null and typea3 != ""'>
+				AND TYPE_A IN ('${typea1}','${typea2}','${typea3}')
+			</if>
+			
+			<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+				<![CDATA[ 
+					AND '${sdate}' BETWEEN S_DATE AND E_DATE
+					AND '${edate}' BETWEEN S_DATE AND E_DATE  
+				]]>
+			</if>
+			
+			
+			
+			<if test='bed != null and bed != ""'>
+				<![CDATA[	AND B_ED = '${bed}' ]]>
+			</if>
+			
+			<if test='cname != null and cname != ""'>
+				<![CDATA[	AND CNAME = '${cname}' ]]>
+			</if>
+			
+			<if test='bname != null and bname != ""'>
+				<![CDATA[	AND BNAME LIKE '%${bname}%' ]]>
+			</if>
+
+			<![CDATA[
+			ORDER BY IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+	
+	
+	<select id="getJnrdRndList2Cnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			
+				SELECT
+					COUNT(0) as CNT
+				FROM
+					(
+						SELECT
+							IFNULL((SELECT COUNT(0) FROM TB_JNRD_M1_RESULT as c WHERE c.M_IDX = a.IDX),0) as RESULT_NUM
+						FROM
+							TB_JNRD_M1 as a
+						WHERE 1
+						
+						<if test='mtype1 != null and mtype1 != "" or mtype2 != null and mtype2 != "" or mtype3 != null and mtype3 != "" or mtype4 != null and mtype4 != ""'>
+							AND M_TYPE IN ('${mtype1}','${mtype2}','${mtype3}','${mtype4}')
+						</if>
+						
+						<if test='mname != null and mname != ""'>
+							<![CDATA[	AND M_NAME = '${mname}' ]]>
+						</if>
+						
+						<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+							AND '${sdate}' BETWEEN M_SDATE AND M_EDATE
+							AND IF(M_ING = 1,'${toDate}' BETWEEN M_SDATE AND M_EDATE, '${edate}' BETWEEN M_SDATE AND M_EDATE)
+						</if>
+						
+						
+						<if test='mbname != null and mbname != ""'>
+							<![CDATA[	AND M_BNAME LIKE '%${mbname}%' ]]>
+						</if>
+						
+					) as m
+				WHERE 1
+				<if test='rn == "Y"'>
+					<![CDATA[	AND m.RESULT_NUM > 0 ]]>
+				</if>
+				
+				<if test='rn == "N"'>
+					<![CDATA[	AND m.RESULT_NUM < 1 ]]>
+				</if>	
+			
+			
+			
+			
+			
+	</select>
+	
+	<select id="getJnrdRndList2" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+					*
+				FROM
+					(
+						SELECT
+							*,
+							IFNULL((SELECT b.NP_TPRICE FROM TB_JNRD_M1_PRICE as b WHERE M_IDX = a.IDX ORDER BY IDX LIMIT 1),0) as NP_TPRICE,
+							IFNULL((SELECT COUNT(0) FROM TB_JNRD_M1_RESULT as c WHERE M_IDX = a.IDX),0) as RESULT_NUM
+						FROM
+							TB_JNRD_M1 as a
+						WHERE 1
+						
+					) as m
+				WHERE
+					1
+					
+			]]>
+			
+			<if test='mtype1 != null and mtype1 != "" or mtype2 != null and mtype2 != "" or mtype3 != null and mtype3 != "" or mtype4 != null and mtype4 != ""'>
+				AND M_TYPE IN ('${mtype1}','${mtype2}','${mtype3}','${mtype4}')
+			</if>
+			
+			<if test='mname != null and mname != ""'>
+				<![CDATA[	AND M_NAME = '${mname}' ]]>
+			</if>
+			
+			<if test='rn == "Y"'>
+				<![CDATA[	AND RESULT_NUM > 0 ]]>
+			</if>
+			
+			<if test='rn == "N"'>
+				<![CDATA[	AND RESULT_NUM = 0 ]]>
+			</if>
+			
+			<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+				<![CDATA[ 
+					AND '${sdate}' BETWEEN M_SDATE AND M_EDATE
+					AND IF(M_ING = 1,'${toDate}' BETWEEN M_SDATE AND M_EDATE, '${edate}' BETWEEN M_SDATE AND M_EDATE)
+				]]>
+			</if>
+			
+			
+			<if test='mbname != null and mbname != ""'>
+				<![CDATA[	AND M_BNAME LIKE '%${mbname}%' ]]>
+			</if>
+			
+
+			<![CDATA[
+			ORDER BY IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+	
+	
+	<select id="getJnrdRndList3Cnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			<![CDATA[
+				SELECT
+					COUNT(0) AS CNT
+					FROM
+						TB_JNRD_CX
+					WHERE 1
+			]]>
+			<if test='searchYear != null and searchYear != ""'>
+				<![CDATA[	AND CX_YEAR = '${searchYear}' ]]>
+			</if>
+			<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+				<![CDATA[ 
+					AND '${sdate}' BETWEEN CX_C1 AND CX_C2
+					AND '${edate}' BETWEEN CX_C1 AND CX_C2
+				]]>
+			</if>
+			<if test='ctype1 != null and ctype1 != "" or ctype2 != null and ctype2 != "" or ctype3 != null and ctype3 != "" or ctype4 != null and ctype4 != ""'>
+				AND CX_TYPE1 IN ('${ctype1}','${ctype2}','${ctype3}','${ctype4}')
+			</if>
+			<if test='ctypex1 != null and ctypex1 != "" or ctypex2 != null and ctypex2 != "" or ctypex3 != null and ctypex3 != "" or ctypex4 != null and ctypex4 != "" or ctypex5 != null and ctypex5 != ""'>
+				AND CX_TYPE2 IN ('${ctypex1}','${ctypex2}','${ctypex3}','${ctypex4}','${ctypex5}')
+			</if>
+			<if test='searchKey != null and searchKey != ""'>
+				AND ${searchType} LIKE '%${searchKey}%'
+			</if>
+			
+	</select>
+	
+	<select id="getJnrdRndList3" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+					*,
+					FORMAT(CX_D6,0) as D6
+				FROM
+					TB_JNRD_CX
+				WHERE 1
+			]]>
+			<if test='searchYear != null and searchYear != ""'>
+				<![CDATA[	AND CX_YEAR = '${searchYear}' ]]>
+			</if>
+			<if test='sdate != null and sdate != "" and edate != null and edate != ""'>
+				<![CDATA[ 
+					AND '${sdate}' BETWEEN CX_C1 AND CX_C2
+					AND '${edate}' BETWEEN CX_C1 AND CX_C2
+				]]>
+			</if>
+			<if test='ctype1 != null and ctype1 != "" or ctype2 != null and ctype2 != "" or ctype3 != null and ctype3 != "" or ctype4 != null and ctype4 != ""'>
+				AND CX_TYPE1 IN ('${ctype1}','${ctype2}','${ctype3}','${ctype4}')
+			</if>
+			<if test='ctypex1 != null and ctypex1 != "" or ctypex2 != null and ctypex2 != "" or ctypex3 != null and ctypex3 != "" or ctypex4 != null and ctypex4 != "" or ctypex5 != null and ctypex5 != ""'>
+				AND CX_TYPE2 IN ('${ctypex1}','${ctypex2}','${ctypex3}','${ctypex4}','${ctypex5}')
+			</if>
+			<if test='searchKey != null and searchKey != ""'>
+				AND ${searchType} LIKE '%${searchKey}%'
+			</if>
+
+			<![CDATA[
+			ORDER BY IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+	
+	
+	<select id="geqJnrdRndYear" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			SELECT BIS_YEAR FROM TB_JNRD_INFO_BUSINESS WHERE 1 GROUP BY BIS_YEAR ORDER BY BIS_YEAR DESC;
+		
+		]]>
+	</select>
+	
+	<select id="getJnrdRndCxCtYear" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			SELECT CX_YEAR FROM TB_JNRD_CX WHERE 1 GROUP BY CX_YEAR ORDER BY CX_YEAR DESC;
+		
+		]]>
+	</select>
+	
+	<select id="getJnrdRndM2Year" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			SELECT RE_YEAR FROM TB_JNRD_M1_RESULT WHERE 1 GROUP BY RE_YEAR ORDER BY RE_YEAR DESC;
+		
+		]]>
+	</select>
+
+	
+	
+	<select id="getJnrdInfoEqSRndList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			SELECT 
+				IFNULL(A.BIS_YEAR,'${year}') as BIS_YEAR,
+				IFNULL(B.TYPE_A,'주요R&D') as TYPE_A,
+			    count(0) as tot,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_1),0),0) as bp1,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_2),0),0) as bp2,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_3),0),0) as bp3,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_4),0),0) as bp4
+			FROM 
+				TB_JNRD_INFO_BUSINESS as A
+			    LEFT JOIN TB_JNRD_INFO as B ON(B.IDX = A.INFO_IDX)
+			WHERE 
+				A.BIS_YEAR = ${year} AND
+			    B.TYPE_A = '주요R&D'
+			    
+			UNION
+			
+			SELECT 
+				IFNULL(A.BIS_YEAR,'${year}') as BIS_YEAR,
+				IFNULL(B.TYPE_A,'일반R&D') as TYPE_A,
+			    count(0) as tot,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_1),0),0) as bp1,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_2),0),0) as bp2,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_3),0),0) as bp3,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_4),0),0) as bp4
+			FROM 
+				TB_JNRD_INFO_BUSINESS as A
+			    LEFT JOIN TB_JNRD_INFO as B ON(B.IDX = A.INFO_IDX)
+			WHERE 
+				A.BIS_YEAR = ${year} AND
+			    B.TYPE_A = '일반R&D'
+			    
+			UNION
+			
+			SELECT 
+				IFNULL(A.BIS_YEAR,'${year}') as BIS_YEAR,
+				IFNULL(B.TYPE_A,'순도비R&D') as TYPE_A,
+			    count(0) as tot,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_1),0),0) as bp1,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_2),0),0) as bp2,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_3),0),0) as bp3,
+			    FORMAT(IFNULL(SUM(A.BIS_PRICE_4),0),0) as bp4
+			FROM 
+				TB_JNRD_INFO_BUSINESS as A
+			    LEFT JOIN TB_JNRD_INFO as B ON(B.IDX = A.INFO_IDX)
+			WHERE 
+				A.BIS_YEAR = ${year} AND
+			    B.TYPE_A = '순도비R&D'
+		
+		]]>
+	</select>
+	
+	
+	
+	<select id="getJnrdInfoCxCtList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			SELECT 
+				IFNULL(CX_YEAR,${year}) as CX_YEAR,
+				IFNULL(CX_TYPE1,'정책연구') as CX_TYPE1,
+				count(0) as tot,
+				FORMAT(IFNULL(SUM(CX_D1),0),0) as cd1,
+				FORMAT(IFNULL(SUM(CX_D3),0),0) as cd3,
+				FORMAT(IFNULL(SUM(CX_D5),0),0) as cd5,
+				FORMAT(IFNULL(SUM(CX_D6),0),0) as cd6
+			FROM 
+				TB_JNRD_CX
+			WHERE 
+				CX_YEAR = ${year} AND
+				CX_TYPE1 = '정책연구'
+		
+		UNION
+			
+		    SELECT 
+				IFNULL(CX_YEAR,${year}) as CX_YEAR,
+				IFNULL(CX_TYPE1,'R&D') as CX_TYPE1,
+				count(0) as tot,
+				FORMAT(IFNULL(SUM(CX_D1),0),0) as cd1,
+				FORMAT(IFNULL(SUM(CX_D3),0),0) as cd3,
+				FORMAT(IFNULL(SUM(CX_D5),0),0) as cd5,
+				FORMAT(IFNULL(SUM(CX_D6),0),0) as cd6
+			FROM 
+				TB_JNRD_CX
+			WHERE 
+				CX_YEAR = ${year} AND
+				CX_TYPE1 = 'R&D'
+		UNION
+			
+		    SELECT 
+				IFNULL(CX_YEAR,${year}) as CX_YEAR,
+				IFNULL(CX_TYPE1,'비R&D') as CX_TYPE1,
+				count(0) as tot,
+				FORMAT(IFNULL(SUM(CX_D1),0),0) as cd1,
+				FORMAT(IFNULL(SUM(CX_D3),0),0) as cd3,
+				FORMAT(IFNULL(SUM(CX_D5),0),0) as cd5,
+				FORMAT(IFNULL(SUM(CX_D6),0),0) as cd6
+			FROM 
+				TB_JNRD_CX
+			WHERE 
+				CX_YEAR = ${year} AND
+				CX_TYPE1 = '비R&D'
+		UNION
+			
+		    SELECT 
+				IFNULL(CX_YEAR,${year}) as CX_YEAR,
+				IFNULL(CX_TYPE1,'기타') as CX_TYPE1,
+				count(0) as tot,
+				FORMAT(IFNULL(SUM(CX_D1),0),0) as cd1,
+				FORMAT(IFNULL(SUM(CX_D3),0),0) as cd3,
+				FORMAT(IFNULL(SUM(CX_D5),0),0) as cd5,
+				FORMAT(IFNULL(SUM(CX_D6),0),0) as cd6
+			FROM 
+				TB_JNRD_CX
+			WHERE 
+				CX_YEAR = ${year} AND
+				CX_TYPE1 = '기타'
+		
+		]]>
+	</select>
+	
+	
+	
+	<select id="getJnrdInfoM2List" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+		
+			select
+				IFNULL(a.RE_YEAR,'${year}') as RE_YEAR,
+			    IFNULL(b.B_TYPE,'${type}') as B_TYPE,
+			    '논문' as tit,
+			    IFNULL(COUNT(0),0) as tot,
+			    IFNULL(CONCAT(
+			    	cast((select count(0) from TB_JNRD_M1_RESULT as z where z.RE_YEAR = ${year}) as char),
+			    	"/",
+			    	cast((
+			    		(select count(0) from TB_JNRD_M1_RESULT_INFO as xx left join TB_JNRD_M1_RESULT as yy on(yy.IDX = xx.R_IDX)  where yy.RE_YEAR = ${year})+
+			    		(select count(0) from TB_JNRD_M1_RESULT_SE as xx left join TB_JNRD_M1_RESULT as yy on(yy.IDX = xx.R_IDX)  where yy.RE_YEAR = ${year})+
+			    		(select count(0) from TB_JNRD_M1_RESULT_TECH as xx left join TB_JNRD_M1_RESULT as yy on(yy.IDX = xx.R_IDX)  where yy.RE_YEAR = ${year})+
+			    		(select count(0) from TB_JNRD_M1_RESULT_BUS as xx left join TB_JNRD_M1_RESULT as yy on(yy.IDX = xx.R_IDX)  where yy.RE_YEAR = ${year})+
+			    		(select count(0) from TB_JNRD_M1_RESULT_PPS as xx left join TB_JNRD_M1_RESULT as yy on(yy.IDX = xx.R_IDX)  where yy.RE_YEAR = ${year})
+			    	) as char)
+			    ),"0/0") as num
+			from
+				TB_JNRD_M1_RESULT as a
+			    LEFT JOIN TB_JNRD_M1 as b ON(b.IDX = a.M_IDX)
+			    LEFT JOIN TB_JNRD_M1_RESULT_INFO as c ON(c.R_IDX = a.IDX)
+			where
+				a.RE_YEAR = '${year}' AND
+			    b.B_TYPE = '${type}'
+			
+			UNION ALL
+			
+			select
+				IFNULL(a.RE_YEAR,'${year}') as RE_YEAR,
+			    IFNULL(b.B_TYPE,'${type}') as B_TYPE,
+			    '지적재산' as tit,
+			    IFNULL(COUNT(0),0) as tot,
+			    '' as num
+			from
+				TB_JNRD_M1_RESULT as a
+			    LEFT JOIN TB_JNRD_M1 as b ON(b.IDX = a.M_IDX)
+			    LEFT JOIN TB_JNRD_M1_RESULT_SE as c ON(c.R_IDX = a.IDX)
+			where
+				a.RE_YEAR = '${year}' AND
+			    b.B_TYPE = '${type}'
+			    
+			UNION ALL
+			
+			select
+				IFNULL(a.RE_YEAR,'${year}') as RE_YEAR,
+			    IFNULL(b.B_TYPE,'${type}') as B_TYPE,
+			    '기술이전' as tit,
+			    IFNULL(COUNT(0),0) as tot,
+			    '' as num
+			from
+				TB_JNRD_M1_RESULT as a
+			    LEFT JOIN TB_JNRD_M1 as b ON(b.IDX = a.M_IDX)
+			    LEFT JOIN TB_JNRD_M1_RESULT_TECH as c ON(c.R_IDX = a.IDX)
+			where
+				a.RE_YEAR = '${year}' AND
+			    b.B_TYPE = '${type}'
+			
+			UNION ALL
+			
+			select
+				IFNULL(a.RE_YEAR,'${year}') as RE_YEAR,
+			    IFNULL(b.B_TYPE,'${type}') as B_TYPE,
+			    '사업화' as tit,
+			    IFNULL(CONCAT(cast(SUM(a.RE_PERSON) as char),'/',cast(FORMAT(SUM(a.RE_PRICE),0) as char)),"0/0") as tot,
+			    '' as num
+			from
+				TB_JNRD_M1_RESULT as a
+			    LEFT JOIN TB_JNRD_M1 as b ON(b.IDX = a.M_IDX)
+			where
+				a.RE_YEAR = '${year}' AND
+			    b.B_TYPE = '${type}'
+			    
+			UNION ALL
+			
+			select
+				IFNULL(a.RE_YEAR,'${year}') as RE_YEAR,
+			    IFNULL(b.B_TYPE,'${type}') as B_TYPE,
+			    '신품종' as tit,
+			    IFNULL(COUNT(0),0) as tot,
+			    '' as num
+			from
+				TB_JNRD_M1_RESULT as a
+			    LEFT JOIN TB_JNRD_M1 as b ON(b.IDX = a.M_IDX)
+			    LEFT JOIN TB_JNRD_M1_RESULT_PPS as c ON(c.R_IDX = a.IDX)
+			where
+				a.RE_YEAR = '${year}' AND
+			    b.B_TYPE = '${type}'
+		
+		
+		]]>
+	</select>
+	
+	
+	
+	<select id="getJntisJnrdInfo" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_INFO
+			WHERE
+				IDX = ${idx}
+		]]>
+	</select>
+	
+	<select id="getInfoBusinessList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_INFO_BUSINESS
+			WHERE
+				INFO_IDX = ${idx}
+		]]>
+	</select>
+	
+	
+	<select id="getJntisJnrdM1View" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1
+			WHERE
+				IDX = ${idx}
+		]]>
+	</select>
+	
+	
+	<select id="getM1PriceList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_PRICE
+			WHERE
+				M_IDX = ${idx}
+		]]>
+	</select>
+	
+	
+	<select id="getM1ResultList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT
+			WHERE
+				M_IDX = ${idx}
+		]]>
+	</select>
+	
+	
+	<select id="getM1ResultInfo" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT_INFO
+			WHERE
+				R_IDX = ${midx}
+		]]>
+	</select>
+	<select id="getM1ResultSe" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT_SE
+			WHERE
+				R_IDX = ${midx}
+		]]>
+	</select>
+	<select id="getM1ResultTech" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT_TECH
+			WHERE
+				R_IDX = ${midx}
+		]]>
+	</select>
+	<select id="getM1ResultBus" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT_BUS
+			WHERE
+				R_IDX = ${midx}
+		]]>
+	</select>
+	<select id="getM1ResultPps" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_M1_RESULT_PPS
+			WHERE
+				R_IDX = ${midx}
+		]]>
+	</select>
+	
+	
+	<select id="getJntisJnrdCxView" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_CX
+			WHERE
+				IDX = ${idx}
+		]]>
+	</select>
+	
+	<select id="getcxTypeAList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_CX_DATA1
+			WHERE
+				CX_IDX = ${idx}
+		]]>
+	</select>
+	
+	<select id="getcxTypeBList" parameterType="paramMap" resultType="paramMap">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				TB_JNRD_CX_DATA2
+			WHERE
+				CX_IDX = ${idx}
+		]]>
+	</select>
+	
+	
+	
+</mapper>

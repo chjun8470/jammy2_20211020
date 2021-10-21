@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.service.impl.WebUserLoginMapper">
+
+	<select id="getUserLogin" parameterType="paramMap" resultType="loginVO" >
+		<![CDATA[
+			SELECT
+
+					A.USER_IDX				AS		userIdx,
+					A.PSN_NM             	AS		psnNm,
+					A.USER_TP				AS		userTp,
+					A.GENDER_TYPE_CD		AS		genderTypeCd ,
+					A.FRGN_YN				AS		frgnYn ,
+					A.USER_ID				AS		userId ,
+					A.PASSWORD				AS		password ,
+					A.EMAIL					AS		email ,
+					A.EMAIL_RECV_YN			AS		emailRecvYn ,
+					A.ZIPCD					AS		zipcd ,
+					A.ADDR1					AS		addr1 ,
+					A.ADDR2					AS		addr2 ,
+					A.TEL_NO				AS		telNo ,
+					A.CP_NO					AS		cpNo ,
+					A.FAX_NO				AS		faxNo ,
+					A.DEPT_NM				AS		deptNm ,
+					A.POSITION_NM			AS		positionNm ,
+					A.USER_TYPE_CD			AS		userTypeCd ,
+					A.BIRTH_DATE			AS		birthDate ,
+					A.DELETE_YN				AS		deleteYn ,
+					A.ORG_GRP_CD			AS		orgGrpCd ,
+					A.AUTH_LV				AS		authLv ,
+					A.REG_DT				AS		regDt ,
+					A.REG_IP				AS		regIp ,
+					A.REG_IDX				AS		regIdx ,
+					A.UP_DT					AS		upDt ,
+					A.UP_IP					AS		upIp ,
+					A.UP_IDX				AS		upIdx ,
+					A.USER_APP_STATE		AS		userAppState ,
+					A.REJECT				AS		reject ,
+					A.PRO_STATE				AS		proState,
+					C.ORG_ADDR1				AS		orgAddr1,
+					C.ORG_ADDR2				AS		orgAddr2,
+					C.ORG_ZIPCODE			AS		orgZipCode,
+					C.ORG_PHONE				AS		orgPhone,
+					C.ORG_FAX				AS		orgFax
+
+			 FROM TB_USER_COPY AS A
+		LEFT JOIN 	TB_ORG_GRP_SUB AS C ON A.ORG_GRP_CD = C.ORG_GRP_SUB_CD
+
+			WHERE 1 = 1
+			  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			  AND LOWER(USER_ID) = LOWER(#{userId})
+			  AND PASSWORD  = #{userPwd}
+		]]>
+	</select>
+
+	<select id="getAuthEqu" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+						B.RND_EQU_IDX,
+						B.KOR_NM
+
+				FROM	TB_USER_COPY A
+		   LEFT JOIN	TB_EQU_INFO B
+				  ON 	(A.USER_IDX = B.EQU_USER_IDX)
+
+			   WHERE  	A.DELETE_YN = 'N'
+				 AND 	A.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+	<select id="getAuthMod" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					B.MODULE_INFO_IDX,
+					B.AUTH_LIST,
+					B.AUTH_EDIT,
+					B.AUTH_DEL,
+					B.AUTH_WRITE,
+					B.AUTH_CMT,
+					B.AUTH_REPLY
+
+			  FROM	TB_USER_COPY A
+		 LEFT JOIN	TB_AUTH_USER_MODULE B
+			    ON  (A.USER_IDX = B.USER_IDX)
+
+			 WHERE  A.DELETE_YN = 'N'
+			   AND  A.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+
+	<select id="getAuthOrgMod" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						C.MODULE_INFO_IDX,
+						C.AUTH_LIST,
+						C.AUTH_EDIT,
+						C.AUTH_DEL,
+						C.AUTH_WRITE,
+						C.AUTH_CMT,
+						C.AUTH_REPLY
+
+		 	  FROM	TB_USER_COPY A
+
+		 LEFT JOIN	TB_AUTH_ORG_USER_REL B
+		 	    ON  (A.USER_IDX = B.USER_IDX)
+
+		 LEFT JOIN  TB_AUTH_ORG_USER_MODULE C
+			    ON  (B.ORG_GRP_AUTH_CD = C.ORG_GRP_AUTH_CD AND B.ORG_GRP_CD = C.ORG_GRP_CD)
+
+			 WHERE	A.DELETE_YN = 'N'
+			   AND  A.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+</mapper>

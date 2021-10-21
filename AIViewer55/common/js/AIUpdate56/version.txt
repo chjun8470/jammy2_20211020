@@ -1,0 +1,4 @@
+aireportLauncher56.exe=1.0.0.2
+AIUpdate56.dll=1.0.0.2
+AIGen.ocx=2.1.0.68
+AIViewer.ocx=5.6.0.01

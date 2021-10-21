@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CounterFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="CounterLogVO" type="egovframework.jammy2.counter.service.CounterLogVO"/>
+	<typeAlias  alias="CounterDayVO" type="egovframework.jammy2.counter.service.CounterDayVO"/>	
+	<typeAlias  alias="CounterPageVO" type="egovframework.jammy2.counter.service.CounterPageVO"/>
+				
+	<select id="CounterFrontendDAO.selectCounterLogTodayCnt" parameterClass="CounterLogVO" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT  COUNT(*)
+		  FROM  JMY_COUNTER_LOG A
+		 WHERE  A.SITE_ID = #siteId#
+		   AND  A.DEVICE = #device# 
+		   AND  A.COUNT_DE >= CURDATE() 
+		   AND  A.COUNT_DE < DATE_ADD(CURDATE(), INTERVAL 1 DAY) 
+		   AND  A.IP = #ip# AND SESSION_ID = #sessionId#
+		]]>
+	</select>
+	
+	<update id="CounterFrontendDAO.updateCounterLogHits">
+		<![CDATA[
+		UPDATE  JMY_COUNTER_LOG 
+		   SET  HITS = HITS + 1
+		 WHERE  SITE_ID = #siteId#
+		   AND  DEVICE = #device# 
+		   AND  COUNT_DE >= CURDATE() 
+		   AND  COUNT_DE < DATE_ADD(CURDATE(), INTERVAL 1 DAY) 
+		   AND  IP = #ip#
+		]]>
+	</update>
+	
+	<insert id="CounterFrontendDAO.insertCounterLog">
+		INSERT INTO JMY_COUNTER_LOG
+		(
+			LOG_ID,
+			SITE_ID,
+			DEVICE,
+			IP,
+			SESSION_ID,
+			COUNT_DE,
+			HOST,
+			REFERER,
+			KEYWORD,
+			HITS,
+			BROWSER,
+			OS
+		)
+		VALUES
+		( 
+			#logId#,
+			#siteId#,
+			#device#,
+			#ip#,
+			#sessionId#,
+			SYSDATE(),
+			#host#,
+			#referer#,
+			#keyword#,
+			#hits#,
+			#browser#,
+			#os#
+		)			
+	</insert>
+	
+	<update id="CounterFrontendDAO.updateCounterDay1">
+		UPDATE  JMY_COUNTER_DAY 
+		   SET  HH#hh# = HH#hh# + 1
+			 ,  HITS = HITS + 1
+		 WHERE  SITE_ID = #siteId#
+		   AND  DEVICE = #device# 
+		   AND  COUNT_DE = CURDATE();
+	</update>
+
+	<update id="CounterFrontendDAO.updateCounterDay2">
+		UPDATE  JMY_COUNTER_DAY 
+		   SET  HH#hh# = HH#hh# + 1
+			 ,  UHH#hh# = UHH#hh# + 1
+			 ,  HITS = HITS + 1
+			 ,  UNIQ_HITS = UNIQ_HITS + 1
+		 WHERE  SITE_ID = #siteId#
+		   AND  DEVICE = #device# 
+		   AND  COUNT_DE = CURDATE();
+	</update>	
+
+	<insert id="CounterFrontendDAO.insertCounterDay">
+		INSERT INTO JMY_COUNTER_DAY 
+		(
+			DAY_ID, 
+			SITE_ID, 
+			DEVICE,
+			COUNT_DE, 
+			YY, 
+			MM, 
+			DD, 
+			WW, 
+			HH0, 
+			HH1, 
+			HH2, 
+			HH3, 
+			HH4, 
+			HH5, 
+			HH6, 
+			HH7, 
+			HH8, 
+			HH9, 
+			HH10, 
+			HH11, 
+			HH12, 
+			HH13, 
+			HH14, 
+			HH15, 
+			HH16, 
+			HH17, 
+			HH18, 
+			HH19, 
+			HH20, 
+			HH21, 
+			HH22, 
+			HH23, 
+			UHH0, 
+			UHH1, 
+			UHH2, 
+			UHH3, 
+			UHH4, 
+			UHH5, 
+			UHH6, 
+			UHH7, 
+			UHH8, 
+			UHH9, 
+			UHH10, 
+			UHH11, 
+			UHH12, 
+			UHH13, 
+			UHH14, 
+			UHH15, 
+			UHH16, 
+			UHH17, 
+			UHH18, 
+			UHH19, 
+			UHH20, 
+			UHH21, 
+			UHH22, 
+			UHH23, 			
+			HITS, 
+			UNIQ_HITS
+		)
+		VALUES 
+		(
+			#dayId#, 
+			#siteId#, 
+			#device#,
+			CURDATE(), 
+			#yy#, 
+			#mm#, 
+			#dd#, 
+			#ww#, 
+			#hh0#, 
+			#hh1#, 
+			#hh2#, 
+			#hh3#, 
+			#hh4#, 
+			#hh5#, 
+			#hh6#, 
+			#hh7#, 
+			#hh8#, 
+			#hh9#, 
+			#hh10#, 
+			#hh11#, 
+			#hh12#, 
+			#hh13#, 
+			#hh14#, 
+			#hh15#, 
+			#hh16#, 
+			#hh17#, 
+			#hh18#, 
+			#hh19#, 
+			#hh20#, 
+			#hh21#, 
+			#hh22#, 
+			#hh23#, 
+			#uhh0#, 
+			#uhh1#, 
+			#uhh2#, 
+			#uhh3#, 
+			#uhh4#, 
+			#uhh5#, 
+			#uhh6#, 
+			#uhh7#, 
+			#uhh8#, 
+			#uhh9#, 
+			#uhh10#, 
+			#uhh11#, 
+			#uhh12#, 
+			#uhh13#, 
+			#uhh14#, 
+			#uhh15#, 
+			#uhh16#, 
+			#uhh17#, 
+			#uhh18#, 
+			#uhh19#, 
+			#uhh20#, 
+			#uhh21#, 
+			#uhh22#, 
+			#uhh23#, 
+			#hits#, 
+			#uniqHits#
+		)	
+	</insert>
+	
+	<insert id="CounterFrontendDAO.insertCounterPage">
+		INSERT INTO JMY_COUNTER_PAGE
+		(
+			PAGE_ID,
+			SITE_ID,
+			DEVICE,
+			COUNT_DE,
+			MENU_ID,
+			HITS
+		)
+		VALUES
+		( 
+			#pageId#,
+			#siteId#,
+			#device#,
+			SYSDATE(),
+			#menuId#,
+			#hits#
+		)			
+	</insert>
+	
+	<update id="CounterFrontendDAO.updateCounterPage">
+		UPDATE  JMY_COUNTER_PAGE 
+		   SET  HITS = HITS + 1
+		 WHERE  SITE_ID = #siteId#
+		   AND  DEVICE = #device# 
+		   AND  COUNT_DE = CURDATE() 
+		   AND  MENU_ID = #menuId#;
+	</update>
+
+</sqlMap>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MemberFrontend">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="MemberConfigVO" type="egovframework.jammy2.member.service.MemberConfigVO"/>
+	<typeAlias  alias="GnrlMemberVO" type="egovframework.jammy2.member.service.GnrlMemberVO"/>
+		
+	<select id="MemberFrontendDAO.selectMemberConfig" parameterClass="MemberConfigVO" resultClass="MemberConfigVO">
+		SELECT  USER_SE				userSe
+			 ,  JOIN_STATE			joinState
+			 ,  JOIN_GROUP_ID		joinGroupId
+			 ,  JOIN_LEVEL_ID		joinLevelId
+			 ,  LEAVE_DELETE_AT		leaveDeleteAt
+			 ,  JOIN_CONFIRM		joinConfirm
+			 ,  USE_LIMITED_ID		useLimitedId
+			 ,  JOIN_AGREE_AT		joinAgreeAt
+			 ,  JOIN_REALNAME_AT	joinRealnameAt
+			 ,  FIND_REALNAME_AT	findRealnameAt
+			 ,  SERVICE_CN			serviceCn
+			 ,  PRIVACY_CN			privacyCn
+		  FROM  JMY_MEMBER_CONFIG
+		 WHERE  USER_SE = #userSe#		
+	</select>	
+		
+	<select id="MemberFrontendDAO.selectGnrlMember" parameterClass="GnrlMemberVO" resultClass="GnrlMemberVO">
+		SELECT  A.MBER_ID				mberId
+			 ,  A.MBER_NM				mberNm
+			 ,  A.PASSWORD			password
+			 ,  A.SEXDSTN_CODE		sexdstnCode
+			 ,  A.BRTHDY				brthdy
+			 ,  A.TEL_NO				telNo
+			 ,  A.HP_NO				hpNo
+			 ,  A.EMAIL				email
+			 ,  A.ZIP					zip
+			 ,  A.ADRES				adres
+			 ,  A.DETAIL_ADRES		detailAdres
+			 ,  A.MBER_STTUS		mberSttus
+			 ,  A.SBSCRB_DE			sbscrbDe
+			 ,  A.MODIFY_DE			modifyDe
+			 ,  A.GROUP_ID			groupId
+			 ,  (SELECT GROUP_NM FROM JMY_AUTHOR_GROUP WHERE GROUP_ID = A.GROUP_ID)  AS groupNm
+			 ,  A.LEVEL_ID			levelId
+			 ,  (SELECT LEVEL_NM FROM JMY_AUTHOR_LEVEL WHERE LEVEL_ID = A.LEVEL_ID)  AS levelNm
+			 ,  A.IPIN_CD			ipinCd
+			 ,  A.GPIN_CD			gpinCd
+			 ,  A.DUPINFO			dupinfo
+			 ,  A.ESNTL_ID			uniqId
+		  FROM  JMY_MEMBER_GNRL A
+		 WHERE  A.MBER_ID = #mberId#		
+	</select>
+	
+	<select id="MemberFrontendDAO.selectGnrlMemberRealName" parameterClass="GnrlMemberVO" resultClass="GnrlMemberVO">
+		SELECT  A.MBER_ID				mberId
+			 ,  A.MBER_NM				mberNm
+			 ,  A.PASSWORD			password
+			 ,  A.SEXDSTN_CODE		sexdstnCode
+			 ,  A.BRTHDY				brthdy
+			 ,  A.TEL_NO				telNo
+			 ,  A.HP_NO				hpNo
+			 ,  A.EMAIL				email
+			 ,  A.ZIP					zip
+			 ,  A.ADRES				adres
+			 ,  A.DETAIL_ADRES		detailAdres
+			 ,  A.MBER_STTUS			mberSttus
+			 ,  A.SBSCRB_DE			sbscrbDe
+			 ,  A.MODIFY_DE			modifyDe
+			 ,  A.GROUP_ID			groupId
+			 ,  (SELECT GROUP_NM FROM JMY_AUTHOR_GROUP WHERE GROUP_ID = A.GROUP_ID)  AS groupNm
+			 ,  A.LEVEL_ID			levelId
+			 ,  (SELECT LEVEL_NM FROM JMY_AUTHOR_LEVEL WHERE LEVEL_ID = A.LEVEL_ID)  AS levelNm
+			 ,  A.IPIN_CD			ipinCd
+			 ,  A.GPIN_CD			gpinCd
+			 ,  A.DUPINFO			dupinfo
+			 ,  A.ESNTL_ID			uniqId
+		  FROM  JMY_MEMBER_GNRL A
+		 WHERE  A.DUPINFO = #dupinfo#
+	</select>
+	
+	<insert id="MemberFrontendDAO.insertGnrlMember">
+		INSERT 
+		  INTO  JMY_MEMBER_GNRL
+		     (  MBER_ID
+			 ,  MBER_NM
+			 ,  PASSWORD
+			 ,  SEXDSTN_CODE
+			 ,  BRTHDY
+			 ,  TEL_NO
+			 ,  HP_NO
+			 ,  EMAIL
+			 ,  ZIP
+			 ,  ADRES
+			 ,  DETAIL_ADRES			 
+			 ,  MBER_STTUS
+			 ,  SBSCRB_DE
+			 ,  GROUP_ID
+			 ,  LEVEL_ID
+			 ,  IPIN_CD
+			 ,  GPIN_CD
+			 ,  DUPINFO
+			 ,  ESNTL_ID
+		     )
+		VALUES
+		     (  #mberId#
+			 ,  #mberNm#
+			 ,  #password#
+			 ,  #sexdstnCode#
+			 ,  #brthdy#
+			 ,  #telNo#
+			 ,  #hpNo#
+			 ,  #email#
+			 ,  #zip#
+			 ,  #adres#
+			 ,  #detailAdres#
+			 ,  #mberSttus#
+			 ,  SYSDATE()
+			 ,  #groupId#
+			 ,  #levelId#
+			 ,  #ipinCd#
+			 ,  #gpinCd#
+			 ,  #dupinfo#
+			 ,  #uniqId#			
+		     )			
+	</insert>
+	
+	<update id="MemberFrontendDAO.updateGnrlMember">
+		UPDATE  JMY_MEMBER_GNRL 
+		<dynamic prepend="SET">		   
+			<isNotNull property="telNo" prepend=",">
+				TEL_NO = #telNo#
+			</isNotNull>
+			<isNotNull property="hpNo" prepend=",">
+				HP_NO = #hpNo#
+			</isNotNull>
+			<isNotNull property="email" prepend=",">
+				EMAIL = #email#
+			</isNotNull>
+			<isNotNull property="zip" prepend=",">
+				ZIP = #zip#
+			</isNotNull>
+			<isNotNull property="adres" prepend=",">
+				ADRES = #adres#
+			</isNotNull>
+			<isNotNull property="detailAdres" prepend=",">
+				DETAIL_ADRES = #detailAdres#
+			</isNotNull>
+			<isNotEmpty property="password" prepend=",">
+		   	 	PASSWORD = #password#
+		   	</isNotEmpty>
+			<isNotNull property="mberNm" prepend=",">
+				MBER_NM = #mberNm#
+			</isNotNull>
+			<isNotNull property="sexdstnCode" prepend=",">
+				SEXDSTN_CODE = #sexdstnCode#
+			</isNotNull>
+			<isNotNull property="mberSttus" prepend=",">
+				MBER_STTUS = #mberSttus#
+			</isNotNull>
+			<isNotNull property="groupId" prepend=",">
+				GROUP_ID = #groupId#
+			</isNotNull>
+			<isNotNull property="levelId" prepend=",">
+				LEVEL_ID = #levelId#
+			</isNotNull>
+			,  MODIFY_DE = SYSDATE()
+		</dynamic>		
+		WHERE  MBER_ID = #mberId#
+	</update>
+	
+	<update id="MemberFrontendDAO.leaveGnrlMemberOnlySttus">
+		UPDATE  JMY_MEMBER_GNRL 
+		   SET  MBER_STTUS = "D"
+		 WHERE  MBER_ID = #mberId#
+	</update>
+	
+	<update id="MemberFrontendDAO.leaveGnrlMember">
+		UPDATE  JMY_MEMBER_GNRL 
+		   SET  SEXDSTN_CODE = NULL
+		     ,  BRTHDY = NULL
+			 ,  TEL_NO = NULL
+			 ,  HP_NO = NULL
+			 ,  EMAIL = ""
+			 ,  ZIP = ""
+			 ,  ADRES = ""
+			 ,  DETAIL_ADRES = NULL			 			 
+			 ,  MBER_STTUS = "D"
+			 ,  SBSCRB_DE = NULL
+			 ,  MODIFY_DE = NULL
+			 ,  LEAVE_DE = SYSDATE()
+			 ,  GROUP_ID = NULL
+			 ,  LEVEL_ID = 0	
+			 ,  IPIN_CD = NULL
+			 ,  GPIN_CD = NULL
+			 ,  DUPINFO = NULL
+		 WHERE  MBER_ID = #mberId#
+	</update>
+		
+</sqlMap>

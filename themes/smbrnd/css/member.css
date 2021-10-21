@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/** 로그인 */
+.member-login{width:400px; margin:0 auto;}
+.member-login-title{font-size:18px;}
+.member-login-form{margin:25px 0; padding:25px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
+.member-login-form .form-group-container{position:relative; padding-right:120px;}
+.member-login-form .form-group{margin:0; padding:0; margin-bottom:5px;}
+.member-login-form .login-submit{position:absolute; right:0; top:0; width:110px; height:73px; border-radius:5px; background:#e73b33; color:#fff;}
+.member-login-guide{margin:25px 0 0 0;}
+.member-login-guide dl{}
+.member-login-guide dl dt{float:left; margin-right:10px; padding:5px 0; font-weight:bold; font-size:14px; color:#1a1a1a;}
+.member-login-guide dl dd{padding:5px 0; font-size:14px;}
+.member-login-guide dl dd a{color:#1a1a1a;}
+
+/** 회원 비밀번호 확인 */
+.password-confirm{width:400px; margin:0 auto;}
+.password-confirm-title{font-size:18px;}
+.password-confirm-form{margin:25px 0; padding:25px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
+.password-confirm-guide{margin:25px 0 0 0; font-size:13px;}

@@ -1,0 +1,13 @@
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:50)] SAML v2.0 Library Initializing... 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:58)] Metadata Load... 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:62)] MetadataRepInterface: com.etri.saml2.imp.MetadataRepImpFile 
+2021-04-27 09:22:03 [ INFO :: com.etri.saml2.imp.MetadataRepImpFile.setMetadataDirectory(MetadataRepImpFile.java:53)] Metadata directory: \C:\eGovFrameDev\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\jammy2\WEB-INF/metadata/ 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:68)] Session Record Load.. 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:75)] Federation Record Load.. 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:83)] Artifact Record Load.. 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.configure(InitSAML.java:206)] Properties Load Done. version 1.0 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.InitSAML.initialize(InitSAML.java:105)] SAML Library initialize complete 
+2021-04-27 09:22:03 [ INFO :: gov.mogaha.gpin.sp.common.SAMLMessageHandler.makeAuthRequest(SAMLMessageHandler.java:142)] START attributes : 0 
+2021-04-27 09:22:04 [ INFO :: gov.mogaha.gpin.sp.common.SAMLMessageHandler.makeAuthRequest(SAMLMessageHandler.java:142)] START attributes : 0 
+2021-04-27 09:22:04 [ INFO :: gov.mogaha.gpin.sp.common.SAMLMessageHandler.makeAuthRequest(SAMLMessageHandler.java:182)] END 
+2021-04-27 09:22:04 [ INFO :: gov.mogaha.gpin.sp.common.SAMLMessageHandler.makeAuthRequest(SAMLMessageHandler.java:182)] END 

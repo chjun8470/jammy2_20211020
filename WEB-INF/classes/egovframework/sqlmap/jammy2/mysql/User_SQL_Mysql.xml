@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="User">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="LoginVO" type="egovframework.jammy2.cmm.LoginVO"/>
+	<typeAlias  alias="LoginLogVO" type="egovframework.jammy2.cmm.LoginLogVO"/>
+		
+	<select id="UserDAO.actionLogin" parameterClass="LoginVO" resultClass="LoginVO">
+		SELECT  USER_ID			id
+			 ,  USER_NM			name
+			 ,  PASSWORD		password
+			 ,  USER_EMAIL		email
+			 ,  GROUP_ID		groupId
+			 ,  LEVEL_ID		levelId
+			 ,  USER_SE			userSe
+			 ,  USER_STTUS_CODE	userSttusCode
+			 ,  ORGNZT_ID		orgnztId
+			 ,  ESNTL_ID		uniqId
+		  FROM  JMY_USER_MASTER
+		 WHERE  USER_ID = #id# 
+		   AND  PASSWORD = #password#
+	</select> 		
+
+	<select id="UserDAO.selectUserMaster" parameterClass="LoginVO" resultClass="LoginVO">
+		SELECT  USER_ID			id
+			 ,  USER_NM			name
+			 ,  PASSWORD		password
+			 ,  USER_EMAIL		email
+			 ,  GROUP_ID		groupId
+			 ,  LEVEL_ID		levelId
+			 ,  USER_SE			userSe
+			 ,  USER_STTUS_CODE	userSttusCode
+			 ,  ORGNZT_ID		orgnztId
+			 ,  ESNTL_ID		uniqId
+		  FROM  JMY_USER_MASTER
+		 WHERE  USER_ID = #id#			
+	</select>
+
+	<select id="UserDAO.searchId" parameterClass="LoginVO" resultClass="LoginVO">
+		SELECT  USER_ID AS id
+		  FROM  JMY_USER_MASTER
+		 WHERE  USER_NM = #name#
+		   AND  USER_EMAIL = #email#
+		   AND  USER_STTUS_CODE = 'P'
+	</select>
+	
+	<select id="UserDAO.searchPassword" parameterClass="LoginVO" resultClass="LoginVO">
+		SELECT  PASSWORD AS password
+		  FROM  JMY_USER_MASTER
+		 WHERE  USER_ID = #id#
+		   AND  USER_NM = #name#
+		   AND  USER_EMAIL = #email#
+		   AND  USER_STTUS_CODE = 'P'
+	</select>	
+
+	<insert id="UserDAO.insertLoginLog">
+		INSERT 
+		  INTO  JMY_USER_LOGIN_LOG
+		     (  LOG_ID
+		     ,  SUCCESS
+			 ,  USER_ID
+			 ,  LOGIN_PNTTM
+			 ,  LOGIN_IP
+			 ,  REASON
+			 ,  USERAGENT
+			 ,  LOGIN_URL			 
+		     )
+		VALUES
+		     (  #logId#
+		     ,  #success#
+			 ,  #userId#
+			 ,  SYSDATE()
+			 ,  #loginIp#
+			 ,  #reason#
+			 ,  #useragent#
+			 ,  #loginUrl#
+		     )			
+	</insert>
+
+	<update id="UserDAO.updatePassword">
+		<!-- 일반회원 -->
+		<isEqual property="userSe" compareValue="GNR">
+			<![CDATA[
+			UPDATE JMY_MEMBER_GNRL
+			   SET password = #password#
+			 WHERE MBER_ID = #id#
+			]]>
+		</isEqual>
+		<!-- 기업회원 -->
+		<isEqual property="userSe" compareValue="ENT">
+			<![CDATA[
+			UPDATE JMY_MEMBER_ENTRPRS
+			   SET ENTRPRS_MBER_PASSWORD = #password#
+			 WHERE ENTRPRS_MBER_ID = #id#
+			]]>
+		</isEqual>
+		<!-- 업무사용자 -->
+		<isEqual property="userSe" compareValue="USR">
+			<![CDATA[
+			UPDATE JMY_USER_LOGIN_LOG
+			   SET password = #password#
+			 WHERE EMPLYR_ID = #id#
+			]]>
+		</isEqual>
+	</update>
+	
+	<select id="UserDAO.selectLoginLogListCnt" parameterClass="LoginLogVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_USER_LOGIN_LOG A
+		 WHERE  1=1			
+		 	<isNotEmpty prepend="AND" property="success">
+		 		A.SUCCESS = #success#
+		 	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="userId"><![CDATA[A.USER_ID LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="loginPnttm"><![CDATA[A.LOGIN_PNTTM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="loginIp"><![CDATA[A.LOGIN_IP LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="reason"><![CDATA[A.REASON LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="useragent"><![CDATA[A.USERAGENT LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="UserDAO.selectLoginLogList" parameterClass="LoginLogVO" resultClass="LoginLogVO">
+		SELECT  A.LOG_ID			logId
+			 ,  A.SUCCESS			success
+			 ,  A.USER_ID			userId
+			 ,  A.LOGIN_PNTTM		loginPnttm
+			 ,  A.LOGIN_IP			loginIp
+			 ,  A.REASON			reason
+			 ,  A.USERAGENT			useragent
+			 ,  A.LOGIN_URL			loginUrl
+		  FROM  JMY_USER_LOGIN_LOG A
+		 WHERE  1=1	
+		 	<isNotEmpty prepend="AND" property="success">
+		 		A.SUCCESS = #success#
+		 	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="userId"><![CDATA[A.USER_ID LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="loginPnttm"><![CDATA[A.LOGIN_PNTTM LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="loginIp"><![CDATA[A.LOGIN_IP LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="reason"><![CDATA[A.REASON LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+				<isEqual property="searchCondition" compareValue="useragent"><![CDATA[A.USERAGENT LIKE CONCAT('%', #searchKeyword#,'%')]]></isEqual>
+			</isNotEmpty>	
+	  ORDER BY  A.LOG_ID DESC
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>
+
+</sqlMap>

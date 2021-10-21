@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- SqlSession setup for MyBatis Database Layer -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource-mysql" />
+		<property name="configLocation" value="classpath:/jnsp/sqlmap/sql-mapper-config.xml" />
+	</bean>
+
+
+	<!-- SqlSession setup for MyBatis Database Layer -->
+<!-- 	 <bean id="adminSqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/cms/back/sqlmap/sql-mapper-config.xml" />
+		<property name="mapperLocations" value="classpath:/cms/back/sqlmap/mappers/mysql/*.xml" />
+	</bean> -->
+
+	<!-- MapperConfigurer setup for MyBatis Database Layer with @Mapper("deptMapper") in DeptMapper Interface -->
+
+ 	<bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="info.elsys.jnsp.**.impl" />
+	</bean>
+
+	<!--
+	 <bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="info.elsys.jnsp.back.service.impl" />
+	</bean>
+	 <bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="info.elsys.jnsp.front.module.service.impl" />
+	</bean>
+	 <bean class="egovframework.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="info.elsys.jnsp.back.module.service.impl" />
+	</bean>
+		-->
+
+</beans>

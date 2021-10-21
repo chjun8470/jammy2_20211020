@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SystemConfig">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SystemConfigVO" type="egovframework.jammy2.system.admin.service.SystemConfigVO"/>
+					
+	<select id="SystemConfigDAO.selectSystemConfig" parameterClass="SystemConfigVO" resultClass="SystemConfigVO">
+		SELECT  A.ADMIN_ACCESS_IP				adminAccessIp
+		  FROM  JMY_CONFIG A
+		 LIMIT	1
+	</select>	
+	
+	<insert id="SystemConfigDAO.insertSystemConfig">
+		INSERT 
+		  INTO  JMY_CONFIG
+		     (  ADMIN_ACCESS_IP
+		     )
+		VALUES
+		     (  #adminAccessIp#
+		     )			
+	</insert>
+	
+	<update id="SystemConfigDAO.updateSystemConfig">
+		UPDATE  JMY_CONFIG 
+		   SET  ADMIN_ACCESS_IP = #adminAccessIp#
+	</update>
+	
+</sqlMap>

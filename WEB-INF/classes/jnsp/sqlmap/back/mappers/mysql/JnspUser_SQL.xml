@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspUserMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+
+	<select id="getJnspUserList" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							USER_IDX,
+							PSN_NM,
+							GENDER_TYPE_CD,
+							FRGN_YN,
+							USER_ID,
+							PASSWORD,
+							EMAIL,
+							EMAIL_RECV_YN,
+							ZIPCD,
+							ADDR1,
+							ADDR2,
+							TEL_NO,
+							CP_NO,
+							FAX_NO,
+							DEPT_NM,
+							POSITION_NM,
+							USER_TYPE_CD,
+							BIRTH_DATE,
+							DELETE_YN,
+							ORG_GRP_CD,
+							AUTH_LV,
+							CASE
+									WHEN AUTH_LV ="01" THEN "일반회원"
+									WHEN AUTH_LV ="10" THEN "기업회원"
+						  	 		WHEN AUTH_LV ="70" THEN "기관담당자"
+						  	 		WHEN AUTH_LV ="80" THEN "기관관리자"
+						  	 		WHEN AUTH_LV ="99" THEN "최고관리자"
+						   	ELSE ""
+						   	END AUTH_LV_NAME,
+							REG_DT,
+							REG_IP,
+							REG_IDX,
+							UP_DT,
+							UP_IP,
+							UP_IDX,
+							USER_APP_STATE,
+							REJECT,
+							PRO_STATE
+				FROM
+					TB_USER_COPY
+				WHERE 1 = 1
+				  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+			<if test='userId != null and userId != ""'>
+				<![CDATA[	AND LOWER(USER_ID) = LOWER('#{userId}') ]]>
+			</if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "userNm" and searchWord != ""'>
+					<![CDATA[
+						AND (PSN_NM LIKE '%${psnNm}%'
+						 OR ENG_PSN_NM LIKE '%${engPsnNm}%')
+					]]>
+				</if>
+			</if>
+			<![CDATA[
+			ORDER BY USER_IDX DESC
+			LIMIT #{firstRecord} , #{pageSize}
+			]]>
+	</select>
+
+	<select id="getJnspDeptInfo" parameterType="paramMap" resultType="paramMap" >
+		<!--
+		  SELECT
+					"" AS DEPT_ADDR_DTL,
+					"" AS DEPT_ADDR,
+					"" AS DEPT_NM,
+					"" AS DEPT_ZIP_CODE,
+					B.ZIPCODE AS BLNG_ORG_ZIP_CODE,
+					B.ADDR1 AS BLNG_ORG_ADDR,
+					B.ADDR2 AS BLNG_ORG_ADDR_DTL,
+					B.ORG_GRP_NM AS BLNG_ORG_NM
+
+			FROM	TB_USER_COPY AS A
+	   LEFT JOIN    TB_ORG_GRP AS B ON (A.ORG_GRP_CD = B.ORG_GRP_CD)
+		   WHERE    1 = 1
+			 AND    (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			 AND    A.USER_IDX = #{userIdx}
+		 -->
+	 	<![CDATA[
+	 		SELECT
+					S.ORG_GRP_SUB_CD AS DEPT_CD,
+					A.DEPT_NM AS DEPT_NM,
+					S.ORG_ADDR1 AS DEPT_ADDR,
+					S.ORG_ADDR2 AS DEPT_ADDR_DTL,
+					S.ORG_ZIPCODE AS DEPT_ZIP_CODE,
+					B.ZIPCODE AS BLNG_ORG_ZIP_CODE,
+					B.ADDR1 AS BLNG_ORG_ADDR,
+					B.ADDR2 AS BLNG_ORG_ADDR_DTL,
+					A.ORG_GRP_CD AS BLNG_ORG_CD,
+					B.ORG_GRP_NM AS BLNG_ORG_NM
+
+			FROM	TB_USER_COPY AS A
+	 	LEFT JOIN	TB_ORG_GRP AS B ON (A.ORG_GRP_CD = B.ORG_GRP_CD)
+	 	LEFT JOIN	TB_ORG_GRP_SUB AS S ON (A.DEPT_NM = S.ORG_GRP_SUB_NM)
+		  	WHERE   1 = 1
+		  	  AND   (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		   	  AND   A.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+	<select id="getJnspUserCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_USER_COPY
+		  WHERE 1=1
+			AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			<if test='userId != null and userId != ""'>
+				<![CDATA[	AND LOWER(USER_ID) = LOWER(#{userId}) ]]>
+			</if>
+			<if test='email != null and email != ""'>
+				<![CDATA[	AND EMAIL = #{email} ]]>
+			</if>
+	</select>
+
+	<!-- 일반회원리스트 -->
+	<select id="getUserDataList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					U.USER_IDX,
+					U.PSN_NM,
+					U.GENDER_TYPE_CD,
+					U.USER_TP,
+					U.FRGN_YN,
+					U.USER_ID,
+					U.PASSWORD,
+					U.EMAIL,
+					CASE
+							WHEN EMAIL_CHECK_YN ="N"  THEN "요청중"
+				   	ELSE ""
+				   	END EMAIL_CHECK_YN,
+					U.EMAIL_RECV_YN,
+					U.ZIPCD,
+					U.ADDR1,
+					U.ADDR2,
+					U.TEL_NO,
+					U.CP_NO,
+					U.FAX_NO,
+					U.DEPT_NM,
+					U.POSITION_NM,
+					U.USER_TYPE_CD,
+					U.BIRTH_DATE,
+					U.DELETE_YN,
+					U.ORG_GRP_CD,
+					U.AUTH_LV,
+					CASE
+							WHEN U.AUTH_LV ="01" THEN "일반회원"
+							WHEN U.AUTH_LV ="10" THEN "기업회원"
+				  	 		WHEN U.AUTH_LV ="70" THEN "기관담당자"
+				  	 		WHEN U.AUTH_LV ="80" THEN "기관관리자"
+				  	 		WHEN U.AUTH_LV ="99" THEN "최고관리자"
+				   ELSE ""
+				   END AUTH_LV_NAME,
+					DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+					U.REG_IP,
+					U.REG_IDX,
+					U.UP_DT,
+					U.UP_IP,
+					U.UP_IDX,
+					U.REJECT,
+					U.PRO_STATE,
+					CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+							WHEN U.USER_APP_STATE="20" THEN "승인"
+						   WHEN U.USER_APP_STATE="30" THEN "반려"
+						   ELSE ""
+						   END USER_APP_STATE,
+					O.ORG_GRP_NM,
+					CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+							WHEN O.ORG_TYPE="2" THEN "기관/센터"
+						   ELSE ""
+						   END ORG_TYPE,
+					O.APPLY_CD,
+					O.APPLY_REJECT,
+					O.CI_FILE_SRC,
+					O.AUTH_CD,
+					O.AUTH_ORG_SITE_1,
+					O.AUTH_ORG_SITE_2,
+					O.AUTH_ORG_SITE_3,
+					O.AREA_CD,
+					O.ORNER_NM,
+					O.CORP_NUM_1,
+					O.CORP_NUM_2,
+					O.CORP_PHONE,
+					O.CORP_FAX,
+					O.HOMEPAGE,
+					O.ADDR1 AS ORG_ADDR1,
+					O.ADDR2 AS ORG_ADDR2,
+					O.ZIPCODE,
+					O.MAP_X,
+					O.MAP_Y,
+					O.ORG_NOTE_1,
+					O.ORG_NOTE_2,
+					O.ORG_NOTE_3,
+					O.ORG_NOTE_4,
+					O.ORG_FILE_INFO,
+					O.REG_DT AS ORG_REG_DT,
+					O.REG_IP AS ORG_REG_IP,
+					O.REG_IDX AS ORG_REG_IDX,
+					O.UP_DT AS ORG_UP_IP,
+					O.UP_IP AS ORG_UP_IP,
+					O.UP_IDX AS ORG_UP_IDX,
+					O.SIGN_IMG,
+					O.DELETE_YN
+
+			FROM
+						TB_USER_COPY AS U
+			LEFT JOIN
+						TB_ORG_GRP AS O
+			ON
+						U.ORG_GRP_CD = O.ORG_GRP_CD
+			WHERE
+						 (U.DELETE_YN != 'Y' or U.DELETE_YN IS NULL)
+			AND 	 	 (U.AUTH_LV != '99')
+
+			<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+				<![CDATA[
+					AND U.ORG_GRP_CD = #{listOrgGrpCd}
+					AND ( U.AUTH_LV = '80' OR U.AUTH_LV = '70' )
+				]]>
+			</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "ORG_NAME" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ID" and searchWord != ""'>
+				<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<if test='userType != null and userType != ""'>
+			<if test='userType == "01"'>
+				<![CDATA[	AND U.AUTH_LV = '01' ]]>
+			</if>
+			<if test='userType == "10"'>
+				<![CDATA[	AND U.AUTH_LV = '10' ]]>
+			</if>
+			<if test='userType == "70"'>
+				<![CDATA[	AND U.AUTH_LV = '70' ]]>
+			</if>
+			<if test='userType == "80"'>
+				<![CDATA[	AND U.AUTH_LV = '80' ]]>
+			</if>
+			<if test='userType == "99"'>
+				<![CDATA[	AND U.AUTH_LV = '99']]>
+			</if>
+		</if>
+		<if test='userAppState != null and userAppState != "" and userAppState != "1"'>
+			  AND U.USER_APP_STATE = #{userAppState}
+		</if>
+		<![CDATA[
+			ORDER BY U.REG_DT DESC
+		]]>
+		<if test='pageSize != "0"'>
+			LIMIT ${firstRecord} , ${pageSize}
+		</if>
+	</select>
+
+	<!-- 일반회원 카운트 -->
+	<select id="getUserDataCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					TB_USER_COPY AS U
+		LEFT JOIN
+					TB_ORG_GRP AS O
+		ON
+					U.ORG_GRP_CD = O.ORG_GRP_CD
+	 	WHERE
+			(U.DELETE_YN != 'Y' or U.DELETE_YN IS NULL)
+			AND (U.AUTH_LV != '99')
+		<if test='listOrgGrpCd != null and listOrgGrpCd != ""'>
+			<![CDATA[
+				AND U.ORG_GRP_CD = #{listOrgGrpCd}
+				AND ( U.AUTH_LV = '80' OR U.AUTH_LV = '70' )
+			]]>
+		</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "ORG_NAME" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ID" and searchWord != ""'>
+				<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "NAME" and searchWord != ""'>
+				<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+		<if test='userType != null and userType != ""'>
+			<if test='userType == "01"'>
+				<![CDATA[	AND U.AUTH_LV = '01' ]]>
+			</if>
+			<if test='userType == "10"'>
+				<![CDATA[	AND U.AUTH_LV = '10' ]]>
+			</if>
+			<if test='userType == "70"'>
+				<![CDATA[	AND U.AUTH_LV = '70' ]]>
+			</if>
+			<if test='userType == "80"'>
+				<![CDATA[	AND U.AUTH_LV = '80' ]]>
+			</if>
+			<if test='userType == "99"'>
+				<![CDATA[	AND U.AUTH_LV = '99']]>
+			</if>
+		</if>
+		<if test='userAppState != null and userAppState != "" and userAppState != "1"'>
+			  AND U.USER_APP_STATE = #{userAppState}
+		</if>
+
+	</select>
+
+	<!-- 일반특정회원 정보 -->
+	<select id="getUserJnsp" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					U.USER_IDX,
+					U.PSN_NM,
+					CASE 	WHEN U.GENDER_TYPE_CD="M" THEN "남자"
+							WHEN U.GENDER_TYPE_CD="F" THEN "여자"
+						   ELSE ""
+						   END GENDER_TYPE_CD,
+					U.FRGN_YN,
+					U.USER_ID,
+					U.PASSWORD,
+					U.EMAIL,
+					U.EMAIL_RECV_YN,
+					U.EMAIL_CHECK_YN,
+					U.ZIPCD,
+					U.ADDR1,
+					U.ADDR2,
+					U.TEL_NO,
+					U.CP_NO,
+					U.FAX_NO,
+					U.DEPT_NM,
+					U.POSITION_NM,
+					U.USER_TP,
+					U.USER_TYPE_CD,
+					U.BIRTH_DATE,
+					U.DELETE_YN,
+					U.ORG_GRP_CD,
+					U.AUTH_LV,
+					CASE
+							WHEN U.AUTH_LV ="01" THEN "일반회원"
+							WHEN U.AUTH_LV ="10" THEN "기업회원"
+				  	 		WHEN U.AUTH_LV ="70" THEN "기관담당자"
+				  	 		WHEN U.AUTH_LV ="80" THEN "기관관리자"
+				  	 		WHEN U.AUTH_LV ="99" THEN "최고관리자"
+				   ELSE ""
+				   END AUTH_LV_NAME,
+					DATE_FORMAT(U.REG_DT, '%y-%m-%d') AS REG_DT,
+					U.REG_IP,
+					U.REG_IDX,
+					U.UP_DT,
+					U.UP_IP,
+					U.UP_IDX,
+					U.REJECT,
+					U.PRO_JIPBANK,
+					U.PRO_JEINET,
+					U.PRO_JNTIS_RND,
+					U.PRO_JNTIS_COMPANY,
+					U.PRO_JNTIS_EDUCATION,
+					U.PRO_JNTIS_ETC,
+					U.PRO_USER_FORG,
+					U.PRO_USER_BIRTHPLACE,
+					CASE 	WHEN U.PRO_STATE="10" THEN "요청"
+							WHEN U.PRO_STATE="20" THEN "승인"
+							WHEN U.PRO_STATE="30" THEN "반려"
+						   ELSE ""
+						   END PRO_STATE,
+					CASE 	WHEN U.USER_APP_STATE="10" THEN "요청"
+							WHEN U.USER_APP_STATE="20" THEN "승인"
+							WHEN U.USER_APP_STATE="30" THEN "반려"
+						   ELSE ""
+						   END USER_APP_STATE,
+					O.ORG_GRP_NM,
+					CASE 	WHEN O.ORG_TYPE="1" THEN "기업"
+							WHEN O.ORG_TYPE="2" THEN "기관/센터"
+						   ELSE ""
+						   END ORG_TYPE,
+					O.APPLY_CD,
+					O.APPLY_REJECT,
+					O.CI_FILE_SRC,
+					O.AUTH_CD,
+					O.AUTH_ORG_SITE_1,
+					O.AUTH_ORG_SITE_2,
+					O.AUTH_ORG_SITE_3,
+					O.AREA_CD,
+					O.ORNER_NM,
+					O.CORP_NUM_1,
+					O.CORP_NUM_2,
+					O.CORP_PHONE,
+					O.CORP_FAX,
+					O.HOMEPAGE,
+					O.ADDR1 AS ORG_ADDR1,
+					O.ADDR2 AS ORG_ADDR2,
+					O.ZIPCODE,
+					O.MAP_X,
+					O.MAP_Y,
+					O.ORG_NOTE_1,
+					O.ORG_NOTE_2,
+					O.ORG_NOTE_3,
+					O.ORG_NOTE_4,
+					O.ORG_FILE_INFO,
+					O.REG_DT AS ORG_REG_DT,
+					O.REG_IP AS ORG_REG_IP,
+					O.REG_IDX AS ORG_REG_IDX,
+					O.UP_DT AS ORG_UP_IP,
+					O.UP_IP AS ORG_UP_IP,
+					O.UP_IDX AS ORG_UP_IDX,
+					O.SIGN_IMG,
+					O.DELETE_YN
+			FROM
+						TB_USER_COPY AS U
+			LEFT JOIN
+						TB_ORG_GRP AS O
+			ON
+						U.ORG_GRP_CD = O.ORG_GRP_CD
+			WHERE
+						U.USER_IDX = #{userIdx}
+			AND
+						 (U.DELETE_YN != 'Y' or U.DELETE_YN IS NULL)
+	</select>
+
+	<!-- 일반회원 수정(가입승인여부PMS) -->
+	<update id="setAcceptUser" parameterType="paramMap" >
+
+		UPDATE
+				TB_USER_COPY
+		SET
+			 	USER_APP_STATE = #{userAppState}
+		WHERE
+			 	USER_IDX = #{userIdx}
+		AND
+			 	DELETE_YN != 'Y'
+	</update>
+
+	<!-- 반려사유 -->
+	<update id="setAcceptNo" parameterType="paramMap">
+
+		UPDATE
+				TB_USER_COPY
+		SET
+				ACCEPT_NO= #{acceptNo}
+		WHERE
+				USER_IDX = #{userIdx}
+
+	</update>
+	<!-- 회원삭제 -->
+	<update id="delUserList" parameterType="paramMap" >
+		UPDATE
+				TB_USER_COPY
+		SET
+				DELETE_YN ='Y'
+		WHERE
+				USER_IDX = #{userIdx}
+
+	</update>
+
+
+	<!-- 패스워드 초기화 -->
+	<update id="setUserReset" parameterType="paramMap" >
+		UPDATE
+				TB_USER_COPY
+		SET
+				PASSWORD = #{password}
+		WHERE
+				USER_IDX = #{userIdx}
+
+	</update>
+
+	<!-- 회원가입 -->
+	<insert id="setJnspUserInsert" parameterType="paramMap">
+		INSERT INTO TB_USER_COPY
+			(
+					PSN_NM ,
+					GENDER_TYPE_CD ,
+					FRGN_YN ,
+					USER_ID ,
+					PASSWORD ,
+					EMAIL ,
+					ZIPCD ,
+					ADDR1 ,
+					ADDR2 ,
+					TEL_NO ,
+					CP_NO ,
+					FAX_NO ,
+					DEPT_NM ,
+					POSITION_NM ,
+					EMAIL_CHECK_YN ,
+					BIRTH_DATE ,
+					ORG_GRP_CD ,
+					AUTH_LV ,
+					REG_DT ,
+					REG_IP ,
+					REG_IDX ,
+					UP_DT ,
+					UP_IP ,
+					UP_IDX ,
+					USER_TP ,
+					REJECT ,
+					USER_APP_STATE
+
+			)
+			VALUES(
+						#{psnNm}
+				,		#{genderTypeCd}
+				,		#{frgnYn}
+				,		LOWER(#{userId})
+				,		#{password}
+				,		#{email}
+				,		#{zipcd}
+				,		#{addr1}
+				,		#{addr2}
+				,		#{telNo}
+				,		#{cpNo}
+				,		#{faxNo}
+				,		#{deptNm}
+				,		#{positionNm}
+				,		'Y'
+				,		#{birthDate}
+				,		#{orgGrpCd}
+				,		#{authLv}
+				,		now()
+				,		#{regIp}
+				,		#{regIdx}
+				,		#{upDt}
+				,		#{upIp}
+				,		#{upIdx}
+				,		#{userTp}
+				,		#{reject}
+				<choose>
+					<when test="userTp == 1">
+						,		''
+					</when>
+					<otherwise>
+						,		#{userAppState}
+					</otherwise>
+				</choose>
+			)
+	</insert>
+
+
+	<!-- 회원정보수정 -->
+	<update id="setJnspUserUpdate" parameterType="paramMap" >
+
+		UPDATE TB_USER_COPY SET
+
+			PSN_NM = #{psnNm}
+			,GENDER_TYPE_CD = #{genderTypeCd}
+			,FRGN_YN = #{frgnYn}
+			,EMAIL=	#{email}
+			,ZIPCD = #{zipcd}
+			,ADDR1 = #{addr1}
+			,ADDR2 = #{addr2}
+			,TEL_NO = #{telNo}
+			,CP_NO = #{cpNo}
+			,FAX_NO = #{faxNo}
+			,DEPT_NM = #{deptNm}
+			,POSITION_NM =	#{positionNm}
+			,BIRTH_DATE	= #{birthDate}
+			,ORG_GRP_CD =	#{orgGrpCd}
+			<if test='authLv != null and authLv != ""'>
+				,AUTH_LV = #{authLv}
+			</if>
+			<if test='userTp != null and userTp != ""'>
+			,USER_TP = #{userTp}
+			</if>
+			<if test=' userAppState == "20" '>
+				,EMAIL_CHECK_YN = 'Y'
+			</if>
+			,UP_DT = now()
+			,UP_IP = #{regIp}
+			,UP_IDX = #{regIdx}
+			,USER_APP_STATE = #{userAppState}
+
+		WHERE
+			 USER_IDX = #{userIdx}
+
+	</update>
+	<!-- 기업 정보 -->
+	<select id="getComGrpList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						O.ORG_GRP_CD,
+						O.ORG_GRP_NM,
+						O.USER_IDX,
+						O.ORG_TYPE,
+						O.APPLY_CD,
+						O.APPLY_REJECT,
+						O.CI_FILE_SRC,
+						O.AUTH_CD,
+						O.AUTH_ORG_SITE_1,
+						O.AUTH_ORG_SITE_2,
+						O.AUTH_ORG_SITE_3 ,
+						O.AREA_CD ,
+						O.ORNER_NM ,
+						O.CORP_NUM_1 ,
+						O.CORP_NUM_2 ,
+						O.CORP_PHONE ,
+						O.CORP_FAX ,
+						O.HOMEPAGE,
+						O.ADDR1 ,
+						O.ADDR2 ,
+						O.ZIPCODE ,
+						O.MAP_X ,
+						O.MAP_Y ,
+						O.ORG_NOTE_1 ,
+						O.ORG_NOTE_2 ,
+						O.ORG_NOTE_3 ,
+						O.ORG_NOTE_4 ,
+						O.ORG_FILE_INFO ,
+						O.REG_DT ,
+						O.REG_IP ,
+						O.REG_IDX ,
+						O.UP_DT ,
+						O.UP_IP ,
+						O.UP_IDX ,
+						O.SIGN_IMG
+
+			FROM
+						TB_ORG_GRP AS O
+			WHERE
+					O.ORG_TYPE = '1'
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "ORG_NAME" and searchWord != ""'>
+					<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+			ORDER BY O.ORG_GRP_NM DESC
+			<if test='firstRecord != null and firstRecord != ""'>
+
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+			</if>
+	</select>
+	<!-- 기업정보 카운트 -->
+	<select id="getComGrpListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+						TB_ORG_GRP AS O
+		WHERE
+					O.ORG_TYPE = '1'
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "ORG_NAME" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+	<!-- 기관 정보 -->
+	<select id="getOprGrpList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						O.ORG_GRP_CD,
+						O.ORG_GRP_NM,
+						O.USER_IDX,
+						O.ORG_TYPE,
+						O.APPLY_CD,
+						O.APPLY_REJECT,
+						O.CI_FILE_SRC,
+						O.AUTH_CD,
+						O.AUTH_ORG_SITE_1,
+						O.AUTH_ORG_SITE_2,
+						O.AUTH_ORG_SITE_3 ,
+						O.AREA_CD ,
+						O.ORNER_NM ,
+						O.CORP_NUM_1 ,
+						O.CORP_NUM_2 ,
+						O.CORP_PHONE ,
+						O.CORP_FAX ,
+						O.HOMEPAGE,
+						O.ADDR1 ,
+						O.ADDR2 ,
+						O.ZIPCODE ,
+						O.MAP_X ,
+						O.MAP_Y ,
+						O.ORG_NOTE_1 ,
+						O.ORG_NOTE_2 ,
+						O.ORG_NOTE_3 ,
+						O.ORG_NOTE_4 ,
+						O.ORG_FILE_INFO ,
+						O.REG_DT ,
+						O.REG_IP ,
+						O.REG_IDX ,
+						O.UP_DT ,
+						O.UP_IP ,
+						O.UP_IDX ,
+						O.SIGN_IMG
+
+			FROM
+						TB_ORG_GRP AS O
+			WHERE 1 = 1
+			AND (O.DELETE_YN != 'Y' or O.DELETE_YN IS NULL)
+			<if test = 'userTp == "2"' >
+				AND O.ORG_TYPE = '2'
+			</if>
+			<if test = 'userTp == "1"' >
+				AND O.ORG_TYPE = '1'
+			</if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "ORG_NAME" and searchWord != ""'>
+					<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+			<![CDATA[
+			ORDER BY O.ORG_GRP_NM DESC
+
+		]]>
+			<if test='firstRecord != null and firstRecord != ""'>
+			<![CDATA[
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+			</if>
+	</select>
+	<!-- 기관정보 카운트 -->
+	<select id="getOprGrpListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+						TB_ORG_GRP AS O
+		WHERE 1 = 1
+		AND (O.DELETE_YN != 'Y' or O.DELETE_YN IS NULL)
+		<if test = 'userTp == "2"' >
+			AND O.ORG_TYPE = '2'
+		</if>
+		<if test = 'userTp == "1"'>
+			AND O.ORG_TYPE = '1'
+		</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "ORG_NAME" and searchWord != ""'>
+				<![CDATA[	AND O.ORG_GRP_NM LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+	<!-- 기관부서 정보 -->
+	<select id="getOprGrpSubList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					OS.ORG_GRP_SUB_CD,
+					OS.ORG_GRP_SUB_NM,
+					OS.ORG_ZIPCODE,
+					OS.ORG_ADDR1,
+					OS.ORG_ADDR2,
+					OS.ORG_PHONE,
+					OS.ORG_FAX
+			FROM
+					TB_ORG_GRP_SUB AS OS
+			WHERE
+					OS.ORG_GRP_CD = #{orgGrpCd}
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "SUB_NAME" and searchWord != ""'>
+					<![CDATA[	AND OS.ORG_GRP_SUB_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+			ORDER BY OS.ORG_GRP_SUB_NM DESC
+
+			<if test='firstRecord != null and firstRecord != ""'>
+				LIMIT ${firstRecord} , ${pageSize}
+			</if>
+	</select>
+	<!-- 기관부서 정보 카운트 -->
+	<select id="getOprGrpSubListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_ORG_GRP_SUB AS OS
+		WHERE
+				OS.ORG_GRP_CD = #{orgGrpCd}
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "SUB_NAME" and searchWord != ""'>
+					<![CDATA[	AND OS.ORG_GRP_SUB_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+	</select>
+	<!-- 기관 정보 -->
+	<select id="getOprGrp" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						O.ORG_GRP_CD,
+						O.ORG_GRP_NM,
+						O.USER_IDX,
+						O.ORG_TYPE,
+						O.APPLY_CD,
+						O.APPLY_REJECT,
+						O.CI_FILE_SRC,
+						O.AUTH_CD,
+						O.AUTH_ORG_SITE_1,
+						O.AUTH_ORG_SITE_2,
+						O.AUTH_ORG_SITE_3 ,
+						O.AREA_CD ,
+						O.ORNER_NM ,
+						O.CORP_NUM_1 ,
+						O.CORP_NUM_2 ,
+						O.CORP_PHONE ,
+						O.CORP_FAX ,
+						O.HOMEPAGE,
+						O.ADDR1 ,
+						O.ADDR2 ,
+						O.ZIPCODE ,
+						O.MAP_X ,
+						O.MAP_Y ,
+						O.ORG_NOTE_1 ,
+						O.ORG_NOTE_2 ,
+						O.ORG_NOTE_3 ,
+						O.ORG_NOTE_4 ,
+						O.ORG_FILE_INFO ,
+						O.REG_DT ,
+						O.REG_IP ,
+						O.REG_IDX ,
+						O.UP_DT ,
+						O.UP_IP ,
+						O.UP_IDX ,
+						O.SIGN_IMG
+
+			FROM
+						TB_ORG_GRP AS O
+
+			WHERE
+						O.ORG_GRP_CD = #{orgGrpCd}
+	</select>
+	<!-- 회원가입 승인, 반려 -->
+	<update id="userDataUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE
+					TB_USER_COPY
+			SET
+					USER_APP_STATE = #{mode},
+			 		REJECT = #{reject}
+			 		]]>
+			 <if test='mode == 20 and userTp3 == 3 '>
+				<![CDATA[	,AUTH_LV = '70' ]]>
+			</if>
+			 <if test='mode == 20 and userTp3 == 2 '>
+				<![CDATA[	,AUTH_LV = '10' ]]>
+			</if>
+			 <if test='mode == 20 and userTp3 == 1 '>
+				<![CDATA[	,AUTH_LV = '01' ]]>
+			</if>
+			 <if test='mode == 20'>
+				<![CDATA[ ,EMAIL_CHECK_YN = 'Y' ]]>
+			</if>
+		<![CDATA[
+			WHERE
+					USER_IDX = #{userIdx}
+		]]>
+	</update>
+	<!-- 담당 장비목록 가져오기 -->
+	<select  id="getUserEquList" parameterType="paramMap" resultType="paramMap" >
+		SELECT
+					E.RND_EQU_IDX,
+					E.EQUIP_CD,
+					E.FIXED_ASET_NO,
+					E.KOR_NM,
+					E.ENG_NM
+
+		FROM
+					TB_EQU_INFO AS E
+		WHERE
+					E.EQU_USER_IDX = #{userIdx}
+	</select>
+	<!-- 담당 장비목록 가져오기 카운트 -->
+	<select id="getUserEquListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					TB_EQU_INFO AS E
+		WHERE
+					E.EQU_USER_IDX = #{userIdx}
+	</select>
+
+</mapper>

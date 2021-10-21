@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+body,div,dl,dt,dd,ul,ol,li,menu,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {margin:0;padding:0}
+fieldset,img {border:0 none}
+dl,ul,ol,menu,li {list-style:none}
+blockquote, q {quotes: none}
+blockquote:before, blockquote:after,q:before, q:after {content:'';content:none}
+input,select,textarea,button {vertical-align:middle;font-size:12px}
+button {border:0 none;background-color:transparent;cursor:pointer}
+body,th,td,input,select,textarea,button {line-height:1.5;font-family:dotum,sans-serif;color:#333; letter-spacing:-1px;} 
+a {color:#333;text-decoration:none;cursor:pointer}
+a:active, a:hover {text-decoration:none}
+address,caption,cite,code,dfn,em,var {font-style:normal;font-weight:normal}
+body {background-color:#fff;font-size:12px;}
+table{border-spacing:0; border-collapse:collapse;}
+label {cursor: pointer;}
+
+#wrap{}
+#header{width:560px; margin:50px auto 0 auto; padding-bottom:15px; border-bottom:2px solid #3d3d3d;}
+#header h1{}
+#container{width:560px; margin:0 auto; padding:50px 0; text-align:center;}
+#container h2{font-size:15px;}
+#container p{margin:15px 0 0 0;}
+#container .newline{display:block;}
+#container .title403{padding:80px 0 0 0; background:url('/core/images/error/title_403.gif') center 0 no-repeat;}
+#container .title404{padding:80px 0 0 0; background:url('/core/images/error/title_404.gif') center 0 no-repeat;}
+#container .title500{padding:80px 0 0 0; background:url('/core/images/error/title_500.gif') center 0 no-repeat;}
+#footer{width:560px; margin:0 auto; padding:20px; border-top:1px solid #e0e0e0; text-align:center; font-family:tahoma; font-size:9px; letter-spacing:1px;}

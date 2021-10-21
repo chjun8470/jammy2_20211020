@@ -1,0 +1,166 @@
+@charset "utf-8";
+
+span.necessary { color:#0064ff; padding-right:5px }
+span.example { float:left; font-size:14px; color:#969696; margin:20px 0 0 12px }
+span.whelk { float:left; font-size:14px; color:#464646; margin:20px 7px 0 7px }
+span.pop_whelk { float:left; font-size:14px; color:#464646; margin:10px 7px 0 7px }
+
+.btnBox1 { width: 100%; max-width: 800px; float:left; margin-top:30px; text-align:center }
+.btnBox1 .btn_g-pin { width:180px; height:34px; background-color:#3b88b7; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; margin-right:10px; 
+                      font-family:'Montserrat','Noto Sans KR', dotum !important }
+.btnBox1 .btn_phone { width:180px; height:34px; background-color:#3b88b7; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; 
+                      font-family:'Montserrat','Noto Sans KR', dotum !important }
+.btnBox1 .btn_signUp { width:200px; height:46px; background:#4d75b2; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; font-family:'Montserrat','Noto Sans KR', dotum !important }
+
+.btn_overlap { width:79px; height:30px; float:left; font-size:14px; letter-spacing:-0.03em; color:#fff; margin:12px 0 0 5px; padding:0; border:none; background-color:#3b88b7;
+               font-family:'Montserrat','Noto Sans KR', dotum !important }
+.btn_address { width:79px; height:30px; float:left; font-size:14px; letter-spacing:-0.03em; color:#fff; margin:12px 0 0 5px; padding:0; border:none; background-color:#3b88b7;
+               font-family:'Montserrat','Noto Sans KR', dotum !important }			   
+
+
+@media screen and (-webkit-min-device-pixel-ratio:0){
+/*
+.popWrap { width:769px }
+.agreeWrap .join_order { width:755px }
+.agreeWrap .join_order img { width:755px }
+.agreeWrap { width:769px }
+.agreeWrap .agreeBox1 { width:755px }
+.agreeWrap .agreeBox1 .agreement .info_agree { width:733px }
+.agreeWrap .agreeBox2 { width:755px }
+*/
+}
+
+
+/* 팝업창 */
+
+.MyPageWrap { /*padding:10px;*/ margin-bottom: 20px; }
+.MyPageWrap_login { width:100%;height:100%; background: url(/img/mobile/login/login_back.jpg) top center no-repeat;display:inline-block;}
+
+.popWrap { width:90%; max-width: 500px; /*background:url(/img/login/bg_loginWrap.png) no-repeat;*/ font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important;box-sizing:border-box; background:#fff; border: 1px solid #eee;
+ margin:110px auto 0;overflow: hidden; padding: 30px;
+}
+
+.popWrap .header_login { width:0px; height:0px; font-size: 0; overflow:hidden; display:inline-block; text-indent:-9999px; display: none; }
+
+.popWrap .tit_login { width:100%; margin:0 auto; text-align:center; /*border-bottom:1px solid #00baff*/ }
+.popWrap .tit_login h2 { position: relative; font-size: 28px; }
+.popWrap .tit_login h2:after { display: block; content: ""; width: 40px; height: 4px; background: #00baff; margin: 5px auto; }
+.popWrap .tit_login p { color: #aeaeae; word-break: keep-all; }
+
+.popWrap .re_input { font-size:12px; color:#f00; margin:0 auto; /*margin-top:20px;*/ text-align:center; }
+.popWrap .inputBox { width: 100%; max-width:373px; margin:0 auto; margin-top:32px }
+.popWrap .inputBox .txt_pop1 { width:80px; height:32px; float:left; text-align:center; font-size:18px; color:#464646; padding-top:10px; font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important}
+.popWrap .inputBox .txt_pop2 { width:80px; height:32px; float:left; text-align:center; font-size:18px; color:#464646; padding-top:10px; margin-top:10px; 
+                               font-family:'Montserrat','Noto Sans KR', dotum !important; clear:both}
+.popWrap .inputBox .input_pop1 { width: 100%; padding: 5px 10px; float:left; border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; line-height:35px; box-sizing: border-box;}
+.popWrap .inputBox .input_pop2 { width: 100%; padding: 5px 10px; float:left; border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; margin-top:10px; box-sizing: border-box;
+                                 line-height:35px }
+.popWrap .inputBox .input_pop3 { width:100%; padding: 5px 10px; float:left; border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; line-height:35px; box-sizing: border-box; }
+.popWrap .inputBox .input_pop4 { width:100%;padding: 5px 10px; /*float:left;*/ border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; line-height:35px; box-sizing: border-box; }
+.popWrap .inputBox .input_pop402 { width:100%; padding: 5px 10px; /*float:left;*/ border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; margin-top:10px; box-sizing: border-box;
+                                   line-height:35px }
+.popWrap .inputBox .input_pop5 { width:100%; padding: 5px 10px; /*float:left;*/ border:1px solid #ddd; background-color:#fff; font-size:14px; font-weight:400; color:#464646; margin-top:10px;
+                                 line-height:35px }
+.popWrap .inputBox .btn_pop1 { width:100%; padding:10px; float:none; text-align:center; font-size:14px; font-weight:600; color:#fff; border:none; background-color:#23539c; margin-top: 15px;
+                               font-family:'Montserrat','Noto Sans KR', dotum !important }
+							   
+.popWrap .noticeBox { width:373px; height:88px; margin:0 auto; margin-top:32px }
+.popWrap .noticeBox .notice_pop1 { font-size:26px; letter-spacing:-0.05em; line-height:37px; color:#20c0a6; text-align:center; }						   
+							   
+.popWrap .pop_btnBox { width: 100%; max-width:300px; margin:15px auto 0; text-align:center; }	 
+.popWrap .pop_btnBox .btn_pop2 { width:76px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 80px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.popWrap .pop_btnBox .btn_pop3 { width:90px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 22px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.popWrap .pop_btnBox .btn_pop4 { width:100px; height:23px; float:left; font-size:12px; letter-spacing:-0.05em; color:#464646; margin:11px 0 0 5px; background-color:#f7f7f7; border:1px solid #e7e7e7; 
+                                   text-align:center; padding:0; vertical-align:middle; line-height:24px }
+.popWrap .pop_btnBox .btn_pop5 { width:100px; height:34px; text-align:center; font-size:14px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 55px; border:none; background-color:#23539c;
+                                 font-family:'Montserrat','Noto Sans KR', dotum !important }
+.popWrap .pop_btnBox .btn_pop6 { width:100px; height:34px; text-align:center; font-size:14px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 10px; border:none; background-color:#23539c;
+                                 font-family:'Montserrat','Noto Sans KR', dotum !important }
+.popWrap .pop_btnBox .btn_pop7 { width:100px; height:34px; text-align:center; font-size:14px; font-weight:600; color:#fff; padding:0; margin:20px 0 0 118px; border:none; background-color:#23539c;
+                                 font-family:'Montserrat','Noto Sans KR', dotum !important }								 								 						   
+.popWrap .pop_btnBox .joinlogin {text-align: center;}
+.popWrap .pop_btnBox .joinlogin li { display: inline-block; margin-top:20px; border-left: 1px solid #000; padding: 0 5px;}
+.popWrap .pop_btnBox .joinlogin li:first-child { border: 0; }
+
+/* 약관 및 동의서 */
+.agreeWrap { width:100%; max-width: 800px; height:auto; padding-top:30px; padding-bottom:30px; font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important; display: inline-block; }
+.agreeWrap .join_order { width:100%; max-width:800px; height:54px; margin:0 auto }
+.agreeWrap .join_order .join_step { font-size:18px; color: #fff; text-align: center; background: #0c88c8; padding: 8px 0;}
+.agreeWrap .join_order img { width:100%; max-width:800px; }
+.agreeWrap .agreeBox1 { background-color:#fff; width:100%; max-width:800px; float:left; margin:30px 0 0 0px; padding: 20px; border: 1px solid #ddd; box-sizing:border-box; }
+
+.agreeWrap .agreeBox1 h4.tit_agree { float:left; font-size:20px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.agreeWrap .agreeBox1 .tit_agree { float:left; font-size:20px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+
+.agreeWrap .agreeBox1 .check_agree { float:right }
+.agreeWrap .agreeBox1 .check_agree label { font-size:15px; font-weight:600; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox1 .agreement { width:100%; float:left; border:1px solid #e1e1e1; margin-top:20px }
+.agreeWrap .agreeBox1 .agreement .Box1 { height:41px; background-color:#f0f0f0; border-bottom:1px solid #e1e1e1 }
+
+.agreeWrap .agreeBox1 .agreement .Box1 h5.tit_agree2 { float:left; font-size:16px; font-weight:400; letter-spacing:-0.03em; color:#464646; padding:12px 0 0 15px }
+.agreeWrap .agreeBox1 .agreement .Box1 .tit_agree2 { float:left; font-size:16px; font-weight:400; letter-spacing:-0.03em; color:#464646; padding:12px 0 0 15px }
+
+.agreeWrap .agreeBox1 .agreement .Box1 .check_agree2 { width:173px; height:29px; float:right; padding:13px 0 0 25px; border-left:1px solid #e1e1e1 }
+.agreeWrap .agreeBox1 .agreement .Box1 .check_agree2 label { font-size:13px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox1 .agreement .info_agree {width:100%; max-width:780px; float:left; box-sizing: border-box; padding:28px 22px; font-size:12px; letter-spacing:-0.03em; color:#646464; border:none; background-color:#fff }
+
+
+.agreeWrap .agreeBox2 { width:100%; max-width:800px; float:left; margin:30px 0 0 0px }
+
+.agreeWrap .agreeBox2 h4.tit_agree2 { float:left; font-size:20px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.agreeWrap .agreeBox2 .tit_agree2 { float:left; font-size:20px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+
+.agreeWrap .agreeBox2 .memberKindWrap { width:100%; height:106px; float:left; margin-top:15px; border-top:1px solid #3b88b7; border-bottom:1px solid #e1e1e1 }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind { width:100%; height:36px; float:left; background-color:#f0f0f0; text-align: center; }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice { width:100px; height:29px; display: inline-block; padding-top:8px; }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 { width:100px; height:29px;display: inline-block; padding-top:8px; }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 { width:100px; height:29px; display: inline-block; padding-top:8px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry { width:100%; float:left; text-align: center; }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice4 { width:75px; height:27px; display: inline-block; padding-top:12px;}
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice4 label { font-size:14px; letter-spacing:-0.03em; color:#646464; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice5 { width:75px; height:27px; display: inline-block; padding-top:12px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice5 label { font-size:14px; letter-spacing:-0.03em; color:#646464; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .reference { width:100%; float:left; font-size:14px; letter-spacing:-0.03em; color:#7396ab; text-align:center; color:#7396ab }
+
+
+/* 회원정보 입력 */
+.infoWrap { width:800px; height:746px; background-color:#fafafa; padding-top:30px; font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important }
+.infoWrap .join_order { width:770px; height:54px; margin:0 auto }
+.infoWrap .infoBox1 { width:770px; float:left; margin:30px 0 0 15px }
+.infoWrap .infoBox1 .tit_agree { float:left; font-size:24px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.infoWrap .infoBox1 dl.info_form { width:100%; float:left; margin:20px 0 0 0; border-top:1px solid #3b88b7; }
+.infoWrap .infoBox1 dl.info_form dt { width:178px; height:34px; float:left; font-size:16px; letter-spacing:-0.05em; color:#464646; padding:19px 0 0 17px; border-right:1px solid #e1e1e1; 
+                                      border-bottom:1px solid #e1e1e1; background-color:#f0f0f0 }
+.infoWrap .infoBox1 dl.info_form dt.address { height:118px }
+.infoWrap .infoBox1 dl.info_form dd  { width:559px; height:53px; float:left; padding:0 0 0 15px; border-bottom:1px solid #e1e1e1; background:none }
+.infoWrap .infoBox1 dl.info_form dd.address { height:137px }
+.infoWrap .infoBox1 dl.info_form dd.load { width:547px; height:33px; font-size:14px; color:#5e5e5e; padding:20px 0 0 12px }
+.infoWrap .infoBox1 dl.info_form dd .input_check1 { width:65px; margin-top:20px; float:left }
+.infoWrap .infoBox1 dl.info_form dd .input_check1 input.check1 { width:17px; height:17px; float:left; margin-right:7px }
+.infoWrap .infoBox1 dl.info_form dd .select_1 { width:187px; height:28px; float:left; margin:12px 0 0 15px; border:1px solid #e1e1e1 }
+.infoWrap .infoBox1 dl.info_form dd .select_2 { width:187px; height:28px; float:left; margin:12px 0 0 0; border:1px solid #e1e1e1 }
+.infoWrap .infoBox1 dl.info_form dd input.input1 { width:180px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important }
+.infoWrap .infoBox1 dl.info_form dd input.input2 { width:100px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important }
+.infoWrap .infoBox1 dl.info_form dd input.input3 { width:545px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum !important }												   												   
+												   
+/*회원가입환영*/
+
+.hello_jeinet { width:100%; border:1px solid #ddd; text-align:center; }
+.hello_jeinet .hello_img { display:block; margin:0 auto; }
+.hello_jeinet h1 { font-size:25px; }
+.hello_jeinet p { font-size:16px; margin-bottom:8px }
+												   
+.hide { width:0px; height:0px; overflow:hidden; display:inline-block; text-indent:-9999px }
+
+@media screen and (max-width:340px) { 
+
+    .popWrap { padding: 13px; }
+}

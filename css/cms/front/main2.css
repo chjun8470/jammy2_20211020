@@ -1,0 +1,229 @@
+/* CSS Document */
+.header {background:url(/imgs/main/bg_main.jpg)  no-repeat center 0px; width:100%; height:525px;  }
+div.contents {width:912px; margin:0 auto; height:387px;}
+div.contents_btn {width:911px;}
+div.login_box {width:578px; float:left; margin-top:10px;}
+div.cont_left {float:right;}
+div.img {display:block; margin:0 auto; padding-top:116px; text-align: center; padding-right:412px;}
+
+.login_logo {margin:0 0 25px 0;}
+
+.LoginInputBox {float:left; padding:0 16px 0 0;}
+
+.IdBox {width:332px;}
+.PwBox {width:332px;}
+
+.IdBox .Id {float:left;width:72px;text-align:right;padding-right:10px;font-weight:600;line-height:36px;font-size:18px}
+.InputIdBox .input-id {width:248px;height:36px;margin-bottom:15px}
+.PwBox .Pw {float:left;width:72px;text-align:right;padding-right:10px;font-weight:600;line-height:36px;font-size:18px}
+.InputPwBox .input-pw {width:248px;height:36px;margin-bottom:15px}
+
+.LoginBtnBox {float:left;}
+.LoginBtnBox_1 {float:left; margin:0 0 0 6px;}
+
+.LogintextBox {width:426px; float:left; padding-left:94px; margin-top:6px; margin-bottom:6px;}
+
+
+.Logintext_1 {}
+.Logintext_1 ul {}
+.Logintext_1 li {float:left; padding:8px;}
+
+/* MainVisual */
+
+.MainCont01{}
+.MainCont01 .VisualWrap{width:100%}
+.MainCont01 .VisualWrap .VisualCont{width:1200px;margin:0 auto}
+.MainCont01 .VisualWrap .VisualCont ul.VisualBtn01{width:1200px;position:absolute;top:304px}
+.MainCont01 .VisualWrap .VisualCont ul.VisualBtn01 li.PrevBtn{float:left}
+.MainCont01 .VisualWrap .VisualCont ul.VisualBtn01 li.NextBtn{float:right;right:0}
+.MainCont01 .VisualWrap .VisualCont ul.VisualBtn01 li a{}
+.MainCont01 .VisualWrap .VisualCont p.VisualTxt{float:left;padding:33px 0 0 87px}
+.MainCont01 .VisualWrap .VisualCont p.VisualTxt span.VTxt01{padding-right:20px;display:block}
+.MainCont01 .VisualWrap .VisualCont p.VisualTxt span.VTxt02{padding-top:12px;display:block}
+.MainCont01 .VisualWrap .VisualCont p.VisualTxt span.VTxt03{padding-top:25px;display:block}
+.MainCont01 .VisualWrap .VisualCont p.VisualTxt span.VTxt03 img{margin-top:15px}
+
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul{float:left;margin:52px 0 0 87px;}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li{font-weight:600;font-size:15px;text-align:center;width:146px;height:37px;float:left;opacity:0.75;padding-top:97px;cursor:pointer;margin-right:9px}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li.QL01{background:url(/img/main/icon_main01.png) center 13px no-repeat #eb6253;}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li.QL02{background:url(/img/main/icon_main02.png) center 13px no-repeat #ff9600;}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li.QL03{background:url(/img/main/icon_main03.png) center 13px no-repeat #09a29b;}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li.QL04{background:url(/img/main/icon_main04.png) center 13px no-repeat #4c9fce;height:42px;padding-top:92px;font-size:14px}
+.MainCont01 .VisualWrap .VisualCont .QuickLink ul li a{color:#fff}
+
+.MainCont01 .VisualWrap .VisualCont .Srch{width:424px;height:134px;background:#7361c5;opacity:0.85;float:left;margin-top:52px;}
+.MainCont01 .VisualWrap .VisualCont .Srch h4.TitSrch{font-size:18px;color:#fff;font-weight:600;padding:18px 0 0 23px}
+.MainCont01 .VisualWrap .VisualCont .Srch h4.TitSrch p.ImgTitSrch{float:left;padding-right:4px}
+.MainCont01 .VisualWrap .VisualCont .Srch h4.TitSrch span.TxtTitSrch{}
+.MainCont01 .VisualWrap .VisualCont .Srch .SrchBox{position:relative;padding:22px 0 0 22px;}
+.MainCont01 .VisualWrap .VisualCont .Srch .SrchBox input.ESearch{height:28px;width:249px;border:1px #f0e6da solid;font-size:17px;color:#666;padding:10px}
+.MainCont01 .VisualWrap .VisualCont .Srch .SrchBox input.EQbtn{height:52px;width:105px;text-align:center;color:#fff;font-weight:600;background:#fc7375;border:0;}
+
+.MainCont01 .VisualWrap .VisualCont ul.VisualImg li{height:482px;background-position-x:center!important}
+
+.MainCont01 .VisualWrap .VisualBtnWrap{height:35px;margin:0 auto;top:593px;left:46%;text-align:center;position:absolute;}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox{}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02{width:auto;margin:0 auto}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02 li{width:22px;height:15px;background:url(/img/main/btn_page_off.png) center top no-repeat;overflow:hidden;float:left;cursor:pointer;zoon:1;display:inline-block}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02 li a{text-indent:-9999px;display:block}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02 li.on{background:url(/img/main/btn_page_on.png) center top no-repeat;}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02 li.stop{background:url(/img/main/btn_page_stop.png) center top no-repeat;}
+.MainCont01 .VisualWrap .VisualBtnWrap .VisualBtnBox ul.VisualBtn02 li.play{background:url(/img/main/btn_page_play.png) center top no-repeat;}
+/*
+.MainCont01{width:100%}
+.MainCont01 h3.hidden{display:none}
+.MainCont01 .VisualWrap{width:1200px;margin:0 auto}
+.MainCont01 .VisualWrap ul button{position:absolute;top:304px;background:none;border:0;width:68px;height:68px}
+.MainCont01 .VisualWrap ul button.PrevBtn{float:left;max-width:42px}
+.MainCont01 .VisualWrap ul button.NextBtn{float:right;right:0;max-width:42px}
+.MainCont01 .VisualCont{}*/
+
+
+.MainCont02Wrap{width:100%;height:420px;background:url(/img/main/bg_cont02.gif) repeat}
+.MainCont02Wrap .MainCont02 {width:1200px;margin:0 auto;padding-top:46px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status{width:844px;float:left;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status h4.tit_status{width:160px;height:48px;background:url(/img/main/icon_mid01_tit.png) no-repeat;float:left;letter-spacing:-0.5px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status h4.tit_status{font-size:17px;color:#3c69ad;font-weight:600;padding:15px 0 0 43px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status h4.tit_status p.date{font-size:12px;color:#5f87c4;line-height:14px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li{width:144px;height:50px;float:left;font-weight:600;padding:13px 3px 0 13px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li.SL01{background:url(/img/main/bg_mid01_list01.gif) no-repeat}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li.SL02{background:url(/img/main/bg_mid01_list02.gif) no-repeat;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li.SL03{background:url(/img/main/bg_mid01_list03.gif) no-repeat;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li.SL04{background:url(/img/main/bg_mid01_list04.gif) no-repeat;padding-right:0}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li em{font-size:14px;color:#666; font-style:normal;font-weight:normal}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li p{font-size:18px;color:#535a7e;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .status ul.StatusList li p span.unit{font-weight:normal}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap{width:809px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board{width:100%;height:250px;background:#fff;float:left;position:relative;padding-left:32px;margin-top:16px;border:1px solid #ebebeb}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article{float: left;margin-top: 20px;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article_mn1{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article_mn2()
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article_mn3{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard{font-size:16px;font-weight:normal;}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard01{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard02{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard03{}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard a{width:125px;display:inline-block;padding:9px 0;text-align:center;background:#fff;border:1px solid #dbe4ea;color:#787878;cursor:pointer}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article h3.TitBoard a.on{color:#fff;border:1px solid #6b77b0;background:#6b77b0;font-weight:600}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard{position:absolute;width:100%;left:0px; top:63px;padding:4px 0 0 0}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard a.more{position:absolute;top:-33px;right:40px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li a{position:relative}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard{margin:0px 38px 0 32px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li{overflow:hidden;padding:11px 0 0 0;line-height:33px;height:28px;font-size:15px;border-bottom:1px solid #ececec}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li span.subject{display:inline-block;float:left;line-height:16px;width:70%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li span.subject a{color:#666;cursor:pointer}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li span.company{color:#161661;text-align:right;padding-right:7px;margin-right:8px;font-size:13px;line-height:16px}
+.MainCont02Wrap .MainCont02 .MainCont0201 .BoardWrap .board .article .ConBoard ul.ListBoard li span.date{display:inline-block;float:right;line-height:16px;color:#666;font-size:13px;letter-spacing:-1px} 
+
+.MainCont02Wrap .MainCont02 .popupzone{position:relative;float:right}
+.MainCont02Wrap .MainCont02 .popupzone h3.Titpopupzone{font-size:22px;font-weight:normal;height:52px;background:url(../../../img/main/bg_popupzone.gif) left top no-repeat;padding-top:28px;color:#444}
+.MainCont02Wrap .MainCont02 .popupzone h3.Titpopupzone span{}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl{float:right;position:absolute;top:27px;right:0}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li{float:left}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li a{width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li a.BtnPrev{background:url(/img/main/btn_prev01.gif) no-repeat;width:21px}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li a.BtnNext{background:url(/img/main/btn_next01.gif) no-repeat}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li a.BtnStop{background:url(/img/main/btn_stop01.gif) no-repeat}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupControl li a.BtnPlay{background:url(/img/main/btn_play01.gif) no-repeat}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupList li{}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupList li a{}
+.MainCont02Wrap .MainCont02 .popupzone ul.PopupList li a img{}
+
+
+.MainCont03Wrap{width:100%;padding-top:56px}
+.MainCont03Wrap .MainCont03{width:1200px;margin:0 auto}
+.MainCont03Wrap .MainCont03 .Cont03Box{}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab{padding-bottom:29px}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li{float:left}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a{verticla-align:middle}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a.TitTab01{width:127px;display:inline-block;padding:17px;text-align:center;background:#fff;border:1px solid #dbe4ea;color:#787878;cursor:pointer;font-size:16px}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li.on a.TitTab01 span.hidden{background:url(/img/main/logo_mid01_o.png) no-repeat;}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a.TitTab01 span.hidden{text-indent:-9999px;display:block;background:url(/img/main/logo_mid01_n.png) no-repeat;float:left;width:83px}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a.on{background:#6ba8c9;color:#fff;font-weight:600}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a.on span.hidden{text-indent:-9999px;display:block;background:url(/img/main/logo_mid01_o.png) no-repeat;}
+.MainCont03Wrap .MainCont03 .Cont03Box ul.DepthTab li a.TitTab02{width:143px;display:inline-block;padding:17px 0;text-align:center;background:#fff;border:1px solid #dbe4ea;color:#477892;cursor:pointer;font-size:16px;background:url(../../../img/main/ico_mid01_tab02.png) 41px no-repeat;padding-left:15px}
+div.Cont03Sort{float:right}
+	ul.sort{float:left;} 
+	ul.sort li{}
+	.Cont03Sort ul.sort li a{line-height:18px;float:left;padding-left:20px;padding-right:13px;padding-top:8px;}
+	.Cont03Sort ul.sort li a.sort01{background:url(/img/main/icon_sort01.png) 0 10px no-repeat;}
+	.Cont03Sort ul.sort li a.sort02{background:url(/img/main/icon_sort02.png) 0 9px no-repeat;}
+	ul.Cont03Control{float:left;}
+	ul.Cont03Control li{float:left}
+	ul.Cont03Control li a{width:32px;height:33px;cursor:pointer;text-indent:-9999px;display:block}
+	ul.Cont03Control li a.BtnPrev{background:url(/img/main/btn_prev02.gif) no-repeat;width:33px}
+	ul.Cont03Control li a.BtnNext{background:url(/img/main/btn_next02.gif) no-repeat}
+	ul.Cont03Control li a.BtnStop{background:url(/img/main/btn_stop02.gif) no-repeat}
+	ul.Cont03Control li a.BtnPlay{background:url(/img/main/btn_play02.gif) no-repeat}
+	ul.ListImg{display:inline-block;padding-top:28px;padding-bottom:62px}
+	ul.ListImg li{float:left;width:217px;height:218px;margin-right:26px;border:1px solid #cecece}
+	ul.ListImg li.end{margin-right:0}
+	ul.ListImg li a{}
+	ul.ListImg li a .photo{}
+	.photo img{width:217px;height:156px;border-bottom:1px solid #cecece}
+	.TitPhoto{padding-left:11px;letter-spacing:-1px}
+	.TitPhoto p.subject{padding-top:13px;color:#666;font-size:15px;letter-spacing:-1px}
+	.TitPhoto p.agency{padding-top:4px;font-size:13px;color:#4c9fce}
+
+
+.MainCont04Wrap{width:100%;padding-top:56px;background:url(../../../img/main/bg_mid02.gif) repeat}
+.MainCont04Wrap .MainCont04{width:1200px;margin:0 auto}
+div.Cont04Sort{float:right;background:#eff4f8;height:25px;width:282px;padding:8px 9px 15px 271px;border:1px solid #dbe4ea}
+	div.Cont04Sort ul.sort{float:left;padding-top:6px} 
+	ul.sort li{}
+	div.Cont04Sort ul.sort li a{line-height:18px;float:left;padding-left:23px;padding-right:13px}
+	.Cont04Box ul.DepthTab li.on{background:#75c1de;font-weight:600;border-bottom:2px}
+	.Cont04Box ul.DepthTab li.on a{color:#fff}
+	.Cont04Box ul.DepthTab li{float:left;width:127px;display:inline-block;padding:15px;text-align:center;background:#fff;border:1px solid #dbe4ea;color:#787878;cursor:pointer;font-size:16px}
+	.Cont04Box ul.DepthTab li a{font-size:15px;padding-left:23px;text-align:center;color:#477892}
+	.Cont04Box ul.DepthTab li a.TitTab01{background:url(../../../img/main/ico_mid02_tab01.png) no-repeat}
+	.Cont04Box ul.DepthTab li a.TitTab02{background:url(../../../img/main/ico_mid02_tab02.png) no-repeat}
+	.Cont04Box ul.DepthTab li a.TitTab03{background:url(../../../img/main/ico_mid02_tab03.png) no-repeat}
+	.Cont04Box ul.DepthTab li a.TitTab04{background:url(../../../img/main/ico_mid02_tab04.png) no-repeat}
+	
+	a.sort01{background:url(/img/main/icon_sort01.png) 0 2px no-repeat;}
+	a.sort02{background:url(/img/main/icon_sort02.png) 0 1px no-repeat;}
+	ul.Cont04Control{float:left;top:27px;right:0}
+	ul.Cont04Control li{float:left}
+	ul.Cont04Control li a{width:32px;height:33px;cursor:pointer;text-indent:-9999px;display:block}
+	ul.Cont04Control li a.BtnPrev{background:url(/img/main/btn_prev02.gif) no-repeat;width:33px}
+	ul.Cont04Control li a.BtnNext{background:url(/img/main/btn_next02.gif) no-repeat}
+	ul.Cont04Control li a.BtnStop{background:url(/img/main/btn_stop02.gif) no-repeat}
+	ul.Cont04Control li a.BtnPlay{background:url(/img/main/btn_play02.gif) no-repeat}
+	ul.ListImg{display:inline-block;padding-top:28px;padding-bottom:62px}
+	ul.ListImg li{float:left;width:217px;height:218px;margin-right:26px;border:1px solid #cecece}
+	ul.ListImg li.end{margin-right:0}
+	ul.ListImg li a{}
+	ul.ListImg li a .photo{}
+	.photo img{width:217px;height:156px;border-bottom:1px solid #cecece}
+	.TitPhoto{padding-left:11px;letter-spacing:-1px}
+	.TitPhoto p.subject{padding-top:13px;color:#666;font-size:15px;letter-spacing:-1px}
+	.TitPhoto p.agency{padding-top:4px;font-size:13px;color:#4c9fce}
+	
+.BannerWrap{width:100%; background:url(../../../img/main/bg_banner.jpg) repeat-x;height:166px}
+.BannerWrap .Banner{width:1200px;margin:0 auto;}
+.BannerWrap .Banner h3.TitBanner{float:left;padding-top:74px;font-weight:600;color:#444}
+.BannerWrap .Banner ul.BannerControl{float:left;background:url(/img/main/line_banner.gif) 104px 12px no-repeat;height:55px; padding-top:30px; width:111px;margin:44px 0 0 16px}
+.BannerWrap .Banner ul.BannerControl li{float:left}
+.BannerWrap .Banner ul.BannerControl li a{width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+.BannerWrap .Banner ul.BannerControl li a.BtnPrev{background:url(/img/main/btn_prev01.gif) no-repeat;width:21px}
+.BannerWrap .Banner ul.BannerControl li a.BtnNext{background:url(/img/main/btn_next01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnStop{background:url(/img/main/btn_stop01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnPlay{background:url(/img/main/btn_play01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerList{}
+.BannerWrap .Banner ul.BannerList li{float:left;padding:69px 20px 10px 38px}
+.BannerWrap .Banner .JeonNam{float:left; background:url(../../../img/main/bg_banner_jeonam.png) no-repeat;width:250px;margin-top:39px;margin-left:18px;padding:29px 0 30px 19px;cursor:pointer} 
+
+
+
+
+.footer {border-top-color:#DBDBDB; border-top-width:3px; border-top-style:solid; width:100%; height:80px;}
+/*
+.footer address {clear: both; width: 400px; height: 24px; margin-left:20px;text-indent: -9999px;}
+.footer span {font-size: 0; line-height: 0;}
+*/
+.footer_cont {text-align:center; margin:0 auto; padding-top:15px; width:912px; }
+
+.footer_logo {float:left; margin:0 30px 0 0;}
+.footer_text {float:left;}

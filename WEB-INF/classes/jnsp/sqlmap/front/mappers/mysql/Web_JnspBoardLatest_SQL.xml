@@ -1,0 +1,1434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspBoardLatestMapper">
+
+
+	<select id="getJisicList" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				a.ORG_GRP_CD
+			FROM
+				TB_ORG_GRP AS a
+				LEFT JOIN TB_EQU_GOODS AS c
+				ON a.ORG_GRP_CD = c.OWN_ORG AND c.DEL_YN != 'Y'
+				LEFT JOIN TB_EQU_INFO AS b
+				ON b.RND_EQU_IDX = c.RND_EQU_IDX AND b.DELETE_YN != 'Y'
+			WHERE
+			a.DELETE_YN != 'Y'
+			AND 	a.APPLY_CD = '20'
+			AND	!ISNULL(b.RND_EQU_IDX)
+			AND 	b.EQUIP_CD = '1'
+			AND b.STATE = '2'
+			GROUP BY a.ORG_GRP_CD
+		]]>
+	</select>
+	<!-- 등록기관수 -->
+	<select id="equInfoOrgCnt" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				a.ORG_GRP_CD
+			FROM
+				TB_ORG_GRP AS a
+				LEFT JOIN TB_EQU_GOODS AS c
+				ON a.ORG_GRP_CD = c.OWN_ORG AND c.DEL_YN != 'Y'
+				LEFT JOIN TB_EQU_INFO AS b
+				ON b.RND_EQU_IDX = c.RND_EQU_IDX AND b.DELETE_YN != 'Y'
+			WHERE
+			a.DELETE_YN != 'Y'
+			AND 	a.APPLY_CD = '20'
+			AND	!ISNULL(b.RND_EQU_IDX)
+			AND 	b.EQUIP_CD = '1'
+			GROUP BY a.ORG_GRP_CD
+		]]>
+	</select>
+	<select id="equInfoJOrgCnt" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				a.ORG_GRP_CD
+			FROM
+				TB_ORG_GRP AS a
+				LEFT JOIN TB_EQU_GOODS AS c
+				ON a.ORG_GRP_CD = c.OWN_ORG AND c.DEL_YN != 'Y'
+				LEFT JOIN TB_EQU_INFO AS b
+				ON b.RND_EQU_IDX = c.RND_EQU_IDX AND b.DELETE_YN != 'Y'
+			WHERE
+			a.DELETE_YN != 'Y'
+			AND 	a.APPLY_CD = '20'
+			AND	!ISNULL(b.RND_EQU_IDX)
+			AND	b.AREA = '1'
+			AND b.EQUIP_CD = '1'
+			GROUP BY a.ORG_GRP_CD
+		]]>
+	</select>
+	<!-- 등록장비수 전체 -->
+	<select id="equInfoCount" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				COUNT(0) AS cnt
+				, SUM(a.TAKE_PRC)/100000000 AS pay
+			FROM TB_EQU_INFO AS a
+			WHERE
+			a.DELETE_YN != 'Y'
+			AND a.EQUIP_CD = '1'
+			AND a.STATE = '2'
+		]]>
+	</select>
+	<!-- 등록장비수 일반 -->
+	<select id="equInfoJCount" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				COUNT(0) AS cnt
+				, SUM(a.TAKE_PRC)/100000000 AS pay
+			FROM TB_EQU_INFO AS a
+			WHERE
+			a.DELETE_YN != 'Y'
+			AND a.EQUIP_CD = '1'
+			AND a.STATE = '2'
+			AND	a.AREA = '1'
+		]]>
+	</select>
+
+
+	<select id="getBoardLatestList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				SITE_ID,
+				CASE (SITE_ID)
+					WHEN 'jeinet' THEN '연구장비정보망'
+					WHEN 'jipbank' THEN '지식재산정보은행'
+					WHEN 'jntis' THEN '전남과학기술정보시스템'
+					WHEN 'smbrnd' THEN '전남중소기업R&D시스템'
+					WHEN 'mjeinet' THEN '연구장비정보망'
+					ELSE 'sample'
+					END AS SITE_NM,ARTICLE_ID,SUBJECT, WRITER_ID, WRITER_NM, CONTENT,
+				DATE_FORMAT(FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+				IF(CURDATE() < DATA03, '접수전', (IF(CURDATE() > DATA04, '접수마감', '접수중'))) AS RECEIPT_NM,
+				(
+					SELECT CODE_NM
+					FROM 
+						TB_CODE
+					WHERE 
+						CODE_GRP_CD = 'SupportType' AND
+						CODE_CD = DATA01 
+				) AS CODE_NM,
+				CASE(DATA15)
+					WHEN '10' THEN '승인요청'
+					WHEN '20' THEN '승인'
+					ELSE '반려'
+				END AS DATA15
+			FROM JMY_BOARD_ARTICLE
+			WHERE (DELETED_AT = 'N' or DELETED_AT is null)
+			]]>
+			<if test='TOTALNOTICE == "Y"'>
+				AND BOARD_ID IN ('00005','00032','00053')
+			</if>
+			<if test='TOTALNOTICE == "" || TOTALNOTICE == null '>
+				AND BOARD_ID = #{boardId}
+			</if>
+			<if test='locationProject == "Y" '>
+				AND DATA15 = '20'
+			</if>
+					<![CDATA[
+				ORDER BY FRST_REGIST_PNTTM DESC
+				LIMIT ${boardCnt}
+		]]>
+	</select>
+	<select id="getEventLatestList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+						EVENT_IDX ,
+						EVENT_NM ,
+						DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT
+			FROM
+						TB_EVENT
+						WHERE DEL_YN = 'N'
+			ORDER BY REG_DT DESC
+			LIMIT 	${boardCnt}
+
+		]]>
+	</select>
+	<select id="getEduLatestList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+						EDU_ID ,
+						EDU_NM ,
+						EDU_ORD_ST_DT,
+						EDU_ORD_ED_DT,
+						EDU_ST_DT,
+						EDU_ED_DT,
+						DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE ,
+						EDU_STATE
+				FROM
+			TB_EDU
+			WHERE DELETE_YN = 'N'
+
+			LIMIT 	${boardCnt}
+
+		]]>
+	</select>
+	<select id="getEventEduLatestList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+			      IDX,
+			      NM,
+			      REG_DT,
+			      TB_NM
+			      FROM(
+								SELECT
+											CONVERT(EDU_ID, CHAR) AS IDX,
+											EDU_NM AS NM,
+											DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DT,
+											CASE (EDU_ID)
+													WHEN '' THEN '1'
+													ELSE '1'
+											END AS TB_NM
+								FROM
+								TB_EDU
+								WHERE DELETE_YN = 'N'
+
+								UNION ALL
+
+								SELECT
+											EVENT_IDX  AS IDX,
+											EVENT_NM AS NM,
+											DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
+											CASE (EVENT_IDX)
+													WHEN '' THEN '2'
+													ELSE '2'
+											END AS TB_NM
+								FROM
+											TB_EVENT WHERE DEL_YN = 'N'
+											
+								UNION ALL
+								
+								SELECT
+											CONVERT(ARTICLE_ID, CHAR) AS IDX,
+											SUBJECT AS NM,
+											DATE_FORMAT(FRST_REGIST_PNTTM, '%Y-%m-%d') AS REG_DT,
+											CASE (ARTICLE_ID)
+													WHEN '' THEN '3'
+													ELSE '3'
+											END AS TB_NM
+								FROM 
+											JMY_BOARD_ARTICLE
+								WHERE
+									(DELETED_AT = 'N' or DELETED_AT is null) AND
+									BOARD_ID = #{boardId}
+							
+								
+								
+					)AS A
+			WHERE 1 = 1
+			ORDER BY REG_DT DESC
+			LIMIT  	${boardCnt}
+
+		]]>
+	</select>
+
+	<select id="getEnterpriseCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+					COUNT(0)
+		FROM
+					TB_ORG_GRP
+		WHERE
+					(DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+			AND 	APPLY_CD = '20'
+			AND 	AUTH_ORG_SITE_1 = 'Y'
+	]]>
+	</select>
+	<select id="getJEnterpriseCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+					COUNT(0)
+		FROM
+					TB_ORG_GRP
+		WHERE
+					(DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+			AND 	APPLY_CD = '20'
+			AND 	AUTH_ORG_SITE_1 = 'Y'
+			AND		AREA_CD = '1'
+	]]>
+	</select>
+
+		<select id="getJipBankOrgCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+					COUNT(0)
+		FROM
+					TB_ORG_GRP
+		WHERE
+					(DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+			AND 	APPLY_CD = '20'
+			AND 	AUTH_ORG_SITE_2 = 'Y'
+	]]>
+	</select>
+	<select id="getKipTotCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0) CNT FROM TB_SEARCH_PATENT_UTILITY_MODEL
+		WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+		AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+	]]>
+	</select>
+
+
+<select id="getKipNohowCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT SUM(CNT) FROM (
+
+			SELECT COUNT(0) CNT FROM TB_SEARCH_KNOW_HOW WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+			UNION ALL
+			SELECT COUNT(0) CNT FROM TB_SEARCH_PROGRAM WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+			) A
+	]]>
+	</select>
+
+
+<select id="getKipDesignCnt" resultType="java.lang.String" >
+	<![CDATA[
+
+			SELECT SUM(CNT) FROM (
+
+			SELECT COUNT(0) CNT FROM TB_SEARCH_DESIGN
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+			UNION ALL
+			SELECT COUNT(0) CNT FROM TB_SEARCH_BRAND
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+			) A
+	]]>
+	</select>
+
+
+<select id="getJipBankJOrgCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+					COUNT(0)
+		FROM
+					TB_ORG_GRP
+		WHERE
+					(DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+			AND 	APPLY_CD = '20'
+			AND 	AUTH_ORG_SITE_2 = 'Y'
+	]]>
+	</select>
+
+<select id="getJKipTotCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0) CNT FROM TB_SEARCH_PATENT_UTILITY_MODEL
+		WHERE  (STATE = '2' OR STATE = '6' OR STATE = '7')
+		AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+		AND (AREA ='1')
+	]]>
+</select>
+
+
+<select id="getJKipNohowCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT SUM(CNT) FROM (
+
+			SELECT COUNT(0) CNT FROM TB_SEARCH_KNOW_HOW
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (AREA ='1')
+			UNION ALL
+			SELECT COUNT(0) CNT FROM TB_SEARCH_PROGRAM
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (AREA ='1')
+			) A
+	]]>
+</select>
+
+
+<select id="getJKipDesignCnt" resultType="java.lang.String" >
+	<![CDATA[
+
+			SELECT SUM(CNT) FROM (
+
+			SELECT COUNT(0) CNT FROM TB_SEARCH_DESIGN
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+									AND (AREA ='1')
+			UNION ALL
+			SELECT COUNT(0) CNT FROM TB_SEARCH_BRAND
+									WHERE (STATE = '2' OR STATE = '6' OR STATE = '7')
+									AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+									AND (AREA ='1')
+			) A
+	]]>
+</select>
+
+
+	<select id="getProOrgCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM
+			(
+			SELECT COUNT(0) FROM TB_USER_COPY A
+			LEFT JOIN TB_ORG_GRP B
+				ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE
+				A.PRO_STATE = '20'
+			AND A.DELETE_YN != 'Y'
+			AND B.ORG_TYPE = '2'
+			AND B.AGENCY_TYPE = '01' OR B.AGENCY_TYPE = '02'
+			AND B.APPLY_CD = '20'
+			GROUP BY B.ORG_GRP_CD
+			) AS CNT
+	]]>
+	</select>
+
+	<select id="getProCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM
+			(
+			SELECT COUNT(0) FROM TB_USER_COPY A
+			LEFT JOIN TB_ORG_GRP B
+				ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE
+				A.PRO_STATE = '20'
+			AND A.DELETE_YN != 'Y'
+			AND B.ORG_TYPE = '1'
+			AND B.APPLY_CD = '20'
+			GROUP BY B.ORG_GRP_CD
+			) AS CNT
+	]]>
+	</select>
+
+	<select id="getExpertMngCnt" resultType="java.lang.String" >
+	<![CDATA[
+
+		SELECT COUNT(0) FROM TB_USER_COPY
+		WHERE
+		PRO_STATE = '20'
+		AND DELETE_YN != 'Y'
+
+
+	]]>
+	</select>
+	
+	
+	<select id="getExpertMngCnt_main" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM
+		(
+			SELECT 
+				COUNT(0)
+			FROM 
+				TB_USER_COPY as uc
+				LEFT JOIN TB_ORG_GRP as og ON(og.ORG_GRP_CD = uc.ORG_GRP_CD)
+			WHERE
+				uc.PRO_STATE = '20'
+				AND uc.DELETE_YN != 'Y'
+			    AND og.ORG_GRP_CD != ''
+			GROUP BY 
+				og.ORG_GRP_CD
+		) as xx
+	]]>
+	</select>
+	
+	
+
+	<select id="getChainOrgCnt" resultType="java.lang.String" >
+	<![CDATA[
+
+		SELECT COUNT(0) FROM TB_USER_COPY
+		WHERE
+		AUTH_LV = '70' OR AUTH_LV = '80'
+		AND DELETE_YN != 'Y'
+
+
+	]]>
+	</select>
+
+	<select id="getJProOrgCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM
+			(
+			SELECT COUNT(0) FROM TB_USER_COPY A
+			LEFT JOIN TB_ORG_GRP B
+				ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE
+				A.PRO_STATE = '20'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND B.ORG_TYPE = '2'
+			AND B.AGENCY_TYPE = '01' OR B.AGENCY_TYPE = '02'
+			AND B.APPLY_CD = '20'
+			AND B.AREA_CD = '1'
+			GROUP BY B.ORG_GRP_CD
+			) AS CNT
+	]]>
+	</select>
+
+	<select id="getJProCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM
+			(
+			SELECT COUNT(0) FROM TB_USER_COPY A
+			LEFT JOIN TB_ORG_GRP B
+				ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE
+				A.PRO_STATE = '20'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND B.ORG_TYPE = '1'
+			AND B.APPLY_CD = '20'
+			AND B.AREA_CD = '1'
+			GROUP BY B.ORG_GRP_CD
+			) AS CNT
+	]]>
+	</select>
+
+	<select id="getOrgTypeCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '1'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+	]]>
+	</select>
+	<select id="getAgencyTypeCnt1" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '01'
+	]]>
+	</select>
+	<select id="getAgencyTypeCnt2" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '02'
+	]]>
+	</select>
+	<select id="getAgencyTypeCnt3" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '03'
+	]]>
+	</select>
+
+	<select id="getJOrgTypeCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '1'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AREA_CD = '1'
+
+	]]>
+	</select>
+	<select id="getJAgencyTypeCnt1" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '01'
+		AND AREA_CD = '1'
+	]]>
+	</select>
+	<select id="getJAgencyTypeCnt2" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '02'
+		AND AREA_CD = '1'
+	]]>
+	</select>
+	<select id="getJAgencyTypeCnt3" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0)
+		FROM TB_ORG_GRP
+		WHERE ORG_TYPE = '2'
+		AND (DELETE_YN != 'Y' OR DELETE_YN IS NULL)
+		AND APPLY_CD = '20'
+		AND AGENCY_TYPE = '03'
+		AND AREA_CD = '1'
+	]]>
+	</select>
+
+
+<select id="getRndTotalList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+
+	SELECT 
+		D.GB,
+		D.ARTICLE_ID,
+		D.SUBJECT,
+		D.WRITER_NM,
+		D.ORDER_DT
+	FROM (
+
+
+
+			SELECT
+			    '1' AS GB
+			    ,ARTICLE_ID
+			    ,SUBJECT, WRITER_NM
+				,DATE_FORMAT(FRST_REGIST_PNTTM, '%Y-%m-%d') AS ORDER_DT
+			FROM 
+				JMY_BOARD_ARTICLE
+			WHERE (DELETED_AT = 'N' or DELETED_AT is null)
+				AND BOARD_ID = '00006'
+				AND DATA15 = '20'
+
+
+
+			UNION ALL
+
+			SELECT
+			'2' AS GB
+			,	A.UID
+			,	A.SUBJECT
+			,	A.NAME
+			,	DATE_FORMAT(A.D_REGIS,'%Y-%m-%d') AS ORDER_DT
+			FROM
+				sci.rb_bbs_data AS A
+
+			WHERE
+				 A.BBS IN ('77','78')
+
+
+) D
+ORDER BY D.ORDER_DT DESC
+
+LIMIT 10
+			]]>
+	</select>
+
+
+<select id="getNationRndList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.SUBJECT
+			,	A.UID
+			,	A.NAME
+			,	A.CONTENT
+			,	DATE_FORMAT(A.D_REGIS,'%Y-%m-%d') AS D_REGIS
+			FROM
+				sci.rb_bbs_data AS A
+
+				 WHERE
+				 A.BBS IN ('77','78')
+			 ORDER BY A.GID ASC
+			LIMIT 10
+			]]>
+	</select>
+
+
+
+<select id="getBannerList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT A.BANNER_IDX,
+			       A.BANNER_NAME,
+			       A.BANNER_LINK,
+			       A.ORDER_NO,
+			       B.FILE_ID,
+			       B.DATA_GRP,
+			       B.DATA_IDX,
+			       B.FILE_SEQ,
+			       B.FILE_CAT,
+			       B.TITLE,
+			       B.REGIST_DT,
+			       B.DOWN_CNT,
+			       B.DELETE_YN,
+			       B.PHOTO_CAT,
+			       B.FILE_PATH,
+			       B.FILE_SIZE,
+			       B.TITLE_ORG,
+			       B.MAIN_YN
+			FROM   TB_PMS_BANNER           AS A
+			       INNER JOIN TB_JNSP_FILE AS B
+			       ON     A.BANNER_IDX = B.DATA_IDX
+			       AND    B.DATA_GRP   = 'banner'
+			ORDER BY A.ORDER_NO, A.BANNER_IDX
+			]]>
+	</select>
+
+
+
+
+	<select id="getEquCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0) AS EQU_CNT FROM TB_EQU_INFO WHERE (DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+	]]>
+	</select>
+	<select id="getEquPrcCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT SUM(TAKE_PRC) AS EQU_PRC FROM TB_EQU_INFO WHERE (DELETE_YN = 'N' OR DELETE_YN IS NOT NULL)
+	]]>
+	</select>
+
+	<select id="getJEquCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT COUNT(0) AS EQU_CNT
+		FROM TB_EQU_INFO A
+		LEFT JOIN TB_EQU_GOODS B
+			ON A.RND_EQU_IDX = B.RND_EQU_IDX
+		LEFT JOIN TB_ORG_GRP C
+			ON B.OWN_ORG = C.ORG_GRP_CD
+
+		WHERE (A.DELETE_YN = 'N' OR A.DELETE_YN IS NOT NULL)
+		AND C.AREA_CD = '1'
+	]]>
+	</select>
+	<select id="getJEquPrcCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT SUM(A.TAKE_PRC) AS EQU_PRC
+		FROM TB_EQU_INFO A
+		LEFT JOIN TB_EQU_GOODS B
+			ON A.RND_EQU_IDX = B.RND_EQU_IDX
+		LEFT JOIN TB_ORG_GRP C
+			ON B.OWN_ORG = C.ORG_GRP_CD
+
+		WHERE (A.DELETE_YN = 'N' OR A.DELETE_YN IS NOT NULL)
+		AND C.AREA_CD = '1'
+	]]>
+	</select>
+
+	<select id="getEquUseCnt" parameterType="paramMap" resultType="java.lang.String" >
+			<![CDATA[
+				SELECT COUNT(0) AS USE_CNT FROM TB_EQU_INFO
+				WHERE  DELETE_YN != 'Y'
+					AND EQUIP_CD = '1'
+					AND STATE = '2'
+			]]>
+			<if test='USE_SCOPE_CD != "TOTAL"'>
+				<![CDATA[
+					AND USE_SCOPE_CD != '1'
+				]]>
+			</if>
+			<if test='AREA == "JN"'>
+				<![CDATA[
+					AND AREA = '1'
+				]]>
+			</if>
+			
+	</select>
+
+
+
+	<select id="getTchnlgyTotalCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+				SUM(A.CN) AS CNT
+			FROM(
+				SELECT
+					COUNT(0) AS CN
+				FROM TB_SEARCH_BRAND
+				WHERE
+					TCHNLGY_M_CL IN ('10','20','30','40','50','60','70',80)
+					AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+					AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+				UNION ALL
+				SELECT
+					COUNT(0) AS CN
+				FROM TB_SEARCH_DESIGN
+				WHERE
+					TCHNLGY_M_CL IN ('10','20','30','40','50','60','70','80')
+					AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+					AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+				UNION ALL
+				SELECT
+					COUNT(0) AS CN
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				WHERE
+					TCHNLGY_M_CL IN ('10','20','30','40','50','60','70','80')
+					AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+					AND (RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+				UNION ALL
+				SELECT
+					COUNT(0) AS CN
+				FROM TB_SEARCH_PROGRAM
+				WHERE
+					TCHNLGY_M_CL IN ('10','20','30','40','50','60','70','80')
+					AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+				UNION ALL
+				SELECT
+					COUNT(0) AS CN
+				FROM TB_SEARCH_KNOW_HOW
+				WHERE
+					TCHNLGY_M_CL IN ('10','20','30','40','50','60','70','80')
+					AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+			) AS A
+	]]>
+	</select>
+
+	<select id="getMchnCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '10'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getElctyCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '20'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getIrmcCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '30'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getChmstryCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '40'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getBioCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '50'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getEnergyCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '60'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getKnwldgCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '70'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getNowhowCnt" resultType="java.lang.String" >
+	<![CDATA[
+			SELECT
+            COUNT(0) AS CNT
+            FROM(
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_BRAND
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_DESIGN
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PATENT_UTILITY_MODEL
+						WHERE
+									(RIGHT_STATUS ='B' OR RIGHT_STATUS ='G')
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_PROGRAM
+						UNION ALL
+						SELECT
+									TCHNLGY_M_CL AS CL,
+									STATE AS STATE
+						FROM
+									TB_SEARCH_KNOW_HOW
+				) AS A
+				WHERE 1 = 1
+            AND CL = '80'
+         	AND (STATE = 2 OR STATE = 6  OR STATE = 7)
+	]]>
+	</select>
+
+	<select id="getBoardPublicLatestList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+		A.ARTICLE_ID,A.SITE_ID, A.BOARD_ID, A.SUBJECT, A.WRITER_NM,
+		B.FILE_ID, B.DATA_GRP, B.DATA_IDX, B.FILE_SEQ, B.FILE_CAT,
+		B.TITLE, B.REGIST_DT, B.DOWN_CNT, B.DELETE_YN, B.PHOTO_CAT,
+		B.FILE_PATH, B.FILE_SIZE, B.TITLE_ORG
+		FROM JMY_BOARD_ARTICLE A
+		LEFT JOIN
+		TB_JNSP_FILE AS B  ON
+		(
+			B.FILE_ID = (
+				SELECT MAX(C.FILE_ID) FROM
+				TB_JNSP_FILE AS C
+				WHERE C.DATA_IDX = A.ARTICLE_ID
+				AND UPPER(C.FILE_CAT) IN ('JPG','PNG','GIF','JPEG')
+			)
+		)
+		WHERE A.BOARD_ID = #{boardId}
+		AND  (A.DELETED_AT != 'Y' or A.DELETED_AT is null)
+		AND  A.DATA03 in ('STATS','POLICY','LAWORD','ETC')
+	]]>
+	<if test='order != "Y"'>
+	<![CDATA[
+		ORDER BY A.HITS DESC
+	]]>
+	</if>
+	<if test='order == "Y"'>
+	<![CDATA[
+		ORDER BY A.FRST_REGIST_PNTTM DESC
+	]]>
+	</if>
+	<![CDATA[
+		LIMIT ${boardCnt}
+	]]>
+	</select>
+
+
+
+	<select id="getBoardImageLatestList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+		A.ARTICLE_ID,A.SITE_ID, A.BOARD_ID, A.SUBJECT, A.WRITER_NM,
+		B.FILE_ID, B.DATA_GRP, B.DATA_IDX, B.FILE_SEQ, B.FILE_CAT,
+		B.TITLE, B.REGIST_DT, B.DOWN_CNT, B.DELETE_YN, B.PHOTO_CAT,
+		B.FILE_PATH, B.FILE_SIZE, B.TITLE_ORG
+		FROM JMY_BOARD_ARTICLE A
+		LEFT JOIN
+		TB_JNSP_FILE AS B  ON
+		(
+			B.FILE_ID = (
+				SELECT MAX(C.FILE_ID) FROM
+				TB_JNSP_FILE AS C
+				WHERE C.DATA_IDX = A.ARTICLE_ID
+				AND UPPER(C.FILE_CAT) IN ('JPG','PNG','GIF','JPEG')
+			)
+		)
+		WHERE A.BOARD_ID = #{boardId}
+		AND  (A.DELETED_AT != 'Y' or A.DELETED_AT is null)
+	]]>
+
+	<if test='data3 !="" and data3 !=null'>
+		AND A.DATA03 = #{data3}
+	</if>
+
+	<if test='order != "Y"'>
+	<![CDATA[
+		ORDER BY A.HITS DESC
+	]]>
+	</if>
+	<if test='order == "Y"'>
+	<![CDATA[
+		ORDER BY A.FRST_REGIST_PNTTM DESC
+	]]>
+	</if>
+	<![CDATA[
+		LIMIT ${boardCnt}
+	]]>
+	</select>
+
+
+	<select id="getBoardEquLatestList_back" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+		A.RND_EQU_IDX, A.EQUIP_CD, A.FIXED_ASET_NO, A.FIXED_ASET_NO_YN, A.KOR_NM, A.ENG_NM
+		, A.MANUFACTURE_NM, A.MANUFACTURE_CD, A.EQU_USER_IDX, B.FILE_ID, B.FILE_SEQ, B.FILE_CAT
+		, B.TITLE, B.REGIST_DT, B.DOWN_CNT, B.PHOTO_CAT, B.FILE_PATH, B.TITLE_ORG, E.PSN_NM
+		, F.ORG_GRP_NM
+		, G.OWN_ORG_NM ,G.OWN_ORG_SUB_NM
+		FROM
+		TB_EQU_INFO A
+		LEFT JOIN
+		TB_RND_FILE AS B  ON
+		(
+			B.FILE_ID = (
+		 SELECT MAX(C.FILE_ID) FROM
+		 TB_RND_FILE AS C
+		 WHERE C.RND_EQU_IDX = A.RND_EQU_IDX
+		 AND UPPER(C.FILE_CAT) IN ('JPG','PNG','GIF','JPEG')
+			)
+		)
+		LEFT JOIN
+			TB_USER_COPY E ON A.USER_IDX = E.USER_IDX
+		LEFT JOIN
+			TB_ORG_GRP F ON E.ORG_GRP_CD = F.ORG_GRP_CD
+		LEFT JOIN
+			TB_EQU_GOODS G ON A.RND_EQU_IDX = G.RND_EQU_IDX
+		WHERE 
+			(A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL) 
+			AND A.STATE = '2'
+			AND A.TAKE_PRC > 30000000
+		ORDER BY RAND(),
+	]]>
+	<if test='order != "Y"'>
+	<![CDATA[
+		A.HITS DESC
+	]]>
+	</if>
+	<if test='order == "Y"'>
+	<![CDATA[
+		A.TAKE_SDT DESC
+	]]>
+	</if>
+	<![CDATA[
+		LIMIT ${boardCnt}
+	]]>
+	</select>
+	
+	
+	
+	
+	<select id="getBoardEquLatestList" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+	SELECT 
+		RND_EQU_IDX , 
+		KOR_NM , 
+	    TITLE , 
+	    FILE_PATH , 
+	    OWN_ORG_NM , 
+	    OWN_ORG_SUB_NM , 
+	    XMODE 
+	FROM 
+	( 
+		SELECT
+			A.RND_EQU_IDX, 
+			A.KOR_NM, 
+			B.TITLE, 
+			B.FILE_PATH, 
+			G.OWN_ORG_NM,
+			G.OWN_ORG_SUB_NM,
+			'JEINET' as XMODE 
+		FROM
+			TB_EQU_INFO A
+			LEFT JOIN
+				TB_RND_FILE AS B  ON
+				(
+					B.FILE_ID = (
+				 SELECT MAX(C.FILE_ID) FROM
+				 TB_RND_FILE AS C
+				 WHERE C.RND_EQU_IDX = A.RND_EQU_IDX
+				 AND UPPER(C.FILE_CAT) IN ('JPG','PNG','GIF','JPEG')
+					)
+				)
+			LEFT JOIN
+				TB_EQU_GOODS G ON A.RND_EQU_IDX = G.RND_EQU_IDX
+		WHERE 
+			(A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL) 
+			AND A.STATE = '2'
+			AND A.TAKE_PRC > 30000000
+		
+		UNION
+		
+		SELECT 
+			equipNo as RND_EQU_IDX ,
+			korNm as KOR_NM ,
+			photoThumbWebPath as TITLE ,
+			photoThumbWebPath as FILE_PATH ,
+			organNm as OWN_ORG_NM ,
+			mainOrganNm as OWN_ORG_SUB_NM , 
+			'ZEUS' as XMODE 
+		FROM 
+			TB_ZEUS 
+		WHERE 1 
+		
+	) as A 		
+	ORDER BY RAND()
+	]]>
+	
+	<![CDATA[
+		LIMIT ${boardCnt}
+	]]>
+	</select>
+	
+	
+	
+	
+	<select id="getUtilityCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			count(distinct(OWN_ORG_NM)) as CNT
+		FROM
+			TB_SEARCH_PATENT_UTILITY_MODEL as X
+		WHERE
+			X.STATE = 2
+	]]>
+	</select>
+	
+	<select id="getJUtilityCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			count(distinct(OWN_ORG_NM)) as CNT
+		FROM
+			TB_SEARCH_PATENT_UTILITY_MODEL as X
+		WHERE
+			X.AREA = 1 AND
+			X.STATE = 2
+	]]>
+	</select>
+	
+	
+	
+	
+	<select id="getUtilityBCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			SUM(TOT)
+		FROM
+			(
+				SELECT count(0) as TOT FROM	TB_SEARCH_PATENT_UTILITY_MODEL as X	WHERE X.STATE = 2
+				UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_KNOW_HOW as A WHERE A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_PROGRAM as A WHERE A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_BRAND as A WHERE A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_DESIGN as A WHERE A.STATE=2
+			) as XC
+	]]>
+	</select>
+	
+	
+	<select id="getJUtilityBCnt" resultType="java.lang.String" >
+	<![CDATA[
+		SELECT
+			SUM(TOT)
+		FROM
+			(
+				SELECT count(0) as TOT FROM	TB_SEARCH_PATENT_UTILITY_MODEL as X	WHERE X.AREA = 1 AND X.STATE = 2
+				UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_KNOW_HOW as A WHERE A.AREA=1 AND A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_PROGRAM as A WHERE A.AREA=1 AND A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_BRAND as A WHERE A.AREA=1 AND A.STATE=2
+		        UNION ALL
+		        SELECT COUNT(0) as TOT FROM TB_SEARCH_DESIGN as A WHERE A.AREA=1 AND A.STATE=2
+			) as XC
+	]]>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspAvgEqCnstcMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+
+	<select id="getJnspEqCnstcAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%d') AS DAY,
+				KOR_NM,
+				SUBSTRING(LOCATION,4,3) AS AXIS,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+		]]>
+		
+		
+		<!-- <choose>
+			<when test='dateStart != "" and dateStart !=NULL and dateEnd == "" and dateEnd == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+				]]>
+			</when>
+			
+			
+			<when test='dateEnd != "" and dateEnd !=NULL and dateStart == "" and dateStart == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd} 
+				]]>
+			</when>
+			
+			<when test='dateStart != ""  and dateStart != null and dateEnd != "" and dateEnd != null '  >
+				
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd}
+				]]>
+					
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND TAKE_SDT >= CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01-01')
+					AND TAKE_SDT <= CONCAT(DATE_FORMAT(TAKE_SDT, NOW()))	
+				]]>  
+			</otherwise>
+		</choose> 
+		<choose>
+			<when test = 'data == "data" and data.equals("data")'>
+				<choose>
+					<when test = 'chart == "pie" and chart.equals("pie")'>
+						<![CDATA[
+							GROUP BY DATE_FORMAT (TAKE_SDT, '%d'),KOR_NM
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							GROUP BY DATE_FORMAT (TAKE_SDT, '%d')
+						]]>
+					</otherwise>			
+				</choose>	
+			</when>
+			<otherwise>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%d'),KOR_NM
+				]]>
+			</otherwise>
+		</choose>-->
+		<![CDATA[
+			GROUP BY AXIS
+			ORDER BY AXIS
+		]]>
+	</select>
+
+	<select id="getJnspEqCnstcAge" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%d') AS DAY,
+				KOR_NM,
+				RND_MAIN_ORG AS AXIS,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+		]]>
+		<!-- <choose>
+			<when test='dateStart != "" and dateStart !=NULL and dateEnd == "" and dateEnd == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+				]]>
+			</when>
+			
+			
+			<when test='dateEnd != "" and dateEnd !=NULL and dateStart == "" and dateStart == null' >
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd} 
+				]]>
+			</when>
+			
+			<when test='dateStart != ""  and dateStart != null and dateEnd != "" and dateEnd != null '  >
+				
+				<![CDATA[	 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') >= #{equipmentDateStart} 
+					AND DATE_FORMAT( A.CONTROLLINGDATE, '%Y-%m-%d') <= #{equipmentDateEnd}
+				]]>
+					
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND TAKE_SDT >= CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01')
+					AND TAKE_SDT <= CONCAT(DATE_FORMAT(TAKE_SDT, NOW()))	
+				]]>  
+			</otherwise>
+		</choose>
+		<choose>
+			<when test = 'data == "data" and data.equals("data")'>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%m')
+				]]>	
+			</when>
+			<otherwise>
+				<![CDATA[
+					GROUP BY DATE_FORMAT (TAKE_SDT, '%m'),KOR_NM
+				]]>
+			</otherwise>
+		</choose> -->
+		<![CDATA[
+			GROUP BY AXIS
+			ORDER BY AXIS
+		]]>
+	</select>
+	<select id="getJnspEqCnstcAgeTb" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT	
+				DATE_FORMAT (TAKE_SDT, '%d') AS DAY,
+				KOR_NM,
+				RND_MAIN_ORG AS AXIS,
+				COUNT(*) AS CNT 
+			FROM 
+				TB_EQU_INFO
+			WHERE 1 = 1
+			GROUP BY AXIS , KOR_NM
+			ORDER BY AXIS , KOR_NM
+		]]>
+	</select>
+</mapper>

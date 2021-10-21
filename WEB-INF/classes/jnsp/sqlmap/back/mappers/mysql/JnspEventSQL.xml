@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspEventMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getEventList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT  EV.*
+
+			  FROM(
+						SELECT   E.EVENT_IDX
+								,E.EVENT_NM
+								,E.EVENT_TYPE
+								,C.CODE_NM AS EVENT_TYPE_NM
+								,E.EVENT_AUSPICES_CD
+								,E.EVENT_AUSPICES_NM
+								,E.EVENT_MANAGE_ORG_CD
+								,E.EVENT_MANAGE_ORG_NM
+								,E.EVENT_MANAGE_ORG_SUB_CD
+								,E.EVENT_MANAGE_ORG_SUB_NM
+								##,E.REQ_ST_DT
+								##,E.REQ_ED_DT
+								##,E.EVENT_ST_DT
+								##,E.EVENT_ED_DT
+								,CONCAT(E.REQ_ST_DT,' ',E.REQ_ST,':00') AS RREQ_ST_DT
+								,CONCAT(E.REQ_ED_DT,' ',E.REQ_ET,':00') AS RREQ_ED_DT
+								,CONCAT(E.EVENT_ST_DT,' ',E.EVENT_ST,':00') AS EEVENT_ST_DT
+								,CONCAT(E.EVENT_ED_DT,' ',E.EVENT_ET,':00') AS EEVENT_ED_DT
+								,CURDATE()
+								,HOUR(NOW())
+								,E.REQ_ET
+								,IF(CURDATE() > E.EVENT_ED_DT, '행사종료',
+									(IF(CURDATE() = E.EVENT_ED_DT && HOUR(NOW()) > E.EVENT_ET, '행사종료',
+									 	(IF(CURDATE() > E.REQ_ED_DT, '접수마감',
+												(IF(CURDATE() < E.REQ_ST_DT, '접수전',
+														(IF(CURDATE() = E.REQ_ST_DT && HOUR(NOW()) < E.REQ_ST, '접수전',
+														 	(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) > E.REQ_ET, '접수마감',
+																(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) = E.REQ_ET, '접수중','접수중'))))))))))))) AS EVENT_STATE
+								,E.EVENT_PLACE
+								,E.EVENT_PLACE_DETAIL
+								,E.EVENT_TARGET
+								,E.EVENT_PEOPLE
+								,E.REQ_PEOPLE
+								,E.EVENT_FREE_YN
+								,E.EVENT_PAY
+								,E.EVENT_CONTENTS
+								,E.REFERENCE_ORG_NM
+								,E.REFERENCE_ORG_SUB_NM
+								,E.REFERENCE_CHARGER
+								,E.REFERENCE_PHONE
+								,E.REFERENCE_EMAIL
+								,E.CONFIRM_STATE
+								,E.CONFIRM_REJECT
+								,E.REG_IDX
+								,E.REG_DT
+								,E.REG_IP
+								,E.UP_IDX
+								,E.UP_DT
+								,E.UP_IP
+								,E.DEL_YN
+								,E.DEL_IDX
+								,E.DEL_DT
+								,E.DEL_IP
+
+						 FROM  TB_EVENT E
+						 LEFT JOIN TB_CODE C ON C.CODE_CD = E.EVENT_TYPE
+
+						 WHERE C.CODE_GRP_CD = 'EVENTTYPE'
+						   AND E.DEL_YN = 'N'
+		]]>
+
+		<if test='eventManageCheck != null and eventManageCheck != ""'>
+			<![CDATA[ AND E.CONFIRM_STATE = '20' ]]>
+		</if>
+
+			<![CDATA[
+						) EV
+
+				WHERE 1 = 1
+			]]>
+
+		<if test='listOrgGrpCd != "" and listOrgGrpCd != null'>
+			<![CDATA[ AND EV.EVENT_MANAGE_ORG_CD = #{listOrgGrpCd} ]]>
+		</if>
+
+		<if test='eventType != null and eventType != ""'>
+			AND  EV.EVENT_TYPE IN
+			<foreach collection="eventType" item="eventType" index="index" separator="," open="(" close=")">
+			#{eventType}
+			</foreach>
+		</if>
+
+		<if test='searchState != null and searchState != ""'>
+				<![CDATA[ AND EV.EVENT_STATE LIKE '%${searchState}%' ]]>
+		</if>
+
+		<if test='searchPay != null and searchPay != ""'>
+				<![CDATA[ AND EV.EVENT_FREE_YN LIKE '%${searchPay}%' ]]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "EVENT_NM" and searchWord != ""'>
+				<![CDATA[ AND EV.EVENT_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "EVENT_CONTENTS" and searchWord != ""'>
+				<![CDATA[ AND EV.EVENT_CONTENTS LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+
+		<![CDATA[
+			ORDER BY EV.EVENT_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getEventListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+
+			 SELECT COUNT(*) AS CNT
+
+					  FROM(
+								SELECT E.EVENT_IDX
+										,E.EVENT_NM
+										,E.EVENT_TYPE
+										,C.CODE_NM AS EVENT_TYPE_NM
+										,CONCAT(E.REQ_ST_DT,' ',E.REQ_ST,':00') AS RREQ_ST_DT
+										,CONCAT(E.REQ_ED_DT,' ',E.REQ_ET,':00') AS RREQ_ED_DT
+										,CONCAT(E.EVENT_ST_DT,' ',E.EVENT_ST,':00') AS EEVENT_ST_DT
+										,CONCAT(E.EVENT_ED_DT,' ',E.EVENT_ET,':00') AS EEVENT_ED_DT
+										,CURDATE()
+										,HOUR(NOW())
+										,E.REQ_ET
+										,IF(CURDATE() > E.EVENT_ED_DT, '행사종료',
+											(IF(CURDATE() = E.EVENT_ED_DT && HOUR(NOW()) > E.EVENT_ET, '행사종료',
+											 	(IF(CURDATE() > E.REQ_ED_DT, '접수마감',
+														(IF(CURDATE() < E.REQ_ST_DT, '접수전',
+																(IF(CURDATE() = E.REQ_ST_DT && HOUR(NOW()) < E.REQ_ST, '접수전',
+																 	(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) > E.REQ_ET, '접수마감',
+																		(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) = E.REQ_ET, '접수중','접수중'))))))))))))) AS EVENT_STATE
+
+										,E.EVENT_FREE_YN
+										,E.EVENT_PAY
+										,E.EVENT_CONTENTS
+										,E.EVENT_MANAGE_ORG_CD
+
+								 FROM  TB_EVENT E
+								 LEFT JOIN TB_CODE C ON C.CODE_CD = E.EVENT_TYPE
+
+								 WHERE C.CODE_GRP_CD = 'EVENTTYPE'
+								   AND E.DEL_YN = 'N'
+												   ]]>
+								<if test='eventManageCheck != null and eventManageCheck != ""'>
+									<![CDATA[ AND E.CONFIRM_STATE = '20' ]]>
+								</if>
+									<![CDATA[
+							) EV
+
+					  WHERE 1 = 1
+  		]]>
+
+		<if test='listOrgGrpCd != "" and listOrgGrpCd != null'>
+			<![CDATA[ AND EV.EVENT_MANAGE_ORG_CD = #{listOrgGrpCd} ]]>
+		</if>
+		<if test='eventType != null and eventType != ""'>
+			AND  EV.EVENT_TYPE IN
+			<foreach collection="eventType" item="eventType" index="index" separator="," open="(" close=")">
+			#{eventType}
+			</foreach>
+		</if>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[ AND EV.EVENT_STATE LIKE '%${searchState}%' ]]>
+		</if>
+
+		<if test='searchPay != null and searchPay != ""'>
+			<![CDATA[ AND EV.EVENT_FREE_YN LIKE '%${searchPay}%' ]]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "EVENT_NM" and searchWord != ""'>
+				<![CDATA[ AND EV.EVENT_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "EVENT_CONTENTS" and searchWord != ""'>
+				<![CDATA[ AND EV.EVENT_CONTENTS LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+
+	</select>
+
+	<select id="getEvent" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT  EV.*
+
+			  FROM  (
+						SELECT   E.EVENT_IDX
+								,E.EVENT_NM
+								,E.EVENT_TYPE
+								,C.CODE_NM AS EVENT_TYPE_NM
+								,E.EVENT_AUSPICES_CD
+								,E.EVENT_AUSPICES_NM
+								,E.EVENT_MANAGE_ORG_CD
+								,E.EVENT_MANAGE_ORG_NM
+								,E.EVENT_MANAGE_ORG_SUB_CD
+								,E.EVENT_MANAGE_ORG_SUB_NM
+								,E.REQ_ST_DT
+								,E.REQ_ED_DT
+								,E.REQ_ST
+								,E.REQ_ET
+								,E.EVENT_ST_DT
+								,E.EVENT_ED_DT
+								,E.EVENT_ST
+								,E.EVENT_ET
+								,CONCAT(E.REQ_ST_DT,' ',E.REQ_ST,':00') AS RREQ_ST_DT
+								,CONCAT(E.REQ_ED_DT,' ',E.REQ_ET,':00') AS RREQ_ED_DT
+								,CONCAT(E.EVENT_ST_DT,' ',E.EVENT_ST,':00') AS EEVENT_ST_DT
+								,CONCAT(E.EVENT_ED_DT,' ',E.EVENT_ET,':00') AS EEVENT_ED_DT
+								,CURDATE()
+								,HOUR(NOW())
+								,IF(CURDATE() > E.EVENT_ED_DT, '행사종료',
+									(IF(CURDATE() = E.EVENT_ED_DT && HOUR(NOW()) > E.EVENT_ET, '행사종료',
+									 	(IF(CURDATE() > E.REQ_ED_DT, '접수마감',
+												(IF(CURDATE() < E.REQ_ST_DT, '접수전',
+														(IF(CURDATE() = E.REQ_ST_DT && HOUR(NOW()) < E.REQ_ST, '접수전',
+														 	(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) > E.REQ_ET, '접수마감',
+																(IF(CURDATE() = E.REQ_ED_DT && HOUR(NOW()) = E.REQ_ET, '접수중','접수중'))))))))))))) AS EVENT_STATE
+								,E.EVENT_PLACE
+								,E.EVENT_PLACE_DETAIL
+								,E.MAP_X
+								,E.MAP_Y
+								,E.EVENT_TARGET
+								,E.EVENT_PEOPLE
+								,E.REQ_PEOPLE
+								,E.EVENT_FREE_YN
+								,E.EVENT_PAY
+								,E.EVENT_CONTENTS
+								,E.REFERENCE_ORG_NM
+								,E.REFERENCE_ORG_SUB_NM
+								,E.REFERENCE_CHARGER
+								,E.REFERENCE_PHONE
+								,E.REFERENCE_EMAIL
+								,E.CONFIRM_STATE
+								,E.CONFIRM_REJECT
+								,E.REG_IDX
+								,E.REG_DT
+								,E.REG_IP
+								,E.UP_IDX
+								,E.UP_DT
+								,E.UP_IP
+								,E.DEL_YN
+								,E.DEL_IDX
+								,E.DEL_DT
+								,E.DEL_IP
+
+						 FROM  TB_EVENT E
+						 LEFT JOIN TB_CODE C ON C.CODE_CD = E.EVENT_TYPE
+
+						 WHERE C.CODE_GRP_CD = 'EVENTTYPE'
+						   AND E.DEL_YN = 'N'
+						   ]]>
+				<if test='eventManageCheck != null and eventManageCheck != ""'>
+					<![CDATA[ AND E.CONFIRM_STATE = '20' ]]>
+				</if>
+					<![CDATA[
+					) EV
+
+			WHERE EV.EVENT_IDX= #{eventIdx}
+		]]>
+	</select>
+
+	<select id="getEventApplicantListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+
+			 SELECT COUNT(*) AS CNT
+			   FROM TB_EVENT_REQ
+
+			  WHERE EVENT_IDX = #{eventIdx}
+  				AND APPLICANT_STATE = 10
+  		]]>
+	</select>
+
+	<select id="getEventApplicantList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+					E.EVENT_REQ_IDX
+				   ,E.EVENT_IDX
+				   ,E.USER_IDX
+				   ,E.ORG_GRP_CD
+				   ,O.ORG_GRP_NM
+				   ,E.ORG_GRP_SUB_CD
+				   ,OS.ORG_GRP_SUB_NM
+				   ,E.APPLICANT_GENDER_TYPE
+				   ,IF(E.APPLICANT_GENDER_TYPE = 'M' , '남자' , '여자') AS APPLICANT_GENDER_TYPE_NM
+				   ,E.APPLICANT_NM
+				   ,E.APPLICANT_POSITION
+				   ,E.APPLICANT_PHONE
+				   ,E.APPLICANT_EMAIL
+				   ,E.APPLICANT_STATE
+				   ,E.RETURN_REASON
+				   ,E.REG_IDX
+				   ,DATE_FORMAT(E.REG_DT,'%Y-%m-%d') AS REG_DT
+				   ,E.REG_IP
+				   ,E.UP_IDX
+				   ,DATE_FORMAT(E.UP_DT,'%Y-%m-%d') AS UP_DT
+				   ,E.UP_IP
+
+			  FROM TB_EVENT_REQ AS E
+			  LEFT JOIN	TB_ORG_GRP AS O ON E.ORG_GRP_CD = O.ORG_GRP_CD
+			  LEFT JOIN	TB_ORG_GRP_SUB AS OS ON	E.ORG_GRP_SUB_CD = OS.ORG_GRP_SUB_CD
+
+			 WHERE E.EVENT_IDX = #{eventIdx}
+			   AND E.APPLICANT_STATE = 10
+
+			 ORDER BY E.REG_DT DESC
+		]]>
+	</select>
+
+	<select id="getEventConsentListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+
+			 SELECT COUNT(*) AS CNT
+			   FROM TB_EVENT_REQ
+
+			  WHERE EVENT_IDX = #{eventIdx}
+  				AND APPLICANT_STATE = 20
+  		]]>
+	</select>
+
+	<select id="getEventConsentList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+					E.EVENT_REQ_IDX
+				   ,E.EVENT_IDX
+				   ,E.USER_IDX
+				   ,E.ORG_GRP_CD
+				   ,O.ORG_GRP_NM
+				   ,E.ORG_GRP_SUB_CD
+				   ,OS.ORG_GRP_SUB_NM
+				   ,E.APPLICANT_GENDER_TYPE
+				   ,IF(E.APPLICANT_GENDER_TYPE = 'M' , '남자' , '여자') AS APPLICANT_GENDER_TYPE_NM
+				   ,E.APPLICANT_NM
+				   ,E.APPLICANT_POSITION
+				   ,E.APPLICANT_PHONE
+				   ,E.APPLICANT_EMAIL
+				   ,E.APPLICANT_STATE
+				   ,E.RETURN_REASON
+				   ,E.REG_IDX
+				   ,DATE_FORMAT(E.REG_DT,'%Y-%m-%d') AS REG_DT
+				   ,E.REG_IP
+				   ,E.UP_IDX
+				   ,DATE_FORMAT(E.UP_DT,'%Y-%m-%d') AS UP_DT
+				   ,E.UP_IP
+
+
+			  FROM TB_EVENT_REQ AS E
+
+			  LEFT JOIN	TB_ORG_GRP AS O ON E.ORG_GRP_CD = O.ORG_GRP_CD
+			  LEFT JOIN	TB_ORG_GRP_SUB AS OS ON	E.ORG_GRP_SUB_CD = OS.ORG_GRP_SUB_CD
+
+			 WHERE E.EVENT_IDX = #{eventIdx}
+			   AND E.APPLICANT_STATE = 20
+
+			 ORDER BY E.REG_DT DESC
+		]]>
+	</select>
+
+	<select id="getEventReturnListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+
+			 SELECT COUNT(*) AS CNT
+			   FROM TB_EVENT_REQ
+
+			  WHERE EVENT_IDX = #{eventIdx}
+  				AND APPLICANT_STATE IN ('30','40')
+  		]]>
+	</select>
+
+	<select id="getEventReturnList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+					E.EVENT_REQ_IDX
+				   ,E.EVENT_IDX
+				   ,E.USER_IDX
+				   ,E.ORG_GRP_CD
+				   ,O.ORG_GRP_NM
+				   ,E.ORG_GRP_SUB_CD
+				   ,OS.ORG_GRP_SUB_NM
+				   ,E.APPLICANT_GENDER_TYPE
+				   ,IF(E.APPLICANT_GENDER_TYPE = 'M' , '남자' , '여자') AS APPLICANT_GENDER_TYPE_NM
+				   ,E.APPLICANT_NM
+				   ,E.APPLICANT_POSITION
+				   ,E.APPLICANT_PHONE
+				   ,E.APPLICANT_EMAIL
+				   ,E.APPLICANT_STATE
+				   ,IF(E.APPLICANT_STATE = '30', '반려' , '취소') AS APPLICANT_STATE_NM
+				   ,E.RETURN_REASON
+				   ,E.REG_IDX
+				   ,DATE_FORMAT(E.REG_DT,'%Y-%m-%d') AS REG_DT
+				   ,E.REG_IP
+				   ,E.UP_IDX
+				   ,DATE_FORMAT(E.UP_DT,'%Y-%m-%d') AS UP_DT
+				   ,E.UP_IP
+
+			  FROM TB_EVENT_REQ AS E
+
+			  LEFT JOIN	TB_ORG_GRP AS O ON E.ORG_GRP_CD = O.ORG_GRP_CD
+			  LEFT JOIN	TB_ORG_GRP_SUB AS OS ON	E.ORG_GRP_SUB_CD = OS.ORG_GRP_SUB_CD
+
+			 WHERE E.EVENT_IDX = #{eventIdx}
+			   AND APPLICANT_STATE IN ('30','40')
+
+			 ORDER BY E.REG_DT DESC
+		]]>
+	</select>
+
+	<!-- 승인처리시, 참가신청수 증가(X) 승인 -->
+	<update id="setEventAddPeopleUpdate" parameterType="paramMap">
+			UPDATE	TB_EVENT
+			   SET
+			   		ATTENDANCE_PEOPLE = ATTENDANCE_PEOPLE+1,
+					UP_DT = now(),
+					UP_IDX =  #{regIdx},
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_IDX = #{eventIdx}
+				AND DEL_YN = 'N'
+	</update>
+
+	<!-- 신청반려 처리시, 참가신청수 감소(O) -->
+	<update id="setEventDelPeopleUpdate" parameterType="paramMap">
+			UPDATE	TB_EVENT
+			   SET
+			   		REQ_PEOPLE = REQ_PEOPLE-1,
+					UP_DT = now(),
+					UP_IDX =  #{regIdx},
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_IDX = #{eventIdx}
+				AND DEL_YN = 'N'
+	</update>
+
+	<!-- 승인취소 처리시,  승인수 감소(O) -->
+	<update id="setEventDelCanclePeopleUpdate" parameterType="paramMap">
+			UPDATE	TB_EVENT
+			   SET
+			   		ATTENDANCE_PEOPLE = ATTENDANCE_PEOPLE-1,
+			   		REQ_PEOPLE = REQ_PEOPLE-1,
+					UP_DT = now(),
+					UP_IDX =  #{regIdx},
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_IDX = #{eventIdx}
+				AND DEL_YN = 'N'
+	</update>
+
+
+	<!-- 승인버튼 -->
+	<update id="setEventReqApplicantUpdate" parameterType="paramMap">
+			UPDATE	TB_EVENT_REQ
+			   SET
+			   		APPLICANT_STATE = #{applicantState},
+			   		RETURN_REASON = #{returnReason},
+					UP_DT = now(),
+					UP_IDX = #{regId},
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_REQ_IDX = #{eventReqIdx}
+			  	AND EVENT_IDX = #{eventIdx}
+	</update>
+
+	<!-- 삭제버튼 -->
+	<delete id="setEventReqDelete" parameterType="paramMap">
+			 DELETE FROM
+					TB_EVENT_REQ
+			  WHERE EVENT_REQ_IDX = #{eventReqIdx}
+				AND EVENT_IDX = #{eventIdx}
+	</delete>
+
+	<!-- 행사 등록여부 상태(승인,반려) -->
+	<update id="setEventConfirmUpdate" parameterType="paramMap">
+			UPDATE	TB_EVENT
+			   SET
+			   		CONFIRM_STATE = #{confirmState},
+			   		CONFIRM_REJECT = #{confirmReject},
+					UP_DT = now(),
+					UP_IDX = #{regId},
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_IDX = #{eventIdx}
+	</update>
+
+	<insert id="setEventInsert" parameterType="paramMap">
+			INSERT INTO	TB_EVENT
+			(
+					EVENT_IDX,
+					EVENT_NM,
+					EVENT_TYPE,
+					EVENT_AUSPICES_NM,
+					EVENT_MANAGE_ORG_CD,
+					EVENT_MANAGE_ORG_NM,
+					EVENT_MANAGE_ORG_SUB_CD,
+					EVENT_MANAGE_ORG_SUB_NM,
+					REQ_ST_DT,
+					REQ_ED_DT,
+					REQ_ST,
+					REQ_ET,
+					EVENT_ST_DT,
+					EVENT_ED_DT,
+					EVENT_ST,
+					EVENT_ET,
+					EVENT_PLACE,
+					EVENT_PLACE_DETAIL,
+					MAP_X,
+					MAP_Y,
+					EVENT_TARGET,
+					EVENT_PEOPLE,
+					EVENT_FREE_YN,
+					EVENT_PAY,
+					EVENT_CONTENTS,
+					REFERENCE_ORG_NM,
+					REFERENCE_ORG_SUB_NM,
+					REFERENCE_CHARGER,
+					REFERENCE_PHONE,
+					REFERENCE_EMAIL,
+					CONFIRM_STATE,
+					CONFIRM_REJECT,
+					REG_IDX,
+					REG_DT,
+					REG_IP
+			)
+
+			VALUES
+			(
+					#{eventIdx},
+					#{eventNm},
+					#{eventType},
+					#{eventAuspicesNm},
+					#{eventManageOrgCd},
+					#{eventManageOrgNm},
+					#{eventManageOrgSubCd},
+					#{eventManageOrgSubNm},
+					#{reqStDt},
+					#{reqEdDt},
+					#{reqSt},
+					#{reqEt},
+					#{eventStDt},
+					#{eventEdDt},
+					#{eventSt},
+					#{eventEt},
+					#{eventPlace},
+					#{eventPlaceDetail},
+					#{mapX},
+					#{mapY},
+					#{eventTarget},
+					#{eventPeople},
+					#{eventFreeYn},
+					#{eventPay},
+					#{eventContents},
+					#{referenceOrgNm},
+					#{referenceOrgSubNm},
+					#{referenceCharger},
+					#{referencePhone},
+					#{referenceEmail},
+					'10',
+					#{confirmReject},
+					#{regIdx},
+					now(),
+					#{regIp}
+			)
+	</insert>
+
+	<update id="setEventUpdate" parameterType="paramMap">
+			UPDATE
+					TB_EVENT
+			   SET
+					EVENT_NM = #{eventNm},
+					EVENT_TYPE = #{eventType},
+					EVENT_AUSPICES_NM = #{eventAuspicesNm},
+					EVENT_MANAGE_ORG_CD = #{eventManageOrgCd},
+					EVENT_MANAGE_ORG_NM = #{eventManageOrgNm},
+					EVENT_MANAGE_ORG_SUB_CD = #{eventManageOrgSubCd},
+					EVENT_MANAGE_ORG_SUB_NM = #{eventManageOrgSubNm},
+					REQ_ST_DT = #{reqStDt},
+					REQ_ED_DT = #{reqEdDt},
+					REQ_ST = #{reqSt},
+					REQ_ET = #{reqEt},
+					EVENT_ST_DT = #{eventStDt},
+					EVENT_ED_DT = #{eventEdDt},
+					EVENT_ST = #{eventSt},
+					EVENT_ET = #{eventEt},
+					EVENT_PLACE = #{eventPlace},
+					EVENT_PLACE_DETAIL = #{eventPlaceDetail},
+					MAP_X = #{mapX},
+					MAP_Y = #{mapY},
+					EVENT_TARGET = #{eventTarget},
+					EVENT_PEOPLE = #{eventPeople},
+					EVENT_FREE_YN = #{eventFreeYn},
+					EVENT_PAY = #{eventPay},
+					EVENT_CONTENTS = #{eventContents},
+					REFERENCE_ORG_NM = #{referenceOrgNm},
+					REFERENCE_ORG_SUB_NM = #{referenceOrgSubNm},
+					REFERENCE_CHARGER = #{referenceCharger},
+					REFERENCE_PHONE = #{referencePhone},
+					REFERENCE_EMAIL = #{referenceEmail},
+					UP_IDX = #{regIdx},
+					UP_DT = now(),
+					UP_IP = #{regIp}
+
+			  WHERE EVENT_IDX = #{eventIdx}
+
+
+	</update>
+
+	<update id="setEventDeleteUpdate" parameterType="paramMap">
+
+ 			UPDATE
+ 					TB_EVENT
+ 			   SET
+
+					DEL_YN = 'Y',
+					DEL_IDX = #{regIdx},
+					DEL_DT = now(),
+					DEL_IP = #{regIp}
+
+		 	 WHERE	EVENT_IDX = #{eventIdx}
+
+	</update>
+
+	<select id="getEventTypeList" parameterType="paramMap" resultType="java.util.HashMap" >
+		<![CDATA[
+			SELECT
+				   CODE_GRP_CD,
+				   CODE_CD,
+				   CODE_NM
+
+			  FROM TB_CODE
+
+			 WHERE CODE_GRP_CD = 'EVENTTYPE'
+		]]>
+	</select>
+	<select id="getLoginUserInfo" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					U.USER_IDX
+				   ,U.USER_ID
+				   ,U.PSN_NM
+				   ,U.TEL_NO
+				   ,U.EMAIL
+				   ,O.ORG_GRP_NM
+				   ,U.DEPT_NM
+				   ,U.AUTH_LV
+
+			  FROM TB_USER_COPY U
+			  LEFT JOIN TB_ORG_GRP O
+				ON U.ORG_GRP_CD = O.ORG_GRP_CD
+
+			 WHERE U.USER_IDX = #{userIdx}
+		]]>
+	</select>
+
+</mapper>

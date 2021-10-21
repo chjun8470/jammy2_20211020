@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspChangeOrgMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+	
+	<!-- 기관회원변경리스트 -->
+	<select id="getChangeOrgList" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					 USER_IDX
+					,USER_ID
+					,DATE_FORMAT(REG_DT, '%y-%m-%d') AS REG_DT
+					,PSN_NM
+					,ENG_PSN_NM
+					,GENDER_TYPE_CD
+					,FRGN_YN
+					,LOWER(USER_ID) AS USER_ID
+					,PASSWORD
+					,EMAIL_ID
+					,EMAIL_DOMAIN
+					,EMAIL_RECV_YN
+					,BLNG_ORG_GUBUN
+					,DMABR_SLCT_CD
+					,BLNG_ORG_ZIP_CODE
+					,BLNG_ORG_ADDR
+					,TEL_NO1
+					,TEL_NO2
+					,TEL_NO3
+					,CP_NO1
+					,CP_NO2
+					,CP_NO3
+					,FAX_NO1
+					,FAX_NO2
+					,FAX_NO3
+					,DEPT_ZIP_CODE
+					,DEPT_NM
+					,DEPT_ADDR
+					,INSTIT_JOB_NM
+					,JOB_DIV_CD
+					,USER_TYPE_CD
+					,RECOMMENDER_ID
+					,BIRTH_DATE
+					,POSITION
+					,BLNG_ORG_NM
+					,DEPT_ADDR_DTL
+					,BLNG_ORG_ADDR_DTL
+					,CHANGE_ORG_DATE
+					,CASE 	WHEN CHANGE_ORG='10' THEN "요청"
+							WHEN CHANGE_ORG='20' THEN "승인"
+							WHEN CHANGE_ORG='30' THEN "반려"
+							ELSE ""
+							END CHANGE_ORG
+			FROM
+					TB_USER_COPY
+			WHERE 1=1
+			  AND DELETE_YN != 'Y'
+			  AND CHANGE_ORG IN('10','20','30')
+			  			  
+	</select>
+
+	<!-- 기관회원변경 카운트 -->
+	<select id="getChangeOrgCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				TB_USER_COPY
+		WHERE 	1=1
+			  AND DELETE_YN != 'Y'
+			  AND CHANGE_ORG IN('10','20','30')
+	<!--  		AND USER_IDX = #{userIdx}
+			<if test='equipCd != null and equipCd != ""'>
+				<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+			</if>
+			<if test='searchType != null and searchType != ""'>
+				<if test='searchType == "manufacture" and searchWord != ""'>
+					<![CDATA[	AND MANUFACTURE_NM LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "equipNm" and searchWord != ""'>
+					<![CDATA[	
+						AND (KOR_NM LIKE '%${searchWord}%'
+						 OR ENG_NM LIKE '%${searchWord}%')
+					]]>
+				</if>
+				<if test='searchType == "keyWord" and searchWord != ""'>
+					<![CDATA[	
+						AND (
+						 	CONCAT('|',KOR_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 OR CONCAT('|',ENG_KEY_WORD,'|') LIKE '%|${searchWord}|%'
+						 )
+					]]>
+				</if>
+			</if> -->
+	</select>
+	
+ 	<!-- 기관변경특정회원 정보 -->
+	<select id="getChangeOrgUser" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					 	  USER_IDX
+						, PSN_NM
+						, ENG_PSN_NM
+						, GENDER_TYPE_CD
+						, FRGN_YN
+						, USER_ID
+						, PASSWORD
+						, EMAIL_ID
+						, EMAIL_DOMAIN
+						, EMAIL_RECV_YN
+						, BLNG_ORG_GUBUN
+						, DMABR_SLCT_CD
+						, BLNG_ORG_ZIP_CODE
+						, BLNG_ORG_ADDR
+						, TEL_NO1
+						, TEL_NO2
+						, TEL_NO3
+						, CP_NO1
+						, CP_NO2
+						, CP_NO3
+						, FAX_NO1
+						, FAX_NO2
+						, FAX_NO3
+						, DEPT_NM
+						, POSITION_NM
+						, INSTIT_JOB_NM
+						, JOB_DIV_CD
+						, USER_TYPE_CD
+						, RECOMMENDER_ID
+						, BIRTH_DATE
+						, DELETE_YN
+						, DEPT_ZIP_CODE
+						, DEPT_ADDR
+						, POSITION
+						, BLNG_ORG_NM
+						, DEPT_ADDR_DTL
+						, BLNG_ORG_ADDR_DTL
+						, AUTH_LV
+						, DATE_FORMAT(REG_DT, '%y-%m-%d') AS REG_DT
+						, REG_IP
+						, REG_IDX
+						, UP_DT
+						, UP_IP
+						, UP_IDX
+						,CHANGE_ORG_DATE
+						,CHANGE_ORG_NO
+						,CASE 	WHEN CHANGE_ORG='10' THEN "요청"
+								WHEN CHANGE_ORG='20' THEN "승인"
+								WHEN CHANGE_ORG='30' THEN "반려"
+								ELSE ""
+								END CHANGE_ORG
+			FROM
+					TB_USER_COPY
+			WHERE 1=1
+			  AND USER_IDX = #{userIdx}
+			  AND DELETE_YN != 'Y'
+	</select>
+	
+ 	<!-- 기간회원변경(승인여부PMS) -->
+	<update id="setChangeOrgAccept" parameterType="paramMap" >
+
+		UPDATE
+				TB_USER_COPY
+		SET
+			 	CHANGE_ORG = #{userAppState}
+		WHERE
+			 	USER_IDX = #{userIdx}
+		AND
+			 	DELETE_YN != 'Y'
+	</update>
+	
+ 	<!-- 반려사유 --> 
+	<update id="setChangeOrgAcceptNo" parameterType="paramMap">
+
+		UPDATE
+				TB_USER_COPY
+		SET
+				CHANGE_ORG_NO= #{acceptNo}
+		WHERE
+				USER_IDX = #{userIdx}
+				
+	</update>
+	<!-- 회원삭제 --> 
+	<delete id="delChangeOrgUser" parameterType="paramMap">
+			 DELETE
+			 FROM
+						TB_USER_COPY
+			 WHERE
+						USER_IDX = #{userIdx}
+	</delete>
+
+</mapper>

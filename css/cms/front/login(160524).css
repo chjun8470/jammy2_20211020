@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+span.necessary { color:#0064ff; padding-right:5px }
+span.example { float:left; font-size:14px; color:#969696; margin:20px 0 0 12px }
+span.whelk { float:left; font-size:14px; color:#464646; margin:20px 7px 0 7px }
+
+.btnBox1 { width:770px; float:left; margin-top:30px; margin-left:15px; text-align:center }
+.btnBox1 .btn_g-pin { width:180px; height:34px; background-color:#3b88b7; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; margin-right:10px; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.btnBox1 .btn_phone { width:180px; height:34px; background-color:#3b88b7; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.btnBox1 .btn_signUp { width:200px; height:46px; background:#4d75b2; padding:0; border:none; font-size:16px; letter-spacing:-0.03em; color:#fff; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+
+.btn_overlap { width:79px; height:30px; float:left; font-size:14px; letter-spacing:-0.03em; color:#fff; margin:12px 0 0 5px; padding:0; border:none; background-color:#3b88b7;
+               font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.btn_address { width:79px; height:30px; float:left; font-size:14px; letter-spacing:-0.03em; color:#fff; margin:12px 0 0 5px; padding:0; border:none; background-color:#3b88b7;
+               font-family:'NanumGothic', 'Malgun Gothic', dotum !important }			   
+
+/* 로그인 창 */
+.loginWrap { width:800px; min-height:600px; padding-top:116px; background:url(/img/login/bg_loginWrap.png) no-repeat; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.loginWrap .tit_login { width:529px; height:79px; margin:0 auto; padding-top:33px; text-align:center; font-size:45px; letter-spacing:-0.01em; color:#fff }
+.loginWrap .loginBox { width:320px; height:176px; margin:0 auto; margin-top:31px }
+.loginWrap .loginBox .input_id { width:305px; height:36px; border:1px solid #71add2; font-size:16px; font-weight:400; color:#464646; padding-left:13px }
+.loginWrap .loginBox .input_pw { width:305px; height:36px; border:1px solid #71add2; font-size:16px; font-weight:400; color:#464646; padding-left:13px; margin-top:14px }
+.loginWrap .loginBox .btn_login { width:320px; height:41px; text-align:center; font-size:24px; font-weight:400; color:#fff; margin-top:35px; padding-top:15px; padding:0; border:none; background-color:#3b88b7 }
+.loginWrap .loginBox .txt_find { font-size:24px; float:left; letter-spacing:-0.01em; color:#3b88b7; margin-top:5px }
+.loginWrap .loginBox .txt_find2 { font-size:24px; float:left; letter-spacing:-0.01em; color:#3b88b7; margin-top:25px }
+.loginWrap .loginBox .input_find { width:223px; height:36px; float:right; border:1px solid #71add2; font-size:16px; font-weight:400; color:#464646; padding-left:13px }
+.loginWrap .loginBox .input_find2 { width:223px; height:36px; float:right; border:1px solid #71add2; font-size:16px; font-weight:400; color:#464646; padding-left:13px; margin-top:14px }
+.loginWrap .loginBox .btn_lft { width:128px; height:41px; float:left; text-align:center; font-size:20px; font-weight:400; color:#fff; margin-top:35px; padding-top:15px; padding:0; border:none; 
+                                background-color:#3b88b7; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.loginWrap .loginBox .btn_rgt { width:128px; height:41px; float:right; text-align:center; font-size:20px; font-weight:400; color:#fff; margin-top:35px; padding-top:15px; padding:0; border:none; 
+                                background-color:#3b88b7; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+
+/* 가입완료 */
+.txt_complete { text-align:center; font-size:30px; line-height:40px; letter-spacing:-0.01em; color:#3b88b7; margin:10px 0 10px 0; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.txt_mail_send { text-align:center; font-size:30px; line-height:40px; letter-spacing:-0.01em; color:#3b88b7; margin:60px 0 21px 0; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+
+
+/* 약관 및 동의서 */
+.agreeWrap { width:800px; min-height:830px; background-color:#fafafa; padding-top:30px; padding-bottom:30px; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.agreeWrap .join_order { width:770px; height:54px; margin:0 auto }
+.agreeWrap .agreeBox1 { width:770px; float:left; margin:30px 0 0 15px }
+.agreeWrap .agreeBox1 .tit_agree { float:left; font-size:24px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.agreeWrap .agreeBox1 .check_agree { float:right }
+.agreeWrap .agreeBox1 .check_agree label { font-size:16px; font-weight:600; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox1 .agreement { width:100%; float:left; border:1px solid #e1e1e1; height:195px; margin-top:20px }
+.agreeWrap .agreeBox1 .agreement .Box1 { height:54px; background-color:#f0f0f0; border-bottom:1px solid #e1e1e1 }
+.agreeWrap .agreeBox1 .agreement .Box1 .tit_agree2 { float:left; font-size:18px; letter-spacing:-0.03em; color:#464646; padding:17px 0 0 17px }
+.agreeWrap .agreeBox1 .agreement .Box1 .check_agree2 { width:173px; height:34px; float:right; padding:20px 0 0 17px; border-left:1px solid #e1e1e1 }
+.agreeWrap .agreeBox1 .agreement .Box1 .check_agree2 label { font-size:14px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox1 .agreement .info_agree { width:748px; height:110px; float:left; padding:28px 0 0 22px; font-size:12px; letter-spacing:-0.03em; color:#646464; border:none; background-color:#fff }
+
+.agreeWrap .agreeBox2 { width:770px; float:left; margin:30px 0 0 15px }
+.agreeWrap .agreeBox2 .tit_agree2 { float:left; font-size:24px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.agreeWrap .agreeBox2 .memberKindWrap { width:100%; height:135px; float:left; margin-top:20px; border-top:1px solid #3b88b7; border-bottom:1px solid #e1e1e1 }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind { width:100%; height:54px; float:left; background-color:#f0f0f0 }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice { width:100px; height:39px; float:left; padding-top:15px; margin-right:80px; margin-left:150px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice label { font-size:18px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 { width:100px; height:39px; float:left; padding-top:15px; margin-right:80px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 label { font-size:18px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 { width:100px; height:39px; float:left; padding-top:15px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 label { font-size:18px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry { width:100%; float:left }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice4 { width:75px; height:33px; float:left; padding-top:17px; margin-right:45px; margin-left:289px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice4 label { font-size:16px; letter-spacing:-0.03em; color:#646464; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice5 { width:75px; height:33px; float:left; padding-top:17px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .check_choice5 label { font-size:16px; letter-spacing:-0.03em; color:#646464; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberCountry .reference { width:100%; float:left; font-size:14px; letter-spacing:-0.03em; color:#7396ab; text-align:center; color:#7396ab }
+
+
+/* 회원정보 입력 */
+.infoWrap { width:800px; min-height:1080px; background-color:#fafafa; padding-top:30px; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.infoWrap .join_order { width:770px; height:54px; margin:0 auto }
+.infoWrap .infoBox1 { width:770px; float:left; margin:30px 0 0 15px }
+.infoWrap .infoBox1 .tit_agree { float:left; font-size:24px; font-weight:600; letter-spacing:-0.03em; color:#464646 }
+.infoWrap .infoBox1 dl.info_form { width:100%; float:left; margin:20px 0 0 0; border-top:1px solid #3b88b7; }
+.infoWrap .infoBox1 dl.info_form dt { width:178px; height:34px; float:left; font-size:16px; letter-spacing:-0.05em; color:#464646; padding:19px 0 0 17px; border-right:1px solid #e1e1e1; 
+                                      border-bottom:1px solid #e1e1e1; background-color:#f0f0f0 }
+.infoWrap .infoBox1 dl.info_form dt.address { height:118px }
+.infoWrap .infoBox1 dl.info_form dd  { width:559px; height:53px; float:left; padding:0 0 0 15px; border-bottom:1px solid #e1e1e1; background:none }
+.infoWrap .infoBox1 dl.info_form dd.address { height:137px }
+.infoWrap .infoBox1 dl.info_form dd.load { width:547px; height:33px; font-size:14px; color:#5e5e5e; padding:20px 0 0 12px }
+.infoWrap .infoBox1 dl.info_form dd .input_check1 { width:65px; margin-top:20px; float:left }
+.infoWrap .infoBox1 dl.info_form dd .input_check1 input.check1 { width:17px; height:17px; float:left; margin-right:7px }
+.infoWrap .infoBox1 dl.info_form dd .select_1 { width:187px; height:28px; float:left; margin:12px 0 0 15px; border:1px solid #e1e1e1 }
+.infoWrap .infoBox1 dl.info_form dd .select_2 { width:187px; height:28px; float:left; margin:12px 0 0 0; border:1px solid #e1e1e1 }
+.infoWrap .infoBox1 dl.info_form dd input.input1 { width:180px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.infoWrap .infoBox1 dl.info_form dd input.input2 { width:100px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
+.infoWrap .infoBox1 dl.info_form dd input.input3 { width:545px; height:28px; float:left; font-size:14px; color:#323232; margin-top:12px; padding:0 0 0 7px; border:1px solid #e1e1e1;
+                                                   font-family:'NanumGothic', 'Malgun Gothic', dotum !important }												   												   
+												   

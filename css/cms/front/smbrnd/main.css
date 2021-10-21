@@ -1,0 +1,184 @@
+/*����*/
+
+/* CSS Document */
+.header {background:url(img/bg_main.jpg)  no-repeat center 0px; width:100%; height:525px;  }
+div.contents {width:912px; margin:0 auto; height:387px;}
+div.contents_btn {width:911px;}
+div.login_box {width:578px; float:left; margin-top:10px;}
+div.cont_left {float:right;}
+div.img {display:block; margin:0 auto; padding-top:116px; text-align: center; padding-right:412px;}
+
+.login_logo {margin:0 0 25px 0;}
+
+.LoginInputBox {float:left; padding:0 16px 0 0;}
+
+.IdBox {width:332px;}
+.PwBox {width:332px;}
+
+.IdBox .Id {float:left;width:72px;text-align:right;padding-right:10px;font-weight:600;line-height:36px;font-size:18px}
+.InputIdBox .input-id {width:248px;height:36px;margin-bottom:15px}
+.PwBox .Pw {float:left;width:72px;text-align:right;padding-right:10px;font-weight:600;line-height:36px;font-size:18px}
+.InputPwBox .input-pw {width:248px;height:36px;margin-bottom:15px}
+
+.LoginBtnBox {float:left;}
+.LoginBtnBox_1 {float:left; margin:0 0 0 6px;}
+
+.LogintextBox {width:426px; float:left; padding-left:94px; margin-top:6px; margin-bottom:6px;}
+
+
+.Logintext_1 {}
+.Logintext_1 ul {}
+.Logintext_1 li {float:left; padding:8px;}
+
+/* MainVisual */
+.MainVisualWrap{width:100%;height:550px;margin-top:-50px;position: relative; overflow: hidden;z-index:0}
+#banner_slide { width: 100%; height: 550px;}
+.banner01 { width: 100%; height:550px !important; background:url(/img/smbrnd/main/main_visual.jpg) center top no-repeat; }
+.banner02 { width: 100%; height:550px !important; background:url(/img/smbrnd/main/main_visual02.jpg) center top no-repeat; }
+
+.MainVisual{ width:100%; max-width:1200px;height:100%;margin:0 auto; position: absolute; left: 50%; transform: translate(-50%); z-index: 1;}
+
+.txt_visual { position: absolute; top:30%; left:50%; transform: translate(-50%); }
+.MainVisual .h_icon { position: absolute; bottom: 15px; left: 20px; }
+
+
+/*@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { .MainVisual img{ padding:80px 0 0 40px } }*/
+
+ul.MVisualLinkList{position:absolute;bottom:0;width:100%;max-width: 1200px;}
+ul.MVisualLinkList li{width:25%;height:120px;cursor:pointer;float:left; position: relative;} 
+
+
+ul.MVisualLinkList li h3 { color:#fff;font-size:21px;font-weight:600;padding:21px 0 0 25px;letter-spacing:-1px;}
+
+ul.MVisualLinkList li p.MVLTxt{color:#fff;font-size:13px;font-weight:600;padding:15px 0 0 25px;line-height:17px}
+ul.MVisualLinkList li a{display:block;height:100%;}
+ul.MVisualLinkList li a img{/*padding:13px 40px 0 0;*/ position: absolute; right: 20px; bottom: 15px;transition: .2s;}
+ul.MVisualLinkList li:hover > a img {right: 10px; transition: .2s;}
+
+
+ul li.MVisualLinkList01{background: rgba(0,0,0,0.6);transition: .2s;}
+ul li.MVisualLinkList02{background: rgba(0,0,0,0.6);transition: .2s;}
+ul li.MVisualLinkList03{background: rgba(0,0,0,0.6);transition: .2s;}
+ul li.MVisualLinkList04{background: rgba(0,0,0,0.6);transition: .2s;}
+ul li.MVisualLinkList05{background: rgba(0,0,0,0.6);transition: .2s;}
+
+ul li.MVisualLinkList01:hover{transform: translateY(-20px);background: url(/img/smbrnd/main/bg_quicklink0101.gif) no-repeat;transition: .2s;}
+ul li.MVisualLinkList02:hover{transform: translateY(-20px);background:url(/img/smbrnd/main/bg_quicklink0102.gif) no-repeat;transition: .2s;}
+ul li.MVisualLinkList03:hover{transform: translateY(-20px);background:url(/img/smbrnd/main/bg_quicklink0101.gif) no-repeat;transition: .2s;}
+ul li.MVisualLinkList04:hover{transform: translateY(-20px);background:url(/img/smbrnd/main/bg_quicklink0102.gif) no-repeat;transition: .2s;}
+ul li.MVisualLinkList05:hover{transform: translateY(-20px);background:url(/img/smbrnd/main/bg_quicklink0101.gif) no-repeat;transition: .2s;}
+
+/* MainCont01 */
+.MainContBg{width:100%;/*background:#f0f1f6*/}
+.MainContWrap{width:100%;max-width:1200px;margin:0 auto}
+.MainCont01{padding:24px 0 29px 0}
+.MainCont01 .MCSection01{float:left;}
+
+/*Main01*/
+
+.Main01 {width:100%;}
+.Main01::after {display: block; content: ""; visibility: hidden; clear: both;}
+.Main01 li {width:20%; float: left; padding: 15px 20px; box-sizing:border-box; text-align: right; border-right:1px dotted #5c8bd2; color: #4073c1;font-size:1.1em; height: 83px;}
+.Main01 li img {float: left;}
+.Main01 li:last-child {border: 0;}
+
+.Main01 .info01 { background: #4073c1; text-align: center; color: #fff; font-size:1em; height: 84px;}
+.Main01 .btn_b { background-color: #448ccb; text-align: left; padding: 20px 10px 5px; transition: .2s;}
+.Main01 .btn_b:hover {background-color: #2d5690;}
+.Main01 .btn_b a { color: #fff; }
+.Main01 .btn_b a h4 {font-size:18px}
+.Main01 .btn_b a h1 { font-size: 35px; opacity: .5; line-height: 28px;}
+
+.Main01 .btn_g { background-color: #cccccc; text-align: left; padding: 20px 10px 5px; transition: .2s;}
+.Main01 .btn_g:hover {background-color: #aaa;}
+.Main01 .btn_g a { color: #fff; }
+.Main01 .btn_g a h4 {font-size:18px}
+.Main01 .btn_g a h1 { font-size: 35px; opacity: .5; line-height: 28px;}
+
+/* Main02 */
+
+.Main02 {}
+.Main02 .Section0502{float:left;width:335px; position: relative;}
+.Main02 .Section0502 h2.tit_MC0502{background:url(img/smbrnd/main/icon_main07.png) no-repeat; padding-left:28px;color:#4981ca;font-size:20px;font-weight:600;letter-spacing:-1px;border-bottom:2px solid #4981ca;padding-bottom:7px;}
+
+
+ul.PopupControl{float:right;top:0px;right:0;position:absolute}
+	ul.PopupControl li{float:left; margin-left:1px}
+	ul.PopupControl li a{width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+	ul.PopupControl li a.BtnPrev{background:url(/img/smbrnd/main/btn_prev.gif) no-repeat}
+	ul.PopupControl li a.BtnNext{background:url(/img/smbrnd/main/btn_next.gif) no-repeat}
+	ul.PopupControl li a.BtnStop{background:url(/img/smbrnd/main/btn_pause.gif) no-repeat}
+	ul.PopupControl li a.BtnPlay{background:url(/img/smbrnd/main/btn_play.gif) no-repeat;width:21px}
+.bx-has-pager {display: none;}
+	
+.Main02 .BoardWrap01{width: calc(98% - 338px);float:right; margin-left:2%; border: 1px solid #ddd;}
+.Main02 .BoardWrap01 .board01{width:100%;float:right;position:relative;}
+.Main02 .BoardWrap01 .board01 .article{float: left;margin-top:23px;}
+.Main02 .BoardWrap01 .board01 h2{font-size:20px;font-weight:600;margin: 0 10px;color:#4981ca;letter-spacing:-1px;padding:13px 10px;border-bottom: 3px solid #4981ca;}
+
+
+.ConBoard{ padding: 16px 10px; }
+.ConBoard ul { }
+.ConBoard ul li { border-bottom: 2px dotted #ddd; padding: 8px; }
+.ConBoard ul li a:hover{color: #4073c1;}
+.ConBoard ul li:first-child {padding-top: 0;}
+.ConBoard ul li .date {float: right;}
+.ConBoard ul li .subject {font-weight: 400;}
+
+.ConBoard a.more{position:absolute;top:18px;right:28px; font-weight: 800; color: #4981ca;}
+.ConBoard ul.ListBoard li a{position:relative}
+.ConBoard ul.ListBoard{margin:0px 38px 0 32px}
+
+/* Main03 */
+.Main03{width:100%; max-width:1200px; margin:0 auto;clear:both}
+.Main03::after {display: block; visibility: hidden; content: ""; clear: both;}
+.Main03 .Section0501{float:left;width:100%;/*background:url(img/smbrnd/main/line_cont0501.gif) 0 40px no-repeat*/}
+.Main03 .Section0501::after {display: block; visibility: hidden; content: ""; clear: both;}
+.Main03 .Section0501 h2.tit_MC05{background:url(/img/smbrnd/main/icon_main06.png) no-repeat; background-position-y: 25px;color:#4981ca;font-size:20px;font-weight:600;letter-spacing:-1px;border-bottom:3px solid #4981ca; padding: 20px 20px 15px;}
+.Main03 .Section0501 ul{}
+.Main03 .Section0501 ul li{float:left;width:24.25%; margin-left: 1%; background: #f3f3f3; padding: 10px; box-sizing: border-box; position: relative;}
+.Main03 .Section0501 ul li:first-child {margin: 0;}
+.Main03 .Section0501 p.Tit0501{font-size:17px;color:#2d5690;font-weight:900;letter-spacing:-1px}
+.Main03 .Section0501 p.Txt0501{font-size:13px;color:#2d5690;letter-spacing:-0.5px;padding:0px 0 15px 0}
+.Main03 .Section0501 p.Txt0502{font-size:13px;color:#2d5690;letter-spacing:-0.5px;padding:7px 0 15px 0}
+
+.Main03 .Section0501 .iconrnd { float: left; }
+.Main03 .Section0501 .txt0317 {float: left; padding: 0 9px;}
+.Main03 .Section0501 .txt0317 img { position: absolute; bottom: 15px; right: 20px; transition: .3s;}
+.Main03 .Section0501 .txt0317 img:hover { right: 15px; transition: .3s;}
+
+
+/* banner */
+.BannerWrap{width:100%; /*background:url(/img/main/bg_banner.png) 0 23px repeat-x;height:108px;*/clear:both; height: 60px; border-top: 1px solid #ddd; margin-top: 50px; position: relative;}
+.BannerWrap .Banner{width:1200px;margin:0 auto;}
+.BannerWrap .Banner h3.TitBanner{float:left;padding-top:48px;font-weight:600;color:#444}
+.BannerWrap .Banner ul.BannerControl{float:left;background:url(/img/main/line_banner.gif) 104px 0px no-repeat;height:55px; padding-top:16px; width:111px;margin:32px 0 0 16px}
+.BannerWrap .Banner ul.BannerControl li{float:left; margin-right:1px}
+.BannerWrap .Banner ul.BannerControl li a{width:20px;height:20px;cursor:pointer;text-indent:-9999px;display:block}
+.BannerWrap .Banner ul.BannerControl li a.BtnPrev{background:url(/img/main/btn_prev01.gif) no-repeat;width:21px}
+.BannerWrap .Banner ul.BannerControl li a.BtnNext{background:url(/img/main/btn_next01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnStop{background:url(/img/main/btn_stop01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerControl li a.BtnPlay{background:url(/img/main/btn_play01.gif) no-repeat}
+.BannerWrap .Banner ul.BannerList{position:absolute;left:48%;transform:translate(-50%); top:45px;overflow:hidden;min-width:160px;width:100%;max-width:730px;height:30px;vertical-align:middle;}
+.BannerWrap .Banner ul.BannerList li{display:inline;padding:0px 15px;}
+.BannerWrap .Banner ul.BannerList li a{position:absolute;width:155px;top:0px;left:0px;}
+.BannerWrap .Banner .JeonNam{float:right; background:url(/img/main/line_banner02.gif) no-repeat;width:227px;margin-top:31px;margin-left:18px;padding:12px 0 30px 20px;cursor:pointer}
+.BannerWrap .Banner .JeonNam .JeonNamCi{width:214px}
+.BannerWrap .Banner .JeonNam .JeonNamCi img.JeonNamImg{width:100%}
+
+
+.footer {border-top-color:#DBDBDB; border-top-width:3px; border-top-style:solid; width:100%; height:80px;}
+/*
+.footer address {clear: both; width: 400px; height: 24px; margin-left:20px;text-indent: -9999px;}
+.footer span {font-size: 0; line-height: 0;}
+*/
+.footer_cont {text-align:center; margin:0 auto; padding-top:15px; width:912px; }
+
+.footer_logo {float:left; margin:0 30px 0 0;}
+.footer_text {float:left;}
+
+#edu_list01 {top:140px;}
+#edu_list02 {top:140px;}
+#edu_list02 .more{top:-65px;}
+#edu_list03 {top:140px;}
+#edu_list03 .more{top:-65px;}

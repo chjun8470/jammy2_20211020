@@ -1,0 +1,191 @@
+@charset "utf-8";
+
+@import url(layout.css);
+
+#body{
+	background:#ededed;
+	}
+
+.main_visual{
+	position:relative;
+	height:409px;
+	}
+
+.main_visual .item{
+	min-width:1000px; 
+	height:409px;
+	background-repeat:no-repeat; 
+	background-position:center 0;
+	}
+
+.main_content{
+	width:1000px;
+	margin:0 auto;
+	padding:26px 0;
+	}
+
+.main_content .section01{
+	height:100%;
+	}
+.main_content .section01:after, .main_content .section02:after{
+	content:"";
+	display:block;
+	float:none;
+	clear:both;
+	}
+
+.main_content .section02{
+	margin:20px 0 0 0;
+	}
+
+.main_content .box_type1{
+	position:relative;
+	width:318px;
+	height:253px;
+	padding:30px 22px 0 22px;
+	background:url('../images/main/shadow_box.png') no-repeat;
+	}
+
+.main_content .box_type1 .title{
+	font-size:16px;
+	color:#222;
+	border-bottom:1px solid #cfcfcf;
+	}
+.main_content .box_type1 .title small{
+	display:block;
+	margin:3px 0 0 0;
+	padding:0 0 18px 0;
+	font-size:12px;
+	color:#5e9633;	
+	}
+.main_content .box_type1 .more{
+	position:absolute; 
+	right:29px; 
+	top:31px;
+	}
+
+.main_content .latest_article{
+	}
+.main_content .latest_article ul{
+	margin:10px 0 0 0;
+	}
+.main_content .latest_article ul li{
+	padding:4px 0 4px 17px;
+	background:url('../images/main/article_bu.gif') 5px 10px no-repeat;
+	}
+.main_content .latest_article ul li a{
+	color:#676767;
+	}
+
+.main_content .agri_news{
+	display:inline;
+	float:left;
+	}
+
+.main_content .report_news{
+	display:inline;
+	float:left;
+	margin:0 0 0 23px;
+	}
+
+.main_content .sector_info{
+	display:inline;
+	float:right;
+	}
+.main_content .sector_info .title{
+	border-bottom:0;
+	}
+.main_content .sector_info ul li{
+	display:inline;
+	float:left;
+	width:33.222222%;
+	height:73px;
+	border-width:1px;
+	border-style:solid;
+	text-align:center;
+	background:url('../images/main/sector_info_icon.png') no-repeat;
+	}
+.main_content .sector_info ul li a{
+	display:block;
+	height:72px;
+	padding:45px 0 0 0;
+	}
+.main_content .sector_info ul li.n1{border-color:#fff #cfcfcf #cfcfcf #fff;}
+.main_content .sector_info ul li.n2{border-color:#fff #cfcfcf #cfcfcf #fff; background-position:-90px 0;}
+.main_content .sector_info ul li.n3{border-color:#fff #fff #cfcfcf #fff; background-position:-180px 0;}
+.main_content .sector_info ul li.n4{border-color:#fff #cfcfcf #fff #fff; background-position:0 -72px;}
+.main_content .sector_info ul li.n5{border-color:#fff #cfcfcf #fff #fff; background-position:-90px -72px;}
+.main_content .sector_info ul li.n6{border-color:#fff #fff #fff #fff; background-position:-180px -72px;}
+
+/* 친환경농업 */
+.main_content .about_agri{
+	display:inline;
+	float:left;
+	}
+.main_content .about_agri ul{
+	padding:11px 0 0 0;
+	height:164px;
+	background:url('../images/main/agri_about_bg.gif') right bottom no-repeat;
+	}
+.main_content .about_agri ul li{
+	position:relative;
+	width:162px;
+	height:31px;
+	color:#676767;
+	font-size:13px;
+	line-height:31px;
+	border-bottom:1px dotted #000;
+	}
+.main_content .about_agri ul li a.go{
+	position:absolute;
+	right:0;
+	top:6px;
+	display:inline-block;
+	width:27px;
+	height:20px;
+	background:#d0d0d0;
+	color:#fff;
+	line-height:20px;
+	text-align:center;
+	}
+
+.main_content .practices{
+	display:inline;
+	float:left;
+	margin:0 0 0 23px;
+	}
+
+/* 관련사이트 바로가기 */
+.main_content .shortcut{
+	display:inline;
+	float:right;
+	}
+.main_content .shortcut .title{
+	border-bottom:0;
+	}
+.main_content .shortcut ul li{
+	display:inline;
+	float:left;
+	width:50%;
+	height:73px;
+	border-width:1px;
+	border-style:solid;
+	text-align:center;
+	}
+.main_content .shortcut ul li.n1{border-color:#fff #cfcfcf #cfcfcf #fff;}
+.main_content .shortcut ul li.n2{border-color:#fff #fff #cfcfcf #fff;}
+.main_content .shortcut ul li.n3{border-color:#fff #cfcfcf #fff #fff;}
+.main_content .shortcut ul li.n4{border-color:#fff #fff #fff #fff;}
+
+.main_content .shortcut ul li a{
+	display:table-cell; 
+	width:135px;
+	height:72px; 	
+	line-height:72px;
+	vertical-align:middle; 
+	text-align:center;
+	}
+
+.main_content .shortcut ul li a img{;
+	text-align:center;
+	}

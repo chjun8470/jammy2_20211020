@@ -1,0 +1,3642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspTotalMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<!-- 연구장비/시설 목록  -->
+	<select id="getJnspTotalList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+			  P.RND_EQU_IDX
+			, P.EQUIP_CD
+			, P.FIXED_ASET_NO
+			, P.FIXED_ASET_NO_YN
+			, P.KOR_NM
+			, P.ENG_NM
+			, P.MODEL_NM
+			, P.MODEL_CD
+			, P.STATE
+			, P.USER_IDX
+			, P.DEPT_NM
+			, P.ORG_GRP_CD
+			, P.ORG_GRP_NM
+		FROM
+			(
+			SELECT
+						A.RND_EQU_IDX
+				,		A.EQUIP_CD
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_NM
+				,		A.MODEL_CD
+				,		A.STATE
+				,       A.USER_IDX
+
+				,		G.OWN_ORG_SUB_NM AS DEPT_NM
+				,		G.OWN_ORG AS ORG_GRP_CD
+				,		O.ORG_GRP_NM
+
+			 FROM TB_EQU_INFO AS A
+			 LEFT JOIN TB_USER_COPY AS U ON (A.USER_IDX = U.USER_IDX)
+			 JOIN TB_EQU_GOODS AS G ON (A.RND_EQU_IDX = G.RND_EQU_IDX)
+			 LEFT JOIN TB_ORG_GRP AS O ON (G.OWN_ORG = O.ORG_GRP_CD)
+
+			WHERE 1 = 1
+			  AND (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		]]>
+
+		<choose>
+			<when test='authLv != "99" and authLv >= "80"'>
+				<![CDATA[	AND G.OWN_ORG = #{orgGrpCd} ]]>
+			</when>
+			<when test='authLv != "99" and authLv >= "70"'>
+				<![CDATA[	AND G.OWN_ORG_SUB = #{orgGrpSubCd} ]]>
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+
+
+		<if test='equipCd != null and equipCd != ""'>
+			<![CDATA[	AND A.EQUIP_CD = #{equipCd} ]]>
+		</if>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[	AND A.STATE = ${searchState} ]]>
+		</if>
+
+		<if test='searchOrgGrp != null and searchOrgGrp != ""'>
+			<![CDATA[	AND G.OWN_ORG = #{searchOrgGrp} ]]>
+		</if>
+		<if test="searchOrgSub != null and searchOrgSub != ''">
+			<![CDATA[ AND G.OWN_ORG_SUB_NM LIKE '%${searchOrgSub}%']]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "state" and searchWord != ""'>
+				<![CDATA[	AND A.STATE = #{searchWord} ]]>
+			</if>
+			<if test='searchType == "jeinetNo" and searchWord != ""'>
+				<![CDATA[	AND A.RND_EQU_IDX LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ntisNo" and searchWord != ""'>
+				<![CDATA[	AND A.NTIS_EQUIP_INFO LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "etubeNo" and searchWord != ""'>
+				<![CDATA[	AND A.ETUBE_EQUIP_INFO LIKE '%${searchWord}%' ]]>
+			</if>
+
+			<if test='searchType == "model" and searchWord != ""'>
+				<![CDATA[	AND A.MODEL_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "equipNm" and searchWord != ""'>
+				<![CDATA[
+					AND (A.KOR_NM LIKE '%${searchWord}%' OR A.ENG_NM LIKE '%${searchWord}%')
+				]]>
+			</if>
+			<if test='searchType == "keyWord" and searchWord != ""'>
+				<![CDATA[
+					AND (
+					 	   CONCAT(',',A.KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+					 	OR CONCAT(',',A.ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+					)
+				]]>
+			</if>
+		</if>
+
+		<![CDATA[
+			) P
+
+			ORDER BY P.RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<!-- 연구장비/시설 총갯수  -->
+	<select id="getJnspTotalCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+				COUNT(0) AS CNT
+			FROM TB_EQU_INFO AS A
+				LEFT JOIN TB_USER_COPY AS U ON (A.USER_IDX = U.USER_IDX)
+				JOIN TB_EQU_GOODS AS G ON (A.RND_EQU_IDX = G.RND_EQU_IDX)
+				LEFT JOIN TB_ORG_GRP AS O ON (G.OWN_ORG = O.ORG_GRP_CD)
+			WHERE (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		]]>
+
+		<choose>
+			<when test='authLv != "99" and authLv >= "80"'>
+				<![CDATA[	AND G.OWN_ORG = #{orgGrpCd} ]]>
+			</when>
+			<when test='authLv != "99" and authLv >= "70"'>
+				<![CDATA[	AND G.OWN_ORG_SUB = #{orgGrpSubCd} ]]>
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+
+		<if test='equipCd != null and equipCd != ""'>
+			<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+		</if>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[	AND STATE = ${searchState} ]]>
+		</if>
+
+		<if test='searchOrgGrp != null and searchOrgGrp != ""'>
+			<![CDATA[	AND G.OWN_ORG = #{searchOrgGrp}  ]]>
+		</if>
+		<if test="searchOrgSub != null and searchOrgSub != ''">
+			<![CDATA[ AND G.OWN_ORG_SUB_NM LIKE '%${searchOrgSub}%']]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "state" and searchWord != ""'>
+				<![CDATA[	AND STATE = #{searchWord} ]]>
+			</if>
+			<if test='searchType == "jeinetNo" and searchWord != ""'>
+				<![CDATA[	AND A.RND_EQU_IDX LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ntisNo" and searchWord != ""'>
+				<![CDATA[	AND A.NTIS_EQUIP_INFO LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "etubeNo" and searchWord != ""'>
+				<![CDATA[	AND A.ETUBE_EQUIP_INFO LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "model" and searchWord != ""'>
+				<![CDATA[	AND MODEL_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "equipNm" and searchWord != ""'>
+				<![CDATA[
+					AND (KOR_NM LIKE '%${searchWord}%' OR ENG_NM LIKE '%${searchWord}%')
+				]]>
+			</if>
+			<if test='searchType == "keyWord" and searchWord != ""'>
+				<![CDATA[
+					AND (
+					 	   CONCAT(',',KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+					 	OR CONCAT(',',ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+					)
+				]]>
+			</if>
+		</if>
+	</select>
+
+
+<!-- 	<select id="getJntp" parameterType="paramMap" resultType="paramMap" > -->
+<!-- 			SELECT -->
+<!-- 						RND_EQU_IDX -->
+<!-- 				,		FIXED_ASET_NO -->
+<!-- 				,		KOR_NM -->
+<!-- 				,		ENG_NM -->
+<!-- 				,		MODEL_NM -->
+<!-- 				,		BRANCH_CD -->
+<!-- 				,		TAKE_CD -->
+<!-- 				,		TAKE_SDT -->
+<!-- 				,		LOCATION -->
+<!-- 				,		EQUIP_DETAIL_FEATURE -->
+<!-- 				,		EQUIP_DETAIL_CAPABILITY -->
+<!-- 				,		EQUIP_DETAIL_EXAMPLE -->
+<!-- 				,		IMPORT_CD -->
+<!-- 				,		OPER_TEL -->
+<!-- 			FROM -->
+<!-- 				TB_EQU_INFO -->
+<!-- 			WHERE 1=1 -->
+<!-- 			AND RND_EQU_IDX = #{rndEquIdx} -->
+<!-- 	</select> -->
+
+	<!-- 연구장비 정보 상세  -->
+	<select id="getJnsp" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				P.RND_EQU_IDX
+				, P.FIXED_ASET_NO
+				, P.FIXED_ASET_NO_YN
+				, P.EQUIP_CD
+				, P.EQCP_ID
+				, P.EQCP_NM
+				, P.KOR_NM
+				, P.ENG_NM
+				, P.MODEL_CD
+				, P.MODEL_NM
+				, P.DEV_OPEN_YN
+				, P.MANUFACTURE_NM
+				, P.USE_SCOPE_RANGE
+				, P.USE_SCOPE_MEAN
+				, P.TAKE_CD
+				, P.TAKE_SDT
+				, P.TAKE_EDT
+				, P.TAKE_PRC
+				, P.LOCATION
+				, P.LOCATION_DTL
+				, P.BRANCH_CD
+				, P.BRANCH_NM
+				, P.REGIST_CD
+				, P.LAND_AREA
+				, P.LAND_PRC
+				, P.LAND_REASON
+				, P.BUILD_AREA
+				, P.FLOOR_UP
+				, P.FLOOR_DOWN
+				, P.BUILD_PRC
+				, P.BUILD_REASON
+				, P.EQUIP_LITTLE_TAKE_PRC
+				, P.EQUIP_FACILITIES_TAKE_PRC
+				, P.EQUIP_FACILITIES_YN
+				, P.EQUIP_TAKE_PRC
+				, P.TAKE_PRC_DOMESTIC
+				, P.TAKE_PRC_FOREIGN
+				, P.USE_SCOPE_REASON
+				, P.USE_SCOPE_CD
+				, P.USE_TYPE_CD
+				, P.USE_TYPE_REASON
+				, P.DISUSE_DT
+				, P.DISUSE_TYPE
+				, P.EQUIP_DETAIL_FEATURE
+				, P.EQUIP_DETAIL_CAPABILITY
+				, P.EQUIP_DETAIL_EXAMPLE
+				, P.DISUSE_VERDICT_DT
+				, P.IMPORT_CD
+				, P.DEV_SPEC
+				, P.IDLE_DISUSE_CD
+				, P.RND_INFO
+				, P.RND_YN
+				, P.BRANCH_CD1
+				, P.BRANCH_CD2
+				, P.BRANCH_CD3
+				, P.TAKE_SOURCE
+				, P.TAKE_SOURCE_DT
+				, P.RND_ST_DT
+				, P.RND_ED_DT
+				, P.RND_DIRECTOR
+				, P.RND_DIVISION
+				, P.RND_BIZ
+				, P.RND_MAIN_ORG
+				, P.RND_TASK
+				, P.RND_COMMIT
+				, P.OPER_CHARGER2
+				, P.OPER_FAX2
+				, P.OPER_POSITION2
+				, P.OPER_EMAIL2
+				, P.OPER_TEL2
+				, P.OPER_CHARGER
+				, P.OPER_FAX
+				, P.OPER_POSITION
+				, P.OPER_EMAIL
+				, P.OPER_TEL
+				, P.OPER_ORG_GRP_SUB
+				, P.OPER_ORG_GRP
+				, P.DISUSE_ORGAN
+				, P.KOR_KEY_WORD
+				, P.ENG_KEY_WORD
+				, P.NTIS_EQUIP_INFO
+				, P.EQUIP_WARRANTY
+				, P.EQU_USER_IDX
+				, P.STATE
+				, P.REJECT
+				, P.STATE_DT
+				, P.USER_IDX
+				, P.AREA
+				, P.AREA_SIGUNGU
+				, P.OWN_ORG
+				, P.OWN_ORG_NM
+				, P.OWN_ORG_SUB
+				, P.OWN_ORG_SUB_NM
+				, P.ETUBE_EQUIP_INFO
+				, P.DELETE_YN
+
+			FROM
+			(
+
+
+
+			SELECT
+
+						A.RND_EQU_IDX
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.EQUIP_CD
+				,		A.EQCP_ID
+				,		A.EQCP_NM
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_CD
+				,		A.MODEL_NM
+				,		A.DEV_OPEN_YN
+				,		A.MANUFACTURE_NM
+				,		A.USE_SCOPE_RANGE
+				,		A.USE_SCOPE_MEAN
+				,		A.TAKE_CD
+				,		A.TAKE_SDT
+				,		A.TAKE_EDT
+				,		A.TAKE_PRC
+				,		A.LOCATION
+				,		A.LOCATION_DTL
+				,		A.BRANCH_CD
+				,		A.BRANCH_NM
+				,		A.REGIST_CD
+				,		A.LAND_AREA
+				,		A.LAND_PRC
+				,		A.LAND_REASON
+				,		A.BUILD_AREA
+				,		A.FLOOR_UP
+				,		A.FLOOR_DOWN
+				,		A.BUILD_PRC
+				,		A.BUILD_REASON
+				,		A.EQUIP_LITTLE_TAKE_PRC
+				,		A.EQUIP_FACILITIES_TAKE_PRC
+				,		A.EQUIP_FACILITIES_YN
+				,		A.EQUIP_TAKE_PRC
+				,		A.TAKE_PRC_DOMESTIC
+				,		A.TAKE_PRC_FOREIGN
+				,		A.USE_SCOPE_REASON
+				,		A.USE_SCOPE_CD
+				,		A.USE_TYPE_CD
+				,		A.USE_TYPE_REASON
+				,		A.DISUSE_DT
+				,		A.DISUSE_TYPE
+				,		A.EQUIP_DETAIL_FEATURE
+				,		A.EQUIP_DETAIL_CAPABILITY
+				,		A.EQUIP_DETAIL_EXAMPLE
+				, 		A.DISUSE_VERDICT_DT
+				,		A.IMPORT_CD
+				,		A.DEV_SPEC
+				,		A.IDLE_DISUSE_CD
+				,		A.RND_INFO
+				,		A.RND_YN
+				,		A.BRANCH_CD1
+				,		A.BRANCH_CD2
+				,		A.BRANCH_CD3
+				,		A.TAKE_SOURCE
+				,		A.TAKE_SOURCE_DT
+				,		A.RND_ST_DT
+				,		A.RND_ED_DT
+				,		A.RND_DIRECTOR
+				,		A.RND_DIVISION
+				,		A.RND_BIZ
+				,		A.RND_MAIN_ORG
+				,		A.RND_TASK
+				,		A.RND_COMMIT
+				,		A.OPER_CHARGER AS OPER_CHARGER2
+				,		A.OPER_FAX AS OPER_FAX2
+				,		A.OPER_POSITION AS OPER_POSITION2
+				,		A.OPER_EMAIL AS OPER_EMAIL2
+				,		A.OPER_TEL AS OPER_TEL2
+				,		B.PSN_NM AS OPER_CHARGER
+				,		B.FAX_NO AS OPER_FAX
+				,		B.POSITION_NM AS OPER_POSITION
+				,		B.EMAIL AS OPER_EMAIL
+				,		B.TEL_NO AS OPER_TEL
+				,		B.DEPT_NM AS OPER_ORG_GRP_SUB
+				,		E.ORG_GRP_NM AS OPER_ORG_GRP
+
+				,		A.DISUSE_ORGAN
+				,		REPLACE(A.KOR_KEY_WORD,',',', ') AS KOR_KEY_WORD
+				,		REPLACE(A.ENG_KEY_WORD,',',', ') AS ENG_KEY_WORD
+				,		A.NTIS_EQUIP_INFO
+				,		A.EQUIP_WARRANTY
+				,		A.EQU_USER_IDX
+				,		A.STATE
+				,		A.REJECT
+				,		A.STATE_DT
+				,		A.USER_IDX
+				,		A.AREA
+				,		A.AREA_SIGUNGU
+
+				,		C.OWN_ORG
+				,		D.ORG_GRP_NM AS OWN_ORG_NM
+				,		C.OWN_ORG_SUB
+				,		C.OWN_ORG_SUB_NM
+				,		A.ETUBE_EQUIP_INFO
+				,		A.DELETE_YN
+
+			FROM TB_EQU_INFO AS A
+			LEFT JOIN TB_USER_COPY AS B ON (A.EQU_USER_IDX = B.USER_IDX)
+			JOIN TB_EQU_GOODS AS C ON (A.RND_EQU_IDX = C.RND_EQU_IDX)
+			LEFT JOIN TB_ORG_GRP AS D ON (C.OWN_ORG = D.ORG_GRP_CD)
+			LEFT JOIN TB_ORG_GRP AS E ON ( B.ORG_GRP_CD = E.ORG_GRP_CD )
+) P
+			WHERE P.RND_EQU_IDX = #{rndEquIdx}
+			  AND (P.DELETE_YN != 'Y' or P.DELETE_YN IS NULL)
+		]]>
+
+		<!--
+		<if test='authLv != "99"'>
+			<![CDATA[	AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if>
+		-->
+	</select>
+
+	<!-- 연구장비 예약정보 상세  -->
+	<select id="getEquGoods" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+				A.EQU_GOODS_IDX
+				, A.RND_EQU_IDX
+				, A.RSV_YN
+				, A.OWN_ORG
+				, A.OWN_ORG_NM
+				, A.REF_RSV_TEL
+				, A.REF_EQU_TEL
+				, A.RSC_ADDR
+				, A.RSC_ADDR_DETAIL
+				, A.MAP_X
+				, A.MAP_Y
+				, A.HOW_USE
+				, A.RENTAL_INFO
+				, A.OWN_ORG_SUB
+				, A.OWN_ORG_SUB_NM
+				, A.EQU_ATTENTION
+				, A.USE_MARK_TEXT
+				, A.DEL_YN
+		FROM
+			(
+				SELECT
+						EQU_GOODS_IDX,
+						RND_EQU_IDX,
+						RSV_YN,
+						OWN_ORG,
+						OWN_ORG_NM,
+						REF_RSV_TEL,
+						REF_EQU_TEL,
+						RSC_ADDR,
+						RSC_ADDR_DETAIL,
+						MAP_X,
+						MAP_Y,
+						HOW_USE,
+						RENTAL_INFO,
+						OWN_ORG_SUB,
+						OWN_ORG_SUB_NM,
+						EQU_ATTENTION,
+						USE_MARK_TEXT,
+						DEL_YN
+
+				FROM TB_EQU_GOODS
+			) A
+			WHERE A.RND_EQU_IDX = #{rndEquIdx}
+			  AND A.DEL_YN != 'Y'
+		]]>
+	</select>
+
+	<!-- 표준분류체계  -->
+	<select id="getJnspTotalBranchList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					CODE_GRP_CD
+				,	CODE_CD
+				,	CODE_NM
+			FROM
+				TB_CODE
+			WHERE 1 = 1
+		]]>
+
+		<if test='codeGrpCd != null and codeGrpCd != ""'>
+			<![CDATA[	AND CODE_GRP_CD = #{codeGrpCd} ]]>
+		</if>
+		<if test='codeCd != null and codeCd != ""'>
+			<![CDATA[	AND CODE_CD like '${codeCd}%'	]]>
+		</if>
+
+		<![CDATA[
+			ORDER BY CODE_CD ASC
+		]]>
+	</select>
+
+	<!-- 기관 목록  -->
+	<select id="getOrgGrpList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					ORG_GRP_CD,
+					ORG_GRP_NM
+
+			  FROM  TB_ORG_GRP
+			 WHERE  1=1
+		]]>
+		<if test='searchNameOrg != null and searchNameOrg != ""'>
+			<![CDATA[
+				AND (ORG_GRP_NM LIKE '%${searchNameOrg}%')
+			]]>
+
+		</if>
+		<![CDATA[
+		  ORDER BY ORG_GRP_NM ASC
+		]]>
+	</select>
+
+	<!-- Login User 기관명  -->
+	<select id="getOrgGrpNm" parameterType="paramMap" resultType="java.lang.String" >
+		<![CDATA[
+			SELECT	ORG_GRP_NM
+
+			  FROM  TB_ORG_GRP
+			 WHERE  ORG_GRP_CD = #{orgGrpCd}
+		]]>
+	</select>
+
+	<!-- 연구장비/시설 예약정보 등록  -->
+	<insert id="setEquGoodsInsert" parameterType="paramMap">
+		<![CDATA[
+
+			INSERT TB_EQU_GOODS
+			(
+				EQU_GOODS_IDX,
+				RND_EQU_IDX,
+				REF_RSV_TEL,
+				REF_EQU_TEL,
+				MAP_X,
+				MAP_Y,
+				RSC_ADDR,
+            	RSC_ADDR_DETAIL,
+				HOW_USE,
+				RENTAL_INFO,
+				OWN_ORG,
+				OWN_ORG_NM,
+				DEL_YN,
+				RSV_YN,
+				REG_DT,
+				USER_IDX,
+				REG_IP,
+				OWN_ORG_SUB,
+				OWN_ORG_SUB_NM,
+				EQU_ATTENTION,
+				USE_MARK_TEXT
+
+			)VALUES(
+				#{equGoodsIdx},
+				#{rndEquIdx},
+				#{refRsvTel},
+				#{refEquTel},
+				#{mapX},
+				#{mapY},
+				#{rscPlace},
+                #{rscPlaceDetail},
+				#{howUse},
+				#{rentalInfo},
+				#{ownOrg},
+				#{ownOrgNm},
+				'N',
+				#{rsvYn},
+				now(),
+				#{userIdx},
+				#{regIp},
+				#{ownOrgSub},
+				#{ownOrgSubNm},
+				#{equAttention},
+				#{useMarkText}
+			)
+
+		]]>
+	</insert>
+
+	<!-- 연구장비 등록 -->
+	<insert id="setJnspInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_EQU_INFO
+			(
+						RND_EQU_IDX
+				,		FIXED_ASET_NO
+				,		EQUIP_CD
+				,		EQCP_ID
+				,		EQCP_NM
+				,		KOR_NM
+				,		KOR_LARGE_FAC_YN
+				,		ENG_NM
+				,		MODEL_CD
+				,		MODEL_NM
+				,		DEV_OPEN_YN
+		]]>
+	 			<!--
+	 			,		MODEL_CD
+	 			,		MADE_CD
+	 			,		MODEL_NM
+	 			-->
+	 	<![CDATA[
+				,		TAKE_CD
+				,		TAKE_PRC
+				,		TAKE_SDT
+				,		TAKE_EDT
+				,		LOCATION
+				,		LOCATION_DTL
+				,		BRANCH_CD
+				,		BRANCH_NM
+				,		REGIST_CD
+				,		USE_SCOPE_REASON
+				,		USE_SCOPE_CD
+				,		USE_SCOPE_RANGE
+				,		USE_SCOPE_MEAN
+				,		USE_TYPE_CD
+				,		USE_TYPE_REASON
+				,		DEV_SPEC
+				,		DISUSE_DT
+				,		DISUSE_TYPE
+				,		DISUSE_ORGAN
+				,		EQUIP_DETAIL_FEATURE
+				,		EQUIP_DETAIL_CAPABILITY
+				,		EQUIP_DETAIL_EXAMPLE
+				, 		DISUSE_VERDICT_DT
+				,		IMPORT_CD
+				,		OPER_TEL
+				,		USE_SCOPE
+				,		IDLE_DISUSE_CD
+				,		USER_IDX
+				,		RND_INFO
+		]]>
+	 			<!--
+	 			,		SETUP_ID
+	 			,		ST_STYPE
+	 			,		ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		BRANCH_CD1
+				,		BRANCH_CD2
+				,		BRANCH_CD3
+				,		TAKE_SOURCE
+				,		TAKE_SOURCE_DT
+				,		RND_ST_DT
+				,		RND_ED_DT
+				,		RND_DIRECTOR
+				,		RND_DIVISION
+				,		RND_BIZ
+				,		RND_MAIN_ORG
+				,		RND_TASK
+				,		RND_COMMIT
+				,		KOR_KEY_WORD
+				,		ENG_KEY_WORD
+				,		OPER_CHARGER
+				,		OPER_FAX
+				,		OPER_POSITION
+				,		OPER_EMAIL
+				,		OPER_ETC
+				,		NTIS_EQUIP_INFO
+				,		EQUIP_WARRANTY
+				,		MANUFACTURE_NM
+				,		EQU_USER_IDX
+				,		REG_DT
+				,		DELETE_YN
+				,		AREA
+				,		AREA_SIGUNGU
+				,		ETUBE_EQUIP_INFO
+			)
+			VALUES
+			(
+			 			#{rndEquIdx}
+				,		#{fixedAsetNo}
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{korLargeFacYn}
+				,		#{engNm}
+				,		#{modelCd}
+				,		#{modelNm}
+				,		#{devOpenYn}
+		]]>
+	 			<!--
+	 			,		#{modelCd}
+	 			,		#{madeCd}
+	 			,		#{modelNm}
+	 			-->
+	 	<![CDATA[
+				,		#{takeCd}
+				,		#{takePrc}
+		]]>
+
+		<if test='takeDt == "" or takeDt == null'>
+		<![CDATA[,		#{takeSdt}]]>
+		</if>
+
+		<if test='takeSdt == "" or takeSdt == null'>
+		<![CDATA[,		#{takeDt}]]>
+		</if>
+
+		<![CDATA[
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{devSpec}
+				,		#{disuseDt}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTelTd}
+				,		#{useScope}
+				,		#{idleDisuseCd}
+				,		#{userIdx}
+				,		#{rndInfo}
+		]]>
+	 			<!--
+	 			,		#{setupId}
+	 			,		#{stStype}
+	 			,		#{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{takeSource}
+				,		#{takeSourceDt}
+				,		#{rndStDt}
+				,		#{rndEdDt}
+				,		#{rndDirector}
+				,		#{rndDivision}
+				,		#{rndBiz}
+				,		#{rndMainOrg}
+				,		#{rndTask}
+				,		#{rndCommit}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operChargerTd}
+				,		#{operFaxTd}
+				,		#{operPositionTd}
+				,		#{operEmailTd}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{equipWarranty}
+				,		#{manufactureNm}
+				,		#{equUserIdx}
+				,		now()
+				,		'N'
+				,		#{area}
+				,		#{areaSigungu}
+				,		#{etubeEquipInfo}
+			)
+		]]>
+	</insert>
+
+	<!-- 연구시설 등록 -->
+	<insert id="setJnspRscInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_EQU_INFO
+			(
+						RND_EQU_IDX
+				,		FIXED_ASET_NO
+				,		EQUIP_CD
+				,		EQCP_ID
+				,		EQCP_NM
+				,		KOR_NM
+				,		ENG_NM
+				,		MODEL_CD
+				,		MODEL_NM
+		]]>
+	 			<!--
+	 			,		MODEL_CD
+	 			,		MADE_CD
+	 			,		MODEL_NM
+	 			-->
+	 	<![CDATA[
+				,		TAKE_CD
+				,		TAKE_PRC
+				,		TAKE_SDT
+				,		TAKE_EDT
+				,		LOCATION
+				,		LOCATION_DTL
+				,		BRANCH_CD
+				,		BRANCH_NM
+				,		REGIST_CD
+				,		LAND_AREA
+				,		LAND_PRC
+				,		LAND_REASON
+				,		BUILD_AREA
+				,		FLOOR_UP
+				,		FLOOR_DOWN
+				,		BUILD_PRC
+				,		BUILD_REASON
+				,		EQUIP_LITTLE_TAKE_PRC
+				,		EQUIP_FACILITIES_TAKE_PRC
+				,		EQUIP_FACILITIES_YN
+				,		EQUIP_TAKE_PRC
+				,		TAKE_PRC_DOMESTIC
+				,		TAKE_PRC_FOREIGN
+				,		USE_SCOPE_REASON
+				,		USE_SCOPE_CD
+				,		USE_SCOPE_RANGE
+				,		USE_SCOPE_MEAN
+				,		USE_TYPE_CD
+				,		USE_TYPE_REASON
+				,		DISUSE_DT
+				,		EQUIP_DETAIL_FEATURE
+				,		EQUIP_DETAIL_CAPABILITY
+				,		EQUIP_DETAIL_EXAMPLE
+				, 		DISUSE_VERDICT_DT
+				,		IMPORT_CD
+				,		OPER_TEL
+				,		IDLE_DISUSE_CD
+		]]>
+				<!--
+	 			,		SETUP_ID
+	 			,		ST_STYPE
+	 			,		ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		USER_IDX
+				,		FIXED_ASET_NO_YN
+				,		KOR_LARGE_FAC_YN
+				,		USE_SCOPE
+				,		DISUSE_TYPE
+				,		DISUSE_ORGAN
+				,		RND_INFO
+				,		RND_YN
+				,		BRANCH_CD1
+				,		BRANCH_CD2
+				,		BRANCH_CD3
+				,		KOR_KEY_WORD
+				,		ENG_KEY_WORD
+				,		OPER_CHARGER
+				,		OPER_FAX
+				,		OPER_POSITION
+				,		OPER_EMAIL
+				,		OPER_ETC
+				,		NTIS_EQUIP_INFO
+				,		MANUFACTURE_NM
+				,		EQU_USER_IDX
+				,		REG_DT
+				,		DELETE_YN
+				,		AREA
+				,		AREA_SIGUNGU
+				,		ETUBE_EQUIP_INFO
+			)
+			VALUES
+			(
+			 			#{rndEquIdx}
+				,		trim(#{fixedAsetNo})
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{engNm}
+				,		#{modelCd}
+				,		#{modelNm}
+		]]>
+	 			<!--
+	 			,		#{modelCd}
+	 			,		#{madeCd}
+	 			,		#{modelNm}
+	 			-->
+	 	<![CDATA[
+				,		#{takeCd}
+				,		#{takePrc}
+				,		#{takeSdt}
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{landArea}
+				,		#{landPrc}
+				,		#{landReason}
+				,		#{buildArea}
+				,		#{floorUp}
+				,		#{floorDown}
+				,		#{buildPrc}
+				,		#{buildReason}
+				,		#{equipLittleTakePrc}
+				,		#{equipFacilitiesTakePrc}
+				,		#{spcBuildYN}
+				,		#{equipTakePrc}
+				,		#{takePrcDomestic}
+				,		#{takePrcForeign}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{disuseDt}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTelTd}
+				,		#{idleDisuseCd}
+		]]>
+	 			<!--
+	 			,		#{setupId}
+	 			,		#{stStype}
+	 			,		#{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		#{userIdx}
+				,		#{fixedAsetNone}
+				,		#{korLargeFacYn}
+				,		#{useScope}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{rndInfo}
+				,		#{rndYN}
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operChargerTd}
+				,		#{operFaxTd}
+				,		#{operPositionTd}
+				,		#{operEmailTd}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{manufactureNm}
+				,		#{equUserIdx}
+				,		now()
+				,		'N'
+				,		#{area}
+				,		#{areaSigungu}
+				,		#{etubeEquipInfo}
+			)
+		]]>
+	</insert>
+
+	<!-- 연구장비 수정 -->
+	<update id="setJnspUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_EQU_INFO SET
+
+						FIXED_ASET_NO = #{fixedAsetNo}
+				,		EQUIP_CD = #{equipCd}
+				,		EQCP_ID = #{eqcpId}
+				,		EQCP_NM = #{eqcpNm}
+				,		KOR_NM = #{korNm}
+				,		ENG_NM = #{engNm}
+				,		MODEL_CD = #{modelCd}
+				,		MODEL_NM = #{modelNm}
+		]]>
+	 			<!--
+	 			,		MODEL_CD = #{modelCd}
+	 			,		MADE_CD = #{madeCd}
+	 			,		MODEL_NM = #{modelNm}
+				-->
+		<![CDATA[
+				,		TAKE_CD = #{takeCd}
+				,		TAKE_PRC = #{takePrc}
+				,		TAKE_SDT = #{takeSdt}
+				,		TAKE_EDT = #{takeEdt}
+				,		LOCATION = #{location}
+				,		LOCATION_DTL = #{locationDtl}
+				,		BRANCH_CD = #{branchCd}
+				,		BRANCH_NM = #{branchNm}
+				,		REGIST_CD = #{registCd}
+				,		USE_SCOPE_REASON = #{useScopeReason}
+				,		USE_SCOPE_CD = #{useScopeCd}
+				,		USE_SCOPE_RANGE = #{useScopeRange}
+				,		USE_SCOPE_MEAN = #{useScopeMean}
+				,		DISUSE_ORGAN = #{disuseOrgan}
+				,		USE_TYPE_CD = #{useTypeCd}
+				,		USE_TYPE_REASON = #{useTypeReason}
+				,		DEV_SPEC = #{devSpec}
+				,		DISUSE_DT	 = #{disuseDt}
+				,		EQUIP_DETAIL_FEATURE = #{equipDetailFeature}
+				,		EQUIP_DETAIL_CAPABILITY = #{equipDetailCapability}
+				,		EQUIP_DETAIL_EXAMPLE = #{equipDetailExample}
+				, 		DISUSE_VERDICT_DT = #{disuseVerdictDt}
+				,		IMPORT_CD = #{importCd}
+				,		OPER_TEL = #{operTel}
+				,		IDLE_DISUSE_CD = #{idleDisuseCd}
+				,		RND_INFO = #{rndInfo}
+				,		DEV_OPEN_YN = #{devOpenYn}
+		]]>
+	 			<!--
+	 			,		SETUP_ID  = #{setupId}
+	 			,		ST_STYPE  = #{stStype}
+	 			,		ST_ROOM  = #{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		DISUSE_TYPE = #{disuseType}
+				,		BRANCH_CD1 = #{branchCd1}
+				,		BRANCH_CD2 = #{branchCd2}
+				,		BRANCH_CD3 = #{branchCd3}
+				,		TAKE_SOURCE = #{takeSource}
+				,		TAKE_SOURCE_DT = #{takeSourceDt}
+				,		RND_ST_DT =#{rndStDt}
+				,		RND_ED_DT = #{rndEdDt}
+				,		RND_DIRECTOR =#{rndDirector}
+				,		RND_DIVISION = #{rndDivision}
+				,		RND_BIZ = #{rndBiz}
+				,		RND_MAIN_ORG =#{rndMainOrg}
+				,		RND_TASK = #{rndTask}
+				,		RND_COMMIT = #{rndCommit}
+				,		KOR_KEY_WORD = #{korKeyWord}
+				,		ENG_KEY_WORD = #{engKeyWord}
+				,		OPER_CHARGER = #{operCharger}
+				,		OPER_FAX = #{operFax}
+				,		OPER_POSITION = #{operPosition}
+				,		OPER_EMAIL = #{operEmail}
+				,		OPER_ETC = #{operEtc}
+				,		NTIS_EQUIP_INFO = #{ntisEquipInfo}
+				,		EQUIP_WARRANTY = #{equipWarranty}
+				,		MANUFACTURE_NM = #{manufactureNm}
+				,		EQU_USER_IDX = #{equUserIdx}
+				,		AREA = #{area}
+				,		AREA_SIGUNGU = #{areaSigungu}
+				,		ETUBE_EQUIP_INFO = #{etubeEquipInfo}
+
+			 	WHERE   RND_EQU_IDX = #{rndEquIdx}
+			 	  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[	AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 연구장비/시설 예약정보 수정 -->
+	<update id="setEquGoodsUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_EQU_GOODS SET
+						REF_RSV_TEL = #{refRsvTel}
+				 ,		REF_EQU_TEL = #{refEquTel}
+				 ,		MAP_X = #{mapX}
+				 ,		MAP_Y = #{mapY}
+				 ,		HOW_USE = #{howUse}
+				 ,		RENTAL_INFO = #{rentalInfo}
+				 ,		OWN_ORG = #{ownOrg}
+				 ,		OWN_ORG_NM = #{ownOrgNm}
+				 ,		UP_DT = now()
+				 ,		UP_IP = #{upIp}
+				 ,		UP_IDX = #{userIdx}
+				 ,		RSV_YN = #{rsvYn}
+				 ,      RSC_ADDR = #{rscPlace}
+                 ,      RSC_ADDR_DETAIL = #{rscPlaceDetail}
+
+                 ,      OWN_ORG_SUB = #{ownOrgSub}
+                 ,      OWN_ORG_SUB_NM = #{ownOrgSubNm}
+                 ,      EQU_ATTENTION = #{equAttention}
+                 ,      USE_MARK_TEXT = #{useMarkText}
+			 	 WHERE  RND_EQU_IDX = #{rndEquIdx}
+		   		   AND  DEL_YN != 'Y'
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[  AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 연구시설 수정 -->
+	<update id="setJnspRscUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE TB_EQU_INFO SET
+
+						FIXED_ASET_NO = trim(#{fixedAsetNo})
+				,		EQUIP_CD = #{equipCd}
+				,		EQCP_ID = #{eqcpId}
+				,		EQCP_NM = #{eqcpNm}
+				,		KOR_NM = #{korNm}
+				,		ENG_NM = #{engNm}
+				,		MODEL_CD = #{modelCd}
+				,		MODEL_NM = #{modelNm}
+		]]>
+	 			<!--
+	 			,		MODEL_CD = #{modelCd}
+	 			,		MADE_CD = #{madeCd}
+	 			,		MODEL_NM = #{modelNm}
+	 			-->
+	 	<![CDATA[
+				,		TAKE_CD = #{takeCd}
+				,		TAKE_SDT = #{takeSdt}
+				,		TAKE_EDT = #{takeEdt}
+				,		LOCATION = #{location}
+				,		LOCATION_DTL = #{locationDtl}
+				,		BRANCH_CD = #{branchCd}
+				,		BRANCH_NM = #{branchNm}
+				,		REGIST_CD = #{registCd}
+				,		LAND_AREA = #{landArea}
+				,		LAND_PRC = #{landPrc}
+				,		LAND_REASON = #{landReason}
+				,		BUILD_AREA = #{buildArea}
+				,		FLOOR_UP = #{floorUp}
+				,		FLOOR_DOWN = #{floorDown}
+				,		BUILD_PRC = #{buildPrc}
+				,		BUILD_REASON = #{buildReason}
+				,		DISUSE_ORGAN = #{disuseOrgan}
+				,		EQUIP_LITTLE_TAKE_PRC = #{equipLittleTakePrc}
+				,		EQUIP_FACILITIES_TAKE_PRC = #{equipFacilitiesTakePrc}
+				,		EQUIP_FACILITIES_YN = #{equipFacilitiesYN}
+				,		EQUIP_TAKE_PRC = #{equipTakePrc}
+				,		TAKE_PRC = #{takePrc}
+				,		TAKE_PRC_DOMESTIC = #{takePrcDomestic}
+				,		TAKE_PRC_FOREIGN = #{takePrcForeign}
+				,		USE_SCOPE_REASON = #{useScopeReason}
+				,		USE_SCOPE_CD = #{useScopeCd}
+				,		USE_SCOPE_RANGE = #{useScopeRange}
+				,		USE_SCOPE_MEAN = #{useScopeMean}
+				,		USE_TYPE_CD = #{useTypeCd}
+				,		USE_TYPE_REASON = #{useTypeReason}
+				,		DISUSE_DT = #{disuseDt}
+				,		EQUIP_DETAIL_FEATURE = #{equipDetailFeature}
+				,		EQUIP_DETAIL_CAPABILITY = #{equipDetailCapability}
+				,		EQUIP_DETAIL_EXAMPLE = #{equipDetailExample}
+				, 		DISUSE_VERDICT_DT = #{disuseVerdictDt}
+				,		IMPORT_CD = #{importCd}
+				,		OPER_TEL = #{operTel}
+				,		IDLE_DISUSE_CD = #{idleDisuseCd}
+				,		RND_INFO = #{rndInfo}
+				,		RND_YN = #{rndYN}
+		]]>
+	 			<!--
+	 			,		SETUP_ID = #{setupId}
+	 			,		ST_STYPE = #{stStype}
+	 			,		ST_ROOM = #{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		KOR_KEY_WORD = #{korKeyWord}
+				,		ENG_KEY_WORD = #{engKeyWord}
+				,		DISUSE_TYPE = #{disuseType}
+				,		OPER_CHARGER = #{operCharger}
+				,		OPER_FAX = #{operFax}
+				,		OPER_POSITION = #{operPosition}
+				,		OPER_EMAIL = #{operEmail}
+				,		OPER_ETC = #{operEtc}
+				,		NTIS_EQUIP_INFO = #{ntisEquipInfo}
+				,		FIXED_ASET_NO_YN = #{fixedAsetNone}
+				,		MANUFACTURE_NM = #{manufactureNm}
+				,		EQU_USER_IDX = #{equUserIdx}
+				,		AREA = #{area}
+				,		AREA_SIGUNGU = #{areaSigungu}
+				,		ETUBE_EQUIP_INFO = #{etubeEquipInfo}
+			WHERE RND_EQU_IDX = #{rndEquIdx}
+			  AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		]]>
+
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[ AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+
+	</update>
+
+	<!-- 연구장비/시설 예약정보 삭제 -->
+	<update id="setJnspGoodsDelete" parameterType="paramMap">
+
+			 UPDATE	TB_EQU_GOODS
+			 	SET DEL_YN = 'Y'
+			  WHERE 1 = 1
+			    AND RND_EQU_IDX = #{rndEquIdx}
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[ AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!--연구장비/시설 삭제 -->
+	<update id="setJnspDelete" parameterType="paramMap">
+		<![CDATA[
+		  UPDATE TB_EQU_INFO
+		     SET DELETE_YN = 'Y'
+		   WHERE 1 = 1
+		 	 AND RND_EQU_IDX = #{rndEquIdx}
+			 AND (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[ AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 고정자산관리번호 중복체크  -->
+	<select id="getJnspAsetCheck" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT	COUNT(0) AS CNT
+
+			  FROM	TB_EQU_INFO
+			 WHERE	1 = 1
+			   AND	FIXED_ASET_NO = trim(#{fixedAsetNo})
+			   AND 	DELETE_YN != 'Y'
+		]]>
+		<if test="rndEquIdx!='' and rndEquIdx!=null">
+		<![CDATA[ AND RND_EQU_IDX != #{rndEquIdx} ]]>
+		</if>
+	</select>
+
+	<!-- 상태수정  -->
+	<update id="setJnspTotalStateUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE	TB_EQU_INFO SET
+					STATE = #{state},
+					REJECT = #{reject},
+					STATE_DT = now()
+			WHERE	RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</update>
+
+	<select id="getJnspTotalPopList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.RND_EQU_IDX
+				,		A.EQUIP_CD
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.NTIS_EQUIP_INFO
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_NM
+				,		A.MODEL_CD
+				,		A.EQU_USER_IDX
+				,		A.OPER_CHARGER
+				,		A.OPER_POSITION
+				,		A.OPER_EMAIL
+				,		A.OPER_TEL
+				,		A.OPER_FAX
+				, 		B.PSN_NM
+				,		C.OWN_ORG_NM
+				,		C.OWN_ORG_SUB_NM
+				,		A.ETUBE_EQUIP_INFO
+
+			FROM TB_EQU_INFO A
+			LEFT JOIN TB_USER_COPY B
+			ON A.EQU_USER_IDX = B.USER_IDX
+			LEFT JOIN TB_EQU_GOODS C
+			ON A.RND_EQU_IDX = C.RND_EQU_IDX
+
+			WHERE 1 = 1
+			  AND (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		]]>
+		<if test='authLv != "99"'>
+			<![CDATA[	AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if>
+		<if test='equipCd != null and equipCd != ""'>
+			<![CDATA[	AND A.EQUIP_CD = #{equipCd} ]]>
+		</if>
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "model" and searchWord != ""'>
+				<![CDATA[	AND A.MODEL_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "equipNm" and searchWord != ""'>
+				<![CDATA[	AND (A.KOR_NM LIKE '%${searchWord}%' OR A.ENG_NM LIKE '%${searchWord}%') ]]>
+			</if>
+			<if test='searchType == "keyWord" and searchWord != ""'>
+				<![CDATA[
+					 AND (
+						 	CONCAT(',',A.KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+						 OR CONCAT(',',A.ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+					 )
+				]]>
+			</if>
+		</if>
+		<![CDATA[
+			ORDER BY A.RND_EQU_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+
+	<!--************************************ 수정 백업 START ************************************-->
+
+   	<!-- 연구장비/시설 예약정보 데이터 유무 -->
+	<select id="getEquGoodsUpdateCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT	COUNT(0) AS CNT
+
+			  FROM	TB_EQU_GOODS_UPDATE
+
+			 WHERE  RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</select>
+
+	<!-- 연구장비/시설 데이터 유무 -->
+	<select id="getInfoUpdateCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT  COUNT(0) AS CNT
+
+			  FROM	TB_EQU_INFO_UPDATE
+			 WHERE  (UP_DELETE_YN != 'Y' or UP_DELETE_YN IS NULL)
+			   AND RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</select>
+
+   	<!-- 연구장비/시설 첨부파일 데이터 유무 -->
+	<select id="getRndFileUpdateCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT	COUNT(0) AS CNT
+
+			  FROM	TB_RND_FILE_UPDATE
+
+			 WHERE  RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</select>
+
+	<!-- 연구장비/시설 예약정보 데이터 삭제 -->
+	<delete id="setEquGoodsUpdateDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			   FROM	TB_EQU_GOODS_UPDATE
+			  WHERE RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</delete>
+
+	<!-- 연구장비/시설 데이터 삭제 -->
+	<delete id="setInfoUpdateDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			   FROM	TB_EQU_INFO_UPDATE
+			  WHERE RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</delete>
+
+	<!-- 연구장비/시설 첨부파일 데이터 삭제 -->
+	<delete id="setRndFileUpdateDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			   FROM	TB_RND_FILE_UPDATE
+			  WHERE RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</delete>
+
+	<!-- 연구장비/시설 예약정보 등록  -->
+	<insert id="setEquGoodsUpdateInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT TB_EQU_GOODS_UPDATE
+			(
+				EQU_GOODS_IDX,
+				RND_EQU_IDX,
+				UP_REF_RSV_TEL,
+				UP_REF_EQU_TEL,
+				UP_MAP_X,
+				UP_MAP_Y,
+				UP_RSC_ADDR,
+            	UP_RSC_ADDR_DETAIL,
+				UP_HOW_USE,
+				UP_RENTAL_INFO,
+				UP_OWN_ORG,
+				UP_OWN_ORG_NM,
+				UP_RSV_YN,
+				UP_UP_DT,
+				UP_UP_IDX,
+				UP_UP_IP,
+				UP_OWN_ORG_SUB,
+				UP_OWN_ORG_SUB_NM,
+				UP_EQU_ATTENTION,
+				UP_USE_MARK_TEXT
+
+			)VALUES(
+				#{equGoodsIdx},
+				#{rndEquIdx},
+				#{refRsvTel},
+				#{refEquTel},
+				#{mapX},
+				#{mapY},
+				#{rscPlace},
+           		#{rscPlaceDetail},
+				#{howUse},
+				#{rentalInfo},
+				#{ownOrg},
+				#{ownOrgNm},
+				#{rsvYn},
+				now(),
+				#{userIdx},
+				#{regIp},
+				#{ownOrgSub},
+				#{ownOrgSubNm},
+				#{equAttention},
+				#{useMarkText}
+			)
+		]]>
+	</insert>
+
+	<!-- 연구장비 등록 -->
+	<insert id="setJnspUpdateInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_EQU_INFO_UPDATE
+			(
+						UP_RND_EQU_IDX
+				,		RND_EQU_IDX
+				,		UP_FIXED_ASET_NO
+				,		UP_EQUIP_CD
+				,		UP_EQCP_ID
+				,		UP_EQCP_NM
+				,		UP_KOR_NM
+				,		UP_KOR_LARGE_FAC_YN
+				,		UP_ENG_NM
+				,		UP_MODEL_CD
+				,		UP_MODEL_NM
+				,		UP_DEV_OPEN_YN
+		]]>
+	 			<!--
+	 			,		UP_MODEL_CD
+	 			,		UP_MADE_CD
+	 			,		UP_MODEL_NM
+	 			-->
+ 		<![CDATA[
+				,		UP_TAKE_CD
+				,		UP_TAKE_PRC
+				,		UP_TAKE_SDT
+				,		UP_TAKE_EDT
+				,		UP_LOCATION
+				,		UP_LOCATION_DTL
+				,		UP_BRANCH_CD
+				,		UP_BRANCH_NM
+				,		UP_REGIST_CD
+				,		UP_USE_SCOPE_REASON
+				,		UP_USE_SCOPE_CD
+				,		UP_USE_SCOPE_RANGE
+				,		UP_USE_SCOPE_MEAN
+				,		UP_USE_TYPE_CD
+				,		UP_USE_TYPE_REASON
+				,		UP_DEV_SPEC
+				,		UP_DISUSE_DT
+				,		UP_DISUSE_TYPE
+				,		UP_DISUSE_ORGAN
+				,		UP_EQUIP_DETAIL_FEATURE
+				,		UP_EQUIP_DETAIL_CAPABILITY
+				,		UP_EQUIP_DETAIL_EXAMPLE
+				, 		UP_DISUSE_VERDICT_DT
+				,		UP_IMPORT_CD
+				,		UP_OPER_TEL
+				,		UP_USE_SCOPE
+				,		UP_IDLE_DISUSE_CD
+				,		UP_RND_INFO
+		]]>
+	 			<!--
+	 			,		UP_SETUP_ID
+	 			,		UP_ST_STYPE
+	 			,		UP_ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		UP_BRANCH_CD1
+				,		UP_BRANCH_CD2
+				,		UP_BRANCH_CD3
+				,		UP_TAKE_SOURCE
+				,		UP_TAKE_SOURCE_DT
+				,		UP_RND_ST_DT
+				,		UP_RND_ED_DT
+				,		UP_RND_DIRECTOR
+				,		UP_RND_DIVISION
+				,		UP_RND_BIZ
+				,		UP_RND_MAIN_ORG
+				,		UP_RND_TASK
+				,		UP_RND_COMMIT
+				,		UP_KOR_KEY_WORD
+				,		UP_ENG_KEY_WORD
+				,		UP_OPER_CHARGER
+				,		UP_OPER_FAX
+				,		UP_OPER_POSITION
+				,		UP_OPER_EMAIL
+				,		UP_OPER_ETC
+				,		UP_NTIS_EQUIP_INFO
+				,		UP_EQUIP_WARRANTY
+				,		UP_MANUFACTURE_NM
+				,		UP_EQU_USER_IDX
+				,		UP_DELETE_YN
+				,		UP_USER_IDX
+				,		UP_REG_DT
+				,		UP_AREA
+				,		UP_AREA_SIGUNGU
+				,		UP_ETUBE_EQUIP_INFO
+			)
+			VALUES
+			(
+			 			#{upRndEquIdx}
+				,		#{rndEquIdx}
+				,		#{fixedAsetNo}
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{korLargeFacYn}
+				,		#{engNm}
+				,		#{modelCd}
+				,		#{modelNm}
+				,		#{devOpenYn}
+		]]>
+	 			<!--
+	 			,		#{modelCd}
+	 			,		#{madeCd}
+	 			,		#{modelNm}
+	 			-->
+	 	<![CDATA[
+				,		#{takeCd}
+				,		#{takePrc}
+		]]>
+
+		<if test='takeDt == "" or takeDt == null'>
+		<![CDATA[,		#{takeSdt}]]>
+		</if>
+
+		<if test='takeSdt == "" or takeSdt == null'>
+		<![CDATA[,		#{takeDt}]]>
+		</if>
+
+		<![CDATA[
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{devSpec}
+				,		#{disuseDt}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTelTd}
+				,		#{useScope}
+				,		#{idleDisuseCd}
+				,		#{rndInfo}
+		]]>
+	 			<!--
+	 			,		#{setupId}
+	 			,		#{stStype}
+	 			,		#{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{takeSource}
+				,		#{takeSourceDt}
+				,		#{rndStDt}
+				,		#{rndEdDt}
+				,		#{rndDirector}
+				,		#{rndDivision}
+				,		#{rndBiz}
+				,		#{rndMainOrg}
+				,		#{rndTask}
+				,		#{rndCommit}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operChargerTd}
+				,		#{operFaxTd}
+				,		#{operPositionTd}
+				,		#{operEmailTd}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{equipWarranty}
+				,		#{manufactureNm}
+				,		#{equUserIdx}
+				,		'N'
+				,		#{userIdx}
+				,		now()
+				,		#{area}
+				,		#{areaSigungu}
+				,		#{etubeEquipInfo}
+			)
+		]]>
+	</insert>
+
+	<!-- 연구시설 등록 -->
+	<insert id="setJnspRscUpdateInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT INTO TB_EQU_INFO_UPDATE
+			(
+						UP_RND_EQU_IDX
+				,		RND_EQU_IDX
+				,		UP_FIXED_ASET_NO
+				,		UP_EQUIP_CD
+				,		UP_EQCP_ID
+				,		UP_EQCP_NM
+				,		UP_KOR_NM
+				,		UP_ENG_NM
+				,		UP_MODEL_CD
+				,		UP_MODEL_NM
+		]]>
+	 			<!--
+	 			,		UP_MODEL_CD
+	 			,		UP_MADE_CD
+	 			,		UP_MODEL_NM
+	 			-->
+	 	<![CDATA[
+				,		UP_TAKE_CD
+				,		UP_TAKE_PRC
+				,		UP_TAKE_SDT
+				,		UP_TAKE_EDT
+				,		UP_LOCATION
+				,		UP_LOCATION_DTL
+				,		UP_BRANCH_CD
+				,		UP_BRANCH_NM
+				,		UP_REGIST_CD
+				,		UP_LAND_AREA
+				,		UP_LAND_PRC
+				,		UP_LAND_REASON
+				,		UP_BUILD_AREA
+				,		UP_FLOOR_UP
+				,		UP_FLOOR_DOWN
+				,		UP_BUILD_PRC
+				,		UP_BUILD_REASON
+				,		UP_EQUIP_LITTLE_TAKE_PRC
+				,		UP_EQUIP_FACILITIES_TAKE_PRC
+				,		UP_EQUIP_FACILITIES_YN
+				,		UP_EQUIP_TAKE_PRC
+				,		UP_TAKE_PRC_DOMESTIC
+				,		UP_TAKE_PRC_FOREIGN
+				,		UP_USE_SCOPE_REASON
+				,		UP_USE_SCOPE_CD
+				,		UP_USE_SCOPE_RANGE
+				,		UP_USE_SCOPE_MEAN
+				,		UP_USE_TYPE_CD
+				,		UP_USE_TYPE_REASON
+				,		UP_DISUSE_DT
+				,		UP_EQUIP_DETAIL_FEATURE
+				,		UP_EQUIP_DETAIL_CAPABILITY
+				,		UP_EQUIP_DETAIL_EXAMPLE
+				, 		UP_DISUSE_VERDICT_DT
+				,		UP_IMPORT_CD
+				,		UP_OPER_TEL
+				,		UP_IDLE_DISUSE_CD
+		]]>
+				<!--
+	 			,		UP_SETUP_ID
+	 			,		UP_ST_STYPE
+	 			,		UP_ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		UP_FIXED_ASET_NO_YN
+				,		UP_KOR_LARGE_FAC_YN
+				,		UP_USE_SCOPE
+				,		UP_DISUSE_TYPE
+				,		UP_DISUSE_ORGAN
+				,		UP_RND_INFO
+				,		UP_RND_YN
+				,		UP_BRANCH_CD1
+				,		UP_BRANCH_CD2
+				,		UP_BRANCH_CD3
+				,		UP_KOR_KEY_WORD
+				,		UP_ENG_KEY_WORD
+				,		UP_OPER_CHARGER
+				,		UP_OPER_FAX
+				,		UP_OPER_POSITION
+				,		UP_OPER_EMAIL
+				,		UP_OPER_ETC
+				,		UP_NTIS_EQUIP_INFO
+				,		UP_MANUFACTURE_NM
+				,		UP_EQU_USER_IDX
+				,		UP_DELETE_YN
+				,		UP_USER_IDX
+				,		UP_REG_DT
+				,		UP_AREA
+				,		UP_AREA_SIGUNGU
+				,		UP_ETUBE_EQUIP_INFO
+			)
+			VALUES
+			(
+			 			#{upRndEquIdx}
+				,		#{rndEquIdx}
+				,		trim(#{fixedAsetNo})
+				,		#{equipCd}
+				,		#{eqcpId}
+				,		#{eqcpNm}
+				,		#{korNm}
+				,		#{engNm}
+				,		#{modelCd}
+				,		#{modelNm}
+		]]>
+	 			<!--
+	 			,		#{modelCd}
+	 			,		#{madeCd}
+	 			,		#{modelNm}
+	 			-->
+	 	<![CDATA[
+				,		#{takeCd}
+				,		#{takePrc}
+				,		#{takeSdt}
+				,		#{takeEdt}
+				,		#{location}
+				,		#{locationDtl}
+				,		#{branchCd}
+				,		#{branchNm}
+				,		#{registCd}
+				,		#{landArea}
+				,		#{landPrc}
+				,		#{landReason}
+				,		#{buildArea}
+				,		#{floorUp}
+				,		#{floorDown}
+				,		#{buildPrc}
+				,		#{buildReason}
+				,		#{equipLittleTakePrc}
+				,		#{equipFacilitiesTakePrc}
+				,		#{spcBuildYN}
+				,		#{equipTakePrc}
+				,		#{takePrcDomestic}
+				,		#{takePrcForeign}
+				,		#{useScopeReason}
+				,		#{useScopeCd}
+				,		#{useScopeRange}
+				,		#{useScopeMean}
+				,		#{useTypeCd}
+				,		#{useTypeReason}
+				,		#{disuseDt}
+				,		#{equipDetailFeature}
+				,		#{equipDetailCapability}
+				,		#{equipDetailExample}
+				, 		#{disuseVerdictDt}
+				,		#{importCd}
+				,		#{operTelTd}
+				,		#{idleDisuseCd}
+		]]>
+	 			<!--
+	 			,		#{setupId}
+	 			,		#{stStype}
+	 			,		#{stRoom}
+	 			-->
+	 	<![CDATA[
+				,		#{fixedAsetNone}
+				,		#{korLargeFacYn}
+				,		#{useScope}
+				,		#{disuseType}
+				,		#{disuseOrgan}
+				,		#{rndInfo}
+				,		#{rndYN}
+				,		#{branchCd1}
+				,		#{branchCd2}
+				,		#{branchCd3}
+				,		#{korKeyWord}
+				,		#{engKeyWord}
+				,		#{operChargerTd}
+				,		#{operFaxTd}
+				,		#{operPositionTd}
+				,		#{operEmailTd}
+				,		#{operEtc}
+				,		#{ntisEquipInfo}
+				,		#{manufactureNm}
+				,		#{equUserIdx}
+				,		'N'
+				,		#{userIdx}
+				,		now()
+				,		#{area}
+				,		#{areaSigungu}
+				,		#{etubeEquipInfo}
+			)
+		]]>
+	</insert>
+
+	<!-- 연구장비 정보 상세  -->
+	<select id="getJnspCopy" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+SELECT
+	  P.ORI_RND_EQU_IDX
+	, P.RND_EQU_IDX
+	, P.FIXED_ASET_NO
+	, P.FIXED_ASET_NO_YN
+	, P.EQUIP_CD
+	, P.EQCP_ID
+	, P.EQCP_NM
+	, P.KOR_NM
+	, P.ENG_NM
+	, P.MODEL_CD
+	, P.MODEL_NM
+	, P.DEV_OPEN_YN
+	, P.MANUFACTURE_NM
+	, P.USE_SCOPE_RANGE
+	, P.USE_SCOPE_MEAN
+	, P.TAKE_CD
+	, P.TAKE_SDT
+	, P.TAKE_EDT
+	, P.TAKE_PRC
+	, P.LOCATION
+	, P.LOCATION_DTL
+	, P.BRANCH_CD
+	, P.BRANCH_NM
+	, P.REGIST_CD
+	, P.LAND_AREA
+	, P.LAND_PRC
+	, P.LAND_REASON
+	, P.BUILD_AREA
+	, P.FLOOR_UP
+	, P.FLOOR_DOWN
+	, P.BUILD_PRC
+	, P.BUILD_REASON
+	, P.EQUIP_LITTLE_TAKE_PRC
+	, P.EQUIP_FACILITIES_TAKE_PRC
+	, P.EQUIP_FACILITIES_YN
+	, P.EQUIP_TAKE_PRC
+	, P.TAKE_PRC_DOMESTIC
+	, P.TAKE_PRC_FOREIGN
+	, P.USE_SCOPE_REASON
+	, P.USE_SCOPE_CD
+	, P.USE_TYPE_CD
+	, P.USE_TYPE_REASON
+	, P.DISUSE_DT
+	, P.DISUSE_TYPE
+	, P.EQUIP_DETAIL_FEATURE
+	, P.EQUIP_DETAIL_CAPABILITY
+	, P.EQUIP_DETAIL_EXAMPLE
+	, P.DISUSE_VERDICT_DT
+	, P.IMPORT_CD
+	, P.DEV_SPEC
+	, P.IDLE_DISUSE_CD
+	, P.RND_YN
+	, P.BRANCH_CD1
+	, P.BRANCH_CD2
+	, P.BRANCH_CD3
+	, P.TAKE_SOURCE
+	, P.TAKE_SOURCE_DT
+	, P.RND_ST_DT
+	, P.RND_ED_DT
+	, P.RND_DIRECTOR
+	, P.RND_DIVISION
+	, P.RND_BIZ
+	, P.RND_MAIN_ORG
+	, P.RND_TASK
+	, P.RND_COMMIT
+	, P.RND_INFO
+	, P.OPER_CHARGER2
+	, P.OPER_FAX2
+	, P.OPER_POSITION2
+	, P.OPER_EMEMAIL2
+	, P.OPER_TEL2
+	, P.OPER_CHARGER
+	, P.OPER_FAX
+	, P.OPER_POSITION
+	, P.OPER_EMAIL
+	, P.OPER_TEL
+	, P.OPER_ORG_GRP_SUB
+	, P.OPER_ORG_GRP
+	, P.UP_DISUSE_ORGAN
+	, P.KOR_KEY_WORD
+	, P.ENG_KEY_WORD
+	, P.NTIS_EQUIP_INFO
+	, P.EQUIP_WARRANTY
+	, P.EQU_USER_IDX
+	, P.DELETE_YN
+	, P.HITS
+	, P.EQU_PRODUCE
+	, P.UP_REG_DT
+	, P.USER_IDX
+	, P.STATE
+	, P.REJECT
+	, P.STATE_DT
+	, P.`AREA`
+	, P.AREA_SIGUNGU
+	, P.ETUBE_EQUIP_INFO
+	, P.UP_DELETE_YN
+FROM
+(
+			SELECT
+						A.RND_EQU_IDX AS ORI_RND_EQU_IDX
+				,		A.UP_RND_EQU_IDX AS RND_EQU_IDX
+				,		A.UP_FIXED_ASET_NO AS FIXED_ASET_NO
+				,		A.UP_FIXED_ASET_NO_YN AS FIXED_ASET_NO_YN
+				,		A.UP_EQUIP_CD AS EQUIP_CD
+				,		A.UP_EQCP_ID AS EQCP_ID
+				,		A.UP_EQCP_NM AS EQCP_NM
+				,		A.UP_KOR_NM AS KOR_NM
+				,		A.UP_ENG_NM AS ENG_NM
+				,		A.UP_MODEL_CD AS MODEL_CD
+				,		A.UP_MODEL_NM AS MODEL_NM
+				,		A.UP_DEV_OPEN_YN AS DEV_OPEN_YN
+				,		A.UP_MANUFACTURE_NM AS MANUFACTURE_NM
+				,		A.UP_USE_SCOPE_RANGE AS USE_SCOPE_RANGE
+				,		A.UP_USE_SCOPE_MEAN AS USE_SCOPE_MEAN
+				,		A.UP_TAKE_CD AS TAKE_CD
+				,		A.UP_TAKE_SDT AS TAKE_SDT
+				,		A.UP_TAKE_EDT AS TAKE_EDT
+				,		A.UP_TAKE_PRC AS TAKE_PRC
+				,		A.UP_LOCATION AS LOCATION
+				,		A.UP_LOCATION_DTL AS LOCATION_DTL
+				,		A.UP_BRANCH_CD AS BRANCH_CD
+				,		A.UP_BRANCH_NM AS BRANCH_NM
+				,		A.UP_REGIST_CD AS REGIST_CD
+				,		A.UP_LAND_AREA AS LAND_AREA
+				,		A.UP_LAND_PRC AS LAND_PRC
+				,		A.UP_LAND_REASON AS LAND_REASON
+				,		A.UP_BUILD_AREA AS BUILD_AREA
+				,		A.UP_FLOOR_UP AS FLOOR_UP
+				,		A.UP_FLOOR_DOWN AS FLOOR_DOWN
+				,		A.UP_BUILD_PRC AS BUILD_PRC
+				,		A.UP_BUILD_REASON AS BUILD_REASON
+				,		A.UP_EQUIP_LITTLE_TAKE_PRC AS EQUIP_LITTLE_TAKE_PRC
+				,		A.UP_EQUIP_FACILITIES_TAKE_PRC AS EQUIP_FACILITIES_TAKE_PRC
+				,		A.UP_EQUIP_FACILITIES_YN AS EQUIP_FACILITIES_YN
+				,		A.UP_EQUIP_TAKE_PRC AS EQUIP_TAKE_PRC
+				,		A.UP_TAKE_PRC_DOMESTIC AS TAKE_PRC_DOMESTIC
+				,		A.UP_TAKE_PRC_FOREIGN AS TAKE_PRC_FOREIGN
+				,		A.UP_USE_SCOPE_REASON AS USE_SCOPE_REASON
+				,		A.UP_USE_SCOPE_CD AS USE_SCOPE_CD
+				,		A.UP_USE_TYPE_CD AS USE_TYPE_CD
+				,		A.UP_USE_TYPE_REASON AS USE_TYPE_REASON
+				,		A.UP_DISUSE_DT AS DISUSE_DT
+				,		A.UP_DISUSE_TYPE AS DISUSE_TYPE
+				,		A.UP_EQUIP_DETAIL_FEATURE AS EQUIP_DETAIL_FEATURE
+				,		A.UP_EQUIP_DETAIL_CAPABILITY AS EQUIP_DETAIL_CAPABILITY
+				,		A.UP_EQUIP_DETAIL_EXAMPLE AS EQUIP_DETAIL_EXAMPLE
+				, 		A.UP_DISUSE_VERDICT_DT AS DISUSE_VERDICT_DT
+				,		A.UP_IMPORT_CD AS IMPORT_CD
+				,		A.UP_DEV_SPEC AS DEV_SPEC
+				,		A.UP_IDLE_DISUSE_CD AS IDLE_DISUSE_CD
+				,		A.UP_RND_YN AS RND_YN
+				,		A.UP_BRANCH_CD1 AS BRANCH_CD1
+				,		A.UP_BRANCH_CD2 AS BRANCH_CD2
+				,		A.UP_BRANCH_CD3 AS BRANCH_CD3
+				,		A.UP_TAKE_SOURCE AS TAKE_SOURCE
+				,		A.UP_TAKE_SOURCE_DT AS TAKE_SOURCE_DT
+				,		A.UP_RND_ST_DT AS RND_ST_DT
+				,		A.UP_RND_ED_DT AS RND_ED_DT
+				,		A.UP_RND_DIRECTOR AS RND_DIRECTOR
+				,		A.UP_RND_DIVISION AS RND_DIVISION
+				,		A.UP_RND_BIZ AS RND_BIZ
+				,		A.UP_RND_MAIN_ORG AS RND_MAIN_ORG
+				,		A.UP_RND_TASK AS RND_TASK
+				,		A.UP_RND_COMMIT AS RND_COMMIT
+				,		A.UP_RND_INFO AS RND_INFO
+
+				,		A.UP_OPER_CHARGER AS OPER_CHARGER2
+				,		A.UP_OPER_FAX AS OPER_FAX2
+				,		A.UP_OPER_POSITION AS OPER_POSITION2
+				,		A.UP_OPER_EMAIL AS OPER_EMEMAIL2
+				,		A.UP_OPER_TEL AS OPER_TEL2
+
+				,		B.PSN_NM AS OPER_CHARGER
+				,		B.FAX_NO AS OPER_FAX
+				,		B.POSITION_NM AS OPER_POSITION
+				,		B.EMAIL AS OPER_EMAIL
+				,		B.TEL_NO AS OPER_TEL
+				,		B.DEPT_NM AS OPER_ORG_GRP_SUB
+				,		E.ORG_GRP_NM AS OPER_ORG_GRP
+
+				,		A.UP_DISUSE_ORGAN AS UP_DISUSE_ORGAN
+				,		REPLACE(A.UP_KOR_KEY_WORD,',',', ') AS KOR_KEY_WORD
+				,		REPLACE(A.UP_ENG_KEY_WORD,',',', ') AS ENG_KEY_WORD
+				,		A.UP_NTIS_EQUIP_INFO AS NTIS_EQUIP_INFO
+				,		A.UP_EQUIP_WARRANTY AS EQUIP_WARRANTY
+				,		A.UP_EQU_USER_IDX AS EQU_USER_IDX
+
+				,		A.UP_DELETE_YN AS DELETE_YN
+				,		A.UP_HITS AS HITS
+				,		A.UP_EQU_PRODUCE AS EQU_PRODUCE
+				,		A.UP_REG_DT AS UP_REG_DT
+				,		A.UP_USER_IDX AS USER_IDX
+				,		F.STATE
+				,		F.REJECT
+				,		F.STATE_DT
+				,		A.UP_AREA AS AREA
+				,		A.UP_AREA_SIGUNGU AS AREA_SIGUNGU
+				,		A.UP_ETUBE_EQUIP_INFO AS ETUBE_EQUIP_INFO
+				,		 A.UP_DELETE_YN AS UP_DELETE_YN
+
+				FROM TB_EQU_INFO_UPDATE AS A
+				LEFT JOIN TB_USER_COPY AS B ON (A.UP_EQU_USER_IDX = B.USER_IDX)
+				LEFT JOIN TB_EQU_GOODS AS C ON (A.RND_EQU_IDX = C.RND_EQU_IDX)
+				LEFT JOIN TB_ORG_GRP AS D ON (C.OWN_ORG = D.ORG_GRP_CD)
+				LEFT JOIN TB_ORG_GRP AS E ON ( B.ORG_GRP_CD = E.ORG_GRP_CD )
+				LEFT JOIN TB_EQU_INFO AS F ON (A.RND_EQU_IDX = F.RND_EQU_IDX)
+) P
+			WHERE P.ORI_RND_EQU_IDX = #{rndEquIdx}
+			  AND (P.UP_DELETE_YN != 'Y' or P.UP_DELETE_YN IS NULL)
+		]]>
+
+		<!--
+		<if test='authLv != "99"'>
+			<![CDATA[	AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if>
+		-->
+	</select>
+
+	<!-- 연구장비 예약정보 상세  -->
+	<select id="getEquGoodsCopy" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					UP_EQU_GOODS_IDX AS EQU_GOODS_IDX,
+					UP_RSV_YN AS RSV_YN,
+					UP_OWN_ORG AS OWN_ORG,
+					UP_OWN_ORG_NM AS OWN_ORG_NM,
+					UP_REF_RSV_TEL AS REF_RSV_TEL,
+					UP_REF_EQU_TEL AS REF_EQU_TEL,
+					UP_RSC_ADDR AS RSC_ADDR,
+               		UP_RSC_ADDR_DETAIL AS RSC_ADDR_DETAIL,
+					UP_MAP_X AS MAP_X,
+					UP_MAP_Y AS MAP_Y,
+					UP_HOW_USE AS HOW_USE,
+					UP_RENTAL_INFO AS RENTAL_INFO,
+					UP_OWN_ORG_SUB AS OWN_ORG_SUB,
+					UP_OWN_ORG_SUB_NM AS OWN_ORG_SUB_NM,
+					UP_EQU_ATTENTION AS EQU_ATTENTION,
+					UP_USE_MARK_TEXT AS USE_MARK_TEXT
+
+			 FROM TB_EQU_GOODS_UPDATE
+
+			WHERE RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</select>
+
+	<!-- 연구장비 비교정보 상세  -->
+	<select id="getJnspCCopy" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+
+						A.RND_EQU_IDX
+				,		A.FIXED_ASET_NO
+				,		A.FIXED_ASET_NO_YN
+				,		A.EQUIP_CD
+				,		A.EQCP_ID
+				,		A.EQCP_NM
+				,		A.KOR_NM
+				,		A.ENG_NM
+				,		A.MODEL_CD
+				,		A.MODEL_NM
+				,		A.DEV_OPEN_YN
+				,		A.MANUFACTURE_NM
+		]]>
+				<!--
+				,		A.MODEL_CD
+				,		A.MADE_CD
+				,		A.MODEL_NM
+				-->
+		<![CDATA[
+				,		A.USE_SCOPE_RANGE
+				,		A.USE_SCOPE_MEAN
+				,		A.TAKE_CD
+				,		A.TAKE_SDT
+				,		A.TAKE_EDT
+				,		A.TAKE_PRC
+				,		A.LOCATION
+				,		A.LOCATION_DTL
+				,		A.BRANCH_CD
+				,		A.BRANCH_NM
+				,		A.REGIST_CD
+				,		A.LAND_AREA
+				,		A.LAND_PRC
+				,		A.LAND_REASON
+				,		A.BUILD_AREA
+				,		A.FLOOR_UP
+				,		A.FLOOR_DOWN
+				,		A.BUILD_PRC
+				,		A.BUILD_REASON
+				,		A.EQUIP_LITTLE_TAKE_PRC
+				,		A.EQUIP_FACILITIES_TAKE_PRC
+				,		A.EQUIP_FACILITIES_YN
+				,		A.EQUIP_TAKE_PRC
+				,		A.TAKE_PRC_DOMESTIC
+				,		A.TAKE_PRC_FOREIGN
+				,		A.USE_SCOPE_REASON
+				,		A.USE_SCOPE_CD
+				,		A.USE_TYPE_CD
+				,		A.USE_TYPE_REASON
+				,		A.DISUSE_DT
+				,		A.DISUSE_TYPE
+				,		A.EQUIP_DETAIL_FEATURE
+				,		A.EQUIP_DETAIL_CAPABILITY
+				,		A.EQUIP_DETAIL_EXAMPLE
+				, 		A.DISUSE_VERDICT_DT
+				,		A.IMPORT_CD
+				,		A.DEV_SPEC
+				,		A.IDLE_DISUSE_CD
+				,		A.RND_INFO
+				,		A.RND_YN
+				,		A.BRANCH_CD1
+				,		A.BRANCH_CD2
+				,		A.BRANCH_CD3
+				,		A.TAKE_SOURCE
+				,		A.TAKE_SOURCE_DT
+		]]>
+				<!--
+				,		A.SETUP_ID
+				,		A.ST_STYPE
+				,		A.ST_ROOM
+				-->
+		<![CDATA[
+				,		A.RND_ST_DT
+				,		A.RND_ED_DT
+				,		A.RND_DIRECTOR
+				,		A.RND_DIVISION
+				,		A.RND_BIZ
+				,		A.RND_MAIN_ORG
+				,		A.RND_TASK
+				,		A.RND_COMMIT
+				,		A.RND_INFO
+				,		B.PSN_NM AS OPER_CHARGER
+				,		B.FAX_NO AS OPER_FAX
+				,		B.POSITION_NM AS OPER_POSITION
+				,		B.EMAIL AS OPER_EMAIL
+				,		B.TEL_NO AS OPER_TEL
+		]]>
+				<!--
+	 			,		CONCAT(B.TEL_NO1,"-",B.TEL_NO2,"-",B.TEL_NO3) AS OPER_TEL
+				,		A.OPER_CHARGER
+				,		A.OPER_FAX
+				,		A.OPER_POSITION
+				,		A.OPER_EMAIL
+				,		A.OPER_ETC
+				-->
+		<![CDATA[
+				,		A.DISUSE_ORGAN
+				,		REPLACE(A.KOR_KEY_WORD,',',', ') AS KOR_KEY_WORD
+				,		REPLACE(A.ENG_KEY_WORD,',',', ') AS ENG_KEY_WORD
+				,		A.NTIS_EQUIP_INFO
+				,		A.EQUIP_WARRANTY
+				,		A.EQU_USER_IDX
+				,     	A.DELETE_YN
+           		,    	A.HITS
+				,     	A.EQU_PRODUCE
+            	,		A.REG_DT
+            	,		A.USER_IDX
+				,		A.STATE
+				,		A.REJECT
+				,		A.STATE_DT
+				,		A.AREA
+				,		A.AREA_SIGUNGU
+
+				,		C.UP_RND_EQU_IDX
+				,		C.UP_FIXED_ASET_NO
+				,		C.UP_FIXED_ASET_NO_YN
+				,		C.UP_EQUIP_CD
+				,		C.UP_EQCP_ID
+				,		C.UP_EQCP_NM
+				,		C.UP_KOR_NM
+				,		C.UP_ENG_NM
+ 				,		C.UP_MODEL_CD
+				,		C.UP_MODEL_NM
+				,		C.UP_DEV_OPEN_YN
+				,		C.UP_MANUFACTURE_NM
+		]]>
+				<!--
+				,		C.UP_MODEL_CD
+				,		C.UP_MADE_CD
+				,		C.UP_MODEL_NM
+				-->
+		<![CDATA[
+				,		C.UP_USE_SCOPE_RANGE
+				,		C.UP_USE_SCOPE_MEAN
+				,		C.UP_TAKE_CD
+				,		C.UP_TAKE_SDT
+				,		C.UP_TAKE_EDT
+				,		C.UP_TAKE_PRC
+				,		C.UP_LOCATION
+				,		C.UP_LOCATION_DTL
+				,		C.UP_BRANCH_CD
+				,		C.UP_BRANCH_NM
+				,		C.UP_REGIST_CD
+				,		C.UP_LAND_AREA
+				,		C.UP_LAND_PRC
+				,		C.UP_LAND_REASON
+				,		C.UP_BUILD_AREA
+				,		C.UP_FLOOR_UP
+				,		C.UP_FLOOR_DOWN
+				,		C.UP_BUILD_PRC
+				,		C.UP_BUILD_REASON
+				,		C.UP_EQUIP_LITTLE_TAKE_PRC
+				,		C.UP_EQUIP_FACILITIES_TAKE_PRC
+				,		C.UP_EQUIP_FACILITIES_YN
+				,		C.UP_EQUIP_TAKE_PRC
+				,		C.UP_TAKE_PRC_DOMESTIC
+				,		C.UP_TAKE_PRC_FOREIGN
+				,		C.UP_USE_SCOPE_REASON
+				,		C.UP_USE_SCOPE_CD
+				,		C.UP_USE_TYPE_CD
+				,		C.UP_USE_TYPE_REASON
+				,		C.UP_DISUSE_DT
+				,		C.UP_DISUSE_TYPE
+ 				,		C.UP_EQUIP_DETAIL_FEATURE
+				,		C.UP_EQUIP_DETAIL_CAPABILITY
+				,		C.UP_EQUIP_DETAIL_EXAMPLE
+				, 		C.UP_DISUSE_VERDICT_DT
+				,		C.UP_IMPORT_CD
+				,		C.UP_DEV_SPEC
+				,		C.UP_IDLE_DISUSE_CD
+				,		C.UP_RND_INFO
+				,		C.UP_RND_YN
+				,		C.UP_BRANCH_CD1
+				,		C.UP_BRANCH_CD2
+				,		C.UP_BRANCH_CD3
+				,		C.UP_TAKE_SOURCE
+				,		C.UP_TAKE_SOURCE_DT
+		]]>
+				<!--
+				,		C.UP_SETUP_ID
+				,		C.UP_ST_STYPE
+				,		C.UP_ST_ROOM
+				-->
+		<![CDATA[
+				,		C.UP_RND_ST_DT
+				,		C.UP_RND_ED_DT
+				,		C.UP_RND_DIRECTOR
+				,		C.UP_RND_DIVISION
+				,		C.UP_RND_BIZ
+				,		C.UP_RND_MAIN_ORG
+				,		C.UP_RND_TASK
+				,		C.UP_RND_COMMIT
+				,		C.UP_RND_INFO
+				,		C.UP_OPER_CHARGER
+				,		C.UP_OPER_FAX
+				,		C.UP_OPER_POSITION
+				,		C.UP_OPER_EMAIL
+				,		C.UP_OPER_TEL
+		]]>
+				<!--
+	 			,		CONCAT(D.TEL_NO1,"-",D.TEL_NO2,"-",D.TEL_NO3) AS UP_OPER_TEL
+				,		C.UP_OPER_CHARGER
+				,		C.UP_OPER_FAX
+				,		C.UP_OPER_POSITION
+				,		C.UP_OPER_EMAIL
+				,		C.UP_OPER_ETC
+				-->
+		<![CDATA[
+				,		C.UP_DISUSE_ORGAN
+				,		REPLACE(C.UP_KOR_KEY_WORD,',',', ') AS UP_KOR_KEY_WORD
+				,		REPLACE(C.UP_ENG_KEY_WORD,',',', ') AS UP_ENG_KEY_WORD
+				,		C.UP_NTIS_EQUIP_INFO
+ 				,		C.UP_EQUIP_WARRANTY
+				,		C.UP_EQU_USER_IDX
+				,		C.UP_DELETE_YN
+            	, 		C.UP_HITS
+            	,  		C.UP_EQU_PRODUCE
+            	,		C.UP_REG_DT
+				,		C.UP_USER_IDX
+				,		C.UP_AREA
+				,		C.UP_AREA_SIGUNGU
+				,		A.ETUBE_EQUIP_INFO
+				,		C.UP_ETUBE_EQUIP_INFO
+
+
+			FROM TB_EQU_INFO AS A
+
+			LEFT JOIN TB_EQU_INFO_UPDATE AS C ON (A.RND_EQU_IDX = C.RND_EQU_IDX)
+
+			LEFT JOIN TB_USER_COPY AS B ON (A.EQU_USER_IDX = B.USER_IDX)
+
+			WHERE A.RND_EQU_IDX = #{rndEquIdx}
+			  AND (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+			  AND (C.UP_DELETE_YN != 'Y' or C.UP_DELETE_YN IS NULL)
+		]]>
+
+		<!--
+		<if test='authLv != "99"'>
+			<![CDATA[	AND A.USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if>
+		-->
+	</select>
+
+	<!-- 연구장비 예약 비교정보 상세  -->
+	<select id="getEquGoodsCCopy" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+SELECT
+	P.RND_EQU_IDX,
+	P.EQU_GOODS_IDX,
+	P.RSV_YN,
+	P.OWN_ORG,
+	P.OWN_ORG_NM,
+	P.REF_RSV_TEL,
+	P.REF_EQU_TEL,
+	P.RSC_ADDR,
+	P.RSC_ADDR_DETAIL,
+	P.MAP_X,
+	P.MAP_Y,
+	P.HOW_USE,
+	P.RENTAL_INFO,
+	P.OWN_ORG_SUB,
+	P.OWN_ORG_SUB_NM,
+	P.EQU_ATTENTION,
+	P.USE_MARK_TEXT,
+
+	P.UP_EQU_GOODS_IDX,
+	P.UP_RSV_YN,
+	P.UP_OWN_ORG,
+	P.UP_OWN_ORG_NM,
+	P.UP_REF_RSV_TEL,
+	P.UP_REF_EQU_TEL,
+	P.UP_RSC_ADDR,
+	P.UP_RSC_ADDR_DETAIL,
+	P.UP_MAP_X,
+	P.UP_MAP_Y,
+	P.UP_HOW_USE,
+	P.UP_RENTAL_INFO,
+	P.UP_OWN_ORG_SUB,
+	P.UP_OWN_ORG_SUB_NM,
+	P.UP_EQU_ATTENTION,
+	P.UP_USE_MARK_TEXT
+FROM
+(
+			SELECT
+					A.RND_EQU_IDX,
+					A.EQU_GOODS_IDX,
+					A.RSV_YN,
+					A.OWN_ORG,
+					A.OWN_ORG_NM,
+					A.REF_RSV_TEL,
+					A.REF_EQU_TEL,
+					A.RSC_ADDR,
+               		A.RSC_ADDR_DETAIL,
+					A.MAP_X,
+					A.MAP_Y,
+					A.HOW_USE,
+					A.RENTAL_INFO,
+					A.OWN_ORG_SUB,
+					A.OWN_ORG_SUB_NM,
+					A.EQU_ATTENTION,
+					A.USE_MARK_TEXT,
+
+					C.UP_EQU_GOODS_IDX,
+					C.UP_RSV_YN,
+					C.UP_OWN_ORG,
+					C.UP_OWN_ORG_NM,
+					C.UP_REF_RSV_TEL,
+					C.UP_REF_EQU_TEL,
+					C.UP_RSC_ADDR,
+               		C.UP_RSC_ADDR_DETAIL,
+					C.UP_MAP_X,
+					C.UP_MAP_Y,
+					C.UP_HOW_USE,
+					C.UP_RENTAL_INFO,
+					C.UP_OWN_ORG_SUB,
+					C.UP_OWN_ORG_SUB_NM,
+					C.UP_EQU_ATTENTION,
+					C.UP_USE_MARK_TEXT
+
+			FROM TB_EQU_GOODS A
+	  		LEFT JOIN TB_EQU_GOODS_UPDATE AS C ON (A.RND_EQU_IDX = C.RND_EQU_IDX)
+) P
+			WHERE P.RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</select>
+	<!--************************************ 수정 백업 END ************************************-->
+
+
+
+
+	<!--************************************ 수정 승인 START ***********************************-->
+	<!-- 연구장비 수정 -->
+	<update id="setJnspCopyUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_EQU_INFO AS A, TB_EQU_INFO_UPDATE AS B
+
+				   SET
+						A.FIXED_ASET_NO = B.UP_FIXED_ASET_NO
+				,		A.EQUIP_CD = B.UP_EQUIP_CD
+				,		A.EQCP_ID = B.UP_EQCP_ID
+				,		A.EQCP_NM = B.UP_EQCP_NM
+				,		A.KOR_NM = B.UP_KOR_NM
+				,		A.ENG_NM = B.UP_ENG_NM
+				,		A.MODEL_CD = B.UP_MODEL_CD
+				,		A.MODEL_NM = B.UP_MODEL_NM
+		]]>
+	 			<!--
+	 			,		A.MODEL_CD = B.UP_MODEL_CD
+	 			,		A.MADE_CD = B.UP_MADE_CD
+	 			,		A.MODEL_NM = B.UP_MODEL_NM
+				-->
+		<![CDATA[
+				,		A.TAKE_CD = B.UP_TAKE_CD
+				,		A.TAKE_PRC = B.UP_TAKE_PRC
+				,		A.TAKE_SDT = B.UP_TAKE_SDT
+				,		A.TAKE_EDT = B.UP_TAKE_EDT
+				,		A.LOCATION = B.UP_LOCATION
+				,		A.LOCATION_DTL = B.UP_LOCATION_DTL
+				,		A.BRANCH_CD = B.UP_BRANCH_CD
+				,		A.BRANCH_NM = B.UP_BRANCH_NM
+				,		A.REGIST_CD = B.UP_REGIST_CD
+				,		A.USE_SCOPE_REASON = B.UP_USE_SCOPE_REASON
+				,		A.USE_SCOPE_CD = B.UP_USE_SCOPE_CD
+				,		A.USE_SCOPE_RANGE = B.UP_USE_SCOPE_RANGE
+				,		A.USE_SCOPE_MEAN = B.UP_USE_SCOPE_MEAN
+				,		A.DISUSE_ORGAN = B.UP_DISUSE_ORGAN
+				,		A.USE_TYPE_CD = B.UP_USE_TYPE_CD
+				,		A.USE_TYPE_REASON = B.UP_USE_TYPE_REASON
+				,		A.DEV_SPEC = B.UP_DEV_SPEC
+				,		A.DISUSE_DT = B.UP_DISUSE_DT
+				,		A.EQUIP_DETAIL_FEATURE = B.UP_EQUIP_DETAIL_FEATURE
+				,		A.EQUIP_DETAIL_CAPABILITY = B.UP_EQUIP_DETAIL_CAPABILITY
+				,		A.EQUIP_DETAIL_EXAMPLE = B.UP_EQUIP_DETAIL_EXAMPLE
+				, 		A.DISUSE_VERDICT_DT = B.UP_DISUSE_VERDICT_DT
+				,		A.IMPORT_CD = B.UP_IMPORT_CD
+				,		A.OPER_TEL = B.UP_OPER_TEL
+				,		A.IDLE_DISUSE_CD = B.UP_IDLE_DISUSE_CD
+				,		A.RND_INFO = B.UP_RND_INFO
+				,		A.DEV_OPEN_YN = B.UP_DEV_OPEN_YN
+		]]>
+	 			<!--
+	 			,		A.SETUP_ID  = B.UP_SETUP_ID
+	 			,		A.ST_STYPE  = B.UP_ST_STYPE
+	 			,		A.ST_ROOM  = B.UP_ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		A.DISUSE_TYPE = B.UP_DISUSE_TYPE
+				,		A.BRANCH_CD1 = B.UP_BRANCH_CD1
+				,		A.BRANCH_CD2 = B.UP_BRANCH_CD2
+				,		A.BRANCH_CD3 = B.UP_BRANCH_CD3
+				,		A.TAKE_SOURCE = B.UP_TAKE_SOURCE
+				,		A.TAKE_SOURCE_DT = B.UP_TAKE_SOURCE_DT
+				,		A.RND_ST_DT = B.UP_RND_ST_DT
+				,		A.RND_ED_DT = B.UP_RND_ED_DT
+				,		A.RND_DIRECTOR = B.UP_RND_DIRECTOR
+				,		A.RND_DIVISION = B.UP_RND_DIVISION
+				,		A.RND_BIZ = B.UP_RND_BIZ
+				,		A.RND_MAIN_ORG = B.UP_RND_MAIN_ORG
+				,		A.RND_TASK = B.UP_RND_TASK
+				,		A.RND_COMMIT = B.UP_RND_COMMIT
+				,		A.KOR_KEY_WORD = B.UP_KOR_KEY_WORD
+				,		A.ENG_KEY_WORD = B.UP_ENG_KEY_WORD
+				,		A.OPER_CHARGER = B.UP_OPER_CHARGER
+				,		A.OPER_FAX = B.UP_OPER_FAX
+				,		A.OPER_POSITION = B.UP_OPER_POSITION
+				,		A.OPER_EMAIL = B.UP_OPER_EMAIL
+				,		A.OPER_ETC = B.UP_OPER_ETC
+				,		A.NTIS_EQUIP_INFO = B.UP_NTIS_EQUIP_INFO
+				,		A.EQUIP_WARRANTY = B.UP_EQUIP_WARRANTY
+				,		A.MANUFACTURE_NM = B.UP_MANUFACTURE_NM
+				,		A.EQU_USER_IDX = B.UP_EQU_USER_IDX
+				,		A.AREA = B.UP_AREA
+				,		A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU
+				,		A.ETUBE_EQUIP_INFO = B.UP_ETUBE_EQUIP_INFO
+
+			 	WHERE   A.RND_EQU_IDX = B.RND_EQU_IDX
+			 	  AND   (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+				  AND   A.RND_EQU_IDX = #{rndEquIdx}
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[	AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 연구장비/시설 예약정보 수정 -->
+	<update id="setEquGoodsCopyUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_EQU_GOODS AS A, TB_EQU_GOODS_UPDATE AS B
+				   SET
+						A.REF_RSV_TEL = B.UP_REF_RSV_TEL
+				 ,		A.REF_EQU_TEL = B.UP_REF_EQU_TEL
+				 ,		A.MAP_X = B.UP_MAP_X
+				 ,		A.MAP_Y = B.UP_MAP_Y
+				 ,		A.HOW_USE = B.UP_HOW_USE
+				 ,		A.RENTAL_INFO = B.UP_RENTAL_INFO
+				 ,		A.OWN_ORG = B.UP_OWN_ORG
+				 ,		A.OWN_ORG_NM = B.UP_OWN_ORG_NM
+				 ,		A.UP_DT = B.UP_UP_DT
+				 ,		A.UP_IP = B.UP_UP_IP
+				 ,		A.UP_IDX = B.UP_UP_IDX
+				 ,		A.RSV_YN = B.UP_RSV_YN
+				 ,      A.RSC_ADDR = B.UP_RSC_ADDR
+             	 ,      A.RSC_ADDR_DETAIL = B.UP_RSC_ADDR_DETAIL
+             	 ,		A.OWN_ORG_SUB = B.UP_OWN_ORG_SUB
+				,		A.OWN_ORG_SUB_NM = B.UP_OWN_ORG_SUB_NM
+				,		A.EQU_ATTENTION = B.UP_EQU_ATTENTION
+				,		A.USE_MARK_TEXT = B.UP_USE_MARK_TEXT
+
+			 	 WHERE  A.RND_EQU_IDX = B.RND_EQU_IDX
+			 	   AND  A.DEL_YN != 'Y'
+		   		   AND  A.RND_EQU_IDX = #{rndEquIdx}
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[  AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 연구시설 수정 -->
+	<update id="setJnspRscCopyUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_EQU_INFO AS A, TB_EQU_INFO_UPDATE AS B
+			 	   SET
+
+						A.FIXED_ASET_NO = B.UP_FIXED_ASET_NO
+				,		A.EQUIP_CD = B.UP_EQUIP_CD
+				,		A.EQCP_ID = B.UP_EQCP_ID
+				,		A.EQCP_NM = B.UP_EQCP_NM
+				,		A.KOR_NM = B.UP_KOR_NM
+				,		A.ENG_NM = B.UP_ENG_NM
+				,		A.MODEL_CD = B.UP_MODEL_CD
+				,		A.MODEL_NM = B.UP_MODEL_NM
+		]]>
+	 			<!--
+	 			,		A.MODEL_CD = B.UP_MODEL_CD
+	 			,		A.MADE_CD = B.UP_MADE_CD
+	 			,		A.MODEL_NM = B.UP_MODEL_NM
+	 			-->
+	 	<![CDATA[
+				,		A.TAKE_CD = B.UP_TAKE_CD
+				,		A.TAKE_SDT = B.UP_TAKE_SDT
+				,		A.TAKE_EDT = B.UP_TAKE_EDT
+				,		A.LOCATION = B.UP_LOCATION
+				,		A.LOCATION_DTL = B.UP_LOCATION_DTL
+				,		A.BRANCH_CD = B.UP_BRANCH_CD
+				,		A.BRANCH_NM = B.UP_BRANCH_NM
+				,		A.REGIST_CD = B.UP_REGIST_CD
+				,		A.LAND_AREA = B.UP_LAND_AREA
+				,		A.LAND_PRC = B.UP_LAND_PRC
+				,		A.LAND_REASON = B.UP_LAND_REASON
+				,		A.BUILD_AREA = B.UP_BUILD_AREA
+				,		A.FLOOR_UP = B.UP_FLOOR_UP
+				,		A.FLOOR_DOWN = B.UP_FLOOR_DOWN
+				,		A.BUILD_PRC = B.UP_BUILD_PRC
+				,		A.BUILD_REASON = B.UP_BUILD_REASON
+				,		A.DISUSE_ORGAN = B.UP_DISUSE_ORGAN
+				,		A.EQUIP_LITTLE_TAKE_PRC = B.UP_EQUIP_LITTLE_TAKE_PRC
+				,		A.EQUIP_FACILITIES_TAKE_PRC =B.UP_EQUIP_FACILITIES_TAKE_PRC
+				,		A.EQUIP_FACILITIES_YN = B.UP_EQUIP_FACILITIES_YN
+				,		A.EQUIP_TAKE_PRC = B.UP_EQUIP_TAKE_PRC
+				,		A.TAKE_PRC = B.UP_TAKE_PRC
+				,		A.TAKE_PRC_DOMESTIC = B.UP_TAKE_PRC_DOMESTIC
+				,		A.TAKE_PRC_FOREIGN = B.UP_TAKE_PRC_FOREIGN
+				,		A.USE_SCOPE_REASON = B.UP_USE_SCOPE_REASON
+				,		A.USE_SCOPE_CD = B.UP_USE_SCOPE_CD
+				,		A.USE_SCOPE_RANGE = B.UP_USE_SCOPE_RANGE
+				,		A.USE_SCOPE_MEAN = B.UP_USE_SCOPE_MEAN
+				,		A.USE_TYPE_CD = B.UP_USE_TYPE_CD
+				,		A.USE_TYPE_REASON = B.UP_USE_TYPE_REASON
+				,		A.DISUSE_DT = B.UP_DISUSE_DT
+				,		A.EQUIP_DETAIL_FEATURE = B.UP_EQUIP_DETAIL_FEATURE
+				,		A.EQUIP_DETAIL_CAPABILITY = B.UP_EQUIP_DETAIL_CAPABILITY
+				,		A.EQUIP_DETAIL_EXAMPLE = B.UP_EQUIP_DETAIL_EXAMPLE
+				, 		A.DISUSE_VERDICT_DT = B.UP_DISUSE_VERDICT_DT
+				,		A.IMPORT_CD = B.UP_IMPORT_CD
+				,		A.OPER_TEL = B.UP_OPER_TEL
+				,		A.IDLE_DISUSE_CD = B.UP_IDLE_DISUSE_CD
+				,		A.RND_INFO = B.UP_RND_INFO
+				,		A.RND_YN = B.UP_RND_YN
+		]]>
+	 			<!--
+	 			,		A.SETUP_ID = B.UP_SETUP_ID
+	 			,		A.ST_STYPE = B.UP_ST_STYPE
+	 			,		A.ST_ROOM = B.UP_ST_ROOM
+	 			-->
+	 	<![CDATA[
+				,		A.KOR_KEY_WORD = B.UP_KOR_KEY_WORD
+				,		A.ENG_KEY_WORD = B.UP_ENG_KEY_WORD
+				,		A.DISUSE_TYPE = B.UP_DISUSE_TYPE
+				,		A.OPER_CHARGER = B.UP_OPER_CHARGER
+				,		A.OPER_FAX = B.UP_OPER_FAX
+				,		A.OPER_POSITION = B.UP_OPER_POSITION
+				,		A.OPER_EMAIL = B.UP_OPER_EMAIL
+				,		A.OPER_ETC = B.UP_OPER_ETC
+				,		A.NTIS_EQUIP_INFO = B.UP_NTIS_EQUIP_INFO
+				,		A.FIXED_ASET_NO_YN = B.UP_FIXED_ASET_NO_YN
+				,		A.MANUFACTURE_NM = B.UP_MANUFACTURE_NM
+				,		A.EQU_USER_IDX = B.UP_EQU_USER_IDX
+				,		A.AREA = B.UP_AREA
+				,		A.AREA_SIGUNGU = B.UP_AREA_SIGUNGU
+				,		A.ETUBE_EQUIP_INFO = B.UP_ETUBE_EQUIP_INFO
+
+			 	WHERE   A.RND_EQU_IDX = B.RND_EQU_IDX
+
+				  AND   (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+				  AND   A.RND_EQU_IDX = #{rndEquIdx}
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[ AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+
+	<!-- 연구장비/시설 첨부파일 수정 -->
+	<update id="setRndFileCopyUpdate" parameterType="paramMap">
+		<![CDATA[
+				UPDATE  TB_RND_FILE AS A, TB_RND_FILE_UPDATE AS B
+				   SET
+						A.FILE_SEQ = B.FILE_SEQ
+				 ,		A.FILE_CAT = B.FILE_CAT
+				 ,		A.TITLE = B.TITLE
+				 ,		A.REGIST_DT = B.REGIST_DT
+				 ,		A.DOWN_CNT = B.DOWN_CNT
+				 ,		A.DELETE_YN = B.DELETE_YN
+				 ,		A.PHOTO_CAT = B.PHOTO_CAT
+				 ,		A.FILE_PATH = B.FILE_PATH
+				 ,		A.TITLE_ORG = B.TITLE_ORG
+			 	 WHERE  A.RND_EQU_IDX = B.RND_EQU_IDX
+			 	   AND  (A.DELETE_YN != 'Y' or A.DELETE_YN IS NULL)
+		   		   AND  A.RND_EQU_IDX = #{rndEquIdx}
+		]]>
+		<!-- <if test='authLv != "99"'>
+		<![CDATA[  AND USER_IDX IN (SELECT USER_IDX FROM TB_USER_COPY WHERE ORG_GRP_CD = #{orgGrpCd})]]>
+		</if> -->
+	</update>
+	<!--************************************ 수정 승인 END ************************************-->
+	<!-- 등록자 기관 또는 부서 S-->
+		<select id="getorgGrp" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							G.ORG_GRP_CD,
+							G.ORG_GRP_NM,
+							G.ORG_ENG_NM,
+							G.AREA_CD,
+							G.ADDR1,
+							G.ADDR2,
+							G.ZIPCODE
+				FROM
+							TB_ORG_GRP AS G
+				WHERE
+							G.ORG_GRP_CD =	#{orgGrpCd}
+			]]>
+		</select>
+		<select id="getorgSubGrp" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							G.AREA_CD,
+							G.ORG_GRP_NM,
+							SG.ORG_GRP_SUB_CD,
+							SG.ORG_GRP_CD,
+							SG.ORG_GRP_SUB_NM,
+							SG.ORG_ZIPCODE AS ZIPCODE,
+							SG.ORG_ADDR1 AS ADDR1,
+							SG.ORG_ADDR2 AS ADDR2
+				FROM
+							TB_ORG_GRP AS G
+				LEFT JOIN TB_ORG_GRP_SUB AS SG	ON (G.ORG_GRP_CD = SG.ORG_GRP_CD AND SG.ORG_GRP_SUB_NM = #{deptNm})
+				WHERE
+							G.ORG_GRP_CD = #{orgGrpCd}
+
+			]]>
+		</select>
+	<!-- 등록자 기관 또는 부서 E-->
+	<!-- 지역(시군구) 가져오기 S -->
+		<select id="getAreaList" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+
+						CODE_GRP_CD
+					,		CODE_CD
+					,		CODE_NM
+					,		CMT
+					,		REG_IDX
+					,		REG_DT
+					,		REG_IP
+					,		UP_IDX
+					,		UP_DT
+					,		UP_IP
+
+					FROM
+							TB_CODE
+
+				WHERE 1 = 1
+				 AND CODE_GRP_CD = 'OtherArea'
+		</select>
+		<select id="getAreaSigunguList" parameterType="paramMap" resultType="paramMap" >
+				SELECT
+
+						CODE_GRP_CD
+					,		CODE_CD
+					,		CODE_NM
+					,		CMT
+					,		REG_IDX
+					,		REG_DT
+					,		REG_IP
+					,		UP_IDX
+					,		UP_DT
+					,		UP_IP
+
+					FROM
+							TB_CODE
+
+				WHERE CODE_GRP_CD = 'AreaSigungu'
+		</select>
+	<!--  지역(시군구) 가져오기 E -->
+	<!-- 담당자조회 팝업 S -->
+		<select id="getUserPopup" parameterType="paramMap" resultType="paramMap" >
+			<![CDATA[
+				SELECT
+							U.USER_IDX,
+							U.PSN_NM,
+							U.GENDER_TYPE_CD,
+							U.FRGN_YN,
+							U.USER_ID,
+							U.EMAIL,
+							U.EMAIL_RECV_YN,
+							U.ZIPCD,
+							U.ADDR1,
+							U.ADDR2,
+							U.TEL_NO,
+							U.CP_NO,
+							U.FAX_NO,
+							U.DEPT_NM,
+							U.POSITION_NM,
+							U.USER_TYPE_CD,
+							U.BIRTH_DATE,
+							U.DELETE_YN,
+							U.ORG_GRP_CD,
+							U.AUTH_LV,
+							U.REG_DT,
+							U.REG_IP,
+							U.UP_IDX,
+							U.USER_APP_STATE,
+							U.REJECT,
+							U.PRO_STATE,
+							G.ORG_GRP_NM
+				FROM
+							TB_USER_COPY AS U
+				LEFT JOIN TB_ORG_GRP AS G ON(G.ORG_GRP_CD = U.ORG_GRP_CD)
+				WHERE 1 = 1
+
+			]]>
+			<if test='searchWord != null and searchWord != ""'>
+				<if test='searchType == "ID"'>
+					<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "NAME"'>
+					<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+		<![CDATA[
+			ORDER BY G.ORG_GRP_NM DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+		</select>
+		<select id="getUserPopupCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+					COUNT(0) AS CNT
+
+			 FROM
+							TB_USER_COPY AS U
+				LEFT JOIN TB_ORG_GRP AS G ON(G.ORG_GRP_CD = U.ORG_GRP_CD)
+			WHERE 1 = 1
+		]]>
+		<if test='searchWord != null and searchWord != ""'>
+				<if test='searchType == "ID"'>
+					<![CDATA[	AND U.USER_ID LIKE '%${searchWord}%' ]]>
+				</if>
+				<if test='searchType == "NAME"'>
+					<![CDATA[	AND U.PSN_NM LIKE '%${searchWord}%' ]]>
+				</if>
+			</if>
+	</select>
+	<!-- 담당자조회 팝업 E -->
+
+
+
+	<!-- 연구장비/시설 정보  엑셀 목록  -->
+	<select id="getJnspTotalExcelList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.RND_EQU_IDX
+			,		A.EQUIP_CD
+			,		A.EQCP_ID
+			,		A.EQCP_NM
+			,		A.EQCP_ID
+			,		A.EQCP_NM
+			,		A.FIXED_ASET_NO
+			,		A.FIXED_ASET_NO_YN
+			,		A.KOR_NM
+			,		A.ENG_NM
+			,		A.MODEL_CD
+			,		A.MODEL_NM
+			,		A.DEV_OPEN_YN
+			,		A.MANUFACTURE_NM
+			,		A.USE_SCOPE_RANGE
+			,		A.USE_SCOPE_MEAN
+			,		A.TAKE_CD
+			,		A.TAKE_SDT
+			,		A.TAKE_EDT
+			,		A.TAKE_PRC
+			,		A.LOCATION
+			,		A.LOCATION_DTL
+			,		A.BRANCH_CD
+			,		A.BRANCH_NM
+			,		A.REGIST_CD
+			,		A.LAND_AREA
+			,		A.LAND_PRC
+			,		A.LAND_REASON
+			,		A.BUILD_AREA
+			,		A.FLOOR_UP
+			,		A.FLOOR_DOWN
+			,		A.BUILD_PRC
+			,		A.BUILD_REASON
+			,		A.EQUIP_LITTLE_TAKE_PRC
+			,		A.EQUIP_FACILITIES_TAKE_PRC
+			,		A.EQUIP_FACILITIES_YN
+			,		A.EQUIP_TAKE_PRC
+			,		A.TAKE_PRC_DOMESTIC
+			,		A.TAKE_PRC_FOREIGN
+			,		A.USE_SCOPE_REASON
+			,		A.USE_SCOPE_CD
+			,		A.USE_TYPE_CD
+			,		A.USE_TYPE_REASON
+			,		A.DISUSE_DT
+			,		A.DISUSE_TYPE
+			,		A.EQUIP_DETAIL_FEATURE
+			,		A.EQUIP_DETAIL_CAPABILITY
+			,		A.EQUIP_DETAIL_EXAMPLE
+			, 		A.DISUSE_VERDICT_DT
+			,		A.IMPORT_CD
+			,		A.DEV_SPEC
+			,		A.IDLE_DISUSE_CD
+			,		A.RND_INFO
+			,		A.RND_YN
+			,		A.BRANCH_CD1
+			,		A.BRANCH_CD2
+			,		A.BRANCH_CD3
+			,		A.TAKE_SOURCE
+			,		A.TAKE_SOURCE_DT
+			,		A.RND_ST_DT
+			,		A.RND_ED_DT
+			,		A.RND_DIRECTOR
+			,		A.RND_DIVISION
+			,		A.RND_BIZ
+			,		A.RND_MAIN_ORG
+			,		A.RND_TASK
+			,		A.RND_COMMIT
+			,		A.RND_INFO
+			,		A.OPER_CHARGER AS OPER_CHARGER2
+			,		A.OPER_FAX AS OPER_FAX2
+			,		A.OPER_POSITION AS OPER_POSITION2
+			,		A.OPER_EMAIL AS OPER_EMAIL2
+			,		A.OPER_TEL AS OPER_TEL2
+
+
+			,		A.DISUSE_ORGAN
+			,		REPLACE(A.KOR_KEY_WORD,',',', ') AS KOR_KEY_WORD
+			,		REPLACE(A.ENG_KEY_WORD,',',', ') AS ENG_KEY_WORD
+			,		A.NTIS_EQUIP_INFO
+			,		A.EQUIP_WARRANTY
+			,		A.EQU_USER_IDX
+
+			,		A.STATE
+			,		A.REJECT
+			,		A.STATE_DT
+			,       A.USER_IDX
+			,		A.AREA
+			,		A.AREA_SIGUNGU
+			,		(SELECT  C.CODE_NM
+
+					 FROM  TB_EQU_INFO E
+				 	 LEFT JOIN TB_CODE C ON E.AREA_SIGUNGU = C.CODE_CD
+					 WHERE C.CODE_GRP_CD = 'AreaSigungu'
+					 AND E.RND_EQU_IDX = A.RND_EQU_IDX) AS AREA_NM_IN
+			,	    (SELECT  C.CODE_NM
+
+				     FROM TB_EQU_INFO E
+			 	     LEFT JOIN TB_CODE C ON E.AREA_SIGUNGU = C.CODE_CD
+				     WHERE C.CODE_GRP_CD = 'OtherArea'
+				     AND E.RND_EQU_IDX = A.RND_EQU_IDX) AS AREA_NM_OUT
+			,		B.PSN_NM AS OPER_CHARGER3
+			,		B.FAX_NO AS OPER_FAX3
+			,		B.POSITION_NM AS OPER_POSITION3
+			,		B.EMAIL AS OPER_EMAIL3
+			,		B.TEL_NO AS OPER_TEL3
+			,		B.DEPT_NM AS OPER_ORG_GRP_SUB3
+			,		B.ORG_GRP_NM AS OPER_ORG_GRP3
+
+			,		C.OWN_ORG AS ORG_GRP_CD
+			,		C.ORG_GRP_NM
+			,		C.OWN_ORG_SUB
+			,		C.OWN_ORG_SUB_NM AS DEPT_NM
+
+			,	   	C.EQU_GOODS_IDX
+			,		C.RSV_YN
+			,		C.OWN_ORG AS GOODS_OWN_ORG
+			,		C.OWN_ORG_NM AS GOODS_OWN_ORG_NM
+			,		C.REF_RSV_TEL
+			,		C.REF_EQU_TEL
+			,		C.RSC_ADDR
+			, 		C.RSC_ADDR_DETAIL
+			,		C.MAP_X
+			,		C.MAP_Y
+			,		C.HOW_USE
+			,		C.RENTAL_INFO
+			,		C.OWN_ORG_SUB AS GOODS_OWN_ORG_SUB
+			,		C.OWN_ORG_SUB_NM AS GOODS_OWN_ORG_SUB_NM
+			,		C.EQU_ATTENTION
+			,		C.USE_MARK_TEXT
+			,		A.ETUBE_EQUIP_INFO
+
+
+			FROM TB_EQU_INFO AS A
+
+ 			LEFT JOIN
+ 			(SELECT
+					F.USER_IDX
+			,		F.PSN_NM
+			,		F.FAX_NO
+			,		F.POSITION_NM
+			,		F.EMAIL
+			,		F.TEL_NO
+			,		F.DEPT_NM
+			,		(SELECT E.ORG_GRP_NM FROM TB_ORG_GRP E WHERE F.ORG_GRP_CD = E.ORG_GRP_CD)AS ORG_GRP_NM
+
+ 			FROM   TB_USER_COPY F) AS B ON (A.EQU_USER_IDX = B.USER_IDX)
+
+
+ 			LEFT JOIN
+			(SELECT
+				   G.RND_EQU_IDX
+			,	   G.OWN_ORG
+			,	   G.OWN_ORG_SUB
+		 	,	   G.OWN_ORG_SUB_NM
+		 	,	   (SELECT H.ORG_GRP_NM FROM TB_ORG_GRP H WHERE G.OWN_ORG = H.ORG_GRP_CD) AS ORG_GRP_NM
+			,	   G.EQU_GOODS_IDX
+			,		G.RSV_YN
+			,		G.OWN_ORG_NM
+			,		G.REF_RSV_TEL
+			,		G.REF_EQU_TEL
+			,		G.RSC_ADDR
+			, 		G.RSC_ADDR_DETAIL
+			,		G.MAP_X
+			,		G.MAP_Y
+			,		G.HOW_USE
+			,		G.RENTAL_INFO
+			,		G.EQU_ATTENTION
+			,		G.USE_MARK_TEXT
+
+			FROM  TB_EQU_GOODS G) AS C ON (A.RND_EQU_IDX = C.RND_EQU_IDX)
+
+			WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+		]]>
+
+		<if test='equipCd != null and equipCd != ""'>
+			<![CDATA[	AND A.EQUIP_CD = #{equipCd} ]]>
+		</if>
+
+		<choose>
+			<when test='authLv != "99" and authLv >= "80"'>
+				<![CDATA[ AND C.OWN_ORG = #{orgGrpCd} ]]>
+			</when>
+			<when test='authLv != "99" and authLv >= "70"'>
+				<![CDATA[ AND C.OWN_ORG_SUB = #{orgGrpSubCd} ]]>
+			</when>
+			<otherwise>	</otherwise>
+		</choose>
+
+		<if test='searchState != null and searchState != ""'>
+			<![CDATA[ AND A.STATE = ${searchState} ]]>
+		</if>
+
+		<if test='searchOrgGrp != null and searchOrgGrp != ""'>
+			<![CDATA[ AND C.OWN_ORG = #{searchOrgGrp} ]]>
+		</if>
+		<if test="searchOrgSub != null and searchOrgSub != ''">
+			<![CDATA[ AND C.OWN_ORG_SUB_NM LIKE '%${searchOrgSub}%']]>
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "equipNm" and searchWord != ""'>
+				<![CDATA[ AND (A.KOR_NM LIKE '%${searchWord}%' OR A.ENG_NM LIKE '%${searchWord}%') ]]>
+			</if>
+			<if test='searchType == "model" and searchWord != ""'>
+				<![CDATA[ AND A.MODEL_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "keyWord" and searchWord != ""'>
+				<![CDATA[
+					AND (
+					 	   CONCAT(',',A.KOR_KEY_WORD,',') LIKE '%,${searchWord},%'
+					 	OR CONCAT(',',A.ENG_KEY_WORD,',') LIKE '%,${searchWord},%'
+					)
+				]]>
+			</if>
+		</if>
+
+		<![CDATA[
+			ORDER BY A.RND_EQU_IDX DESC
+		]]>
+	</select>
+
+
+	<!-- 연구장비/시설 정보  엑셀 목록  -->
+	<select id="getJnspTotalExcelUpdateList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		select
+						A.UP_RND_EQU_IDX AS RND_EQU_IDX
+				,		A.UP_FIXED_ASET_NO AS FIXED_ASET_NO
+				,		A.UP_FIXED_ASET_NO_YN AS FIXED_ASET_NO_YN
+				,		A.UP_EQUIP_CD AS EQUIP_CD
+				,		A.UP_EQCP_ID AS EQCP_ID
+				,		A.UP_EQCP_NM AS EQCP_NM
+				,		A.UP_KOR_NM AS KOR_NM
+				,		A.UP_ENG_NM AS ENG_NM
+				,		A.UP_MODEL_CD AS MODEL_CD
+				,		A.UP_MODEL_NM AS MODEL_NM
+				,		A.UP_DEV_OPEN_YN AS DEV_OPEN_YN
+				,		A.UP_MANUFACTURE_NM AS MANUFACTURE_NM
+				,		A.UP_USE_SCOPE_RANGE AS USE_SCOPE_RANGE
+				,		A.UP_USE_SCOPE_MEAN AS USE_SCOPE_MEAN
+				,		A.UP_TAKE_CD AS TAKE_CD
+				,		A.UP_TAKE_SDT AS TAKE_SDT
+				,		A.UP_TAKE_EDT AS TAKE_EDT
+				,		A.UP_TAKE_PRC AS TAKE_PRC
+				,		A.UP_LOCATION AS LOCATION
+				,		A.UP_LOCATION_DTL AS LOCATION_DTL
+				,		A.UP_BRANCH_CD AS BRANCH_CD
+				,		A.UP_BRANCH_NM AS BRANCH_NM
+				,		A.UP_REGIST_CD AS REGIST_CD
+				,		A.UP_LAND_AREA AS LAND_AREA
+				,		A.UP_LAND_PRC AS LAND_PRC
+				,		A.UP_LAND_REASON AS LAND_REASON
+				,		A.UP_BUILD_AREA AS BUILD_AREA
+				,		A.UP_FLOOR_UP AS FLOOR_UP
+				,		A.UP_FLOOR_DOWN AS FLOOR_DOWN
+				,		A.UP_BUILD_PRC AS BUILD_PRC
+				,		A.UP_BUILD_REASON AS BUILD_REASON
+				,		A.UP_EQUIP_LITTLE_TAKE_PRC AS EQUIP_LITTLE_TAKE_PRC
+				,		A.UP_EQUIP_FACILITIES_TAKE_PRC AS EQUIP_FACILITIES_TAKE_PRC
+				,		A.UP_EQUIP_FACILITIES_YN AS EQUIP_FACILITIES_YN
+				,		A.UP_EQUIP_TAKE_PRC AS EQUIP_TAKE_PRC
+				,		A.UP_TAKE_PRC_DOMESTIC AS TAKE_PRC_DOMESTIC
+				,		A.UP_TAKE_PRC_FOREIGN AS TAKE_PRC_FOREIGN
+				,		A.UP_USE_SCOPE_REASON AS USE_SCOPE_REASON
+				,		A.UP_USE_SCOPE_CD AS USE_SCOPE_CD
+				,		A.UP_USE_TYPE_CD AS USE_TYPE_CD
+				,		A.UP_USE_TYPE_REASON AS USE_TYPE_REASON
+				,		A.UP_DISUSE_DT AS DISUSE_DT
+				,		A.UP_DISUSE_TYPE AS DISUSE_TYPE
+				,		A.UP_EQUIP_DETAIL_FEATURE AS EQUIP_DETAIL_FEATURE
+				,		A.UP_EQUIP_DETAIL_CAPABILITY AS EQUIP_DETAIL_CAPABILITY
+				,		A.UP_EQUIP_DETAIL_EXAMPLE AS EQUIP_DETAIL_EXAMPLE
+				, 		A.UP_DISUSE_VERDICT_DT AS DISUSE_VERDICT_DT
+				,		A.UP_IMPORT_CD AS IMPORT_CD
+				,		A.UP_DEV_SPEC AS DEV_SPEC
+				,		A.UP_IDLE_DISUSE_CD AS IDLE_DISUSE_CD
+				,		A.UP_RND_INFO AS RND_INFO
+				,		A.UP_RND_YN AS RND_YN
+				,		A.UP_BRANCH_CD1 AS BRANCH_CD1
+				,		A.UP_BRANCH_CD2 AS BRANCH_CD2
+				,		A.UP_BRANCH_CD3 AS BRANCH_CD3
+				,		A.UP_TAKE_SOURCE AS TAKE_SOURCE
+				,		A.UP_TAKE_SOURCE_DT AS TAKE_SOURCE_DT
+				,		A.UP_RND_ST_DT AS RND_ST_DT
+				,		A.UP_RND_ED_DT AS RND_ED_DT
+				,		A.UP_RND_DIRECTOR AS RND_DIRECTOR
+				,		A.UP_RND_DIVISION AS RND_DIVISION
+				,		A.UP_RND_BIZ AS RND_BIZ
+				,		A.UP_RND_MAIN_ORG AS RND_MAIN_ORG
+				,		A.UP_RND_TASK AS RND_TASK
+				,		A.UP_RND_COMMIT AS RND_COMMIT
+				,		A.UP_RND_INFO AS RND_INFO
+
+				,		A.UP_OPER_CHARGER AS OPER_CHARGER2
+				,		A.UP_OPER_FAX AS OPER_FAX2
+				,		A.UP_OPER_POSITION AS OPER_POSITION2
+				,		A.UP_OPER_EMAIL AS OPER_EMEMAIL2
+				,		A.UP_OPER_TEL AS OPER_TEL2
+
+
+				,		A.UP_DISUSE_ORGAN AS UP_DISUSE_ORGAN
+				,		REPLACE(A.UP_KOR_KEY_WORD,',',', ') AS KOR_KEY_WORD
+				,		REPLACE(A.UP_ENG_KEY_WORD,',',', ') AS ENG_KEY_WORD
+				,		A.UP_NTIS_EQUIP_INFO AS NTIS_EQUIP_INFO
+				,		A.UP_EQUIP_WARRANTY AS EQUIP_WARRANTY
+				,		A.UP_EQU_USER_IDX AS EQU_USER_IDX
+
+				,		A.UP_DELETE_YN AS DELETE_YN
+				,		A.UP_HITS AS HITS
+				,		A.UP_EQU_PRODUCE AS EQU_PRODUCE
+				,		A.UP_REG_DT AS UP_REG_DT
+				,		A.UP_USER_IDX AS USER_IDX
+			,		A.UP_AREA AS AREA
+				,		A.UP_AREA_SIGUNGU AS AREA_SIGUNGU
+			,		(SELECT  C.CODE_NM
+
+					 FROM  TB_EQU_INFO E
+				 	 LEFT JOIN TB_CODE C ON E.AREA_SIGUNGU = C.CODE_CD
+					 WHERE C.CODE_GRP_CD = 'AreaSigungu'
+					 AND E.RND_EQU_IDX = A.UP_RND_EQU_IDX) AS AREA_NM_IN
+			,	    (SELECT  C.CODE_NM
+
+				     FROM TB_EQU_INFO E
+			 	     LEFT JOIN TB_CODE C ON E.AREA_SIGUNGU = C.CODE_CD
+				     WHERE C.CODE_GRP_CD = 'OtherArea'
+				     AND E.RND_EQU_IDX = A.UP_RND_EQU_IDX) AS AREA_NM_OUT
+			,		B.PSN_NM AS OPER_CHARGER3
+			,		B.FAX_NO AS OPER_FAX3
+			,		B.POSITION_NM AS OPER_POSITION3
+			,		B.EMAIL AS OPER_EMAIL3
+			,		B.TEL_NO AS OPER_TEL3
+			,		B.DEPT_NM AS OPER_ORG_GRP_SUB3
+			,		B.ORG_GRP_NM AS OPER_ORG_GRP3
+
+			,		C.OWN_ORG AS ORG_GRP_CD
+			,		C.ORG_GRP_NM
+			,		C.OWN_ORG_SUB
+			,		C.OWN_ORG_SUB_NM AS DEPT_NM
+
+			,	   	C.EQU_GOODS_IDX
+			,		C.RSV_YN
+			,		C.OWN_ORG AS GOODS_OWN_ORG
+			,		C.OWN_ORG_NM AS GOODS_OWN_ORG_NM
+			,		C.REF_RSV_TEL
+			,		C.REF_EQU_TEL
+			,		C.RSC_ADDR
+			, 		C.RSC_ADDR_DETAIL
+			,		C.MAP_X
+			,		C.MAP_Y
+			,		C.HOW_USE
+			,		C.RENTAL_INFO
+			,		C.OWN_ORG_SUB AS GOODS_OWN_ORG_SUB
+			,		C.OWN_ORG_SUB_NM AS GOODS_OWN_ORG_SUB_NM
+			,		C.EQU_ATTENTION
+			,		C.USE_MARK_TEXT
+			,		A.UP_ETUBE_EQUIP_INFO AS ETUBE_EQUIP_INFO
+
+			FROM TB_EQU_INFO_UPDATE AS A
+
+ 			LEFT JOIN
+ 			(SELECT
+					F.USER_IDX
+			,		F.PSN_NM
+			,		F.FAX_NO
+			,		F.POSITION_NM
+			,		F.EMAIL
+			,		F.TEL_NO
+			,		F.DEPT_NM
+			,		(SELECT E.ORG_GRP_NM FROM TB_ORG_GRP E WHERE F.ORG_GRP_CD = E.ORG_GRP_CD)AS ORG_GRP_NM
+
+ 			FROM   TB_USER_COPY F) AS B ON (A.UP_EQU_USER_IDX = B.USER_IDX)
+
+
+ 			LEFT JOIN
+			(SELECT
+				   G.RND_EQU_IDX
+			,	   G.OWN_ORG
+			,	   G.OWN_ORG_SUB
+		 	,	   G.OWN_ORG_SUB_NM
+		 	,	   (SELECT H.ORG_GRP_NM FROM TB_ORG_GRP H WHERE G.OWN_ORG = H.ORG_GRP_CD) AS ORG_GRP_NM
+			,	   G.EQU_GOODS_IDX
+			,		G.RSV_YN
+			,		G.OWN_ORG_NM
+			,		G.REF_RSV_TEL
+			,		G.REF_EQU_TEL
+			,		G.RSC_ADDR
+			, 		G.RSC_ADDR_DETAIL
+			,		G.MAP_X
+			,		G.MAP_Y
+			,		G.HOW_USE
+			,		G.RENTAL_INFO
+			,		G.EQU_ATTENTION
+			,		G.USE_MARK_TEXT
+
+			FROM  TB_EQU_GOODS G) AS C ON (A.UP_RND_EQU_IDX = C.RND_EQU_IDX)
+
+
+			LEFT JOIN 	TB_EQU_INFO L
+			ON A.RND_EQU_IDX = L.RND_EQU_IDX
+
+
+			WHERE (A.UP_DELETE_YN != 'Y' OR A.UP_DELETE_YN IS NULL)
+			AND A.RND_EQU_IDX = #{rndEquIdx}
+			ORDER BY A.UP_RND_EQU_IDX DESC
+			limit 1
+		]]>
+
+	</select>
+	<!-- 기관 목록  -->
+	<select id="getOrgGrpCheckList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+							ORG_GRP_CD
+						,	ORG_GRP_NM
+			  FROM
+			  				TB_ORG_GRP
+			 WHERE
+			 				DELETE_YN != 'Y'
+		]]>
+		<if test='searchNameOrg != null and searchNameOrg != ""'>
+			<![CDATA[
+				AND (ORG_GRP_NM LIKE '%${searchNameOrg}%')
+			]]>
+
+		</if>
+		<![CDATA[
+		  ORDER BY ORG_GRP_NM ASC
+		]]>
+	</select>
+
+
+	<!-- 신청기간 유무 -->
+	<select id="getUseDateCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+						COUNT(*)
+			FROM
+						TB_USE_DATE
+			WHERE
+						USE_YEAR = #{useYear}
+		]]>
+	</select>
+
+	<!-- 신청기간 수정 -->
+	<update id="setUseDateUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE
+						TB_USE_DATE
+			SET
+						USE_ST_DT	= #{useStDt}
+					,	USE_ED_DT	= #{useEdDt}
+					,	UP_ID			= #{upId}
+					,	UP_DT			= now()
+					,	UP_IP			= #{upIp}
+			WHERE
+						USE_YEAR = #{useYear}
+		]]>
+	</update>
+
+	<!-- 파일 신청기간 수정 -->
+	<update id="setUseFileDateUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE
+						TB_USE_FILE
+			SET
+						USE_ST_DT	= #{useStDt}
+					,	USE_ED_DT	= #{useEdDt}
+					,	UP_ID			= #{upId}
+					,	UP_DT			= now()
+					,	UP_IP			= #{upIp}
+			WHERE
+						USE_YEAR = #{useYear}
+				AND
+						ORG_GRP_CD = #{orgGrpCd}
+		]]>
+	</update>
+
+	<!-- 신청기간 등록 -->
+	<insert id="setUseDateInsert" parameterType="paramMap">
+		<![CDATA[
+			INSERT
+			INTO   TB_USE_DATE
+					(
+								USE_DATE_IDX
+							,	USE_YEAR
+							,	USE_ST_DT
+							,	USE_ED_DT
+							,	REG_ID
+							,	REG_DT
+							,	REG_IP
+					)
+					VALUES
+					(
+								#{useDateIdx}
+							,	#{useYear}
+							,	#{useStDt}
+							,	#{useEdDt}
+							,	#{regId}
+							,	now()
+							,	#{regIp}
+					)
+		]]>
+	</insert>
+
+	<select id="getUseFileCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	<![CDATA[
+		SELECT
+					COUNT(*)
+		FROM
+					TB_USE_FILE A
+		LEFT JOIN
+					TB_JNSP_FILE B
+		ON
+					B.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{excelSubNm}),'%') AND B.DATA_GRP = #{dataGrp}
+		LEFT JOIN
+					TB_JNSP_FILE C
+		ON
+					C.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{fileSubNm1}),'%') AND C.DATA_GRP = #{dataGrp}
+		LEFT JOIN
+					TB_JNSP_FILE D
+		ON
+					D.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{fileSubNm2}),'%') AND D.DATA_GRP = #{dataGrp}
+		LEFT JOIN
+					TB_JNSP_FILE E
+		ON
+					E.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{fileSubNm3}),'%') AND E.DATA_GRP = #{dataGrp}
+		LEFT JOIN
+					TB_JNSP_FILE F
+		ON
+					F.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{fileSubNm4}),'%') AND F.DATA_GRP = #{dataGrp}
+		LEFT JOIN
+					TB_JNSP_FILE G
+		ON
+					G.DATA_IDX LIKE CONCAT(CONCAT(A.USE_DATE_IDX, #{fileSubNm5}),'%') AND G.DATA_GRP = #{dataGrp}
+		WHERE
+					1=1
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null  ">
+					<![CDATA[AND A.ORG_GRP_CD= #{orgGrpCd}]]>
+		</if>
+		<if test="orgGrpNm != '' and orgGrpNm != null  ">
+					<![CDATA[AND A.ORG_GRP_NM LIKE CONCAT('%',#{orgGrpNm},'%')]]>
+		</if>
+		<if test="useDateIdx != '' and useDateIdx != null  ">
+					<![CDATA[AND A.USE_DATE_IDX = #{useDateIdx}]]>
+		</if>
+		<if test="useYear != '' and useYear != null  ">
+					<![CDATA[AND A.USE_YEAR = #{useYear}]]>
+		</if>
+	</select>
+
+	<select id="getUseFileMap" parameterType="paramMap" resultType="paramMap" >
+	<![CDATA[
+		SELECT
+						A.USE_FILE_IDX as useFileIdx
+					,	A.USE_YEAR as useYear
+					,	(SELECT B.USE_ST_DT FROM TB_USE_DATE B WHERE A.USE_DATE_IDX = B.USE_DATE_IDX)  as useStDt
+					,	(SELECT C.USE_ED_DT FROM TB_USE_DATE C WHERE A.USE_DATE_IDX = C.USE_DATE_IDX)  as useEdDt
+		FROM
+					TB_USE_FILE A
+		WHERE
+					A.USE_DATE_IDX = #{useDateIdx}
+				AND
+					A.ORG_GRP_CD   = #{orgGrpCd}
+		LIMIT 1
+	]]>
+	</select>
+
+	<update id="setUseFileUpdate"  parameterType="paramMap">
+		<![CDATA[
+		UPDATE
+					TB_USE_FILE
+		SET
+					UP_ID        = #{upId}
+				,	UP_DT        = now()
+				,	UP_IP        = #{upIp}
+		]]>
+			<if test="excel1Yn != null and excel1Yn != ''">
+				<![CDATA[ ,	EXCEL_1_YN = #{excel1Yn} ]]>
+			</if>
+			<if test="excel2Yn != null and excel2Yn != ''">
+				<![CDATA[ ,	EXCEL_2_YN = #{excel2Yn} ]]>
+			</if>
+			<if test="file1Yn != null and file1Yn != ''">
+				<![CDATA[ ,	FILE_1_YN = #{file1Yn} ]]>
+			</if>
+			<if test="file2Yn != null and file2Yn != ''">
+				<![CDATA[ ,	FILE_2_YN = #{file2Yn} ]]>
+			</if>
+			<if test="file3Yn != null and file3Yn != ''">
+				<![CDATA[ ,	FILE_3_YN = #{file3Yn} ]]>
+			</if>
+			<if test="file4Yn != null and file4Yn != ''">
+				<![CDATA[ ,	FILE_4_YN = #{file4Yn} ]]>
+			</if>
+			<if test="file5Yn != null and file5Yn != ''">
+				<![CDATA[ ,	FILE_5_YN = #{file5Yn} ]]>
+			</if>
+			<if test="useStDt != null and useStDt != ''">
+				<![CDATA[ ,	USE_ST_DT        = #{useStDt} ]]>
+			</if>
+			<if test="useEdDt != null and useEdDt != ''">
+				<![CDATA[ ,	USE_ED_DT        = #{useEdDt} ]]>
+			</if>
+			<if test="typeChange != null and typeChange != ''">
+				<![CDATA[ ,	JOINT_TYPE        = #{jointType} ]]>
+			</if>
+		<![CDATA[
+		WHERE
+					USE_DATE_IDX = #{useDateIdx}
+				AND
+					ORG_GRP_CD   = #{orgGrpCd}
+		]]>
+	</update>
+
+	<!-- 연구시설장비 파일 저장 -->
+	<insert id="setUseFileInsert" parameterType="paramMap">
+		INSERT
+		INTO   TB_USE_FILE
+		(
+				USE_FILE_IDX
+			,	ORG_GRP_CD
+			,	ORG_GRP_NM
+			,	USE_DATE_IDX
+			,	USE_YEAR
+			,	USE_ST_DT
+			,	USE_ED_DT
+			<if test="excel1Yn != null and excel1Yn != ''">
+				,	EXCEL_1_YN
+			</if>
+			<if test="excel2Yn != null and excel2Yn != ''">
+				,	EXCEL_2_YN
+			</if>
+			<if test="file1Yn != null and file1Yn != ''">
+				,	FILE_1_YN
+			</if>
+			<if test="file2Yn != null and file2Yn != ''">
+				,	FILE_2_YN
+			</if>
+			<if test="file3Yn != null and file3Yn != ''">
+				,	FILE_3_YN
+			</if>
+			<if test="file4Yn != null and file4Yn != ''">
+				,	FILE_4_YN
+			</if>
+			<if test="file5Yn != null and file5Yn != ''">
+				,	FILE_5_YN
+			</if>
+			,	REG_ID
+			,	REG_DT
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{useFileIdx}
+			,	#{orgGrpCd}
+			,	#{orgGrpNm}
+			,	#{useDateIdx}
+			,	#{useYear}
+			,	#{useStDt}
+			,	#{useEdDt}
+			<if test="excel1Yn != null and excel1Yn != ''">
+				,	#{excel1Yn}
+			</if>
+			<if test="excel2Yn != null and excel2Yn != ''">
+				,	#{excel2Yn}
+			</if>
+			<if test="file1Yn != null and file1Yn != ''">
+				,	#{file1Yn}
+			</if>
+			<if test="file2Yn != null and file2Yn != ''">
+				,	#{file2Yn}
+			</if>
+			<if test="file3Yn != null and file3Yn != ''">
+				,	#{file3Yn}
+			</if>
+			<if test="file4Yn != null and file4Yn != ''">
+				,	#{file4Yn}
+			</if>
+			<if test="file5Yn != null and file5Yn != ''">
+				,	#{file5Yn}
+			</if>
+			,	#{regId}
+			,	now()
+			,	#{regIp}
+		)
+	</insert>
+
+	<!-- 연구시설장비 활용실적 저장 -->
+	<insert id="setUseStatusInsert" parameterType="paramMap">
+	<![CDATA[
+	INSERT
+	INTO   TB_USE_STATUS
+			(
+					USE_STATUS_IDX
+				,	USE_FILE_IDX
+				,	ORG_GRP_CD
+				,	ORG_GRP_NM
+				,	JOINT_YEAR
+				,	JEINET_EQU_NO
+				,	NTIS_EQU_NO
+				,	JOINT_USE_SECTION
+				,	JOINT_USE_INSTITUTION
+				,	DEPARTMENT
+				,	JOINT_USE_ST_DT
+				,	JOINT_USE_ED_DT
+				,	USER_NAME
+				,	USER_EMAIL
+				,	USER_PHONE
+				,	USE_TIME
+				,	EARNINGS
+				,	SAMPLE_COUNT
+				,	STATE
+				,	REJECT
+				,	REG_ID
+				,	REG_DT
+				,	REG_IP
+			)
+	VALUES
+			(
+					#{useStatusIdx}
+				,	#{useFileIdx}
+				,	#{orgGrpCd}
+				,	#{orgGrpNm}
+				,	#{jointYear}
+				,	#{jeinetEquNo}
+				,	#{ntisEquNo}
+				,	#{jointUseSection}
+				,	#{jointUseInstitution}
+				,	#{department}
+				,	#{jointUseStDt}
+				,	#{jointUseEdDt}
+				,	#{userName}
+				,	#{userEmail}
+				,	#{userPhone}
+				,	#{useTime}
+				,	#{earnings}
+				,	#{sampleCount}
+				,	#{state}
+				,	#{reject}
+				,	#{regId}
+				,	now()
+				,	#{regIp}
+			)
+	]]>
+	</insert>
+
+
+	<!-- 신청기간 -->
+	<select id="getUseDateMap" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					USE_DATE_IDX as useDateIdx
+				,	USE_YEAR as useYear
+				,	USE_ST_DT as useStDt
+				,	USE_ED_DT as useEdDt
+				,	JOINT_TYPE as jointType
+				,	REG_ID as regId
+				,	DATE_FORMAT(REG_DT, '%Y-%m-%d') as regDt
+				,	REG_IP as regIp
+				,	UP_ID as upId
+				,	DATE_FORMAT(UP_DT, '%Y-%m-%d') as upDt
+				,	UP_IP as upIp
+		FROM
+					TB_USE_DATE
+		WHERE
+					USE_YEAR = #{useYear}
+		ORDER BY
+					USE_YEAR DESC
+		LIMIT 1
+		]]>
+	</select>
+
+	<!-- 활용실적리스트 -->
+	<select id="getUseFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					A.USE_FILE_IDX as useFileIdx
+				,	A.ORG_GRP_CD as orgGrpCd
+				,	A.ORG_GRP_NM as orgGrpNm
+				,	A.USE_DATE_IDX as useDateIdx
+				,	A.USE_YEAR as useYear
+				,	A.USE_ST_DT as useStDt
+				,	A.USE_ED_DT as useEdDt
+				,	A.JOINT_TYPE as jointType
+				,	A.EXCEL_1_YN as excel1Yn
+				,	A.EXCEL_2_YN as excel2Yn
+				,	A.FILE_1_YN as file1Yn
+				,	A.FILE_2_YN as file2Yn
+				,	A.FILE_3_YN as file3Yn
+				,	A.FILE_4_YN as file4Yn
+				,	A.FILE_5_YN as file5Yn
+				,	A.REG_ID as regId
+				,	A.REG_DT as regDt
+				,	A.REG_IP as regIp
+				,	A.UP_ID as upId
+				,	A.UP_DT as upDt
+				,	A.UP_IP as upIp
+				,	B.DATA_IDX as fileDataIdx1
+				,	C.DATA_IDX as fileDataIdx2
+				,	D.DATA_IDX as fileDataIdx3
+				,	E.DATA_IDX as fileDataIdx4
+				,	F.DATA_IDX as fileDataIdx5
+				,	G.DATA_IDX as fileDataIdx6
+				,	H.DATA_IDX as fileDataIdx7
+				,	B.TITLE_ORG as fileTitleOrg1
+				,	C.TITLE_ORG as fileTitleOrg2
+				,	D.TITLE_ORG as fileTitleOrg3
+				,	E.TITLE_ORG as fileTitleOrg4
+				,	F.TITLE_ORG as fileTitleOrg5
+				,	G.TITLE_ORG as fileTitleOrg6
+				,	H.TITLE_ORG as fileTitleOrg7
+				,	LOWER(B.FILE_CAT) as fileCat1
+				,	LOWER(C.FILE_CAT) as fileCat2
+				,	LOWER(D.FILE_CAT) as fileCat3
+				,	LOWER(E.FILE_CAT) as fileCat4
+				,	LOWER(F.FILE_CAT) as fileCat5
+				,	LOWER(G.FILE_CAT) as fileCat6
+				,	LOWER(H.FILE_CAT) as fileCat7
+		FROM
+					TB_USE_FILE A
+		LEFT JOIN
+					TB_JNSP_FILE B
+		ON
+					B.DATA_GRP = CONCAT(#{dataGrp}, 'file1') AND B.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE C
+		ON
+					C.DATA_GRP = CONCAT(#{dataGrp}, 'file2') AND C.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE D
+		ON
+					D.DATA_GRP = CONCAT(#{dataGrp}, 'file3') AND D.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE E
+		ON
+					E.DATA_GRP = CONCAT(#{dataGrp}, 'file4') AND E.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE F
+		ON
+					F.DATA_GRP = CONCAT(#{dataGrp}, 'file5') AND F.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE G
+		ON
+					G.DATA_GRP = CONCAT(#{dataGrp}, 'file6') AND G.DATA_IDX = A.USE_FILE_IDX
+		LEFT JOIN
+					TB_JNSP_FILE H
+		ON
+					H.DATA_GRP = CONCAT(#{dataGrp}, 'file7') AND H.DATA_IDX = A.USE_FILE_IDX
+		WHERE
+				1=1
+		]]>
+		<if test="orgGrpCd != '' and orgGrpCd != null  ">
+					<![CDATA[AND A.ORG_GRP_CD= #{orgGrpCd}]]>
+		</if>
+		<if test="orgGrpNm != '' and orgGrpNm != null  ">
+					<![CDATA[AND A.ORG_GRP_NM LIKE CONCAT('%',#{orgGrpNm},'%')]]>
+		</if>
+		<if test="useDateIdx != '' and useDateIdx != null  ">
+					<![CDATA[AND A.USE_DATE_IDX = #{useDateIdx}]]>
+		</if>
+		<if test="searchYear != '' and searchYear != null  ">
+					<![CDATA[AND A.USE_YEAR = #{searchYear}]]>
+		</if>
+		ORDER BY
+					A.USE_YEAR DESC, A.USE_ST_DT DESC, A.USE_ED_DT DESC
+		LIMIT ${firstRecord} , ${pageSize}
+	</select>
+</mapper>

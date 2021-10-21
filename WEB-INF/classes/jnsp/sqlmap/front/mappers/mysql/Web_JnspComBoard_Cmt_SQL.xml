@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspBoardCmtMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getBoardCmtList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.CMT_IDX,
+					A.ARTICLE_ID,
+					A.CMT_SEQ,
+					A.CMT_CONTENT,
+					A.REG_USER_NM,
+					A.REG_ID,
+					A.REG_IP,
+					A.REG_DT,
+					B.ORG_GRP_CD	
+
+			FROM
+					JMY_BOARD_ARTICLE_CMT A
+			LEFT JOIN TB_USER_COPY AS B
+			ON A.REG_ID = B.USER_ID
+			WHERE
+					ARTICLE_ID = #{boardIdx}
+		]]>
+		<![CDATA[
+			ORDER BY CMT_IDX ASC
+		]]>
+	</select>
+
+	<select id="getBoardCmtListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					JMY_BOARD_ARTICLE_CMT
+	</select>
+	<insert id="setBoardCmtInsert" parameterType="paramMap" >
+		INSERT INTO JMY_BOARD_ARTICLE_CMT
+		(
+					ARTICLE_ID,
+					CMT_CONTENT,
+					REG_USER_NM,
+					REG_ID,
+					REG_IP,
+					REG_DT
+		)VALUES
+		(
+					  #{boardIdx}
+				,     #{comment}
+				,     #{usernm}
+				,     #{regid}
+				,     #{regIp}
+				,     now()
+
+		)
+	</insert>
+	<update id="setBoardCmtUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE_CMT SET
+						CMT_CONTENT = #{editComment},
+						UP_ID = #{upid},
+						UP_IP = #{upIp},
+						UP_DT = now()
+			WHERE CMT_IDX = #{cmtIdx}
+
+		]]>
+	</update>
+	<delete id="setBoardCmtDelete" parameterType="paramMap">
+		 DELETE
+		 FROM
+		 JMY_BOARD_ARTICLE_CMT
+		 WHERE CMT_IDX = #{cmtIdx}
+	</delete>
+
+</mapper>

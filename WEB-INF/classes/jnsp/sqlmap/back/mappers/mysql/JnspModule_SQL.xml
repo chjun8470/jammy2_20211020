@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspModuleMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getModuleList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					A.MODULE_INFO_IDX,
+					A.MB_NM,
+					A.MB_URL,
+					A.MB_NOTE,
+					A.PAGE_CD,
+					A.USE_YN,
+					A.AUTH_LIST,
+					A.AUTH_EDIT,
+					A.AUTH_DEL,
+					A.AUTH_WRITE,
+					A.AUTH_CMT,
+					A.AUTH_REPLY,
+					A.REG_DT,
+					A.REG_IP,
+					A.REG_IDX,
+					A.UP_DT,
+					A.UP_IP,
+					A.UP_IDX,
+					B.PSN_NM
+				FROM
+					    TB_MODULE_INFO A
+				LEFT JOIN
+						TB_USER_COPY B
+					ON A.REG_IDX = B.USER_IDX
+			WHERE 1 = 1
+			]]>
+				<if test="searchType == 'name'">
+					AND MB_NM LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+				<if test="searchType == 'url'">
+					AND PAGE_CD LIKE CONCAT('%',#{searchWord},'%')
+				</if>
+			<![CDATA[
+			ORDER BY MODULE_INFO_IDX DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getModuleListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+	SELECT
+				COUNT(0) AS CNT
+	   FROM
+				TB_MODULE_INFO
+	 WHERE
+				1= 1
+			<if test="searchType == 'name'">
+				AND MB_NM LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+			<if test="searchType == 'url'">
+				AND PAGE_CD LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+
+	</select>
+
+	<select id="getModule" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+					MODULE_INFO_IDX,
+					MB_NM,
+					MB_URL,
+					MB_NOTE,
+					PAGE_CD,
+					USE_YN,
+					AUTH_LIST,
+					AUTH_EDIT,
+					AUTH_DEL,
+					AUTH_WRITE,
+					AUTH_CMT,
+					AUTH_REPLY,
+					REG_DT,
+					REG_IP,
+					REG_IDX,
+					UP_DT,
+					UP_IP,
+					UP_IDX
+				FROM
+					    TB_MODULE_INFO
+			 WHERE MODULE_INFO_IDX = '${moduleInfoIdx}'
+	</select>
+
+	<delete id="setModuleDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_MODULE_INFO
+			 WHERE MODULE_INFO_IDX = '${moduleInfoIdx}'
+	</delete>
+
+	<delete id="setAllModuleDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_MODULE_INFO
+			 WHERE MODULE_INFO_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{moduleInfoIdx}
+			</foreach>
+
+	</delete>
+
+	<insert id="setModuleInsert" parameterType="paramMap">
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_MODULE_INFO
+			(
+				MODULE_INFO_IDX,
+				MB_NM,
+				MB_URL,
+				MB_NOTE,
+				PAGE_CD,
+				USE_YN,
+				AUTH_LIST,
+				AUTH_EDIT,
+				AUTH_DEL,
+				AUTH_WRITE,
+				AUTH_CMT,
+				AUTH_REPLY,
+				REG_DT,
+				REG_IP,
+				REG_IDX
+			)
+			VALUES
+			(
+				#{moduleInfoIdx},
+				#{mbNm},
+				#{mbUrl},
+				#{mbNote},
+				#{pageCd},
+				#{useYN},
+				<choose>
+					<when test="authList == '' or authList == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authList},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authEdit == '' or authEdit == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authEdit},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authDel == '' or authDel == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authDel},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authWrite == '' or authWrite == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authWrite},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authCmt == '' or authCmt == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authCmt},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authReply == '' or authReply == null">
+					'N',
+					</when>
+					<otherwise>
+					#{authReply},
+					</otherwise>
+				</choose>
+				now(),
+				#{regIp},
+				#{regIdx}
+			)
+	</insert>
+
+	<update id="setModuleUpdate" parameterType="paramMap">
+		UPDATE TB_MODULE_INFO SET
+				MB_NM = #{mbNm},
+				MB_URL = #{mbUrl},
+				MB_NOTE = #{mbNote},
+				PAGE_CD = #{pageCd},
+				USE_YN = #{useYN},
+				<choose>
+					<when test="authList == '' or authList == null">
+					AUTH_LIST = 'N',
+					</when>
+					<otherwise>
+					AUTH_LIST = #{authList},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authEdit == '' or authEdit == null">
+					AUTH_EDIT = 'N',
+					</when>
+					<otherwise>
+					AUTH_EDIT = #{authEdit},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authDel == '' or authDel == null">
+					AUTH_Del = 'N',
+					</when>
+					<otherwise>
+					AUTH_DEL = #{authDel},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authWrite == '' or authWrite == null">
+					AUTH_Write = 'N',
+					</when>
+					<otherwise>
+					AUTH_WRITE = #{authWrite},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authCmt == '' or authCmt == null">
+					AUTH_CMT = 'N',
+					</when>
+					<otherwise>
+					AUTH_CMT = #{authCmt},
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="authReply == '' or authReply == null">
+					AUTH_Reply = 'N',
+					</when>
+					<otherwise>
+					AUTH_REPLY = #{authReply},
+					</otherwise>
+				</choose>
+				UP_DT = now(),
+				UP_IP = #{upIp},
+				UP_IDX = #{upIdx}
+		WHERE
+			MODULE_INFO_IDX = #{moduleInfoIdx}
+	</update>
+
+
+</mapper>

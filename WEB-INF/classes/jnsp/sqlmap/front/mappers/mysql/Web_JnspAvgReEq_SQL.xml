@@ -1,0 +1,2588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspAvgReEqMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN #{firstRecord} AND #{lastRecord}
+	</sql>
+<!-- 연구장비구축통계  -->
+	<!-- 기관별 -->
+	<select id="getJnspReEqAge" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+				A.ORG_GRP_NM AS AREA,
+				A.ORG_GRP_CD,
+				(
+					SELECT COUNT(0) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS CNT,
+				(
+					SELECT SUM(B1.TAKE_PRC) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS SM
+
+			FROM TB_ORG_GRP AS A
+			WHERE 1 = 1
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+
+		]]>
+		<if test = "avgnm != '' and avgnm != null">
+			<![CDATA[
+				AND A.ORG_GRP_NM LIKE CONCAT('%',#{avgnm},'%')
+			]]>
+		</if>
+		<choose>
+			<when test=" select == '구축금액' and select.equals('구축금액')">
+				ORDER BY SM DESC
+			</when>
+			<otherwise>
+				ORDER BY CNT DESC
+			</otherwise>
+		</choose>
+	 	 <choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspReEqAgeCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+				COUNT(0)
+			FROM TB_ORG_GRP AS A
+			WHERE 1 = 1
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+
+	</select>
+	<!-- 지역별 -->
+	<select id="getJnspReEqAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_NM,
+				A.ORG_GRP_CD,
+				A.AREA_LOCATION_CD,
+				COUNT(A.AREA_LOCATION_CD)AS AREA_LOCATION_CNT,
+				(
+					SELECT COUNT(0) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS CNT,
+				(
+					SELECT SUM(B1.TAKE_PRC) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS SM,
+				B.CODE_NM AS AREA
+
+
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			WHERE 1 = 1
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+		]]>
+		<if test = "avgnm != '' and avgnm != null">
+			<![CDATA[
+				AND B.CODE_NM LIKE CONCAT('%',#{avgnm},'%')
+			]]>
+		</if>
+		<![CDATA[
+			GROUP BY B.CODE_NM
+		]]>
+		<choose>
+			<when test=" select == '구축금액' and select.equals('구축금액')">
+				ORDER BY SM DESC
+			</when>
+			<otherwise>
+				ORDER BY CNT DESC
+			</otherwise>
+		</choose>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspReEqAreCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT COUNT(0)
+		FROM(
+			SELECT
+				COUNT(0)
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			WHERE 1 = 1
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			GROUP BY B.CODE_NM
+		)AS A
+	</select>
+	<!-- 구축통계 연도별 -->
+	<select id="getJnspYearEqAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+					DATE_FORMAT(B1.REG_DT,'%Y') AS DA,
+					COUNT(0) AS CNT
+				FROM TB_EQU_INFO AS B1
+				LEFT JOIN TB_EQU_GOODS AS C1
+				ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+				LEFT JOIN TB_ORG_GRP AS A
+				ON A.ORG_GRP_CD = C1.OWN_ORG
+				WHERE A.ORG_GRP_CD = C1.OWN_ORG
+				AND B1.STATE = '2'
+				AND B1.EQUIP_CD = '1'
+				AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				AND A.APPLY_CD = '20'
+				AND TO_DAYS(DATE_FORMAT(B1.REG_DT,'%Y-1-1')) <= TO_DAYS(NOW())
+				AND TO_DAYS(DATE_FORMAT(B1.REG_DT,'%Y-1-1')) >= TO_DAYS(NOW())-3650
+				GROUP BY DATE_FORMAT(B1.REG_DT,'%Y')
+				ORDER BY DATE_FORMAT(B1.REG_DT,'%Y') DESC
+		]]>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+<!-- 연구장비구축통계 end -->
+<!-- 연구장비인력통계  -->
+	<!-- 기관별 -->
+	<select id="getJnspRePerAge" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM AS AREA,
+				SUM(C.TAKE_PRC_FOREIGN) AS SM,
+				(
+					SELECT COUNT(0) FROM TB_USER_COPY
+					WHERE TB_USER_COPY.ORG_GRP_CD = A.ORG_GRP_CD
+					AND (TB_USER_COPY.DELETE_YN != 'Y' or TB_USER_COPY.DELETE_YN IS NULL)
+					AND TB_USER_COPY.USER_APP_STATE = '20'
+				) AS CNT
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_EQU_INFO AS C
+				ON A.USER_IDX = C.USER_IDX
+			WHERE A.AREA_CD = 1
+			AND (C.DELETE_YN != 'Y' or C.DELETE_YN IS NULL)
+			AND A.ORG_TYPE = 2
+			AND C.STATE = '2'
+			AND A.AUTH_ORG_SITE_1 = 'Y'
+		]]>
+		<if test = "avgnm != '' and avgnm != null">
+			<![CDATA[
+				AND A.ORG_GRP_NM LIKE CONCAT('%',#{avgnm},'%')
+			]]>
+		</if>
+		<![CDATA[
+			GROUP BY A.ORG_GRP_NM
+		]]>
+		<choose>
+			<when test=" select == '구축금액' and select.equals('구축금액')">
+				ORDER BY SM DESC
+			</when>
+			<otherwise>
+				ORDER BY CNT DESC
+			</otherwise>
+		</choose>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspRePerAgeCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM
+			(
+				SELECT
+					COUNT(0)
+				FROM TB_ORG_GRP AS A
+				LEFT JOIN TB_EQU_INFO AS C
+					ON A.USER_IDX = C.USER_IDX
+				WHERE A.AREA_CD = 1
+				AND (C.DELETE_YN != 'Y' or C.DELETE_YN IS NULL)
+				AND A.ORG_TYPE = 2
+				AND C.STATE = '2'
+				AND A.AUTH_ORG_SITE_1 = 'Y'
+				GROUP BY A.ORG_GRP_NM
+			)AS AAA
+		]]>
+	</select>
+	<!-- 지역별 -->
+	<select id="getJnspRePerAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_NM,
+				A.ORG_GRP_CD,
+				A.AREA_LOCATION_CD,
+				(
+					SELECT COUNT(0) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS CNT,
+				(
+					SELECT SUM(B1.TAKE_PRC_FOREIGN) FROM TB_EQU_INFO AS B1
+					LEFT JOIN TB_EQU_GOODS AS C1
+					ON B1.RND_EQU_IDX  = C1.RND_EQU_IDX
+					WHERE A.ORG_GRP_CD = C1.OWN_ORG
+					AND B1.STATE = '2'
+					AND B1.EQUIP_CD = '1'
+					AND (B1.DELETE_YN != 'Y' OR B1.DELETE_YN IS NULL)
+				)AS SM,
+				B.CODE_NM AS AREA
+
+
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			WHERE 1 = 1
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+		]]>
+		<if test = "avgnm != '' and avgnm != null">
+			<![CDATA[
+				AND C.CODE_NM LIKE CONCAT('%',#{avgnm},'%')
+			]]>
+		</if>
+		<![CDATA[
+			GROUP BY B.CODE_NM
+		]]>
+		<choose>
+			<when test=" select == '구축금액' and select.equals('구축금액')">
+				ORDER BY SM DESC
+			</when>
+			<otherwise>
+				ORDER BY CNT DESC
+			</otherwise>
+		</choose>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspRePerAreCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT COUNT(0)
+		FROM
+			(
+			SELECT
+			count(0) as CNT
+			FROM TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			WHERE 1 = 1
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			GROUP BY B.CODE_NM
+			ORDER BY CNT DESC
+			)AS AAA
+	</select>
+<!-- 연구장비인력통계end -->
+<!-- 연구장비활용통계  -->
+	<select id="getJnspReUses" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A. AXIS,
+				COUNT(0) AS CNT
+				from
+				(
+
+					SELECT
+							A.ORG_GRP_NM,
+							B.USER_IDX,
+							C.RND_MAIN_ORG AS AXIS,
+							C.KOR_NM ,
+							COUNT(*) AS CNT
+						FROM
+							TB_ORG_GRP AS A
+						LEFT JOIN TB_USER_COPY AS B
+						ON A.USER_IDX = B.USER_IDX
+						LEFT JOIN TB_EQU_INFO AS C
+						ON A.ORG_GRP_NM = C.RND_MAIN_ORG
+						WHERE 1 = 1
+						AND C.EQUIP_CD = #{tabCd}
+						AND A.AREA_CD = 1
+						AND (C.DELETE_YN != 'Y' or C.DELETE_YN IS NULL)
+						GROUP BY AXIS
+						ORDER BY AXIS ASC
+					) AS A
+			]]>
+				GROUP BY AXIS
+				ORDER BY AXIS DESC
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+
+	</select>
+	<select id="getJnspReUsesCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+			SELECT
+				COUNT(*) AS CNT
+			FROM
+				TB_ORG_GRP AS A
+			LEFT JOIN TB_USER_COPY AS B
+			ON A.USER_IDX = B.USER_IDX
+			LEFT JOIN TB_EQU_INFO AS C
+			ON A.ORG_GRP_NM = C.RND_MAIN_ORG
+			WHERE 1 = 1
+			AND C.EQUIP_CD = #{tabCd}
+			AND A.AREA_CD = 1
+	</select>
+
+
+<!-- 연구장비활용통계end -->
+<!-- 접속자통계  -->
+	<select id="getJnspYear" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(A.COUNT_DE,'%Y년') AS AXIS,
+				A.COUNT_DE countDe,
+				A.YY yy,
+				A.MM mm,
+				A.DD dd,
+				A.WW ww,
+				A.HH0 hh0,
+				A.HH1 hh1,
+				A.HH2 hh2,
+				A.HH3 hh3,
+				A.HH4 hh4,
+				A.HH5 hh5,
+				A.HH6 hh6,
+				A.HH7 hh7,
+				A.HH8 hh8,
+				A.HH9 hh9,
+				A.HH10 hh10,
+				A.HH11 hh11,
+				A.HH12 hh12,
+				A.HH13 hh13,
+				A.HH14 hh14,
+				A.HH15 hh15,
+				A.HH16 hh16,
+				A.HH17 hh17,
+				A.HH18 hh18,
+				A.HH19 hh19,
+				A.HH20 hh20,
+				A.HH21 hh21,
+				A.HH22 hh22,
+				A.HH23 hh23,
+				A.UHH0 uhh0,
+				A.UHH1 uhh1,
+				A.UHH2 uhh2,
+				A.UHH3 uhh3,
+				A.UHH4 uhh4,
+				A.UHH5 uhh5,
+				A.UHH6 uhh6,
+				A.UHH7 uhh7,
+				A.UHH8 uhh8,
+				A.UHH9 uhh9,
+				A.UHH10 uhh10,
+				A.UHH11 uhh11,
+				A.UHH12 uhh12,
+				A.UHH13 uhh13,
+				A.UHH14 uhh14,
+				A.UHH15 uhh15,
+				A.UHH16 uhh16,
+				A.UHH17 uhh17,
+				A.UHH18 uhh18,
+				A.UHH19 uhh19,
+				A.UHH20 uhh20,
+				A.UHH21 uhh21,
+				A.UHH22 uhh22,
+				A.UHH23 uhh23,
+				A.HITS hits,
+				A.UNIQ_HITS uniqHits,
+				SUM(A.HITS) AS CNT
+			FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+							AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 연자 총겟수 -->
+	<select id="getJnspYearCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT COUNT(0)
+		FROM(
+			SELECT
+				DATE_FORMAT(A.COUNT_DE,'%Y년') AS AXIS
+			FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+		<choose>
+				<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+							<![CDATA[
+								AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+							]]>
+				</when>
+
+
+				<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+							<![CDATA[
+								AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+							]]>
+				</when>
+
+				<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+							<![CDATA[
+								AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+							]]>
+
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+						AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+					]]>
+				</otherwise>
+			</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+
+	</select>
+
+	<select id="getJnspMon" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(A.COUNT_DE,'%Y년%m월') AS AXIS,
+				A.COUNT_DE countDe,
+				A.YY yy,
+				A.MM mm,
+				A.DD dd,
+				A.WW ww,
+				A.HH0 hh0,
+				A.HH1 hh1,
+				A.HH2 hh2,
+				A.HH3 hh3,
+				A.HH4 hh4,
+				A.HH5 hh5,
+				A.HH6 hh6,
+				A.HH7 hh7,
+				A.HH8 hh8,
+				A.HH9 hh9,
+				A.HH10 hh10,
+				A.HH11 hh11,
+				A.HH12 hh12,
+				A.HH13 hh13,
+				A.HH14 hh14,
+				A.HH15 hh15,
+				A.HH16 hh16,
+				A.HH17 hh17,
+				A.HH18 hh18,
+				A.HH19 hh19,
+				A.HH20 hh20,
+				A.HH21 hh21,
+				A.HH22 hh22,
+				A.HH23 hh23,
+				A.UHH0 uhh0,
+				A.UHH1 uhh1,
+				A.UHH2 uhh2,
+				A.UHH3 uhh3,
+				A.UHH4 uhh4,
+				A.UHH5 uhh5,
+				A.UHH6 uhh6,
+				A.UHH7 uhh7,
+				A.UHH8 uhh8,
+				A.UHH9 uhh9,
+				A.UHH10 uhh10,
+				A.UHH11 uhh11,
+				A.UHH12 uhh12,
+				A.UHH13 uhh13,
+				A.UHH14 uhh14,
+				A.UHH15 uhh15,
+				A.UHH16 uhh16,
+				A.UHH17 uhh17,
+				A.UHH18 uhh18,
+				A.UHH19 uhh19,
+				A.UHH20 uhh20,
+				A.UHH21 uhh21,
+				A.UHH22 uhh22,
+				A.UHH23 uhh23,
+				A.HITS hits,
+				A.UNIQ_HITS uniqHits,
+				SUM(A.HITS) AS CNT
+			FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+							AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 월자 총겟수 -->
+	<select id="getJnspMonCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT COUNT(0)
+		FROM(
+			SELECT
+				DATE_FORMAT(A.COUNT_DE,'%Y년%m월') AS AXIS
+			FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+							AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+	</select>
+
+	<select id="getJnspDay" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+		]]>
+		<choose>
+		<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				DATE_FORMAT(A.COUNT_DE,'%Y년%m월%d일') AS AXIS,
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				DATE_FORMAT(A.COUNT_DE,'%m월%d일') AS AXIS,
+			]]>
+		</otherwise>
+		</choose>
+		<![CDATA[
+				A.COUNT_DE countDe,
+				A.YY yy,
+				A.MM mm,
+				A.DD dd,
+				A.WW ww,
+				A.HH0 hh0,
+				A.HH1 hh1,
+				A.HH2 hh2,
+				A.HH3 hh3,
+				A.HH4 hh4,
+				A.HH5 hh5,
+				A.HH6 hh6,
+				A.HH7 hh7,
+				A.HH8 hh8,
+				A.HH9 hh9,
+				A.HH10 hh10,
+				A.HH11 hh11,
+				A.HH12 hh12,
+				A.HH13 hh13,
+				A.HH14 hh14,
+				A.HH15 hh15,
+				A.HH16 hh16,
+				A.HH17 hh17,
+				A.HH18 hh18,
+				A.HH19 hh19,
+				A.HH20 hh20,
+				A.HH21 hh21,
+				A.HH22 hh22,
+				A.HH23 hh23,
+				A.UHH0 uhh0,
+				A.UHH1 uhh1,
+				A.UHH2 uhh2,
+				A.UHH3 uhh3,
+				A.UHH4 uhh4,
+				A.UHH5 uhh5,
+				A.UHH6 uhh6,
+				A.UHH7 uhh7,
+				A.UHH8 uhh8,
+				A.UHH9 uhh9,
+				A.UHH10 uhh10,
+				A.UHH11 uhh11,
+				A.UHH12 uhh12,
+				A.UHH13 uhh13,
+				A.UHH14 uhh14,
+				A.UHH15 uhh15,
+				A.UHH16 uhh16,
+				A.UHH17 uhh17,
+				A.UHH18 uhh18,
+				A.UHH19 uhh19,
+				A.UHH20 uhh20,
+				A.UHH21 uhh21,
+				A.UHH22 uhh22,
+				A.UHH23 uhh23,
+				A.HITS hits,
+				A.UNIQ_HITS uniqHits,
+				SUM(A.HITS) AS CNT
+			FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+					<choose>
+						<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+							<![CDATA[
+								AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+							]]>
+						</when>
+						<otherwise>
+							<![CDATA[
+								AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -11 DAY)
+							]]>
+						</otherwise>
+					</choose>
+						<![CDATA[
+							AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 일자 총갯수 -->
+	<select id="getJnspDayCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT COUNT(0)
+		FROM(
+			SELECT
+				DATE_FORMAT(A.COUNT_DE,'%m월%d일') AS AXIS
+		  	FROM
+				JMY_COUNTER_DAY AS A
+			WHERE 1 = 1
+			AND A.SITE_ID = #{siteId}
+		]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(A.COUNT_DE, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.COUNT_DE >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+							AND A.COUNT_DE <= CONCAT(DATE_FORMAT(A.COUNT_DE, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+
+	</select>
+	<!-- 장비예약정보 통계  -->
+	<select id="getJnspReseYear" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(ORDER_DT,'%Y년') AS AXIS,
+				ORDER_STATE,
+				ORDER_DT,
+				COUNT(*) AS CNT
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+							AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 예약 년 총갯수 -->
+	<select id="getJnspReseYearCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM(
+			SELECT
+				DATE_FORMAT(ORDER_DT,'%Y년') AS AXIS
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+				<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+					<![CDATA[
+						AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+					]]>
+				</when>
+				<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+					<![CDATA[
+						AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+
+				<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+					<![CDATA[
+						AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+						AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+						AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+					]]>
+				</otherwise>
+			</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+	</select>
+
+	<select id="getJnspReseMon" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				DATE_FORMAT(ORDER_DT,'%Y년%m월') AS AXIS,
+				ORDER_STATE,
+				ORDER_DT,
+				COUNT(*) AS CNT
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+							AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 예약 월 총갯수 -->
+	<select id="getJnspReseMonCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM(
+			SELECT
+				DATE_FORMAT(ORDER_DT,'%Y년%m월') AS AXIS
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+							AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+	</select>
+	<select id="getJnspReseDay" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+		]]>
+		<choose>
+		<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				DATE_FORMAT(ORDER_DT,'%Y년%m월%d일') AS AXIS,
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				DATE_FORMAT(ORDER_DT,'%m월%d일') AS AXIS,
+			]]>
+		</otherwise>
+		</choose>
+		<![CDATA[
+				ORDER_STATE,
+				ORDER_DT,
+				COUNT(*) AS CNT
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+								<![CDATA[
+									AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+								]]>
+					</when>
+
+
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+
+								<![CDATA[
+									AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+					</when>
+
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+
+								<![CDATA[
+									AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+									AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+								]]>
+
+					</when>
+					<otherwise>
+					<choose>
+						<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+							<![CDATA[
+								AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+							]]>
+						</when>
+						<otherwise>
+							<![CDATA[
+								AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -11 DAY)
+							]]>
+						</otherwise>
+					</choose>
+						<![CDATA[
+							AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<!-- 예약 일 총갯수 -->
+	<select id="getJnspReseDayCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM(
+			SELECT
+			    DATE_FORMAT(ORDER_DT,'%m월%d일') AS AXIS
+			FROM
+				TB_EQU_ORDER
+			WHERE 1 = 1
+				AND ORDER_STATE = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND ORDER_DT >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+							AND ORDER_DT <= CONCAT(DATE_FORMAT(ORDER_DT, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY AXIS
+			) AS A
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY AXIS DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY AXIS ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+<!-- 예약정보 통계end -->
+<!-- 접속자 통계 end -->
+<!-- 지식재산 특허통계  -->
+<!-- 기관별 -->
+	<select id="getJnspJipPatent" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.IDX,
+				A.ORG_NM,
+				B.ORG_GRP_NM AS AREA,
+				A.ORG_GRP_CD,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					KNOW_HOW_NO AS APLC_NO,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE 1 = 1
+			AND A.STATE = '2'
+			AND B.AUTH_ORG_SITE_2 = 'Y'
+			AND B.ORG_TYPE = '2'
+		]]>
+		<choose>
+		 	<when test='select == "디자인" and select.equals("디자인")' >
+		 		AND A.IDX = '2'
+		 	</when>
+		 	<when test='select == "상표" and select.equals("상표")' >
+		 		AND A.IDX = '1'
+		 	</when>
+		 	<when test='select == "프로그램" and select.equals("프로그램")' >
+		 		AND A.IDX = '5'
+		 	</when>
+		 	<when test='select == "노하우" and select.equals("노하우")' >
+		 		AND A.IDX = '3'
+		 	</when>
+		 	<otherwise>
+		 		AND A.IDX = '4'
+		 	</otherwise>
+		</choose>
+		<![CDATA[
+			GROUP BY B.ORG_GRP_NM
+			ORDER BY CNT DESC
+		]]>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<!-- 기관별 카운트 -->
+	<select id="getJnspJipPatentCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+				COUNT(0)
+			FROM(
+				SELECT
+						A.IDX,
+						A.ORG_NM AS AREA,
+						A.ORG_GRP_CD,
+						COUNT(0) AS CNT
+					FROM(
+						SELECT
+							'1' AS IDX ,
+							INTRL_APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							STATE AS STATE
+						FROM TB_SEARCH_BRAND
+						UNION ALL
+						SELECT
+							'2' AS IDX ,
+							APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							STATE AS STATE
+						FROM TB_SEARCH_DESIGN
+						UNION ALL
+						SELECT
+							'3' AS IDX ,
+							KNOW_HOW_NO AS APLC_NO,
+							ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							STATE AS STATE
+						FROM TB_SEARCH_KNOW_HOW
+						UNION ALL
+						SELECT
+							'4' AS IDX ,
+							APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							STATE AS STATE
+						FROM TB_SEARCH_PATENT_UTILITY_MODEL
+						UNION ALL
+						SELECT
+							'5' AS IDX ,
+							REG_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							STATE AS STATE
+						FROM TB_SEARCH_PROGRAM
+					) AS A
+					LEFT JOIN TB_ORG_GRP AS B
+					ON A.ORG_GRP_CD = B.ORG_GRP_CD
+					WHERE 1 = 1
+					AND A.STATE = '2'
+					AND B.AUTH_ORG_SITE_2 = 'Y'
+					AND B.ORG_TYPE = '2'
+					]]>
+		<choose>
+		 	<when test='select == "디자인" and select.equals("디자인")' >
+		 		AND A.IDX = '2'
+		 	</when>
+		 	<when test='select == "상표" and select.equals("상표")' >
+		 		AND A.IDX = '1'
+		 	</when>
+		 	<when test='select == "프로그램" and select.equals("프로그램")' >
+		 		AND A.IDX = '5'
+		 	</when>
+		 	<when test='select == "노하우" and select.equals("노하우")' >
+		 		AND A.IDX = '3'
+		 	</when>
+		 	<otherwise>
+		 		AND A.IDX = '4'
+		 	</otherwise>
+		</choose>
+		<![CDATA[
+					GROUP BY A.ORG_NM
+					ORDER BY CNT DESC
+				) AS AA
+			]]>
+	</select>
+	<select id="getJnspJipPatentAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.IDX,
+				A.ORG_NM ,
+				A.ORG_GRP_CD,
+				A.AREA_SIGUNGU,
+				C.CODE_NM AS AREA,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					AREA_SIGUNGU AS AREA_SIGUNGU,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					AREA_SIGUNGU AS AREA_SIGUNGU,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					KNOW_HOW_NO AS APLC_NO,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					AREA_SIGUNGU AS AREA_SIGUNGU,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					AREA_SIGUNGU AS AREA_SIGUNGU,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					AREA_SIGUNGU AS AREA_SIGUNGU,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			LEFT JOIN TB_CODE AS C
+			ON A.AREA_SIGUNGU = C.CODE_CD
+			WHERE 1 = 1
+			AND C.CODE_GRP_CD = 'AreaSigungu'
+			AND A.STATE = '2'
+			AND B.AREA_CD = '1'
+			AND B.AUTH_ORG_SITE_2 = 'Y'
+			AND B.ORG_TYPE = '2'
+		]]>
+		<choose>
+		 	<when test='select == "디자인" and select.equals("디자인")' >
+		 		AND A.IDX = '2'
+		 	</when>
+		 	<when test='select == "상표" and select.equals("상표")' >
+		 		AND A.IDX = '1'
+		 	</when>
+		 	<when test='select == "프로그램" and select.equals("프로그램")' >
+		 		AND A.IDX = '5'
+		 	</when>
+		 	<when test='select == "노하우" and select.equals("노하우")' >
+		 		AND A.IDX = '3'
+		 	</when>
+		 	<otherwise>
+		 		AND A.IDX = '4'
+		 	</otherwise>
+		</choose>
+		<![CDATA[
+			GROUP BY C.CODE_NM
+			ORDER BY CNT DESC
+		]]>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<!-- 지역별 카운트 -->
+	<select id="getJnspJipPatentAreCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT
+			COUNT(0)
+		FROM(
+					SELECT
+						A.IDX,
+						A.ORG_NM ,
+						A.ORG_GRP_CD,
+						A.AREA_SIGUNGU,
+						C.CODE_NM AS AREA,
+						COUNT(0) AS CNT
+					FROM(
+						SELECT
+							'1' AS IDX ,
+							INTRL_APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							AREA_SIGUNGU AS AREA_SIGUNGU,
+							STATE AS STATE
+						FROM TB_SEARCH_BRAND
+						UNION ALL
+						SELECT
+							'2' AS IDX ,
+							APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							AREA_SIGUNGU AS AREA_SIGUNGU,
+							STATE AS STATE
+						FROM TB_SEARCH_DESIGN
+						UNION ALL
+						SELECT
+							'3' AS IDX ,
+							KNOW_HOW_NO AS APLC_NO,
+							ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							AREA_SIGUNGU AS AREA_SIGUNGU,
+							STATE AS STATE
+						FROM TB_SEARCH_KNOW_HOW
+						UNION ALL
+						SELECT
+							'4' AS IDX ,
+							APLC_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							AREA_SIGUNGU AS AREA_SIGUNGU,
+							STATE AS STATE
+						FROM TB_SEARCH_PATENT_UTILITY_MODEL
+						UNION ALL
+						SELECT
+							'5' AS IDX ,
+							REG_NO AS APLC_NO,
+							OWN_ORG_NM AS ORG_NM,
+							ORG_GRP_CD AS ORG_GRP_CD,
+							AREA_SIGUNGU AS AREA_SIGUNGU,
+							STATE AS STATE
+						FROM TB_SEARCH_PROGRAM
+					) AS A
+					LEFT JOIN TB_ORG_GRP AS B
+					ON A.ORG_GRP_CD = B.ORG_GRP_CD
+					LEFT JOIN TB_CODE AS C
+					ON A.AREA_SIGUNGU = C.CODE_CD
+					WHERE 1 = 1
+					AND C.CODE_GRP_CD = 'AreaSigungu'
+					AND A.STATE = '2'
+					AND B.AREA_CD = '1'
+					AND B.AUTH_ORG_SITE_2 = 'Y'
+					AND B.ORG_TYPE = '2'
+			]]>
+			<choose>
+			 	<when test='select == "디자인" and select.equals("디자인")' >
+			 		AND A.IDX = '2'
+			 	</when>
+			 	<when test='select == "상표" and select.equals("상표")' >
+			 		AND A.IDX = '1'
+			 	</when>
+			 	<when test='select == "프로그램" and select.equals("프로그램")' >
+			 		AND A.IDX = '5'
+			 	</when>
+			 	<when test='select == "노하우" and select.equals("노하우")' >
+			 		AND A.IDX = '3'
+			 	</when>
+			 	<otherwise>
+			 		AND A.IDX = '4'
+			 	</otherwise>
+			</choose>
+		<![CDATA[
+					GROUP BY C.CODE_NM
+					ORDER BY CNT DESC
+			)AS AA
+		]]>
+	</select>
+	<select id="getJnspJipPatentDate" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.IDX,
+				A.ORG_NM ,
+				A.ORG_GRP_CD,
+				DATE_FORMAT(A.SEARCH_DAY,'%Y년') AS AREA,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_NO AS APLC_NO,
+					INTRL_APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_NO AS APLC_NO,
+					APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					KNOW_HOW_NO AS APLC_NO,
+					REG_DT AS SEARCH_DAY,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_NO AS APLC_NO,
+					APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_NO AS APLC_NO,
+					REG_DE AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE 1 = 1
+			AND A.STATE = '2'
+			AND B.AREA_CD = '1'
+			AND B.ORG_TYPE = '2'
+		]]>
+		<choose>
+		 	<when test='select == "디자인" and select.equals("디자인")' >
+		 		AND A.IDX = '2'
+		 	</when>
+		 	<when test='select == "상표" and select.equals("상표")' >
+		 		AND A.IDX = '1'
+		 	</when>
+		 	<when test='select == "프로그램" and select.equals("프로그램")' >
+		 		AND A.IDX = '5'
+		 	</when>
+		 	<when test='select == "노하우" and select.equals("노하우")' >
+		 		AND A.IDX = '3'
+		 	</when>
+		 	<otherwise>
+		 		AND A.IDX = '4'
+		 	</otherwise>
+		</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.SEARCH_DAY,'%Y')
+			ORDER BY DATE_FORMAT(A.SEARCH_DAY,'%Y') DESC
+		]]>
+		<choose>
+		<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				LIMIT 10
+			]]>
+		</otherwise>
+		</choose>
+	</select>
+	<select id="getJnspJipPatentDateCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM(
+			SELECT
+				A.IDX,
+				A.ORG_NM ,
+				A.ORG_GRP_CD,
+				DATE_FORMAT(A.SEARCH_DAY,'%Y년') AS AREA,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_NO AS APLC_NO,
+					INTRL_APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_NO AS APLC_NO,
+					APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					KNOW_HOW_NO AS APLC_NO,
+					REG_DT AS SEARCH_DAY,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_NO AS APLC_NO,
+					APLC_DT AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_NO AS APLC_NO,
+					REG_DE AS SEARCH_DAY,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE 1 = 1
+			AND A.STATE = '2'
+			AND B.AREA_CD = '1'
+			AND B.ORG_TYPE = '2'
+		]]>
+		<choose>
+		 	<when test='select == "디자인" and select.equals("디자인")' >
+		 		AND A.IDX = '2'
+		 	</when>
+		 	<when test='select == "상표" and select.equals("상표")' >
+		 		AND A.IDX = '1'
+		 	</when>
+		 	<when test='select == "프로그램" and select.equals("프로그램")' >
+		 		AND A.IDX = '5'
+		 	</when>
+		 	<when test='select == "노하우" and select.equals("노하우")' >
+		 		AND A.IDX = '3'
+		 	</when>
+		 	<otherwise>
+		 		AND A.IDX = '4'
+		 	</otherwise>
+		</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.SEARCH_DAY,'%Y')
+			ORDER BY DATE_FORMAT(A.SEARCH_DAY,'%Y') DESC
+			) AS AA
+		]]>
+	</select>
+<!-- 지식재산 특허 통계end -->
+<!-- 지식재산 인력통계  -->
+	<select id="getJnspJipPower" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.IDX,
+				A.ORG_NM AS AREA,
+				SUBSTRING(B.ADDR1,3,4),
+				(
+					SELECT
+						COUNT(0)
+					FROM TB_USER_COPY
+					WHERE TB_USER_COPY.ORG_GRP_CD
+					IN
+					(
+						SELECT
+							ORG_GRP_CD
+						FROM
+							TB_ORG_GRP
+						WHERE TB_ORG_GRP.ORG_GRP_CD = B.ORG_GRP_CD
+					)
+					AND TB_USER_COPY.PRO_JIPBANK='Y'
+				) AS POWER_CNT,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_DT AS SEARCH_DAY,
+					INTRL_APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_DT AS SEARCH_DAY,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					REG_DT AS SEARCH_DAY,
+					KNOW_HOW_NO AS APLC_NO,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_DT AS SEARCH_DAY,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_DE AS SEARCH_DAY,
+					REG_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE 1 = 1
+			AND B.AREA_CD = '1'
+			AND A.STATE = '2'
+			AND B.AUTH_ORG_SITE_2 = 'Y'
+			AND B.ORG_TYPE = '2'
+			GROUP BY A.ORG_NM
+			ORDER BY POWER_CNT DESC
+		]]>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspJipPowerAre" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.IDX,
+				A.ORG_NM ,
+				SUBSTRING(B.ADDR1,3,4) AS AREA,
+				(
+					SELECT
+						COUNT(0)
+					FROM TB_USER_COPY
+					WHERE TB_USER_COPY.ORG_GRP_CD
+					IN
+					(
+						SELECT
+							ORG_GRP_CD
+						FROM
+							TB_ORG_GRP
+						WHERE TB_ORG_GRP.ORG_GRP_CD = B.ORG_GRP_CD
+					)
+					AND TB_USER_COPY.PRO_JIPBANK='Y'
+				) AS POWER_CNT,
+				COUNT(0) AS CNT
+			FROM(
+				SELECT
+					'1' AS IDX ,
+					INTRL_APLC_DT AS SEARCH_DAY,
+					INTRL_APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_BRAND
+				UNION ALL
+				SELECT
+					'2' AS IDX ,
+					APLC_DT AS SEARCH_DAY,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_DESIGN
+				UNION ALL
+				SELECT
+					'3' AS IDX ,
+					REG_DT AS SEARCH_DAY,
+					KNOW_HOW_NO AS APLC_NO,
+					ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_KNOW_HOW
+				UNION ALL
+				SELECT
+					'4' AS IDX ,
+					APLC_DT AS SEARCH_DAY,
+					APLC_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PATENT_UTILITY_MODEL
+				UNION ALL
+				SELECT
+					'5' AS IDX ,
+					REG_DE AS SEARCH_DAY,
+					REG_NO AS APLC_NO,
+					OWN_ORG_NM AS ORG_NM,
+					ORG_GRP_CD AS ORG_GRP_CD,
+					STATE AS STATE
+				FROM TB_SEARCH_PROGRAM
+			) AS A
+			LEFT JOIN TB_ORG_GRP AS B
+			ON A.ORG_GRP_CD = B.ORG_GRP_CD
+			WHERE 1 = 1
+			AND B.AREA_CD = '1'
+			AND A.STATE = '2'
+			AND B.AUTH_ORG_SITE_2 = 'Y'
+			AND B.ORG_TYPE = '2'
+			GROUP BY SUBSTRING(B.ADDR1,3,4)
+			ORDER BY POWER_CNT DESC
+		]]>
+		<choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+<!-- 지식재산 인력 통계end -->
+<!-- 지식재산 상담 통계 -->
+	<!-- 상담 일 -->
+	<select id="getJnspJipConsultingDay" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.BOARD_ID,
+		]]>
+		<choose>
+		<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일') AS DAY,
+			]]>
+		</when>
+		<otherwise>
+			<![CDATA[
+				DATE_FORMAT(A.FRST_REGIST_PNTTM,'%m월%d일') AS DAY,
+			]]>
+		</otherwise>
+		</choose>
+		<![CDATA[
+				COUNT(0) AS CNT
+			FROM JMY_BOARD_ARTICLE AS A
+			LEFT JOIN JMY_BOARD AS B
+				ON A.BOARD_ID = B.BOARD_ID
+			WHERE 1 = 1
+				AND A.BOARD_ID >= '00024'
+				AND A.BOARD_ID <= '00027'
+				AND A.DATA04 = '2'
+			]]>
+				<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+					<choose>
+						<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+							<![CDATA[
+								AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+							]]>
+						</when>
+						<otherwise>
+							<![CDATA[
+								AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -11 DAY)
+							]]>
+						</otherwise>
+					</choose>
+						<![CDATA[
+							AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일')
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일') DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일') ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<select id="getJnspJipConsultingDayCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM(
+				SELECT
+					A.BOARD_ID,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일') AS DAY,
+						COUNT(0) AS CNT
+				FROM JMY_BOARD_ARTICLE AS A
+				LEFT JOIN JMY_BOARD AS B
+					ON A.BOARD_ID = B.BOARD_ID
+				WHERE 1 = 1
+					AND A.BOARD_ID >= '00024'
+					AND A.BOARD_ID <= '00027'
+					AND A.DATA04 = '2'
+			]]>
+			<choose>
+				<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+					]]>
+				</when>
+				<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+				<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -30 DAY)
+						AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+					]]>
+				</otherwise>
+			</choose>
+		<![CDATA[
+					GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일')
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월%d일') ASC
+				) AS AA
+		]]>
+	</select>
+	<!-- 상담 월 -->
+	<select id="getJnspJipConsultingMon" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.BOARD_ID,
+				DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월') AS DAY,
+				COUNT(0) AS CNT
+			FROM JMY_BOARD_ARTICLE AS A
+			LEFT JOIN JMY_BOARD AS B
+				ON A.BOARD_ID = B.BOARD_ID
+			WHERE 1 = 1
+				AND A.BOARD_ID >= '00024'
+				AND A.BOARD_ID <= '00027'
+				AND A.DATA04 = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+							AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월')
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월') DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월') ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<select id="getJnspJipConsultingMonCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM (
+				SELECT
+					A.BOARD_ID,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월') AS DAY,
+					COUNT(0) AS CNT
+				FROM JMY_BOARD_ARTICLE AS A
+				LEFT JOIN JMY_BOARD AS B
+					ON A.BOARD_ID = B.BOARD_ID
+				WHERE 1 = 1
+					AND A.BOARD_ID >= '00024'
+					AND A.BOARD_ID <= '00027'
+					AND A.DATA04 = '2'
+		]]>
+			<choose>
+				<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+					]]>
+				</when>
+				<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+
+				<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+					<![CDATA[
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+						AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+					]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+						AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -13 MONTH)
+						AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+					]]>
+				</otherwise>
+			</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년%m월')
+			) AS AA
+		]]>
+	</select>
+	<!-- 상담 년 -->
+	<select id="getJnspJipConsultingYear" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.BOARD_ID,
+				DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년') AS DAY,
+				COUNT(0) AS CNT
+			FROM JMY_BOARD_ARTICLE AS A
+			LEFT JOIN JMY_BOARD AS B
+				ON A.BOARD_ID = B.BOARD_ID
+			WHERE 1 = 1
+				AND A.BOARD_ID >= '00024'
+				AND A.BOARD_ID <= '00027'
+				AND A.DATA04 = '2'
+			]]>
+			<choose>
+					<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+						]]>
+					</when>
+					<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+						<![CDATA[
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+							AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+						]]>
+					</when>
+					<otherwise>
+						<![CDATA[
+							AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+							AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+						]]>
+					</otherwise>
+				</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년')
+		]]>
+		<choose>
+			<when test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년') DESC
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					ORDER BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년') ASC
+				]]>
+			</otherwise>
+		</choose>
+		<if test= 'firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null'  >
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+		</if>
+	</select>
+	<select id="getJnspJipConsultingYearCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM (
+				SELECT
+					A.BOARD_ID,
+					DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년') AS DAY,
+					COUNT(0) AS CNT
+				FROM JMY_BOARD_ARTICLE AS A
+				LEFT JOIN JMY_BOARD AS B
+					ON A.BOARD_ID = B.BOARD_ID
+				WHERE 1 = 1
+					AND A.BOARD_ID >= '00024'
+					AND A.BOARD_ID <= '00027'
+					AND A.DATA04 = '2'
+		]]>
+		<choose>
+			<when test='DateStart != "" and DateStart !=NULL and DateEnd == "" and DateEnd == null' >
+				<![CDATA[
+					AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+				]]>
+			</when>
+			<when test='DateEnd != "" and DateEnd !=NULL and DateStart == "" and DateStart == null' >
+				<![CDATA[
+					AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+				]]>
+			</when>
+
+			<when test='DateStart != ""  and DateStart != null and DateEnd != "" and DateEnd != null '  >
+				<![CDATA[
+					AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') >= #{DateStart}
+					AND DATE_FORMAT(A.FRST_REGIST_PNTTM, '%Y-%m-%d') <= #{DateEnd}
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					AND A.FRST_REGIST_PNTTM >= DATE_ADD(NOW(), INTERVAL -6 YEAR)
+					AND A.FRST_REGIST_PNTTM <= CONCAT(DATE_FORMAT(A.FRST_REGIST_PNTTM, NOW()))
+				]]>
+			</otherwise>
+		</choose>
+		<![CDATA[
+			GROUP BY DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y년')
+			) AS AA
+		]]>
+	</select>
+<!-- 지식재산 상담 통계end -->
+<!-- 지식재산 이전 통계 -->
+	<!-- 기관별 -->
+	<select id="getJnspJipPrevOrg" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM AS AREA,
+			(
+				SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL C1
+					ON	B1.REGIST_INFO = C1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN D1
+					ON	B1.REGIST_INFO = D1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND E1
+					ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM F1
+					ON	B1.REGIST_INFO = F1.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW G1
+					ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+				WHERE B1.STATE = '2'
+				AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+			) AS CNT
+			FROM
+			TB_ORG_GRP AS A
+			WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			ORDER BY CNT DESC
+		]]>
+		 <choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspJipPrevOrgCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM (
+				SELECT
+					A.ORG_GRP_CD,
+					A.ORG_GRP_NM AS AREA,
+				(
+					SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+					LEFT JOIN
+							TB_SEARCH_PATENT_UTILITY_MODEL C1
+						ON	B1.REGIST_INFO = C1.APLC_NO
+					LEFT JOIN
+							TB_SEARCH_DESIGN D1
+						ON	B1.REGIST_INFO = D1.APLC_NO
+					LEFT JOIN
+							TB_SEARCH_BRAND E1
+						ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+					LEFT JOIN
+							TB_SEARCH_PROGRAM F1
+						ON	B1.REGIST_INFO = F1.REG_NO
+					LEFT JOIN
+							TB_SEARCH_KNOW_HOW G1
+						ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+					WHERE B1.STATE = '2'
+					AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+				) AS CNT
+				FROM
+				TB_ORG_GRP AS A
+				WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+				AND A.APPLY_CD = '20'
+				AND A.ORG_TYPE = '2'
+				ORDER BY CNT DESC
+			) AS AA
+		]]>
+	</select>
+	<!-- 지역별 -->
+	<select id="getJnspJipPrevArea" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM ,
+				B.CODE_NM AS AREA,
+			(
+				SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL C1
+					ON	B1.REGIST_INFO = C1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN D1
+					ON	B1.REGIST_INFO = D1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND E1
+					ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM F1
+					ON	B1.REGIST_INFO = F1.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW G1
+					ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+				WHERE B1.STATE = '2'
+				AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+			) AS CNT
+			FROM
+			TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			GROUP BY B.CODE_NM
+			ORDER BY CNT DESC
+		]]>
+		 <choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspJipPrevAreaCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM (
+				SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM ,
+				B.CODE_NM AS AREA,
+				(
+					SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+					LEFT JOIN
+							TB_SEARCH_PATENT_UTILITY_MODEL C1
+						ON	B1.REGIST_INFO = C1.APLC_NO
+					LEFT JOIN
+							TB_SEARCH_DESIGN D1
+						ON	B1.REGIST_INFO = D1.APLC_NO
+					LEFT JOIN
+							TB_SEARCH_BRAND E1
+						ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+					LEFT JOIN
+							TB_SEARCH_PROGRAM F1
+						ON	B1.REGIST_INFO = F1.REG_NO
+					LEFT JOIN
+							TB_SEARCH_KNOW_HOW G1
+						ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+					WHERE B1.STATE = '2'
+					AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+				) AS CNT
+				FROM
+				TB_ORG_GRP AS A
+				LEFT JOIN TB_CODE AS B
+				ON A.AREA_LOCATION_CD = B.CODE_CD
+				WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+				AND B.CODE_GRP_CD = 'AreaSigungu'
+				AND A.APPLY_CD = '20'
+				AND A.ORG_TYPE = '2'
+				GROUP BY B.CODE_NM
+				ORDER BY CNT DESC
+				) AS AA
+		]]>
+	</select>
+	<!-- 연도별 -->
+	<select id="getJnspJipPrevYear" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM ,
+				B.CODE_NM AS AREA,
+				DATE_FORMAT(C.TRANSFER_DATE,'%Y년') AS DA,
+			(
+				SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL C1
+					ON	B1.REGIST_INFO = C1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN D1
+					ON	B1.REGIST_INFO = D1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND E1
+					ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM F1
+					ON	B1.REGIST_INFO = F1.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW G1
+					ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+				WHERE B1.STATE = '2'
+				AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+			) AS CNT
+			FROM
+			TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			LEFT JOIN TB_JIP_USE_STATUS AS C
+			ON A.ORG_GRP_CD = C.ORG_GRP_CD
+			WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			AND TO_DAYS(DATE_FORMAT(C.TRANSFER_DATE,'%Y-1-1')) <= TO_DAYS(NOW())
+			AND TO_DAYS(DATE_FORMAT(C.TRANSFER_DATE,'%Y-1-1')) >= TO_DAYS(NOW())-3650
+			GROUP BY DATE_FORMAT(C.TRANSFER_DATE,'%Y')
+			ORDER BY DATE_FORMAT(C.TRANSFER_DATE,'%Y') DESC
+		]]>
+		 <choose>
+		 	<when test='firstRecord != "" and firstRecord != null and  pageSize !="" and pageSize != null' >
+		 		LIMIT ${firstRecord} , ${pageSize}
+		 	</when>
+		 	<otherwise>
+		 		LIMIT 10
+		 	</otherwise>
+		 </choose>
+	</select>
+	<select id="getJnspJipPrevYearCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT COUNT(0)
+			FROM (
+				SELECT
+				A.ORG_GRP_CD,
+				A.ORG_GRP_NM ,
+				B.CODE_NM AS AREA,
+				DATE_FORMAT(C.TRANSFER_DATE,'%Y년') AS DA,
+			(
+				SELECT COUNT(0) FROM TB_JIP_USE_STATUS AS B1
+				LEFT JOIN
+						TB_SEARCH_PATENT_UTILITY_MODEL C1
+					ON	B1.REGIST_INFO = C1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_DESIGN D1
+					ON	B1.REGIST_INFO = D1.APLC_NO
+				LEFT JOIN
+						TB_SEARCH_BRAND E1
+					ON	B1.REGIST_INFO = E1.INTRL_APLC_NO
+				LEFT JOIN
+						TB_SEARCH_PROGRAM F1
+					ON	B1.REGIST_INFO = F1.REG_NO
+				LEFT JOIN
+						TB_SEARCH_KNOW_HOW G1
+					ON	B1.REGIST_INFO = G1.KNOW_HOW_NO
+				WHERE B1.STATE = '2'
+				AND A.ORG_GRP_CD = B1.ORG_GRP_CD
+			) AS CNT
+			FROM
+			TB_ORG_GRP AS A
+			LEFT JOIN TB_CODE AS B
+			ON A.AREA_LOCATION_CD = B.CODE_CD
+			LEFT JOIN TB_JIP_USE_STATUS AS C
+			ON A.ORG_GRP_CD = C.ORG_GRP_CD
+			WHERE (A.DELETE_YN != 'Y' OR A.DELETE_YN IS NULL)
+			AND B.CODE_GRP_CD = 'AreaSigungu'
+			AND A.APPLY_CD = '20'
+			AND A.ORG_TYPE = '2'
+			AND TO_DAYS(DATE_FORMAT(C.TRANSFER_DATE,'%Y-1-1')) <= TO_DAYS(NOW())
+			AND TO_DAYS(DATE_FORMAT(C.TRANSFER_DATE,'%Y-1-1')) >= TO_DAYS(NOW())-3650
+			GROUP BY DATE_FORMAT(C.TRANSFER_DATE,'%Y')
+			ORDER BY DATE_FORMAT(C.TRANSFER_DATE,'%Y') DESC
+				) AS AA
+		]]>
+	</select>
+<!-- 지식재산 이전 통계end -->
+</mapper>

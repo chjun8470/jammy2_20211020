@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspOrgModuleManagerMapper">
+
+	<!-- 기관 목록 -->
+	<select id="getOrgList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					 ORG_GRP_CD
+					,ORG_GRP_NM
+					,ADDR1
+					,ADDR2
+					,ZIPCODE
+					,DELETE_YN
+
+			 FROM	TB_ORG_GRP
+			WHERE	(DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			  AND	APPLY_CD = '20'
+		]]>
+
+			<if test="authLv != '99'">
+				<![CDATA[
+					AND ORG_GRP_CD = #{authOrgGrp}
+				]]>
+			</if>
+
+			<if test = ' orgGrpNm != null and orgGrpNm != "" '>
+				<![CDATA[
+					AND ORG_GRP_NM LIKE '%${orgGrpNm}%'
+				]]>
+			</if>
+
+		<![CDATA[
+			ORDER BY ORG_GRP_CD ASC
+		]]>
+	</select>
+
+
+
+	<!-- 기관 목록 -->
+	<select id="getOrgModuleManagerList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+				SELECT
+						 A.ORG_GRP_CD
+						,A.ORG_GRP_NM
+						,A.ORG_TYPE
+						,B.ORG_GRP_SUB_CD
+						,B.ORG_GRP_SUB_NM
+						,B.ORG_ADDR1
+						,B.ORG_ADDR2
+						,B.ORG_ZIPCODE
+						,B.ORG_PHONE
+						,B.ORG_FAX
+
+				FROM		TB_ORG_GRP A
+				LEFT JOIN   TB_ORG_GRP_SUB B
+					   ON   (A.ORG_GRP_CD = B.ORG_GRP_CD)
+
+				WHERE (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+
+			<if test="authLv != '99'">
+			<![CDATA[ AND A.ORG_GRP_CD = #{authOrgGrp} ]]>
+			</if>
+
+			<![CDATA[
+				AND B.ORG_GRP_SUB_CD IS NOT NULL
+				AND B.ORG_GRP_SUB_CD != ''
+
+				ORDER BY A.ORG_GRP_CD DESC , B.ORG_GRP_SUB_CD DESC
+			]]>
+	</select>
+
+
+
+	<!-- 권한 사용자 -->
+	<select id="getOrgModuleManagerUserView" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+		SELECT
+					A.AUTH_ORG_USER_IDX,
+					A.ORG_GRP_CD,
+					A.ORG_GRP_AUTH_CD,
+					A.USER_IDX ,
+					B.USER_ID ,
+					B.PSN_NM ,
+					B.EMAIL ,
+					B.TEL_NO ,
+					B.DEPT_NM ,
+					B.POSITION_NM
+
+ 			FROM
+						TB_AUTH_ORG_USER_REL A
+	LEFT JOIN
+						TB_USER_COPY B ON (A.USER_IDX = B.USER_IDX AND (B.DELETE_YN != 'Y' OR B.DELETE_YN IS NULL ))
+			WHERE
+						A.ORG_GRP_AUTH_CD = #{orgGrpAuthCd}
+				AND  B.USER_ID IS NOT NULL
+				AND  B.USER_ID != ''
+			]]>
+	</select>
+
+
+	<!-- 미지정 권한 사용자 -->
+
+	<select id="getOrgModuleManagerNoUserView" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+
+			SELECT
+						B.AUTH_ORG_USER_IDX,
+						B.ORG_GRP_CD,
+						B.ORG_GRP_AUTH_CD,
+						A.USER_IDX ,
+						A.USER_ID ,
+						A.PSN_NM ,
+						A.EMAIL ,
+						A.TEL_NO ,
+						A.DEPT_NM ,
+						A.POSITION_NM
+
+			FROM		TB_USER_COPY A
+			LEFT JOIN	TB_AUTH_ORG_USER_REL B
+						ON A.USER_IDX = B.USER_IDX
+
+				WHERE	A.ORG_GRP_CD  = #{orgGrpCd}
+				  AND 	A.DELETE_YN = 'N'
+				  AND 	A.AUTH_LV = '70'
+				  AND 	A.USER_APP_STATE = '20'
+				  AND	(B.ORG_GRP_AUTH_CD = '' OR  B.ORG_GRP_AUTH_CD IS NULL)
+			]]>
+	</select>
+	<!--
+	<select id="getOrgModuleManagerNoUserView" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						F.AUTH_ORG_USER_IDX,
+						F.ORG_GRP_CD,
+						F.ORG_GRP_AUTH_CD,
+						F.USER_IDX ,
+						H.USER_ID ,
+						H.PSN_NM
+			FROM
+						TB_AUTH_ORG_USER_REL F
+			LEFT JOIN
+						TB_USER_COPY H
+					ON (F.USER_IDX = H.USER_IDX AND (H.DELETE_YN != 'Y' OR H.DELETE_YN IS NULL ))
+					,
+					(
+					SELECT
+								D.AUTH_ORG_USER_IDX,
+								D.ORG_GRP_CD,
+								D.ORG_GRP_AUTH_CD
+						FROM (
+
+								SELECT
+											DISTINCT
+											A.AUTH_ORG_USER_IDX,
+											A.ORG_GRP_CD,
+											A.ORG_GRP_AUTH_CD
+
+								 FROM
+											TB_AUTH_ORG_USER_REL A
+								WHERE
+
+									A.ORG_GRP_CD  = #{orgGrpCd}
+								AND
+									(A.ORG_GRP_AUTH_CD IS NULL OR  A.ORG_GRP_AUTH_CD  = '' OR A.ORG_GRP_AUTH_CD NOT IN (SELECT B.ORG_GRP_SUB_CD FROM TB_ORG_GRP_SUB B WHERE B.ORG_GRP_CD  = #{orgGrpCd}))
+
+								) D
+						WHERE
+								LENGTH(D.ORG_GRP_AUTH_CD) = 5
+							OR
+								D.ORG_GRP_AUTH_CD IS NULL
+							OR
+								D.ORG_GRP_AUTH_CD = ''
+
+			UNION ALL
+
+
+			SELECT
+						E.AUTH_ORG_USER_IDX,
+						E.ORG_GRP_CD,
+						E.ORG_GRP_AUTH_CD
+			 FROM (
+
+					SELECT
+								DISTINCT
+								A.AUTH_ORG_USER_IDX,
+								A.ORG_GRP_CD,
+								A.ORG_GRP_AUTH_CD
+					 FROM
+								TB_AUTH_ORG_USER_REL A
+					WHERE
+								A.ORG_GRP_CD  = #{orgGrpCd}
+						AND
+								(A.ORG_GRP_AUTH_CD IS NULL OR  A.ORG_GRP_AUTH_CD  = '' OR A.ORG_GRP_AUTH_CD != #{orgGrpCd})
+
+					) E
+
+				WHERE
+
+						LENGTH(E.ORG_GRP_AUTH_CD) = 9
+			) G
+
+			WHERE
+						F.AUTH_ORG_USER_IDX = G.AUTH_ORG_USER_IDX
+
+			]]>
+	</select>
+
+-->
+
+	<insert id="setOrgModuleManagerWrite" parameterType="paramMap">
+	<![CDATA[
+		INSERT INTO TB_ORG_GRP_SUB (
+			ORG_GRP_SUB_CD,
+			ORG_GRP_CD,
+			ORG_GRP_SUB_NM,
+			REG_DT,
+			REG_IP,
+			REG_IDX,
+			ORG_ADDR1,
+			ORG_ADDR2,
+			ORG_PHONE,
+			ORG_FAX,
+			ORG_ZIPCODE
+		)VALUES (
+			#{orgGrpSubCd},
+			#{orgAuthPopCd},
+			#{orgSubAuthPopNm},
+			NOW(),
+			#{regIp},
+			#{regIdx},
+			#{addr1},
+			#{addr2},
+			#{orgPhone},
+			#{orgFax},
+			#{zipCode}
+		);
+	]]>
+	</insert>
+
+	<update id="setOrgModuleManagerEdit" parameterType="paramMap">
+	<![CDATA[
+		UPDATE
+					TB_ORG_GRP_SUB
+			  SET
+					 ORG_GRP_SUB_NM = #{orgGrpSubNm} ,
+					 UP_DT = NOW() ,
+					 UP_IP = #{upIp} ,
+					 UP_IDX = #{upIdx},
+
+					 ORG_ADDR1 = #{addr1},
+					 ORG_ADDR2 = #{addr2},
+					 ORG_ZIPCODE = #{zipCode},
+					 ORG_PHONE = #{orgPhone},
+					 ORG_FAX = #{orgFax}
+			WHERE
+					 ORG_GRP_SUB_CD = #{orgGrpSubCd}
+			  AND ORG_GRP_CD = #{orgGrpCd}
+	]]>
+	</update>
+
+	<delete id="setOrgModuleManagerDelete" parameterType="paramMap">
+	<![CDATA[
+		 DELETE FROM TB_ORG_GRP_SUB
+		  WHERE ORG_GRP_SUB_CD = #{orgGrpSubCd}
+			  AND ORG_GRP_CD = #{orgGrpCd}
+	]]>
+	</delete>
+
+
+	<!-- 기관 목록 -->
+	<select id="setOrgModuleManagerAuthAddCk" parameterType="paramMap" resultType="java.lang.Integer"  >
+		<![CDATA[
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+						TB_AUTH_ORG_USER_REL
+		  WHERE
+		   				USER_IDX = #{addUserIdx}
+			]]>
+	</select>
+
+
+	<insert id="setOrgModuleManagerAuthAdd" parameterType="paramMap">
+	<![CDATA[
+	INSERT INTO TB_AUTH_ORG_USER_REL (
+	 	ORG_GRP_CD,
+		ORG_GRP_AUTH_CD,
+		USER_IDX
+	)VALUES (
+		#{orgGrpCd},
+		#{orgGrpAuthCd},
+		#{addUserIdx}
+	)
+	]]>
+	</insert>
+
+	<update id="setOrgModuleManagerAuthAddUpDate" parameterType="paramMap">
+	<![CDATA[
+		UPDATE
+					TB_AUTH_ORG_USER_REL
+			  SET
+					ORG_GRP_CD = #{orgGrpCd} ,
+					ORG_GRP_AUTH_CD = #{orgGrpAuthCd}
+			WHERE
+					USER_IDX = #{addUserIdx}
+	]]>
+	</update>
+
+
+
+	<update id="setOrgModuleManagerAuthDel" parameterType="paramMap">
+	<![CDATA[
+		UPDATE
+					TB_AUTH_ORG_USER_REL
+			  SET
+					ORG_GRP_AUTH_CD = ''
+			WHERE
+					USER_IDX = #{addUserIdx}
+			 AND ORG_GRP_CD = #{orgGrpCd}
+	]]>
+	</update>
+
+
+	<!-- 기관 목록 -->
+	<select id="getOrgModuleManagerAuthList" parameterType="paramMap" resultType="paramMap"  >
+		<![CDATA[
+		SELECT
+				DISTINCT
+				B.MODULE_INFO_IDX,
+				B.MB_NM
+			FROM
+					TB_AUTH_ORG_MODULE A
+			LEFT JOIN
+					TB_MODULE_INFO B
+				ON (A.MODULE_INFO_IDX = B.MODULE_INFO_IDX)
+			WHERE
+					B.USE_YN = 'Y'
+			 AND  A.ORG_GRP_CD = #{orgGrpCd}
+
+			]]>
+	</select>
+
+	<!-- 회원에게 권한주기 -->
+	<select id="getOrgModuleManagerAuthUserList" parameterType="paramMap" resultType="paramMap"  >
+		<![CDATA[
+				SELECT
+						MODULE_INFO_IDX,
+						AUTH_LIST ,
+						AUTH_EDIT,
+						AUTH_DEL,
+						AUTH_WRITE,
+						AUTH_CMT,
+						AUTH_REPLY
+				FROM
+						TB_AUTH_USER_MODULE
+				WHERE
+						USER_IDX = #{reqUserIdx}
+			]]>
+	</select>
+
+
+	<!-- 기관 에권한주기-->
+	<select id="getOrgModuleManagerOrgAuthUserList" parameterType="paramMap" resultType="paramMap"  >
+		<![CDATA[
+				SELECT
+						MODULE_INFO_IDX,
+						AUTH_LIST ,
+						AUTH_EDIT,
+						AUTH_DEL,
+						AUTH_WRITE ,
+						AUTH_CMT,
+						AUTH_REPLY
+				FROM
+						TB_AUTH_ORG_USER_MODULE
+				WHERE
+						ORG_GRP_CD = #{orgGrpCd}
+				AND	ORG_GRP_AUTH_CD = #{orgGrpSubCd}
+			]]>
+	</select>
+
+
+	<!-- 회원 권한 여부 파악 -->
+	<select id="getOrgModuleManagerAuthUserListCk" parameterType="paramMap" resultType="java.lang.Integer"  >
+		<![CDATA[
+			SELECT
+						COUNT(0) AS CNT
+			FROM
+						TB_AUTH_USER_MODULE
+		  WHERE
+		   				USER_IDX = #{reqUserIdx}
+		   	 AND 		MODULE_INFO_IDX = #{authMdIdx}
+			]]>
+	</select>
+
+	<!-- 기관 권한 여부 파악 -->
+	<select id="getOrgModuleManagerOrgAuthUserListCk" parameterType="paramMap" resultType="java.lang.Integer"  >
+		<![CDATA[
+				SELECT
+							COUNT(0) AS CNT
+				FROM
+						TB_AUTH_ORG_USER_MODULE
+				WHERE
+						ORG_GRP_CD = #{orgGrpCd}
+				AND 	ORG_GRP_AUTH_CD = #{orgGrpSubCd}
+				 AND 	MODULE_INFO_IDX = #{authMdIdx}
+			]]>
+	</select>
+
+
+
+	<insert id="setOrgModuleManagerAuthUserAdd" parameterType="paramMap">
+	<![CDATA[
+		INSERT INTO TB_AUTH_USER_MODULE
+		(
+			USER_IDX,
+			MODULE_INFO_IDX,
+			AUTH_LIST,
+			AUTH_EDIT,
+			AUTH_DEL,
+			AUTH_WRITE,
+			AUTH_CMT,
+			AUTH_REPLY
+		) VALUES (
+			#{reqUserIdx},
+			#{authMdIdx},
+			#{authList},
+			#{authEdit},
+			#{authDel},
+			#{authWrite},
+			#{authCmt},
+			#{authReply}
+		)
+	]]>
+	</insert>
+
+	<insert id="setOrgModuleManagerAuthOrgUserAdd" parameterType="paramMap">
+	<![CDATA[
+		INSERT INTO TB_AUTH_ORG_USER_MODULE
+		(
+			MODULE_INFO_IDX,
+			ORG_GRP_CD,
+			ORG_GRP_AUTH_CD,
+			AUTH_LIST,
+			AUTH_EDIT,
+			AUTH_DEL,
+			AUTH_WRITE,
+			AUTH_CMT,
+			AUTH_REPLY
+		) VALUES (
+			#{authMdIdx},
+			#{orgGrpCd},
+			#{orgGrpSubCd},
+			#{authList},
+			#{authEdit},
+			#{authDel},
+			#{authWrite},
+			#{authCmt},
+			#{authReply}
+		)
+	]]>
+	</insert>
+
+
+	<update id="setOrgModuleManagerAuthUserUpdate" parameterType="paramMap">
+	<![CDATA[
+		UPDATE
+					TB_AUTH_USER_MODULE
+			  SET
+					AUTH_LIST 		= #{authList} ,
+					AUTH_EDIT		= #{authEdit} ,
+					AUTH_DEL		= #{authDel} ,
+					AUTH_WRITE	= #{authWrite} ,
+					AUTH_CMT		= #{authCmt} ,
+					AUTH_REPLY 	= #{authReply}
+			WHERE
+					USER_IDX = #{reqUserIdx}
+			AND MODULE_INFO_IDX = #{authMdIdx}
+	]]>
+	</update>
+
+	<update id="setOrgModuleManagerAuthOrgUserUpdate" parameterType="paramMap">
+	<![CDATA[
+		UPDATE
+					TB_AUTH_ORG_USER_MODULE
+			  SET
+					AUTH_LIST 		= #{authList} ,
+					AUTH_EDIT		= #{authEdit} ,
+					AUTH_DEL		= #{authDel} ,
+					AUTH_WRITE	= #{authWrite} ,
+					AUTH_CMT		= #{authCmt} ,
+					AUTH_REPLY 	= #{authReply}
+			WHERE
+						ORG_GRP_CD = #{orgGrpCd}
+				AND 	ORG_GRP_AUTH_CD = #{orgGrpSubCd}
+				 AND 	MODULE_INFO_IDX = #{authMdIdx}
+	]]>
+	</update>
+
+
+	<!-- 이관 -->
+	<delete id="setOrgModuleManagerAuthGoDelOrg" parameterType="paramMap">
+	<![CDATA[
+		 DELETE FROM TB_AUTH_ORG_USER_REL
+		  WHERE USER_IDX = #{changeUserIdx}
+	]]>
+	</delete>
+
+
+	<delete id="setOrgModuleManagerAuthGoDelModule" parameterType="paramMap">
+	<![CDATA[
+		DELETE FROM TB_AUTH_USER_MODULE
+		 WHERE USER_IDX = #{changeUserIdx}
+	]]>
+	</delete>
+
+
+	<update id="setOrgModuleManagerAuthGoEditOrg" parameterType="paramMap">
+	<![CDATA[
+		UPDATE	TB_AUTH_ORG_USER_REL
+
+		   SET	USER_IDX = #{changeUserIdx}
+		 WHERE	USER_IDX = #{userIdx}
+	]]>
+	</update>
+
+
+	<update id="setOrgModuleManagerAuthGoEditModule" parameterType="paramMap">
+	<![CDATA[
+		UPDATE	TB_AUTH_USER_MODULE
+
+		   SET	USER_IDX = #{changeUserIdx}
+		 WHERE	USER_IDX = #{userIdx}
+	]]>
+	</update>
+
+</mapper>

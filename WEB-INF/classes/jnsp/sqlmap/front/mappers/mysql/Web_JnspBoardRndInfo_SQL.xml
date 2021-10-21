@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspBoardRndInfoMapper">
+
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+	
+
+	
+
+	<!-- 게시글 목록 -->
+	<select id="getBoardArticleList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					DATE_FORMAT(B.DATA02, '%Y.%m.%d' ) AS DATA02,
+					IF(CURDATE() < DATA03, '접수전', (IF(CURDATE() > DATA04, '접수마감', '접수중'))) AS RECEIPT_NM,
+					DATE_FORMAT(B.DATA03, '%Y.%m.%d' ) AS DATA03,
+					B.DATA04,
+					B.DATA05,
+					(SELECT TC1.CODE_NM FROM TB_CODE as TC1 WHERE TC1.CODE_GRP_CD = 'TeamType' AND TC1.CODE_CD = B.DATA04) as TEAM_NM,
+					(SELECT TC2.CODE_NM FROM TB_CODE as TC2 WHERE TC2.CODE_GRP_CD = 'HelpCenter' AND TC2.CODE_CD = B.DATA05) as HELP_NM,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP
+
+			 FROM	JMY_BOARD_ARTICLE B
+
+			WHERE	
+				B.BOARD_ID = #{boardComIdx}
+			
+		]]>
+
+		<if test='searchSupportType != null and searchSupportType != ""'>
+			AND B.DATA01 IN
+			<foreach collection="searchSupportType" item="data01" index="index" separator="," open="(" close=")">
+    		#{data01}
+			</foreach>
+		</if>
+		
+		
+		<if test='year != null and year != ""'>
+			AND date_format(B.DATA02,'%Y-%m-%d') BETWEEN '${year}-01-01' AND '${year}-12-31'
+		</if>
+		<if test='year1 != null and year1 != ""'>
+			AND date_format(B.DATA02,'%Y-%m-%d') BETWEEN '${year1}-01-01' AND '${year1}-12-31'
+		</if>
+		
+		<if test='teamtype != null and teamtype != ""'>
+			AND B.DATA04 = '${teamtype}'
+		</if>
+		
+		<if test='helptype != null and helptype != ""'>
+			AND B.DATA05 = '${helptype}'
+		</if>
+		
+		<if test='data01 == "2" and data01 != ""'>
+			AND B.DATA01 = '2'
+		</if>
+		
+		<if test='data01 == "1" or (data01 == "" or data01 == null)'>
+			AND B.DATA01 = '1'
+		</if>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[ AND B.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "COMPNAME" and searchWord != ""'>
+				<![CDATA[ AND B.DATA07 LIKE '%${searchWord}%' ]]>
+			</if>		
+			<if test='searchType == "PROCHARGE" and searchWord != ""'>
+				<![CDATA[ AND B.DATA10 LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+
+		<![CDATA[
+			ORDER BY B.ARTICLE_SEQ DESC
+			LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<!-- 게시글 총갯수 -->
+	<select id="getBoardArticleListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+		SELECT
+				COUNT(0) AS CNT
+		FROM	JMY_BOARD_ARTICLE B
+
+			WHERE	B.BOARD_ID = #{boardComIdx}
+		]]>		
+
+		<if test='searchSupportType != null and searchSupportType != ""'>
+			AND B.DATA01 IN
+			<foreach collection="searchSupportType" item="data01" index="index" separator="," open="(" close=")">
+    		#{data01}
+			</foreach>
+		</if>
+				
+		<if test='year != null and year != ""'>
+			AND date_format(B.DATA02,'%Y-%m-%d') BETWEEN '${year}-01-01' AND '${year}-12-31'
+		</if>
+		<if test='year1 != null and year1 != ""'>
+			AND date_format(B.DATA02,'%Y-%m-%d') BETWEEN '${year1}-01-01' AND '${year1}-12-31'
+		</if>
+		
+		<if test='teamtype != null and teamtype != ""'>
+			AND B.DATA04 = '${teamtype}'
+		</if>
+		
+		<if test='helptype != null and helptype != ""'>
+			AND B.DATA05 = '${helptype}'
+		</if>
+		
+		<if test='data01 == "2" and data01 != ""'>
+			AND B.DATA01 = '2'
+		</if>
+		
+		<if test='data01 == "1" or (data01 == "" or data01 == null)'>
+			AND B.DATA01 = '1'
+		</if>
+
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "SUBJECT" and searchWord != ""'>
+				<![CDATA[ AND B.SUBJECT LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "COMPNAME" and searchWord != ""'>
+				<![CDATA[ AND B.DATA07 LIKE '%${searchWord}%' ]]>
+			</if>			
+			<if test='searchType == "PROCHARGE" and searchWord != ""'>
+				<![CDATA[ AND B.DATA10 LIKE '%${searchWord}%' ]]>
+			</if>
+		</if>
+	</select>
+
+	<!-- 게시글 조회수 -->
+	<update id="sethitUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+				HITS = HITS+1
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+
+		]]>
+	</update>
+
+	<!-- 게시글상세  -->
+	<select id="getBoardArticle" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					B.ARTICLE_ID,
+					B.SITE_ID,
+					B.BOARD_ID,
+					B.ARTICLE_GROUP_ID,
+					B.ARTICLE_NEXT_ID,
+					B.ARTICLE_PARNTS_ID,
+					B.ARTICLE_SEQ,
+					B.DEPTH,
+					B.CATEGORY_NM,
+					B.SUBJECT,
+					B.WRITER_ID,
+					B.WRITER_NM,
+					B.PASSWORD,
+					B.CONTENT,
+					B.ATCH_FILE_ID,
+					B.THUMB_ATCH_FILE_ID,
+					B.NOTICE_AT,
+					B.SECRET_AT,
+					B.DELETED_AT,
+					B.HITS,
+					B.DATA01,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD_ARTICLE B ON C.CODE_CD = B.DATA01
+					  WHERE C.CODE_GRP_CD = 'SupportType' AND B.BOARD_ID = #{boardComIdx} AND B.ARTICLE_ID= #{boardIdx}) AS CODE_NM,
+					B.DATA02,
+					IF(CURDATE() < DATA03, '접수전', (IF(CURDATE() > DATA04, '접수마감', '접수중'))) AS RECEIPT_NM,
+					B.DATA03,
+					B.DATA04,
+					B.DATA05,
+					B.DATA06,
+					B.DATA07,
+					B.DATA08,
+					B.DATA09,
+					B.DATA10,
+					B.DATA11,
+					B.DATA12,
+					B.DATA13,
+					B.DATA14,
+					B.DATA15,
+					B.DATA16,
+					B.DATA17,
+					B.DATA18,
+					B.DATA19,
+					B.DATA20,
+					B.NUM1,
+					B.NUM2,
+					B.NUM3,
+					B.NUM4,
+					B.NUM5,
+					B.TEXT1,
+					B.TEXT2,
+					B.TEXT3,
+					B.TEXT4,
+					B.TEXT5,
+					B.SHARE_BOARD_IDS,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGUSR_IP,
+					B.LAST_UPDUSR_ID,
+					B.LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_IP,
+					C.ORG_GRP_CD
+			FROM
+					JMY_BOARD_ARTICLE AS B
+			LEFT JOIN TB_USER_COPY AS C 
+			ON B.WRITER_ID = C.USER_ID
+			WHERE
+					B.BOARD_ID = #{boardComIdx}
+			AND
+					B.ARTICLE_ID = #{boardIdx}
+		]]>
+	</select>
+
+	<!-- 게시글순서  -->
+	<select id="getArticleSeq" parameterType="paramMap" resultType="java.lang.Integer" >
+		<![CDATA[
+			SELECT
+					MAX(ARTICLE_SEQ)
+
+			  FROM	JMY_BOARD_ARTICLE
+			 WHERE	BOARD_ID = #{boardComIdx}
+     	]]>
+	</select>
+
+	<!-- 게시글등록  -->
+	<insert id="setBoardArticleInsert" parameterType="paramMap" >
+				INSERT INTO JMY_BOARD_ARTICLE
+		(
+					ARTICLE_ID,
+					SITE_ID,
+					BOARD_ID,
+					ARTICLE_GROUP_ID,
+					ARTICLE_NEXT_ID,
+					ARTICLE_PARNTS_ID,
+					ARTICLE_SEQ,
+					DEPTH,
+					CATEGORY_NM,
+					SUBJECT,
+					WRITER_ID,
+					WRITER_NM,
+					PASSWORD,
+					CONTENT,
+					ATCH_FILE_ID,
+					THUMB_ATCH_FILE_ID,
+					NOTICE_AT,
+					SECRET_AT,
+					DELETED_AT,
+					HITS,
+					DATA01,
+					DATA02,
+					DATA03,
+					DATA04,
+					DATA05,
+					DATA06,
+					DATA07,
+					DATA08,
+					DATA09,
+					DATA10,
+					DATA11,
+					DATA12,
+					DATA13,
+					DATA14,
+					DATA15,
+					DATA16,
+					DATA17,
+					DATA18,
+					DATA19,
+					DATA20,
+					NUM1,
+					NUM2,
+					NUM3,
+					NUM4,
+					NUM5,
+					TEXT1,
+					TEXT2,
+					TEXT3,
+					TEXT4,
+					TEXT5,
+					SHARE_BOARD_IDS,
+					FRST_REGIST_PNTTM,
+					FRST_REGUSR_IP
+		)VALUES
+		(
+					  #{articleIdx}
+				,     #{siteId}
+				,     #{boardComIdx}
+				,     #{articleGroupId}
+				,     #{articlenextId}
+				,     #{articleParentsId}
+				,     #{articleSeq}
+				,     #{depth}
+				,     #{categoryNm}
+				,     #{subject}
+				,     #{regId}
+				,     #{regNm}
+				,     #{password}
+				,     #{content}
+				,     #{atchFileId}
+				,     #{thumbAtchFileId}
+				,     #{noticeAt}
+				,     #{secretAt}
+				,     #{deletedAt}
+				,     0
+				,     #{supportType}
+				,     #{proExpense}
+				,     #{recStDt}
+				,     #{recEdDt}
+				,     #{proStDt}
+				,     #{proEdDt}
+				,     #{OwnOrgNm}
+				,     #{OwnDeptNm}
+				,     #{supportPlace}
+				,     #{proChargeNm}
+				,     #{proChargePosition}
+				,     #{proChargeTel}
+				,     #{proChargeEmail}
+				,     #{proPurpose}
+				,     '10'
+				,     #{data16}
+				,     #{OwnOrg}
+				,     #{data18}
+				,     #{data19}
+				,     #{data20}
+				,     #{num1}
+				,     #{num2}
+				,     #{num3}
+				,     #{num4}
+				,     #{num5}
+				,     #{text1}
+				,     #{text2}
+				,     #{text3}
+				,     #{text4}
+				,     #{text5}
+				,     #{shareBoardIds}
+				,     now()
+				,     #{regIp}
+		)
+
+	</insert>
+
+	<!-- 게시글수정  -->
+	<update id="setBoardArticleUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD_ARTICLE SET
+					ARTICLE_GROUP_ID= #{articleGroupId},
+					ARTICLE_NEXT_ID = #{articlenextId},
+					DEPTH = #{depth},
+					CATEGORY_NM = #{categoryNm},
+					SUBJECT = #{subject},
+					LAST_UPDUSR_ID = #{regId},
+					PASSWORD = #{password},
+					CONTENT = #{content},
+					ATCH_FILE_ID = #{atchFileId},
+					THUMB_ATCH_FILE_ID = #{thumbAtchFileId},
+					NOTICE_AT = #{noticeAt},
+					SECRET_AT =  #{secretAt},
+					DELETED_AT = #{deletedAt},
+					DATA01 =  #{supportType},
+					DATA02 =  #{proExpense},
+					DATA03 =  #{recStDt},
+					DATA04 =  #{recEdDt},
+					DATA05=  #{proStDt},
+					DATA06=  #{proEdDt},
+					DATA07=  #{OwnOrgNm},
+					DATA08=  #{OwnDeptNm},
+					DATA09=  #{supportPlace},
+					DATA10=  #{proChargeNm},
+					DATA11=  #{proChargePosition},
+					DATA12=  #{proChargeTel},
+					DATA13=  #{proChargeEmail},
+					DATA14=  #{proPurpose},
+					DATA15=  '10',
+					DATA16=  #{data16},
+					DATA17=  #{OwnOrg},
+					DATA18=  #{data18},
+					DATA19=  #{data19},
+					DATA20=  #{data20},
+					NUM1=  #{num1},
+					NUM2=  #{num2},
+					NUM3=  #{num3},
+					NUM4=  #{num4},
+					NUM5=  #{num5},
+					TEXT1=  #{text1},
+					TEXT2=  #{text2},
+					TEXT3=  #{text3},
+					TEXT4=  #{text4},
+					TEXT5=  #{text5},
+					SHARE_BOARD_IDS = #{shareBoardIds},
+					LAST_UPDT_PNTTM = now(),
+					LAST_UPDUSR_ID = #{regId},
+					LAST_UPDUSR_IP = #{regIp}
+			WHERE
+					BOARD_ID = #{boardComIdx}
+			AND
+					ARTICLE_ID = #{boardIdx}
+		]]>
+	</update>
+
+	<!-- 게시글삭제  -->
+	<delete id="getBoardArticleDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		   FROM JMY_BOARD_ARTICLE
+
+		  WHERE	BOARD_ID = #{boardComIdx}
+		    AND ARTICLE_ID = #{boardIdx}
+		 ]]>
+	</delete>
+
+	<!-- 지원사업유형 -->
+	<select id="getSupportType" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				   CODE_GRP_CD,
+				   CODE_CD,
+				   CODE_NM
+
+			  FROM TB_CODE
+
+			 WHERE CODE_GRP_CD = 'SupportType'
+
+		  ORDER BY CODE_CD ASC
+		]]>
+	</select>
+	
+	
+	<!-- 시행부처 -->
+	<select id="getTeamList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				   CODE_GRP_CD,
+				   CODE_CD,
+				   CODE_NM,
+				   (SELECT COUNT(*) FROM JMY_BOARD_ARTICLE as JBA WHERE JBA.BOARD_ID = '00067' AND JBA.DATA01 = 1 AND JBA.DATA04 = CODE_CD) as CODE_COUNT
+			  FROM TB_CODE
+
+			 WHERE CODE_GRP_CD = 'TeamType'
+
+		  ORDER BY CODE_CD ASC
+		]]>
+	</select>
+	
+	<!-- 지원기관 -->
+	<select id="getHelpList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				   CODE_GRP_CD,
+				   CODE_CD,
+				   CODE_NM
+			  FROM TB_CODE
+
+			 WHERE CODE_GRP_CD = 'HelpCenter'
+
+		  ORDER BY CODE_CD ASC
+		]]>
+	</select>
+
+</mapper>

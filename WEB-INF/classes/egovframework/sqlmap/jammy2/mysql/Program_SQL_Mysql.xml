@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Program">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="Program" type="egovframework.jammy2.system.program.service.Program"/>
+	<typeAlias  alias="ProgramVO" type="egovframework.jammy2.system.program.service.ProgramVO"/>
+			
+	<select id="ProgramDAO.selectProgramListCnt" parameterClass="ProgramVO" resultClass="java.lang.Integer">
+		SELECT  COUNT(*)
+		  FROM  JMY_PROGRAM 
+		 WHERE  1=1			
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="programNm">
+				PROGRAM_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="programUrl">
+				PROGRAM_URL LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	</select>	
+		
+	<select id="ProgramDAO.selectProgramList" parameterClass="ProgramVO" resultClass="ProgramVO">
+		SELECT  PROGRAM_ID		programId
+			 ,  PROGRAM_NM		programNm
+			 ,  PROGRAM_URL		programUrl
+			 ,  POSITION		position	
+		  FROM  JMY_PROGRAM
+		 WHERE  1=1	
+			<isNotEmpty prepend="AND" property="searchCondition">
+				<isEqual property="searchCondition" compareValue="programNm">
+				PROGRAM_NM LIKE '%$searchKeyword$%'
+				</isEqual>
+				<isEqual property="searchCondition" compareValue="programUrl">
+				PROGRAM_URL LIKE '%$searchKeyword$%'
+				</isEqual>
+			</isNotEmpty>
+	  ORDER BY  POSITION ASC, PROGRAM_NM ASC			
+		 LIMIT  #recordCountPerPage# OFFSET #firstIndex#			
+	</select>		
+		
+	<select id="ProgramDAO.selectProgram" parameterClass="ProgramVO" resultClass="ProgramVO">
+		SELECT  PROGRAM_ID		programId
+			 ,  PROGRAM_NM		programNm
+			 ,  PROGRAM_URL		programUrl
+			 ,  POSITION		position
+		  FROM  JMY_PROGRAM
+		 WHERE  PROGRAM_ID = #programId#		
+	</select>	
+	
+	<insert id="ProgramDAO.insertProgram">
+		INSERT 
+		  INTO  JMY_PROGRAM
+		     (  PROGRAM_ID
+			 ,  PROGRAM_NM
+			 ,  PROGRAM_URL
+			 ,  POSITION		
+		     )
+		VALUES
+		     (  #programId#
+			 ,  #programNm#
+			 ,  #programUrl#
+			 ,  #position#
+		     )			
+	</insert>
+	
+	<update id="ProgramDAO.updateProgram">
+		UPDATE  JMY_PROGRAM 
+		   SET  PROGRAM_NM = #programNm#
+			 ,  PROGRAM_URL = #programUrl#
+			 ,  POSITION = #position#
+		 WHERE  PROGRAM_ID = #programId#
+	</update>		
+	
+    <delete id="ProgramDAO.deleteProgram">
+		DELETE 
+		  FROM  JMY_PROGRAM 
+		 WHERE  PROGRAM_ID = #programId#
+    </delete>	
+	
+</sqlMap>

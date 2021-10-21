@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.com.service.impl.JnspCommonMapper">
+
+	<select id="getFileList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_IDX,
+					DATA_GRP,
+					DATA_SUB_GRP,
+					DATA_IDX,
+					FILE_PATH,
+					FILE_NM,
+					FILE_EXT,
+					FILE_ORGN_NM,
+					FILE_FULL_NM,
+					FILE_SIZE,
+					FILE_TYPE,
+					FILE_SN,
+					REG_DT
+		FROM
+					EL_DATA_FILE
+			WHERE DATA_GRP = #{dataGrp}
+		]]>
+			<if test='dataSubGrp != "" and dataSubGrp != null'>
+				<![CDATA[	AND DATA_SUB_GRP = #{dataSubGrp} ]]>
+			</if>
+		<![CDATA[
+				AND DATA_IDX = #{dataIdx}
+			ORDER BY FILE_IDX ASC
+		]]>
+	</select>
+
+
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					FILE_IDX,
+					DATA_GRP,
+					DATA_SUB_GRP,
+					DATA_IDX,
+					FILE_PATH,
+					FILE_NM,
+					FILE_EXT,
+					FILE_ORGN_NM,
+					FILE_FULL_NM,
+					FILE_SIZE,
+					FILE_TYPE,
+					FILE_SN,
+					REG_DT
+		FROM
+					EL_DATA_FILE
+			WHERE DATA_GRP = #{dataGrp}
+		]]>
+			<if test='dataSubGrp != "" and dataSubGrp != null'>
+				<![CDATA[	AND DATA_SUB_GRP = #{dataSubGrp} ]]>
+			</if>
+		<![CDATA[
+				AND DATA_IDX = #{dataIdx}
+				AND FILE_IDX = #{fileIdx}
+		]]>
+	</select>
+
+
+
+	<delete id="setFileDelete" parameterType="paramMap">
+		<![CDATA[
+		 DELETE
+		  FROM
+					EL_DATA_FILE
+		 WHERE DATA_GRP = #{dataGrp}
+			AND DATA_IDX = #{dataIdx}
+			AND FILE_IDX = #{fileIdx}
+		]]>
+		<if test='dataSubGrp != "" and dataSubGrp != null'>
+			<![CDATA[	AND DATA_SUB_GRP = #{dataSubGrp} ]]>
+		</if>
+
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+		<![CDATA[
+			 DELETE
+			  FROM
+						EL_DATA_FILE
+			 WHERE DATA_GRP = #{dataGrp}
+			 	 AND DATA_IDX = #{dataIdx}
+		 ]]>
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		 <selectKey keyProperty="fileSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(IFNULL(FILE_IDX,0)) + 1 FROM EL_DATA_FILE
+		  </selectKey>
+			INSERT INTO EL_DATA_FILE
+			(
+				FILE_IDX,
+				DATA_GRP,
+				DATA_SUB_GRP,
+				DATA_IDX,
+				FILE_PATH,
+				FILE_NM,
+				FILE_EXT,
+				FILE_ORGN_NM,
+				FILE_FULL_NM,
+				FILE_SIZE,
+				FILE_TYPE,
+				FILE_SN,
+				REG_DT
+			)
+			VALUES
+			(
+				#{fileSeq},
+				#{dataGrp},
+				#{dataSubGrp},
+				#{dataIdx},
+				#{filePath},
+				#{fileNm},
+				#{fileExt},
+				#{fileOrgnNm},
+				#{fileFullNm},
+				#{fileSize},
+				#{fileType},
+				#{fileSn},
+				NOW()
+			)
+	</insert>
+
+
+</mapper>

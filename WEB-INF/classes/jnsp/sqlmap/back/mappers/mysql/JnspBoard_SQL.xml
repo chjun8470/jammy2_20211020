@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspBoardMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getBoardList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+					B.BOARD_ID,
+					B.BOARD_NM,
+					B.BOARD_SUMMARY,
+					B.SITE_ID,
+					CASE (B.SITE_ID)
+					WHEN 'jeinet' THEN '연구장비정보망'
+					WHEN 'jipbank' THEN '지식재산정보은행'
+					WHEN 'jntis' THEN '전남과학기술정보시스템'
+					WHEN 'smbrnd' THEN '전남중소기업R&D시스템'
+					ELSE 'sample'
+					END AS SITE_NM,
+					B.BOARD_TY,
+					B.SKIN_NM,
+					B.BLOCK_PAGE,
+					B.LIST_SIZE,
+					B.PERM_CMT,
+					B.PERM_FILE,
+					B.PERM_EDITOR,
+					B.PERM_HTML,
+					B.PERM_NOTICE,
+					B.PERM_LVL_LIST,
+					B.PERM_GRP_LIST,
+					B.PERM_LVL_WRITE,
+					B.PERM_GRP_WRITE,
+					B.PERM_LVL_EDITOR,
+					B.PERM_GRP_EDITOR,
+					B.PERM_LVL_READ,
+					B.PERM_GRP_READ,
+					B.PERM_LVL_REPLY,
+					B.PERM_GRP_REPLY,
+					B.PERM_LVL_DEL,
+					B.PERM_GRP_DEL,
+					B.PERM_LVL_CMT_LIST,
+					B.PERM_GRP_CMT_LIST,
+					B.PERM_LVL_CMT_WRITE,
+					B.PERM_GRP_CMT_WRITE,
+					B.PERM_LVL_CMT_DEL,
+					B.PERM_GRP_CMT_DEL,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGISTER_ID,
+					DATE_FORMAT(B.LAST_UPDT_PNTTM, '%Y-%m-%d') AS LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_ID
+
+			FROM
+					JMY_BOARD AS B
+			WHERE
+					1=1
+		]]>
+
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "BOARD_ID" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_ID LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BOARD_NM" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BOARD_SUMMARY" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_SUMMARY LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ALL" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_SUMMARY LIKE '%${searchWord}%'
+							OR B.BOARD_NM LIKE '%${searchWord}%'
+							OR B.BOARD_ID LIKE '%${searchWord}%'
+				]]>
+			</if>
+		</if>
+
+
+		<if test='siteType != null and siteType != ""'>
+			<if test='siteType == "JEINET"'>
+				<![CDATA[	AND B.SITE_ID = 'jeinet' ]]>
+			</if>
+			<if test='siteType == "JNTIS"'>
+				<![CDATA[	AND B.SITE_ID = 'jntis' ]]>
+			</if>
+			<if test='siteType == "JIPBANK"'>
+				<![CDATA[	AND B.SITE_ID = 'jipbank' ]]>
+			</if>
+			<if test='siteType == "SAMPLE"'>
+				<![CDATA[	AND B.SITE_ID NOT IN ('jeinet','jntis','jipbank') ]]>
+			</if>
+		</if>
+
+		<![CDATA[
+			ORDER BY B.BOARD_ID DESC
+			LIMIT ${firstRecord}  , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getBoardListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+					JMY_BOARD AS B
+		WHERE
+			1=1
+		<if test='searchType != null and searchType != ""'>
+			<if test='searchType == "BOARD_ID" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_ID LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BOARD_NM" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_NM LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "BOARD_SUMMARY" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_SUMMARY LIKE '%${searchWord}%' ]]>
+			</if>
+			<if test='searchType == "ALL" and searchWord != ""'>
+				<![CDATA[	AND B.BOARD_SUMMARY LIKE '%${searchWord}%'
+							OR B.BOARD_NM LIKE '%${searchWord}%'
+							OR B.BOARD_ID LIKE '%${searchWord}%'
+				]]>
+			</if>
+		</if>
+
+
+		<if test='siteType != null and siteType != ""'>
+			<if test='siteType == "JEINET"'>
+				<![CDATA[	AND B.SITE_ID = 'jeinet' ]]>
+			</if>
+			<if test='siteType == "JNTIS"'>
+				<![CDATA[	AND B.SITE_ID = 'jntis' ]]>
+			</if>
+			<if test='siteType == "JIPBANK"'>
+				<![CDATA[	AND B.SITE_ID = 'jipbank' ]]>
+			</if>
+		</if>
+	</select>
+
+	<insert id="setBoardInsert" parameterType="paramMap" >
+		INSERT INTO JMY_BOARD
+		(
+						BOARD_ID
+				,		BOARD_NM
+				,		BOARD_SUMMARY
+				,       SITE_ID
+				,     	SKIN_NM
+				,		BLOCK_PAGE
+				,		LIST_SIZE
+				,		PERM_CMT
+				,		PERM_FILE
+				,		PERM_EDITOR
+				,		PERM_HTML
+				,		PERM_NOTICE
+				,		PERM_LVL_LIST
+				,		PERM_LVL_WRITE
+				,		PERM_LVL_EDITOR
+				,		PERM_LVL_DEL
+				,       PERM_LVL_READ
+				,		PERM_LVL_CMT_LIST
+				,		PERM_LVL_CMT_WRITE
+				,		PERM_LVL_CMT_DEL
+				,		FRST_REGIST_PNTTM
+				,		FRST_REGISTER_ID
+		)VALUES
+		(
+					  #{boardId}
+				,     #{boardNm}
+				,     #{boardSummary}
+				,	  #{siteType}
+				,     #{skinNm}
+				,     #{blockPage}
+				,     #{listSize}
+				,     #{permCmt}
+				,     #{permFile}
+				,     #{permEditor}
+				,     #{permHtml}
+				,     #{permNotice}
+				,     #{auth_list}
+				,     #{auth_write}
+				,     #{auth_modify}
+				,     #{auth_del}
+				,     #{auth_read}
+				,     #{auth_cmt_list}
+				,     #{auth_cmt_write}
+				,     #{auth_cmt_del}
+				,    	now()
+				,     #{regId}
+		)
+	</insert>
+
+	<select id="getBoard" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT
+					B.BOARD_ID,
+					B.BOARD_NM,
+					B.BOARD_SUMMARY,
+					B.SITE_ID,
+					CASE (B.SITE_ID)
+					WHEN 'jeinet' THEN '연구장비정보망'
+					WHEN 'jipbank' THEN '지식재산정보은행'
+					WHEN 'jntis' THEN '전남과학기술정보시스템'
+					WHEN 'smbrnd' THEN '전남중소기업R&D시스템'
+					ELSE 'sample'
+					END AS SITE_NM,
+					B.BOARD_TY,
+					B.SKIN_NM,
+					B.BLOCK_PAGE,
+					B.LIST_SIZE,
+					B.PERM_CMT,
+					B.PERM_FILE,
+					B.PERM_EDITOR,
+					B.PERM_HTML,
+					B.PERM_NOTICE,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_LIST
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS LIST_CODE_NM,
+					B.PERM_LVL_LIST,
+					B.PERM_GRP_LIST,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_WRITE
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS WRITE_CODE_NM,
+					B.PERM_LVL_WRITE,
+					B.PERM_GRP_WRITE,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_EDITOR
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS EDITOR_CODE_NM,
+					B.PERM_LVL_EDITOR,
+					B.PERM_GRP_EDITOR,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_READ
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS READ_CODE_NM,
+					B.PERM_LVL_READ,
+					B.PERM_GRP_READ,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_REPLY
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS REPLY_CODE_NM,
+					B.PERM_LVL_REPLY,
+					B.PERM_GRP_REPLY,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_DEL
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS DEL_CODE_NM,
+					B.PERM_LVL_DEL,
+					B.PERM_GRP_DEL,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_CMT_LIST
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS CMT_LIST_CODE_NM,
+					B.PERM_LVL_CMT_LIST,
+					B.PERM_GRP_CMT_LIST,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_CMT_WRITE
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS CMT_WRITE_CODE_NM,
+					B.PERM_LVL_CMT_WRITE,
+					B.PERM_GRP_CMT_WRITE,
+					(SELECT C.CODE_NM
+					   FROM TB_CODE C INNER JOIN JMY_BOARD B ON C.CODE_CD = B.PERM_LVL_CMT_DEL
+					  WHERE C.CODE_GRP_CD = 'AUTH' AND B.BOARD_ID = #{dataIdx}) AS CMT_DEL_CODE_NM,
+					B.PERM_LVL_CMT_DEL,
+					B.PERM_GRP_CMT_DEL,
+					DATE_FORMAT(B.FRST_REGIST_PNTTM, '%Y-%m-%d') AS FRST_REGIST_PNTTM,
+					B.FRST_REGISTER_ID,
+					DATE_FORMAT(B.LAST_UPDT_PNTTM, '%Y-%m-%d') AS LAST_UPDT_PNTTM,
+					B.LAST_UPDUSR_ID
+
+		FROM
+					JMY_BOARD AS B
+		WHERE
+					B.BOARD_ID = #{dataIdx}
+		]]>
+	</select>
+
+	<update id="setBoardUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE JMY_BOARD SET
+						BOARD_NM = #{boardNm}
+				,		BOARD_SUMMARY = #{boardSummary}
+				,     	SITE_ID = #{siteType}
+				,     	SKIN_NM = #{skinNm}
+				,		BLOCK_PAGE = #{blockPage}
+				,		LIST_SIZE = #{listSize}
+				,		PERM_CMT = #{permCmt}
+				,		PERM_FILE = #{permFile}
+				,		PERM_EDITOR = #{permEditor}
+				,		PERM_HTML = #{permHtml}
+				,		PERM_NOTICE = #{permNotice}
+				,		PERM_LVL_LIST = #{auth_list}
+				,		PERM_LVL_WRITE = #{auth_write}
+				,		PERM_LVL_EDITOR = #{auth_modify}
+				,		PERM_LVL_DEL = #{auth_del}
+				,       PERM_LVL_READ = #{auth_read}
+				,		PERM_LVL_CMT_LIST = #{auth_cmt_list}
+				,		PERM_LVL_CMT_WRITE =	#{auth_cmt_write}
+				,		PERM_LVL_CMT_DEL = #{auth_cmt_del}
+				,		LAST_UPDT_PNTTM = now()
+				,		LAST_UPDUSR_ID = #{regId}
+			WHERE BOARD_ID = #{dataIdx}
+
+		]]>
+	</update>
+
+	<delete id="setBoardCmtDelete" parameterType="paramMap">
+		 DELETE
+		   FROM	JMY_BOARD_ARTICLE_CMT
+		  WHERE ARTICLE_ID = #{articleId}
+	</delete>
+	<delete id="setBoardArticleDelete" parameterType="paramMap">
+		 DELETE
+		   FROM JMY_BOARD_ARTICLE
+		  WHERE BOARD_ID = #{dataIdx}
+	</delete>
+	<delete id="setBoardDelete" parameterType="paramMap">
+		 DELETE
+		   FROM JMY_BOARD
+		  WHERE BOARD_ID = #{dataIdx}
+	</delete>
+
+	<select id="getBoardIdCheck" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT  COUNT(0) AS CNT
+
+		  FROM	JMY_BOARD
+
+		 WHERE	BOARD_ID =#{boardId}
+	</select>
+	<select id="getBoardSkinCode" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						CG.CODE_GRP_IDX,
+						CG.CODE_GRP_CD,
+						CG.CODE_GRP_NM,
+						C.CODE_IDX,
+						C.CODE_CD,
+						C.CODE_NM,
+						C.CMT
+			FROM
+			 			TB_CODE_GRP AS CG
+			INNER JOIN
+						TB_CODE AS C
+			ON
+						CG.CODE_GRP_CD = C.CODE_GRP_CD
+			WHERE
+			         CG.CODE_GRP_CD = 'COMBOARD'
+		]]>
+	</select>
+
+	<select id="getUserAuthList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						CG.CODE_GRP_IDX,
+						CG.CODE_GRP_CD,
+						CG.CODE_GRP_NM,
+						C.CODE_IDX,
+						C.CODE_CD,
+						C.CODE_NM,
+						C.CMT
+			FROM
+			 			TB_CODE_GRP AS CG
+			INNER JOIN
+						TB_CODE AS C
+			ON
+						CG.CODE_GRP_CD = C.CODE_GRP_CD
+			WHERE
+			         CG.CODE_GRP_CD = 'AUTH'
+		]]>
+	</select>
+
+	<select id="getUserAuthListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		SELECT
+				COUNT(0) AS CNT
+		FROM
+				JMY_AUTHOR_LEVEL
+	</select>
+
+	<select id="getArticleIdList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+		SELECT ARTICLE_ID
+		  FROM JMY_BOARD_ARTICLE
+		 WHERE BOARD_ID = #{dataIdx}
+		]]>
+	</select>
+
+
+</mapper>

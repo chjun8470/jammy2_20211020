@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AIDocument>
+<AIReport scriptVersion="32" docVersion="6" title="보고서 (2013/10/25 03:43:00)">
+<PaperInfo name="A4" size="2100x2970" value="9" orientation="VERTICAL" margin="56 70 56 70"/>
+<Page number="1"/>
+<CellObject left="74" top="83" width="445" height="18" style="obj_style_85" name="sheet10_A1"><Text xml:space="preserve" s="fN:Arial Unicode MS">1. test 입니다. ㅁㅇㄻㄴㅇㄹㄴㅁㅇㄹㄴㅁ广州高新技术产业开发区科学城科学大道号广</Text></CellObject>
+<CellObject left="74" top="101" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㅁㅇㄹㅇㅇ아</Text></CellObject>
+<CellObject left="74" top="119" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅇㅇㅇㅇㅇㅇ</Text></CellObject>
+<CellObject left="74" top="137" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅇㅇㅇㅇㅇㅇㅇ1231245012031-23</Text></CellObject>
+<CellObject left="74" top="155" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="173" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">&amp; *(!@(!)$*!*@)$)!_%_!+@!)~-1=3=1-2-012=-=41-2-</Text></CellObject>
+<CellObject left="74" top="191" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="209" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="227" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="241" width="14" height="32" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="241" width="83" height="32" style="obj_style_9" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">NO</Text></CellObject>
+<CellObject left="171" top="241" width="83" height="32" style="obj_style_9" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">수정 항목</Text></CellObject>
+<CellObject left="254" top="241" width="83" height="32" style="obj_style_9" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">세부내용</Text></CellObject>
+<CellObject left="337" top="241" width="83" height="32" style="obj_style_9" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">완료</Text><Text lft="1"></Text><Text xml:space="preserve" s="fB:1">현황</Text></CellObject>
+<CellObject left="420" top="241" width="85" height="32" style="obj_style_9" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">미 해결사항</Text></CellObject>
+<CellObject left="505" top="241" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="273" width="14" height="162" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="273" width="83" height="162" style="obj_style_13" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">1</Text></CellObject>
+<CellObject left="171" top="273" width="83" height="162" style="obj_style_13" name="sheet10_A1"><Text xml:space="preserve">전략위원회 월</Text><Text lft="1"></Text><Text xml:space="preserve">간일정</Text></CellObject>
+<CellObject left="254" top="273" width="83" height="144" style="obj_style_12" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve" s="fN:Arial Unicode MS">표기내용 수정</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:Arial Unicode MS">广州高新技术产业</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:Arial Unicode MS">开发区科学城科学</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:Arial Unicode MS">大道号广</Text><Text xml:space="preserve" s="fN:맑은 고딕">: </Text><Text lft="1"></Text><Text xml:space="preserve">기업명 </Text><Text xml:space="preserve" s="fN:맑은 고딕">+ </Text><Text xml:space="preserve">과제명 </Text><Text lft="1"></Text><Text xml:space="preserve">출력 </Text><Text xml:space="preserve" s="fN:맑은 고딕">+ </Text><Text xml:space="preserve">착수여부</Text><Text lft="1"></Text><Text xml:space="preserve">→과제명은 일부</Text><Text lft="1"></Text><Text xml:space="preserve">만 표기하여도 됨</Text><Text lft="1"></Text><Text xml:space="preserve">→기업명 전체 표</Text><Text lft="1"></Text><Text xml:space="preserve">기</Text></CellObject>
+<CellObject left="337" top="273" width="83" height="144" style="obj_style_13" name="sheet10_A1"><Text xml:space="preserve" s="fC:255">▲</Text></CellObject>
+<CellObject left="420" top="273" width="85" height="144" style="obj_style_12" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">&lt;</Text><Text xml:space="preserve">금요일</Text><Text xml:space="preserve" s="fN:맑은 고딕">&gt;</Text><Text xml:space="preserve">항목에 </Text><Text lft="1"></Text><Text xml:space="preserve">있는 일정에</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">“</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">기업명</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">”</Text><Text xml:space="preserve">이 누락되</Text><Text lft="1"></Text><Text xml:space="preserve">었음</Text><Text lft="1"></Text><Text xml:space="preserve">  </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">(PM</Text><Text xml:space="preserve" s="fC:255;fB:1">명</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">, </Text><Text xml:space="preserve" s="fC:255;fB:1">행사장소</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">도 추가 필요</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">)</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">ex) </Text><Text xml:space="preserve" s="fB:1">고영</Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">, </Text><Text xml:space="preserve" s="fB:1">면도기기</Text><Text lft="1"></Text><Text xml:space="preserve" s="fB:1">술</Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">(</Text><Text xml:space="preserve" s="fB:1">착수</Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">, </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">PM</Text><Text xml:space="preserve" s="fC:255;fB:1">명</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">, </Text><Text xml:space="preserve" s="fC:255;fB:1">장</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">소</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">)</Text></CellObject>
+<CellObject left="505" top="273" width="14" height="144" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="417" width="83" height="18" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">일요일은 제거</Text></CellObject>
+<CellObject left="337" top="417" width="83" height="18" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="417" width="85" height="18" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="417" width="14" height="18" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="435" width="14" height="282" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="435" width="83" height="282" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">2</Text></CellObject>
+<CellObject left="171" top="435" width="83" height="282" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">전략위원별 주</Text><Text lft="1"></Text><Text xml:space="preserve">간일정</Text></CellObject>
+<CellObject left="254" top="435" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">멘토링 항목 삭</Text><Text lft="1"></Text><Text xml:space="preserve">제</Text></CellObject>
+<CellObject left="337" top="435" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="435" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="435" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="467" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">위원명으로 오</Text><Text lft="1"></Text><Text xml:space="preserve">름차순 </Text><Text xml:space="preserve" s="fN:맑은 고딕">Sort</Text></CellObject>
+<CellObject left="337" top="467" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="467" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="467" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="499" width="83" height="144" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">첨단</Text><Text xml:space="preserve" s="fN:맑은 고딕">/</Text><Text xml:space="preserve">지재권 구</Text><Text lft="1"></Text><Text xml:space="preserve">분 추가</Text></CellObject>
+<CellObject left="337" top="499" width="83" height="144" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fC:255">▲</Text></CellObject>
+<CellObject left="420" top="499" width="85" height="144" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">첨단</Text><Text xml:space="preserve" s="fN:맑은 고딕">/</Text><Text xml:space="preserve">지재권 구분</Text><Text lft="1"></Text><Text xml:space="preserve">은 완료되었으나</Text><Text xml:space="preserve" s="fN:맑은 고딕">.</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">&lt;</Text><Text xml:space="preserve">제목</Text><Text xml:space="preserve" s="fN:맑은 고딕">&gt;</Text><Text xml:space="preserve">을 첨단사</Text><Text lft="1"></Text><Text xml:space="preserve">업으로 기재되었</Text><Text lft="1"></Text><Text xml:space="preserve">음 → </Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">첨단</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">/</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">지재권</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">이 합쳐진 주간업</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">무보고이므로 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">“</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">민</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">간 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">IP-R&amp;D</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">전략지</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">원사업</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">”</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">으로 변경</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">이 필요함</Text></CellObject>
+<CellObject left="505" top="499" width="14" height="144" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="643" width="83" height="74" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">출력기준일자 </Text><Text lft="1"></Text><Text xml:space="preserve">선택하여 해당 일</Text><Text lft="1"></Text><Text xml:space="preserve">자 기준 출력</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">캘린더 선택 날짜 </Text><Text lft="1"></Text><Text xml:space="preserve">기준</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="337" top="643" width="83" height="74" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="643" width="85" height="29" style="obj_style_85" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="643" width="14" height="29" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="420" top="672" width="85" height="15" style="obj_style_86" name="sheet10_A1"/>
+<CellObject left="505" top="672" width="14" height="15" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="420" top="687" width="85" height="30" style="obj_style_87" name="sheet10_A1"/>
+<CellObject left="505" top="687" width="14" height="30" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="717" width="14" height="28" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="717" width="83" height="28" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">3</Text></CellObject>
+<CellObject left="171" top="717" width="83" height="28" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">사업신청서</Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">기</Text></CellObject>
+<CellObject left="254" top="717" width="83" height="28" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">세로양식으로 </Text><Text lft="1"></Text><Text xml:space="preserve">변경</Text></CellObject>
+<CellObject left="337" top="717" width="83" height="28" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fC:255">▲</Text></CellObject>
+<CellObject left="420" top="717" width="85" height="28" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">신청서 상 오타 수</Text></CellObject>
+<CellObject left="505" top="717" width="14" height="28" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="745" width="445" height="14" style="obj_style_92" name="sheet10_A1"/>
+<DrawObject left="422" top="674" width="0" height="0" style="obj_style_91" name="sheet10_A1"></DrawObject>
+<PaperInfo name="A4" size="2100x2970" value="9" orientation="VERTICAL" margin="56 70 56 70"/>
+<Page number="2"/>
+<CellObject left="74" top="83" width="445" height="14" style="obj_style_93" name="sheet10_A1"/>
+<CellObject left="74" top="97" width="14" height="196" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="97" width="83" height="196" style="obj_style_25" name="sheet10_A1"/>
+<CellObject left="171" top="97" width="83" height="196" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">업</Text><Text xml:space="preserve" s="fN:맑은 고딕">)/</Text><Text xml:space="preserve">사업제안서</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">수행기관</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="254" top="97" width="83" height="196" style="obj_style_6" name="sheet10_A1"/>
+<CellObject left="337" top="97" width="83" height="196" style="obj_style_25" name="sheet10_A1"/>
+<CellObject left="420" top="97" width="85" height="196" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">정 필요 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">[</Text><Text xml:space="preserve" s="fB:1">붙임</Text><Text xml:space="preserve" s="fN:맑은 고딕;fB:1">]</Text><Text xml:space="preserve" s="fB:1">참조</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">2. </Text><Text xml:space="preserve">기업 사업신청</Text><Text lft="1"></Text><Text xml:space="preserve">서 </Text><Text xml:space="preserve" s="fN:맑은 고딕">IP-R&amp;D</Text><Text xml:space="preserve">역량 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">“</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">직무발명보상 우</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">수기업 인증</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">”, </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">“IP</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">스타기업</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">”</Text><Text xml:space="preserve">추가 </Text><Text lft="1"></Text><Text xml:space="preserve">항목 출력이 안됨</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">3. </Text><Text xml:space="preserve">글자가 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">&lt;</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">칸</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">&gt;</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">을 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">넘어</Text><Text xml:space="preserve">감 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">4. &lt;</Text><Text xml:space="preserve">과제개요</Text><Text xml:space="preserve" s="fN:맑은 고딕">&gt;</Text><Text xml:space="preserve">부</Text><Text lft="1"></Text><Text xml:space="preserve">문 일부 </Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">글자가 겹</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">침</Text><Text lft="1"></Text><Text xml:space="preserve">⇒</Text><Text xml:space="preserve" s="fN:맑은 고딕">3,4 </Text><Text xml:space="preserve">트라이디커</Text><Text lft="1"></Text><Text xml:space="preserve">뮤니케이션 과제</Text></CellObject>
+<CellObject left="505" top="97" width="14" height="196" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="293" width="14" height="106" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="293" width="83" height="106" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">4</Text></CellObject>
+<CellObject left="171" top="293" width="83" height="106" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">보고서 전체</Text></CellObject>
+<CellObject left="254" top="293" width="83" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">기관명 변경</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(R&amp;D</Text><Text xml:space="preserve">특허센터 </Text><Text xml:space="preserve" s="fN:맑은 고딕">-&gt; </Text><Text lft="1"></Text><Text xml:space="preserve">한국지식재산전략</Text><Text lft="1"></Text><Text xml:space="preserve">원</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="337" top="293" width="83" height="60" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fS:11pt;fC:255;fB:1">*</Text></CellObject>
+<CellObject left="420" top="293" width="85" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">한국지식재산전</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">력</Text><Text lft="1"></Text><Text xml:space="preserve">원 →</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">“</Text><Text xml:space="preserve" s="fC:255;fB:1;fU:1">략</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1;fU:1">”</Text><Text xml:space="preserve">으로 변</Text><Text lft="1"></Text><Text xml:space="preserve">경</Text></CellObject>
+<CellObject left="505" top="293" width="14" height="60" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="353" width="83" height="46" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">보고서 상단 타</Text><Text lft="1"></Text><Text xml:space="preserve">이틀 보이도록 정</Text><Text lft="1"></Text><Text xml:space="preserve">비</Text></CellObject>
+<CellObject left="337" top="353" width="83" height="46" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="353" width="85" height="46" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="353" width="14" height="46" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="399" width="14" height="148" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="399" width="83" height="148" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">5</Text></CellObject>
+<CellObject left="171" top="399" width="83" height="148" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">설문작성</Text></CellObject>
+<CellObject left="254" top="399" width="83" height="116" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">상단 이미지 뒤</Text><Text lft="1"></Text><Text xml:space="preserve">로</Text></CellObject>
+<CellObject left="337" top="399" width="83" height="116" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fC:255">▲</Text></CellObject>
+<CellObject left="420" top="399" width="85" height="116" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">“</Text><Text xml:space="preserve" s="fC:255;fB:1">지재권 중심의 기</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">술획득전략 지원</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">사업</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">“</Text><Text xml:space="preserve">이 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">”</Text><Text xml:space="preserve" s="fC:255;fB:1">첨단부품</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">소재 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">IP-R&amp;D </Text><Text xml:space="preserve" s="fC:255;fB:1">전략</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">지원사업</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">:</Text><Text xml:space="preserve">으로 표</Text><Text lft="1"></Text><Text xml:space="preserve">기되어 있음 </Text><Text xml:space="preserve" s="fN:맑은 고딕">-&gt; </Text><Text xml:space="preserve" s="fC:255;fB:1">사</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">업명 전체 삭제필</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">요</Text></CellObject>
+<CellObject left="505" top="399" width="14" height="116" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="515" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">엌무 문자 오류</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">업무로 변경</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="337" top="515" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="515" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="515" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="547" width="14" height="92" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="547" width="83" height="92" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">6</Text></CellObject>
+<CellObject left="171" top="547" width="83" height="92" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">KPI</Text></CellObject>
+<CellObject left="254" top="547" width="83" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">데이터 확인</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">개별 출력</Text><Text xml:space="preserve" s="fN:맑은 고딕">, </Text><Text xml:space="preserve">현재 </Text><Text lft="1"></Text><Text xml:space="preserve">여러 자료가 함께 </Text><Text lft="1"></Text><Text xml:space="preserve">나옴</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="337" top="547" width="83" height="60" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="547" width="85" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="547" width="14" height="60" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="607" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o 1</Text><Text xml:space="preserve">페이지 분량 </Text><Text xml:space="preserve" s="fN:맑은 고딕">&gt; </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">3</Text><Text xml:space="preserve">페이지로 출력</Text></CellObject>
+<CellObject left="337" top="607" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="607" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="607" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="639" width="14" height="32" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="639" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">7</Text></CellObject>
+<CellObject left="171" top="639" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">전문위원 관리</Text><Text lft="1"></Text><Text xml:space="preserve">카드</Text></CellObject>
+<CellObject left="254" top="639" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">위원명으로 오</Text><Text lft="1"></Text><Text xml:space="preserve">름차순 </Text><Text xml:space="preserve" s="fN:맑은 고딕">Sort</Text></CellObject>
+<CellObject left="337" top="639" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="639" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="639" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="671" width="14" height="74" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="671" width="83" height="74" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">8</Text></CellObject>
+<CellObject left="171" top="671" width="83" height="74" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">연도별</Text><Text lft="1"></Text><Text xml:space="preserve">진행현황표</Text></CellObject>
+<CellObject left="254" top="671" width="83" height="74" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">진행현황에 따</Text><Text lft="1"></Text><Text xml:space="preserve">른 표시 오류</Text></CellObject>
+<CellObject left="337" top="671" width="83" height="74" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fS:11pt;fC:255;fB:1">*</Text></CellObject>
+<CellObject left="420" top="671" width="85" height="74" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fC:255;fB:1">과제 진행 현황 데</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">이터대로 인쇄가 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">안됨</Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">중간보고</Text><Text xml:space="preserve" s="fN:맑은 고딕">, </Text><Text xml:space="preserve">최</Text><Text lft="1"></Text><Text xml:space="preserve">종보고에도 색칠</Text><Text lft="1"></Text><Text xml:space="preserve">됨</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="505" top="671" width="14" height="74" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="745" width="445" height="14" style="obj_style_92" name="sheet10_A1"/>
+<PaperInfo name="A4" size="2100x2970" value="9" orientation="VERTICAL" margin="56 70 56 70"/>
+<Page number="3"/>
+<CellObject left="74" top="83" width="445" height="14" style="obj_style_93" name="sheet10_A1"/>
+<CellObject left="74" top="97" width="14" height="60" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="97" width="83" height="60" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">9</Text></CellObject>
+<CellObject left="171" top="97" width="83" height="60" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">과제성과 종합</Text></CellObject>
+<CellObject left="254" top="97" width="83" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">과제성과 종합 </Text><Text lft="1"></Text><Text xml:space="preserve">인쇄</Text></CellObject>
+<CellObject left="337" top="97" width="83" height="60" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fS:11pt;fC:255;fB:1">*</Text></CellObject>
+<CellObject left="420" top="97" width="85" height="60" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">(</Text><Text xml:space="preserve" s="fC:255;fB:1">과제수행</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">-&gt; </Text><Text xml:space="preserve" s="fC:255;fB:1">개별</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">과제 클릭 </Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">-&gt; </Text><Text xml:space="preserve" s="fC:255;fB:1">우측 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">상단</Text><Text xml:space="preserve" s="fN:맑은 고딕;fC:255;fB:1">) </Text><Text xml:space="preserve" s="fC:255;fB:1">과제성과 종</Text><Text lft="1"></Text><Text xml:space="preserve" s="fC:255;fB:1">합 인쇄 안됨</Text></CellObject>
+<CellObject left="505" top="97" width="14" height="60" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="157" width="14" height="32" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="157" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">10</Text></CellObject>
+<CellObject left="171" top="157" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">기관명 포함 보</Text><Text lft="1"></Text><Text xml:space="preserve">고서</Text></CellObject>
+<CellObject left="254" top="157" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">기관명으로 오</Text><Text lft="1"></Text><Text xml:space="preserve">름차순 </Text><Text xml:space="preserve" s="fN:맑은 고딕">Sort</Text></CellObject>
+<CellObject left="337" top="157" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="157" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="157" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="189" width="14" height="78" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="189" width="83" height="78" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">11</Text></CellObject>
+<CellObject left="171" top="189" width="83" height="78" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">메인 </Text><Text lft="1"></Text><Text xml:space="preserve">금주전략위원 </Text><Text lft="1"></Text><Text xml:space="preserve">일정 인쇄 추가</Text></CellObject>
+<CellObject left="254" top="189" width="83" height="46" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">조건 확인</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:맑은 고딕">(</Text><Text xml:space="preserve">주단위 일정</Text><Text xml:space="preserve" s="fN:맑은 고딕">-</Text><Text xml:space="preserve">전</Text><Text lft="1"></Text><Text xml:space="preserve">주</Text><Text xml:space="preserve" s="fN:맑은 고딕">,</Text><Text xml:space="preserve">금주</Text><Text xml:space="preserve" s="fN:맑은 고딕">,</Text><Text xml:space="preserve">차주</Text><Text xml:space="preserve" s="fN:맑은 고딕">)</Text></CellObject>
+<CellObject left="337" top="189" width="83" height="46" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">●</Text></CellObject>
+<CellObject left="420" top="189" width="85" height="46" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="189" width="14" height="46" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="254" top="235" width="83" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">o </Text><Text xml:space="preserve">보고서 누락분 </Text><Text lft="1"></Text><Text xml:space="preserve">반영</Text></CellObject>
+<CellObject left="337" top="235" width="83" height="32" style="obj_style_25" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="420" top="235" width="85" height="32" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="505" top="235" width="14" height="32" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="267" width="14" height="46" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="267" width="83" height="46" style="obj_style_36" name="sheet10_A1"><Text xml:space="preserve" s="fN:맑은 고딕">12</Text></CellObject>
+<CellObject left="171" top="267" width="83" height="46" style="obj_style_36" name="sheet10_A1"><Text xml:space="preserve">메트릭스는 추</Text><Text lft="1"></Text><Text xml:space="preserve">후 </Text><Text xml:space="preserve" s="fN:맑은 고딕">RND </Text><Text xml:space="preserve">내부 정</Text><Text lft="1"></Text><Text xml:space="preserve">의 후 개발</Text></CellObject>
+<CellObject left="254" top="267" width="83" height="46" style="obj_style_35" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="337" top="267" width="83" height="46" style="obj_style_36" name="sheet10_A1"><Text xml:space="preserve">  </Text></CellObject>
+<CellObject left="420" top="267" width="85" height="46" style="obj_style_35" name="sheet10_A1"><Text xml:space="preserve">금주 중 송부예정</Text></CellObject>
+<CellObject left="505" top="267" width="14" height="46" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="313" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="327" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㄴㅇㄻㄴㅇㄹ</Text></CellObject>
+<CellObject left="74" top="345" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="359" width="14" height="4" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="359" width="431" height="4" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="363" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="377" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">ㅁㄴㅇㄻㄴㅇㄻ</Text></CellObject>
+<CellObject left="74" top="395" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="413" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㄴㅇㄻㄴㅇㄹ</Text></CellObject>
+<CellObject left="74" top="431" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="449" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve" s="fB:1">ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻ</Text></CellObject>
+<CellObject left="74" top="467" width="445" height="23" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve" s="fN:바탕체;fS:14pt;fB:1;fU:1">가나다라마바사                                     test11</Text></CellObject>
+<CellObject left="74" top="490" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="504" width="14" height="39" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="504" width="92" height="39" style="obj_style_41" name="sheet10_A1"><Text xml:space="preserve" s="fS:12pt;fB:1">평 가 구 분</Text></CellObject>
+<CellObject left="180" top="504" width="92" height="39" style="obj_style_44" name="sheet10_A1"><Text xml:space="preserve" s="fS:12pt;fB:1">평 가 기 준</Text></CellObject>
+<CellObject left="272" top="504" width="233" height="20" style="obj_style_47" name="sheet10_A1"><Text xml:space="preserve" s="fS:12pt;fB:1">점 수</Text></CellObject>
+<CellObject left="505" top="504" width="14" height="20" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="272" top="524" width="46" height="19" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:11pt;fB:1">탁월</Text></CellObject>
+<CellObject left="318" top="524" width="46" height="19" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:11pt;fB:1">우수</Text></CellObject>
+<CellObject left="364" top="524" width="46" height="19" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:11pt;fB:1">보통</Text></CellObject>
+<CellObject left="410" top="524" width="46" height="19" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:11pt;fB:1">미흡</Text></CellObject>
+<CellObject left="456" top="524" width="49" height="19" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:11pt;fB:1">부진</Text></CellObject>
+<CellObject left="505" top="524" width="14" height="19" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="543" width="14" height="199" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="543" width="46" height="199" style="obj_style_55" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt;fB:1">기업</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">IP-R&amp;D</Text><Text xml:space="preserve" s="fS:9pt;fB:1">역</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt;fB:1">량</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(30</Text><Text xml:space="preserve" s="fS:9pt;fB:1">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">)</Text></CellObject>
+<CellObject left="134" top="543" width="46" height="199" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">IP</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유역량</Text></CellObject>
+<CellObject left="180" top="543" width="46" height="117" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">① 신청기</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">업의 특허</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">출원현황</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">은 어떠한</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">?</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">※국제특</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">허출원건</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">은 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">배로 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인정</Text></CellObject>
+<CellObject left="226" top="543" width="46" height="58" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중견</Text></CellObject>
+<CellObject left="272" top="543" width="46" height="58" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">40</Text><Text xml:space="preserve" s="fS:9pt">건 초과</Text></CellObject>
+<CellObject left="318" top="543" width="46" height="58" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">40</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="364" top="543" width="46" height="58" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">30</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="410" top="543" width="46" height="58" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">20</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="456" top="543" width="49" height="58" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">10</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="505" top="543" width="14" height="58" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="226" top="601" width="46" height="59" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중소</Text></CellObject>
+<CellObject left="272" top="601" width="46" height="59" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">20</Text><Text xml:space="preserve" s="fS:9pt">건 초과</Text></CellObject>
+<CellObject left="318" top="601" width="46" height="59" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">20</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="364" top="601" width="46" height="59" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">15</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="410" top="601" width="46" height="59" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">10</Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="456" top="601" width="49" height="59" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">출원건수 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">건 이하</Text></CellObject>
+<CellObject left="505" top="601" width="14" height="59" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="660" width="46" height="82" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">② 특허전</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">담인력을 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유하고 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">있는가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">?</Text></CellObject>
+<CellObject left="226" top="660" width="46" height="41" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중견</Text></CellObject>
+<CellObject left="272" top="660" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">특허전담</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="318" top="660" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">특허전담</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유</Text></CellObject>
+<CellObject left="364" top="660" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">특허전담</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유</Text></CellObject>
+<CellObject left="410" top="660" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">겸임 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유</Text></CellObject>
+<CellObject left="456" top="660" width="49" height="41" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">겸임 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">인 보</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">유</Text></CellObject>
+<CellObject left="505" top="660" width="14" height="41" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="226" top="701" width="46" height="41" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중소</Text></CellObject>
+<CellObject left="272" top="701" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">특허전담</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="318" top="701" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">특허전담</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유</Text></CellObject>
+<CellObject left="364" top="701" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">겸임 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">인 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">보유</Text></CellObject>
+<CellObject left="410" top="701" width="95" height="41" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">없음</Text></CellObject>
+<CellObject left="505" top="701" width="14" height="41" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="742" width="445" height="17" style="obj_style_92" name="sheet10_A1"/>
+<DrawObject left="88" top="359" width="0" height="4" style="obj_style_91" name="sheet10_A1"></DrawObject>
+<PaperInfo name="A4" size="2100x2970" value="9" orientation="VERTICAL" margin="56 70 56 70"/>
+<Page number="4"/>
+<CellObject left="74" top="83" width="445" height="14" style="obj_style_93" name="sheet10_A1"/>
+<CellObject left="74" top="97" width="14" height="211" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="97" width="46" height="211" style="obj_style_55" name="sheet10_A1"/>
+<CellObject left="134" top="97" width="46" height="211" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">R&amp;D</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">추진능력</Text></CellObject>
+<CellObject left="180" top="97" width="92" height="41" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">③ 최근 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3</Text><Text xml:space="preserve" s="fS:9pt">년 평균</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">R&amp;D</Text><Text xml:space="preserve" s="fS:9pt">투</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">자율은 높은가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">? (R&amp;D</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">투자</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">/</Text><Text xml:space="preserve" s="fS:9pt">매출액</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">)</Text></CellObject>
+<CellObject left="272" top="97" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5% </Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="318" top="97" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5%</Text><Text xml:space="preserve" s="fS:9pt">미만∼</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">4%</Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="364" top="97" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">4%</Text><Text xml:space="preserve" s="fS:9pt">미만∼</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3%</Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="410" top="97" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3%</Text><Text xml:space="preserve" s="fS:9pt">미만∼</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2%</Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="456" top="97" width="49" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2%</Text><Text xml:space="preserve" s="fS:9pt">미만∼</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1%</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상</Text></CellObject>
+<CellObject left="505" top="97" width="14" height="41" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="138" width="46" height="104" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">④ 지원과</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">제에 관련</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">된 연구인</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">력을 충분</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">히 확보하</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">고 있는가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">?</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(</Text><Text xml:space="preserve" s="fS:9pt">양적평</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">)</Text></CellObject>
+<CellObject left="226" top="138" width="46" height="52" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중견</Text></CellObject>
+<CellObject left="272" top="138" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">6</Text><Text xml:space="preserve" s="fS:9pt">인 이</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">상</Text></CellObject>
+<CellObject left="318" top="138" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">인 이</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">하</Text></CellObject>
+<CellObject left="364" top="138" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">4</Text><Text xml:space="preserve" s="fS:9pt">인</Text></CellObject>
+<CellObject left="410" top="138" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3</Text><Text xml:space="preserve" s="fS:9pt">인</Text></CellObject>
+<CellObject left="456" top="138" width="49" height="52" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구원 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">인 이하</Text></CellObject>
+<CellObject left="505" top="138" width="14" height="52" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="226" top="190" width="46" height="52" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">중소</Text></CellObject>
+<CellObject left="272" top="190" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">인 이</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">상</Text></CellObject>
+<CellObject left="318" top="190" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">4</Text><Text xml:space="preserve" s="fS:9pt">인</Text></CellObject>
+<CellObject left="364" top="190" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3</Text><Text xml:space="preserve" s="fS:9pt">인</Text></CellObject>
+<CellObject left="410" top="190" width="46" height="52" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">인</Text></CellObject>
+<CellObject left="456" top="190" width="49" height="52" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">전담연구원 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">인 미만</Text></CellObject>
+<CellObject left="505" top="190" width="14" height="52" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="242" width="92" height="66" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">⑤ 지원과제 관련 연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">인력의 수준이 높은</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">?(</Text><Text xml:space="preserve" s="fS:9pt">연구경력 및 학력</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">수준 등 질적평가</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">)</Text></CellObject>
+<CellObject left="272" top="242" width="46" height="66" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">박사급 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">명</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상 또는 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">10</Text><Text xml:space="preserve" s="fS:9pt">년경력</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">자 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">명 이</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">상 포함시</Text></CellObject>
+<CellObject left="318" top="242" width="46" height="66" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">박사급 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">명</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상 또는 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">10</Text><Text xml:space="preserve" s="fS:9pt">년경력</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">자 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">명 이</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">상 포함시</Text></CellObject>
+<CellObject left="364" top="242" width="46" height="66" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">석사급 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상 또는 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">년경력자 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">명 이상 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">포함 </Text></CellObject>
+<CellObject left="410" top="242" width="46" height="66" style="obj_style_6" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">석사급 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이상 또는 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">년경력자 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">명 이상 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">포함</Text></CellObject>
+<CellObject left="456" top="242" width="49" height="66" style="obj_style_51" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">년 이하의 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">경력자만 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">포함시</Text></CellObject>
+<CellObject left="505" top="242" width="14" height="66" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="308" width="14" height="169" style="obj_style_89" name="sheet10_A1"/>
+<CellObject left="88" top="308" width="92" height="169" style="obj_style_67" name="sheet10_A1"><Text xml:space="preserve" s="fS:12pt;fB:1">우대 가점</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(</Text><Text xml:space="preserve" s="fS:9pt;fB:1">최대 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">25</Text><Text xml:space="preserve" s="fS:9pt;fB:1">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">)</Text></CellObject>
+<CellObject left="180" top="308" width="92" height="54" style="obj_style_44" name="sheet10_A1"><Text xml:space="preserve" s="fS:9pt">타부처 지원사업 참여</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">기업</Text></CellObject>
+<CellObject left="272" top="308" width="233" height="54" style="obj_style_46" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(5</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">타부처 지원사업 참여기업</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(</Text><Text xml:space="preserve" s="fS:9pt">매칭비 사업비 포함</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">예 환경부 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">EI</Text><Text xml:space="preserve" s="fS:9pt">사업 등</Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(3</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">타부처 지원사업 참여기업</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(</Text><Text xml:space="preserve" s="fS:9pt">매칭비 민간부담</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">예 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">지식경제부 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">WC300, </Text><Text xml:space="preserve" s="fS:9pt;fC:16711680;fB:1">히든챔피언</Text><Text xml:space="preserve" s="fS:9pt">등</Text></CellObject>
+<CellObject left="505" top="308" width="14" height="54" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="362" width="92" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">IP-R&amp;D</Text><Text xml:space="preserve" s="fS:9pt">교육이수기업</Text></CellObject>
+<CellObject left="272" top="362" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(5</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">연</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">구원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">5</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이수</Text></CellObject>
+<CellObject left="318" top="362" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(4</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">연</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">구원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">4</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이수</Text></CellObject>
+<CellObject left="364" top="362" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(3</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">연</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">구원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">3</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이수</Text></CellObject>
+<CellObject left="410" top="362" width="46" height="41" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(2</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">연</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">구원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">2</Text><Text xml:space="preserve" s="fS:9pt">명 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">이수</Text></CellObject>
+<CellObject left="456" top="362" width="49" height="41" style="obj_style_52" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt">(1</Text><Text xml:space="preserve" s="fS:9pt">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">) </Text><Text xml:space="preserve" s="fS:9pt">연구</Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt">원 </Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt">1</Text><Text xml:space="preserve" s="fS:9pt">명 이수</Text></CellObject>
+<CellObject left="505" top="362" width="14" height="41" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="403" width="92" height="29" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(</Text><Text xml:space="preserve" s="fS:9pt;fB:1">신설</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">)3</Text><Text xml:space="preserve" s="fS:9pt;fB:1">대 산업분야별 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">10</Text><Text xml:space="preserve" s="fS:9pt;fB:1">대 유망기술</Text></CellObject>
+<CellObject left="272" top="403" width="233" height="29" style="obj_style_51" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(5</Text><Text xml:space="preserve" s="fS:9pt;fB:1">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">) 10</Text><Text xml:space="preserve" s="fS:9pt;fB:1">대 유망기술 해당</Text></CellObject>
+<CellObject left="505" top="403" width="14" height="29" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="432" width="92" height="29" style="obj_style_49" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(</Text><Text xml:space="preserve" s="fS:9pt;fB:1">신설</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">) </Text><Text xml:space="preserve" s="fS:9pt;fB:1">직무발명보상 </Text><Text lft="1"></Text><Text xml:space="preserve" s="fS:9pt;fB:1">우수기업 인증</Text></CellObject>
+<CellObject left="272" top="432" width="233" height="29" style="obj_style_51" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">(5</Text><Text xml:space="preserve" s="fS:9pt;fB:1">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fB:1">) </Text><Text xml:space="preserve" s="fS:9pt;fB:1">인증서 제출 기업</Text></CellObject>
+<CellObject left="505" top="432" width="14" height="29" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="180" top="461" width="92" height="16" style="obj_style_79" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fC:16711680;fB:1">(</Text><Text xml:space="preserve" s="fS:9pt;fC:16711680;fB:1">신설</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fC:16711680;fB:1">) IP</Text><Text xml:space="preserve" s="fS:9pt;fC:16711680;fB:1">스타기업</Text></CellObject>
+<CellObject left="272" top="461" width="233" height="16" style="obj_style_82" name="sheet10_A1"><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fC:16711680;fB:1">(5</Text><Text xml:space="preserve" s="fS:9pt;fC:16711680;fB:1">점</Text><Text xml:space="preserve" s="fN:굴림체;fS:9pt;fC:16711680;fB:1">) </Text><Text xml:space="preserve" s="fS:9pt;fC:16711680;fB:1">인증서 제출 기업</Text></CellObject>
+<CellObject left="505" top="461" width="14" height="16" style="obj_style_90" name="sheet10_A1"/>
+<CellObject left="74" top="477" width="445" height="14" style="obj_style_88" name="sheet10_A1"/>
+<CellObject left="74" top="491" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㄴㅇㄹ</Text></CellObject>
+<CellObject left="74" top="509" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="527" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㄴㅇㄹ</Text></CellObject>
+<CellObject left="74" top="545" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="563" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve">ㅁㄴㅇㄹ</Text></CellObject>
+<CellObject left="74" top="581" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="599" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="617" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="635" width="445" height="18" style="obj_style_86" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<CellObject left="74" top="653" width="445" height="18" style="obj_style_87" name="sheet10_A1"><Text xml:space="preserve"> </Text></CellObject>
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+<FontFace id="1" name="돋움체"/>
+<FontFace id="2" name="맑은 고딕"/>
+<FontFace id="3" name="바탕체"/>
+<FontFace id="4" name="한양중고딕"/>
+<FontFace id="5" name="Arial Unicode MS"/>
+<FontFace id="6" name="굴림체"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" useHeight="y" fontFace="0" height="11" fontColor="0"/>
+<CharShape id="1" useHeight="y" fontFace="1" height="10" fontColor="0"/>
+<CharShape id="2" useHeight="y" fontFace="0" height="10" fontColor="0"/>
+<CharShape id="3" useHeight="y" fontFace="0" height="10" fontColor="0" bold="y"/>
+<CharShape id="4" useHeight="y" fontFace="2" height="10" fontColor="0" bold="y"/>
+<CharShape id="5" useHeight="y" fontFace="2" height="10" fontColor="0"/>
+<CharShape id="6" useHeight="y" fontFace="0" height="10" fontColor="255"/>
+<CharShape id="7" useHeight="y" fontFace="0" height="10" fontColor="0" underline="y"/>
+<CharShape id="8" useHeight="y" fontFace="2" height="10" fontColor="255" bold="y" underline="y"/>
+<CharShape id="9" useHeight="y" fontFace="0" height="10" fontColor="255" bold="y" underline="y"/>
+<CharShape id="10" useHeight="y" fontFace="2" height="10" fontColor="255" bold="y"/>
+<CharShape id="11" useHeight="y" fontFace="0" height="10" fontColor="255" bold="y"/>
+<CharShape id="12" useHeight="y" fontFace="2" height="11" fontColor="255" bold="y"/>
+<CharShape id="13" useHeight="y" fontFace="3" height="14" fontColor="0" bold="y"/>
+<CharShape id="14" useHeight="y" fontFace="3" height="14" fontColor="0" bold="y" underline="y"/>
+<CharShape id="15" useHeight="y" fontFace="0" height="12" fontColor="0" bold="y"/>
+<CharShape id="16" useHeight="y" fontFace="0" height="11" fontColor="0" bold="y"/>
+<CharShape id="17" useHeight="y" fontFace="0" height="9" fontColor="0" bold="y"/>
+<CharShape id="18" useHeight="y" fontFace="4" height="9" fontColor="0" bold="y"/>
+<CharShape id="19" useHeight="y" fontFace="4" height="9" fontColor="0"/>
+<CharShape id="20" useHeight="y" fontFace="0" height="9" fontColor="0"/>
+<CharShape id="21" useHeight="y" fontFace="0" height="9" fontColor="16711680" bold="y"/>
+<CharShape id="22" useHeight="y" fontFace="4" height="9" fontColor="16711680" bold="y"/>
+<CharShape id="23" useHeight="y" fontFace="5" height="10" fontColor="0"/>
+<CharShape id="24" useHeight="y" fontFace="6" height="9" fontColor="0" bold="y"/>
+<CharShape id="25" useHeight="y" fontFace="6" height="9" fontColor="0"/>
+<CharShape id="26" useHeight="y" fontFace="6" height="9" fontColor="16711680" bold="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0" margin="2,2,2,2" pdww="1"/>
+<ParaShape id="1" wordWrap="xl" margin="1,2,1,2" pdww="1"/>
+<ParaShape id="2" wordWrap="xl" align="center" margin="5,2,5,2" pdww="1"/>
+<ParaShape id="3" wordWrap="xl" align="center" margin="1,2,1,2" pdww="1"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+<BorderShape id="2" type="solid" width="1"/>
+<BorderShape id="3" type="doubleslim" width="1"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="a" type="repeat" object="sheet10_A1"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList><StyleList>
+<CellObjectStyle name="obj_style_0"/>
+<CellObjectStyle name="obj_style_1" charShape="1" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<DrawObjectStyle name="obj_style_2" type="5" binData="stream"/>
+<DrawObjectStyle name="obj_style_3" type="9" binData="url"/>
+<DrawObjectStyle name="obj_style_4" type="5" binData="url"/>
+<DrawObjectStyle name="obj_style_5" type="9" binData="stream"/>
+<CellObjectStyle name="obj_style_6" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_7" charShape="3" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_8" charShape="2" paraShape="1" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="3"/>
+<CellObjectStyle name="obj_style_9" charShape="2" paraShape="2" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="3"/>
+<CellObjectStyle name="obj_style_10" charShape="4" paraShape="2" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="3"/>
+<CellObjectStyle name="obj_style_11" charShape="3" paraShape="2" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="3"/>
+<CellObjectStyle name="obj_style_12" charShape="2" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_13" charShape="2" paraShape="2" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_14" charShape="5" paraShape="2" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_15" charShape="5" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_16" charShape="6" paraShape="2" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_17" charShape="7" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_18" charShape="8" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_19" charShape="9" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_20" charShape="10" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_21" charShape="11" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_22" charShape="4" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_23" charShape="3" paraShape="1" leftBorder="1" topBorder="3" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_24" charShape="5" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_25" charShape="2" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_26" charShape="5" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_27" charShape="6" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_28" charShape="7" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_29" charShape="9" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_30" charShape="8" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_31" charShape="4" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_32" charShape="12" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_33" charShape="10" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_34" charShape="11" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_35" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_36" charShape="2" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_37" charShape="5" paraShape="2" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_38" charShape="13" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_39" charShape="14" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_40" charShape="2" paraShape="1" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_41" charShape="2" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_42" charShape="15" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_43" charShape="2" paraShape="1" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_44" charShape="2" paraShape="3" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_45" charShape="15" paraShape="3" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_46" charShape="2" paraShape="1" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_47" charShape="2" paraShape="3" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_48" charShape="15" paraShape="3" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_49" charShape="2" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_50" charShape="16" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_51" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_52" charShape="2" paraShape="3" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_53" charShape="16" paraShape="3" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_54" charShape="2" paraShape="1" leftBorder="2" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_55" charShape="2" paraShape="3" leftBorder="2" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_56" charShape="17" paraShape="3" leftBorder="2" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_57" charShape="18" paraShape="3" leftBorder="2" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_58" charShape="19" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_59" charShape="20" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_60" charShape="20" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_61" charShape="19" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_62" charShape="20" paraShape="3" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_63" charShape="19" paraShape="3" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_64" charShape="19" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_65" charShape="20" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_66" charShape="2" paraShape="1" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_67" charShape="2" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_68" charShape="15" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_69" charShape="18" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_70" charShape="17" paraShape="3" leftBorder="2" topBorder="2" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_71" charShape="20" paraShape="3" leftBorder="1" topBorder="2" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_72" charShape="19" paraShape="1" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_73" charShape="20" paraShape="1" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_74" charShape="21" paraShape="1" leftBorder="1" topBorder="2" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_75" charShape="18" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_76" charShape="17" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_77" charShape="18" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_78" charShape="17" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_79" charShape="2" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_80" charShape="22" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_81" charShape="21" paraShape="3" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_82" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_83" charShape="22" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_84" charShape="21" paraShape="1" leftBorder="1" topBorder="1" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="obj_style_85" charShape="2" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1"/>
+<CellObjectStyle name="obj_style_86" charShape="2" paraShape="1" leftBorder="1" rightBorder="1"/>
+<CellObjectStyle name="obj_style_87" charShape="2" paraShape="1" leftBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_88" charShape="1" paraShape="1" leftBorder="1" rightBorder="1"/>
+<CellObjectStyle name="obj_style_89" charShape="1" paraShape="1" leftBorder="1"/>
+<CellObjectStyle name="obj_style_90" charShape="1" paraShape="1" rightBorder="1"/>
+<DrawObjectStyle name="obj_style_91" type="5" binData="url"/>
+<CellObjectStyle name="obj_style_92" charShape="1" paraShape="1" leftBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="obj_style_93" charShape="1" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>
+</AIReport>
+</AIDocument>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Theme">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="ThemeVO" type="egovframework.jammy2.theme.service.ThemeVO"/>
+	<typeAlias  alias="ThemeFileVO" type="egovframework.jammy2.theme.service.ThemeFileVO"/>
+	
+	<select id="ThemeDAO.selectThemeList" parameterClass="ThemeVO" resultClass="ThemeVO">
+		SELECT  THEME_ID		themeId
+			 ,  THEME_NM		themeNm
+			 ,  USE_AT			useAt
+		  FROM  JMY_THEME
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="useAt">
+				USE_AT = #useAt#
+			</isNotEmpty>
+	</select>
+
+	<select id="ThemeDAO.selectTheme" parameterClass="ThemeVO" resultClass="ThemeVO">
+		SELECT  THEME_ID		themeId
+			 ,  THEME_NM		themeNm
+			 ,  USE_AT			useAt
+		  FROM  JMY_THEME
+		 WHERE  THEME_ID = #themeId#		
+	</select>	
+
+	<insert id="ThemeDAO.insertTheme">
+		INSERT 
+		  INTO  JMY_THEME
+		     (  THEME_ID
+			 ,  THEME_NM
+			 ,  USE_AT
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+		     )
+		VALUES
+		     (  #themeId#
+			 ,  #themeNm#
+			 ,  #useAt#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+		     )			
+	</insert>
+	
+	<update id="ThemeDAO.updateTheme">
+		UPDATE  JMY_THEME 
+		   SET  THEME_NM = #themeNm#
+			 ,  USE_AT = #useAt#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  THEME_ID = #themeId#
+	</update>
+
+	<delete id="ThemeDAO.deleteTheme">
+		DELETE 
+		  FROM  JMY_THEME 
+		 WHERE  THEME_ID = #themeId#
+    </delete>
+
+	<select id="ThemeDAO.selectThemeFileList" parameterClass="ThemeFileVO" resultClass="ThemeFileVO">
+		SELECT  FILE_ID			fileId
+			 ,  THEME_ID		themeId
+			 ,  FILE_GB			fileGb
+			 ,  FILE_NM			fileNm
+			 ,  FILE_DS			fileDs
+			 ,  POSITION		position
+			 ,  FILE_DC			fileDc
+		  FROM  JMY_THEME_FILE
+		 WHERE  1=1
+			<isNotEmpty prepend="AND" property="themeId">
+				THEME_ID = #themeId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fileGb">
+				FILE_GB = #fileGb#
+			</isNotEmpty>
+	  ORDER BY  POSITION ASC		
+	</select>
+	
+	<select id="ThemeDAO.selectThemeFile" parameterClass="ThemeFileVO" resultClass="ThemeFileVO">
+		SELECT  FILE_ID				fileId
+			 ,  THEME_ID			themeId
+			 ,  FILE_GB				fileGb
+			 ,  FILE_NM				fileNm
+			 ,  FILE_DS				fileDs
+			 ,  FILE_DC				fileDc
+			 ,  POSITION			position
+			 ,  FRST_REGIST_PNTTM	frstRegistPnttm
+			 ,  FRST_REGISTER_ID	frstRegisterId
+			 ,  LAST_UPDT_PNTTM		lastUpdtPnttm
+			 ,  LAST_UPDUSR_ID		lastUpdusrId
+		  FROM  JMY_THEME_FILE
+		 WHERE  THEME_ID = #themeId# 
+		   AND  FILE_GB = #fileGb# 
+		   AND  FILE_NM = #fileNm#		
+	</select>	
+	
+	<insert id="ThemeDAO.insertThemeFile">
+		INSERT 
+		  INTO  JMY_THEME_FILE
+		     (  FILE_ID
+		     ,  THEME_ID
+			 ,  FILE_GB
+			 ,  FILE_NM
+			 ,  FILE_DC
+			 ,  FILE_DS
+			 ,  POSITION
+			 ,  FRST_REGIST_PNTTM
+			 ,  FRST_REGISTER_ID
+			 ,  LAST_UPDT_PNTTM
+			 ,  LAST_UPDUSR_ID			 
+		     )
+		VALUES
+		     (  #fileId#
+		     ,  #themeId#
+			 ,  #fileGb#
+			 ,  #fileNm#
+			 ,  #fileDc#
+			 ,  #fileDs#
+			 ,  #position#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#
+			 ,  SYSDATE()
+			 ,  #frstRegisterId#			 
+		     )			
+	</insert>
+	
+	<update id="ThemeDAO.updateThemeFile">
+		UPDATE  JMY_THEME_FILE 
+		   SET  FILE_DC = #fileDc#
+			 ,  FILE_DS = #fileDs#
+			 ,  POSITION = #position#
+			 ,  LAST_UPDT_PNTTM = SYSDATE()
+			 ,  LAST_UPDUSR_ID = #lastUpdusrId#
+		 WHERE  THEME_ID = #themeId# 
+		   AND  FILE_GB = #fileGb# 
+		   AND  FILE_NM = #fileNm#
+	</update>
+	
+	<delete id="ThemeDAO.deleteThemeFile">
+		DELETE 
+		  FROM  JMY_THEME_FILE 
+		 WHERE  THEME_ID = #themeId#
+			<isNotEmpty prepend="AND" property="fileGb">
+			    FILE_GB = #fileGb#
+			</isNotEmpty>			
+			<isNotEmpty prepend="AND" property="fileNm">
+			    FILE_NM = #fileNm#
+			</isNotEmpty>
+    </delete>
+    	
+</sqlMap>

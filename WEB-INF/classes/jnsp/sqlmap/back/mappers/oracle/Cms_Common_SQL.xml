@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.krcgis.portal.biz.service.impl.BizCommonMapper">
+
+
+	<select id="getFile" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+						SNO,
+						BD_GBN,
+						BD_SNO,
+		   				FILE_NM,
+		   				FILE_PATH,
+		   				TO_CHAR(INS_DT,'YYYY-MM-DD') AS INS_DT,
+		   				FILE_ORGN_NM,
+		   				FILE_SIZE
+				FROM
+						BIZ_FILE_INFO
+			WHERE BD_GBN = ${bdGbn}
+				AND BD_SNO = ${bdSno}
+			ORDER BY INS_DT ASC
+	</select>
+
+
+
+	<delete id="setFileDelete" parameterType="paramMap">
+			 DELETE
+			  FROM
+						BIZ_FILE_INFO
+			 WHERE BD_GBN = #{bdGbn}
+				AND BD_SNO = #{bdSno}
+	</delete>
+
+	<delete id="setAllFileDelete" parameterType="paramMap">
+			 DELETE
+			  FROM
+						BIZ_FILE_INFO
+			 WHERE BD_GBN = #{bdGbn}
+	</delete>
+
+	<insert id="setFileInsert" parameterType="paramMap">
+		  <selectKey keyProperty="snoSeq" resultType="int" order="BEFORE">
+    		  SELECT MAX(NVL(SNO,0)) + 1 FROM BIZ_FILE_INFO
+		  </selectKey>
+			INSERT INTO BIZ_FILE_INFO
+			(
+					SNO,
+					BD_GBN,
+					BD_SNO,
+	   				FILE_NM,
+	   				FILE_PATH,
+	   				FILE_ORGN_NM,
+	   				FILE_SIZE,
+	   				INS_DT
+			)
+			VALUES
+			(
+				<if test="snoSeq == 0 or snoSeq == null">
+					1,
+				</if>
+				<if test='snoSeq >= 1'>
+				#{snoSeq},
+				</if>
+				#{bdGbn},
+				#{bdSno},
+				#{fileNm},
+				#{filePath},
+				#{fileOrgnNm},
+				#{fileSize},
+				SYSDATE
+			)
+	</insert>
+
+
+</mapper>

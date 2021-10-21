@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.back.module.service.impl.JnspAvgAgencyAdminMapper">
+
+	<!-- 기관 목록 -->
+	<select id="getAgeList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+			 ORG_GRP_CD
+			,ORG_GRP_NM
+			,DELETE_YN
+			FROM
+			TB_ORG_GRP
+			WHERE (DELETE_YN != 'Y' or DELETE_YN IS NULL)
+			]]>
+			<if test=" orgCd != '' and orgCd != null and orgNm != '' and orgNm != null ">
+				<![CDATA[
+					AND ORG_GRP_CD = #{orgCd}
+					AND ORG_GRP_NM = #{orgNm}
+				]]>
+			</if>
+			<if test=" orgNm != '' and orgNm != null ">
+				<![CDATA[
+					AND ORG_GRP_NM = #{orgNm}
+				]]>
+			</if>
+			<![CDATA[
+			ORDER BY ORG_GRP_CD DESC
+			]]>
+	</select>
+
+</mapper>

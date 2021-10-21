@@ -1,0 +1,1124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.elsys.jnsp.front.module.service.impl.WebJnspEqReservationMapper">
+
+	<sql id="oracle_pageHeader">
+		SELECT * FROM (
+			SELECT ROWNUM RN , PAGE.* FROM (
+	</sql>
+	<sql id="oracle_pageFooter">
+			) PAGE
+		)
+		WHERE RN BETWEEN ${firstRecord} AND ${lastRecord}
+	</sql>
+
+	<select id="getEqReservationList_back" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+				A.RND_EQU_IDX
+				-- , A.EQUIP_CD
+				-- , A.FIXED_ASET_NO
+				, A.KOR_NM
+				, A.ENG_NM
+				, A.MANUFACTURE_NM
+				, A.MODEL_NM
+				-- , A.TAKE_CD
+				-- , A.TAKE_PRC
+				, A.TAKE_SDT
+				-- , A.TAKE_EDT
+				-- , A.LOCATION
+				-- , A.LOCATION_DTL
+				-- , A.BRANCH_NM
+				-- , A.IDLE_DISUSE_CD
+				-- , A.ST_STYPE
+				-- , A.ST_ROOM
+				-- , A.EQUIP_DETAIL_FEATURE
+				-- , A.EQUIP_DETAIL_CAPABILITY
+				-- , A.EQUIP_DETAIL_EXAMPLE
+				-- , A.TAKE_PRC_FOREIGN
+				-- , A.TAKE_PRC_DOMESTIC
+				-- , A.USER_IDX
+				-- , A.USE_SCOPE_CD
+				-- , A.USE_SCOPE_RANGE
+				-- , A.USE_SCOPE_MEAN
+				, A.USE_TYPE_CD
+				-- , A.HITS
+				-- , CAST((	SELECT ROUND(AVG(AVG.EQU_SATISFACTION),0)
+				--	FROM TB_EQU_ORDER AVG
+				--	WHERE AVG.RND_EQU_IDX = A.RND_EQU_IDX
+				-- ) AS CHAR) AS EQU_SATISFACTION
+				-- , (	SELECT COUNT(0) FROM TB_EQU_GOODS_FAV FAV
+				-- 	WHERE FAV.RND_EQU_IDX = A.RND_EQU_IDX AND FAV.USER_IDX = '${userIdx}'
+				-- ) AS FAV_COUNT		
+				-- , C.FILE_CAT
+				, C.TITLE
+				, C.FILE_PATH
+
+				-- , D.REF_RSV_TEL
+				-- , D.REF_EQU_TEL
+				-- , D.HOW_USE
+				-- , D.RENTAL_INFO
+				-- , D.RSV_YN
+				, D.OWN_ORG_NM
+				, D.OWN_ORG_SUB_NM
+				-- , D.MAP_X
+				-- , D.MAP_Y
+				-- , D.EQU_ATTENTION
+
+				-- , F.PSN_NM AS OPER_CHARGER
+				-- , F.FAX_NO AS OPER_FAX
+				-- , F.POSITION_NM AS OPER_POSITION
+				-- , F.EMAIL AS OPER_EMAIL
+				-- , F.TEL_NO AS OPER_TEL
+				-- , F.DEPT_NM AS OPER_ORG_GRP_SUB
+				-- , G.ORG_GRP_NM AS OPER_ORG_GRP
+
+				-- , B.ORG_GRP_CD
+				-- , B.PSN_NM
+				-- , B.GENDER_TYPE_CD
+				-- , B.FRGN_YN
+				-- , B.USER_ID
+				-- , B.EMAIL
+				-- , B.TEL_NO
+				-- , B.CP_NO
+				-- , B.DEPT_NM
+				-- , B.POSITION_NM
+				-- , E.ORG_GRP_NM
+			FROM	TB_EQU_INFO A
+			LEFT JOIN  TB_EQU_GOODS D
+			ON A.RND_EQU_IDX = D.RND_EQU_IDX
+			LEFT JOIN  TB_RND_FILE C
+			ON (A.RND_EQU_IDX = C.RND_EQU_IDX AND
+				C.FILE_ID =
+				(
+					SELECT MAX(Z.file_id) file_id
+					FROM TB_RND_FILE Z
+					WHERE Z.rnd_equ_idx = A.RND_EQU_IDX
+					GROUP BY Z.rnd_equ_idx
+				)
+			)
+			-- LEFT JOIN TB_USER_COPY F
+			--	ON A.EQU_USER_IDX = F.USER_IDX
+			-- LEFT JOIN TB_ORG_GRP G
+			--	ON F.ORG_GRP_CD = G.ORG_GRP_CD
+				
+			-- LEFT JOIN TB_USER_COPY B
+			-- 	ON A.EQU_USER_IDX = B.USER_IDX
+			-- LEFT JOIN TB_ORG_GRP E
+			-- 	ON B.ORG_GRP_CD = E.ORG_GRP_CD
+
+
+
+
+			WHERE A.DELETE_YN = 'N'
+			AND A.USE_SCOPE_CD != '1'
+			AND A.STATE IN (2, 6, 7)
+
+            ]]>
+
+	            <if test='equipCd != null and equipCd != ""'>
+					<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>f
+				</if>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd != null and searchUseTypeCd != ""'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%${searchUseTypeCd}%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<!-- 장비검색 예약 검색에 대한 쿼리 추가 수정 필요 -->
+					<choose>
+					    <when test="searchUseScope == 1">
+					    	<!-- 기관 연계 기능 추후 수정 필요 -->
+							<![CDATA[
+								AND D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 2">
+							<![CDATA[
+								AND ( A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%') OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    <!-- <when test="searchUseScope == 3">
+							<![CDATA[
+								AND ( A.KOR_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%') OR A.ENG_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    <when test="searchUseScope == 4">
+							<![CDATA[
+								AND A.MODEL_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 5">
+								AND A.MANUFACTURE_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							<![CDATA[
+							]]>
+					    </when>
+					    <when test="searchUseScope == 6">
+							<![CDATA[
+								AND A.OPER_CHARGER LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 7">
+							<![CDATA[
+								AND A.NTIS_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 8">
+							<![CDATA[
+								AND A.ETUBE_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 9">
+							<![CDATA[
+								AND A.RND_EQU_IDX LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when> -->
+					    <when test="searchUseScope == 10">
+							<![CDATA[
+								AND A.BRANCH_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 11">
+							<![CDATA[
+								AND A.USE_TYPE_CD = LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <when test="searchUseScope == 12">
+					    	<if test='searchWord == 9999'>
+							<![CDATA[
+								AND A.AREA = '1'
+							]]>
+							</if>
+							<if test='searchWord != 9999'>
+							<![CDATA[
+								AND A.AREA = '2'
+								AND A.AREA_SIGUNGU = '${searchWord}'
+							]]>
+							</if>
+					    </when>
+					    <when test="searchUseScope == 13">
+							<![CDATA[
+								AND A.LOCATION_DTL = '${searchWord}'
+							]]>
+					    </when>
+					    <otherwise>
+							<![CDATA[
+									AND ( D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MODEL_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MANUFACTURE_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.OPER_CHARGER LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.NTIS_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ETUBE_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.RND_EQU_IDX LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.FIXED_ASET_NO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR D.OWN_ORG_SUB_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+									)
+							]]>
+					    </otherwise>
+					</choose>
+				</if>
+			<![CDATA[
+			ORDER BY A.HITS DESC
+			LIMIT ${firstRecord} , ${pageSize}
+			]]>
+	</select>
+	
+	<select id="getEqReservationList" parameterType="paramMap" resultType="paramMap" >
+		
+		SELECT
+			RND_EQU_IDX
+			, KOR_NM
+			, ENG_NM
+			, MANUFACTURE_NM
+			, MODEL_NM
+			, TAKE_SDT
+			, USE_TYPE_CD
+			, TITLE
+			, FILE_PATH
+			, OWN_ORG_NM
+			, OWN_ORG_SUB_NM
+			, XMODE
+		FROM
+		(
+			SELECT
+				A.RND_EQU_IDX
+				, A.KOR_NM
+				, A.ENG_NM
+				, A.MANUFACTURE_NM
+				, A.MODEL_NM
+				, A.TAKE_SDT
+				, A.USE_TYPE_CD
+				, C.TITLE
+				, C.FILE_PATH
+				, D.OWN_ORG_NM
+				, D.OWN_ORG_SUB_NM
+				, 'jeinet' as XMODE
+			FROM	
+				TB_EQU_INFO A
+				LEFT JOIN  TB_EQU_GOODS D
+					ON A.RND_EQU_IDX = D.RND_EQU_IDX
+				LEFT JOIN  TB_RND_FILE C
+					ON (A.RND_EQU_IDX = C.RND_EQU_IDX AND
+						C.FILE_ID =
+							(
+								SELECT MAX(Z.file_id) file_id
+								FROM TB_RND_FILE Z
+								WHERE Z.rnd_equ_idx = A.RND_EQU_IDX
+								GROUP BY Z.rnd_equ_idx
+							)
+						)
+			
+			WHERE 
+				A.DELETE_YN = 'N'
+				AND A.USE_SCOPE_CD != '1'
+				AND A.STATE IN (2, 6, 7)
+
+        
+
+	            <if test='equipCd != null and equipCd != ""'>
+					<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>f
+				</if>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd != null and searchUseTypeCd != ""'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%${searchUseTypeCd}%')
+					]]>
+				</if>
+				<if test='searchText1 != null and searchText1 != ""'>
+					<![CDATA[
+						AND A.BRANCH_NM LIKE CONCAT('%', '${searchText1}'  ,'%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<!-- 장비검색 예약 검색에 대한 쿼리 추가 수정 필요 -->
+					<choose>
+					    <when test="searchUseScope == 1">
+					    	<!-- 기관 연계 기능 추후 수정 필요 -->
+							<![CDATA[
+								AND D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 2">
+							<![CDATA[
+								AND ( A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%') OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    <when test="searchUseScope == 11">
+							<![CDATA[
+								AND A.USE_TYPE_CD LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <when test="searchUseScope == 12">
+					    	<if test='searchWord == 9999'>
+							<![CDATA[
+								AND A.AREA = '1'
+							]]>
+							</if>
+							<if test='searchWord != 9999'>
+							<![CDATA[
+								AND A.AREA = '2'
+								AND A.AREA_SIGUNGU = '${searchWord}'
+							]]>
+							</if>
+					    </when>
+					    <when test="searchUseScope == 13">
+							<![CDATA[
+								AND A.LOCATION_DTL LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <otherwise>
+							<![CDATA[
+									AND ( D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MODEL_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MANUFACTURE_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.OPER_CHARGER LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.NTIS_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ETUBE_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.RND_EQU_IDX LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.FIXED_ASET_NO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR D.OWN_ORG_SUB_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+									)
+							]]>
+					    </otherwise>
+					</choose>
+				</if>
+			
+			UNION
+			
+				SELECT
+					equipId as RND_EQU_IDX
+					,korNm as KOR_NM
+					,engNm as ENG_NM
+					,manufactureNm as MANUFACTURE_NM
+					,modelNm as MODEL_NM
+					,takeDt as TAKE_SDT
+					,useTypeNm as USE_TYPE_CD
+					,photoThumbWebPath as TITLE
+					,photoThumbWebPath as FILE_PATH
+					,organNm as OWN_ORG_NM
+					,mainOrganNm as OWN_ORG_SUB_NM
+					, 'zeus' as XMODE
+			FROM
+				TB_ZEUS	
+			WHERE 1
+				<if test='searchText1 != null and searchText1 != ""'>
+					<![CDATA[
+						AND branchNm LIKE CONCAT('%', '${searchText1}'  ,'%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<!-- 장비검색 예약 검색에 대한 쿼리 추가 수정 필요 -->
+					<choose>
+					    <when test="searchUseScope == 1">
+					    	<!-- 기관 연계 기능 추후 수정 필요 -->
+							<![CDATA[
+								AND organNm LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 2">
+							<![CDATA[
+								AND ( korNm LIKE CONCAT('%', '${searchWord}'  ,'%') OR engNm LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    
+					    <when test="searchUseScope == 11">
+							<![CDATA[
+								AND useTypeNm = '${searchWord}'
+							]]>
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord == 9999">
+					    	
+							<![CDATA[
+								AND areaNm = '전라남도'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord != 9999">
+					    	
+							<![CDATA[
+								AND areaNm <> '전라남도'
+								AND location LIKE '%${searchWord}%'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 13">
+							<![CDATA[
+								AND organNm LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <otherwise>
+							<![CDATA[
+									AND ( 
+										
+										korNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										engNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										manufactureNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										modelNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										useTypeNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										organNm LIKE CONCAT('%', '${searchWord}' ,'%') OR
+										mainOrganNm LIKE CONCAT('%', '${searchWord}' ,'%')
+									)
+							]]>
+					    </otherwise>
+					</choose>
+				</if>
+			
+		) as A		
+		<![CDATA[
+		ORDER BY KOR_NM DESC
+		LIMIT ${firstRecord} , ${pageSize}
+		]]>
+	</select>
+
+	<select id="getEqReservationListCnt" parameterType="paramMap" resultType="java.lang.Integer" >
+		
+		SELECT
+			SUM(CNT) as TOT
+		FROM
+		(
+			SELECT
+				COUNT(0) AS CNT
+			FROM
+				TB_EQU_INFO A
+			LEFT JOIN
+					TB_RND_FILE B
+				ON A.RND_EQU_IDX = B.RND_EQU_IDX
+			LEFT JOIN
+					TB_EQU_GOODS D
+				ON A.RND_EQU_IDX = D.RND_EQU_IDX
+
+			WHERE 1 = 1
+				  AND A.DELETE_YN != 'Y'
+				  AND A.USE_SCOPE_CD != '1'
+				  AND A.STATE IN (2, 6, 7)
+
+			<if test='equipCd != null and equipCd != ""'>
+				<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+			</if>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange != null and searchUseScopeRange != ""'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%${searchUseScopeRange}%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean != null and searchUseScopeMean != ""'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%${searchUseScopeMean}%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd != null and searchUseTypeCd != ""'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%${searchUseTypeCd}%')
+					]]>
+				</if>
+				
+				<if test='searchText1 != null and searchText1 != ""'>
+					<![CDATA[
+						AND A.BRANCH_NM LIKE CONCAT('%', '${searchText1}'  ,'%')
+					]]>
+				</if>
+				
+				<if test='searchWord != null and searchWord != ""'>
+					<!-- 장비검색 예약 검색에 대한 쿼리 추가 수정 필요 -->
+					<choose>
+					    <when test="searchUseScope == 1">
+					    	<!-- 기관 연계 기능 추후 수정 필요 -->
+							<![CDATA[
+								AND D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 2">
+							<![CDATA[
+								AND ( A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%') OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    
+					    <when test="searchUseScope == 11">
+							<![CDATA[
+								AND A.USE_TYPE_CD LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord == 9999">
+					    	
+							<![CDATA[
+								AND A.AREA = '1'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord != 9999">
+					    	
+							<![CDATA[
+								AND A.AREA = '2'
+								AND A.AREA_SIGUNGU = '${searchWord}'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 13">
+							<![CDATA[
+								AND A.LOCATION_DTL LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <otherwise>
+							<![CDATA[
+									AND ( D.OWN_ORG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.KOR_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ENG_KEY_WORD LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MODEL_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.MANUFACTURE_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.OPER_CHARGER LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.NTIS_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.ETUBE_EQUIP_INFO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.RND_EQU_IDX LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR A.FIXED_ASET_NO LIKE CONCAT('%', '${searchWord}'  ,'%')
+										OR D.OWN_ORG_SUB_NM LIKE CONCAT('%', '${searchWord}'  ,'%')
+									)
+							]]>
+					    </otherwise>
+					</choose>
+				</if>
+				
+				
+				UNION
+				
+				SELECT
+					COUNT(0) as CNT
+				FROM
+					TB_ZEUS
+				WHERE
+					1
+				<if test='searchText1 != null and searchText1 != ""'>
+					<![CDATA[
+						AND branchNm LIKE CONCAT('%', '${searchText1}'  ,'%')
+					]]>
+				</if>
+				<if test='searchWord != null and searchWord != ""'>
+					<!-- 장비검색 예약 검색에 대한 쿼리 추가 수정 필요 -->
+					<choose>
+					    <when test="searchUseScope == 1">
+					    	<!-- 기관 연계 기능 추후 수정 필요 -->
+							<![CDATA[
+								AND organNm LIKE CONCAT('%', '${searchWord}'  ,'%')
+							]]>
+					    </when>
+					    <when test="searchUseScope == 2">
+							<![CDATA[
+								AND ( korNm LIKE CONCAT('%', '${searchWord}'  ,'%') OR engNm LIKE CONCAT('%', '${searchWord}'  ,'%') )
+							]]>
+					    </when>
+					    <when test="searchUseScope == 11">
+							<![CDATA[
+								AND useTypeNm = '${searchWord}'
+							]]>
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord == 9999">
+					    	
+							<![CDATA[
+								AND areaNm = '전라남도'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 12 and searchWord != 9999">
+					    	
+							<![CDATA[
+								AND areaNm <> '전라남도'
+								AND location LIKE '%${searchWord}%'
+							]]>
+							
+					    </when>
+					    <when test="searchUseScope == 13">
+							<![CDATA[
+								AND organNm LIKE '%${searchWord}%'
+							]]>
+					    </when>
+					    <otherwise>
+							
+					    </otherwise>
+					</choose>
+				</if>
+				
+				
+		
+		) as A
+			
+		
+		
+	</select>
+
+	<select id="getEqReservation" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+
+					A.RND_EQU_IDX,
+					A.EQUIP_CD,
+					A.FIXED_ASET_NO,
+					A.KOR_NM,
+					A.ENG_NM,
+					A.MANUFACTURE_NM,
+					A.MODEL_NM,
+					A.TAKE_CD,
+					A.TAKE_PRC,
+					A.TAKE_SDT,
+					A.TAKE_EDT,
+					A.TAKE_EDT,
+					A.LOCATION,
+					A.LOCATION_DTL,
+					A.BRANCH_NM,
+					A.IDLE_DISUSE_CD,
+					A.ST_STYPE,
+					A.ST_ROOM,
+					A.EQUIP_DETAIL_FEATURE,
+					A.EQUIP_DETAIL_CAPABILITY,
+					A.EQUIP_DETAIL_EXAMPLE,
+					A.TAKE_PRC_FOREIGN,
+					A.TAKE_PRC_DOMESTIC,
+					A.USER_IDX,
+					A.USE_SCOPE_CD,
+					A.USE_SCOPE_RANGE,
+					A.USE_SCOPE_MEAN,
+					A.USE_TYPE_CD,
+					A.HITS,
+					A.NTIS_EQUIP_INFO,
+					A.ETUBE_EQUIP_INFO,
+					F.PSN_NM AS OPER_CHARGER,
+					F.FAX_NO AS OPER_FAX,
+					F.POSITION_NM AS OPER_POSITION,
+					F.EMAIL AS OPER_EMAIL,
+					F.TEL_NO AS OPER_TEL,
+					F.DEPT_NM AS OPER_ORG_GRP_SUB,
+					G.ORG_GRP_NM AS OPER_ORG_GRP,
+
+					CAST((	SELECT ROUND(AVG(AVG.EQU_SATISFACTION),0)
+						FROM TB_EQU_ORDER AVG
+						WHERE AVG.RND_EQU_IDX = A.RND_EQU_IDX
+					) AS CHAR) AS EQU_SATISFACTION ,
+
+					(	SELECT COUNT(0) FROM TB_EQU_GOODS_FAV FAV
+						WHERE 1=1
+						AND FAV.RND_EQU_IDX = A.RND_EQU_IDX AND FAV.USER_IDX = '${userIdx}'
+					) AS FAV_COUNT ,
+
+					B.ORG_GRP_CD,
+					B.PSN_NM,
+					B.GENDER_TYPE_CD,
+					B.FRGN_YN,
+					B.USER_ID,
+					B.EMAIL,
+					B.TEL_NO,
+					B.CP_NO,
+					B.DEPT_NM,
+					B.POSITION_NM,
+					C.FILE_CAT,
+					C.TITLE,
+					C.FILE_PATH,
+					D.REF_RSV_TEL,
+					D.REF_EQU_TEL,
+					D.HOW_USE,
+					D.RENTAL_INFO,
+					D.RSV_YN,
+					D.OWN_ORG_NM,
+					D.OWN_ORG_SUB_NM,
+					D.MAP_X ,
+					D.MAP_Y ,
+					E.ORG_GRP_NM,
+					D.EQU_ATTENTION
+
+				FROM
+					    TB_EQU_INFO A
+
+				LEFT JOIN
+						TB_USER_COPY B
+					ON A.EQU_USER_IDX = B.USER_IDX
+				LEFT JOIN
+						TB_RND_FILE C
+					ON A.RND_EQU_IDX = C.RND_EQU_IDX
+				LEFT JOIN
+						TB_EQU_GOODS D
+					ON A.RND_EQU_IDX = D.RND_EQU_IDX
+				LEFT JOIN
+						TB_ORG_GRP E
+					ON B.ORG_GRP_CD = E.ORG_GRP_CD
+				LEFT JOIN TB_USER_COPY F
+					ON A.EQU_USER_IDX = F.USER_IDX
+				LEFT JOIN TB_ORG_GRP G
+					ON F.ORG_GRP_CD = G.ORG_GRP_CD
+			WHERE A.DELETE_YN != 'Y'
+
+			 AND A.RND_EQU_IDX = #{rndEquIdx}
+
+			GROUP BY RND_EQU_IDX
+	</select>
+	
+	
+	
+	
+	<select id="getEqReservationZeus" parameterType="paramMap" resultType="paramMap" >
+			SELECT
+				equipId as RND_EQU_IDX,
+				equipCd as EQUIP_CD,
+				equipNo as FIXED_ASET_NO,
+				korNm as KOR_NM,
+				engNm as ENG_NM,
+				manufactureNm as MANUFACTURE_NM,
+				modelNm as MODEL_NM,
+				takeNm as TAKE_CD,
+				takePrc as TAKE_PRC,
+				takeDt as TAKE_SDT,
+				'' as TAKE_EDT,
+				location as LOCATION,
+				'' as LOCATION_DTL,
+				branchNm as BRANCH_NM,
+				idleDisuseCd as IDLE_DISUSE_CD,
+				'' as ST_STYPE,
+				'' as ST_ROOM,
+				feature as EQUIP_DETAIL_FEATURE,
+				capability as EQUIP_DETAIL_CAPABILITY,
+				example as EQUIP_DETAIL_EXAMPLE,
+				takePrc as TAKE_PRC_FOREIGN,
+				takeDt as TAKE_PRC_DOMESTIC,
+				'' as USER_IDX,
+				useScopeCd as USE_SCOPE_CD,
+				useScopeRangeNm as USE_SCOPE_RANGE,
+				useScopeNm as USE_SCOPE_MEAN,
+				useTypeNm as USE_TYPE_CD,
+				'' as HITS,
+				'' as NTIS_EQUIP_INFO,
+				'' as ETUBE_EQUIP_INFO,
+				
+				'' AS OPER_CHARGER,
+				'' AS OPER_FAX,
+				'' AS OPER_POSITION,
+				'' AS OPER_EMAIL,
+				operTel AS OPER_TEL,
+				mainOrganNm as OPER_ORG_GRP_SUB,
+				organNm AS OPER_ORG_GRP,
+				'' AS EQU_SATISFACTION ,
+				'' AS FAV_COUNT ,
+				
+				'' AS ORG_GRP_CD,
+				'' AS PSN_NM,
+				'' AS GENDER_TYPE_CD,
+				'' AS FRGN_YN,
+				'' AS USER_ID,
+				'' AS EMAIL,
+				'' AS TEL_NO,
+				'' AS CP_NO,
+				'' AS DEPT_NM,
+				'' AS POSITION_NM,
+				'' AS FILE_CAT,
+				photoThumbWebPath AS TITLE,
+				photoThumbWebPath AS FILE_PATH,
+				'' AS REF_RSV_TEL,
+				'' AS REF_EQU_TEL,
+				'' AS HOW_USE,
+				'' AS RENTAL_INFO,
+				'' AS RSV_YN,
+				'' AS OWN_ORG_NM,
+				'' AS OWN_ORG_SUB_NM,
+				'' AS MAP_X ,
+				'' AS MAP_Y ,
+				'' AS ORG_GRP_NM,
+				'' AS EQU_ATTENTION
+			FROM
+				    TB_ZEUS
+		WHERE 1
+
+		 AND equipId = #{rndEquIdx}
+	</select>
+	
+	
+	
+	
+	
+
+	<delete id="setEqReservationDelete" parameterType="paramMap">
+			 DELETE
+			    FROM
+						TB_EQU_ORDER
+			 WHERE EQU_ORDER_IDX = '${equOrderIdx}'
+
+	</delete>
+
+	<!-- <delete id="setAllEqReservationDelete" parameterType="paramMap">
+			 DELETE
+			   FROM
+						TB_EQU_ORDER
+			 WHERE EQU_ORDER_IDX IN
+			  <foreach collection="arrDataId" item="sno" index="index" separator="," open="(" close=")">
+    		#{equOrderIdx}
+			</foreach>
+
+	</delete> -->
+
+	<insert id="setEqReservationInsert" parameterType="paramMap" useGeneratedKeys="true" keyProperty="EQU_ORDER_IDX" >
+	<!--
+		  </selectKey keyProperty="infoIdxSeq" resultType="int" order="BEForE">
+    		  SELECT MAX(IFNULL(SNO,0)) + 1 FROM INFO_IDX
+		  </selectKey>
+ -->
+			INSERT INTO TB_EQU_ORDER
+			(
+				EQU_ORDER_IDX,
+				RND_EQU_IDX,
+				USER_IDX,
+				ORDER_STATE,
+				PHONE,
+				ADDR1,
+				ADDR2,
+				ZIPCODE,
+				CORP_NM,
+				CORP_IDX,
+				CORP_POSITION,
+				CORP_RESPONSIBLE_USER,
+				DEPT_NM,
+				USE_ST_DT,
+				USE_ED_DT,
+				USE_MEAN,
+				USE_PURPOSE,
+				ORDER_DT,
+				ORDER_PASSWORD,
+				REJECT,
+				REAL_USE_ST_DT,
+				REAL_USE_ED_DT,
+				SAMPLE_NM,
+				SAMPLE_NO,
+				SAMPLE_MATTER,
+				USER_TYPE,
+				ORDER_TYPE
+			)
+			VALUES
+			(
+				#{equOrderIdx},
+				#{rndEquIdx},
+				#{userIdx},
+				1,
+				#{phone},
+				#{addr1},
+				#{addr2},
+				#{zipCode},
+				#{corpNm},
+				#{corpIdx},
+				#{corpPosition},
+				#{corpResponsibleUser},
+				#{deptNm},
+				#{useStDt},
+				#{useEdDt},
+				#{useMean},
+				#{usePurpose},
+				now(),
+				#{orderPassword},
+				#{reject},
+				#{realUseStDt},
+				#{realUseEdDt},
+				#{sampleNm},
+				#{sampleNo},
+				#{sampleMatter},
+				#{userType},
+				'ONLINE'
+			)
+	</insert>
+
+	<!-- 다중장비예약 -->
+	<insert id="setArrEqReservationInsert" parameterType="paramMap" useGeneratedKeys="true" keyProperty="EQU_ORDER_IDX" >
+
+			INSERT INTO TB_EQU_ORDER
+			(
+				EQU_ORDER_IDX,
+				RND_EQU_IDX,
+				USER_IDX,
+				ORDER_STATE,
+				PHONE,
+				ADDR1,
+				ADDR2,
+				ZIPCODE,
+				CORP_NM,
+				CORP_IDX,
+				CORP_POSITION,
+				CORP_RESPONSIBLE_USER,
+				DEPT_NM,
+				USE_ST_DT,
+				USE_ED_DT,
+				USE_MEAN,
+				USE_PURPOSE,
+				ORDER_DT,
+				ORDER_PASSWORD,
+				REJECT,
+				REAL_USE_ST_DT,
+				REAL_USE_ED_DT,
+				SAMPLE_NM,
+				SAMPLE_NO,
+				SAMPLE_MATTER,
+				USER_TYPE,
+				ORDER_TYPE
+			)
+			VALUES
+			(
+				#{equOrderIdx},
+				#{arrRndEquIdx},
+				#{userIdx},
+				1,
+				#{phone},
+				#{addr1},
+				#{addr2},
+				#{zipCode},
+				#{corpNm},
+				#{corpIdx},
+				#{corpPosition},
+				#{corpResponsibleUser},
+				#{deptNm},
+				#{arrUseStDt},
+				#{arrUseEdDt},
+				#{arrUseMean},
+				#{arrUsePurpose},
+				now(),
+				#{orderPassword},
+				#{reject},
+				#{realUseStDt},
+				#{realUseEdDt},
+				#{arrSampleNm},
+				#{arrSampleNo},
+				#{arrSampleMatter},
+				#{userType},
+				'ONLINE'
+			)
+	</insert>
+
+	<update id="sethitUpdate" parameterType="paramMap">
+		<![CDATA[
+			UPDATE TB_EQU_INFO SET
+				HITS = HITS+1
+			WHERE
+				RND_EQU_IDX = #{rndEquIdx}
+		]]>
+	</update>
+
+	<update id="setEqReservationOrderStateUpdate" parameterType="paramMap">
+		UPDATE TB_EQU_ORDER SET
+
+				ORDER_STATE = #{orderState} ,
+				REJECT = #{reject}
+
+		WHERE
+			EQU_ORDER_IDX = #{equOrderIdx}
+
+	</update>
+
+	<select id="getEqReservationApiList" parameterType="paramMap" resultType="paramMap" >
+		<![CDATA[
+			SELECT
+						A.*
+
+				,		(	SELECT ROUND(AVG(AVG.EQU_SATISFACTION),0)
+							FROM TB_EQU_ORDER AVG
+							WHERE AVG.RND_EQU_IDX = A.RND_EQU_IDX
+						) AS EQU_SATISFACTION
+
+				,		(	SELECT COUNT(0) FROM TB_EQU_GOODS_FAV FAV
+							WHERE 1=1
+							AND FAV.RND_EQU_IDX = A.RND_EQU_IDX AND FAV.USER_IDX = '${userIdx}'
+						) AS FAV_COUNT
+
+				,		D.REF_RSV_TEL
+				,		D.REF_EQU_TEL
+				,		D.HOW_USE
+				,		D.RENTAL_INFO
+				,		D.RSV_YN
+				,		D.OWN_ORG_NM
+				,		D.OWN_ORG_SUB_NM
+
+			FROM
+				TB_EQU_INFO A
+			LEFT JOIN
+					TB_ORG_GRP C
+				ON A.USER_IDX = C.USER_IDX
+			LEFT JOIN
+					TB_EQU_GOODS D
+				ON A.RND_EQU_IDX = D.RND_EQU_IDX
+
+			WHERE 1 = 1
+				  AND A.DELETE_YN != 'Y'
+				  AND A.USE_SCOPE_CD != '1'
+               ]]>
+                <if test='equipCd != null and equipCd != ""'>
+				<![CDATA[	AND EQUIP_CD = #{equipCd} ]]>
+			</if>
+				<if test='searchUseScopeCd != null and searchUseScopeCd != ""'>
+					<![CDATA[
+						AND A.USE_SCOPE_CD = '${searchUseScopeCd}'
+					]]>
+				</if>
+				<if test='searchUseScopeRange == 1'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%기관외부활용%' )
+					]]>
+				</if>
+				<if test='searchUseScopeRange == 2'>
+					<![CDATA[
+						AND ( A.USE_SCOPE_RANGE LIKE '%기관내부활용%' )
+					]]>
+				</if>
+				<if test='searchUseScopeMean == 1'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%대여%')
+					]]>
+				</if>
+				<if test='searchUseScopeMean == 2'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%의뢰%')
+					]]>
+				</if>
+				<if test='searchUseScopeMean == 3'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%직접%')
+					]]>
+				</if>
+				<if test='searchUseScopeMean == 4'>
+					<![CDATA[
+						AND (A.USE_SCOPE_MEAN LIKE '%모두%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 1'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%시험용%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 2'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%분석용%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 3'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%교육용%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 4'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%계측용%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 5'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%생산용%')
+					]]>
+				</if>
+				<if test='searchUseTypeCd == 6'>
+					<![CDATA[
+						AND (A.USE_TYPE_CD LIKE '%기타%')
+					]]>
+				</if>
+			<![CDATA[
+				ORDER BY RND_EQU_IDX DESC
+			]]>
+
+				<if test='firstRecord != null and firstRecord != ""'>
+				<if test='pageSize != null and pageSize != ""'>
+			<![CDATA[
+				LIMIT ${firstRecord} , ${pageSize}
+			]]>
+				</if>
+				</if>
+	</select>
+
+</mapper>

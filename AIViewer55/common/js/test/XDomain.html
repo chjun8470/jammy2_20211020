@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title></title>
+    <script type="text/javascript">
+        function addEvent(el, type, func)
+        {
+            if (el.addEventListener)
+            {
+                el.addEventListener(type, func, false);
+            }
+            else if (el.attachEvent)
+            {
+                el.attachEvent('on' + type, func);
+            }
+            else
+            {
+                el['on' + type] = el['e' + type + func];
+            }
+        }
+
+        function contentLoaded()
+        {
+            document.getElementById("AIReportViewer1").src = "http://192.168.0.27:8085/springViewer/test/test003.jsp?reportMode=HTML&reportParams=showMenuBar:false,xdomain:true";
+            //document.getElementById("AIReportViewer1").src = "http://192.168.0.9:8080/html/AIViewer50/sample/sample.jsp";
+
+            addEvent(document.getElementById("button1"), "click", postMessage);
+            addEvent(document.getElementById("button2"), "click", postMessage);
+            addEvent(document.getElementById("button3"), "click", postMessage);
+            addEvent(document.getElementById("button4"), "click", postMessage);
+            addEvent(document.getElementById("button5"), "click", postMessage);
+            addEvent(document.getElementById("button6"), "click", postMessage);
+            addEvent(document.getElementById("button7"), "click", postMessage);
+            addEvent(document.getElementById("button8"), "click", postMessage);
+            addEvent(document.getElementById("button9"), "click", postMessage);
+        }
+
+        function postMessage(e)
+        {
+            var el = e.target || e.srcElement || e;
+            var command = el.getAttribute("command");
+            var jsonObject = { "reportid": "reportidKey", "command": command };
+
+            //document.getElementById("AIReportViewer1").contentWindow.postMessage(JSON.stringify(jsonObject), "http://192.168.0.24:8080");
+            document.getElementById("AIReportViewer1").contentWindow.postMessage(JSON.stringify(jsonObject), "*");
+        }
+        
+        function divPrint() {    
+    		frames["AIReportViewer1"].focus();
+    		frames["AIReportViewer1"].print();
+    	}
+
+        if (document.addEventListener)
+        {
+            document.addEventListener('DOMContentLoaded', contentLoaded);
+        }
+        else
+        {
+            addEvent(window, 'load', contentLoaded);
+        }
+        
+    </script>
+</head>
+<body>
+    <form>
+        <input id="button1" value="<<" type="button" command="first">
+        <input id="button2" value="<" type="button" command="prev">
+        <input id="button3" value=">" type="button" command="next">
+        <input id="button4" value=">>" type="button" command="last">
+        <input id="button5" value="Zoom In" type="button" command="zoomin">
+        <input id="button6" value="Zoom Out" type="button" command="zoomout">
+        <input id="button7" value="Print" type="button" command="print">
+        <input id="button8" value="ExportPDF" type="button" command="exportpdf">
+        <input id="button9" value="ExportExcel" type="button" command="exportexcel">
+    </form>
+    <iframe style="width:1200px; height: 800px;" id="AIReportViewer1" name="AIReportViewer1"></iframe>
+</body>
+</html>

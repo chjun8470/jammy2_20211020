@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <!-- 디폴트 패턴 적용, %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n -->
+        </Console>
+        <Console name="sqlconsole" target="SYSTEM_OUT">
+        <PatternLayout pattern="%d{yyyy MM dd HH:mm:ss, SSS} %p %c{10} : %m %n" />
+       </Console>
+
+    </Appenders>
+    <Loggers>
+        <Logger name="java.sql" level="TRACE" additivity="false">
+        <!-- TRACE DEBUG INFO WARN ERROR FATAL -->
+            <AppenderRef ref="sqlconsole" />
+        </Logger>
+        <Logger name="java.io" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+      <Logger name="info.elsys.jnsp" level="TRACE" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="egovframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
+       <Logger name="org.springframework" level="WARN" additivity="false">
+           <AppenderRef ref="console" />
+       </Logger>
+
+      <logger name="org.apache" level="INFO" additivity="false">
+           <appender-ref ref="console" />
+       </logger>
+        <Root level="ERROR">
+            <AppenderRef ref="console" />
+        </Root>
+       <Logger name="java" level="ERROR" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+    </Loggers>
+</Configuration>

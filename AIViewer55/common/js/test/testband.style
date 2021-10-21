@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" wordWrap="xl"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="VoidBand100" type="void"/>
+<AIBand name="r1" type="repeat" object="sheet10_B3|sheet10_C3|sheet10_D3|sheet10_E3|sheet10_F3"/>
+<AIBand name="VoidBand105" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" paraShape="1" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<CellObjectStyle name="cell_style_1" paraShape="1" displayFormat="1/0/0" leftBorder="1" topBorder="1" rightBorder="1" bottomBorder="1"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>
