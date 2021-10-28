@@ -150,7 +150,7 @@
 
 
 		<!-- skin_basic_list s -->
-		<table class="skin_list" summary="지역 사업정보 게시글 목록으로 글번호, 지원유형, 사업명, 공고/접수기간, 사업담당자, 접수상태로 구성되어 있습니다.">
+		<table class="skin_list" summary="지역 사업정보 게시글 목록으로 글번호, 지원유형, 사업명, 공고/접수기간, 공고기관, 담당자, 접수상태로 구성되어 있습니다.">
           <caption>지역 사업정보</caption>
 			<!-- colgroup s -->
 			<colgroup>

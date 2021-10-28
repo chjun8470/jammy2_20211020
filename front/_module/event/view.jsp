@@ -55,8 +55,8 @@
 	       	</colgroup>
 	      	<tbody>
 				<tr>
-	      			<th scope="col">행사분류</th>
-	       			<td scope="col">
+	      			<th scope="row">행사분류</th>
+	       			<td scope="row">
 	      				<%=util.getStr(eventMap.get("EVENT_TYPE_NM"))%>
 	      			</td>
 	       			<th class="table_box_line_lft" scope="col">행사상태</th>
@@ -74,27 +74,27 @@
 	            	</td>
                 </tr>
 				<tr>
-	            	<th scope="col">행사명</th>
-	            		<td scope="col" colspan="3">
+	            	<th scope="row">행사명</th>
+	            		<td scope="row" colspan="3">
 	                		<%=util.getStr(eventMap.get("EVENT_NM"))%>
 	                	</td>
                	</tr>
                	<tr>
-	            	<th scope="col">행사주최</th>
-	            		<td scope="col" colspan="3">
+	            	<th scope="row">행사주최</th>
+	            		<td scope="row" colspan="3">
 	                		<%=util.getStr(eventMap.get("EVENT_AUSPICES_NM"))%>
 	                	</td>
                	</tr>
                	<tr>
-	            	<th scope="col">행사주관</th>
-	            		<td scope="col" colspan="3">
+	            	<th scope="row">행사주관</th>
+	            		<td scope="row" colspan="3">
 	                		<%=util.getStr(eventMap.get("EVENT_MANAGE_ORG_NM"))%>
 	                		<%=util.getStr(eventMap.get("EVENT_MANAGE_ORG_SUB_NM"))%>
 	                	</td>
                	</tr>
                 <tr>
-	             	<th scope="col">참여신청기간</th>
-	             	<td scope="col" colspan="3">
+	             	<th scope="row">참여신청기간</th>
+	             	<td scope="row" colspan="3">
 	             		<%if(util.getStr(eventMap.get("RREQ_ST_DT")).equals("")) { %>
 							정보없음
 						<% } else { %>
@@ -103,8 +103,8 @@
 	                </td>
                	</tr>
                	<tr>
-	           		<th scope="col">행사기간</th>
-	           		<td scope="col" colspan="3">
+	           		<th scope="row">행사기간</th>
+	           		<td scope="row" colspan="3">
 	           		<%if(util.getStr(eventMap.get("EEVENT_ST_DT")).equals("")) { %>
 						정보없음
 					<% } else { %>
@@ -113,16 +113,16 @@
 	             	</td>
                 </tr>
                 <tr>
-	           		<th scope="col">행사장소</th>
-	           		<td scope="col" colspan="3">
+	           		<th scope="row">행사장소</th>
+	           		<td scope="row" colspan="3">
 	           			<%=util.getStr(eventMap.get("EVENT_PLACE"))%><br>
 	           			<%=util.getStr(eventMap.get("EVENT_PLACE_DETAIL"))%>
 	           		</td>
                	</tr>
                	<!-- 지도구현 -->
 				<tr>
-					<th scope="col" class="tit">지도</th>
-					<td scope="col" colspan="3" style="padding-top: 5px;">
+					<th scope="row" class="tit">지도</th>
+					<td scope="row" colspan="3" style="padding-top: 5px;">
 						<!--X축 -->
 						<input type="hidden" class="inputBox_1" id="mapX" name="mapX" maxlength="20"  value="<%=util.getStr(eventMap.get("MAP_X"))%>"/>
 						<!--Y축 -->
@@ -131,22 +131,22 @@
 					</td>
 				</tr>
                	<tr>
-               		<th scope="col">참가대상</th>
-	           		<td scope="col" colspan="3">
+               		<th scope="row">참가대상</th>
+	           		<td scope="row" colspan="3">
 	           			<%=util.getStr(eventMap.get("EVENT_TARGET"))%>
 	                </td>
               	</tr>
               	<tr>
-              		<th scope="col">참가인원</th>
-	           		<td scope="col" colspan="3">
+              		<th scope="row">참가인원</th>
+	           		<td scope="row" colspan="3">
 	           			<%=util.getStr(eventMap.get("EVENT_PEOPLE"))%> 명
 	           			<input type="hidden" id="eventPeople" value="<%=util.getIntStr(eventMap.get("EVENT_PEOPLE"))%>">
 	           			<input type="hidden" id="reqPeople" value="<%=util.getIntStr(eventMap.get("REQ_PEOPLE"))%>">
 	                </td>
               	</tr>
               	<tr>
-	              	<th scope="col">행사참가비</th>
-	             	<td scope="col" colspan="3">
+	              	<th scope="row">행사참가비</th>
+	             	<td scope="row" colspan="3">
 	              	<%
 	              		String cash = util.getStr(eventMap.get("EVENT_PAY"));
 	              		if(util.getStr(eventMap.get("EVENT_FREE_YN")).equals("Y")){
@@ -159,8 +159,8 @@
 	                </td>
                 </tr>
                 <tr>
-                	<th scope="col">행사내용</th>
-					<td colspan="3" scope="col">
+                	<th scope="row">행사내용</th>
+					<td colspan="3" scope="row">
 						<div class="img_box2"><%=eventMap.get("EVENT_CONTENTS").trim()%></div>
 
 						<!-- 파일첨부 이미지일 경우 화면에 출력  -->
@@ -184,8 +184,8 @@
 					</td>
 				</tr>
                 <tr>
-	            	<th scope="col">안내문</th>
-	            	<td scope="col" colspan="3">
+	            	<th scope="row">안내문</th>
+	            	<td scope="row" colspan="3">
 					  	<div style="clear:both;">
 							<%if(fileList.size() > 0){%>
 
@@ -210,8 +210,8 @@
 				    </td>
                 </tr>
                 <tr>
-	            	<th scope="col">문의처</th>
-	            	<td scope="col" colspan="3">
+	            	<th scope="row">문의처</th>
+	            	<td scope="row " colspan="3">
 		            	<div>
 							<dl><dt style="float:left;width: 80px;font-weight: bold;" >기관명</dt><dd><%=util.getStr(eventMap.get("REFERENCE_ORG_NM"),"-")%></dd></dl>
 					       	<dl><dt style="float:left;width: 80px;font-weight: bold;" >부서명</dt><dd><%=util.getStr(eventMap.get("REFERENCE_ORG_SUB_NM"),"-")%></dd></dl>
@@ -226,7 +226,7 @@
 
             <!--b_btn_area S-->
 			<div class="b_btn_area">
-				<input type="button" id = "requestButton" value="신청" class="btn_rgt" onclick ="popupWindow('request','<%=userIdx%>','<%=eventIdx%>','<%=util.getStr(eventMap.get("EVENT_NM"))%>')" />
+				<!--<input type="button" id = "requestButton" value="신청" class="btn_rgt" onclick ="popupWindow('request','<%=userIdx%>','<%=eventIdx%>','<%=util.getStr(eventMap.get("EVENT_NM"))%>')" />-->
 				<input type="button" class="btn_lft2" value="목록" onclick="goSubmit('list','<%=listMode%>')"/>
 			</div>
 			<!--b_btn_area E-->

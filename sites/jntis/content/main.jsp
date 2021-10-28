@@ -39,14 +39,14 @@
                     <a href="/jntis/sub.do?m=118" title="새창열기" target="_blank">
                         <h3>전남R&D통계정보</h3>
                         <div class="h_icon"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList02">
                     <a href="http://rnd.jnsp.re.kr/" title="새창열기" target="_blank">
                         <h3>전남R&D성과관리시스템</h3>
                         <div class="h_icon02"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
 			<!--<li class="MVisualLinkList01" onclick="window.open('http://jeinet.jnsp.re.kr/jeinet/main.do')">
@@ -80,14 +80,14 @@
                     <a href="http://jeinet.jnsp.re.kr/jeinet/main.do" title="새창열기" target="_blank">
                         <h3>전남연구장비정보망</h3>
                         <div class="h_icon03"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList04">
                     <a href="http://smbrnd.jnsp.re.kr/smbrnd/main.do" title="새창열기" target="_blank">
                         <h3>전남중소기업 <br/> R&D통합지원플랫폼</h3>
                         <div class="h_icon04"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
 				<!--<li class="MVisualLinkList03">
@@ -114,14 +114,14 @@
                     <a href="http://jeinet.jnsp.re.kr/jeinet/main.do" title="새창열기" target="_blank">
                         <h3>전남연구장비정보망</h3>
                         <div class="h_icon03"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
                 <li class="MVisualLinkList04">
                     <a href="http://smbrnd.jnsp.re.kr/smbrnd/main.do" title="새창열기" target="_blank">
                         <h3>전남중소기업<br/>R&D통합지원플랫폼</h3>
                         <div class="h_icon04"></div>
-                        <div class="btn_go02"></div>
+                        <div class="btn_go02"><p class="sound_only">바로가기</p></div>
                     </a>
                 </li>
 

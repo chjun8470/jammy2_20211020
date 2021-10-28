@@ -70,7 +70,7 @@
 			  	</tr>
 	          	<%}%>
               	<tr>
-			    	<th scope="col"><span style="color:red; font-size:11pt;">*</span> <label for="subject" >제목</label></th>
+			    	<th scope="row"><span style="color:red; font-size:11pt;">*</span> <label for="subject" >제목</label></th>
 			    	<td class="r_line_none">
 			    		<input type="text" name="subject" id="subject" value="" class="input_txt00401" maxlength="100" />
                         <div class="checkBox00401">
@@ -81,7 +81,7 @@
 			</thead>
 			<tbody>
 			  	<tr>
-			    	<th scope="col"><label for="contents" >내용</label></th>
+			    	<th scope="row"><label for="contents" >내용</label></th>
 			    	<td class="r_line_none">
 			    		<textarea name="content" id="contents" style="width:100%; height:350px; font-size:10pt;"></textarea>
 			    	</td>

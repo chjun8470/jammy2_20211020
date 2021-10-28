@@ -469,11 +469,12 @@ table.skin_basic_write {
 }
 
 table.skin_basic_write caption {
-	/*visibility: hidden;*/
+	visibility: unset;
 	font-size: 0;
 	width: 0;
 	height: 0;
 	line-height: 0;
+	text-indent:-9999px;
 }
 
 table.skin_basic_write th {

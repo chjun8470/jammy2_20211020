@@ -78,17 +78,17 @@
 			</div>
 			<div class="list_sort">
 				<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순" /></button>
-					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
-					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
+					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기(선택됨)"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
+					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
+					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
 				<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new.gif" alt="최신순" /></button>
-					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순" /></button>
-					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
+					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
+					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기(선택됨)"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
+					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순"/></button>
 				<% } else { %>
-					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new.gif" alt="최신순" /></button>
-					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
-					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순" /></button>
+					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
+					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순"/></button>
+					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기(선택됨)"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순"/></button>
 				<% } %>
 			</div>
 
@@ -96,7 +96,7 @@
 			<div class="b_btn_listBox013">
 				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
 				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')"><img src="/img/board/btn_blog.png" alt="블러그리스트" /></button>
-				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트" /></button>
+				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트 현재페이지" /></button>
 			</div>
 
 	</form>
@@ -107,7 +107,13 @@
 <div id="cont_block">
 <!--basic_listWrap S-->
 <div class="basic_listWrap">
-
+	<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+		<h2 class="sound_only">최신순 정렬</h2>
+	<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+		<h2 class="sound_only">인기순 정렬</h2>
+	<% } else { %>
+		<h2 class="sound_only">다운로드순 정렬</h2>
+	<% } %>
 	<!-- skin_basic_list s -->
 	<table class="skin_list" summary="<% if (siteMenuVO.getLvl() > 3) {%><%=parntsSiteMenuVOList.get(3).getMenuNm()%><%}else{%><%=siteMenuVO.getMenuNm()%><%}%> 게시판 목록을 나타내는 표입니다..">
 	<caption><% if (siteMenuVO.getLvl() > 3) {%><%=parntsSiteMenuVOList.get(3).getMenuNm()%><%}else{%><%=siteMenuVO.getMenuNm()%><%}%>  게시글 목록</caption>
