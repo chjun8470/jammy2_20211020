@@ -562,14 +562,14 @@
 					// 주소 정보를 해당 필드에 넣는다.
 					//$("#location").val(fullAddr);
 					// 주소로 좌표를 검색
-					geocoder.addr2coord(data.address, function(status, result) {
-
+					geocoder.addressSearch(data.address, function(result, status) {
 						// 정상적으로 검색이 완료됐으면
-						if (status === daum.maps.services.Status.OK) {
+						if (status === kakao.maps.services.Status.OK) {
 							// 해당 주소에 대한 좌표를 받아서
-							var coords = new daum.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
-							   $("#mapX").val(result.addr[0].lat);
-							   $("#mapY").val(result.addr[0].lng);
+							//var coords = new kakao.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
+							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							   $("#mapX").val(result[0].y);
+							   $("#mapY").val(result[0].x);
 							// 지도를 보여준다.
 							mapContainer.style.display = "block";
 							map.relayout();
@@ -587,23 +587,23 @@
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 			mapOption = {
-				center: new daum.maps.LatLng(35.2268795, 126.8429492),
+				center: new kakao.maps.LatLng(35.2268795, 126.8429492),
 				level: 5 // 지도의 확대 레벨
 			};
 
 		//지도를 미리 생성
-		var map = new daum.maps.Map(mapContainer, mapOption);
+		var map = new kakao.maps.Map(mapContainer, mapOption);
 		//주소-좌표 변환 객체를 생성
-		var geocoder = new daum.maps.services.Geocoder();
+		var geocoder = new kakao.maps.services.Geocoder();
 		//마커를 미리 생성
-		var marker = new daum.maps.Marker({
-			position: new daum.maps.LatLng(35.2268795, 126.8429492),
+		var marker = new kakao.maps.Marker({
+			position: new kakao.maps.LatLng(35.2268795, 126.8429492),
 			map: map
 		});
 
-		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 			   searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-					if (status === daum.maps.services.Status.OK) {
+					if (status === kakao.maps.services.Status.OK) {
 
 						  // 클릭한 위도, 경도 정보를 가져옵니다
 						  var latlng = mouseEvent.latLng;
@@ -620,23 +620,23 @@
 		 });
 
 		 // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-		 daum.maps.event.addListener(map, 'idle', function() {
+		 kakao.maps.event.addListener(map, 'idle', function() {
 			   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		 });
 
 		 function searchAddrFromCoords(coords, callback) {
 			   // 좌표로 행정동 주소 정보를 요청합니다
-			   geocoder.coord2addr(coords, callback);
+			   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);  
 		 }
 
 		 function searchDetailAddrFromCoords(coords, callback) {
 			   // 좌표로 법정동 상세 주소 정보를 요청합니다
-			   geocoder.coord2detailaddr(coords, callback);
+			   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 		 }
 
 		 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 		 function displayCenterInfo(status, result) {
-			   if (status === daum.maps.services.Status.OK) {
+			   if (status === kakao.maps.services.Status.OK) {
 					$("#centerAddr").html(result[0].fullName);
 			   }
 		 }
