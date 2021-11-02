@@ -63,104 +63,72 @@ response.setContentType("text/html;charset=UTF-8");
 				<th>사업수</th>
 			</tr>
 			<tr>
-				<th rowspan="3">2021</th>
-				<th>주요R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
-			</tr>
-			<tr>
+				<th rowspan="2">2021</th>
 				<th>일반R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>462,101</td>
+				<td>264,401</td>
+				<td>173,569</td>
+				<td>24,131</td>
+				<td>95</td>			
 			</tr>
 			<tr>
 				<th>순도비R&amp;D</th>
+				<td>40,541</td>
 				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>37,879</td>
+				<td>2,662</td>
+				<td>139</td>			
 			</tr>
 			<tr>
-				<th rowspan="3">2020</th>
-				<th>주요R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
-			</tr>
-			<tr>
+				<th rowspan="2">2020</th>	
 				<th>일반R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
+				<td>336,891</td>
+				<td>176,867</td>
+				<td>131,703</td>
+				<td>28,321</td>
+				<td>94</td>
 			</tr>
 			<tr>
 				<th>순도비R&amp;D</th>
+				<td>37,063</td>
 				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
+				<td>35,270</td>
+				<td>1,793</td>
+				<td>136</td>
 			</tr>
 			<tr>
-				<th rowspan="3">2019</th>
-				<th>주요R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
-			</tr>
-			<tr>
+				<th rowspan="2">2019</th>
 				<th>일반R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>250,590</td>
+				<td>136,127</td>
+				<td>84,031</td>
+				<td>30,432</td>
+				<td>88</td>			
 			</tr>
 			<tr>
 				<th>순도비R&amp;D</th>
+				<td>25,582</td>
 				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>24,759</td>
+				<td>823</td>
+				<td>130</td>			
 			</tr>
 			<tr>
-				<th rowspan="3">2018</th>
-				<th>주요R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
-			</tr>
-			<tr>
+				<th rowspan="2">2018</th>
 				<th>일반R&amp;D</th>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>194,470</td>
+				<td>109,240</td>
+				<td>63,756</td>
+				<td>21,474</td>
+				<td>68</td>			
 			</tr>
 			<tr>
 				<th>순도비R&amp;D</th>
+				<td>22,610</td>
 				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>			
+				<td>20,158</td>
+				<td>2,452</td>
+				<td>114</td>			
 			</tr>
 	</tbody>
 <!--<% 
