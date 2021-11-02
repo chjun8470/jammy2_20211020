@@ -51,6 +51,7 @@ response.setContentType("text/html;charset=UTF-8");
 </div-->
 
 <table width="100%" class="tbl00">
+		<caption>전남R&D통계정보 사업통계</caption>
 		<tbody>
 			<tr>
 				<th>년도</th>
@@ -61,7 +62,108 @@ response.setContentType("text/html;charset=UTF-8");
 				<th>기타</th>
 				<th>사업수</th>
 			</tr>
-<% 
+			<tr>
+				<th rowspan="3">2021</th>
+				<th>주요R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>일반R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>순도비R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th rowspan="3">2020</th>
+				<th>주요R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>일반R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<th>순도비R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<th rowspan="3">2019</th>
+				<th>주요R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>일반R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>순도비R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th rowspan="3">2018</th>
+				<th>주요R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>일반R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+			<tr>
+				<th>순도비R&amp;D</th>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>			
+			</tr>
+	</tbody>
+<!--<% 
 
 	
 	for(HashMap rs:yearData) {
@@ -96,10 +198,12 @@ response.setContentType("text/html;charset=UTF-8");
 	x++;	
 	}
 	
-}%>
+}%>-->
 	
 		</tbody>
 	</table>
-	
-
-
+		<script>
+		$(function(){
+			$(document).attr("title","홈-전남R&D통계정보-전남R&D통계정보-사업통계"); 
+		});
+	</script>

@@ -17,8 +17,8 @@
 	<div class="tabBox_pub">
 		<ul>
 			<li <%=(mode.equals("a1") || mode.equals(""))?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a1">사업통계</a></li>
-			<li <%=mode.equals("a2")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a2">성과통계</a></li>
-            <li <%=mode.equals("a3")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a3">기획과제통계</a></li>
+			<!--<li <%=mode.equals("a2")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a2">성과통계</a></li>
+            <li <%=mode.equals("a3")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a3">기획과제통계</a></li>-->
 		</ul>
 	</div>
 

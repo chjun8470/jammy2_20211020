@@ -48,6 +48,7 @@ response.setContentType("text/html;charset=UTF-8");
 </div-->
 
 <table width="100%" class="tbl00">
+		<caption>전남R&D통계정보 성과통계</caption>
 		<tbody>
 			<tr>
 				<th>년도</th>
@@ -93,9 +94,13 @@ response.setContentType("text/html;charset=UTF-8");
 		
 	}
 %>
-	
+
 		</tbody>
 	</table>
-	
+	<script>
+		$(function(){
+			$(document).attr("title","홈-전남R&D통계정보-전남R&D통계정보-성과통계"); 
+		});
+	</script>
 
 
