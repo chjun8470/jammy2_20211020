@@ -644,21 +644,23 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 					// 주소 정보를 해당 필드에 넣는다.
 					//$("#location").val(fullAddr);
 					// 주소로 좌표를 검색
-					geocoder.addr2coord(data.address, function(status, result) {
+					//geocoder.addr2coord(data.address, function(status, result) {
+					geocoder.addressSearch(data.address, function(result, status) {
 						// 정상적으로 검색이 완료됐으면
-						if (status === daum.maps.services.Status.OK) {
-							// 해당 주소에 대한 좌표를 받아서
-							var coords = new daum.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
-							   $("#mapX").val(result.addr[0].lat);
-							   $("#mapY").val(result.addr[0].lng);
-							// 지도를 보여준다.
-							mapContainer.style.display = "block";
-							map.relayout();
-							// 지도 중심을 변경한다.
-							map.setCenter(coords);
-							// 마커를 결과값으로 받은 위치로 옮긴다.
-							marker.setPosition(coords)
-						}
+						if (status === kakao.maps.services.Status.OK) {
+								// 해당 주소에 대한 좌표를 받아서
+								//var coords = new kakao.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
+								var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+								   $("#mapX").val(result[0].y);
+								   $("#mapY").val(result[0].x);
+								// 지도를 보여준다.
+								mapContainer.style.display = "block";
+								map.relayout();
+								// 지도 중심을 변경한다.
+								map.setCenter(coords);
+								// 마커를 결과값으로 받은 위치로 옮긴다.
+								marker.setPosition(coords)
+							}
 					});
 
 			}
@@ -708,12 +710,12 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 
 	 function searchAddrFromCoords(coords, callback) {
 		   // 좌표로 행정동 주소 정보를 요청합니다
-		   geocoder.coord2addr(coords, callback);
+		   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 	 }
 
 	 function searchDetailAddrFromCoords(coords, callback) {
 		   // 좌표로 법정동 상세 주소 정보를 요청합니다
-		   geocoder.coord2detailaddr(coords, callback);
+		   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 	 }
 
 	 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다

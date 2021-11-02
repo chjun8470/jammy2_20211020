@@ -51,7 +51,7 @@
 
 		<script src="/js/amcharts/amcharts.js" type="text/javascript"></script>
         <script src="/js/amcharts/serial.js" type="text/javascript"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js" type="text/javascript"></script>
+		<<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<% 
 			String daumKey = "775c36174af77a7878a91ef218173921";//실서버 운영키
 			if( request.getRequestURL().indexOf("221.144.12.3:12345") > 0 ){

@@ -7,7 +7,7 @@ boardLatestNotice[0]['FRST_REGIST_PNTTM'] = '2021-06-09';
 
 
 
-var strDate = '2021년 10월 21일 10시';
+var strDate = '2021년 10월 29일 10시';
 
 
 var strJEnterpriseCnt = '40';
@@ -256,45 +256,45 @@ boardListLawDate[1]['KOR_NM'] = '';
 
 var boardListEqu = new Array();
 boardListEqu[0] = new Array();
-boardListEqu[0]['RND_EQU_IDX'] = 'NFEC-2011-01-133624';
+boardListEqu[0]['RND_EQU_IDX'] = 'NFEC-2021-06-271158';
 boardListEqu[0]['FILE_PATH'] = '';
 boardListEqu[0]['TITLE'] = '';
-boardListEqu[0]['KOR_NM'] = '미세정밀저울';
-boardListEqu[0]['OWN_ORG_NM'] = '구례군농업기술센터';
+boardListEqu[0]['KOR_NM'] = '겔침투크로마토그래피';
+boardListEqu[0]['OWN_ORG_NM'] = '(재)한국건설생활환경시험연구원';
 boardListEqu[0]['OWN_ORG_SUB_NM'] = '';
 boardListEqu[0]['XMODE'] = 'ZEUS';
 boardListEqu[1] = new Array();
-boardListEqu[1]['RND_EQU_IDX'] = 'NFEC-2007-10-002951';
+boardListEqu[1]['RND_EQU_IDX'] = 'NFEC-2010-12-129611';
 boardListEqu[1]['FILE_PATH'] = '';
 boardListEqu[1]['TITLE'] = '';
-boardListEqu[1]['KOR_NM'] = '가스크로마토그피';
-boardListEqu[1]['OWN_ORG_NM'] = '목포대학교 산학협력단';
+boardListEqu[1]['KOR_NM'] = '냉동진공건조기';
+boardListEqu[1]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
 boardListEqu[1]['OWN_ORG_SUB_NM'] = '';
 boardListEqu[1]['XMODE'] = 'ZEUS';
 boardListEqu[2] = new Array();
-boardListEqu[2]['RND_EQU_IDX'] = 'EF020697';
+boardListEqu[2]['RND_EQU_IDX'] = 'EF021448';
 boardListEqu[2]['FILE_PATH'] = '/file/jnsptotal/';
-boardListEqu[2]['TITLE'] = 'jnsptotal_201703280208425070.jpg';
-boardListEqu[2]['KOR_NM'] = '근적외선분광광도계';
-boardListEqu[2]['OWN_ORG_NM'] = '전라남도농업기술원';
-boardListEqu[2]['OWN_ORG_SUB_NM'] = '식량작물연구소';
+boardListEqu[2]['TITLE'] = 'jnsptotal_202004280518214000.jpg';
+boardListEqu[2]['KOR_NM'] = '정동특성평가 시험기(20kN)';
+boardListEqu[2]['OWN_ORG_NM'] = '한국화학융합시험연구원';
+boardListEqu[2]['OWN_ORG_SUB_NM'] = '첨단화학소재센터';
 boardListEqu[2]['XMODE'] = 'JEINET';
 boardListEqu[3] = new Array();
-boardListEqu[3]['RND_EQU_IDX'] = 'NFEC-2012-07-167646';
+boardListEqu[3]['RND_EQU_IDX'] = 'NFEC-2009-10-075961';
 boardListEqu[3]['FILE_PATH'] = '';
 boardListEqu[3]['TITLE'] = '';
-boardListEqu[3]['KOR_NM'] = '바이오디젤 산화안정도측정기';
+boardListEqu[3]['KOR_NM'] = '혼합용건조기';
 boardListEqu[3]['OWN_ORG_NM'] = '국립식량과학원';
 boardListEqu[3]['OWN_ORG_SUB_NM'] = '';
 boardListEqu[3]['XMODE'] = 'ZEUS';
 boardListEqu[4] = new Array();
-boardListEqu[4]['RND_EQU_IDX'] = 'NFEC-2019-02-254414';
-boardListEqu[4]['FILE_PATH'] = '';
-boardListEqu[4]['TITLE'] = '';
-boardListEqu[4]['KOR_NM'] = '회전증발농축기';
-boardListEqu[4]['OWN_ORG_NM'] = '(재)순천천연물의약소재개발연구센터';
-boardListEqu[4]['OWN_ORG_SUB_NM'] = '';
-boardListEqu[4]['XMODE'] = 'ZEUS';
+boardListEqu[4]['RND_EQU_IDX'] = 'EF000354';
+boardListEqu[4]['FILE_PATH'] = '/file/jntptotal/';
+boardListEqu[4]['TITLE'] = 'jntptotal_201604130241525240.JPG';
+boardListEqu[4]['KOR_NM'] = '발효기 2대 세트 ';
+boardListEqu[4]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
+boardListEqu[4]['OWN_ORG_SUB_NM'] = '해양바이오연구센터';
+boardListEqu[4]['XMODE'] = 'JEINET';
 
 
 
