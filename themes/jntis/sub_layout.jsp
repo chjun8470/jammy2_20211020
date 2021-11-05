@@ -72,7 +72,7 @@
 <div class="Wrap">
 	<ul id="go_main">
 			<li><a href="#aaaaa" >본문 바로 가기</a></li>
-			<li><a href="javascript:void(0);" onclick='javascript:document.getElementById("top_menu_id_2").focus();return false;'>주메뉴 바로가기</a></li>
+			<li><a href="#first_m">주메뉴 바로가기</a></li>
 	</ul>
 
     <!--HeaderWrap S-->

@@ -640,9 +640,9 @@ function submitGo(){
 						</td>
 					</tr>
 					<tr>
-						<th class="r_line"><label for="emailId"> * 이메일</label></th>
+						<th class="r_line"><label for="email"> * 이메일</label></th>
 						<td class="td" colspan="3">
-							<input type="text" name="email" value="" id="email" class="inp_txt" readonly="readonly">
+							<input type="text" name="email" value="" id="email" class="inp_txt" readonly="readonly" title="이메일(회원아이디)"/>
 							<input type="hidden" id="emailCheck" name="emailCheck" value=""/>
 							<!-- <input type="button" id="btnCheckEmail" class="btn_inp_b_01" value="중복확인" onclick="userEmailCheck()" title="이메일 중복 확인(새 창 열림)"> -->
 						</td>

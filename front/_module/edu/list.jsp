@@ -69,7 +69,7 @@
             <div class="b_srchBox_gap0001"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
             
             <div class="b_btn_listBox0001">
-				<button type="button" class="b_btn_list" onclick="goButton('list','list')" title="게시판형"><img src="/img/board/btn_list_ovr.png" /></button>
+				<button type="button" class="b_btn_list" onclick="goButton('list','list')" title="게시판형(선택됨)"><img src="/img/board/btn_list_ovr.png" /></button>
 				<button type="button" class="b_btn_blog" onclick="goButton('list','imageList')" title="블로그형"><img src="/img/board/btn_blog.png" /></button>
 				<button type="button" class="b_btn_blog" onclick="goButton('list','calendar',<%=nowYear%>,<%=nowMonth%>)" title="달력형"><img src="/img/board/btn_calendar.png" /></button>
 			</div>

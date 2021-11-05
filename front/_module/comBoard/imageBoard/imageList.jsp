@@ -68,12 +68,12 @@
 			
 </div>
 
-<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
+<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
 
 <div class="b_btn_listBox005">
-	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" /></button>
-	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트"><img src="/img/board/btn_blog_ovr.png" /></button>
-	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list.png" /></button>
+	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
+	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트(선택됨)"><img src="/img/board/btn_blog_ovr.png" alt="블러그리스트" /></button>
+	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list.png" alt="리스트"/></button>
 </div>
 
 </form>

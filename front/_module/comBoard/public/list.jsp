@@ -92,11 +92,11 @@
 				<% } %>
 			</div>
 
-			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
+			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
 			<div class="b_btn_listBox013">
 				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
 				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')"><img src="/img/board/btn_blog.png" alt="블러그리스트" /></button>
-				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트 현재페이지" /></button>
+				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트(선택됨)" /></button>
 			</div>
 
 	</form>

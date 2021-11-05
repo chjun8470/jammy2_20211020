@@ -24,7 +24,7 @@
 	</div>
 	<!--탑 메뉴 E-->
 
-<h1 class="logo"><a href="/jntis/main.do"><img src="/img/jntis/common/logo.png" alt="JNTIS 로고" /></a></h1>
+<h1 class="logo"><a href="/jntis/main.do"><img src="/img/jntis/common/logo.png" alt="전남과학기술정보시스템" /></a></h1>
 
 	<div class="m_login">
 		<a href="javascript:ssoPopupShow('login','jntis')">로그인</a>
@@ -35,73 +35,68 @@
 	</div>
 
 
-	<div class="m_nav_wrap" >
-
-
+	<div class="m_nav_wrap">
 	 <%
-	List<SiteMenuJsonVO> topmenuList = siteManager.getMenuList(siteInfoVO.getSiteId(), 1);
-	if (topmenuList.size() > 0)
-	{
-		out.print("<ul class=\"m_nav\" style=\"display:none\" id=\"s_m_topmenu\">");
-		SiteMenuJsonVO topmenuVO;
-		String liClass = "";
-		for (int i = 0; i < topmenuList.size(); i++)
-		{
-			liClass = "";
-			topmenuVO = (SiteMenuJsonVO)topmenuList.get(i);
-
-			List<SiteMenuJsonVO> submenuList = siteManager.getMenuList(siteInfoVO.getSiteId(), topmenuVO.getMenuId());
-			boolean chldrns = submenuList.size() > 0 ? true : false;
-
-			//liClass = "m"+topmenuVO.getMenuId();
-			if (parntsSiteMenuVOList.get(1) != null && topmenuVO.getMenuId() == parntsSiteMenuVOList.get(1).getMenuId()) {
-				liClass += " on";
-			}
-
-			if (i == (topmenuList.size()-1)) {
-				liClass += " last";
-			}
-
-			if (!"".equals(liClass)) {
-				liClass = String.format("class=\"gnb0%s %s\"", (i+1),liClass);
-			}
-
-			out.print(String.format("<li %s>%s", liClass, getMenuLink(request, siteInfoVO, topmenuVO, "", "txt", "")));
-
-			if (chldrns)
+		List<SiteMenuJsonVO> topmenuList = siteManager.getMenuList(siteInfoVO.getSiteId(), 1);
+			if (topmenuList.size() > 0)
 			{
-				if(liClass.contains("on")) {
-					out.print("<div class=\"gnbsub01\">");
-				} else {
-					out.print("<div class=\"gnbsub01\" style=\"display:none\">");
-				}
-				out.print("<ul>");
-				for (int j = 0; j < submenuList.size(); j++)
+				out.print("<ul class=\"m_nav\" style=\"display:none\" id=\"s_m_topmenu\">");
+				SiteMenuJsonVO topmenuVO;
+				String liClass = "";
+				for (int i = 0; i < topmenuList.size(); i++)
 				{
-					SiteMenuJsonVO submenuVO = (SiteMenuJsonVO)submenuList.get(j);
-					out.print(String.format("<li>%s</li>", getMenuLink(request, siteInfoVO, submenuVO, "", "txt", "")));
+					liClass = "";
+					topmenuVO = (SiteMenuJsonVO)topmenuList.get(i);
+
+					List<SiteMenuJsonVO> submenuList = siteManager.getMenuList(siteInfoVO.getSiteId(), topmenuVO.getMenuId());
+					boolean chldrns = submenuList.size() > 0 ? true : false;
+
+					//liClass = "m"+topmenuVO.getMenuId();
+					if (parntsSiteMenuVOList.get(1) != null && topmenuVO.getMenuId() == parntsSiteMenuVOList.get(1).getMenuId()) {
+						liClass += " on";
+					}
+
+					if (i == (topmenuList.size()-1)) {
+						liClass += " last";
+					}
+
+					if (!"".equals(liClass)) {
+						liClass = String.format("class=\"gnb0%s %s\"", (i+1),liClass);
+					}
+
+					out.print(String.format("<li %s>%s", liClass, getMenuLink(request, siteInfoVO, topmenuVO, "", "txt", "")));
+
+					if (chldrns)
+					{
+						if(liClass.contains("on")) {
+							out.print("<div class=\"gnbsub01\">");
+						} else {
+							out.print("<div class=\"gnbsub01\" style=\"display:none\">");
+						}
+						out.print("<ul>");
+						for (int j = 0; j < submenuList.size(); j++)
+						{
+							SiteMenuJsonVO submenuVO = (SiteMenuJsonVO)submenuList.get(j);
+							out.print(String.format("<li>%s</li>", getMenuLink(request, siteInfoVO, submenuVO, "", "txt", "")));
+						}
+						out.print("</ul>");
+						out.print("</div>");
+					}
+					out.print("</li>");
 				}
 				out.print("</ul>");
-				out.print("</div>");
 			}
-			out.print("</li>");
-		}
-		out.print("</ul>");
-	}
-%>
-
-
-
+		%>
 	</div>
 
 
 	<form id = "unitySearch" name = "unitySearch" method="post" action="http://search.jnsp.re.kr/RSA/front/Search.jsp" target="_blank" class="boardSearch" onsubmit="return true;">
 	<div class="search MAR0">
-		<select name="select" class="select">
+		<select name="select" class="select" title="검색분류선택">
 		<option value="allsearch">통합검색</option>
 		</select>
 		<input class="srch_txt" name="qt" type="text" title="검색단어입력" />
-		<input type="image" src="/img/common/btn_srh.png" class="go_btn" alt="바로가기" />
+		<input type="image" src="/img/common/btn_srh.png" class="go_btn" alt="검색" title="새창열기" />
 	</div>
 	</form>
 </div>	
@@ -132,7 +127,7 @@
 				out.print("</ul>");
 			}
 			out.print("</div></li>");
-		}
+		}	
 		out.print("</ul>");
 	}
 %>
@@ -190,20 +185,29 @@ $(function () {
         });
 
     });
+	    
+	$('#jntisMainContentStart').focus(function(){
+		$('#m_topmenu > li > .gnb_sub').hide();
+		$('.menu_back').hide();
+	});
+
     $('#m_topmenu > li > h2 > a').each(function (idx) {
         $(this).focus(function () {
             $('#m_topmenu > li > .gnb_sub').hide();
             $('#m_submenu_' + idx).show();
+			$('.menu_back').show();
         });
     });
-    $('#m_topmenu > li > .gnb_sub').mouseover(function () {
-        $(this).show();
-        $('.menu_back').show();
+
+	$('#m_topmenu > li > .gnb_sub').mouseover(function () {
+		$(this).show();
+		$('.menu_back').show();
     });
     $('#m_topmenu > li > .gnb_sub').mouseout(function () {
         $(this).hide();
         $('.menu_back').hide();
     });
+
 
     $("#s_m_topmenu > li > a").attr("onclick", "return false");
     $("#s_m_topmenu > li").each(function (idx) {
@@ -222,10 +226,9 @@ $(function () {
 			$("#s_m_topmenu").slideDown();
 		}
 	});
-    
-    $("#top_menu_id_114").focusout(function () {
-        $('#m_topmenu > li > .gnb_sub').hide();
-    });
+
+	$(".num .on").attr('title','현재페이지');
+	$(".gnbBox .m_nav .top_menu_id_2").attr('id','first_m');
 
 });
 

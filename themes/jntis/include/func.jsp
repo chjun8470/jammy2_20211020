@@ -78,7 +78,7 @@
 		/* if (siteMenuJsonVO.getLinkTarget().equals("_BLANK")) {
 			iblank = " <span class=\"iblank\">새창</span>";
 		} */
-		return String.format("<a id='top_menu_id_%s' href=\"%s\" %s %s %s %s>%s%s</a>",siteMenuJsonVO.getMenuId(), href, menuTitle, addAttr, target.replaceAll("&amp;","&").replaceAll("&","&amp;"), onclick.replaceAll("&amp;","&").replaceAll("&","&amp;"), title.replaceAll("&amp;","&").replaceAll("&","&amp;"), iblank);
+		return String.format("<a class='top_menu_id_%s' href=\"%s\" %s %s %s %s>%s%s</a>",siteMenuJsonVO.getMenuId(), href, menuTitle, addAttr, target.replaceAll("&amp;","&").replaceAll("&","&amp;"), onclick.replaceAll("&amp;","&").replaceAll("&","&amp;"), title.replaceAll("&amp;","&").replaceAll("&","&amp;"), iblank);
 		//return String.format("<a href=\"%s\" %s %s %s>%s%s</a>", href, addAttr, target.replaceAll("&amp;","&").replaceAll("&","&amp;"), onclick.replaceAll("&amp;","&").replaceAll("&","&amp;"), title.replaceAll("&amp;","&").replaceAll("&","&amp;"), iblank);
 	}%>
 <%!public String getSubMenuLink(HttpServletRequest request,

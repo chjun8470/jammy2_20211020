@@ -6,7 +6,7 @@
 <%@ page import="org.springframework.ui.Model"%>
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*" %>
 	
-	<div class="mp_btn_menu"></div>
+	<button class="mp_btn_menu" title="메뉴열기"></button>
 	<%if(!paramMap.get("pageMode").equals("login")){ %>
 	
 	<%} %>
@@ -14,7 +14,7 @@
 	
 	<div id="MPleftMenu">
 		<a class="mp_btn_home" href="/mjeinet/main.do">HOME</a>
-		<div onclick="history.back();" class="mp_btn_close"></div>
+		<button onclick="history.back();" class="mp_btn_close" title="메뉴닫기"></button>
 	  
 		<ul class="MPleftMenuList">
 			<li id="MPleft01" <%if("1".equals(menu1)){%> class="on" <%} %> ><!-- <a href="/sso/mypagecon.do" title="회원가입">정보관리</a> --><a href="javascript:void(0);" class="MPleftMenu" title="회원가입">정보관리</a>

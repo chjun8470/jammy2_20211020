@@ -49,8 +49,8 @@
 				</form>
 				<!--pop_btn_Box S-->
 				<div class="pop_btnBox">
-					<input type="button" class="btn_pop2" onclick="goJoin();" value="회원가입&nbsp;&nbsp;&nbsp;&gt;"/>
-					<input type="button" class="btn_pop3" onclick="location.href='/sso/idpwd.do?mode=idfind';" value="ID 찾기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;"/>
-					<input type="button" class="btn_pop4" onclick="location.href='/sso/idpwd.do?mode=pwfind';" value="P/W 찾기&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;"/>
+					<input type="button" class="btn_pop2" onclick="goJoin();" value="회원가입"/>
+					<input type="button" class="btn_pop3" onclick="location.href='/sso/idpwd.do?mode=idfind';" value="ID 찾기"/>
+					<input type="button" class="btn_pop4" onclick="location.href='/sso/idpwd.do?mode=pwfind';" value="P/W 찾기"/>
 				</div>
 				<!--pop_btn_Box E-->
