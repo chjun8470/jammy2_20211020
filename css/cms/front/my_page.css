@@ -368,7 +368,7 @@ a.mp_btn_home {background:none;border:none;box-sizing:border-box;position:absolu
 /* 마이페이지 장비예약 리스트 */
 .MPCont .basic_listWrap {}
 .MPCont table.skin_list01 {width:100%;font-size:12px;letter-spacing:-0.05em;border-top:1px solid #00baff;border-bottom:none;border-collapse:collapse;margin-top:0}
-.MPCont table caption {visibility:hidden;font-size:0;width:0;height:0;line-height:0}
+.MPCont table caption {font-size:0;width:0;height:0;line-height:0}
 .MPCont table.skin_list01 th {text-align:center;font-weight:600;color:#646464;padding:8px;background-color:#fafafa;border-top:none;border-bottom:1px solid #e1e1e1;border-right:1px solid #e1e1e1}
 .MPCont table.skin_list01 td {text-align:center;font-weight:400;color:#646464;padding:8px;border-bottom:1px solid #e1e1e1;border-right:1px solid #e1e1e1;border-top:none}
 .MPCont table.skin_list01 td.b_notice {width:70%;text-align:left;padding-left:20px;color:#1e1e1e}
@@ -598,7 +598,7 @@ a.mp_btn_home {background:none;border:none;box-sizing:border-box;position:absolu
 /* 일반view2 */
 .MPCont .basic_viewWrap2 { width:100% }
 .MPCont table.skin_view2 { width:100%; font-size:12px; letter-spacing:-0.03em; border-top:1px solid #00baff; border-bottom:1px solid #e1e1e1; border-collapse:collapse }
-.MPCont table caption { visibility:hidden; font-size:0; width:0; height:0; line-height:0 }
+.MPCont table caption {font-size:0; width:0; height:0; line-height:0 }
 .MPCont table.skin_view2 th { text-align:center; font-weight:600; color:#646464; padding:10px 0 10px 0; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; background-color:#fafafa; }
 .MPCont table.skin_view2 th.lft_line { border-left:1px solid #e1e1e1 }
 .MPCont table.skin_view2 td { text-align:left; font-weight:400; color:#646464; padding:10px 0 10px 10px; border-right:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1 }
@@ -663,35 +663,3 @@ a.mp_btn_home {background:none;border:none;box-sizing:border-box;position:absolu
 
 /*추가_0612*/
 .MPCont .b_txtbox4_2 { width:70%; min-height:20px; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

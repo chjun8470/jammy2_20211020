@@ -278,7 +278,7 @@
 					
 					<form action="http://jipbank.jnsp.re.kr/jipbank/sub.do?m=57&listMode=patentBlogList&searchCd=all&searchSelect=" method="post" name="searchBox" target="_blank">
 						<input type="text" name="searchSelectText" placeholder="명칭,기술내용,출원번호,등록번호 검색" class="PPJsch" title="명칭,기술내용,출원번호,등록번호 검색창"/>
-						<input type="submit" class="bluebtn" value="" alt="검색" title="새창열림"/>
+						<input type="submit" class="bluebtn" value="" title="검색 새창열림"/>
 					</form>
 					</li>
 				</ul>

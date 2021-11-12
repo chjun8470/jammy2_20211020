@@ -227,9 +227,9 @@ vertical-align:middle;
 								<td colspan="3">
 									<input type="hidden" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
 									<input type="hidden" id="checkCorpNum1R" name="checkCorpNum1R" />
-									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 3자리"/> -
-									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 2자리"/> -
-									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 5자리"/>
+									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 첫번째 3자리"/> -
+									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 두번째 2자리"/> -
+									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 세번째 5자리"/>
 									<input type="button" class="btn_inp_b_01" value="중복체크" onclick="checkCorpNum1()" />
 								</td>
 							</tr>

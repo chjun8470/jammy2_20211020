@@ -6,7 +6,8 @@
 #go_main {position: absolute;height:0;}	
 #go_main a {display: block;left: -2000px;position: absolute;text-align: center;width: 200px;}
 #go_main a:focus, #go_main a:active, #go_main a:hover {background-color: #ffffff;color: black;left: 50%;padding: 5px 0;position: absolute;top:0px;z-index: 1000000;border: 1px dotted red;}
-
+.sound_only {display:inline-block !important;position:absolute;top:0;left:0;width:0;height:0;margin:0 !important;padding:0 !important;font-size:0;line-height:0;border:0 !important;overflow:hidden !important}
+.readonly {display:inline-block !important;position:absolute;top:0;left:0;width:0;height:0;margin:0 !important;padding:0 !important;font-size:0;line-height:0;border:0 !important;overflow:hidden !important}
 span.Blue { color:#2c72c7 }
 
 .Wrap { width:100%; overflow:hidden; font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum }
@@ -27,7 +28,7 @@ span.Blue { color:#2c72c7 }
 .top_menu ul li.jntis { background:url(/img/common/jntis_icon.png) no-repeat;padding-left:25px;font-weight:bold }
 .top_menu ul li.jntis a { color:#416aa4 }
 .top_menu ul li.jeinet { background:url(/img/common/jeinet_icon.png) no-repeat;padding-left:23px;font-weight:bold }
-.top_menu ul li.jeinet a { color:#00baff }
+.top_menu ul li.jeinet a { color:#071364 }
 .top_menu ul li.smbrnd { background:url(/img/common/smbrnd_icon.png) no-repeat;padding-left:25px;font-weight:bold }
 .top_menu ul li.smbrnd a { color:#0081af }
 .top_menu ul li.jipbank { background:url(/img/common/jipbank_icon.png) no-repeat;padding-left:25px;font-weight:bold }
@@ -111,7 +112,7 @@ span.Blue { color:#2c72c7 }
 .ContWrap .cont_top h3 { font-size:32px; font-weight:600; letter-spacing:-0.05em; color:#282828; float:left }
 /* .ContWrap .cont_top .cont_tit { font-size:32px; font-weight:600; letter-spacing:-0.05em; color:#282828; float:left } */
 
-.ContWrap .cont_top .navi { font-size:11px; font-weight:600; letter-spacing:-0.03em; color:#a6a6a6; float:right; margin-top:17px }
+.ContWrap .cont_top .navi { font-size:11px; font-weight:600; letter-spacing:-0.03em; color:#5c5c5c !important; float:right; margin-top:17px }
 
 .Contents { width:100%; margin-top:30px }
 
