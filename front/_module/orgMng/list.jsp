@@ -89,7 +89,7 @@ response.setContentType("text/html;charset=UTF-8");
 									<img src="/img/no-image.gif" alt="이미지 없음"  style="width:150px;height:50px" />
 								</c:when>
 								<c:otherwise>
-									<img src="${data.CI_FILE_SRC}" alt="${data.CI_FILE_TITLE}" style="width:150px;height:50px;" />
+									<img src="${data.CI_FILE_SRC}" alt="${data.ORG_GRP_NM}" style="width:150px;height:50px;" />
 								</c:otherwise>
 							</c:choose>
 								</a>
