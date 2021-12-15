@@ -190,23 +190,10 @@
 	                   </tr>
 	                   <tr>
 	                          <td colspan="3">
-		                    <%
-	                          	String data16Str = util.getStr(dataMap.get("DATA16"));
-	                          	String[] data16 = null;
-	                          	String[] data16Check = {"N","N","N","N"};
-	                          	if(!data16Str.equals("")){
-	                          		data16 = data16Str.split("[,]");
-	                          	}
-	                          	for(int as = 0;as < data16.length;as++){
-	                          		int tmpInt = Integer.parseInt(data16[as]);
-	                          		tmpInt--;
-	                          		data16Check[tmpInt] = "Y"; 
-	                          	}
-				  			%>
-	                               	&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="1" <%if(data16Check[0].equals("Y")) { %> checked="checked" <% } %>/>&nbsp; R&amp;D/기업지원/기타</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="2" <%if(data16Check[1].equals("Y")) { %> checked="checked" <% } %>  />&nbsp; 인사/회계/행정</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="3" <%if(data16Check[2].equals("Y")) { %> checked="checked" <% } %>  />&nbsp; 연구장비</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="4" <%if(data16Check[3].equals("Y")) { %> checked="checked" <% } %>  />&nbsp; 지식재산</label>
+	                               	&nbsp;&nbsp;<input type="checkbox" name="data16" value="1" <%if(util.getStr(dataMap.get("DATA16")).equals("R&D/기업지원/기타")) { %> checked="checked" <% } %>/>&nbsp; R&amp;D/기업지원/기타
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="2" <%if(util.getStr(dataMap.get("DATA16")).equals("인사/회계/행정")) { %> checked="checked" <% } %>  />&nbsp; 인사/회계/행정
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="3" <%if(util.getStr(dataMap.get("DATA16")).equals("연구장비")) { %> checked="checked" <% } %>  />&nbsp; 연구장비
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="4" <%if(util.getStr(dataMap.get("DATA16")).equals("지식재산")) { %> checked="checked" <% } %>  />&nbsp; 지식재산
 	                           </td>
 	                   </tr>
 
@@ -371,6 +358,15 @@
 		var popOption="width=500, height=650, resizable=no, scrollbars=no, status=no;";
 		window.open(popUrl,"",popOption);
 	}
+
+	  $('input[type="checkbox"][name="data16"]').click(function(){
+        //클릭 이벤트 발생한 요소가 체크 상태인 경우
+        if ($(this).prop('checked')) {
+            //체크박스 그룹의 요소 전체를 체크 해제후 클릭한 요소 체크 상태지정
+            $('input[type="checkbox"][name="data16"]').prop('checked', false);
+            $(this).prop('checked', true);
+        }
+    });
 
 	$("#emailDomainChoise").change(function() {
 		if(this.value==""){

@@ -10,10 +10,6 @@
 
 /* 탑 메뉴 */
 .top_menu { display:none }
-
-.m_login {display:inline-block;position:absolute;top:20px;right:60px}
-.m_login a {background:url(/img/main/ico_lock.png) left 50% no-repeat;box-sizing:border-box;padding:0 0 0 13px;font-weight:600;color:#49aed2;letter-spacing:-0.1em;font-size:12px}
-
 /*topmenu*/
 div.gnbGroup{display:block;}
 .m_nav_wrap{z-index:100;top:42px;display:block;text-indent:0;position:absolute;width:100%}

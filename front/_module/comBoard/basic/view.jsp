@@ -70,7 +70,7 @@
 	<div class="basic_viewWrap">
 
 		<table class="skin_view" summary="일반게시판 상세보기 테이블로 제목, 등록자, 등록일, 첨부파일, 조회, 등록자/등록일, 조회로 구성되어 있습니다.">
-          <caption>일반게시판 게시글 상세보기</caption>
+          <caption>게시물 상세보기</caption>
 			<colgroup>
 		    	<col style="width:15%;" />
 		    	<col style="width:45%;" />
@@ -79,7 +79,7 @@
 		    </colgroup>
 			<thead>
 				<tr>
-			    	<th scope="row">제목</th>
+			    	<th scope="col">제목</th>
 			    	<td class="r_line_none" colspan="3"><%=util.getStr(dataMap.get("SUBJECT"))%></td>
 			 	</tr>
 			</thead>
@@ -89,13 +89,13 @@
 			<%if(util.getStr(boardMap.get("PERM_FILE")).equals("Y")) { %>
 
 				<tr>
-				    <th scope="row">등록자</th>
+				    <th scope="col">등록자</th>
 				    <td><%=util.getStr(dataMap.get("WRITER_NM"))%>(<%=util.getStr(dataMap.get("WRITER_ID"))%>)</td>
-					<th scope="row" class="lft_line">등록일</th>
+					<th scope="col" class="lft_line">등록일</th>
 				    <td class="r_line_none"><%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%></td>
 				</tr>
 			  	<tr>
-				  	<th scope="row">첨부파일</th>
+				  	<th scope="col">첨부파일</th>
 				  	<td>
 					<%
 						if(fileList.size() > 0){
@@ -105,30 +105,30 @@
 											+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
 					%>
 						<a href="/cmm/fms/ComFileDown.do<%=fileParam%>" title="첨부파일 다운로드">
-							<img src="/img/board/ico_file.png" alt="첨부파일" />&nbsp;<%=util.deStr(rs.get("TITLE_ORG"))%> (<%=util.getStr(rs.get("FILE_SIZE")) %> Byte)
+							<img src="/img/board/ico_file.png" alt="첨부파일 아이콘" />&nbsp;<%=util.deStr(rs.get("TITLE_ORG"))%> (<%=util.getStr(rs.get("FILE_SIZE")) %> Byte)
 						</a><br/>
 					<% 	} }%>
 				    </td>
-				    <th scope="row" class="lft_line">조회</th>
+				    <th scope="col" class="lft_line">조회</th>
 				    <td class="r_line_none"><%=util.getIntStr(dataMap.get("HITS"))%></td>
 			    </tr>
 
 			  <%}else{%>
 
 				<tr>
-				    <th scope="row">등록자 / 등록일</th>
+				    <th scope="col">등록자 / 등록일</th>
 				    <td>
 				    	<%=util.getStr(dataMap.get("WRITER_NM"))%>(<%=util.getStr(dataMap.get("WRITER_ID"))%>)&nbsp;/&nbsp;
 						<%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%>
 					</td>
-					<th scope="row" class="lft_line">조회</th>
+					<th scope="col" class="lft_line">조회</th>
 			      	<td class="r_line_none"><%=util.getIntStr(dataMap.get("HITS"))%></td>
 			    </tr>
 
 			  <%}%>
 
 			  	<tr>
-			    	<td class="r_line_none view_cont" colspan="4" scope="row">
+			    	<td class="r_line_none view_cont" colspan="4" scope="col">
 			    		<%=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%>
 
 					<%--
@@ -158,8 +158,8 @@
 
 		<!-- 댓글여부-->
 		<%if(util.getStr(boardMap.get("PERM_CMT")).equals("Y")) { %>
-		<table class="P_contBox2">
-			<!--<caption>댓글 리스트</caption>-->
+		<table class="P_contBox2" summary="의견남기기 댓글 리스트를 나타내는 표입니다.">
+			<caption>댓글 리스트</caption>
 			<colgroup>
 				<col style="width:65%;" />
 				<col style="width:35%;" />

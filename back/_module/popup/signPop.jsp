@@ -92,7 +92,7 @@ function deptPost(){
  function userCheck(){
 	var userId = $("#userId").val();
 	var err = 0;
-
+	
 	if(userId !=null && userId != ""){
 		if(userId.length < 6 || userId.length > 20){
 			alert("영문숫자 조합 6~20자리를 입력해주세요.");
@@ -101,7 +101,7 @@ function deptPost(){
 			alert("영문숫자 조합 6~20자리를 입력해주세요.");
 			return false;
 		}
-
+		
 		if(idPattern.test(userId)){
 			alert("영문숫자 조합 6~20자리를 입력해주세요.");
 			$("#userId").focus();
@@ -147,7 +147,7 @@ function submitGo(){
 		$("#psnNm").focus();
 		return false;
 	}else{
-
+		
 		if(korPattern.test($("#psnNm").val())){
 			alert("이름 : 한글만 입력해주세요.");
 			$("#psnNm").focus();
@@ -199,7 +199,7 @@ function submitGo(){
 			$("#userId").focus();
 			$("#idCheck").val("0");
 		     return false;
-		 }
+		 } 
 	}else if($("#idCheck").val()=="0"){
 		alert("아이디 : 사용하실 수 없는 아이디입니다.");
 		$("#userId").focus();
@@ -230,7 +230,7 @@ function submitGo(){
 		alert("비밀번호 : 일치하지않습니다.");
 		$("#confirmPassword").focus();
 		return false;
-	}
+	} 
 	if($("#telNo1 > option:selected").val()==null || $("#telNo1 > option:selected").val()==""){
 		alert("전화번호 : 필수입력값입니다.");
 		$("#telNo1").focus();
@@ -246,8 +246,8 @@ function submitGo(){
 		return false;
 	} */
 
-
-
+	
+	
 	if($("#telNo2").val()==null||$("#telNo2").val()==""){
 		alert("전화번호 : 필수입력값입니다.");
 		$("#telNo2").focus();
@@ -323,6 +323,12 @@ function submitGo(){
 		}
 	}
 
+	if($("#corporateCode").val()==null||$("#corporateCode").val()==""){
+		alert("법인번호 : 필수입력값입니다.");
+		$("#corporateCode").focus();
+		return false;
+	}
+	
 	if($("#deptNm").val()==null||$("#deptNm").val()==""){
 		alert("부서명 : 필수입력값입니다.");
 		$("#deptNm").focus();
@@ -346,13 +352,17 @@ function submitGo(){
 		$("#deptAddr").focus();
 		return false;
 	}
-
+	
 	var fileCheck = 0;
 	var fileCount = $("input[type=file]").length;
 		for(i = 1; i <= fileCount; i++) {
 				var fileName = $('#CorporateFile'+fileCount).val();
 				if(fileName != "" && fileName != null){fileCheck++;}
 		}
+	if(fileCheck == 0)
+	{
+		errMsg+="법인등록증 : 필수입력사항입니다.<br/>";
+	}
 
 	/* if(!$("input[name='dmabrSlctCd']").is(":checked")){
 		alert("거주지 국내외 구분 : 필수입력값입니다.");
@@ -434,7 +444,7 @@ function submitGo(){
 				<div class="sign_logo" style="text-align:center">
 		            	<img src="/imgs/main/bg_main_sign.png" alt="sign"/>
                 	</div>
-
+                	
 <form name="authForm" id="authForm" method="post" action="/sys/jnspUserProc.do" enctype="multipart/form-data" style="margin:10px;">
 	<input type="hidden" name="mode" id="mode" value="auth" />
 	<input type="hidden" name="idCheck" id="idCheck"/>
@@ -608,7 +618,7 @@ function submitGo(){
 					</td>
 				</tr>
 				 <tr>
-					<th class="th">법인번호</th>
+					<th class="th"> * 법인번호</th>
 					<td class="td" colspan="3">
 							<input type="text" name="corporateCode" value="" id="corporateCode" style="width: 380px;" class="txtbox" title="법인번호" maxlength="30" />
 					</td>
@@ -642,13 +652,13 @@ function submitGo(){
 						<input type="text" name="deptZipCode" maxlength="100" value="" id="deptZipCode"  class="txtbox" title="부서(센터)주소"  style="width:100px" readonly = "readonly">
 						<input type="text" name="deptAddr" maxlength="100" value="" id="deptAddr"  class="txtbox" title="부서(센터)주소"  style="width:300px" readonly="readonly">
 						<input type="button" onclick = "deptPost()" id = "deptPostButton" value="찾아보기" class="btn_inp_b_01"/>
-
+						
 						<input type="text" name="deptAddrDtl" maxlength="100" value="" id="deptAddrDtl"  class="txtbox" title="기관주소" style="width:400px" >
-
+						
 					</td>
 				</tr>
 				<tr>
-                			<th scope="row" class="bln"><label for="fileList" id="fileImage">법인등록증</label></th>
+                			<th scope="row" class="bln"><label for="fileList" id="fileImage"> * 법인등록증</label></th>
                 			<td>
 	              	<div style="display:inline-block;" id="<%=fileFullGrp%>fileGrpBox">
 	              		<div >
@@ -657,10 +667,10 @@ function submitGo(){
 	              	</div>
 
 	              	<div style="display:inline-block;vertical-align:bottom;">
-	              		<input class="addImageBtn" type="button" value="+" style="width: 30px; height: 20px;" onclick="addRowFile('<%=fileFullGrp%>');" />
+	              		<input class="addImageBtn" type="button" value="+" style="width: 30px; height: 20px;" onclick="addRowFile('<%=fileFullGrp%>');" /> 
 						<input class="delImageBtn" type="button" value="-" style="width: 30px; height: 20px;" onclick="delRowFile('<%=fileFullGrp%>');" />
 	              	</div>
-
+	              	
 	        <script type="text/javascript">
 					var arrfileCnt = new Array();
 					arrfileCnt['<%=fileFullGrp%>'] = 2;
@@ -681,7 +691,7 @@ function submitGo(){
 		            	arrfileCnt[fileGrpnm]--;
 		            }
 	        </script>
-
+							  
 	              	</td>
                 		</tr>
 				<!-- <tr>

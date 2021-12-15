@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-/* 탭메뉴 */
+/* 탭메뉴 */ 
 .tabBox { width:100%; float:left; margin-bottom:50px }
 .tabBox ul { width:930px; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
 .tabBox ul li { width:178px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
@@ -199,7 +199,5 @@
 .inputbox_style01{float:left;position:relative;border:1px solid #F0B8F4;margin-left:10px;}
 .inputbox_style01 input{ border: none; background-color: #ffffff; height: 28px;width:500px;}
 
-
-.read_txt {background-color: #EEEEEE;}
 
 

@@ -63,22 +63,19 @@
 	<input type="hidden" name="state" id="state" value="<%=state%>" />
 	<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
 	<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
-	
-	<div class="basic_writeWrap">
-	
-		<table class="skin_write01" summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
-		
+	<div class="basic_writeWrap" style="margin-top: 30px">
+		<table width="100%" class="skin_write" summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
 			<caption>작성하기</caption>
 			<colgroup>
-				<col width="30%" />
-				<col width="70%" />
+				<col width="20%" />
+				<col width="80%" />
 			</colgroup>
 			<tbody>
 				<tr>
-					<th scope="row" class="tit alnC">
+					<th scope="row" class="tit">
 						<label for="subject">제목</label>
 					</th>
-					<td class="r_line_none">
+					<td>
 						<input type="text" name="subject" id="subject" value="<%=util.getStr(dataMap.get("SUBJECT"))%>" class="input_txt00401" maxlength="100" />
 						<div class="checkBox00401">
                         <input type="checkbox" name="secretAt" id="secretAt" value="Y" <%if( util.getStr(dataMap.get("SECRET_AT")).equals("Y") ){out.println(" checked='checked' ");}%> />&nbsp;비밀글
@@ -87,8 +84,8 @@
 				</tr>
 				<%if(boardComIdx.equals("00011") || boardComIdx.equals("00026")) { %>
 				<tr>
-					<th class="alnC">상담분야</th>
-					<td class="r_line_none">
+					<th>상담분야</th>
+					<td>
 						<label for="reDeth1" style="display:none;">대</label>
 						<select name="reDeth1" id="reDeth1" onchange="standardDeth1('reDeth2')">
 						<%for(HashMap rs:standardList) {%>
@@ -115,19 +112,19 @@
 				</tr>
 				<% } %>
 				<tr>
-					<th scope="row" class="tit alnC">
+					<th scope="row" class="tit">
 						<label for="content">내용</label>
 					</th>
-					<td class="con-txt r_line_none">
+					<td class="con-txt">
 						<textarea name="content" id="contents" style="width: 100%; height: 350px;"><%=dataMap.get("CONTENT")%></textarea>
 					</td>
 				</tr>
 				<%if(util.getStr(boardMap.get("PERM_FILE")).equals("Y")){ %>
 				<tr>
-					<th scope="row" class="tit alnC">
+					<th scope="row" class="tit">
 						<label for="extfile">첨부파일</label>
 					</th>
-				<td class="r_line_none">
+				<td>
 				<%
 					if(fileList.size() > 0){
 				%>
@@ -232,9 +229,9 @@
 			</tbody>
 		</table>
 		<!-- bo_btn  -->
-		<div class="MPBtnWrap MAT10">
-			<input type="button" class="btn_inp_w_01 FloatL" value="취소" onclick="goSubmit('view')"/>
-			<input type="button" class="btn_inp_b_01 FloatR" value="수정" onclick="goSubmit('editProc')"/>
+		<div class="b_btn_area" style="text-align: right;">
+			<input type="button" class="btn_lft2" value="취소" onclick="goSubmit('view')"/>
+			<input type="button" class="btn_rgt" value="수정" onclick="goSubmit('editProc')"/>
 		</div>
 		<!--// bo_btn -->
 	</div>

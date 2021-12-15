@@ -118,8 +118,6 @@
 	        }
 	    });
 
-		bytecheck(document.getElementById('useNote'), '1000');
-
 	});
 
 	function popupWindow(mode){
@@ -141,38 +139,6 @@
 			$("#orgNm").val(obj['org_grp_nm']);
 		}
 	}
-
-	 function bytecheck(obj, maxByte){
-		 var str = obj.value;
-		 var str_len = str.length;
-
-		 var rbyte = 0;
-		 var rlen = 0;
-		 var one_char = "";
-		 var str2 = "";
-
-		 for(var i=0; i<str_len; i++){
-		 one_char = str.charAt(i);
-		 if(escape(one_char).length > 4){
-		     rbyte += 2;                                         //한글2Byte
-		 }else{
-		     rbyte++;                                            //영문 등 나머지 1Byte
-		 }
-
-		 if(rbyte <= maxByte){
-		     rlen = i+1;                                          //return할 문자열 갯수
-		 }
-		 }
-
-		 if(rbyte > maxByte){
-		     alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-		     str2 = str.substr(0,rlen);                                  //문자열 자르기
-		     obj.value = str2;
-		     bytecheck(obj, maxByte);
-		 }else{
-		     document.getElementById('byteInfo').innerText = rbyte;
-		 }
-	};
 </script>
 	  <form name="fedit" id="fedit" action="./equOperDiaryProc.do" method="post" enctype="multipart/form-data" onsubmit="return submitGo();" >
 	  	<input type="hidden" name="mode" id="mode"  value="<%=mode%>" />
@@ -200,11 +166,11 @@
 				<th scope="col">연구시설장비</th>
 				<td scope="col">
 					<input type="hidden" name="equIdx" id="equIdx" value="<%=util.getStr(String.valueOf(dataMap.get("RND_EQU_IDX"))) %>" />
-					<input type="text" class="inp_txt" name="eqNm" id="eqNm" readonly="readonly" value="<%=util.getStr(dataMap.get("KOR_NM")) %> (<%=util.getStr(dataMap.get("ENG_NM")) %>)"/>
-					<button type="button" class="btn_inp_b_01" id="searchEqu" onclick="popupWindow('equPop')">장비검색</button>
+					<input type="text" class="inp_text" name="eqNm" id="eqNm" readonly="readonly" value="<%=util.getStr(dataMap.get("KOR_NM")) %> (<%=util.getStr(dataMap.get("ENG_NM")) %>)"/>
+					<button type="button" id="searchEqu" onclick="popupWindow('equPop')">장비검색</button>
 				</td>
 				<th scope="col">고정자산번호</th>
-				<td scope="col"><input type="text" class="inp_txt" name="eqserial" id="eqserial" readonly="readonly" value="<%=util.getStr(dataMap.get("FIXED_ASET_NO")) %>"/></td>
+				<td scope="col"><input type="text" class="inp_text" name="eqserial" id="eqserial" readonly="readonly" value="<%=util.getStr(dataMap.get("FIXED_ASET_NO")) %>"/></td>
 			</tr>
 			<tr>
 				<th colspan="4">담당자 정보</th>
@@ -212,31 +178,31 @@
 			<tr>
 				<th scope="col">기관</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserOrg" id="equUserOrg" value="<%=util.getStr(dataMap.get("EQU_USER_ORG")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserOrg" id="equUserOrg" value="<%=util.getStr(dataMap.get("EQU_USER_ORG")) %>" readonly="readonly"/>
 				</td>
 				<th scope="col">부서</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserDept" id="equUserDept" value="<%=util.getStr(dataMap.get("EQU_USER_DEPT")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserDept" id="equUserDept" value="<%=util.getStr(dataMap.get("EQU_USER_DEPT")) %>" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">담당자</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserName" id="equUserName" value="<%=util.getStr(dataMap.get("EQU_USER_NM")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserName" id="equUserName" value="<%=util.getStr(dataMap.get("EQU_USER_NM")) %>" readonly="readonly"/>
 				</td>
 				<th scope="col">직위</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserPosition" id="equUserPosition" value="<%=util.getStr(dataMap.get("EQU_USER_POSITION")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserPosition" id="equUserPosition" value="<%=util.getStr(dataMap.get("EQU_USER_POSITION")) %>" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">전화번호</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserPhone" id="equUserPhone" value="<%=util.getStr(dataMap.get("EQU_USER_PHONE")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserPhone" id="equUserPhone" value="<%=util.getStr(dataMap.get("EQU_USER_PHONE")) %>" readonly="readonly"/>
 				</td>
 				<th scope="col">이메일</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserEmail" id="equUserEmail" value="<%=util.getStr(dataMap.get("EQU_USER_EMAIL")) %>" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserEmail" id="equUserEmail" value="<%=util.getStr(dataMap.get("EQU_USER_EMAIL")) %>" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
@@ -245,57 +211,55 @@
 			<tr>
 				<th scope="col">사용기간</th>
 				<td colspan="3">
-					<input type="text"  class="inp_txt" name="startDate" id="startDate" title="시작날짜" value="<%=util.getStr(String.valueOf(dataMap.get("START_DT"))) %>"/>
+					<input type="text"  class="inp_text" name="startDate" id="startDate" title="시작날짜" value="<%=util.getStr(String.valueOf(dataMap.get("START_DT"))) %>"/>
 					 ~
-					<input type="text"  class="inp_txt" name="endDate" id="endDate" title="종료날짜" value="<%=util.getStr(String.valueOf(dataMap.get("END_DT"))) %>"/>
+					<input type="text"  class="inp_text" name="endDate" id="endDate" title="종료날짜" value="<%=util.getStr(String.valueOf(dataMap.get("END_DT"))) %>"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용시간</th>
 				<td colspan="3">
-					<input type="text"  class="inp_txt" name="useTime" id="useTime" title="사용시간" value="<%=util.getStr(String.valueOf(dataMap.get("USE_TIME"))) %>"/>ex)5.6시간 > 5.6
+					<input type="text"  class="inp_text" name="useTime" id="useTime" title="사용시간" value="<%=util.getStr(String.valueOf(dataMap.get("USE_TIME"))) %>"/>ㄷㅌ)5.6시간 > 5.6
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용기관</th>
 				<td colspan="3">
 					<label for="orgSe">구분 : </label>
-					<select name="orgSe" id="orgSe" class="select" >
+					<select name="orgSe" id="orgSe">
 						<option value="01" <%if(util.getStr(dataMap.get("ORG_SELECT")) == "01") {%> selected="selected" <%}%>>기관  내 동일부서</option>
 						<option value="02" <%if(util.getStr(dataMap.get("ORG_SELECT")) == "02") {%> selected="selected" <%}%>>기관 내 타부서</option>
 						<option value="03" <%if(util.getStr(dataMap.get("ORG_SELECT")) == "03") {%> selected="selected" <%}%>>외부기관</option>
 					</select>
-					<label for="orgNm">기관명 : </label><input type="hidden" name="orgCd" id="orgCd" value="<%=util.getStr(dataMap.get("ORG_GRP_CD")) %>" /><input type="text" class="inp_txt" name="orgNm" id="orgNm" readonly="readonly" value="<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>"/>
-					<button type="button" class="btn_inp_b_01" onclick="popupWindow('orgPop')">찾기</button>
-					<label for="depNm">부서명 : </label><input type="text" class="inp_txt" name="deptNm" id="deptNm" value="<%=util.getStr(dataMap.get("DEPT_NM")) %>" />
+					<label for="orgNm">기관명 : </label><input type="hidden" name="orgCd" id="orgCd" value="<%=util.getStr(dataMap.get("ORG_GRP_CD")) %>" /><input type="text" class="inp_text" name="orgNm" id="orgNm" readonly="readonly" value="<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>"/>
+					<button type="button" onclick="popupWindow('orgPop')">찾기</button>
+					<label for="depNm">부서명 : </label><input type="text" class="inp_text" name="deptNm" id="deptNm" value="<%=util.getStr(dataMap.get("DEPT_NM")) %>" />
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용자</th>
-				<td scope="col"><input type="text" class="inp_txt" name="userNm" id="userNm" value="<%=util.getStr(dataMap.get("USE_USER_NM")) %>" /></td>
+				<td scope="col"><input type="text" class="inp_text" name="userNm" id="userNm" value="<%=util.getStr(dataMap.get("USE_USER_NM")) %>" /></td>
 				<th scope="col">연락처</th>
-				<td scope="col"><input type="text" class="inp_txt" name="phone" id="phone" value="<%=util.getStr(dataMap.get("USE_USER_PHONE")) %>" /></td>
+				<td scope="col"><input type="text" class="inp_text" name="phone" id="phone" value="<%=util.getStr(dataMap.get("USE_USER_PHONE")) %>" /></td>
 			</tr>
 			<tr>
 				<th scope="col">사용목적</th>
-				<td colspan="3"><input type="text" class="inp_txt" name="purpose" id="purpose" value="<%=util.getStr(dataMap.get("PURPOSE")) %>" /></td>
+				<td colspan="3"><input type="text" class="inp_text" name="purpose" id="purpose" value="<%=util.getStr(dataMap.get("PURPOSE")) %>" /></td>
 			</tr>
 			<tr>
 				<th scope="col"><label for="useNote">사용내용</label></th>
 				<td colspan="3">
-<%-- 					<textarea class="inp_txt" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;"><%=util.getStr(dataMap.get("USE_NOTE")) %></textarea> --%>
-					<textarea class="inp_txt" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;" onkeyup="bytecheck(this,'1000')"><%=util.getStr(dataMap.get("USE_NOTE")) %></textarea>
-					<p id="text_count">(<strong id="byteInfo">0</strong> / 1000Byte)</p>
+					<textarea class="inp_text" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;"><%=util.getStr(dataMap.get("USE_NOTE")) %></textarea>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">시료수</th>
-				<td colspan="3"><input type="text" class="inp_txt" name="sampleCnt" id="sampleCnt" value="<%=util.getStr(String.valueOf(dataMap.get("SAMPLE_CNT"))) %>" />건</td>
+				<td colspan="3"><input type="text" class="inp_text" name="sampleCnt" id="sampleCnt" value="<%=util.getStr(String.valueOf(dataMap.get("SAMPLE_CNT"))) %>" />건</td>
 			</tr>
 			<tr>
 				<th scope="col">사용료</th>
 				<td>
-					<input type="text" class="inp_txt" name="rentalFee" id="rentalFee" value="<%=util.getStr(String.valueOf(dataMap.get("RENTAL_FEE"))) %>" />원
+					<input type="text" class="inp_text" name="rentalFee" id="rentalFee" value="<%=util.getStr(String.valueOf(dataMap.get("RENTAL_FEE"))) %>" />원
 				</td>
 			</tr>
 

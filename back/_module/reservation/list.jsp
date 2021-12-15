@@ -30,20 +30,15 @@ response.setContentType("text/html;charset=UTF-8");
 %>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <div class="skin_list">
+
 	<div class="tabBox_pub">
 		<ul>
-			<li <%if(util.getStr(paramMap.get("orderState")).equals("ALL") || util.getStr(paramMap.get("orderState")).equals("")) { %> class="on" <% } %> id="tabALL"><a href="#" onclick="orderTab('','ALL')">전체</a></li>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("ONLINE") && util.getStr(paramMap.get("orderState")).equals("1")) { %> class="on" <% } %> ><a href="#" onclick="orderTab('ONLINE','1')">ONLINE 예약 접수</a></li>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("ONLINE") && util.getStr(paramMap.get("orderState")).equals("2")) { %> class="on" <% } %> ><a href="#" onclick="orderTab('ONLINE','2')">ONLINE 예약 승인</a></li>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("OFFLINE") && util.getStr(paramMap.get("orderState")).equals("2")) { %> class="on" <% } %> ><a href="#" onclick="orderTab('OFFLINE','2')">OFFLINE 예약 승인</a></li>
-			<li <%if(util.getStr(paramMap.get("orderState")).equals("4")) { %> class="on" <% } %> ><a href="#" onclick="orderTab('','4')">이용 완료</a></li>
-		</ul>
-	</div>
-	<div class="tabBox_pub">
-		<ul>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("ONLINE") && util.getStr(paramMap.get("orderState")).equals("3")) { %> class="on" <% } %>id="tab3" class ><a href="#" onclick="orderTab('ONLINE','3')">ONLINE 예약 거절</a></li>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("ONLINE") && util.getStr(paramMap.get("orderState")).equals("5")) { %> class="on" <% } %>id="tab5" class ><a href="#" onclick="orderTab('ONLINE','5')">ONLINE 예약 승인 취소</a></li>
-			<li <%if(util.getStr(paramMap.get("searchType")).equals("OFFLINE") && util.getStr(paramMap.get("orderState")).equals("5")) { %> class="on" <% } %>id="tab5" class ><a href="#" onclick="orderTab('OFFLINE','5')">OFFLINE 예약 승인 취소</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("ALL") || util.getStr(paramMap.get("orderState")).equals("")) { %> class="on" <% } %> id="tabALL"><a href="#" onclick="orderTab('ALL')">전체</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("1")) { %> class="on" <% } %> ><a href="#" onclick="orderTab('1')">승인요청</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("3")) { %> class="on" <% } %>id="tab3" class ><a href="#" onclick="orderTab('3')">승인요청 거절</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("2")) { %> class="on" <% } %>id="tab2" class ><a href="#" onclick="orderTab('2')">이용승인</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("5")) { %> class="on" <% } %>id="tab5" class ><a href="#" onclick="orderTab('5')">이용승인 취소</a></li>
+			<li <%if(util.getStr(paramMap.get("orderState")).equals("4")) { %> class="on" <% } %>id="tab4" class ><a href="#" onclick="orderTab('4')">이용완료/운영일지</a></li>
 		</ul>
 	</div>
 
@@ -51,41 +46,21 @@ response.setContentType("text/html;charset=UTF-8");
 			<input type="hidden" name = "nowPage" id = "nowPage" />
 			<input type="hidden" name = "mode" id = "mode" />
 			<input type="hidden" name = "diary" id = "diary" value="" />
-			<input type="hidden" name = "reportType" id = "reportType" value="<%=util.getStr(paramMap.get("reportType")) %>" />
 			<input type="hidden" name = "equOrderIdx" id = "equOrderIdx" value="" />
 			<input type="hidden" name = "orderState" id = "orderState" value="<%=util.getStr(paramMap.get("orderState")) %>" />
 				<div class="basic_grid">
 					<div class="search_box" style="padding:10px">
 						<div class="board-search">
-							<!-- 예약타입 -->
-							예약타입&nbsp;
-							<select name="searchType" id="searchType" class="select" >
-								<option value="">전체</option>
-								<option value="ONLINE" <%if(util.getStr(paramMap.get("searchType")).equals("ONLINE")) { %> selected="selected" <% } %>>ONLINE</option>
-								<option value="OFFLINE" <%if(util.getStr(paramMap.get("searchType")).equals("OFFLINE")) { %> selected="selected" <% } %>>OFFLINE</option>
-							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<!-- 예약신청기간 -->
 							예약신청기간&nbsp;
-							<input type="text" class="inp_txt" name="searchStDt" id="searchStDt" value="<%=util.getStr(paramMap.get("searchStDt")) %>" size="10"/> ~
-							<input type="text" class="inp_txt" name="searchEdDt" id="searchEdDt" value="<%=util.getStr(paramMap.get("searchEdDt")) %>" size="10"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" class="inp_text" name="searchStDt" id="searchStDt" value="<%=util.getStr(paramMap.get("searchStDt")) %>" size="10"/> ~
+							<input type="text" class="inp_text" name="searchEdDt" id="searchEdDt" value="<%=util.getStr(paramMap.get("searchEdDt")) %>" size="10"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-							
-						</div>
-						<div class="board-search">
-							
 							<!-- 키워드 -->
 							장비/시설명&nbsp;
-							<input type="text" name="searchWord" id="searchWord" class="inp_txt" value="<%=util.getStr(paramMap.get("searchWord")) %>" />
-							
-							기관/기업명&nbsp;
-							<input type="text" name="searchCen" id="searchCen" class="inp_txt" value="<%=util.getStr(paramMap.get("searchCen")) %>" />
-							
-							부서명&nbsp;
-							<input type="text" name="searchBc" id="searchBc" class="inp_txt" value="<%=util.getStr(paramMap.get("searchBc")) %>" />
-							
+							<input type="text" name="searchWord" id="searchWord" class="inp_text" value="<%=util.getStr(paramMap.get("searchWord")) %>" />
 							<!-- 검색버튼 -->
-							<input type="button" class="btn_inp_g_01" value="검색" onclick="pageSearchGo()" style="float: right;" />
-						
+						<input type="button" class="btn_inp_g_01" value="검색" onclick="pageSearchGo()" style="float: right;" />
 						</div>
 						<!-- board-search -->
 					 </div>
@@ -94,11 +69,6 @@ response.setContentType("text/html;charset=UTF-8");
 </form>
 			<div class="total" style="margin-top: 10px;">
 				[전체 <span><%=staticVO.getTotalCount()%></span>건, <span><%=staticVO.getNowPage()%></span>/<%=(int)(Math.ceil(staticVO.getTotalCount()/staticVO.getPageSize())+1)%> page]
-				<span style="float: right; margin-bottom: 5px;">
-				<%if(!util.getStr(paramMap.get("searchType")).equals("ONLINE") && (!util.getStr(paramMap.get("orderState")).equals("1") && !util.getStr(paramMap.get("orderState")).equals("5") && !util.getStr(paramMap.get("orderState")).equals("4"))) { %>
-				<button class="btn_inp_b_01" type="button" onclick="pageWriteGo()">직접등록</button>
-				<%} %>
-				</span>
 				<%if(util.getStr(paramMap.get("orderState")).equals("4")) { %>
 				<span style="float: right; margin-bottom: 5px;">
 					<button type="button" id="excelDownload" class="btn_inp_b_01" onclick="location.href='/sys/reservationExcel.do'">엑셀다운로드</button>
@@ -106,55 +76,42 @@ response.setContentType("text/html;charset=UTF-8");
 				<% } %>
 			</div>
 
-		</div>
 	<div>
-
 		<!-- skin_basic_list s -->
 		<table class="skin_basic_list" summary="게시판 목록을 나타내는 표입니다..">
 			<colgroup>
 				<col style="width: 5%;" />
 				<col style="width: 8%;" />
-				<col style="width: 8%;" />
 				<col style="width: 10%;" />
 				<col style="width: *%;" />
 				<col style="width: 15%;" />
-				<col style="width: 10%;" />
-				<col style="width: 10%;" />
-				<col style="width: 10%;" />
-				<col style="width: 10%;" />
-				<%-- <%if(util.getStr(paramMap.get("orderState")).equals("4")) { %>
-					<col style="width: 10%;" />
-				<% } %> --%>
+				<col style="width: 15%;" />
+				<col style="width: 15%;" />
+				<%if(util.getStr(paramMap.get("orderState")).equals("4")) { %>
+					<col style="width: 15%;" />
+				<% } %>
 			</colgroup>
 			<thead>
 				<tr>
 					<th scope="col">NO</th>
-					<th scope="col">타입</th>
-					<th scope="col">처리현황</th>
+					<th scope="col">예약현황</th>
 					<th scope="col">예약번호</th>
 					<th scope="col">장비/시설명</th>
-					<th scope="col">기관/기업명</th>
-					<th scope="col">신청자</th>
 					<th scope="col">이용희망일</th>
 					<th scope="col">실사용일</th>
-					<%//if(!util.getStr(paramMap.get("orderState")).equals("1") && !util.getStr(paramMap.get("orderState")).equals("ALL") && !util.getStr(paramMap.get("orderState")).equals("")) {  %>
-					<th scope="col">운영일지</th>
-					<% //} %>
-					<%-- <%if(util.getStr(paramMap.get("orderState")).equals("2")) { %>
+					<th scope="col">신청자(신청일)</th>
+					
+					<%if(util.getStr(paramMap.get("orderState")).equals("4")) { %>
 						<th scope="col">운영일지</th>
-					<% } %> --%>
+					<% } %>
 				</tr>
 			</thead>
 			<tbody>
 			<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
-			for(HashMap rs:moduleDataList) {
-			//out.println(rs);
-			%>
-			
+			for(HashMap rs:moduleDataList) {%>
 				<tr style="cursor:pointer" onclick = "pageViewGo('<%=rs.get("EQU_ORDER_IDX")%>');">
 					<td><%=cont%></td>
-					<td><%=util.getStr(rs.get("ORDER_TYPE"))%></td>
 					<td><%if(util.getStr(rs.get("ORDER_STATE")).equals("1")) { %> <img alt="승인요청" src="/img/back/comm/order_state_img_1.png"> <% } %>
 					<%if(util.getStr(rs.get("ORDER_STATE")).equals("2")) { %> <img alt="이용승인" src="/img/back/comm/order_state_img_2.png"> <% } %>
 					<%if(util.getStr(rs.get("ORDER_STATE")).equals("3")) { %> <img alt="승인거절" src="/img/back/comm/order_state_img_3.png"> <% } %>
@@ -162,16 +119,7 @@ response.setContentType("text/html;charset=UTF-8");
 					<%if(util.getStr(rs.get("ORDER_STATE")).equals("5")) { %> <img alt="이용완료" src="/img/back/comm/order_state_img_5.png"> <% } %></td>
 					<td>J-<%=util.getStr(rs.get("EQU_ORDER_IDX"))%></td>
 					<td><%=util.getStr(rs.get("KOR_NM"))%>(<%=util.getStr(rs.get("ENG_NM"))%>)</td>
-					<td><%=util.getStr(rs.get("CORP_NM"))%></td>
-					<td><%=util.getStr(rs.get("PSN_NM"))%></td>
 					<td><%=util.getStr(rs.get("USE_ST_DT"))%>
-					<br /> ~ <%=util.getStr(rs.get("USE_ED_DT"))%></td>
-					<td></td>
-					<td><%if(util.getStr(rs.get("REAL_USE_ST_DT")).equals("")) { %> 정보없음 <% } else { %>
-					<%=util.getStr(rs.get("REAL_USE_ST_DT"))%>
-					<br /> ~ <%=util.getStr(rs.get("REAL_USE_ST_DT"))%>
-					<% } %></td>
-					<%-- <td><%=util.getStr(rs.get("USE_ST_DT"))%>
 					<br /> ~ <%=util.getStr(rs.get("USE_ED_DT"))%></td>
 
 					<td><%if(util.getStr(rs.get("REAL_USE_ST_DT")).equals("")) { %> 정보없음 <% } else { %>
@@ -180,15 +128,12 @@ response.setContentType("text/html;charset=UTF-8");
 					<% } %></td>
 
 					<td><%=util.getStr(rs.get("PSN_NM"))%>
-					<br /> (<%=util.getStr(rs.get("ORDER_DT"))%>)</td>--%>
+					<br /> (<%=util.getStr(rs.get("ORDER_DT"))%>)</td>
 
-					<%if(!util.getStr(paramMap.get("orderState")).equals("1") && !util.getStr(paramMap.get("orderState")).equals("ALL") && !util.getStr(paramMap.get("orderState")).equals("")) {  %>
-					<td scope="col">
-						<%-- <a href="javascript:resveReport('<%=rs.get("EQU_ORDER_IDX")%>')" class="btn_inp_b_01" >운영일지 작성</a> --%>
-						<a href="javascript:resveReport('<%=rs.get("EQU_ORDER_IDX")%>', 'diary')" class="btn_inp_b_01" style="">운영일지 작성</a>
-<%-- 						<a href="javascript:resveReport('<%=rs.get("EQU_ORDER_IDX")%>', 'inner')" class="btn_inp_b_01" style="margin-top:5px;">내부활용 등록</a> --%>
-						<%-- <a href="javascript:resveReport('<%=rs.get("EQU_ORDER_IDX")%>', 'legal')" class="btn_inp_b_01" >법정검사 등록</a> --%>
-					</td>
+					<%if(util.getStr(paramMap.get("orderState")).equals("4")) { %>
+						<td scope="col">
+							<a href="javascript:resveReport('<%=rs.get("EQU_ORDER_IDX")%>')" class="btn_inp_b_01" >운영일지 작성</a>
+						</td>
 					<% } %>
 				</tr>
 			<%
@@ -196,11 +141,9 @@ response.setContentType("text/html;charset=UTF-8");
 			} %>
 			</tbody>
 		</table>
-		<div class="bbs_btn">
-		<%if(!util.getStr(paramMap.get("searchType")).equals("ONLINE") && (!util.getStr(paramMap.get("orderState")).equals("1") && !util.getStr(paramMap.get("orderState")).equals("5") && !util.getStr(paramMap.get("orderState")).equals("4"))) { %>
-			<button class="btn_inp_b_01" type="button" onclick="pageWriteGo()">직접등록</button>
-		<%} %>
-		</div>
+		<!-- <div class="bbs_btn">
+			<button class="btn_inp_b_01" type="button" onclick="resveGo()">예약하기</button>
+		</div> -->
 	<%=util.getPaging(staticVO, nowPage) %>
 	</div>
 </div>
@@ -219,28 +162,24 @@ response.setContentType("text/html;charset=UTF-8");
 		$('#searchForm').submit();
 	}
 	function pageViewGo(idx){
-		//$('#diary').val('view');
 		$('#mode').val('view');
 		$('#equOrderIdx').val(idx);
 		$('#searchForm').submit();
 	}
-	function resveReport(idx, reportType){
-		//$('#diary').val('view');
+	function resveReport(idx){
+		$('#diary').val('view');
 		$('#mode').val('view');
-		$('#reportType').val(reportType);
 		$('#equOrderIdx').val(idx);
 		$('#searchForm').submit();
-		//$('#diary').val('');
+		$('#diary').val('');
 	}
 	function pageWriteGo(){
 		$('#mode').val('write');
 		$('#searchForm').submit();
 	}
-	function orderTab(type, orderState, reportType){
+	function orderTab(orderState){
 
 		$('#mode').val('list');
-		$('#searchType').val(type);
-		$('#reportType').val(reportType);
 		$('#orderState').val(orderState);
 		$('#searchForm').submit();
 	}

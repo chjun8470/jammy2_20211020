@@ -6,11 +6,11 @@
 HashMap<String, String> certiMap = session.getAttribute("certiMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)session.getAttribute("certiMap");
 session.setAttribute("certiMap", null);
 session.setAttribute("certiMap2", certiMap);
-//String fileGrp = "orgMngUsr";
-//String fileSubGrp = "";
-//String fileFullGrp =fileGrp+fileSubGrp;
+String fileGrp = "orgMngUsr";
+String fileSubGrp = "";
+String fileFullGrp =fileGrp+fileSubGrp;
 
-//page = request.getRequestURL();
+page = request.getRequestURL();
 
 %>
 
@@ -179,7 +179,7 @@ $(document).ready(function(){
 // 	}
 
 
-var emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 var idPattern = /[^a-zA-Z0-9]/;
 var korPattern = /[^가-힣]/;
 var engPattern = /[^a-zA-Z- ]/;
@@ -220,36 +220,15 @@ $('#photoTr').hide();
 	});
 
 	$("#emailDomainChoise").change(function() {
-		if (this.value == "") {
-			$("#emailDomain").css("background-color", "");
+		if(this.value==""){
+			$("#emailDomain").css("background-color","");
 			$("#emailDomain").removeAttr("readonly");
 			$("#emailDomain").val("");
-		} else {
+		}else{
 			$("#emailDomain").val(this.value);
 			$("#emailDomain").css("background-color", "#EEEEEE");
 			$("#emailDomain").attr("readonly", true);
 		}
-		var id = $("#emailId").val() + "@" + this.value;
-		$("#userId").val(id);
-		$("#email").val(id);
-	});
-
-	$("#emailId").keyup(function() {
-		if(this.value.indexOf(" ") >= 0) {
-			this.value = this.value.trim().replace(/(\s*)/g, "");
-		}
-		var id = $(this).val() + "@"+ $("#emailDomain").val();
-		$("#userId").val(id);
-		$("#email").val(id);
-	});
-
-	$("#emailDomain").keyup(function() {
-		if(this.value.indexOf(" ") >= 0) {
-			this.value = this.value.trim().replace(/(\s*)/g, "");
-		}
-		var id = $("#emailId").val() + "@"+ $(this).val();
-		$("#userId").val(id);
-		$("#email").val(id);
 	});
 });
 
@@ -258,15 +237,19 @@ function userCheck(){
 	var err = 0;
 
 	if(userId !=null && userId != ""){
-		/* if (!emailCheck(userId)) {
+		if(userId.length > 20 ||userId.length < 6 ){
 			alert("영문숫자 조합 6~20자리를 입력해주세요.");
 			return false;
-		} */
-
-		if (!emailPattern.test(userId)) {
-			alert("이메일 양식을 입력해주세요.");
-			$("#idCheck").val("0");
+		}else if(!isNaN(userId)){
+			alert("영문숫자 조합 6~20자리를 입력해주세요.");
 			return false;
+		}
+
+		if(idPattern.test(userId)){
+			alert("영문숫자 조합 6~20자리를 입력해주세요.");
+			$("#userId").focus();
+			$("#idCheck").val("0");
+		     return false;
 		 } else {
 
 			$.ajax({
@@ -288,7 +271,6 @@ function userCheck(){
 	    	});
 
 		}
-		userEmailCheck();
 	}else{
 		alert("ID를 입력해주세요.");
 		$("#userId").focus();
@@ -322,10 +304,10 @@ function userEmailCheck(){
 	             success : function(data){
 	            	 if(data.check=="0"){
 	            		 $("#emailCheck").val("1");
-	            		 //alert("사용하실수 있는 이메일입니다.");
+	            		 alert("사용하실수 있는 이메일입니다.");
 	            	 }else{
 	            		 $("#emailCheck").val("0");
-	            		 //alert("사용하실수 없는 이메일입니다.");
+	            		 alert("사용하실수 없는 이메일입니다.");
 	            	 }
 	             }
 	    	});
@@ -479,7 +461,9 @@ function submitGo(){
 		alert("이메일 : 필수입력값입니다.");
 		$("#emailDomain").focus();
 		return false;
-	}else if($("#emailCheck").val()==null||$("#emailCheck").val()==""){
+	}
+
+	else if($("#emailCheck").val()==null||$("#emailCheck").val()==""){
 		alert("이메일 : 중복확인이 필요합니다.");
 		//emailCheck();
 		$("#emailId").focus();
@@ -512,16 +496,16 @@ function submitGo(){
 }
 //]]>
 </script>
-111111111111
+
 <form name="authForm" id="authForm" method="post" action="/web/jnspUserProc.do" enctype="multipart/form-data" >
 	<input type="hidden" name="mode" id="mode" value="auth" />
 	<input type="hidden" name="idCheck" id="idCheck"/>
 	<input type="hidden" name="orgGrpCd" id="orgGrpCd" value="" onchange="orgInfo()"/>
 	<input type="hidden" name="page" id="page" value="<%=page %>" />
 	<input type="hidden" name="userTp" id="userTp" value="<%=util.getStr(paramMap.get("userTp")) %>" />
-
+    
     <div class="hide">회원정보입력</div>
-
+    
 			<table class="skin_basic_write" summary="회원정보입력 테이블로 이름, 성별구분, 외국인여부, 사용자 ID, 비밀번호, 비밀번호 확인, 전화번호, 핸드폰번호, 이메일 등으로 구성되어있습니다.">
 	   			<caption>회원정보입력</caption>
                 <colgroup>
@@ -553,20 +537,7 @@ function submitGo(){
 					<tr>
 						<th class="r_line"><label for="userId"> * 사용자 ID</label></th>
 						<td class="td" colspan="3">
-							<input type="hidden" name="userId" maxlength="20" value="" id="userId" class="txtbox" readonly="readonly" >
-							<input type="text" name="emailId" maxlength="20" value="" id="emailId" class="inp_txt" title="이메일아이디"> @
-							<input type="text" name="emailDomain" maxlength="50" value="" id="emailDomain" class="inp_txt" title="이메일도메인">
-							<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택">
-									<option value="" selected="selected">직접입력</option>
-									<option value="empal.com">empal.com</option>
-									<option value="naver.com">naver.com</option>
-									<option value="hanmail.net">hanmail.net</option>
-									<option value="hotmail.com">hotmail.com</option>
-									<option value="yahoo.co.kr">yahoo.co.kr</option>
-									<option value="nate.com">nate.com</option>
-									<option value="korea.kr">korea.kr</option>
-									<option value="jntp.or.kr">jntp.or.kr</option>
-							</select>
+							<input type="text" name="userId" maxlength="20" value="" id="userId" class="txtbox" >
 							<input type="button" id="btnCheckUserId" class="btn_inp_b_01" value="중복확인" onclick="userCheck()" title="아이디 중복 확인(새 창 열림)">
 							* 영문 또는 영문숫자 조합 6~20자리
 							<div id = "checkValue"></div>
@@ -640,16 +611,27 @@ function submitGo(){
 						</td>
 					</tr>
 					<tr>
-						<th class="r_line"><label for="email"> * 이메일</label></th>
+						<th class="r_line"><label for="emailId"> * 이메일</label></th>
 						<td class="td" colspan="3">
-							<input type="text" name="email" value="" id="email" class="inp_txt" readonly="readonly" title="이메일(회원아이디)"/>
+							<input type="hidden" name="email" value="" id="email">
+							<input type="text" name="emailId" maxlength="20" value="" id="emailId" class="txtbox" title="이메일 아이디"> @
+							<input type="text" name="emailDomain" maxlength="50" value="" id="emailDomain" class="txtbox" title="이메일 도메인 주소">
+							<select name="emailDomainChoise" id="emailDomainChoise" title="이메일 도메인 주소 선택" >
+								<option value="" selected="selected">직접입력</option>
+								<option value="empal.com">엠파스</option>
+								<option value="naver.com">네이버</option>
+								<option value="hanmail.net">다음</option>
+								<option value="hotmail.com">핫메일</option>
+								<option value="yahoo.co.kr">야후</option>
+								<option value="nate.com">네이트</option>
+							</select>
 							<input type="hidden" id="emailCheck" name="emailCheck" value=""/>
-							<!-- <input type="button" id="btnCheckEmail" class="btn_inp_b_01" value="중복확인" onclick="userEmailCheck()" title="이메일 중복 확인(새 창 열림)"> -->
+							<input type="button" id="btnCheckEmail" class="btn_inp_b_01" value="중복확인" onclick="userEmailCheck()" title="이메일 중복 확인(새 창 열림)">
 						</td>
 					</tr>
 					 <tr id="orgTpTr">
 						<th class="r_line"> * 소속기관</th>
-						<td class="td" colspan="3">
+						<td class="td" colspan="3">						
 							<span id="orgList" style="padding-left: 15px;">
 								<input type="button" name="blngOrgNm" value="<%=util.getStr(paramMap.get("userTp")).equals("2")?"기업":"기관" %>검색" id="blngOrgNm" class="btn_inp_b_01"  onclick="popupWindow('orgList')" >
 							</span><br />

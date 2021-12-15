@@ -28,7 +28,6 @@ span.Blue { color:#2c72c7 }
 .logo { width:155px; height:50px; z-index:10000; margin:25px 0 0 53px; float:left }
 
 /* 모바일메뉴 */
-.m_login {display:none}
 .m_menu { display:none }
 .m_nav_wrap{display:none;text-indent:-9999px}
 

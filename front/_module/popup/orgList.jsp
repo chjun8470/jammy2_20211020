@@ -52,9 +52,6 @@
 				<%} %>
 
 				<input type="button" onclick="submitGo()" value="검색" class="btn_g_01" />
-				<%if(orgType.equals("1")||userTp.equals("1")){ %>
-					<input type="button" onclick="writeCompanyPop()" style="float: right;" value="기업등록" class="btn_b_01" />
-				<% } %>
 				<p style="color:#ff0000;" >※ 검색어를 입력해 검색해주세요.</p>
 			</div>
 		</div>
@@ -94,7 +91,7 @@
 				</tr>
 			<%
 			cont--;
-			}
+			} 
 				if(dataList.size() <= 0){
 			%>
 				<tr>
@@ -151,13 +148,6 @@ function submitGo(){
 	function submitGo(){
 		searchForm.submit();
 	}
-
-//기업등록
-function writeCompanyPop(){
-	var popUrl="/web/popup/orgResvPop.do?orgType=1";
-	var popOption="width=817, height=650, resizable=no, scrollbars=yes, status=no;";
-	window.open(popUrl,"",popOption);
-}
 //]]>
 </script>
 <%@include file="/front/_temple/popup/t_footer.jsp" %>

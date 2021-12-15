@@ -2,7 +2,7 @@
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*"%>
 <%@ page import="info.elsys.jnsp.util.ComUtil"%>
 <%@ page import="info.elsys.jnsp.util.CriptUtil"%>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO"%>
+<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	ComUtil util = new ComUtil();

@@ -11,24 +11,16 @@
 	ComUtil util = new ComUtil();
 
 	HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
-	HashMap<String, String> eventMap = request.getAttribute("eventMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("eventMap");
 	HashMap<String, String> dataMap = request.getAttribute("dataMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("dataMap");
 
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
-	ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
 
-	String fileGrp = "event";
-	String fileSubGrp = "";
-	String fileFullGrp =fileGrp+fileSubGrp;
-
-	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
+	String mode = util.getIntStr(paramMap.get("mode"));
 	String m = util.getStr(paramMap.get("m"));
-	String listMode = util.getStr(paramMap.get("listMode"));
-	String eventIdx = util.getStr(paramMap.get("eventIdx"));
 	String userIdx = util.getStr(paramMap.get("userIdx"));
-
-	//out.println(paramMap);
+	String eventIdx = util.getStr(paramMap.get("eventIdx"));
+	String listMode = paramMap.get("listMode");
 
 %>
 <%@include file="/front/_temple/popup/t_top.jsp" %>
@@ -54,31 +46,31 @@
         </span>
 
 		<table class="skin_basic_write">
-			<caption>1<%=util.getStr(dataMap.get("EVENT_TYPE_NM"))%>2 행사신청 작성하기</caption>
+			<caption>작성하기</caption>
 			<colgroup>
 				<col style="width: 20%;" />
 				<col style="width: 80%;" />
 			</colgroup>
 			<tbody>
 				<tr>
-					<th scope="col"><span style="color:red; font-size:11pt;">*</span> 이름</th>
+					<th><span style="color:red; font-size:11pt;">*</span> 이름</th>
 					<td>
-						<input type="text" class="inp_text" name="userNm" id="userNm" value="<%=util.getStr(dataMap.get("PSN_NM"))%>" style="width: 100%;" maxlength="100" title="이름"/>
+						<input type="text" class="inp_text" name="userNm" id="userNm" value="<%=util.getStr(dataMap.get("PSN_NM"))%>" style="width: 100%;" maxlength="100" />
 					</td>
 				</tr>
 				<tr>
-					<th scope="col"><span style="color:red; font-size:11pt;">*</span> 성별</th>
+					<th><span style="color:red; font-size:11pt;">*</span> 성별</th>
 					<td>
 						<input type="checkbox" id="genderTypeCd_M" name="genderTypeCd" value="M" <%if("M".equals(util.getStr(dataMap.get("GENDER_TYPE_CD")))) {%> checked="checked" <%}%> onclick="check_only(this)"><label for="genderTypeCd_M"> 남성</label>&nbsp;&nbsp;
 						<input type="checkbox" id="genderTypeCd_F" name="genderTypeCd" value="F" <%if("F".equals(util.getStr(dataMap.get("GENDER_TYPE_CD")))) {%> checked="checked" <%}%> onclick="check_only(this)"><label for="genderTypeCd_F"> 여성</label>
 					</td>
 				</tr>
 				<tr>
-					<th scope="col"><span style="color:red; font-size:11pt;">*</span> 소속<br/>(기업/기관명,부서명)</th>
+					<th><span style="color:red; font-size:11pt;">*</span> 소속<br/>(기업/기관명,부서명)</th>
 					<td>
 						<input type="hidden" name="loginOrgCd" id="loginOrgCd" value="<%=util.getStr(dataMap.get("ORG_GRP_CD"))%>" />
-						<input type="text" class="inp_text" name="loginOrgNm" id="loginOrgNm" value="<%=util.getStr(dataMap.get("ORG_GRP_NM"))%>" style="border-style: none;" readOnly title="소속 기업/기관명"/>
-						<input type="text" class="inp_text" name="loginOrgDept" id="loginOrgDept" value="<%=util.getStr(dataMap.get("DEPT_NM"))%>" style="border-style: none;" readOnly title="부서명"/>
+						<input type="text" class="inp_text" name="loginOrgNm" id="loginOrgNm" value="<%=util.getStr(dataMap.get("ORG_GRP_NM"))%>" style="border-style: none;" readOnly/>
+						<input type="text" class="inp_text" name="loginOrgDept" id="loginOrgDept" value="<%=util.getStr(dataMap.get("DEPT_NM"))%>" style="border-style: none;" readOnly/>
 
 						<span style="float: right;"><input type="checkbox" id="changeOrgGrp" name="changeOrgGrp" value="Y" onClick="openOrgGrp(this)"> 수정</span>
 
@@ -92,21 +84,21 @@
 					</td>
 				</tr>
 				<tr>
-					<th scope="col">직위</th>
+					<th>직위</th>
 					<td>
-						<input type="text" class="inp_text" name=positionNm id="positionNm" value="<%=util.getStr(dataMap.get("POSITION_NM"))%>" style="width: 100%;" maxlength="100" title="직위"/>
+						<input type="text" class="inp_text" name=positionNm id="positionNm" value="<%=util.getStr(dataMap.get("POSITION_NM"))%>" style="width: 100%;" maxlength="100"/>
 					</td>
 				</tr>
 				<tr>
-					<th scope="col"><span style="color:red; font-size:11pt;">*</span> 전화번호</th>
+					<th><span style="color:red; font-size:11pt;">*</span> 전화번호</th>
 					<td>
-						<input type="text" class="inp_text" name="telNo" id="telNo" value="<%=util.getStr(dataMap.get("TEL_NO"))%>" style="width: 100%;" maxlength="100" title="전화번호"/>
+						<input type="text" class="inp_text" name="telNo" id="telNo" value="<%=util.getStr(dataMap.get("TEL_NO"))%>" style="width: 100%;" maxlength="100" />
 					</td>
 				</tr>
 				<tr>
-					<th scope="col"><span style="color:red; font-size:11pt;">*</span> E-mail</th>
+					<th><span style="color:red; font-size:11pt;">*</span> E-mail</th>
 					<td>
-						<input type="text" class="inp_text" name="email" id="email" value="<%=util.getStr(dataMap.get("EMAIL"))%>" style="width: 100%; border-width: 0px;" readOnly title="이메일"/>
+						<input type="text" class="inp_text" name="email" id="email" value="<%=util.getStr(dataMap.get("EMAIL"))%>" style="width: 100%; border-width: 0px;" readOnly/>
 					</td>
 				</tr>
 			</tbody>

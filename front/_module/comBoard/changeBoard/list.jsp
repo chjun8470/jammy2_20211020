@@ -41,9 +41,7 @@
 	}
 %>
 
-	<div class="MPTit MPTit02 MAB0">담당자게시판</div>
-
-	<div class="list_top h30">
+	<div class="list_top">
 		<form class="boardSearch" name="searchForm" id="searchForm" action="./changeboard.do"  method="post">
 			<input type="hidden" name="boardComIdx" id="boardComIdx" value="<%=boardComIdx%>" />
 			<input type="hidden" name="mode" id="mode" value="<%=mode%>" />
@@ -77,10 +75,12 @@
 		</form>
 	</div>
 
+<!--cont_block S-->
+	<div id="cont_block">
 		<!--basic_listWrap S-->
 		<div class="basic_listWrap">
 
-			<table class="skin_list01">
+			<table class="skin_list">
 				<!-- colgroup s -->
 			    <colgroup>
 			      <col style="width:10%;" />
@@ -98,7 +98,7 @@
 				    <th scope="col" >제목</th>
 				    <th scope="col" >등록자</th>
 				    <th scope="col" >등록일</th>
-				    <th scope="col" class="r_line_none">조회</th>
+				    <th scope="col" >조회</th>
 				  </tr>
 				</thead>
 				<!-- thead s -->
@@ -128,7 +128,7 @@
 						<td>
 							<%=util.getStr(rs.get("FRST_REGIST_PNTTM"))%>
 						</td>
-						<td class="r_line_none">
+						<td>
 							<%=util.getStr(String.valueOf(rs.get("HITS")))%>
 						</td>
 					</tr>
@@ -136,12 +136,13 @@
 				</tbody>
 			</table>
 
-			<div class="MPBtnWrap MAT10">
-				<input type="button" class="btn_inp_b_01 FloatR" value="등록" onclick="goSubmit('write')"/>
+			<div class="b_btn_area" style="width: 600px;">
+			<input type="button" class="btn_rgt" value="글쓰기" onclick="goSubmit('write')" style="cursor: pointer"/>
 			</div>
 			<%=util.getPaging(staticVO, nowPage)%>
 	</div>
-	<!--basic_listWrap E-->
+	<!--cont_block E-->
+</div>
 
 
 

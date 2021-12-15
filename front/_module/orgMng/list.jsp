@@ -61,9 +61,9 @@ response.setContentType("text/html;charset=UTF-8");
 			<colgroup>
 				<col style="width: 6%;" />
 				<col style="width: 22%;" />
-				<col style="width: 28%;" /> 
-				<col style="width: 30%;" />
 				<col style="width: 20%;" />
+				<col style="width: 38%;" />
+				<!--<col style="width: 20%;" />-->
 			</colgroup>
 			<thead>
 				<tr>
@@ -89,16 +89,12 @@ response.setContentType("text/html;charset=UTF-8");
 									<img src="/img/no-image.gif" alt="이미지 없음"  style="width:150px;height:50px" />
 								</c:when>
 								<c:otherwise>
-									<img src="${data.CI_FILE_SRC}" alt="${data.ORG_GRP_NM}" style="width:150px;height:50px;" />
+									<img src="${data.CI_FILE_SRC}" alt="${data.CI_FILE_TITLE}" style="width:150px;height:50px;" />
 								</c:otherwise>
 							</c:choose>
 								</a>
 							</td>
-							<td class="line_del_1" >
-								<a href="javascript:pageViewGo('${data.ORG_GRP_CD}');" title="${data.ORG_GRP_NM} 기관 상세보기" >
-								${data.ORG_GRP_NM}
-								</a>
-							</td>
+							<td class="line_del_1" >${data.ORG_GRP_NM}</td>
 							<td>${data.ADDR1} ${data.ADDR2}</td>
 							<td  class="r_line_none">${data.CORP_PHONE}</td>
 						</tr>
@@ -165,7 +161,7 @@ response.setContentType("text/html;charset=UTF-8");
 		}else if(win_w < 768){ //모바일 769 이하일때 100%
 			if($('.basic_listWrap .skin_list colgroup col').size()>=4){
 				$('.basic_listWrap .skin_list').find('col:eq(4)').remove();
-				$('.basic_listWrap .skin_list').find('col:eq(3)').remove();
+				$('.basic_listWrap .skin_list').find('col:eq(4)').remove();
 			}
 			$('.basic_listWrap .skin_list tr').find('td:eq(3)').hide();
 			$('.basic_listWrap .skin_list tr').find('td:eq(4)').hide();

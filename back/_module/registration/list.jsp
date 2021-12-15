@@ -316,7 +316,7 @@ $(document).ready(function() {
 		<%=util.getPaging(staticVO, nowPage) %>
 		</div>
 		<div class="btn_right_box">
-			<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write', 'utility')"/>
+			<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write', 'utility')"/>
 		</div>
 	</div>
 
@@ -414,7 +414,7 @@ $(document).ready(function() {
 		<%=util.getPaging(staticVO, nowPage) %>
 		</div>
 		<div class="btn_right_box">
-			<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write', 'design')"/>
+			<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write', 'design')"/>
 		</div>
 	</div>
 
@@ -510,7 +510,7 @@ $(document).ready(function() {
 		<%=util.getPaging(staticVO, nowPage) %>
 		</div>
 		<div class="btn_right_box">
-			<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write', 'brand')"/>
+			<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write', 'brand')"/>
 		</div>
 	</div>
 
@@ -604,7 +604,7 @@ $(document).ready(function() {
 		<%=util.getPaging(staticVO, nowPage) %>
 		</div>
 		<div class="btn_right_box">
-			<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write', 'program')"/>
+			<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write', 'program')"/>
 		</div>
 	</div>
 
@@ -702,7 +702,7 @@ $(document).ready(function() {
 		<%=util.getPaging(staticVO, nowPage) %>
 		</div>
 		<div class="btn_right_box">
-			<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write', 'knowhow')"/>
+			<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write', 'knowhow')"/>
 		</div>
 	</div>
 </div>

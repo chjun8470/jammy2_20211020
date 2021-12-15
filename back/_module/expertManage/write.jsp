@@ -3,7 +3,6 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page import="org.springframework.ui.Model"%>
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*"%>
 <%@page import="info.elsys.jnsp.util.ComUtil"%>
@@ -25,9 +24,6 @@
        ArrayList<HashMap<String, String>> standardList = request.getAttribute("standardList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("standardList");
        ArrayList<HashMap<String, String>> areaSigunguList = request.getAttribute("areaSigunguList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("areaSigunguList");
 	   ArrayList<HashMap<String, String>> areaList = request.getAttribute("areaList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("areaList");
-	   
-	   ArrayList<HashMap<String, String>> bizList1 = request.getAttribute("bizList1") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("bizList1");
-	   ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
 
        String mode = util.getStr(paramMap.get("mode"));
        String nowPage = util.getStr(paramMap.get("nowPage"));
@@ -39,8 +35,7 @@
        String fileFullGrp =fileGrp+fileSubGrp;
 
        int scCnt = 0;
-       
-       
+
 %>
 <style  scoped>
 .ui-datepicker-calendar {
@@ -48,16 +43,10 @@
     }
 button.ui-datepicker-current { display: none; }
 </style>
-
-
-<jsp:useBean id="currTime" class="java.util.Date" />
-
-
-
 <form name="fwrite" id="fwrite" action="<%=myPage%>" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="mode" id="mode" value="<%=mode%>" />
 	<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage()%>" />
-	<input type="hidden" name="reUrl" id="reUrl" value="/sys/<%=myPage%>" />
+	<input type="hidden" name="reUrl" id="reUrl" value="<%=myPage%>" />
 	<input type="hidden" name="userIdx" id="userIdx" value="<%=userIdx%>" />
 	<input type="hidden" name="userId" id="userId" value="<%=util.getStr(dataMap.get("USER_ID")) %>" />
 	<input type="hidden" name="proState" id="proState" value="" />
@@ -81,90 +70,33 @@ button.ui-datepicker-current { display: none; }
             	<tr>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 이름</th>
             		<td>
-            			<input type="text" name="psnNm" id="psnNm" value="<%=util.getStr(dataMap.get("PSN_NM")) %>" class="inp_txt" maxlength="20">
+            			<input type="text" name="psnNm" id="psnNm" value="<%=util.getStr(dataMap.get("PSN_NM")) %>" class="inp_txt" style="border:0px;"  readonly  maxlength="20">
             		</td>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 성별</th>
             		<td>
-            			<!-- input type="text" name="GenderTypeCd" id="GenderTypeCd"  value="<%=util.getStr(dataMap.get("GENDER_TYPE_CD")) %>" class="inp_txt" maxlength="20"-->
-						<select name="GenderTypeCd" id="GenderTypeCd" class="select_box">
-							<option>남자</option>
-							<option>여자</option>
-						</select>
+            			<input type="text" name="GenderTypeCd" id="GenderTypeCd"  value="<%=util.getStr(dataMap.get("GENDER_TYPE_CD")) %>" class="inp_txt" style="border:0px;"  readonly  maxlength="20">
+
             		</td>
             	</tr>
             	<tr>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 출생년도</th>
             		<td>
-            			<fmt:formatDate value="${currTime}" var="currTime" pattern="yyyy" />
-            			<%if(util.getStr(dataMap.get("BIRTH_DATE")).equals("")||util.getStr(dataMap.get("BIRTH_DATE")).equals(null)){ %>
-            			<select name="birthDate" id="birthDate" class="select_box">
-            			<option value="">선택</option>
-            			<c:forEach var="i" begin="1950" end="${currTime}">
-            				<option value="${i}">${i}</option>
-            			</c:forEach>
-						</select>
-            			<%}else{ 
-            				String births = util.getStr(dataMap.get("BIRTH_DATE")).substring(0,4);
-            			%>
-            			
-            			<select name="birthDate" id="birthDate" class="select_box">
-            			<option value="">선택</option>
-            			<c:forEach var="idx" begin="1950" end="${currTime}">
-            				<c:set var="birthx" value="<%=births%>" />
-            				<option value="${idx}" ${idx == birthx?'selected="selected"':''} >${idx}</option>            				
-            			</c:forEach>
-						</select>
-						<%}  %>
-            		<!-- 
             			<%if(util.getStr(dataMap.get("BIRTH_DATE")).equals("")||util.getStr(dataMap.get("BIRTH_DATE")).equals(null)){ %>
             				<input type="text" name="birthDate" id="birthDate"  class="inp_txt" style="width:100%;" maxlength="100">EX)1988년생 => 1988
             			<%}else{ %>
             				<input type="text" name="birthDate" id="birthDate"  value="<% if(util.getStr(dataMap.get("BIRTH_DATE")).length() > 4){ out.println( util.getStr(dataMap.get("BIRTH_DATE")).substring(0,4) );  }else{ out.println( util.getStr(dataMap.get("BIRTH_DATE")) ); } %>" class="inp_txt" style="border:0px;"  readonly  maxlength="4">
             			<%} %>
-            		 -->
             		</td>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> email</th>
             		<td>
-            			<input type="hidden" name="email" id="email"  value="" class="inp_txt" maxlength="20">
             			<%if(util.getStr(dataMap.get("EMAIL")).equals("")||util.getStr(dataMap.get("EMAIL")).equals(null)){ %>
-            			
-            			<input type="text" name="mail1" id="mail1" value="" class="inp_txt" style="width:35%"  maxlength="20" title="이메일아이디"> @
-						<input type="text" name="mail2" id="mail2" value="" class="inp_txt" style="width:30%"  maxlength="50" title="이메일도메인">
-						<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택" >
-							<option value="" selected="selected">직접입력</option>
-							<option value="gmail.com">지메일</option>
-							<option value="empal.com">엠파스</option>
-							<option value="naver.com">네이버</option>
-							<option value="hanmail.net">다음</option>
-							<option value="hotmail.com">핫메일</option>
-							<option value="yahoo.co.kr">야후</option>
-							<option value="nate.com">네이트</option>
-						</select>
-            			
-            			<%}else{%>
-            			
-            			<%
-            				int xidx = util.getStr(dataMap.get("EMAIL")).indexOf("@");
-            				String mail1 = util.getStr(dataMap.get("EMAIL")).substring(0,xidx);
-            				String mail2 = util.getStr(dataMap.get("EMAIL")).substring(xidx+1);
-            			%>
-           				<input type="text" name="mail1" id="mail1" value="<%=mail1%>" class="inp_txt" style="width:35%"  maxlength="20" title="이메일아이디"> @
-						<input type="text" name="mail2" id="mail2" value="<%=mail2%>" class="inp_txt" style="width:30%"  maxlength="50" title="이메일도메인">
-						<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택" >
-							<option value="" <%if(mail2.equals("") || mail2.equals(null) ) { %> selected="selected" <% } %>>직접입력</option>
-							<option value="gmail.com" <%if(mail2.equals("gmail.com")) { %> selected="selected" <% } %>>지메일</option>
-							<option value="empal.com" <%if(mail2.equals("empal.com")) { %> selected="selected" <% } %>>엠파스</option>
-							<option value="naver.com" <%if(mail2.equals("naver.com")) { %> selected="selected" <% } %>>네이버</option>
-							<option value="hanmail.net" <%if(mail2.equals("hanmail.net")) { %> selected="selected" <% } %>>다음</option>
-							<option value="hotmail.com" <%if(mail2.equals("hotmail.com")) { %> selected="selected" <% } %>>핫메일</option>
-							<option value="yahoo.co.kr" <%if(mail2.equals("yahoo.co.kr")) { %> selected="selected" <% } %>>야후</option>
-							<option value="nate.com" <%if(mail2.equals("nate.com")) { %> selected="selected" <% } %>>네이트</option>
-						</select>
-            			<% } %>
+            				<input type="text" name="email" id="email"  class="inp_txt" style="width:100%;" maxlength="100">
+            			<%}else{ %>
+            				<input type="text" name="email" id="email"  value="<%=util.getStr(dataMap.get("EMAIL")) %>" class="inp_txt" style="border:0px;"  readonly  maxlength="20">
+            			<%} %>
             		</td>
             	</tr>
             	<tr>
-            		<!-- 
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 국적</th>
             		<td>
             			<%if(util.getStr(dataMap.get("FRGN_YN")).equals("Y")){
@@ -177,12 +109,11 @@ button.ui-datepicker-current { display: none; }
 			            		<input type="text" name="proUserForg" id="proUserForg"  value="대한민국" class="inp_txt" readonly style="border:0px;" >
             			<%} %>
             		</td>
-            		 -->
-            		<th scope="row" class="tit"><span style="color:red;" >*</span> 거주지</th>
-            		<td colspan="3">
+            		<th scope="row" class="tit"><span style="color:red;" >*</span> 출생지역</th>
+            		<td>
            					&nbsp;&nbsp;전라남도 <input type="radio" name="area" value="1"  checked="checked" onclick="areaClick('1')"/>
 							&nbsp;&nbsp;전라남도 외 지역 <input type="radio" name="area" value="2"  onclick="areaClick('2')"/>&nbsp;&nbsp;
-							<select class="select_box" name="ProUserBirthplace" id="ProUserBirthplace1">
+							<select class="p_select" name="ProUserBirthplace" id="ProUserBirthplace1">
 								<option value="">선택하세요</option>
 								<%
 									int utilitynumArea = 1;
@@ -191,7 +122,7 @@ button.ui-datepicker-current { display: none; }
 								<option value="<%=util.getStr(rs.get("CODE_NM"))%>"><%=util.getStr(rs.get("CODE_NM"))%></option>
 								<% utilitynumArea++; } %>
 							</select>
-							<select class="select_box" name="0" id="ProUserBirthplace2" style="display:none;">
+							<select class="p_select" name="0" id="ProUserBirthplace2" style="display:none;">
 								<option value="">선택하세요</option>
 								<%
 									int utilitynumArea2 = 1;
@@ -205,94 +136,22 @@ button.ui-datepicker-current { display: none; }
             	<tr>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 전화번호</th>
             		<td>
-            			<input type="hidden" name="telNo" id="telNo"  value="" class="inp_txt"  maxlength="20">
             			<%if(util.getStr(dataMap.get("TEL_NO")).equals("")||util.getStr(dataMap.get("TEL_NO")).equals(null)){ %>
-            				<select name="tel1" id="tel1" class="select_box" title="사무실전화번호 국번">
-                          		<option value="02">02</option>
-								<option value="031">031</option>
-								<option value="032">032</option>
-								<option value="033">033</option>
-								<option value="041">041</option>
-								<option value="042">042</option>
-								<option value="043">043</option>
-								<option value="044">044</option>
-								<option value="051">051</option>
-								<option value="052">052</option>
-								<option value="053">053</option>
-								<option value="054">054</option>
-								<option value="055">055</option>
-								<option value="061">061</option>
-								<option value="062">062</option>
-								<option value="063">063</option>
-								<option value="064">064</option>
-								<option value="070">070</option>
-							</select> -
-							<input type="text" name="tel2" id="tel2" value="" maxlength="4" size="5" class="inp_txt" title="사무실전화 앞번호"> -
-							<input type="text" name="tel3" id="tel3" value="" maxlength="4" size="5" class="inp_txt" title="사무실전화 뒷번호">
-            			<%
-            			}else{ 
-            				String telox = util.getStr(dataMap.get("TEL_NO"));
-            				String telA[] = telox.split("-"); 
-            			%>
-            			
-            				<select name="tel1" id="tel1" class="select_box" title="사무실전화번호 국번" style="width:30%">
-                          		<option value="02" 	<%if(telA[0].equals("02")) { %> selected="selected" <% } %>>02</option>
-								<option value="031" <%if(telA[0].equals("031")) { %> selected="selected" <% } %>>031</option>
-								<option value="032" <%if(telA[0].equals("032")) { %> selected="selected" <% } %>>032</option>
-								<option value="033" <%if(telA[0].equals("033")) { %> selected="selected" <% } %>>033</option>
-								<option value="041" <%if(telA[0].equals("041")) { %> selected="selected" <% } %>>041</option>
-								<option value="042" <%if(telA[0].equals("042")) { %> selected="selected" <% } %>>042</option>
-								<option value="043" <%if(telA[0].equals("043")) { %> selected="selected" <% } %>>043</option>
-								<option value="044" <%if(telA[0].equals("044")) { %> selected="selected" <% } %>>044</option>
-								<option value="051" <%if(telA[0].equals("051")) { %> selected="selected" <% } %>>051</option>
-								<option value="052" <%if(telA[0].equals("052")) { %> selected="selected" <% } %>>052</option>
-								<option value="053" <%if(telA[0].equals("053")) { %> selected="selected" <% } %>>053</option>
-								<option value="054" <%if(telA[0].equals("054")) { %> selected="selected" <% } %>>054</option>
-								<option value="055" <%if(telA[0].equals("055")) { %> selected="selected" <% } %>>055</option>
-								<option value="061" <%if(telA[0].equals("061")) { %> selected="selected" <% } %>>061</option>
-								<option value="062" <%if(telA[0].equals("062")) { %> selected="selected" <% } %>>062</option>
-								<option value="063" <%if(telA[0].equals("063")) { %> selected="selected" <% } %>>063</option>
-								<option value="064" <%if(telA[0].equals("064")) { %> selected="selected" <% } %>>064</option>
-								<option value="070" <%if(telA[0].equals("070")) { %> selected="selected" <% } %>>070</option>
-							</select> -
-							<input type="text" name="tel2" id="tel2" value="<%=telA[1]%>" maxlength="4" style="width:30%" class="inp_txt" title="사무실전화 앞번호"> -
-							<input type="text" name="tel3" id="tel3" value="<%=telA[2]%>" maxlength="4" style="width:30%" class="inp_txt" title="사무실전화 뒷번호">
-            				
+            				<input type="text" name="telNo" id="telNo"  class="inp_txt" style="width:100%;" maxlength="100">
+            			<%}else{ %>
+            				<input type="text" name="telNo" id="telNo"  value="<%=util.getStr(dataMap.get("TEL_NO")) %>" class="inp_txt" style="border:0px;"  readonly  maxlength="20">
             			<%} %>
 	         		</td>
 	         		<th scope="row" class="tit"><span style="color:red;" >*</span> 휴대전화</th>
             		<td>
-            			<input type="hidden" name="cpNo" id="cpNo"  value="" class="inp_txt" style="border:0px;"  maxlength="20">
             			<%if(util.getStr(dataMap.get("CP_NO")).equals("")||util.getStr(dataMap.get("CP_NO")).equals(null)){ %>
-            				<select name="cp1" id="cp1" class="select_box"  style="width: 30%" title="휴대폰 국번">
-								<option value="010">010</option>
-								<option value="011">011</option>
-								<option value="016">016</option>
-								<option value="017">017</option>
-								<option value="018">018</option>
-								<option value="019">019</option>
-							</select> -
-							<input type="text" name="cp2" id="cp2" value="" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 앞번호"> -
-							<input type="text" name="cp3" id="cp3" value="" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 뒷번호">
-            			<%
-            			}else{
-            				String cpox = util.getStr(dataMap.get("CP_NO"));
-            				String cpA[] = cpox.split("-"); 
-            			%>
-            				<select name="cp1" id="cp1" class="select_box"  style="width: 30%" title="휴대폰 국번">
-								<option value="010" <%if(cpA[0].equals("010")) { %> selected="selected" <% } %>>010</option>
-								<option value="011" <%if(cpA[0].equals("011")) { %> selected="selected" <% } %>>011</option>
-								<option value="016" <%if(cpA[0].equals("016")) { %> selected="selected" <% } %>>016</option>
-								<option value="017" <%if(cpA[0].equals("017")) { %> selected="selected" <% } %>>017</option>
-								<option value="018" <%if(cpA[0].equals("018")) { %> selected="selected" <% } %>>018</option>
-								<option value="019" <%if(cpA[0].equals("019")) { %> selected="selected" <% } %>>019</option>
-							</select> -
-							<input type="text" name="cp2" id="cp2" value="<%=cpA[1]%>" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 앞번호"> -
-							<input type="text" name="cp3" id="cp3" value="<%=cpA[2]%>" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 뒷번호">
+            				<input type="text" name="cpNo" id="cpNo"  class="inp_txt" style="width:100%;" maxlength="100">
+            			<%}else{ %>
+            				<input type="text" name="cpNo" id="cpNo"  value="<%=util.getStr(dataMap.get("CP_NO")) %>" class="inp_txt" style="border:0px;"  readonly  maxlength="20">
             			<%} %>
          			</td>
             	</tr>
-            	<!-- tr>
+            	<tr>
             		<th scope="row" class="tit"><span style="color:red;" >*</span> 사진첨부</th>
                    	<td colspan="3">
                    		<div id="fileDiv">
@@ -304,7 +163,7 @@ button.ui-datepicker-current { display: none; }
                         </div>
 						<input type="checkbox" name="photoCheck" id="photoCheck"/>&nbsp;사진미등록
                 	</td>
-            	</tr-->
+            	</tr>
             	<tr>
       	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 전문가구분</th>
             		<td colspan="3">
@@ -317,36 +176,6 @@ button.ui-datepicker-current { display: none; }
 						컨설팅 <input type="checkbox" name="proJntisConsulting" value="Y" />&nbsp;&nbsp;
 						마케팅 <input type="checkbox" name="proJntisMarketing" value="Y" />&nbsp;&nbsp;
 						기타 <input type="checkbox" name="proJntisEtc" value="Y" />&nbsp;&nbsp;
-					</td>
-            	</tr>
-            	<tr>
-            		<th scope="row" class="tit"><span style="color:red;" >*</span> 산업기술분류</th>
-	            	<td colspan="3">
-	         			<select class="select_box" name="code_b" id="code_b">
-							<option value="">산업기술대분류</option>
-							<%
-							for(HashMap bz:bizList1){
-							%>
-							<option value="<%=util.getStr(bz.get("CODE_CD"))%>"><%=util.getStr(bz.get("CODE_NM"))%></option>
-							<% 
-							}
-							%>
-						</select>
-						<select class="select_box" name="code_m" id="code_m">
-							<option value="">산업기술중분류</option>
-						</select>
-						<select class="select_box" name="code_s" id="code_s">
-							<option value="">산업기술소분류</option>
-						</select>
-	           		</td>
-	           	</tr>
-            	
-            	<tr>
-      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
-            		<td colspan="3">
-					<% for(HashMap te:teamList){ %>
-						<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" value="Y" />
-					<% } %>	
 					</td>
             	</tr>
             	<tr>
@@ -373,7 +202,7 @@ button.ui-datepicker-current { display: none; }
             </colgroup>
             <tbody>
 	           	<tr>
-	           		<th scope="row" class="tit"><span style="color:red;" >*</span> 기관명</th>
+	           		<th scope="row" class="tit">기관명</th>
 	           		<td>
 	           			<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>
 	           		</td>
@@ -487,11 +316,11 @@ button.ui-datepicker-current { display: none; }
 					<%}%>
 				</select>
 			</td>
-			<th scope="row" class="tit">복수전공분야</th>
+			<th scope="row" class="tit">전공분야</th>
 			<td>
 				<select class="select_box"  style="width:100%;" name="pluralExRealm" ></select>
 			</td>
-			<th scope="row" class="tit">복수부전공</th>
+			<th scope="row" class="tit">세부전공</th>
 			<td>
 				<input type="text" name="pluralExDetail" style="width:100%;" class="inp_txt">
 			</td>
@@ -637,8 +466,7 @@ button.ui-datepicker-current { display: none; }
        			<select class="select_box"   name="rdForm">
        				<option value="">선택</option>
        				<option value="총괄책임자">총괄책임자</option>
-       				<option value="참여책임자">참여책임자</option>
-       				<option value="위탁책임자">위탁책임자</option>
+       				<option value="참여or위탁책임자">참여or위탁책임자</option>
        				<option value="실무담당자">실무담당자</option>
        				<option value="참여연구원">참여연구원</option>
        			</select>
@@ -924,54 +752,6 @@ button.ui-datepicker-current { display: none; }
 	var emailPattern = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 	var mobilePhonePattern = /^\d{3}-\d{3,4}-\d{4}$/;
 	var phonePattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
-	
-	
-	
-	
-	
-	$("#code_b").on("change",function(){
-		var codeX = $(this).val();
-		var codeNext = 2;
-		var mode = "biz";
-		
-		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
-			if(data.state == "OK"){
-				var html = "";
-				
-				$("#code_m").find("option").remove().end().append("<option value=''>산업기술중분류</option>");
-				$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
-				
-				$.each(data.dataList,function(idx,obj){
-					html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
-				});
-				$("#code_m").append(html);
-			}
-		},"JSON");
-	});
-	
-	$("#code_m").on("change",function(){
-		var codeX = $(this).val();
-		var codeNext = 3;
-		var mode = "biz";
-		
-		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
-			if(data.state == "OK"){
-				var html = "";
-				
-				$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
-				
-				$.each(data.dataList,function(idx,obj){
-					html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
-				});
-				$("#code_s").append(html);
-			}
-		},"JSON");
-	});
-	
-	
-	
-	
-	
 
 	function goSubmit(mode,proState){
 		$('#proState').val(proState);
@@ -1047,8 +827,7 @@ button.ui-datepicker-current { display: none; }
 	function goCheck(){
 		var imgFormat = "\.(bmp|gif|jpg|jpeg|png|BMP|GIF|JPG|JJPEG|PNG)$";
         var fileCount = $("input[type=file]").length;
-		/*
-        if($("#photoCheck").is(":checked") == false){
+		if($("#photoCheck").is(":checked") == false){
            	for(i=1;i<=fileCount;i++){
            		if((new RegExp(imgFormat)).test($('#<%=fileFullGrp%>File'+i).val()) && $('#<%=fileFullGrp%>File'+i).val() != ""){
 
@@ -1061,43 +840,10 @@ button.ui-datepicker-current { display: none; }
            		}
            	}
 		}
-		*/
-		
-		$("#email").val($('#mail1').val()+"@"+$('#mail2').val());
-		$("#telNo").val($('#tel1').val()+"-"+$('#tel2').val()+"-"+$('#tel3').val());
-		$("#cpNo").val($('#cp1').val()+"-"+$('#cp2').val()+"-"+$('#cp3').val());
-		
-		if($('#birthDate').val() == "" || $('#birthDate').val() == null || $('#email').val() == "" || $('#email').val() == null || $('#telNo').val() == "" || $('#telNo').val() == null || $('#cpNo').val() == "" || $('#cpNo').val() == null ){
+		if($('#birthDate').val() == "" || $('#birthDate').val() == null || $('#email').val() == "" || $('#email').val() == null || $('#proUserForg').val() == "" || $('#proUserForg').val() == null || $('#telNo').val() == "" || $('#telNo').val() == null || $('#cpNo').val() == "" || $('#cpNo').val() == null ){
 			alert("기본정보는 필수 값 입니다.");
 			return false;
 		}
-		
-		if($('input[name=proJntisConsulting]').is(":checked") == false && $('input[name=proJntisMarketing]').is(":checked") == false && $('input[name=proJntisPlanning]').is(":checked") == false && $('input[name=proJipbank]').is(":checked") == false && $('input[name=proJeinet]').is(":checked") == false && $('input[name=proJntisRnd]').is(":checked") == false && $('input[name=proJntisCompany]').is(":checked") == false && $('input[name=proJntisEducation]').is(":checked") == false && $('input[name=proJntisEtc]').is(":checked") == false ){
-			alert("전문가구분을 선택해주세요");
-			return false;
-		}
-		
-		
-		if($("#code_b").val() == "" || $("#code_b").val() == null ){
-			
-			alert("산업기술 대분류를 선택하세요.");
-			return false;
-		}
-		
-		if($("#code_m").val() == "" || $("#code_m").val() == null ){
-			
-			alert("산업기술 중분류를 선택하세요.");
-			return false;
-		}
-		
-		
-		if($("#code_s").val() == "" || $("#code_s").val() == null ){
-			
-			alert("산업기술 소분류를 선택하세요.");
-			return false;
-		}
-		
-		
 		if( $(':radio[name="Area"]:checked').val() == 2 ){
 			if( $('#ProUserBirthplace2').val() == null || $('#ProUserBirthplace2').val() == "" ){
 				alert('기본정보(출생지역)은 필수 값입니다!');
@@ -1124,15 +870,10 @@ button.ui-datepicker-current { display: none; }
 			alert("기본정보(출생년도) : ex)2016");
 			return false;
 		}
-		
-		
-		
-		if($('input[name=team_1]').is(":checked") == false && $('input[name=team_2]').is(":checked") == false && $('input[name=team_3]').is(":checked") == false && $('input[name=team_4]').is(":checked") == false && $('input[name=team_5]').is(":checked") == false && $('input[name=team_6]').is(":checked") == false && $('input[name=team_7]').is(":checked") == false && $('input[name=team_8]').is(":checked") == false ){
-			alert("소속기관유형을 선택해주세요");
+		if($('input[name=proJntisConsulting]').is(":checked") == false && $('input[name=proJntisMarketing]').is(":checked") == false && $('input[name=proJntisPlanning]').is(":checked") == false && $('input[name=proJipbank]').is(":checked") == false && $('input[name=proJeinet]').is(":checked") == false && $('input[name=proJntisRnd]').is(":checked") == false && $('input[name=proJntisCompany]').is(":checked") == false && $('input[name=proJntisEducation]').is(":checked") == false && $('input[name=proJntisEtc]').is(":checked") == false ){
+			alert("전문가구분을 선택해주세요");
 			return false;
 		}
-		
-		
 		if($('input[name=scNm]:last').val() == "" || $('input[name=scNm]:last').val() == null || $('input[name=scLocation]:last').val() == "" || $('input[name=scLocation]:last').val() == null || $('input[name=scStart]:last').val() == "" || $('input[name=scStart]:last').val() == null || $('input[name=scFinish]:last').val() == "" || $('input[name=scFinish]:last').val() == null || $('select[name=scDegree]:last').val() == "" || $('select[name=scDegree]:last').val() == null){
 			alert("학력정보는 필수 값 입니다.");
 			$('input[name=scNm]:last').focus();
@@ -1154,20 +895,20 @@ button.ui-datepicker-current { display: none; }
 			$("#crFinish"+selId).val("재직 중");	
 		});
 		
-        if($('input[name=scStart]:last').val() != "" && $('input[name=scStart]:last').val() != null){
-			if(datePattern.test($('input[name=scStart]:last').val()) == false){
-				alert("학력정보(기간) : ex) 2016-01");
-				$('input[name=scStart]:last').focus();
-				return false;
-			}
-        }
-        if($('input[name=scFinish]:last').val() != "" && $('input[name=scFinish]:last').val() != null){
-			if(datePattern.test($('input[name=scFinish]:last').val()) == false){
-					alert("학력정보(기간) : ex) 2016-01");
-					$('input[name=scFinish]:last').focus();
-					return false;
-			}
-	    }
+          	if($('input[name=scStart]:last').val() != "" && $('input[name=scStart]:last').val() != null){
+				if(datePattern.test($('input[name=scStart]:last').val()) == false){
+						alert("학력정보(기간) : ex) 2016-01");
+						$('input[name=scStart]:last').focus();
+						return false;
+				}
+           	}
+           	if($('input[name=scFinish]:last').val() != "" && $('input[name=scFinish]:last').val() != null){
+				if(datePattern.test($('input[name=scFinish]:last').val()) == false){
+						alert("학력정보(기간) : ex) 2016-01");
+						$('input[name=scFinish]:last').focus();
+						return false;
+				}
+           	}
 			if($('input[name=crStart]:last').val() != "" && $('input[name=crStart]:last').val() != null){
 				if(datePattern.test($('input[name=crStart]:last').val()) == false){
 					alert("경력정보(기간) : ex) 2016-01");
@@ -1276,8 +1017,6 @@ button.ui-datepicker-current { display: none; }
 					return false;
 				}
 			}
-			
-		
 		goSubmit('writeProc','10');
 	}
 //신청하기-데이터 체트 E
@@ -1291,7 +1030,7 @@ button.ui-datepicker-current { display: none; }
 	}
 //팝업창 E
 //기본datePicker S
-	$("#evSdate0,#evEdate0,#conSdate0,#conEdate0,#scStart0, #scFinish0, #crStart0, #crFinish0, #acStart0, #acFinish0, #rdStart0, #rdFinish0, #quStart0, #awStart0").datepicker({
+	$("#evSdate0,#evEdate0,#conSdate0,#conEdate0,#scStart0, #scFinish0, #crStart0, #crFinish0, #acStart0, #acFinish0, #rdStart0, #rdFinish0, #quStart0, #rpStart0, #ipStart0, #awStart0").datepicker({
        	showMonthAfterYear : true,
        	showButtonPanel : true,
        	changeMonth : true,
@@ -1309,41 +1048,10 @@ button.ui-datepicker-current { display: none; }
             var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
             $(this).datepicker('setDate', new Date(year, month, 1));
-        }
-        //showButtonPanel:true,
-		//yearRange: '1980:2020'
+        },
+        showButtonPanel:true,
+		yearRange: '1980:2020'
 	});
-	
-	
-	
-	
-	$("#rpStart0, #ipStart0").datepicker({
-       	showMonthAfterYear : true,
-       	//showButtonPanel : true,
-       	//changeMonth : false,
-       	changeYear : true,
-       	//nextText : '다음 달',
-       	//prevText : '이전 달',
-
-       	closeText : '닫기',
-       	dateFormat : "yy",
-       	//dayNames : ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'],
-       	//dayNamesMin : ['월','화','수','목','금','토','일'],
-       	//monthNames : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-       	//monthNamesShort : ['1','2','3','4','5','6','7','8','9','10','11','12'],
-       	onClose: function(dateText, inst) {
-            //var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            $(this).datepicker('setDate', new Date(year,1));
-        }
-        //showButtonPanel:true,
-		//yearRange: '1980:2020'
-	});
-	
-	$("#rpStart0, #ipStart0").focus(function () {
-        $(".ui-datepicker-month").hide();
-});
-	
 //기본datePicker E
 //addRow S
 	function addRow(mode){
@@ -2149,24 +1857,11 @@ button.ui-datepicker-current { display: none; }
 		            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 		            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
 		            $(this).datepicker('setDate', new Date(year, month, 1));
-		        }
+		        },
 
-			//showButtonPanel:true,
-			//yearRange: '1980:2020'
+			showButtonPanel:true,
+			yearRange: '1980:2020'
 		});
 	};
-	
-	
-	$("#emailDomainChoise").change(function() {
-		if(this.value==""){
-			$("#mail2").css("background-color","");
-			$("#mail2").removeAttr("readonly");
-			$("#mail2").val("");
-		}else{
-			$("#mail2").val(this.value);
-			$("#mail2").css("background-color", "#EEEEEE");
-			$("#mail2").attr("readonly", true);
-		}
-	});
 //addRow시 datePicker E
 </script>

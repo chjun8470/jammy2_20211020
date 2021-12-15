@@ -63,11 +63,8 @@
 	<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
 	<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
 
-
-	<div class="MPTit">상담게시글 등록</div>
-
-	<div class="basic_writeWrap">
-			<table class="skin_write01" summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
+	<div class="basic_writeWrap002">
+			<table class="skin_write002" summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
 				<caption>작성하기</caption>
 				<colgroup>
 					<col width="20%" />
@@ -80,8 +77,8 @@
 					</tr>
 				<% } %>
 					<tr>
-						<th scope="row" class="alnC">제목</th>
-						<td class="r_line_none">
+						<th scope="row">제목</th>
+						<td>
 							<input type="text" name="subject" id="subject" value="" class="input_txt00401" maxlength="100" />
 							<div class="checkBox00401">
 	                        <input type="checkbox" name="secretAt" id="secretAt" value="Y" />&nbsp;비밀글
@@ -90,8 +87,8 @@
 					</tr>
 					<%if(boardComIdx.equals("00011")|| boardComIdx.equals("00026")) { %>
 					<tr>
-						<th class="alnC">상담분야</th>
-						<td class="r_line_none">
+						<th>상담분야</th>
+						<td>
 							<label for="reDeth1" style="display:none;">대</label>
 							<select name="reDeth1" id="reDeth1" class="select00201" onchange="standardDeth1('reDeth2')">
 							<% for(HashMap rs:standardList) {%>
@@ -110,28 +107,28 @@
 					</tr>
 					<% } %>
 					<tr>
-						<th scope="row" class="alnC">내용</th>
-						<td class="con-txt r_line_none">
+						<th scope="row">내용</th>
+						<td class="con-txt">
 							<textarea name="content" id="contents"></textarea>
 						</td>
 					</tr>
 					<%if(util.getStr(boardMap.get("PERM_FILE")).equals("Y")){ %>
 					<tr>
-					<th scope="row" class="tit alnC">
+					<th scope="row" class="tit">
 						첨부파일
 					</th>
 					<td class="r_line_none p_top_btm_6">
 					<div style="display:inline-block;" id="<%=fileFullGrp%>fileGrpBox">
+	              		<input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1" title="파일첨부"/>
 						<button class="b_btn_03" type="button" onclick="addRowFile('<%=fileFullGrp%>');" title="첨부파일 추가"><img src="/img/board/btn_plus.gif"/></button>
 						<button class="b_btn_03" type="button" onclick="delRowFile('<%=fileFullGrp%>');" title="첨부파일 삭제"><img src="/img/board/btn_del.gif"/></button>
-	              		<input class="file MAT10" type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1" title="파일첨부"/>
 	              	</div>
 						</td>
 					</tr>
 				<%} %>
 					<tr>
-						<th scope="row" class="alnC"><label for="copyOk" >개인정보<br/>제공동의</label></th>
-						<td class="con-txt r_line_none">
+						<th scope="row"><label for="copyOk" >개인정보 제공 동의</label></th>
+						<td class="con-txt">
 							<div class="copyOk" >원활한 상담을 위해 상담자 신청자의 이름, 소속, 직위, 전화번호, 이메일 정보를 기관 담당자와 전문가에게 제공하는 것에 동의합니다.</div>
 							<div><label ><input type="checkbox" name="copyOk"  id="copyOk" value="Y" />개인정보 제공 동의</label></div>
 						</td>
@@ -139,9 +136,9 @@
 				</tbody>
 			</table>
 				<!-- bo_btn  -->
-			<div class="MPBtnWrap MAT10">
-				<input type="button" class="btn_inp_b_01 FloatR" value="작성" onclick="goSubmit('writeProc')"/>
-				<input type="button" class="btn_inp_b_01 FloatL" value="목록" onclick="goSubmit('list')"/>
+			<div class="b_btn_area" style="text-align: right; width: 100%;">
+				<input type="button" class="btn_rgt" value="작성" onclick="goSubmit('writeProc')"/>
+				<input type="button" class="btn_lft2" value="목록" onclick="goSubmit('list')"/>
 			</div>
 			<!--// bo_btn -->
 	</div>

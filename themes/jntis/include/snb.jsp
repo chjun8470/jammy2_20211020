@@ -11,18 +11,17 @@
 %>
 <div class="lnb_tit">
 	<p class="tit01"><%=leftmenuTitleVO.getMenuNm()%></p>
-	<!--<h2>
+	<h2>
 		<%=leftmenuTitleVO.getMenuNm().equals("JNTIS 소개") ? "ABOUT<br/>JNTIS" :
 			leftmenuTitleVO.getMenuNm().equals("사업정보") ? "BUSINESS<br/>INFORMATION" :
 			leftmenuTitleVO.getMenuNm().equals("행사·교육정보") ? "EDU·EVENT<br/>INFORMATION" :
 			leftmenuTitleVO.getMenuNm().equals("과학기술정보") ? "SCIENCE<br/>INFORMATION" :
 			leftmenuTitleVO.getMenuNm().equals("기업정보") ? "ENTERPRISE<br/>INFORMATION" :
-			leftmenuTitleVO.getMenuNm().equals("전남 R&D통계정보") ? "R&D<br/>INFOMATION" :
 			leftmenuTitleVO.getMenuNm().equals("커뮤니티") ? "COMMUNITY" :
 			leftmenuTitleVO.getMenuNm().equals("전문가정보") ? "EXPERT<br/>INFORMATION" :
 			leftmenuTitleVO.getMenuNm().equals("기타") ? "OTHER" :""
 		%>
-	</h2> -->
+	</h2>
 </div>
 
 <%
@@ -51,7 +50,7 @@
 					addClass += "";
 				}
 
-				out.print(String.format("<li  id=\"left0%s\" class=\"s%d %s\">%s", (i+1),leftmenuVO.getMenuId(), addClass, getSubMenuLink(request, siteInfoVO, leftmenuVO, "", "txt", "")));
+				out.print(String.format("<li  id=\"left0%s\" class=\"s%d %s\">%s", (i+1),leftmenuVO.getMenuId(), addClass, getMenuLink(request, siteInfoVO, leftmenuVO, "", "txt", "")));
 
 				//if (chldrns && (parntsSiteMenuVOList.get(2) != null)) 3���޴� ��ĥ��
 				if (chldrns && (parntsSiteMenuVOList.get(2) != null && leftmenuVO.getMenuId() == parntsSiteMenuVOList.get(2).getMenuId()))

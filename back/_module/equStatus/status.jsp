@@ -22,15 +22,15 @@ response.setContentType("text/html;charset=UTF-8");
 	HashMap<String, String> e1t1tuu1 = request.getAttribute("e1t1tuu1") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t1tuu1");
 	HashMap<String, String> e1t1tuu2 = request.getAttribute("e1t1tuu2") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t1tuu2");
 	HashMap<String, String> e1t1tuu3 = request.getAttribute("e1t1tuu3") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t1tuu3");
-
+	
 	HashMap<String, String> e1t2tuu1 = request.getAttribute("e1t2tuu1") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t2tuu1");
 	HashMap<String, String> e1t2tuu2 = request.getAttribute("e1t2tuu2") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t2tuu2");
 	HashMap<String, String> e1t2tuu3 = request.getAttribute("e1t2tuu3") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e1t2tuu3");
-
+	
 	HashMap<String, String> e2t1tuu1 = request.getAttribute("e2t1tuu1") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t1tuu1");
 	HashMap<String, String> e2t1tuu2 = request.getAttribute("e2t1tuu2") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t1tuu2");
 	HashMap<String, String> e2t1tuu3 = request.getAttribute("e2t1tuu3") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t1tuu3");
-
+	
 	HashMap<String, String> e2t2tuu1 = request.getAttribute("e2t2tuu1") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tuu1");
 	HashMap<String, String> e2t2tuu2 = request.getAttribute("e2t2tuu2") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tuu2");
 	HashMap<String, String> e2t2tuu3 = request.getAttribute("e2t2tuu3") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tuu3");
@@ -54,7 +54,7 @@ response.setContentType("text/html;charset=UTF-8");
 	HashMap<String, String> e2t2tiu02 = request.getAttribute("e2t2tiu02") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tiu02");
 	HashMap<String, String> e2t2tiu03 = request.getAttribute("e2t2tiu03") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tiu03");
 	HashMap<String, String> e2t2tiu04 = request.getAttribute("e2t2tiu04") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("e2t2tiu04");
-
+	
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 
@@ -117,339 +117,128 @@ response.setContentType("text/html;charset=UTF-8");
 			<tbody>
 				<tr>
 					<th scope="col" rowspan="2" style = "border-right: solid 1px #e0e0e0; border-left: solid 1px #e0e0e0;">장비</th>
-					<th scope="col" style = "border-right: solid 1px #e0e0e0;">구매<br/>(구축비)</th>
+					<th scope="col" style = "border-right: solid 1px #e0e0e0;">구매</th>
 					<!-- <td scope="col"></td> -->
-					<td scope="col">
-						<p class="scope111"><%=util.getStr(String.valueOf(e1t1tuu1.get("CNT"))) %></p>
-						<p class="scope111">(<%=util.getNumKorUnit(String.valueOf(e1t1tuu1.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="scope112"><%=util.getStr(String.valueOf(e1t1tuu2.get("CNT"))) %></p>
-						<p class="scope112">(<%=util.getNumKorUnit(String.valueOf(e1t1tuu2.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="scope113"><%=util.getStr(String.valueOf(e1t1tuu3.get("CNT"))) %></p>
-						<p class="scope113">(<%=util.getNumKorUnit(String.valueOf(e1t1tuu3.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse111"><%=util.getStr(String.valueOf(e1t1tiu01.get("CNT"))) %></p>
-						<p class="disUse111">(<%=util.getNumKorUnit(String.valueOf(e1t1tiu01.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse112"><%=util.getStr(String.valueOf(e1t1tiu02.get("CNT"))) %></p>
-						<p class="disUse112">(<%=util.getNumKorUnit(String.valueOf(e1t1tiu02.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse113"><%=util.getStr(String.valueOf(e1t1tiu03.get("CNT"))) %></p>
-						<p class="disUse113">(<%=util.getNumKorUnit(String.valueOf(e1t1tiu03.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="disUse114"><%=util.getStr(String.valueOf(e1t1tiu04.get("CNT"))) %></p>
-						<p class="disUse114">(<%=util.getNumKorUnit(String.valueOf(e1t1tiu04.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="sum11"><%=util.getInt(String.valueOf(e1t1tuu1.get("CNT")))+util.getInt(String.valueOf(e1t1tuu2.get("CNT")))+util.getInt(String.valueOf(e1t1tuu3.get("CNT")))/* +util.getInt(String.valueOf(e1t1tiu01.get("CNT")))+util.getInt(String.valueOf(e1t1tiu02.get("CNT")))+util.getInt(String.valueOf(e1t1tiu03.get("CNT")))+util.getInt(String.valueOf(e1t1tiu04.get("CNT"))) */ %></p>
-						<p class="sum11">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t1tuu3.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
+					<td scope="col"><p class="scope111"><%=util.getStr(String.valueOf(e1t1tuu1.get("CNT"))) %></p></td>
+					<td scope="col"><p class="scope112"><%=util.getStr(String.valueOf(e1t1tuu2.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="scope113"><%=util.getStr(String.valueOf(e1t1tuu3.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse111"><%=util.getStr(String.valueOf(e1t1tiu01.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse112"><%=util.getStr(String.valueOf(e1t1tiu02.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse113"><%=util.getStr(String.valueOf(e1t1tiu03.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse114"><%=util.getStr(String.valueOf(e1t1tiu04.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="sum11"><%=util.getInt(String.valueOf(e1t1tuu1.get("CNT")))+util.getInt(String.valueOf(e1t1tuu2.get("CNT")))+util.getInt(String.valueOf(e1t1tuu3.get("CNT")))/* +util.getInt(String.valueOf(e1t1tiu01.get("CNT")))+util.getInt(String.valueOf(e1t1tiu02.get("CNT")))+util.getInt(String.valueOf(e1t1tiu03.get("CNT")))+util.getInt(String.valueOf(e1t1tiu04.get("CNT"))) */ %></p></td>
 				</tr>
 				<tr>
-					<th scope="col" style = "border-right: solid 1px #e0e0e0;">개발<br/>(구축비)</th>
+					<th scope="col" style = "border-right: solid 1px #e0e0e0;">개발</th>
 					<!-- <td scope="col"></td> -->
-					<td scope="col">
-						<p class="scope121"><%=util.getStr(String.valueOf(e1t2tuu1.get("CNT"))) %></p>
-						<p class="scope121">(<%=util.getNumKorUnit(String.valueOf(e1t2tuu1.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="scope122"><%=util.getStr(String.valueOf(e1t2tuu2.get("CNT"))) %></p>
-						<p class="scope122">(<%=util.getNumKorUnit(String.valueOf(e1t2tuu2.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="scope123"><%=util.getStr(String.valueOf(e1t2tuu3.get("CNT"))) %></p>
-						<p class="scope123">(<%=util.getNumKorUnit(String.valueOf(e1t2tuu3.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse121"><%=util.getStr(String.valueOf(e1t2tiu01.get("CNT"))) %></p>
-						<p class="disUse121">(<%=util.getNumKorUnit(String.valueOf(e1t2tiu01.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse122"><%=util.getStr(String.valueOf(e1t2tiu02.get("CNT"))) %></p>
-						<p class="disUse122">(<%=util.getNumKorUnit(String.valueOf(e1t2tiu02.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse123"><%=util.getStr(String.valueOf(e1t2tiu03.get("CNT"))) %></p>
-						<p class="disUse123">(<%=util.getNumKorUnit(String.valueOf(e1t2tiu03.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="disUse124"><%=util.getStr(String.valueOf(e1t2tiu04.get("CNT"))) %></p>
-						<p class="disUse124">(<%=util.getNumKorUnit(String.valueOf(e1t2tiu04.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="sum12"><%=util.getInt(String.valueOf(e1t2tuu1.get("CNT")))+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))/* +util.getInt(String.valueOf(e1t2tiu01.get("CNT")))+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))+util.getInt(String.valueOf(e1t2tiu04.get("CNT"))) */ %></p>
-						<p class="sum12">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t2tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu3.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
+					<td scope="col"><p class="scope121"><%=util.getStr(String.valueOf(e1t2tuu1.get("CNT"))) %></p></td>
+					<td scope="col"><p class="scope122"><%=util.getStr(String.valueOf(e1t2tuu2.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="scope123"><%=util.getStr(String.valueOf(e1t2tuu3.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse121"><%=util.getStr(String.valueOf(e1t2tiu01.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse122"><%=util.getStr(String.valueOf(e1t2tiu02.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse123"><%=util.getStr(String.valueOf(e1t2tiu03.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse124"><%=util.getStr(String.valueOf(e1t2tiu04.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="sum12"><%=util.getInt(String.valueOf(e1t2tuu1.get("CNT")))+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))/* +util.getInt(String.valueOf(e1t2tiu01.get("CNT")))+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))+util.getInt(String.valueOf(e1t2tiu04.get("CNT"))) */ %></p></td>
 				</tr>
 				<tr>
 					<th scope="col" rowspan="2" style = "border-right: solid 1px #e0e0e0; border-left: solid 1px #e0e0e0;">시설</th>
-					<th scope="col" style = "border-right: solid 1px #e0e0e0;">일반<br/>(구축비)</th>
-					<td scope="col">
-						<p class="scope211"><%=util.getStr(String.valueOf(e2t1tuu1.get("CNT"))) %></p>
-						<p class="scope211">(<%=util.getNumKorUnit(String.valueOf(e2t1tuu1.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="scope212"><%=util.getStr(String.valueOf(e2t1tuu2.get("CNT"))) %></p>
-						<p class="scope212">(<%=util.getNumKorUnit(String.valueOf(e2t1tuu2.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="scope213"><%=util.getStr(String.valueOf(e2t1tuu3.get("CNT"))) %></p>
-						<p class="scope213">(<%=util.getNumKorUnit(String.valueOf(e2t1tuu3.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse211"><%=util.getStr(String.valueOf(e2t1tiu01.get("CNT"))) %></p>
-						<p class="disUse211">(<%=util.getNumKorUnit(String.valueOf(e2t1tiu01.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse212"><%=util.getStr(String.valueOf(e2t1tiu02.get("CNT"))) %></p>
-						<p class="disUse212">(<%=util.getNumKorUnit(String.valueOf(e2t1tiu02.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse213"><%=util.getStr(String.valueOf(e2t1tiu03.get("CNT"))) %></p>
-						<p class="disUse213">(<%=util.getNumKorUnit(String.valueOf(e2t1tiu03.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="disUse214"><%=util.getStr(String.valueOf(e2t1tiu04.get("CNT"))) %></p>
-						<p class="disUse214">(<%=util.getNumKorUnit(String.valueOf(e2t1tiu04.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="sum21"><%=util.getInt(String.valueOf(e2t1tuu1.get("CNT")))+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))/* +util.getInt(String.valueOf(e2t1tiu01.get("CNT")))+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))  */%></p>
-						<p class="sum21">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e2t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu3.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
+					<th scope="col" style = "border-right: solid 1px #e0e0e0;">일반</th>
+					<td scope="col"><p class="scope211"><%=util.getStr(String.valueOf(e2t1tuu1.get("CNT"))) %></p></td>
+					<td scope="col"><p class="scope212"><%=util.getStr(String.valueOf(e2t1tuu2.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="scope213"><%=util.getStr(String.valueOf(e2t1tuu3.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse211"><%=util.getStr(String.valueOf(e2t1tiu01.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse212"><%=util.getStr(String.valueOf(e2t1tiu02.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse213"><%=util.getStr(String.valueOf(e2t1tiu03.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse214"><%=util.getStr(String.valueOf(e2t1tiu04.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="sum21"><%=util.getInt(String.valueOf(e2t1tuu1.get("CNT")))+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))/* +util.getInt(String.valueOf(e2t1tiu01.get("CNT")))+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))  */%></p></td>
 				</tr>
 				<tr>
-					<th scope="col" style = "border-right: solid 1px #e0e0e0;">대형<br/>(구축비)</th>
+					<th scope="col" style = "border-right: solid 1px #e0e0e0;">대형</th>
 					<!-- <td scope="col"></td> -->
-					<td scope="col">
-						<p class="scope221"><%=util.getStr(String.valueOf(e2t2tuu1.get("CNT"))) %></p>
-						<p class="scope221">(<%=util.getNumKorUnit(String.valueOf(e2t2tuu1.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="scope222"><%=util.getStr(String.valueOf(e2t2tuu2.get("CNT"))) %></p>
-						<p class="scope222">(<%=util.getNumKorUnit(String.valueOf(e2t2tuu2.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="scope223"><%=util.getStr(String.valueOf(e2t2tuu3.get("CNT"))) %></p>
-						<p class="scope223">(<%=util.getNumKorUnit(String.valueOf(e2t2tuu3.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse221"><%=util.getStr(String.valueOf(e2t2tiu01.get("CNT"))) %></p>
-						<p class="disUse221">(<%=util.getNumKorUnit(String.valueOf(e2t2tiu01.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse222"><%=util.getStr(String.valueOf(e2t2tiu02.get("CNT"))) %></p>
-						<p class="disUse222">(<%=util.getNumKorUnit(String.valueOf(e2t2tiu02.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col">
-						<p class="disUse223"><%=util.getStr(String.valueOf(e2t2tiu03.get("CNT"))) %></p>
-						<p class="disUse223">(<%=util.getNumKorUnit(String.valueOf(e2t2tiu03.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="disUse224"><%=util.getStr(String.valueOf(e2t2tiu04.get("CNT"))) %></p>
-						<p class="disUse224">(<%=util.getNumKorUnit(String.valueOf(e2t2tiu04.get("TAKE_PRC"))) %>원)</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="sum22"><%=util.getInt(String.valueOf(e2t2tuu1.get("CNT")))+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))/* +util.getInt(String.valueOf(e2t2tiu01.get("CNT")))+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))+util.getInt(String.valueOf(e2t2tiu04.get("CNT"))) */ %></p>
-						<p class="sum22">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e2t2tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu3.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
+					<td scope="col"><p class="scope221"><%=util.getStr(String.valueOf(e2t2tuu1.get("CNT"))) %></p></td>
+					<td scope="col"><p class="scope222"><%=util.getStr(String.valueOf(e2t2tuu2.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="scope223"><%=util.getStr(String.valueOf(e2t2tuu3.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse221"><%=util.getStr(String.valueOf(e2t2tiu01.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse222"><%=util.getStr(String.valueOf(e2t2tiu02.get("CNT"))) %></p></td>
+					<td scope="col"><p class="disUse223"><%=util.getStr(String.valueOf(e2t2tiu03.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse224"><%=util.getStr(String.valueOf(e2t2tiu04.get("CNT"))) %></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="sum22"><%=util.getInt(String.valueOf(e2t2tuu1.get("CNT")))+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))/* +util.getInt(String.valueOf(e2t2tiu01.get("CNT")))+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))+util.getInt(String.valueOf(e2t2tiu04.get("CNT"))) */ %></p></td>
 				</tr>
 				<tr>
-					<th scope="col" colspan="2"  style = "border-right: solid 1px #e0e0e0; border-left: solid 1px #e0e0e0;">합계<br/>(구축비)</th>
-					<td scope="col">
-						<p class="scope1"><%=util.getInt(String.valueOf(e1t1tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu1.get("CNT")))
-						%></p>
-						<p class="scope1">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu1.get("TAKE_PRC"))))
-							%>원)
-						</p>
+					<th scope="col" colspan="2"  style = "border-right: solid 1px #e0e0e0; border-left: solid 1px #e0e0e0;">합계</th>
+					<td scope="col"><p class="scope1"><%=util.getInt(String.valueOf(e1t1tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu1.get("CNT")))
+					%></p></td>
+					<td scope="col"><p class="scope2"><%=util.getInt(String.valueOf(e1t1tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))
+					%></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="scope3"><%=util.getInt(String.valueOf(e1t1tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))
+					%></p></td>
+					<td scope="col"><p class="disUse1"><%=util.getInt(String.valueOf(e1t1tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu01.get("CNT")))
+					%></p></td>
+					<td scope="col"><p class="disUse2"><%=util.getInt(String.valueOf(e1t1tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))
+					%></p></td>
+					<td scope="col"><p class="e1t1tiu03"><%=util.getInt(String.valueOf(e1t1tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))
+					%></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse4"><%=util.getInt(String.valueOf(e1t1tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu04.get("CNT")))
+					%></p></td>
+					<td scope="col" style = "border-right: solid 1px #e0e0e0;"><p class="disUse4">
+					<%= 
+					 util.getInt(String.valueOf(e1t1tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu1.get("CNT")))
 
-					</td>
-					<td scope="col">
-						<p class="scope2"><%=util.getInt(String.valueOf(e1t1tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))
-						%></p>
-						<p class="scope2">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu2.get("TAKE_PRC")))
-								+Double.parseDouble(String.valueOf(e2t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu2.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="scope3"><%=util.getInt(String.valueOf(e1t1tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))
-						%></p>
-						<p class="scope3">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu3.get("TAKE_PRC"))))
-								%>원)
-						</p>
-					</td>
-					<td scope="col">
-						<p class="disUse1"><%=util.getInt(String.valueOf(e1t1tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu01.get("CNT")))
-						%></p>
-						<p class="disUse1">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tiu01.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tiu01.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tiu01.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tiu01.get("TAKE_PRC"))))
-								%>원)
-						</p>
-					</td>
-					<td scope="col">
-						<p class="disUse2"><%=util.getInt(String.valueOf(e1t1tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))
-						%></p>
-						<p class="disUse2">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tiu02.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tiu02.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tiu02.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tiu02.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
-					<td scope="col">
-						<p class="disUse3"><%=util.getInt(String.valueOf(e1t1tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))
-						%></p>
-						<p class="disUse3">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tiu03.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tiu03.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tiu03.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tiu03.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="disUse4"><%=util.getInt(String.valueOf(e1t1tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu04.get("CNT")))
-						%></p>
-						<p class="disUse4">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tiu04.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tiu04.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tiu04.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tiu04.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
-					<td scope="col" style = "border-right: solid 1px #e0e0e0;">
-						<p class="all">
-						<%=
-						 util.getInt(String.valueOf(e1t1tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu1.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu1.get("CNT")))
+					+util.getInt(String.valueOf(e1t1tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))
 
-						+util.getInt(String.valueOf(e1t1tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu2.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu2.get("CNT")))
+					+util.getInt(String.valueOf(e1t1tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))
+					/*
+					+util.getInt(String.valueOf(e1t1tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu01.get("CNT")))
 
-						+util.getInt(String.valueOf(e1t1tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tuu3.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tuu3.get("CNT")))
-						/*
-						+util.getInt(String.valueOf(e1t1tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu01.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu01.get("CNT")))
+					+util.getInt(String.valueOf(e1t1tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))
 
-						+util.getInt(String.valueOf(e1t1tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu02.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu02.get("CNT")))
+					+util.getInt(String.valueOf(e1t1tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))
 
-						+util.getInt(String.valueOf(e1t1tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu03.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu03.get("CNT")))
-
-						+util.getInt(String.valueOf(e1t1tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e1t2tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))
-						+util.getInt(String.valueOf(e2t2tiu04.get("CNT")))
-						*/
-						%></p>
-						<p class="all">
-							(<%=util.getNumKorUnit(
-								Double.parseDouble(String.valueOf(e1t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu1.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu1.get("TAKE_PRC")))
-
-								+ Double.parseDouble(String.valueOf(e1t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu2.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu2.get("TAKE_PRC")))
-
-								+ Double.parseDouble(String.valueOf(e1t1tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e1t2tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t1tuu3.get("TAKE_PRC")))
-								+ Double.parseDouble(String.valueOf(e2t2tuu3.get("TAKE_PRC"))))
-							%>원)
-						</p>
-					</td>
+					+util.getInt(String.valueOf(e1t1tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e1t2tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e2t1tiu04.get("CNT")))
+					+util.getInt(String.valueOf(e2t2tiu04.get("CNT")))
+					*/
+					%></p></td>
 				</tr>
 			</tbody>
 		</table>

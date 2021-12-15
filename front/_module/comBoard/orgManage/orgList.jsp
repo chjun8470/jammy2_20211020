@@ -90,7 +90,7 @@
 					<th scope="col">NO</th>
 					<th scope="col">CI 로고</th>
 					<th scope="col">기관명</th>
-					<th scope="col" >대표전화</th>
+					<th scope="col">대표전화</th>
 					<th scope="col" class="r_line_none">담당자보기</th>
 				</tr>
 				</thead>
@@ -112,7 +112,7 @@
 						<td class="number"><%=cont%></td>
 						<td class="b_notice"><a href="./sub.do?m=<%=m%>&amp;mode=list&amp;listMode=list&amp;orgSearchWord=<%=orgSearchWord%>&amp;searchWord=<%=searchWord%>&amp;orgGrpCd=<%=util.getStr(rs.get("ORG_GRP_CD"))%>" title="<%=util.getStr(rs.get("ORG_GRP_NM"))%> 기관 상세보기" >
 							<%if(!(util.getStr(rs.get("CI_FILE_SRC"))).equals("") && !(util.getStr(rs.get("CI_FILE_SRC"))).equals(null)){ %>
-								<img src="http://jeinet.jnsp.re.kr/<%=util.getStr(rs.get("CI_FILE_SRC"))%>" alt="<%=util.getStr(rs.get("CI_FILE_TITLE"))%>" style="width:150px;height:50px;" />
+								<img src="<%=util.getStr(rs.get("CI_FILE_SRC"))%>" alt="<%=util.getStr(rs.get("CI_FILE_TITLE"))%>" style="width:150px;height:50px;" />
 							<%}else{ %>
 								<img src="/img/no-image.gif" alt="이미지 없음" style="width:150px;height:50px;" />
 							<%}%>

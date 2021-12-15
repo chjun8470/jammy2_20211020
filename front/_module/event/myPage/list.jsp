@@ -30,15 +30,13 @@
 	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 %>
 
-	<div class="MPTit MPTit02">행사정보</div>
-
 	<!--tabBox S-->
-	<div class="tabBox02">
+	<div class="tabBox" style="vertical-align: middle;">
 		<ul>
-			<li <%if(tap.equals("ALL") || tap.equals("")) { %> class="on" <% } %> id="tabALL" onclick="goSubmit('list','','','ALL')">전체</li>
-			<li <%if(tap.equals("10")) { %> class="on" <% } %>id="tab1" class="end02" onclick="goSubmit('list','','','10')">신청</li>
-			<li <%if(tap.equals("20")) { %> class="on" <% } %>id="tab2" class="MA02" onclick="goSubmit('list','','','20')">승인</li>
-			<li <%if(tap.equals("30")) { %> class="on end" <% } %>id="tab3" class="end end02 MA02" onclick="goSubmit('list','','','30')">취소/반려</li>
+			<li <%if(tap.equals("ALL") || tap.equals("")) { %> class="on" <% } %> id="tabALL" style="width:146px; cursor:pointer;" onclick="goSubmit('list','','','ALL')">전체</li>
+			<li <%if(tap.equals("10")) { %> class="on" <% } %>id="tab1" class="" style="width:146px; cursor:pointer;"  onclick="goSubmit('list','','','10')">신청</li>
+			<li <%if(tap.equals("20")) { %> class="on" <% } %>id="tab2" class="" style="width:146px; cursor:pointer;"  onclick="goSubmit('list','','','20')">승인</li>
+			<li <%if(tap.equals("30")) { %> class="on" <% } %>id="tab3" class="" style="width:146px; cursor:pointer;"  onclick="goSubmit('list','','','30')">취소/반려</li>
 		</ul>
 	</div>
 	<!--tabBox E-->
@@ -53,41 +51,34 @@
 			<input type="hidden" name="tap" id="tap" value="<%=tap%>" />
 
 			<div class="board_count">
-				전체 <span class="blue1"><%=staticVO.getTotalCount()%></span>건
+				[ 전체 <span class="blue1"><%=staticVO.getTotalCount()%></span>건 ]
 			</div>
 
-			<div class="b_srchBox">
-			
-				<div class="labelBox01">
-				
-					<label>행사기간조회</label>
-					<input type="text" class="txtbox MAL10" id="searchStDt" name ="searchStDt" value="<%=util.getStr(paramMap.get("searchStDt")) %>"/>
-					<div class="btw">~</div>
-					<input type="text" class="txtbox MAL0" id="searchEdDt" name ="searchEdDt" value="<%=util.getStr(paramMap.get("searchEdDt")) %>"/>
-					
+			<div class="b_srchBox" style="float:right; width:100%">
+				<div class="b_srch" style="width:40%; float:right;">
+					<!-- 키워드 -->
+					<input type="text" name="searchWord" id="searchWord" class="b_srch_txt" value="<%=util.getStr(paramMap.get("searchWord")) %>" style="width: 80%;"/>
+					<!-- 검색버튼 -->
+					<input type="image" src="/img/board/btn_ico_srch.png" class="b_go_btn" value="검색" onclick="goSubmit('list','','','<%=tap%>')" style="float: right;" />
 				</div>
-				
-				<div class="labelBox02 MAL10">
-			
-					<div class="b_srch">
-						<!-- 키워드 -->
-						<input type="text" name="searchWord" id="searchWord" class="b_srch_txt" value="<%=util.getStr(paramMap.get("searchWord")) %>"/>
-						<!-- 검색버튼 -->
-						<input type="image" src="/img/board/btn_ico_srch.png" class="b_go_btn" value="검색" onclick="goSubmit('list','','','<%=tap%>')"/>
-					</div>
-				
+				<div class="b_btn_sortlistBox" style="float:left; width: 350px;">
+					행사기간조회&nbsp;
+					<input type="text" id="searchStDt" name ="searchStDt" style="width:82px; height:28px; border: 1px solid #dbdbdb; text-align:center;" size ="13" value="<%=util.getStr(paramMap.get("searchStDt")) %>" />
+					<b> ~ </b>
+					<input type="text" id="searchEdDt" name ="searchEdDt" style="width:82px; height:28px; border: 1px solid #dbdbdb; text-align:center;" size ="13" value="<%=util.getStr(paramMap.get("searchEdDt")) %>" />
 				</div>
-				
 			</div>
 
 		</form>
 	</div>
 	<!--list_top E-->
 
+	<!--cont_block S-->
+	<div id="cont_block">
 		<!--basic_listWrap S-->
 		<div class="basic_listWrap">
 
-			<table class="skin_list01">
+			<table class="skin_list">
 				<colgroup>
 					<col style="width: 5%;" />
 					<col style="width: 15%;" />
@@ -106,7 +97,7 @@
 						<th scope="col">행사명</th>
 						<th scope="col">행사기간</th>
 						<th scope="col">참가신청기간</th>
-						<th scope="col" class="r_line_none">행사<br>참가비</th>
+						<th scope="col" class="r_line_none2">행사<br>참가비</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -128,19 +119,19 @@
 						</td>
 						<td>
 							<%if(util.getStr(rs.get("APPLICANT_STATE")).equals("10")) { %>
-							<!-- <img alt="승인신청" src="/img/back/comm/edu_state_img_08.png" /> --><div class="br01">승인신청</div>
+							<img alt="승인신청" src="/img/back/comm/edu_state_img_08.png" />
 							<% } %> <%if(util.getStr(rs.get("APPLICANT_STATE")).equals("20")) { %>
-							<!-- <img alt="승인" src="/img/back/comm/edu_state_img_07.png" /> --><div class="br01">승인</div>
+							<img alt="승인" src="/img/back/comm/edu_state_img_07.png" />
 							<% } %> <%if(util.getStr(rs.get("APPLICANT_STATE")).equals("30")) { %>
-							<!-- <img alt="승인거절" src="/img/back/comm/order_state_img_3.png" /> --><div class="rd01">승인거절</div>
+							<img alt="승인거절" src="/img/back/comm/order_state_img_3.png" />
 							<% } %> <%if(util.getStr(rs.get("APPLICANT_STATE")).equals("40")) { %>
-							<!-- <img alt="승인취소" src="/img/back/comm/order_state_img_5.png" /> --><div class="br02">승인취소</div>
+							<img alt="승인취소" src="/img/back/comm/order_state_img_5.png" />
 							<% } %>
 						</td>
 						<td>
 							<%=util.getStr(rs.get("CODE_NM"))%>
 						</td>
-						<td class="algnL" style="cursor: pointer" onclick="goSubmit('view','<%=util.getStr(rs.get("EVENT_IDX"))%>','<%=rs.get("EVENT_REQ_IDX")%>','<%=tap%>')">
+						<td style="cursor: pointer" onclick="goSubmit('view','<%=util.getStr(rs.get("EVENT_IDX"))%>','<%=rs.get("EVENT_REQ_IDX")%>','<%=tap%>')">
 							<%if(util.getStr(rs.get("EVENT_NM")).length()>10){%>
 								<u><%=util.getStr(rs.get("EVENT_NM")).substring(0, 10)+" · · · "%></u>
 							<%}else{%>
@@ -153,7 +144,7 @@
 						<td>
 							<%=util.getStr(rs.get("REQ_ST_DT"))%><br /> ~ <%=util.getStr(rs.get("REQ_ED_DT"))%>
 						</td>
-						<td class="r_line_none">
+						<td>
 							<% String pay = util.getStr(rs.get("EVENT_PAY"));
 							if(util.getStr(rs.get("EVENT_FREE_YN")).equals("Y")){%>
 								유료<br>(<%=util.setFormatNum(pay,"comma")%>)
@@ -167,6 +158,7 @@
 			</table>
 			<%=util.getPaging(staticVO, nowPage) %>
 		</div>
+	</div>
 <script type="text/javascript">
 //<![CDATA[
 	function goSubmit(mode,eventIdx,eventReqIdx,tap){
