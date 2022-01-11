@@ -8,36 +8,38 @@
 <%@page import="info.elsys.jnsp.util.ComUtil"%>
 <%@page import="info.elsys.jnsp.util.CriptUtil"%>
 
-<form name="fwrite" id="fwrite" action="./agechange.do" method="post" enctype="multipart/form-data">
-	<div class="join">
+<div class="MPTit">기관변경</div>
 
-       <table class="skin_basic_write" id="write_table" style="width: 600px;">
+<form name="fwrite" id="fwrite" action="./agechange.do" method="post" enctype="multipart/form-data">
+	<div class="basic_writeWrap">
+
+       <table class="skin_write01" id="write_table">
 		<!-- colgroup s -->
 		<colgroup>
-			<col style="width: 140px;" />
-			<col style="width: *;" />
+			<col style="width:30%" />
+			<col style="width:70%" />
 		</colgroup>
 		<!-- colgroup e -->
 		<tr>
-			<td colspan="2" >기관 정보의 수정을 원하실 경우. 본인확인을 위해 비밀번호를 입력해주세요</td>
+			<td colspan="2" class="r_line_none">기관 정보의 수정을 원하실 경우. 본인확인을 위해 비밀번호를 입력해주세요</td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
-			<td>
+			<td class="r_line_none">
 				<input type="password" id="pwd" name="pwd" value=""/>
 			</td>
 		</tr>
 		<tr>
 			<th>비밀번호 확인</th>
-			<td>
+			<td class="r_line_none">
 				<input type="password" id="rePwd" name="rePwd" value=""/>
 			</td>
 		</tr>
 	</table>
 
 	<!-- bo_btn  -->
-	 	<div class="pop_btnBox" >
-			<input type="button" onclick="submitGo()" value="확인" class="btn_inp_b_01" />
+	 	<div class="MPBtnWrap MAT10">
+			<input type="button" onclick="submitGo()" value="확인" class="btn_inp_b_01 FloatR" />
 		</div>
 	<!--// bo_btn -->
 

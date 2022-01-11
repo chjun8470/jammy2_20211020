@@ -99,10 +99,7 @@
 								<option value="LAWORD" <%if("LAWORD".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>관련법령</option>
 								<option value="TECHNOLOGY" <%if("TECHNOLOGY".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>기술자료</option>
 								<option value="ETC" <%if("ETC".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>발간물</option>
-								<option value="MENUAL" <%if("MENUAL".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>연구장비메뉴얼</option>
 								<option value="BROCHURE" <%if("BROCHURE".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>연구장비브로슈어</option>
-								<option value="POLICY" <%if("POLICY".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>정책이슈</option>
-								<option value="STATS" <%if("STATS".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>통계자료</option>
 							<%}else{ //전남지식재산정보은행%>
 								<option value="ETC" <%if("ETC".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>발간물</option>
 								<option value="EXCELLENCE" <%if("EXCELLENCE".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>우수기술</option>

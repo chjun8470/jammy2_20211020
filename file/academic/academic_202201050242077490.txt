@@ -1,0 +1,48 @@
+src/main/webapp/front/_module/sso/join.jsp 14line join_step1.jsp로 변경
+src/main/webapp/front/_module/sso/join_step2.jsp 15line 삭제
+
+textxxx/tkfkd8470
+
+
+tb_user_copy 필드추가
+COM_NM
+COM_ADDR1
+COM_ADDR2
+COM_ZIP
+COM_TEL
+EXPERT_PRO1
+EXPERT_PRO2
+EXPERT_PRO3
+EXPERT_PRO4
+EXPERT_PRO5
+
+
+tb_expert_academic_career 추가
+SC_CODE 
+SC_DATE 
+SC_FILE
+SC_ING
+
+
+tb_expert_career 추가
+CR_FILE
+
+TB_EXPERT_RESEARCH_PAPER 추가
+RP_FILE
+
+TB_EXPERT_QUALIFICATION
+QU_FILE
+
+
+TB_EXPERT_RND_RESULT
+RD_TYPE,
+RD_ING
+
+
+TB_EXPERT_RESULT_CON
+CON_TYPE,
+CON_ING
+
+
+tb_expert_pro_code 테이블생성
+USER_IDX, P_CODE1, P_CODE2, P_CODE3

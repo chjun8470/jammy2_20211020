@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-
-
 	<script type="text/javascript">
 	//<![CDATA[
 	// 타이틀 변경
 	document.title = '약관 및 동의서 - 회원가입 - 전남과학기술정보시스템';
-	
+
 	function allAgree(){
             $('input[type="checkbox"]').prop('checked', true);
 	}
@@ -17,7 +14,7 @@
 
 	}
 	function agreeSubmitCheck(){
-		
+
 		if(!$("#agree1").is(":checked")){
 			alert("이용약관의 동의가 필요합니다.");
 			$("#agree1").focus();
@@ -44,10 +41,15 @@
 			    }
 
 		});
+
+		$("input[type=radio][name='userTp']").change(function() {
+			if(this.value == 1) {
+				alert("기업 및 기관 소속 임직원은 기업회원 또는 기관회원으로 가입해 주시기 바랍니다.");
+			}
+		});
 	});
 	//]]>
 	</script>
-
 
 	<form name="agreeForm" id="agreeForm" action="/sso/join.do" method="post" onsubmit="return agreeSubmitCheck();" >
 
@@ -139,9 +141,22 @@
 				<div class="memberKindWrap">
 
 					<div class="memberKind">
+<<<<<<< HEAD
+<<<<<<< HEAD
+						<div class="check_choice"><input type="radio" value="2" checked="checked" name="userTp" id="userTp2" style="width:16px; height:16px;" /><label for="userTp2">기업회원</label></div>
+						<div class="check_choice2"><input type="radio" value="3"  name="userTp" id="userTp3" style="width:16px; height:16px;" /><label for="userTp3">기관회원</label></div>
+						<div class="check_choice4"><input type="radio" value="4"  name="userTp" id="userTp4" style="width:16px; height:16px;" /><label for="userTp4">전문가회원</label></div>
+						<div class="check_choice3"><input type="radio" value="1" name="userTp" id="userTp1" style="width:16px; height:16px;" /><label for="userTp1">개인회원</label></div>
+=======
 						<div class="check_choice"><input type="radio" value="1" checked="checked" name="userTp" id="userTp1" style="width:16px; height:16px;" /><label for="userTp1">개인회원</label></div>
 						<div class="check_choice2"><input type="radio" value="2" name="userTp" id="userTp2" style="width:16px; height:16px;" /><label for="userTp2">기업회원</label></div>
 						<div class="check_choice3"><input type="radio" value="3"  name="userTp" id="userTp3" style="width:16px; height:16px;" /><label for="userTp3">기관회원</label></div>
+>>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
+=======
+						<div class="check_choice"><input type="radio" value="2" checked="checked" name="userTp" id="userTp2" style="width:16px; height:16px;" /><label for="userTp2">기업회원</label></div>
+						<div class="check_choice2"><input type="radio" value="3"  name="userTp" id="userTp3" style="width:16px; height:16px;" /><label for="userTp3">기관회원</label></div>
+						<div class="check_choice3"><input type="radio" value="1" name="userTp" id="userTp1" style="width:16px; height:16px;" /><label for="userTp1">개인회원</label></div>
+>>>>>>> parent of d943127 (211215 1001)
 					</div>
 
 					<div class="memberCountry">
@@ -161,7 +176,7 @@
 
 			<!--btnBox1 S-->
 			<div class="btnBox1" id="btnBox1">
-				<button class="btn_g-pin" onclick="agreeCheck('GPIN');" >G-PIN 인증</button>
+				<!-- <button class="btn_g-pin" onclick="agreeCheck('GPIN');" >G-PIN 인증</button> -->
 				<button class="btn_phone" onclick="agreeCheck('MOBILE');" >휴대폰 인증</button>
 			</div>
 			<!--btnBox1 E-->

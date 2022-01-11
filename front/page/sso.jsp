@@ -23,6 +23,9 @@
 	String userAppState = util.getStr(loginVO.getUserAppState());
 	String pageMode = util.getStr(paramMap.get("pageMode"));
 	String mode = util.getStr(paramMap.get("mode"));
+	
+	
+	
 
 	HashMap menuMap = new HashMap();
 
@@ -311,10 +314,12 @@
 				if("".equals(util.getStr(loginVO.getUserIdx()))) {
 					%><script type="text/javascript">location.href="/sso/login.do";</script><%
 				}else{
+					
 					%><%@include file="/front/_module/sso/home.jsp" %><%
 				}
 		}
 	%>
+	
 	
 
 	<%@include file="/front/_temple/sso/t_footer.jsp" %>

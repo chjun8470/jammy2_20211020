@@ -319,6 +319,14 @@ function radio_area(mode,no){
 							</td>
                 		</tr>
                 		<tr>
+                			<th scope="row"><label for="etubeEquipInfoYN"> * e-Tube 등록번호</label></th>
+                			<td>
+	                			<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoY" onclick="etubeEquipInfoYNCheck()" value="Y"/><label for="etubeEquipInfoY"> e-Tube 등록장비</label>
+	                			<input class="inp_txt" type="text" name="etubeEquipInfo" id="etubeEquipInfo" style="display: none; width: 240px;" maxlength="50"/>
+	                			<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoN" onclick="etubeEquipInfoYNCheck()" value="N"/><label for="etubeEquipInfoN"> e-Tube 미등록장비</label>
+							</td>
+                		</tr>
+                		<tr>
                 			<th scope="row"><label for="fixedAsetNo"> * 고정자산관리번호</label></th>
                 			<td>
                 				<input class="inp_txt" type="text" id="fixedAsetNo" name="fixedAsetNo" title="고정자산번호" style="width:87%;" maxlength="30" onkeydown="$('#fixedAsetCheckVal').val('N')" onkeyup="if(event.keyCode==32){this.value=this.value.replace(/[\s]/gi,'');alert('스페이스바는 사용하실 수 없습니다.');}"/>
@@ -969,10 +977,10 @@ function radio_area(mode,no){
 
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js" type="text/javascript"></script>
-		<% 
+		<%
 			String daumKey = "09cdede77b4c4027e119e58c73d4e495";//실서버 운영키
 			if( request.getRequestURL().indexOf("localhost:8080") > 0 ){
-				daumKey = "1950e0038e121d1163985ed2bae5c660";//localhost:8080 테스트키		
+				daumKey = "1950e0038e121d1163985ed2bae5c660";//localhost:8080 테스트키
 			}
 		%>
 <script src="http://apis.daum.net/maps/maps3.js?apikey=<%=daumKey %>&libraries=services" type="text/javascript"></script>
@@ -1139,6 +1147,15 @@ function radio_area(mode,no){
 		if($("input[type=radio][name='ntisEquipInfoYN']:checked").val()=="Y"){
 			if($("#ntisEquipInfo").val()==null || $("#ntisEquipInfo").val()==""){
 				errMsg+="NTIS 등록번호 : 필수입력사항입니다."+"<br/>";
+			}
+		}
+
+		if(!$("input[type=radio][name='etubeEquipInfoYN']").is(":checked")){
+			errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+		}
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			if($("#etubeEquipInfo").val()==null || $("#etubeEquipInfo").val()==""){
+				errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
 			}
 		}
 
@@ -1578,6 +1595,15 @@ function radio_area(mode,no){
 		}else{
 			$("#ntisEquipInfo").hide();
 			$("#ntisEquipInfo").val("");
+		}
+	}
+
+	function etubeEquipInfoYNCheck(){
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			$("#etubeEquipInfo").show();
+		}else{
+			$("#etubeEquipInfo").hide();
+			$("#etubeEquipInfo").val("");
 		}
 	}
 

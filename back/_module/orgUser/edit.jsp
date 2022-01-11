@@ -89,6 +89,7 @@
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 사용자 ID</th>
 						<td class="td">
 							<input type="text" name="userId" maxlength="20" value="<%=util.getStr(dataMap.get("USER_ID")) %>" id="userId" class="inp_txt" title="사용자ID" readOnly style="border:0px">
+							<input type="button" name="btnPwReset" id="btnPwReset" onclick="pwReset('<%=util.getStr(paramMap.get("userIdx")) %>', '<%=util.getStr(dataMap.get("USER_ID")) %>', '<%=email %>')" value="비밀번호 재설정" class="btn_inp_b_01" />
 						</td>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 이 름</th>
 						<td class="td">
@@ -156,18 +157,7 @@
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 이메일</th>
 						<td class="td" colspan="3">
-							<input type="hidden" name="email" value="" id="email">
-							<input type="text" name="emailId" maxlength="20" value="<%=emailId %>" id="emailId" class="inp_txt" title="이메일아이디"> @
-							<input type="text" name="emailDomain" maxlength="50" value="<%=emailDomain%>" id="emailDomain" class="inp_txt" title="이메일도메인">
-							<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택" >
-								<option value="" selected="selected">직접입력</option>
-								<option value="empal.com">엠파스</option>
-								<option value="naver.com">네이버</option>
-								<option value="hanmail.net">다음</option>
-								<option value="hotmail.com">핫메일</option>
-								<option value="yahoo.co.kr">야후</option>
-								<option value="nate.com">네이트</option>
-							</select>
+							<input type="text" name="email" class="inp_txt read_txt"  id="email" readonly="readonly" value="<%=email %>" />
 						</td>
 
 					 <tr>
@@ -372,21 +362,6 @@ function submitGo(){
 	var cpNo = $("#cpNo1").val()+"-"+$("#cpNo2").val()+"-"+$("#cpNo3").val();
 	$("#cpNo").val(cpNo);
 
-	if($("#emailId").val()==null||$("#emailId").val()==""){
-		alert("이메일 : 필수입력값입니다.");
-		$("#emailId").focus();
-		return false;
-	}
-
-	if($("#emailDomain").val()==null||$("#emailDomain").val()==""){
-		alert("이메일 : 필수입력값입니다.");
-		$("#emailDomain").focus();
-		return false;
-	}
-	var email = $("#emailId").val()+"@"+$("#emailDomain").val();
-	$("#email").val(email);
-
-
 	if(!$("input[name='userTp']").is(":checked")){
 		alert("소속기관 : 필수입력값입니다.");
 		$("#userTp3").focus();
@@ -407,6 +382,23 @@ function submitGo(){
 	}
 	return false
 
+}
+
+function pwReset(idx, id, email) {
+	if(confirm('비밀번호를 재설정 하시겠습니까?')) {
+		$.ajax({
+			url : "/sys/resetPassword.do",
+			method : "POST",
+			data : {userIdx : idx, userId : id, email : email},
+			success : function(data) {
+				if(data.succCode == "OK") {
+					alert("비밀번호 재설정 메일을 발송하였습니다.");
+				} else {
+					alert("문제가 발생하였습니다.");
+				}
+			}
+		});
+	}
 }
 
 </script>

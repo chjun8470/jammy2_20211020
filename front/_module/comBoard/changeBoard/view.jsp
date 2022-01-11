@@ -64,145 +64,106 @@
 	<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
 	<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
 
-<div id="cont_block">
-	<div class="basic_listWrap">
+	<div class="MPTit">담당자게시글 상세</div>
 
-		<table class="skin_view">
+	<div class="basic_viewWrap MAT10">
+
+		<table class="skin_view01">
 		    <colgroup>
-		      <col style="width:15%;" />
-		      <col style="width:45%;" />
-		      <col style="width:15%;" />
-		      <col style="width:25%;" />
-		    </colgroup>
-
+				<col style="width:15%;" />
+				<col style="width:35%;" />
+				<col style="width:15%;" />
+				<col style="width:35%;" />
+			</colgroup>
+		
 			<thead>
-			  <tr>
-			    <th scope="col">제목</th>
-			    <td class="r_line_none" colspan="3">
-			    	<%=util.getStr(dataMap.get("SUBJECT"))%>
-			    </td>
-			  </tr>
+				<tr>
+					<th scope="col" class="alnC">제목</th>
+					<td class="r_line_none" colspan="3">
+			    		<%=util.getStr(dataMap.get("SUBJECT"))%>
+					</td>
+				</tr>
 			</thead>
+			
 			<tbody>
-			  <tr>
-			    <th scope="col">등록자</th>
-			    <td><%=util.getStr(dataMap.get("WRITER_NM"))%>(<%=util.getStr(dataMap.get("WRITER_ID"))%>)</td>
-				<th scope="col" class="lft_line">등록일</th>
-			    <td class="r_line_none"><%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%></td>
-			  </tr>
-			  <tr>
-			    <th scope="col">조회</th>
-			    <td class="r_line_none" colspan="3"><%=util.getIntStr(dataMap.get("HITS"))%></td>
-			  </tr>
-			  <tr>
-			    <td class="r_line_none view_cont" colspan="4" style="word-break:break-all; overflow:hidden;">
-			    	<div style="padding: 10px; width:100%;"><%=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%></div>
-
-
-					<!-- 파일첨부 이미지일 경우 화면에 출력  -->
-					<%
+			
+				<tr>
+					<th scope="col" class="alnC">등록자</th>
+					<td>
+						<%=util.getStr(dataMap.get("WRITER_NM"))%>(<%=util.getStr(dataMap.get("WRITER_ID"))%>)
+					</td>
+					<th scope="col" class="alnC">등록일</th>
+					<td class="r_line_none">
+						<%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%>
+					</td>
+				</tr>
+				
+				<tr>
+					<th scope="col" class="alnC">조회</th>
+					<td class="r_line_none" colspan="3"><%=util.getIntStr(dataMap.get("HITS"))%></td>
+				</tr>
+				
+				<tr>
+					<td class="r_line_none view_cont alnC" colspan="4" style="word-break:break-all; overflow:hidden;">
+						<div class="cont">
+							<%=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%>
+						</div>
+				
+						<!-- 파일첨부 이미지일 경우 화면에 출력  -->
+						<%
 						int imgCnt = 1;
 						for(HashMap rs:fileList){
 							String ext = util.getStr(rs.get("FILE_CAT")).toLowerCase();
-
+						
 							if("jpeg".equals(ext) || "jpg".equals(ext) || "gif".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
-					%>
-							<div>
-								&#60; File_Image <%=imgCnt%> &#62;<br/>
-								<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" style="max-width:500px; vertical-align:middle "/>
-							</div>
-					<%
+						%>
+						<div>
+							&#60; File_Image <%=imgCnt%> &#62;<br/>
+							<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" style="max-width:500px; vertical-align:middle "/>
+						</div>
+						<%
 								imgCnt++;
-
+						
 							}
 						}
-					%>
-			    </td>
-			  </tr>
-			</tbody>
-		</table>
-
-	<table class="P_contBox2" summary="특허검색 게시판의 보기 게시판으로 의견남기기, 대표 이미지로 구성되어 있습니다.">
-		<caption>의견남기기, 대표 이미지로 구성된 표입니다.</caption>
-		<colgroup>
-			<col style="width:65%;" />
-			<col style="width:35%;" />
-		</colgroup>
-
-		<tbody>
-			<%-- <tr>
-				<td class="jip_info2 r_line_none" colspan="2">
-				<div class="ideaBox" style="width: 100%;">
-					<%if(cmtMap.size() > 0) {%>
-					<ul class="idea_list" style="display:">
-					<%
-					int no = 0;
-					for(HashMap rs:cmtMap) {
-					%>
-
-						<li>
-							<div class="idea_name"><%=util.getStr(rs.get("REG_USER_NM")) %></div>
-							<div class="idea_date"><%=datef.format(rs.get("REG_DT")) %></div>
-							<div class="idea_txt" id="commentDiv" style="display:"><span id="comment<%=no%>"><%=util.getStr(rs.get("CMT_CONTENT")).replaceAll("\n", "<br/>") %></span>
-							<textarea id="editComment" name="editComment" style="display:none;"></textarea>
-							<textarea id="commentUdtInput<%=no%>" name="commentUdtInput<%=no%>" style="display:none" class="input_idea"><%=util.getStr(rs.get("CMT_CONTENT")) %></textarea>
-								&nbsp;
-								<%if(util.getStr(rs.get("REG_ID")).equals(loginVO.getUserId())) { %>
-								<div style="float: right;">
-									<a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a>
-									<a id="delTag<%=no%>" href="#" style="cursor:pointer; display:" onclick="delCmt('<%=util.getStr(rs.get("CMT_IDX")) %>')" >삭제</a>
-									<a id="saveTag<%=no%>" href="#" style="display:none" onclick="editCmtProc('<%=util.getStr(rs.get("CMT_IDX")) %>',<%=no%>)" >저장</a>
-									<a id="cancleTag<%=no%>" style="cursor:pointer; display:none" onclick="cancleEdit('<%=no%>')" >취소</a>
-								</div>
-								<%} %>
-							</div>
-						</li>
-					<%
-					no++;
-					} %>
-					</ul>
-				<% } %>
-				</div>
-				</td>
-				<tr> --%>
-					<td colspan="2" class="r_line_none">
-					<%if(util.getStr(boardMap.get("PERM_CMT")).equals("Y")) { %>
-						<div style="margin-bottom:20px;">
-							<textarea rows="5" name="comment" class="b_txtbox4" style="width:83%; min-height:20px; height:78px; resize: none;" cols="1"></textarea>
-							<span>
-							<%if(util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) || util.getInt(loginVO.getAuthLv()) >= 70) { %>
-							<button type="button" id="inpCmt" class="btn_rgt" style="float:right;width:80px;height:80px">등록</button>
-							<% } else { %>
-							<button type="button" id="inpCmtNot" class="btn_rgt color_box_btn_1" style="float:right;width:80px;height:80px">등록</button>
-							<% } %>
-							</span>
-						</div>
-					<% } %>
-
+						%>
 					</td>
 				</tr>
-			</tr>
-		</tbody>
-	</table>
+				
+			</tbody>
+			
+		</table>
 
-		<div class="b_btn_area" style="width: 600px;">
+		<div class="mp_replBox">
+		
+			<%if(util.getStr(boardMap.get("PERM_CMT")).equals("Y")) { %>
+			<textarea rows="5" name="comment" cols="1"></textarea>
+				
+			<%if(util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) || util.getInt(loginVO.getAuthLv()) >= 70) { %>
+			<button type="button" id="inpCmt" class="btn_add">등록</button>
+			<% } else { %>
+			<button type="button" id="inpCmtNot" class="btn_add">등록</button>
+			<% } %>
+				
+			<% } %>
+			
+		</div>
 
+		<div class="MPBtnWrap MAT10">
 
-<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR")){ %>
-				<span>
-					<input type="button" class="btn_rgt2" value="수정" onclick="goSubmit('edit')"/>
-				</span>
+			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR")){ %>
+				<input type="button" class="btn_inp_b_01 FloatR" value="수정" onclick="goSubmit('edit')"/>
 			<%}%>
 			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL")){ %>
-				<span>
-					<input type="button" class="btn_rgt2" value="삭제" onclick="goSubmit('del')"/>
-				</span>
+				<input type="button" class="btn_inp_w_01 FloatR" value="삭제" onclick="goSubmit('del')"/>
 			<%} %>
-				<input type="button" class="btn_lft" value="목록" onclick="goSubmit('list')"/>
+				<input type="button" class="btn_inp_b_01 FloatL" value="목록" onclick="goSubmit('list')"/>
 
+		</div>
+		
 	</div>
-	<!--basic_listWrap E-->
-</div>
+	<!--basic_viewWrap E-->
+
 </form>
 
 

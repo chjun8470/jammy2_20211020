@@ -5,7 +5,10 @@
 		String userTp = util.getStr(paramMap.get("userTp"));
 		String certiState = util.getStr(paramMap.get("certiState"));
 %>
-	<%if(("Y".equals(agree1) && "Y".equals(agree2)) || (certiState.equals("Y"))) {%>
+	<%
+		//if(("Y".equals(agree1) && "Y".equals(agree2)) || (certiState.equals("Y"))) {
+	%>
+	<%if(("Y".equals(agree1) && "Y".equals(agree2))) {%>
 		<%@include file="/front/_module/sso/join_step2.jsp" %>
 	<%}else {%>
 		<%@include file="/front/_module/sso/join_step1.jsp" %>

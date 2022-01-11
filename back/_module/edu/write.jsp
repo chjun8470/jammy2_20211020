@@ -248,36 +248,36 @@ span.required{
 					</td>
 				</tr>
 				<tr>
-					<th scope="col" class="top_sell bln"><label for="eduUserNm">강사정보</label><span class="required">*</span></th>
+					<th scope="col" class="top_sell bln"><label for="eduUserNm">강사정보</label></th>
 					<td colspan="3">
 
 						<table class="skin_basic_write">
 							<tr>
-								<th style="width:100px;">소속</th>
+								<th style="width:100px;">소속<span class="required">*</span></th>
 								<td style="width:200px;">
 									<input class="inp_txt" type="text" name="eduUserSector" id="eduUserSector"  style="width:200px;" />
 								</td>
-								<th style="width:100px;">직위</th>
+								<th style="width:100px;">직위<span class="required">*</span></th>
 								<td style="width:200px;">
 									<input class="inp_txt" type="text" name="eduUserDept" id="eduUserDept"  style="width:200px;" />
 								</td>
 							</tr>
 							<tr>
-								<th style="width:100px;">강사명</th>
+								<th style="width:100px;">강사명<span class="required">*</span></th>
 								<td style="width:200px;">
 									<input class="inp_txt" type="text" name="eduUserNm" id="eduUserNm"  style="width:200px;">
 								</td>
-								<th>전화번호</th>
+								<th>전화번호<span class="required">*</span></th>
 								<td>
 									<input class="inp_txt" type="text" name="eduUserTel" id="eduUserTel"  style="width:200px;">
 								</td>
 							</tr>
 							<tr>
-								<th>휴대전화</th>
+								<th>휴대전화<span class="required">*</span></th>
 								<td>
 									<input class="inp_txt" type="text" name="eduUserCpNo" id="eduUserCpNo"  style="width:200px;">
 								</td>
-								<th>이메일</th>
+								<th>이메일<span class="required">*</span></th>
 								<td>
 									<input class="inp_txt" type="text" name="eduUserEmail" id="eduUserEmail"  style="width:200px;">
 								</td>
@@ -594,13 +594,15 @@ $(function(){
 						// 주소 정보를 해당 필드에 넣는다.
 						//$("#location").val(fullAddr);
 						// 주소로 좌표를 검색
-						geocoder.addr2coord(data.address, function(status, result) {
+						//geocoder.addr2coord(data.address, function(status, result) {
+						geocoder.addressSearch(data.address, function(result, status) {
 							// 정상적으로 검색이 완료됐으면
-							if (status === daum.maps.services.Status.OK) {
+							if (status === kakao.maps.services.Status.OK) {
 								// 해당 주소에 대한 좌표를 받아서
-								var coords = new daum.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
-								   $("#mapX").val(result.addr[0].lat);
-								   $("#mapY").val(result.addr[0].lng);
+								//var coords = new kakao.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
+								var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+								   $("#mapX").val(result[0].y);
+								   $("#mapY").val(result[0].x);
 								// 지도를 보여준다.
 								mapContainer.style.display = "block";
 								map.relayout();
@@ -618,23 +620,23 @@ $(function(){
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 			mapOption = {
-				center: new daum.maps.LatLng(35.2268795, 126.8429492),
+				center: new kakao.maps.LatLng(35.2268795, 126.8429492),
 				level: 5 // 지도의 확대 레벨
 			};
 
 		//지도를 미리 생성
-		var map = new daum.maps.Map(mapContainer, mapOption);
+		var map = new kakao.maps.Map(mapContainer, mapOption);
 		//주소-좌표 변환 객체를 생성
-		var geocoder = new daum.maps.services.Geocoder();
+		var geocoder = new kakao.maps.services.Geocoder();
 		//마커를 미리 생성
-		var marker = new daum.maps.Marker({
-			position: new daum.maps.LatLng(35.2268795, 126.8429492),
+		var marker = new kakao.maps.Marker({
+			position: new kakao.maps.LatLng(35.2268795, 126.8429492),
 			map: map
 		});
 
-		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 			   searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-					if (status === daum.maps.services.Status.OK) {
+					if (status === kakao.maps.services.Status.OK) {
 
 						  // 클릭한 위도, 경도 정보를 가져옵니다
 						  var latlng = mouseEvent.latLng;
@@ -652,23 +654,25 @@ $(function(){
 		 });
 
 		 // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-		 daum.maps.event.addListener(map, 'idle', function() {
+		 kakao.maps.event.addListener(map, 'idle', function() {
 			   searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		 });
 
 		 function searchAddrFromCoords(coords, callback) {
 			   // 좌표로 행정동 주소 정보를 요청합니다
-			   geocoder.coord2addr(coords, callback);
+			   //geocoder.coord2addr(coords, callback);
+			   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);     
 		 }
 
 		 function searchDetailAddrFromCoords(coords, callback) {
 			   // 좌표로 법정동 상세 주소 정보를 요청합니다
-			   geocoder.coord2detailaddr(coords, callback);
+			   //geocoder.coord2detailaddr(coords, callback);
+			   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 		 }
 
 		 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 		 function displayCenterInfo(status, result) {
-			   if (status === daum.maps.services.Status.OK) {
+			   if (status === kakao.maps.services.Status.OK) {
 					$("#centerAddr").html(result[0].fullName);
 			   }
 		 }
@@ -711,9 +715,9 @@ function orgInfo(orgGrpCd){
 
 		//geocoder.addr2coord(data.dataMap.ADDR1, function(status, result) {
 			// 정상적으로 검색이 완료됐으면
-			//if (status === daum.maps.services.Status.OK){
+			//if (status === kakao.maps.services.Status.OK){
 				// 해당 주소에 대한 좌표를 받아서
-				var coords = new daum.maps.LatLng($("#mapX").val(),$("#mapY").val());
+				var coords = new kakao.maps.LatLng($("#mapX").val(),$("#mapY").val());
 				// 지도를 보여준다.
 				mapContainer.style.display = "block";
 				map.relayout();
@@ -820,7 +824,7 @@ function submitGo(){
 		errMsg+="JNTIS사용여부 : 필수입력사항입니다."+"<br/>";
 	}
 
-	/* if($("#eduUserSector").val()==null || $("#eduUserSector").val()==""){
+	if($("#eduUserSector").val()==null || $("#eduUserSector").val()==""){
 		errMsg+="강사소속 : 필수입력사항입니다."+"<br/>";
 	}
 	if($("#eduUserDept").val()==null || $("#eduUserDept").val()==""){
@@ -830,14 +834,14 @@ function submitGo(){
 		errMsg+="강사명 : 필수입력사항입니다."+"<br/>";
 	}
 	if($("#eduUserTel").val()==null || $("#eduUserTel").val()==""){
-		errMsg+="강사소속 : 필수입력사항입니다."+"<br/>";
+		errMsg+="강사전화번호 : 필수입력사항입니다."+"<br/>";
 	}
 	if($("#eduUserCpNo").val()==null || $("#eduUserCpNo").val()==""){
-		errMsg+="강사직위 : 필수입력사항입니다."+"<br/>";
+		errMsg+="강사휴대전화 : 필수입력사항입니다."+"<br/>";
 	}
 	if($("#eduUserEmail").val()==null || $("#eduUserEmail").val()==""){
-		errMsg+="강사명 : 필수입력사항입니다."+"<br/>";
-	} */
+		errMsg+="강사이메일 : 필수입력사항입니다."+"<br/>";
+	}
 
 
 	if($("#operPsnNm").val()==null || $("#operPsnNm").val()==""||$("#equUserIdx").val()==null || $("#equUserIdx").val()==""){

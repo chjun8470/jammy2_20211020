@@ -140,11 +140,11 @@ $(document).ready(function() {
 						<tr>
 							<th scope="row" class="tit"><span style="color:red; font-size:10pt;"> * </span>발명명칭(국문)</th>
 							<td>
-								<input type="text" name="utilityInventionKorNm" id="utilityInventionKorNm" value="<%=util.getStr(dataMap.get("INVENTION_KOR_NM")) %>" style="width: 90%; font-size:10pt;" maxlength="100" />
+								<input type="text" name="utilityInventionKorNm" id="utilityInventionKorNm" value="<%=util.getStr(dataMap.get("INVENTION_KOR_NM")) %>" style="width: 90%; font-size:10pt;" maxlength="300" />
 							</td>
 							<th scope="row" class="tit"><span style="color:red; font-size:10pt;"> * </span>발명명칭(영문)</th>
 							<td>
-								<input type="text" name="utilityInventionEngNm" id="utilityInventionEngNm" value="<%=util.getStr(dataMap.get("INVENTION_ENG_NM")) %>" style="width: 90%; font-size:10pt;" maxlength="100" />
+								<input type="text" name="utilityInventionEngNm" id="utilityInventionEngNm" value="<%=util.getStr(dataMap.get("INVENTION_ENG_NM")) %>" style="width: 90%; font-size:10pt;" maxlength="300" />
 							</td>
 						</tr>
 						<tr>
@@ -1794,7 +1794,7 @@ $(document).ready(function() {
 							<td>
 								<input type="hidden" name="OwnOrg" id="knowhowOrgNm" value="<%=util.getStr(dataMap.get("ORG_NM")) %>" style="width: 90%; font-size:10pt;" maxlength="100" />
 								<input type="text" name="OwnOrgNm" id="knowhowOrg" value="<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>" style="width: 70%; font-size:10pt;" maxlength="100"  readonly="readonly"/>
-								
+
 								<% if( util.getStr( loginVO.getAuthLv() ).equals("99") ){ %>
 								<input type="button" name="blngOrgNm" value="기관검색" id="blngOrgNm5" class="btn_inp_g_01"  onclick="popupWindow('registrationOrgList')" >
 								<% } %>
@@ -3083,7 +3083,7 @@ function goCheck(list_mode){
 				}
 					msg += num[c];
 
-				if( c < fnum-1){
+				if( c < nNum-1){
 					msg += ", ";
 				}else{
 					msg += " \n";

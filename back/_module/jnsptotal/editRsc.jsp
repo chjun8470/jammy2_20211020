@@ -308,6 +308,14 @@ function radio_area(mode,no){
 		<input type="hidden" name="state" id="state" value="<%=state%>"/>
 		<input type="hidden" name="reject" id="reject" value="<%=reject%>"/>
 
+		<input type="hidden" name="searchType" id="searchType" value="<%=util.getStr(paramMap.get("searchType"))%>"/>
+		<input type="hidden" name="searchState" id="searchState" value="<%=util.getStr(paramMap.get("searchState"))%>"/>
+		<input type="hidden" name="searchNameOrg" id="searchNameOrg" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>"/>
+		<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" value="<%=util.getStr(paramMap.get("searchOrgGrp"))%>"/>
+		<input type="hidden" name="searchOrgSub" id="searchOrgSub" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>"/>
+		<input type="hidden" name="searchWord" id="searchWord" value="<%=util.getStr(paramMap.get("searchWord"))%>"/>
+		<input type="hidden" name="pageName" id="pageName" value="jnspTotal"/>
+
 		<div class="clear_wrap">
 			<h3>[연구장비 상세정보]</h3>
 				<table id="step1" summary="연구장비의 상세정보입력" class="skin_basic_write">
@@ -357,6 +365,14 @@ function radio_area(mode,no){
                 				<label><input type="radio" name="ntisEquipInfoYN" id="ntisEquipInfoN" onclick="ntisEquipInfoYNCheck()" value="N" <%=util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/> NTIS 미등록장비</label>
 							</td>
 						</tr>
+               			<tr>
+                			<th scope="row"><label for="etubeEquipInfoYN"> * e-Tube 등록번호</label></th>
+                			<td >
+                				<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoY" onclick="etubeEquipInfoYNCheck()" value="Y" <%=!util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="etubeEquipInfoY"> e-Tube 등록장비</label>
+                				<input class="inp_txt" type="text" name="etubeEquipInfo" id="etubeEquipInfo" maxlength="50" value="<%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO"))%>" <% if(util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")){%>style="display:none; width:240px;"<%}else{%>style="width:240px;"<%}%>/>
+                				<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoN" onclick="etubeEquipInfoYNCheck()" value="N" <%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="etubeEquipInfoN"> e-Tube 미등록장비</label>
+             				</td>
+               			</tr>
 						<tr>
 							<th scope="row"><label for="registCd"> * 시설구분</label></th>
 							<td>
@@ -1445,6 +1461,16 @@ function radio_area(mode,no){
 							errMsg+="NTIS 등록번호 : 필수입력사항입니다."+"<br/>";
 						}
 					}
+
+					if(!$("input[type=radio][name='etubeEquipInfoYN']").is(":checked")){
+						errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+					}
+					if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+						if($("#etubeEquipInfo").val()==null || $("#etubeEquipInfo").val()==""){
+							errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+						}
+					}
+
 					if(!$("#fixedAsetNone").is(":checked")){
 						if($("#fixedAsetNo").val()==null || $("#fixedAsetNo").val()==""){
 							//alert("고정자산관리번호를 입력해주세요.");
@@ -1883,6 +1909,15 @@ function radio_area(mode,no){
 					}else{
 						$("#ntisEquipInfo").hide();
 						$("#ntisEquipInfo").val("");
+					}
+				}
+
+				function etubeEquipInfoYNCheck(){
+					if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+						$("#etubeEquipInfo").show();
+					}else{
+						$("#etubeEquipInfo").hide();
+						$("#etubeEquipInfo").val("");
 					}
 				}
 

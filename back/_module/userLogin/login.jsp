@@ -26,23 +26,23 @@
 
         <!-- admin_loginWrap s -->
 		<div class="admin_loginWrap">
-		
+
         <div class="tit_login"><img src="/img/login/tit_login.png" alt="Member Login" /></div>
 
         <!-- inputBox s -->
         <div class="inputBox">
-        
+
         <input type="button" class="btn_pop1" style="cursor:pointer" onclick="actlogin('<%=reUrl%>')" value="로그인"/>
-        
+
         <div class="txt_pop1">회원ID</div>
-        <input type="text" class="input_pop1"  value="" id="login_id" name="login_id"  onkeydown="if(event.keyCode==13) actlogin('<%=reUrl%>');"/>
-        
+        <input type="text" class="input_pop1"  value="admin" id="login_id" name="login_id"  onkeydown="if(event.keyCode==13) actlogin('<%=reUrl%>');"/>
+
         <div class="txt_pop2">비밀번호</div>
-        <input type="password" class="input_pop2" value="" id="login_pwd" name="login_pwd" onkeydown="if(event.keyCode==13) actlogin('<%=reUrl%>');"/>
-        
+        <input type="password" class="input_pop2" value="q1w2e3r4" id="login_pwd" name="login_pwd" onkeydown="if(event.keyCode==13) actlogin('<%=reUrl%>');"/>
+
         </div>
         <!-- inputBox e -->
-        
+
         </div>
 		<!-- admin_loginWrap e -->
 

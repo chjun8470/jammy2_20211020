@@ -58,20 +58,20 @@ a:hover {
 
 		<tbody>
 	 		<tr>
-				<th scope="col">공고명</th>
+				<th scope="row">공고명</th>
 				<td class="r_line_none" colspan="3"><%=util.getStr(dataMap.get("SUBJECT"))%></td>
 			</tr>
 			<tr>
-				<th scope="col">공고기관</th>
+				<th scope="row">공고기관</th>
 				<td><%=util.getStr(dataMap.get("NEW_TYPE1"))%></td>
-				<th class="line_edt_reg" scope="col">부처명</th>
+				<th class="line_edt_reg" scope="row">부처명</th>
 				<td class="r_line_none"><%=util.getStr(dataMap.get("NEW_TYPE4"))%></td>
 			</tr>
 			<tr>
-				<th scope="col">공고일</th>
+				<th scope="row">공고일</th>
 				<%if(m.equals("Y")){%>
 					<td><%=util.getStr(dataMap.get("NEW_TYPE3"))%></td>
-					<th scope="col">숨기기</th>
+					<th scope="row">숨기기</th>
 					<td class="r_line_none">
 						<input type="checkbox" name="hiddenYn" id="hidden_Y" value="0" <%if(util.getIntStr(dataMap.get("HIDDEN")).equals("0")){%>checked="checked"<%}%> onclick="check_only(this)"/>
 						<label for="hidden_Y"> 표시</label>&nbsp;&nbsp;
@@ -83,7 +83,7 @@ a:hover {
 				<%}%>
 			</tr>
 			<tr>
-				<th scope="col">관련URL주소</th>
+				<th scope="row">관련URL주소</th>
 			    <td class="r_line_none" colspan="3">
 					<a href="#" title="새창열림" onclick="window.open('<%=util.getStr(dataMap.get("NEW_TYPE2"))%>','url','width=750,height=700,scrollbars=yes')">
 						<%=util.getStr(dataMap.get("NEW_TYPE2"))%>

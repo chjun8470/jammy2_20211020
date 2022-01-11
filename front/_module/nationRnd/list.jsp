@@ -79,8 +79,8 @@
 			<colgroup>
 			  	<col style="width: 10%;" />
 				<col style="width: 50%;" />
-				<col style="width: 20%;" />
-				<col style="width: 20%;" />
+				<col style="width: 25%;" /> 
+				<col style="width: 15%;" />
 			</colgroup>
 
 				<thead>
@@ -122,15 +122,15 @@
 					  	}
 				 %>
 					<tr onmouseover="this.style.background='#f3f3f3'" onmouseout="this.style.background='white'" >
-					 <td class="number"><%=cont%></td>
-					  <td class="b_notice">
-						<a href="<%=url%>" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기" >
-					  	<span style="color:<%=color%>"><%=hiddenVal%></span>
-					  	<%if(util.getStr(rs.get("SUBJECT")).length()>35){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 35)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
-						</a>
-					  </td>
-					  <td class="r_line_none2"><%=util.getStr(rs.get("NEW_TYPE4"))%></td>
-					  <td class="r_line_none"><%=util.getStr(rs.get("REG_DT"))%></td>
+					 	<td class="number"><%=cont%></td>
+					 	<td class="b_notice">
+							<a href="<%=url%>" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기" >
+						  	<span style="color:<%=color%>"><%=hiddenVal%></span>
+						  	<%if(util.getStr(rs.get("SUBJECT")).length()>90){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 90)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
+							</a>
+					 	</td>
+					 	<td class="r_line_none2"><%=util.getStr(rs.get("NEW_TYPE4"))%></td>
+					  	<td class="r_line_none"><%=util.getStr(rs.get("REG_DT"))%></td>
 					</tr>
 			  	<%
 				  	cont--;

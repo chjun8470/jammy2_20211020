@@ -299,7 +299,7 @@
 							<td class="r_line_none">
 								<%if(util.getStr(resvDataMap.get("EDU_RESV_ID")).equals("")){ %>
 									<input type="hidden" name="phone" id="phone" />
-									<input type="text" name="phone01" id="phone01" class="inp_txt02" style="width:50px" maxlength="4" /> - <input type="text" name="phone02" id="phone02" class="inp_txt02" style="width:75px" maxlength="4" /> - <input type="text" name="phone03" id="phone03" class="inp_txt02" style="width:75px" maxlength="4" />
+									<input type="text" title="전화번호 첫번째" name="phone01" id="phone01" class="inp_txt02" style="width:50px" maxlength="4" /> - <input type="text" title="전화번호 두번째" name="phone02" id="phone02" class="inp_txt02" style="width:75px" maxlength="4" /> - <input type="text" title="전화번호 세번째" name="phone03" id="phone03" class="inp_txt02" style="width:75px" maxlength="4" />
 								<%}else{ %>
 								<%=util.getIntStr(resvDataMap.get("USER_TEL"))%>
 								<%}%>

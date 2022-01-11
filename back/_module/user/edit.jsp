@@ -31,13 +31,6 @@
 	String deptNmOption = util.getStr(dataMap.get("DEPT_NM"));
 	//email S
 	String email = util.getStr(dataMap.get("EMAIL"));
-	String emailId = "";
-	String emailDomain = "";
-	int e = email.indexOf("@");
-		if(e>1){
-			emailId = email.substring(0, e);
-			emailDomain = email.substring(e+1);
-		}
 	//email E
 	//tel S
 	String telNo = util.getStr(dataMap.get("TEL_NO"));
@@ -80,7 +73,8 @@
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 사용자 ID</th>
 						<td class="td" colspan="3" >
-							<input type="text" name="userId" maxlength="20" value="<%=util.getStr(dataMap.get("USER_ID")) %>" id="userId" class="inp_txt" title="사용자ID" readonly="readonly" style="border:0px">
+							<input type="text" name="userId" maxlength="20" value="<%=util.getStr(dataMap.get("USER_ID")) %>" id="userId" class="inp_txt" title="사용자ID" readonly="readonly" style="border:0px" />
+							<input type="button" name="btnPwReset" id="btnPwReset" onclick="pwReset('<%=util.getStr(paramMap.get("userIdx")) %>', '<%=util.getStr(dataMap.get("USER_ID")) %>', '<%=email %>')" value="비밀번호 재설정" class="btn_inp_b_01" />
 						</td>
 						<%-- <th class="th"> <span style="color:red; font-size:10pt;">* 권한</span></th>
 						<td class="td">
@@ -101,14 +95,14 @@
 						</td>
                			<th scope="col">상태</th>
                			<td>
-               			<select id="userAppState" name="userAppState">
+               			<select id="userAppState" name="userAppState" class="inp_txt">
                				<option value="10" <%=userAppState.equals("요청")? "selected='selected'" : "" %>> 요청 </option>
                				<option value="20" <%=userAppState.equals("승인")? "selected='selected'" : "" %>> 승인 </option>
                				<option value="30" <%=userAppState.equals("반려")? "selected='selected'" : "" %>> 반려 </option>
                			</select>
                			</td>
                		</tr>
-				<%-- 	<tr>
+				    <%--<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 비밀번호</th>
 						<td class="td">
 							<input type="password" name="password" maxlength="20" value="<%=util.getStr(dataMap.get("PASSWORD")) %>" id="userId" class="password" title="사용자ID" readOnly style="border:0px">
@@ -117,7 +111,7 @@
 						<td class="td">
 							<input type="password" name="confirmPassword" maxlength="20" value="<%=util.getStr(dataMap.get("PASSWORD")) %>" id="confirmPassword" class="txtbox" title="사용자ID" readOnly style="border:0px">
 						</td>
-					</tr> --%>
+					</tr>--%>
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 성별구분</th>
 						<td class="td">
@@ -135,7 +129,7 @@
 						<td class="td">
 							<span id="inTel">
 								<input type="hidden" name="telNo"  id="telNo">
-								<select name="telNo1" id="telNo1" style="width: 60px;" title="사무실전화번호 국번"><option value="02">02</option>
+								<select name="telNo1" id="telNo1" style="width: 60px;" class="inp_txt" title="사무실전화번호 국번"><option value="02">02</option>
 									<option value="02" <%if(telNo1.equals("02")) { %> selected="selected" <% } %>>02</option>
 									<option value="031" <%if(telNo1.equals("031")) { %> selected="selected" <% } %>>031</option>
 									<option value="032" <%if(telNo1.equals("032")) { %> selected="selected" <% } %>>032</option>
@@ -163,7 +157,7 @@
 						<td class="td">
 							<span id="inCp">
 								<input type="hidden" name="cpNo"  id="cpNo">
-								<select name="cpNo1" id="cpNo1" style="width: 60px;" title="휴대폰 국번">
+								<select name="cpNo1" id="cpNo1" style="width: 60px;" class="inp_txt" title="휴대폰 국번">
 									<option value="010" <%if(cpNo1.equals("010")) { %> selected="selected" <% } %>>010</option>
 									<option value="011" <%if(cpNo1.equals("011")) { %> selected="selected" <% } %>>011</option>
 									<option value="016" <%if(cpNo1.equals("016")) { %> selected="selected" <% } %>>016</option>
@@ -179,24 +173,13 @@
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 이메일</th>
 						<td class="td" colspan="3">
-							<input type="hidden" name="email"  id="email">
-							<input type="text" name="emailId" maxlength="20" value="<%=emailId %>" id="emailId" class="inp_txt" title="이메일아이디"> @
-							<input type="text" name="emailDomain" maxlength="50" value="<%=emailDomain%>" id="emailDomain" class="inp_txt" title="이메일도메인">
-							<select name="emailDomainChoise" id="emailDomainChoise" title="이메일주소도메인선택" >
-								<option  selected="selected">직접입력</option>
-								<option value="empal.com">엠파스</option>
-								<option value="naver.com">네이버</option>
-								<option value="hanmail.net">다음</option>
-								<option value="hotmail.com">핫메일</option>
-								<option value="yahoo.co.kr">야후</option>
-								<option value="nate.com">네이트</option>
-							</select>
+							<input type="text" name="email" class="inp_txt read_txt"  id="email" readonly="readonly" value="<%=email %>" />
 						</td>
 
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 회원분류<%= util.getStr(dataMap.get("USER_TP"))%></th>
 						<td class="td" colspan="3">
-							<% 
+							<%
 								if( util.getStr( dataMap.get("AUTH_LV") ) != "80" || util.getStr(dataMap.get("USER_TP")).equals("1") ){
 							%>
 								<input type="radio" name="userTp" value="1" id="userTp1" style="margin-left: 20px;width:20px;" title="개인" <%=util.getStr(dataMap.get("USER_TP")).equals("1")? "checked='checked'" : "" %>><label for="userTp1">개인회원</label>
@@ -205,12 +188,12 @@
 								if( util.getStr( dataMap.get("AUTH_LV") ) != "80" || util.getStr(dataMap.get("USER_TP")).equals("2") ){
 							%>
 								<input type="radio" name="userTp" value="2" id="userTp2" style="width:20px;" title="기업"  <%=util.getStr(dataMap.get("USER_TP")).equals("2")? "checked='checked'" : "" %>><label for="userTp2">기업회원</label>
-							<% 
+							<%
 								}
 								if( util.getStr( dataMap.get("AUTH_LV") ) != "80" || util.getStr(dataMap.get("USER_TP")).equals("3") ){
 							%>
 								<input type="radio" name="userTp" value="3" id="userTp3" style="width:20px;" title="기관"  <%=util.getStr(dataMap.get("USER_TP")).equals("3")? "checked='checked'" : "" %>><label for="userTp3">기관회원</label>
-							<% 
+							<%
 								}
 							%>
 							<span id="orgList" style="padding-left: 15px;">
@@ -481,21 +464,6 @@ function submitGo(){
 	var cpNo = $("#cpNo1").val()+"-"+$("#cpNo2").val()+"-"+$("#cpNo3").val();
 	$("#cpNo").val(cpNo);
 
-	if($("#emailId").val()==null||$("#emailId").val()==""){
-		alert("이메일 : 필수입력값입니다.");
-		$("#emailId").focus();
-		return false;
-	}
-
-	if($("#emailDomain").val()==null||$("#emailDomain").val()==""){
-		alert("이메일 : 필수입력값입니다.");
-		$("#emailDomain").focus();
-		return false;
-	}
-	var email = $("#emailId").val()+"@"+$("#emailDomain").val();
-	$("#email").val(email);
-
-
 	if(!$("input[name='userTp']").is(":checked")){
 		alert("소속기관 : 필수입력값입니다.");
 		$("#userTp1").focus();
@@ -512,7 +480,7 @@ function submitGo(){
 			alert("직위 : 필수입력값입니다.");
 			$("#userTp1").focus();
 			return false;
-		}	
+		}
 	}
 	if($("input[type=radio][name='userTp']:checked").val() ==3){
 		if(confirm("변경된 내용을 적용하시겠습니까?")){
@@ -528,6 +496,23 @@ function submitGo(){
 	}
 	return false
 
+}
+
+function pwReset(idx, id, email) {
+	if(confirm('비밀번호를 재설정 하시겠습니까?')) {
+		$.ajax({
+			url : "/sys/resetPassword.do",
+			method : "POST",
+			data : {userIdx : idx, userId : id, email : email},
+			success : function(data) {
+				if(data.succCode == "OK") {
+					alert("비밀번호 재설정 메일을 발송하였습니다.");
+				} else {
+					alert("문제가 발생하였습니다.");
+				}
+			}
+		});
+	}
 }
 
 </script>

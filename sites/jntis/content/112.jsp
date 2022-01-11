@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="Cont112">
+<!--<div class="Cont112">
 <div class="Cont11201Img"><img src="/img/jntis/cont/txt_cont24.png" alt="JNTIS 전남과학기술시스템(JeoNam Science &amp; Technology Information System)은" /></div>
 <div class="Cont112_homepage">
 <p class="Cont11201txt">전남 지역의 과학기술 관련 기술동향·지식정보, R&amp;D 사업·과제·성과, 연구시설장비, 지식재산, 교육·행사, 기업정보, 일자리 등 관련 정보를 한곳에서 서비스하는 지역 과학기술 정보·지식·활용지원 포털 사이트입니다.</p>
@@ -13,7 +13,7 @@
 </div>
 </div>
 <div class="Cont11202">
-<h4 class="title002">JNTIS 관리자 서비스</h4>
+<h4 class="title002">JNTIS 관리자 서비스1</h4>
 <div class="Cont11202list">
 <ol class="cont112_list02">
 <li class="cont112_02list01"><span class="hide">01</span>기관/기업 등록 및 담당자 관리</li>
@@ -34,7 +34,7 @@
 <li class="cont112_03list04"><span class="hide">04</span>교육·행사 정보 제공 및 온라인 신청 지원</li>
 <li class="cont112_03list05"><span class="hide">05</span>기업정보, 기업연구소정보, 투자유치 정보 제공</li>
 <li class="cont112_03list06"><span class="hide">06</span>수요조사 및 만족도조사 지원</li>
-<!-- <li class="cont112_03list07">기술사업화 우수제품 홍보지원</li> -->
+
 </ol>
 </div>
 <div class="Cont11204list">
@@ -66,4 +66,121 @@
 <li class="cont112_05list07"><span class="hide">07</span>지식재산 DB, 이전·사업화, 인력 등 통계제공</li>
 </ol>
 </div>
+</div>-->
+
+<div class="Cont112">
+	<div class="Cont24">
+		<div class="Con24title">
+			<h1 class="blue">JNTIS<span> 전남과학기술정보시스템</span></h1>
+			<p><span class="blue">J</span>eon<span class="blue">N</span>am
+				Science & <span class="blue">T</span>echnology <span class="blue">I</span>nformation <span class="blue">S</span>ystem</p>
+		</div>
+		<p class="Cont24txt"><span>전남과학기술정보시스템은</span><br>
+			전남지역의 과학기술 관련 기술동향·지식정보, R&D 사업·과제·성과, 연구·시설장비,
+			지식재산, 교육·행사, 기업정보, 일자리 등 관련 정보를 한 곳에서 서비스하는
+			지역 과학기술 정보·지식·활용지원을 위한 포털사이트입니다.
+			<br> 
+		</p>
+	</div>
+	<div class="Cont112_homepage">
+		<div class="left">
+			<img src="/img/jntis/cont/img_cont11201_1.jpg">
+		</div>
+		<div class="right">
+			<ul class="MVisualLinkList00">
+				<li class="MVisualLinkList01">
+					<a href="/jntis/sub.do?m=118" title="새창열기" target="_blank">
+						<h3>전남R&D통계정보</h3>
+						<div class="h_icon"></div>
+						<div class="btn_go02" alt="전남R&D통계정보 홈페이지 바로가기"></div>
+					</a>
+				</li>
+				<li class="MVisualLinkList02">
+					<a href="http://rnd.jnsp.re.kr" title="새창열기" target="_blank">
+						<h3>전남R&D성과관리시스템</h3>
+						<div class="h_icon02"></div>
+						<div class="btn_go02" alt="전남R&D성과관리시스템 홈페이지 바로가기"></div>
+					</a>
+				</li>
+				<li class="MVisualLinkList03">
+					<a href="/jeinet/main.do" title="새창열기" target="_blank">
+						<h3>전남연구장비정보망</h3>
+						<div class="h_icon03"></div>
+						<div class="btn_go02" alt="전남연구장비정보망 홈페이지 바로가기"></div>
+					</a>
+				</li>
+				<li class="MVisualLinkList04">
+					<a href="/smbrnd/main.do" title="새창열기" target="_blank">
+						<h3>전남중소기업 R&D통합지원플랫폼</h3>
+						<div class="h_icon04"></div>
+						<div class="btn_go02" alt="전남중소기업 R&D통합지원플랫폼 홈페이지 바로가기"></div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="cont112_ul">
+		<h3 class="tit">JNTIS 관리자 서비스</h3>
+		<ul class="cont112_list">
+			<li>
+				<h3>01</h3>
+				<p>기관/기업등록 및 담당자관리</p>
+			</li>
+			<li>
+				<h3>02</h3>
+				<p>연구시설·장비등록 및 DB관리</p>
+			</li>
+			<li>
+				<h3>03</h3>
+				<p>지식재산 등록 및 DB관리</p>
+			</li>
+			<li>
+				<h3>04</h3>
+				<p>과학기술·사업·과제 정보 등 등록 및 관리</p>
+			</li>
+			<li>
+				<h3>05</h3>
+				<p>교육·행사·기업정보 등 등록 및 관리</p>
+			</li>
+			<li>
+				<h3>06</h3>
+				<p>전문가 정보 등록 및 DB관리</p>
+			</li>
+			<li>
+				<h3>07</h3>
+				<p>과학기술 통계정보 제공</p>
+			</li>
+			<li>
+				<h3>08</h3>
+				<p>R&D기업 정보 등록·관리</p>
+			</li>
+		</ul>
+		<h3 class="tit">JNTIS 이용자 서비스</h3>
+		<ul class="cont112_list">
+			<li>
+				<h3>01</h3>
+				<p>대학,연구기관,지원기관 정보 및 담당자정보 제공</p>
+			</li>
+			<li>
+				<h3>02</h3>
+				<p>과학기술 정책, 지식자료, 전문가 정보 제공</p>
+			</li>
+			<li>
+				<h3>03</h3>
+				<p>R&D사업, 기업지원사업 등 정보 제공</p>
+			</li>
+			<li>
+				<h3>04</h3>
+				<p>교육·행사 정보 제공 및 온라인 신청 지원</p>
+			</li>
+			<li>
+				<h3>05</h3>
+				<p>기업정보, 기업연구소정보, 투자유치 정보 제공</p>
+			</li>
+			<li>
+				<h3>06</h3>
+				<p>수요조사 및 만족도조사 지원</p>
+			</li>
+		</ul>
+	</div>
 </div>

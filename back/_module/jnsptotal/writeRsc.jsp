@@ -327,6 +327,14 @@ function radio_area(mode,no){
 								<input type="radio" name="ntisEquipInfoYN" id="ntisEquipInfoN" onclick="ntisEquipInfoYNCheck()" value="N"/><label for="ntisEquipInfoN"> NTIS 미등록장비</label>
 							</td>
 						</tr>
+                		<tr>
+                			<th scope="row"><label for="etubeEquipInfoYN"> * e-Tube 등록번호</label></th>
+                			<td>
+	                			<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoY" onclick="etubeEquipInfoYNCheck()" value="Y"/><label for="etubeEquipInfoY"> e-Tube 등록장비</label>
+	                			<input class="inp_txt" type="text" name="etubeEquipInfo" id="etubeEquipInfo" style="display: none; width: 240px;" maxlength="50"/>
+	                			<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoN" onclick="etubeEquipInfoYNCheck()" value="N"/><label for="etubeEquipInfoN"> e-Tube 미등록장비</label>
+							</td>
+                		</tr>
 						<tr>
 							<th scope="row"><label for="registCd"> * 시설구분</label></th>
 							<td>
@@ -1293,6 +1301,15 @@ function radio_area(mode,no){
 			}
 		}
 
+		if(!$("input[type=radio][name='etubeEquipInfoYN']").is(":checked")){
+			errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+		}
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			if($("#etubeEquipInfo").val()==null || $("#etubeEquipInfo").val()==""){
+				errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+			}
+		}
+
 
 		if(!$("#fixedAsetNone").is(":checked")){
 			if($("#fixedAsetNo").val()==null || $("#fixedAsetNo").val()==""){
@@ -1793,6 +1810,15 @@ function radio_area(mode,no){
 		}else{
 			$("#ntisEquipInfo").hide();
 			$("#ntisEquipInfo").val("");
+		}
+	}
+
+	function etubeEquipInfoYNCheck(){
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			$("#etubeEquipInfo").show();
+		}else{
+			$("#etubeEquipInfo").hide();
+			$("#etubeEquipInfo").val("");
 		}
 	}
 

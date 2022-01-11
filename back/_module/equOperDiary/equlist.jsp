@@ -53,7 +53,7 @@ response.setContentType("text/html;charset=UTF-8");
 							</select> --%>
 
 							<label for="searchType" class="hide">검색종류선택</label>
-							<select name="searchType" id="searchType" class="select" style="height: 24px">
+							<select name="searchType" id="searchType" class="select">
 								<option value="equipNm" <%if("equipNm".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>장비/시설명</option>
 								<option value="manufacture" <%if("manufacture".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>모델명</option>
 								<option value="keyWord" <%if("keyWord".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>키워드</option>

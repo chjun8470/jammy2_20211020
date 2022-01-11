@@ -76,8 +76,9 @@
 										}
 
 								%>
-								<span style="float:left; padding:0px 5px;"><input type="checkbox" name="searchSupportType[]" id="sstp<%=cnt%>" value="<%=util.getStr(rs.get("CODE_CD"))%>" <%if("YES".equals(ckChecked)) {%> checked="checked" <%}%>/>
-									  <label for="sstp<%=cnt%>"><%=util.getStr(rs.get("CODE_NM")).replaceAll("&amp;","&").replaceAll("&","&amp;")%></label>
+								<span style="float:left; padding:0px 5px;">
+									<input type="checkbox" name="searchSupportType[]" id="sstp<%=cnt%>" value="<%=util.getStr(rs.get("CODE_CD"))%>" <%if("YES".equals(ckChecked)) {%> checked="checked" <%}%>/>
+									<label for="sstp<%=cnt%>"><%=util.getStr(rs.get("CODE_NM")).replaceAll("&amp;","&").replaceAll("&","&amp;")%></label>
 								</span>
 								<%
 									cnt++;
@@ -118,6 +119,7 @@
 							<div style="margin: 0px 0px 0px 20px; height: 35px; line-height: 35px; float: left;"><label for="searchType">검색필드 :&nbsp;</label></div>
 							<select class="b_select_1" name="searchType" id="searchType" title="검색조건 선택">
                             	<option value="SUBJECT" <%if("SUBJECT".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>사업명</option>
+                                <option value="COMPNAME" <%if("COMPNAME".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>지원기관명</option>
                                 <option value="PROCHARGE" <%if("PROCHARGE".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>사업담당자</option>
                             </select>
 
@@ -148,7 +150,7 @@
 
 
 		<!-- skin_basic_list s -->
-		<table class="skin_list" summary="지역 사업정보 게시글 목록으로 글번호, 지원유형, 사업명, 공고/접수기간, 사업담당자, 접수상태로 구성되어 있습니다.">
+		<table class="skin_list" summary="지역 사업정보 게시글 목록으로 글번호, 지원유형, 사업명, 공고/접수기간, 공고기관, 담당자, 접수상태로 구성되어 있습니다.">
           <caption>지역 사업정보</caption>
 			<!-- colgroup s -->
 			<colgroup>
@@ -156,8 +158,9 @@
 				<col style="width: 14%;" />
 				<col style="width: 24%;" />
 				<col style="width: 12%;" />				
-				<col style="width: 15%;" />
-				<col style="width: 10%;" />
+				<col style="width: 18%;" />
+				<col style="width: 10%;" /> 
+				<col style="width: 5%;" />
 			</colgroup>
 			<!-- colgroup e -->
 			<!-- thead s -->
@@ -166,8 +169,9 @@
 					<th scope="col" class="number">번호</th>
 					<th scope="col" class="r_line_none2">지원유형</th>
 					<th scope="col" class="r_line_none2">사업명</th>
-					<th scope="col" class="r_line_none2">공고/접수기간</th>					
-					<th scope="col" class="r_line_none2">사업담당자</th>
+					<th scope="col" class="r_line_none2">공고/접수기간</th>
+					<th scope="col" class="r_line_none2">공고기관</th>				
+					<th scope="col" class="r_line_none2">담당자</th>
 					<th scope="col" class="r_line_none file">접수상태</th>
 				</tr>
 			</thead>
@@ -178,20 +182,26 @@
 					int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
 					if(dataList.size() == 0){
 				%>
-					<tr><td class="r_line_none" colspan="7">데이터가 존재하지 않습니다</td></tr>
+					<tr><td class="r_line_none" colspan="8">데이터가 존재하지 않습니다</td></tr>
 				<%
 					}
 
 					for(HashMap rs:dataList) {
 				%>
+				
 				<tr>
 					<td class="number "><%=cont%></td>
 					<td class="r_line_none2">
-						<%if(util.getStr(rs.get("CODE_NM")).length()>8){%><%=util.getStr(rs.get("CODE_NM")).substring(0, 8)+" · · · "%><%}else{%><%=util.getStr(rs.get("CODE_NM"))%><%}%>
+						<%if(util.getStr(rs.get("CODE_NM")).length()>20){%>
+							<%=util.getStr(rs.get("CODE_NM")).substring(0, 20)+" · · · "%>
+						<%}else{%>
+							<%=util.getStr(rs.get("CODE_NM"))%>
+						<%}%>
 					</td>
 					<td class="b_notice line_new_lft">
 					 	<a href="/<%=siteId%>/sub.do?m=<%=m%>&mode=view&boardIdx=<%=util.getStr(rs.get("ARTICLE_ID"))%>",'eventpopup">
-							<u><%if(util.getStr(rs.get("SUBJECT")).length()>15){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 15).replaceAll("&", "&#38;")+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%></u>
+							<u><%if(util.getStr(rs.get("SUBJECT")).length()>45){%>
+								<%=util.getStr(rs.get("SUBJECT")).substring(0, 45).replaceAll("&", "&#38;")+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%></u>
 						</a>
 
 					</td>
@@ -200,9 +210,16 @@
 						<%=util.getStr(rs.get("DATA04"))%>
 					</td>
 					
-					<td class="r_line_none2">
-						<%if(util.getStr(rs.get("DATA09")).length()>8){%><%=util.getStr(rs.get("DATA10")).substring(0, 8)+" · · · "%><%}else{%><%=util.getStr(rs.get("DATA10"))%><%}%>
+					<td>
+						<%=util.getStr(rs.get("DATA07"))%>
 					</td>
+					
+					<td class="r_line_none2">
+						<%if(util.getStr(rs.get("DATA10")).length()>8){%><%=util.getStr(rs.get("DATA10")).substring(0, 8)+" · · · "%><%}else{%><%=util.getStr(rs.get("DATA10"))%><%}%>
+					</td>
+					
+					
+					
 					<td class="r_line_none file">
 						<% if("접수중".equals(util.getStr(rs.get("RECEIPT_NM")))){ %>
 						<img alt="접수중" src="/img/back/comm/edu_state_img_01.png" />
@@ -220,7 +237,7 @@
 		<div class="b_btn_area">
 			&nbsp;
 			<% if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"WRITE")) {%>
-				<input type="button" class="btn_rgt" value="글쓰기" onclick="goSubmit('write')"/>
+				<input type="button" class="btn_rgt" value="등록" onclick="goSubmit('write')"/>
 			<% } %>
 		</div>
 	</div>

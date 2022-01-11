@@ -15,11 +15,11 @@
 
     HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
 	HashMap<String, String> dataMap = request.getAttribute("dataMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("dataMap");
-	
-	
+
+
 	String userIdx = util.getStr(paramMap.get("userIdx"));
 	System.out.println("changeOrg userIdx::"+userIdx);
-	
+
 	String fileGrp = "Corporate";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -40,7 +40,7 @@ $(document).ready(function(){
 if($("#blngOrgGubunSelect").val()!=null||$("#blngOrgGubunSelect").val()!=""){
 	$("#blngOrgGubun").val($("#blngOrgGubunSelect").val());
 }
-		
+
 });
 
 function orgPost(){
@@ -62,28 +62,18 @@ function submitGo(){
 		return false;
 	}
 
-	if($("#corporateCode").val()==null||$("#corporateCode").val()==""){
-		alert("법인번호 : 필수입력값입니다.");
-		$("#corporateCode").focus();
-		return false;
-	}
-
 	if($("#blngOrgAddr").val()==null||$("#blngOrgAddr").val()==""||$("#blngOrgAddrDtl").val()==null||$("#blngOrgAddrDtl").val()==""){
 		alert("기관주소 : 필수입력값입니다.");
 		$("#blngOrgAddr").focus();
 		return false;
 	}
-	
+
 	var fileCheck = 0;
 	var fileCount = $("input[type=file]").length;
 		for(i = 1; i <= fileCount; i++) {
 				var fileName = $('#CorporateFile'+fileCount).val();
 				if(fileName != "" && fileName != null){fileCheck++;}
 		}
-	if(fileCheck == 0)
-	{
-		errMsg+="법인등록증 : 필수입력사항입니다.<br/>";
-	}
 
 	$("#authForm").submit();
 }
@@ -93,20 +83,20 @@ function submitGo(){
 <form name="authForm" id="authForm" action="/web/changeOrgUpdate.do" method="post" enctype="multipart/form-data">
 <!-- 	<input type="hidden" name="mode" id="mode" value="upOrg" /> -->
 	<input type="hidden" name="userIdx" id="userIdx" value="<%=userIdx%>" />
-	
+
 	<h1 align="center">::기관회원변경신청 정보입력::</h1>
-	
+
 	<div id="container" style="width:800px;margin:10px;border:5px solid lightgrey;" >
 		<!--div class="contents_box"-->
 		<div style="padding:10px;">
-			
+
 <!-- skin_basic_list s -->
 		<table class="skin_basic_write" summary="게시판 목록을 나타내는 표입니다..">
 			<colgroup>
 				<col style="width: 20%;" />
 				<col style="width: 30%;" />
 				<col style="width: 50%;" />
-	
+
 			</colgroup>
 			<tbody>
 				<tr>
@@ -122,7 +112,7 @@ function submitGo(){
 						<select name="deptNm" id="SelectdeptNm" title="부서명">
 							<option value="" />
 						</select>
-						
+
  						<input type="text" name="deptNm" maxlength="30" value="" id="deptNm" class="txtbox" title="부서명">
 					</td>
 				</tr>
@@ -152,7 +142,7 @@ function submitGo(){
 	              	</div>
 
 	              	<div style="display:inline-block;vertical-align:bottom;">
-	              		<input class="addImageBtn" type="button" value="+" style="width: 30px; height: 20px;" onclick="addRowFile('<%=fileFullGrp%>');" /> 
+	              		<input class="addImageBtn" type="button" value="+" style="width: 30px; height: 20px;" onclick="addRowFile('<%=fileFullGrp%>');" />
 						<input class="delImageBtn" type="button" value="-" style="width: 30px; height: 20px;" onclick="delRowFile('<%=fileFullGrp%>');" />
 	              	</div>
 	              	</td>
@@ -180,11 +170,11 @@ function submitGo(){
 			var fileHtml = "<div>";
 			fileHtml += "<input type='file' name='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  id='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  title='파일첨부' />";
 			fileHtml += "</div>";
-	
+
 			$('#'+fileGrpnm+'fileGrpBox').append(fileHtml);
 			arrfileCnt[fileGrpnm]++;
 		}
-	
+
 	    function delRowFile(fileGrpnm){
 	    	if($('#'+fileGrpnm+'fileGrpBox > div').size() <= 1){
 	    		return;
@@ -192,7 +182,7 @@ function submitGo(){
 	    	$('#'+fileGrpnm+'fileGrpBox > div').eq($('#'+fileGrpnm+'fileGrpBox > div').size() - 1).remove();
 	    	arrfileCnt[fileGrpnm]--;
 	    }
-	    
+
 	    //기관찾아보기 팝업
 		function orgSearchPopUp(listMode){
 			var settings ='toolbar=0,directories=0,status=no,menubar=0,scrollbars=auto,resizable=no,height=400,width=300,left=0,top=0';
@@ -200,7 +190,7 @@ function submitGo(){
 			 popOption="width=500, height=500, resizable=no, scrollbars=no, status=no;";
 			window.open(popUrl,"",popOption);
 		}
-	    
+
 	    //부서명 호출
 // 		$(document).ready(function(){
 // 			var org_grp_cd = $("#deptNm").val();
@@ -215,5 +205,5 @@ function submitGo(){
 //                 });
 // 			}
 // 		});
-	//]]>    
+	//]]>
 	</script>

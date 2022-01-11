@@ -150,7 +150,7 @@
 			<!-- 리스트보기 종류선택 -->
 			<div class="publist_top_wrap02">
 				<div class="b_btn_listBox" style="margin-right:10px;">
-					<button type="button" class="b_btn_list" onclick="goSubmit('list','list')" title="게시판형"><img src="/img/board/btn_list_ovr.png" /></button>
+					<button type="button" class="b_btn_list" onclick="goSubmit('list','list')" title="게시판형(선택됨)"><img src="/img/board/btn_list_ovr.png" /></button>
 					<button type="button" class="b_btn_blog" onclick="goSubmit('list','imageList')" title="블로그형"><img src="/img/board/btn_blog.png"/></button>
 					<button type="button" class="b_btn_blog" onclick="goSubmit('list','calendar',<%=nowYear%>,<%=nowMonth%>)" title="달력형"><img src="/img/board/btn_calendar.png" /></button>
 				</div>
@@ -170,7 +170,7 @@
 				<col style="width: 15%;" />
 				<col style="width: 15%;" />
 				<col style="width: 8%;" />
-				<col style="width: 8%;" />
+				<!--<col style="width: 8%;" />-->
 				<col style="width: 10%;" />
 			</colgroup>
 			<!-- colgroup e -->

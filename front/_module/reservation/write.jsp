@@ -35,135 +35,166 @@
 
 		<div class="skin_bbs_write" style="margin-top:30px">
 			<table class="skin_basic_write">
+				<!-- colgroup s -->
+
+				<colgroup>
+					<col style="width: 12%;" />
+					<col style="width: 20%;" />
+					<col style="width: 12%;" />
+					<col style="width: 20%;" />
+					<col style="width: 12%;" />
+					<col style="width: 19%;" />
+				</colgroup>
+	
+				<!-- colgroup e -->
+
+				<!-- 신청자 정보 -->
+				<tr>
+					<th scope="col"><font color="red">*</font> 신청자명</th>
+					<td colspan="5">
+					<%=util.getStr(userMap.get("PSN_NM"))%>(<%=util.getStr(userMap.get("EMAIL"))%> / <%=util.getStr(userMap.get("CP_NO"))%>)
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 소속기관</th>
+					<td colspan="5">
+						<%=util.getStr(userMap.get("ORG_GRP_NM"))%>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 소속부서/센터</th>
+					<td colspan="5">
+						<input type="text" class="inp_text box_style_4" name="deptNm" id="deptNm" value="<%=util.getStr(userMap.get("DEPT_NM"))%>" size="50"/>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 신청자 직책</th>
+					<td colspan="5">
+						<input type="text" class="inp_text box_style_5" name="corpPosition" id="corpPosition" value="<%=util.getStr(userMap.get("POSITION_NM"))%>" size="30"/>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 대표자</th>
+					<td colspan="5">
+						<input type="text" class="inp_text box_style_6" name="corpResponsibleUser" id="corpResponsibleUser" value="<%=util.getStr( userMap.get("ORNER_NM") ) %>" size="30"/>
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 연락처</th>
+					<td colspan="5">
+						<input type="text" class="inp_text box_style_7" name="phone" id="phone" value="<%=util.getStr(userMap.get("TEL_NO"))%>" size="12"/>
+						* ex) 061-1234-4567
+					</td>
+				</tr>
+				<tr>
+					<th scope="col"><font color="red">*</font> 주소</th>
+					<td colspan="5">
+						<input type="text" class="inp_text box_style_8"  name="zipCode" maxlength="10" value="<%=util.getStr(userMap.get("ZIPCD"))%>" id="zipCode"  title="신청자주소" style="" readonly = "readonly" />
+						<input type="text" class="inp_text box_style_9"  name="addr1" maxlength="100" value="<%=util.getStr(userMap.get("ADDR1"))%>" id="addr1"  title="신청자주소" style="" readonly="readonly"/>
+	
+						<input type="button" id = "deptPostButton" value="찾아보기" class="btn_inp_w_01_2 btn_fnd"  onclick = "orgPost()" />
+						<input type="text" class="inp_text box_style_10"  name="addr2" maxlength="100" value="<%=util.getStr(userMap.get("ADDR2"))%>" id="addr2"  title="신청자주소" style="" />
+					</td>
+				</tr>
+				<!-- <tr>
+					<th scope="col"><font color="red">*</font> 결제방법</th>
+					<td>
+						<input type="hidden" id="priceHow" name="priceHow" value="">
+						<input type="radio" id="priceHow1" name="priceHowCheck" value="A">카드&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="priceHow2" name="priceHowCheck" value="B">계좌이체&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="priceHow3" name="priceHowCheck" value="C">전자계산서
+					</td>
+				</tr> -->
+				<tr>
+					<th scope="col"><font color="red">*</font> 구분</th>
+					<td colspan="5">
+						<input type="hidden" id="userType" name="userType" value="" />
+						<input type="radio" id="userType1" name="userTypeCheck" value="A" /><label for="userType1">사업자</label>&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="userType2" name="userTypeCheck" value="B" /><label for="userType2">비사업자</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+
+		<div class="skin_bbs_write" style="margin-top:30px">
+			<table class="skin_basic_write">
 
 			<!-- colgroup s -->
 
 			<colgroup>
+				<col style="width: 12%;" />
 				<col style="width: 20%;" />
-				<col style="width: 80%;" />
+				<col style="width: 12%;" />
+				<col style="width: 20%;" />
+				<col style="width: 12%;" />
+				<col style="width: 19%;" />
 			</colgroup>
 
 			<!-- colgroup e -->
 
 			<tr>
 				<th scope="col">장비명</th>
-				<td scope="col"><%=util.getStr(dataMap.get("KOR_NM"))%>(<%=util.getStr(dataMap.get("RND_EQU_IDX"))%>)</td>
+				<td scope="col" colspan="5"><%=util.getStr(dataMap.get("KOR_NM"))%></td>
+			</tr>
+			<tr>
+				<th scope="col">JEINET 등록번호</th>
+				<td scope="col"><%=util.getStr(dataMap.get("RND_EQU_IDX"))%></td>
+				<th scope="col">Zeus 등록번호</th>
+				<td scope="col"><%=util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("") ? "NTIS 미등록장비": util.getStr(dataMap.get("NTIS_EQUIP_INFO"))%></td>
+				<th scope="col">e-tube 등록번호</th>
+				<td scope="col"><%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("") ? "e-tube 미등록장비": util.getStr(dataMap.get("ETUBE_EQUIP_INFO"))%></td>
+			</tr>
+			<tr>
+				<th scope="col">보유기관</th>
+				<td scope="col" colspan="5"><%=util.getStr(dataMap.get("OWN_ORG_NM"))%> (<%=util.getStr(dataMap.get("OWN_ORG_SUB_NM"))%>)</td>
 			</tr>
 			<tr>
 				<th scope="col"><font color="red">*</font> 이용희망기간</th>
-				<td>
-		 			<input type="text" class="inp_text" name="useStDt" id="useStDt" value="" size="15"/>
+				<td colspan="5">
+		 			<input type="text" class="inp_text" name="useStDt" id="useStDt" value="" size="15" readonly="readonly"/>
 				~
-		 		<input type="text" class="inp_text" name="useEdDt" id="useEdDt" value="" size="15"/>
+		 		<input type="text" class="inp_text" name="useEdDt" id="useEdDt" value="" size="15" readonly="readonly"/>
 				&nbsp;&nbsp;&nbsp;
 				* 이용희망기간은 실제 이용기간과 다를수 있습니다. 담당자가 접수처리시 실제 이용기간을 확정하게 됩니다.
 				</td>
 			</tr>
 			<tr>
 				<th scope="col"><font color="red">*</font> 사용구분</th>
-				<td><select name="useMean" id="useMean" class="b_select2" style="height: 24px;width: 150px">
+				<td colspan="5"><select name="useMean" id="useMean" class="b_select2" style="height: 24px;width: 150px">
 						<option value="1">분석시험의뢰</option>
 						<option value="2">이용자직접사용</option>
 						<option value="3">야간및휴일사용</option>
 					</select></td>
 			</tr>
 			<tr>
-				<th scope="col">이용목적</th>
-				<td>
+				<th scope="col"><font color="red">*</font> 이용목적</th>
+				<td colspan="5">
 					<input type="text" class="inp_text box_style_1" name="usePurpose" id="usePurpose" value="" size="70"/>
 				</td>
 			</tr>
 			<tr>
-				<th scope="col"><font color="red">*</font> 시료정보</th>
-				<td id="sampleBox" >
+				<th scope="col"><font color="red">*</font> 시료예약정보</th>
+				<td id="sampleBox" colspan="5">
 						<div id="sampleItem1" >
-							<label>시료명 : </label><input type="text" class="inp_text box_style_2" name="sampleNm" id="sampleNm" value="" size="30" />
-							&nbsp;<label>시료수 : </label><input type="text" class="inp_text box_style_3" name="sampleNo" id="sampleNo" value="0" size="10" />
+							<label>시료명 : </label><input type="text" class="inp_text box_style_2" name="sampleNm" id="sampleNm1" value="" maxlength="20" />
+							&nbsp;<label>시료수 : </label><input type="text" class="inp_text box_style_3" name="sampleNo" id="sampleNo1" value="" maxlength="2" />
 							<button class="b_btn_00401" type="button" onclick="sampleBox('p');" title="시료항목 추가"><img src="/img/board/btn_plus.gif"/></button>
 							<button class="b_btn_00401" type="button" onclick="sampleBox('m');" title="시료항목 감소"><img src="/img/board/btn_del.gif"/></button>
 						</div>
 				</td>
 			</tr>
 			<tr>
-				<th scope="col">특기사항</th>
-				<td>
+				<th scope="col">특이사항</th>
+				<td colspan="5">
 					<textarea id="contents" name="sampleMatter" rows="5" cols="100" style="width:99%" ></textarea>
 					<br />* 시험항목 및 예상치, 분석조건/시료특성/분석방법/분석성분/사용용매/결과회신방법 등
 				</td>
 			</tr>
-
-
-
-
-			<!-- 신청자 정보 -->
-
-			<tr>
-				<th scope="col"><font color="red">*</font> 신청자명</th>
-				<td>
-				<%=util.getStr(userMap.get("PSN_NM"))%>(<%=util.getStr(userMap.get("EMAIL"))%> / <%=util.getStr(userMap.get("CP_NO"))%>)
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 소속기관</th>
-				<td>
-					<%=util.getStr(userMap.get("ORG_GRP_NM"))%>
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 소속부서/센터</th>
-				<td>
-					<input type="text" class="inp_text box_style_4" name="deptNm" id="deptNm" value="<%=util.getStr(userMap.get("DEPT_NM"))%>" size="50"/>
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 신청자 직책</th>
-				<td>
-					<input type="text" class="inp_text box_style_5" name="corpPosition" id="corpPosition" value="<%=util.getStr(userMap.get("POSITION_NM"))%>" size="30"/>
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 대표자</th>
-				<td>
-					<input type="text" class="inp_text box_style_6" name="corpResponsibleUser" id="corpResponsibleUser" value="<%=util.getStr( userMap.get("ORNER_NM") ) %>" size="30"/>
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 연락처</th>
-				<td>
-					<input type="text" class="inp_text box_style_7" name="phone" id="phone" value="<%=util.getStr(userMap.get("TEL_NO"))%>" size="12"/>
-					* ex) 061-1234-4567
-				</td>
-			</tr>
-			<tr>
-				<th scope="col"><font color="red">*</font> 주소</th>
-				<td>
-					<input type="text" class="inp_text box_style_8"  name="zipCode" maxlength="10" value="<%=util.getStr(userMap.get("ZIPCD"))%>" id="zipCode"  title="신청자주소" style="" readonly = "readonly" />
-					<input type="text" class="inp_text box_style_9"  name="addr1" maxlength="100" value="<%=util.getStr(userMap.get("ADDR1"))%>" id="addr1"  title="신청자주소" style="" readonly="readonly"/>
-
-					<input type="button" id = "deptPostButton" value="찾아보기" class="btn_inp_w_01_2 btn_fnd"  onclick = "orgPost()" />
-					<input type="text" class="inp_text box_style_10"  name="addr2" maxlength="100" value="<%=util.getStr(userMap.get("ADDR2"))%>" id="addr2"  title="신청자주소" style="" />
-				</td>
-			</tr>
-			<!-- <tr>
-				<th scope="col"><font color="red">*</font> 결제방법</th>
-				<td>
-					<input type="hidden" id="priceHow" name="priceHow" value="">
-					<input type="radio" id="priceHow1" name="priceHowCheck" value="A">카드&nbsp;&nbsp;&nbsp;
-					<input type="radio" id="priceHow2" name="priceHowCheck" value="B">계좌이체&nbsp;&nbsp;&nbsp;
-					<input type="radio" id="priceHow3" name="priceHowCheck" value="C">전자계산서
-				</td>
-			</tr> -->
-			<tr>
-				<th scope="col"><font color="red">*</font> 구분</th>
-				<td>
-					<input type="hidden" id="userType" name="userType" value="" />
-					<input type="radio" id="userType1" name="userTypeCheck" value="A" /><label for="userType1">사업자</label>&nbsp;&nbsp;&nbsp;
-					<input type="radio" id="userType2" name="userTypeCheck" value="B" /><label for="userType2">비사업자</label>
-				</td>
-			</tr>
-
 			</table>
-
+			
+		
+			
 
 	        <!-- bo_btn  -->
 	        <div class="btn_box">
@@ -193,15 +224,23 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	//이용희망시간 달력
  	$(document).ready(function(){
  		$( "#useStDt" ).datepicker({
-		    dateFormat: 'yy-mm-dd'
+		    dateFormat: 'yy-mm-dd',
+		    minDate: 0,
+		    onClose: function( selectedDate ) {
+		    	$("#useEdDt").datepicker( "option", "minDate", selectedDate );
+            }
 		  });
 		  $( "#useEdDt" ).datepicker({
-		    dateFormat: 'yy-mm-dd'
+		    dateFormat: 'yy-mm-dd',
+		    minDate: 0,
 		  });
 
-		//$('input:radio[name="priceHow1"][value="A"]').attr('checked', 'checked');
-		$('input:radio[name="userType1"][value="A"]').attr('checked', 'checked');
-
+		  $('#userType1').attr('checked', 'checked');
+		
+	  	$(document).scroll(function(){
+			$("input:text").blur();
+		});  
+		
 	});
 
 	function orgPost(){
@@ -233,76 +272,81 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 
 function reservationGo(){ //submit
 		$('#mode').val('writeSubmit');
-
+		sampleCnt = $('#sampleBox > div').size();
 		if($('#useStDt').val() == ''){
 			alert("이용희망기간 시작일(년/월/일)을 입력해주세요.");
 			$('#useStDt').focus();
 			return false;
 		}
-		/* if($('#useStDt').val() == ''){
-			alert("이용희망기간 시작일(시간)을 입력해주세요.");
-			$('#useStDt').focus();
-			return false;
-		} */
-		/* if($('#useStDt3').val() == ''){
-			alert("이용희망기간 시작일(분)을 입력해주세요.");
-			$('#useStDt3').focus();
-			return false;
-		} */
-
-		//var useStDt = $('#useStDt1').val() +" "+$('#useStDt2').val()+":00";
-
-		//$('#useStDt').val(useStDt);
-		//alert("$(#useStDt).val() >> "+ $('#useStDt').val());
-
 		if($('#useEdDt').val() == ''){
 			alert("이용희망기간 종료일(년/월/일)을 입력해주세요.");
 			$('#useEdDt').focus();
 			return false;
 		}
-		/* if($('#useEdDt2').val() == ''){
-			alert("이용희망기간 종료일(시간)을 입력해주세요.");
-			$('#useEdDt2').focus();
-			return false;
-		} */
-		/* if($('#useEdDt3').val() == ''){
-			alert("이용희망기간 종료일(분)을 입력해주세요.");
-			$('#useEdDt3').focus();
-			return false;
-		} */
-
-		//var useEdDt = $('#useEdDt1').val() +" "+$('#useEdDt2').val()+":00";
-		//$('#useEdDt').val(useEdDt);
-
-		if($('#sampleNm').val() == ''){
-			alert("시료명을 입력해주세요");
-			$('#sampleNm').focus();
+		if(checkSpace('usePurpose') == ''){
+			alert("이용목적을 입력해주세요");
+			$('#usePurpose').focus();
 			return false;
 		}
-		if($('#sampleNo').val() == ''){
-			alert("시료수를 입력해주세요");
-			$('#sampleNo').focus();
-			return false;
+		
+		for(i=1; i < sampleCnt+1; i++){
+			if(checkSpace('sampleNm'+i) == ''  || $('#sampleNm'+i).val() == null){
+				alert("시료명을 입력해주세요");
+				$('#sampleNm'+i).focus();
+				return false;
+			}
+			if(checkSpace('sampleNo'+i) == '' || $('#sampleNo'+i).val() == null){
+				alert("시료수를 입력해주세요");
+				$('#sampleNo'+i).focus();
+				return false;
+			}else if(isNaN($('#sampleNo'+i).val())){
+				alert("시료수는 숫자만 입력해주세요.");
+				$('#sampleNo'+i).focus();
+				return false;
+			};
 		}
-
-		/* if($('#orderPassword').val() == ''){
-			alert("예약 비밀번호를 입력해주세요");
-			$('#orderPassword').focus();
-			return false;
-		} */
-		if($('#deptNm').val() == ''){
+		
+		if(checkSpace('deptNm') == ''){
 			alert("소속부서/센터를 입력해주세요");
 			$('#deptNm').focus();
 			return false;
 		}
-		if($('#corpPosition').val() == ''){
+		if(checkSpace('corpPosition') == ''){
 			alert("신청자 직책를 입력해주세요");
 			$('#corpPosition').focus();
 			return false;
 		}
-		if($('#corpResponsibleUser').val() == ''){
+		if(checkSpace('corpResponsibleUser') == ''){
 			alert("책임자를 입력해주세요");
 			$('#corpResponsibleUser').focus();
+			return false;
+		}
+		if($('#phone').val() == ''  || $("#phone").val()=="" ){
+			alert("핸드폰을 입력해주세요");
+			$('#phone').focus();
+			return false;
+		}else if(!telPattern.test($('#phone').val())){
+			alert("전화번호 : 양식에 맞게 입력해주세요.\n(ex:010-0000-0000)");
+		}
+		if(checkSpace('zipCode') == ''){
+			alert("주소를 입력해주세요");
+			$('#zipCode').focus();
+			return false;
+		}
+		if(checkSpace('addr1') == ''){
+			alert("주소를 입력해주세요");
+			$('#addr1').focus();
+			return false;
+		}
+		if(checkSpace('addr2') == ''){
+			alert("상세주소를 입력해주세요");
+			$('#addr2').focus();
+			return false;
+		}
+		
+		if(!$("input:radio[name=userTypeCheck]:checked").val()){
+			alert("구분을 선택 해주세요");
+			$('input:radio[name=userTypeCheck]').focus();
 			return false;
 		}
 
@@ -310,7 +354,16 @@ function reservationGo(){ //submit
 		$('#userType').val(userTypeCheck);
 		$('#fwrite').submit();
 	}
-
+	
+	//공백제거
+	function checkSpace(id){
+		var str = $('#'+id).val();
+		if(str.search(/\s/) != -1){
+			$('#'+id).val(str.trim());
+			//$('#'+id).val(str.replace(/ /g, ""));
+		}
+		return $('#'+id).val();
+	}
 
 
 	$(document).ready(function() {
@@ -361,8 +414,8 @@ function reservationGo(){ //submit
 			if( sample_cnt < 10){
 				sample_cnt++;
 				var sampleHtml = "<div id='sampleItem"+(sample_cnt)+"' >";
-				sampleHtml += "<label>시료명 : </label><input type='text' class='inp_text box_style_2' name='sampleNm' id='sampleNm"+(sample_cnt)+"' value='' size='30'/>";
-				sampleHtml += "&nbsp;&nbsp;<label>시료수 : </label><input type='text' class='inp_text box_style_3' name='sampleNo' id='sampleNo"+(sample_cnt)+"' value='0' size='10'/>";
+				sampleHtml += "<label>시료명 : </label><input type='text' class='inp_text box_style_2' name='sampleNm' id='sampleNm"+(sample_cnt)+"' value='' maxlength='20'/>";
+				sampleHtml += "&nbsp;&nbsp;<label>시료수 : </label><input type='text' class='inp_text box_style_3' name='sampleNo' id='sampleNo"+(sample_cnt)+"' value='' maxlength='2'/>";
 				sampleHtml += "</div>";
 				$( '#sampleBox' ).append(sampleHtml);
 			}else{

@@ -25,7 +25,7 @@
 }
 
 
-.inp_text {height:20px;line-height:20px;border:1px solid #bbbbbb;padding-left:5px;}
+.inp_text {height:20px;line-height:20px;border:1px solid #bbbbbb;}
 .inp_tarea {line-height:20px;border:1px solid #bbbbbb;}
 
 
@@ -59,7 +59,7 @@
 	vertical-align: middle;
 	text-align: center;
 	font-size: 0;
-	margin: 34px 0 20px 0;
+	margin:20px 0 20px 0;
 }
 
 .paging a {
@@ -85,14 +85,14 @@
 }
 
 .paging .num a.on {
-	border: 1px solid #00783c;
-	color: #00783c;
+	border: 1px solid #00baff;
+	color: #00baff;
 	font-weight: bold;
 }
 
 .paging .num a:hover {
-	border: 1px solid #00783c;
-	color: #00783c;
+	border: 1px solid #00baff;
+	color: #00baff;
 	text-decoration: none;
 }
 
@@ -469,11 +469,12 @@ table.skin_basic_write {
 }
 
 table.skin_basic_write caption {
-	/*visibility: hidden;*/
+	visibility: unset;
 	font-size: 0;
 	width: 0;
 	height: 0;
 	line-height: 0;
+	text-indent:-9999px;
 }
 
 table.skin_basic_write th {

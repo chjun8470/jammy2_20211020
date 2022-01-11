@@ -43,15 +43,31 @@
 
 	<dl class="MoreView01">
 		<dt>활용범위</dt>
-		<%if(util.getStr(dataMap.get("USE_SCOPE_CD")).equals("2")) { %>
-		<dd class="no_line on">공동활용허용</dd>
-		<dd class="line">공동활용서비스</dd>
-		<% } else if(util.getStr(dataMap.get("USE_SCOPE_CD")).equals("3")) { %>
-		<dd class="line">공동활용허용</dd>
-		<dd class="no_line on">공동활용서비스</dd>
-		<% } else { %>
-		<dd class="no_line">공동활용허용</dd>
-		<dd class="line">공동활용서비스</dd>
+		<% if(util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
+		
+			<%if(util.getStr(dataMap.get("USE_SCOPE_MEAN")).equals("공동활용허용가능")) { %>
+			<dd class="no_line on">공동활용허용</dd>
+			<dd class="line">공동활용서비스</dd>
+			<% } else if(util.getStr(dataMap.get("USE_SCOPE_MEAN")).equals("공동활용서비스가능")) { %>
+			<dd class="line">공동활용허용</dd>
+			<dd class="no_line on">공동활용서비스</dd>
+			<% } else { %>
+			<dd class="no_line">공동활용허용</dd>
+			<dd class="line">공동활용서비스</dd>
+			<% } %>
+		<% }else{ %>
+		
+			<%if(util.getStr(dataMap.get("USE_SCOPE_CD")).equals("2")) { %>
+			<dd class="no_line on">공동활용허용</dd>
+			<dd class="line">공동활용서비스</dd>
+			<% } else if(util.getStr(dataMap.get("USE_SCOPE_CD")).equals("3")) { %>
+			<dd class="line">공동활용허용</dd>
+			<dd class="no_line on">공동활용서비스</dd>
+			<% } else { %>
+			<dd class="no_line">공동활용허용</dd>
+			<dd class="line">공동활용서비스</dd>
+		<% } %>
+		
 		<% } %>
 	</dl>
 
@@ -77,9 +93,10 @@
 		<dd class="no_line on">온라인예약</dd>
 		<!-- <dd class="no_line">오프라인예약</dd> -->
 	</dl>
-
+	
 	<dl class="MoreView04">
-		<% if( !util.getStr(dataMap.get("USE_SCOPE_CD")).equals("1") ){ %>
+		<% if(!util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
+			<% if( !util.getStr(dataMap.get("USE_SCOPE_CD")).equals("1") ){ %>
 			<dt>이용방법</dt>
 
 			<%if(util.getStr(dataMap.get("USE_SCOPE_MEAN")).equals("대여")) { %>
@@ -107,18 +124,26 @@
 				<dd class="line">분석ㆍ시험의뢰</dd>
 				<dd class="line">직접사용</dd>
 			<% } %>
+			<% } %>
+		<% }else{ %>
+			<dt>ZEUS등록장비</dt>
 		<% } %>
 	</dl>
+	
 
 </div>
 <!--MoreView E-->
 
 
 <div class="MoreImg">
-<%if(util.getStr(dataMap.get("TITLE")).equals("") || util.getStr(dataMap.get("TITLE")).equals(null)) { %>
-	<img src="/img/board/img_sample4.jpg" width="400" height="282" alt="없는이미지"/>
-<% } else { %>
-	<img src="<%=util.getStr(dataMap.get("FILE_PATH"))+util.getStr(dataMap.get("TITLE"))%>" width="400" height="282" alt="장비사진"/>
+<% if(!util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
+	<%if(util.getStr(dataMap.get("TITLE")).equals("") || util.getStr(dataMap.get("TITLE")).equals(null)) { %>
+		<img src="/img/board/img_sample4.jpg" width="400" height="282" alt="없는이미지"/>
+	<% } else { %>
+		<img src="<%=util.getStr(dataMap.get("FILE_PATH"))+util.getStr(dataMap.get("TITLE"))%>" width="400" height="282" alt="장비사진"/>
+	<% } %>
+<% }else{ %>
+	<img src="<%=util.getStr(dataMap.get("FILE_PATH"))%>" width="400" height="282" alt="장비사진"/>
 <% } %>
 </div>
 
@@ -127,12 +152,7 @@
 	<div class="MoreTop">
 		<div class="MoreTopNo">고정자산관리번호 : <%=util.getStr(dataMap.get("FIXED_ASET_NO"))%>
 			<div class="star_publist_blog01">
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("1")) { %> <img src="/img/board/star1.png" alt="1점" /> 1점 <% } %>
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("2")) { %> <img src="/img/board/star2.png" alt="2점" /> 2점 <% } %>
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("3")) { %> <img src="/img/board/star3.png" alt="3점" /> 3점 <% } %>
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("4")) { %> <img src="/img/board/star4.png" alt="4점" /> 4점 <% } %>
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("5")) { %> <img src="/img/board/star5.png" alt="5점" /> 5점 <% } %>
-			<%if(util.getStr(dataMap.get("EQU_SATISFACTION")).equals("")) { %> <img src="/img/board/star5.png" alt="0점" /> 5점 <% } %>
+			
 			</div>
 		</div>
 	</div>
@@ -163,18 +183,26 @@
 
 	<br/>
 	<div class="b_btn_area3">
-		<%if(!"".equals(util.getStr(loginVO.getUserIdx()))) {%>
-			<button class="btn_w_02" type="button" onclick="resveGo()" style="margin-right:5px">예약하기</button>
+		
+		<% if(util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
+			<button class="btn_w_02" type="button" onclick="zeusGo('<%=util.getStr(dataMap.get("FIXED_ASET_NO"))%>')" style="margin-right:5px">예약하기</button>
 		<% } else { %>
-			<button class="btn_w_02" type="button" onclick="ssoPopupShow('login')"  style="margin-right:5px">예약하기</button>
+			<%if(!"".equals(util.getStr(loginVO.getUserIdx()))) {%>
+				<button class="btn_w_02" type="button" onclick="resveGo()" style="margin-right:5px">예약하기</button>
+			<% } else { %>
+				<button class="btn_w_02" type="button" onclick="ssoPopupShow('login')"  style="margin-right:5px">예약하기</button>
+			<% } %>
 		<% } %>
-
-
-		<%if(!"".equals(util.getStr(loginVO.getUserIdx()))) { %>
-			<button class="btn_w_02" type="button" onclick="pageFavGo('<%=util.getStr(paramMap.get("rndEquIdx"))%>')">장바구니</button>
-		<%} else { %>
-			<button class="btn_w_02" type="button" onclick="ssoPopupShow('login')">장바구니</button>
+		
+		
+		<% if(!util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
+			<%if(!"".equals(util.getStr(loginVO.getUserIdx()))) { %>
+				<button class="btn_w_02" type="button" onclick="pageFavGo('<%=util.getStr(paramMap.get("rndEquIdx"))%>')">장바구니</button>
+			<%} else { %>
+				<button class="btn_w_02" type="button" onclick="ssoPopupShow('login')">장바구니</button>
+			<% } %>
 		<% } %>
+		
 
 	</div>
 </div>
@@ -212,21 +240,23 @@
 					<div id="map" style="width:100%;height:250px;margin-top:10px;"></div>
 			<% } %>
 		</dd>
-		
+		<% if(!util.getStr(paramMap.get("xmode")).equals("zeus")){ %>
 		<dt>담당자정보</dt>
 		<dd>
 			<table class="skin_basic_write">
              <colgroup>
-              <col style="width:10%" />
-              <col style="width:15%" />
-              <col style="width:10%" />
-              <col style="width:15%" />
+              <col style="width:25%" />
+              <col style="width:75%" />
+              <!--<col style="width:10%" />
+              <col style="width:15%" />-->
              </colgroup>
 				<tr>
 					<th>기관명</th>
 					<td id="operChargerTd">
 						<%=util.getStr(dataMap.get("OPER_ORG_GRP")) %>
 					</td>
+				</tr>
+				<tr>
 					<th>부서명</th>
 					<td id="operPositionTd">
 						<%=util.getStr(dataMap.get("OPER_ORG_GRP_SUB")) %>
@@ -237,6 +267,8 @@
 					<td id="operChargerTd">
 						<%=util.getStr(dataMap.get("OPER_CHARGER")) %>
 					</td>
+				</tr>
+				<tr>
 					<th>직위</th>
 					<td id="operPositionTd">
 						<%=util.getStr(dataMap.get("OPER_POSITION")) %>
@@ -247,6 +279,8 @@
 					<td id="operTelTd">
 						<%=util.getStr(dataMap.get("OPER_TEL")) %>
 					</td>
+				</tr>
+				<tr>
 					<th>이메일</th>
 					<td id="operEmailTd">
 						<%=util.getStr(dataMap.get("OPER_EMAIL")) %>
@@ -254,6 +288,7 @@
 				</tr>
 			</table>
 		</dd>
+		<% } %>
 	</dl>
 </div>
 
@@ -282,6 +317,7 @@
 	<input type="hidden" id="searchUseScopeMean" 	name="searchUseScopeMean" 	value="<%=util.getStr(paramMap.get("searchUseScopeMean"))%>"/>
 	<input type="hidden" id="searchUseTypeCd" 		name="searchUseTypeCd" 		value="<%=util.getStr(paramMap.get("searchUseTypeCd"))%>"/>
 	<input type="hidden" id="searchWord" 			name="searchWord" 			value="<%=util.getStr(paramMap.get("searchWord"))%>"/>
+	<input type="hidden" id="searchUseScope" 		name="searchUseScope" 		value="<%=util.getStr(paramMap.get("searchUseScope"))%>"/>
 </form>
 
 <script type="text/javascript">
@@ -300,6 +336,12 @@
 		$('#mode').val('write');
 		$('#fview').submit();
 	}
+	
+	function zeusGo(equipNo){
+		location.href="https://www.zeus.go.kr/resv/equip/search?keyword="+equipNo;
+	}
+	
+	
 	function pageEditGo(){
 		$('#mode').val('edit');
 		$('#fview').submit();

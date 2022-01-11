@@ -127,7 +127,6 @@
 				<col style="width: 10%;" />
 				<col style="width: 15%;" />
 				<col style="width: 15%;" />
-				<col style="width: 15%;" />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
 				<col style="width: 15%;" />
@@ -138,7 +137,6 @@
 			<thead>
 				<tr>
 					<th scope="col">번호</th>
-					<th scope="col">사진</th>
 					<th scope="col">기관명</th>
 					<th scope="col">이름</th>
 					<th scope="col">직위</th>
@@ -157,15 +155,7 @@
 				<tr onclick="location.href='./<%=myPage%>?mode=view&amp;userIdx=<%=util.getStr(rs.get("USER_IDX"))%>'" onmouseover="this.style.background='#f3f3f3'" onmouseout="this.style.background='white'">
 					<td><%=cont%></td>
 					<td>
-						<%if(util.getStr(rs.get("FILE_ID")).equals("") || util.getStr(rs.get("FILE_ID")).equals(null)){ %>
-							<img  style="width:90px; height: 100px;" src="/img/main/no_image01.gif" alt="프로필사진" />
-						<%}else{%>
-							<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" style="width:90px; height: 100px;" alt="프로필사진" />
-						<%}%>
-
-					</td>
-					<td>
-						<%=util.getStr(rs.get("ORG_GRP_NM"))%>
+						<%=util.getStr(rs.get("COM_NM"))%>
 					</td>
 					<td>
 						<%=util.getStr(rs.get("PSN_NM"))%>

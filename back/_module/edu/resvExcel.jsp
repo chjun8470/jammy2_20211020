@@ -31,6 +31,33 @@ response.setContentType("text/html;charset=UTF-8");
 	response.setHeader("Content-Description", "JSP Generated Data");
 	response.setContentType("application/vnd.ms-excel");
 %>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+	td { mso-number-format:\@; }
+	br{mso-data-placement:same-cell;}
+    table {
+        width: 200px;
+        border-collapse: collapse;
+        text-align: center;
+        font-family: 'Trebuchet MS';
+    }
+    td, th {
+        font-size: 10pt;
+        border: 1px solid #98bf21;
+        height: 30px;
+    }
+    th {
+        background-color:#A7C942;
+        color:#ffffff;
+        font-family: Georgia;
+    }
+    tr.alt td {
+        color:#000000;
+        background-color:#EAF2D3;
+    }
+</style>
+</head>
 		<table class="skin_basic_list">
 			<caption>등록되어있는 교육 신청정보 리스트표입니다.</caption>
 			<colgroup>

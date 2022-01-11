@@ -2,44 +2,54 @@
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*"%>
 <%@ page import="info.elsys.jnsp.util.ComUtil"%>
 <%@ page import="info.elsys.jnsp.util.CriptUtil"%>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
-<% 
+<%
 	request.setCharacterEncoding("UTF-8");
 	ComUtil util = new ComUtil();
-	CriptUtil ctuil = new CriptUtil();
-    SiteInfoVO siteInfoVO = (SiteInfoVO)request.getAttribute("SITE_INFO");
+	
+	String myPage = util.getUrlPage(util.getStr(request.getRequestURI())).replaceAll(".jsp", ".do");
 	HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
 	String mode = util.getStr(request.getParameter("mode"));
-	String listMode = util.getStr(request.getParameter("listMode"));
-	String nowPage = util.getStr(request.getParameter("nowPage"),"0");
-	String searchType = util.getStr(request.getParameter("searchType"));
-	String searchWord = util.getStr(request.getParameter("searchWord"));
-	String boardIdx = util.getStr(request.getParameter("boardIdx"));
-	String boardComIdx = "00012";//코드를 입력하세요
-    
-    String siteId = util.getStr(request.getParameter("siteId")); //게시판 구분
-    String sclas = "LAWORD"; //관련법령 게시판 분류
+	String m = util.getStr(request.getParameter("m"));
+	
 %>
+
 <div class="skin_line" style="display:block;height:10px;"></div>
 	<div class="tabBox_pub">
 		<ul>
-			<li><a href="/jntis/sub.do?m=117">정책이슈</a></li>
-			<li class="on"><a href="/jntis/sub.do?m=118">관련법령</a></li>
-            <li><a href="/jntis/sub.do?m=119">발간물</a></li>
-			<li><a href="/jntis/sub.do?m=120">통계자료</a></li>			
+			<li <%=(mode.equals("a1") || mode.equals(""))?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a1">사업통계</a></li>
+			<!--<li <%=mode.equals("a2")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a2">성과통계</a></li>
+            <li <%=mode.equals("a3")?"class='on'":""%>><a href="/jntis/sub.do?m=<%=m%>&mode=a3">기획과제통계</a></li>-->
 		</ul>
 	</div>
 
-        
-<jsp:include page="/web/comBoard.do" flush="true">
+</div>
+<div class="tbl_right">
+	<p>[단위 : 백만원]</p>
+</div>
+<div class="scroll">
+<jsp:include page="/web/jntisJnrdM2Data.do" flush="true">
 	<jsp:param name="mode" value="<%=mode%>"/>
-	<jsp:param name="listMode" value="<%=listMode%>"/>
-	<jsp:param name="nowPage" value="<%=nowPage%>"/>
-	<jsp:param name="searchType" value="<%=searchType%>"/>
-	<jsp:param name="searchWord" value="<%=searchWord%>"/>
-	<jsp:param name="boardIdx" value="<%=boardIdx%>"/>
-	<jsp:param name="m" value="118"/>
-	<jsp:param name="boardComIdx" value="<%=boardComIdx%>"/>
-    <jsp:param name="lclas" value="<%=siteId%>"/>
-    <jsp:param name="sclas" value="<%=sclas%>"/>
 </jsp:include>
+</div>
+
+
+
+
+
+<script>
+	/* $(".tabBox_pub ul li").on("click", function() {
+		var $this = $(this);
+    	var $tab_con = $(".tab_table");
+    	
+    	
+    	
+    	
+		
+		$(".tabBox_pub ul li").filter(".on").removeClass("on");
+
+		$this.addClass("on");
+
+    	$tab_con.removeClass("on");
+    	$tab_con.eq(tab_idx).addClass("on");
+    }); */
+</script>

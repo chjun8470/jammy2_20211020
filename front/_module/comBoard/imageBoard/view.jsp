@@ -8,7 +8,7 @@
 <%@ page import="info.elsys.jnsp.comm.vo.StaticVO"%>
 <%@ page import="info.elsys.jnsp.comm.vo.LoginVO"%>
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*" %>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
+<%@ page import="egovframework.jammy2.site.service.SiteInfoVO"%>
 <%
 	String display = "sub";
 	request.setCharacterEncoding("utf-8");
@@ -22,7 +22,7 @@
 
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
-	ArrayList<HashMap<String, String>> cmtMap = request.getAttribute("cmtMap") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("cmtMap");
+	//ArrayList<HashMap<String, String>> cmtMap = request.getAttribute("cmtMap") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("cmtMap");
 	ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
 
 	String fileGrp = "board";
@@ -37,6 +37,16 @@
 	String boardIdx = util.getStr(paramMap.get("boardIdx"));
 	String searchType = util.getStr(paramMap.get("searchType"));
 	String searchWord = util.getStr(paramMap.get("searchWord"));
+<<<<<<< HEAD
+<<<<<<< HEAD
+	
+	
+=======
+>>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
+=======
+	
+	out.println(dataMap);
+>>>>>>> parent of d943127 (211215 1001)
 
 %>
 
@@ -105,7 +115,7 @@
 			  </tr>
 			  <tr>
 			    <td class="r_line_none view_cont" colspan="4" style="word-break:break-all; overflow:hidden;">
-			    	<div style="padding: 10px;"><%=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%></div>
+			    	<div style="padding: 10px;"><%//=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%></div>
 
 
 					<!-- 파일첨부 이미지일 경우 화면에 출력  -->
@@ -131,9 +141,9 @@
 			</tbody>
 		</table>
 <%
-if( util.getStr(boardMap.get("PERM_CMT")).equals("Y")){ %>
+//if( util.getStr(boardMap.get("PERM_CMT")).equals("Y")){ %>
 		<!--댓글 S-->
-		<div>
+		<%-- <div>
 			<%if(cmtMap.size() > 0) {%>
 			<input type="hidden" name="cmtIdx" id="cmtIdx" />
 			<table class="skin_basic_write" style="width:100%;">
@@ -173,14 +183,14 @@ if( util.getStr(boardMap.get("PERM_CMT")).equals("Y")){ %>
 					} %>
 			</table>
 			<%} %>
-		</div>
+		</div> --%>
 
-		<div class="b_btn_area" style="height: 250px;">
+		<%-- <div class="b_btn_area" style="height: 250px;">
 		<%if(util.loginCheck()) { %>
 			<textarea title="의견 내용 입력창"  rows="5" cols="10" name="comment" class="b_txtbox4 new_boxwrt" ></textarea>
 			<button type="button" id="inpCmt" class="btn_rgt box_style_1 del_margin_new" style="float:right;">등록</button>
-		<% } %>
-<% }%>
+		<% } %> --%>
+<% //}%>
 
 		<!--b_btn_area S-->
 			<div class="b_btn_area">

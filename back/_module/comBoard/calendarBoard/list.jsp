@@ -68,7 +68,7 @@
 			&nbsp;
 			<% if(util.loginCheck()) { %>
 			<div class="btn_right_box">
-					<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write')"/>
+					<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write')"/>
 			</div>
 			<% } %>
 		</div>

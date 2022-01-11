@@ -60,6 +60,14 @@
 	<input type="hidden" name="state" id="state" value="<%=state%>"/>
 	<input type="hidden" name="reject" id="reject" value="<%=reject%>"/>
 
+	<input type="hidden" name="searchType" id="searchType" value="<%=util.getStr(paramMap.get("searchType"))%>"/>
+	<input type="hidden" name="searchState" id="searchState" value="<%=util.getStr(paramMap.get("searchState"))%>"/>
+	<input type="hidden" name="searchNameOrg" id="searchNameOrg" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>"/>
+	<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" value="<%=util.getStr(paramMap.get("searchOrgGrp"))%>"/>
+	<input type="hidden" name="searchOrgSub" id="searchOrgSub" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>"/>
+	<input type="hidden" name="searchWord" id="searchWord" value="<%=util.getStr(paramMap.get("searchWord"))%>"/>
+	<input type="hidden" name="pageName" id="pageName" value="jnspTotal"/>
+
 	<div class="clear_wrap">
 		<h3>[연구시설 상세정보]</h3>
 		<table id="step1" summary="연구장비의 상세정보입력" class="skin_basic_write">
@@ -69,7 +77,7 @@
 		       	<col style="width: *;">
 		    </colgroup>
 			<tbody>
-				
+
 				<tr>
 	             	<th scope="row" class="top_sell bln">JEINET 등록번호</th>
 	            	<td <% if(!util.getStr(dataMapCopy.get("RND_EQU_IDX")).equals(util.getStr(dataMapCopy.get("RND_EQU_IDX"))) && !dataMapCopy.equals(null)){out.println("class='txt_red'");}else{out.println("class='top_sell brn'");} %>>
@@ -113,6 +121,12 @@
 						<th scope="row" class="top_sell bln"><label for="fixedAsetNo">NTIS등록번호</label></th>
 		                <td <% if(!util.getStr(dataMapCopy.get("NTIS_EQUIP_INFO")).equals(util.getStr(dataMapCopy.get("UP_NTIS_EQUIP_INFO"))) && !dataMapCopy.equals(null)){out.println("class='txt_red'");}else{out.println("class='top_sell brn'");} %>>
 			            	<%=util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("") ? "NTIS 미등록장비": util.getStr(dataMap.get("NTIS_EQUIP_INFO"))%>
+		               	</td>
+		            </tr>
+					<tr>
+						<th scope="row" class="top_sell bln"><label for="fixedAsetNo">e-Tube 등록번호</label></th>
+		                <td <% if(!util.getStr(dataMapCopy.get("ETUBE_EQUIP_INFO")).equals(util.getStr(dataMapCopy.get("UP_ETUBE_EQUIP_INFO"))) && !dataMapCopy.equals(null)){out.println("class='txt_red'");}else{out.println("class='top_sell brn'");} %>>
+			            	<%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("") ? "e-Tube 미등록장비": util.getStr(dataMap.get("ETUBE_EQUIP_INFO"))%>
 		               	</td>
 		            </tr>
 	              <tr>
@@ -505,7 +519,7 @@
 		                		</table>
 	               			</td>
 	               		</tr>
-	               		
+
 	      		  		<% if( "".equals( util.getStr(dataMap.get("OPER_CHARGER"))) ){ %>
 	               		<tr>
 			            	<th scope="row" class="top_sell bln"><label for="equipCd">시설 담당자</label></th>

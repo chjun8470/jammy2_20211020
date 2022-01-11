@@ -1,0 +1,17 @@
+src/main/webapp/front/_module/sso/join.jsp 14line join_step1.jsp로 변경
+src/main/webapp/front/_module/sso/join_step2.jsp 15line 삭제
+
+textxxx/tkfkd8470
+
+
+tb_user_copy 필드추가
+COM_NM
+COM_ADDR1
+COM_ADDR2
+COM_ZIP
+COM_TEL
+
+
+tb_expert_academic_career
+SC_CODE 
+SC_DATE 추가

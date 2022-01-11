@@ -174,7 +174,7 @@ $(document).ready(function(){
 						<%if(util.getStr(rs.get("RESV_STATE")).equals("50")){ 
 							if(util.getStr(rs.get("RESV_CERTI_FILE")).equals("")){
 						%>
-							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getIntStr(rs.get("EDU_RESV_ID"))%>&state=<%=util.getStr(rs.get("RESV_STATE")) %>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
+							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getIntStr(rs.get("EDU_RESV_ID"))%>&state=<%=util.getStr(rs.get("RESV_STATE"))%>&eduId=<%=util.getStr(paramMap.get("eduId"))%>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
 						<%
 							}else{
 							String resvFileParam = "?dataGrp=resvCerti"
