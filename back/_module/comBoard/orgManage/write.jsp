@@ -20,7 +20,7 @@
 
        StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
        LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
-       //ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
+       ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
 
        String siteId = util.getStr(paramMap.get("siteId"));
        String boardComIdx = util.getStr(paramMap.get("boardComIdx"));
@@ -193,29 +193,14 @@ button.ui-datepicker-current { display: none; }
 	                                <textarea name="text1" id="text1" class="inp_txt" style="width: 98%; font-size:10pt;" maxlength="100"><%if(!(util.getStr(dataMap.get("TEXT1"))).equals(null) && !(util.getStr(dataMap.get("TEXT1"))).equals("")){%><%=dataMap.get("TEXT1")%><%}else{%><%}%></textarea>
 	                           </td>
 	                   </tr>
-	                   <!-- tr>
+	                   <tr>
 	                          <td colspan="3">
-		                    <%
-		                    /*
-	                          	String data16Str = util.getStr(dataMap.get("DATA16"));
-	                          	String[] data16 = null;
-	                          	String[] data16Check = {"N","N","N","N"};
-	                          	if(!data16Str.equals("")){
-	                          		data16 = data16Str.split("[,]");
-	                          	}
-	                          	for(int as = 0;as < data16.length;as++){
-	                          		int tmpInt = Integer.parseInt(data16[as]);
-	                          		tmpInt--;
-	                          		data16Check[tmpInt] = "Y"; 
-	                          	}
-	                         */
-				  			%>
-	                               	&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="1" <%//if(data16Check[0].equals("Y")) { %> checked="checked" <% //} %>/>&nbsp; R&amp;D/기업지원/기타</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="2" <%//if(data16Check[1].equals("Y")) { %> checked="checked" <% //} %>  />&nbsp; 인사/회계/행정</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="3" <%//if(data16Check[2].equals("Y")) { %> checked="checked" <% //} %>  />&nbsp; 연구장비</label>
-									&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="data16" value="4" <%//if(data16Check[3].equals("Y")) { %> checked="checked" <% //} %>  />&nbsp; 지식재산</label>
+	                               	&nbsp;&nbsp;<input type="checkbox" name="data16" value="1" <%if(util.getStr(dataMap.get("DATA16")).equals("1")) { %> checked="checked" <% } %>/>&nbsp; R&amp;D/기업지원/기타
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="2" <%if(util.getStr(dataMap.get("DATA16")).equals("2")) { %> checked="checked" <% } %>  />&nbsp; 인사/회계/행정
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="3" <%if(util.getStr(dataMap.get("DATA16")).equals("3")) { %> checked="checked" <% } %>  />&nbsp; 연구장비
+									&nbsp;&nbsp;&nbsp;<input type="checkbox" name="data16" value="4" <%if(util.getStr(dataMap.get("DATA16")).equals("4")) { %> checked="checked" <% } %>  />&nbsp; 지식재산
 	                           </td>
-	                   </tr-->
+	                   </tr>
 
               </tbody>
               </table>
@@ -271,7 +256,7 @@ button.ui-datepicker-current { display: none; }
 				alert("출생년도를 입력해주세요.");
 				$('input[name=data07]').focus();
 				return false;
-			} 
+			} */
 			if(numPattern.test($("input[name=data07]").val())){
 				alert("숫자로 입력해주세요.");
 				$("input[name=data07]").focus();
@@ -379,7 +364,7 @@ button.ui-datepicker-current { display: none; }
 		var popOption="width=500, height=650, resizable=no, scrollbars=no, status=no;";
 		window.open(popUrl,"",popOption);
 	}
-/*
+
 	  $('input[type="checkbox"][name="data16"]').click(function(){
         //클릭 이벤트 발생한 요소가 체크 상태인 경우
         if ($(this).prop('checked')) {
@@ -388,7 +373,6 @@ button.ui-datepicker-current { display: none; }
             $(this).prop('checked', true);
         }
     });
-	  */
 
 	$("#emailDomainChoise").change(function() {
 		if(this.value==""){

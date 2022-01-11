@@ -55,7 +55,8 @@
 			전체 <span class="blue1"><%=staticVO.getTotalCount()%></span>건
 		</div>
 
-		<div class="b_srchBox srch_box" style="width:400px;">
+		<div class="b_srchBox srch_box" style="width:390px;">
+
 			<!-- 검색종류선택 -->
             
             <select name="searchType" id="searchType" class="b_select" title="검색조건 선택">
@@ -81,8 +82,8 @@
 	<!--cont_block S-->
 	<div id="cont_block" style="margin-top: 20px">
 
-			<table class="skin_list" summary="공지사항/일반 게시글 목록으로 글번호, 제목, 등록자, 등록일, 조회 로 구성되어 있습니다.">
-              <caption>공지사항/일반 게시글 목록</caption>
+			<table class="skin_list" summary="일반게시판 게시글 목록으로 글번호, 제목, 등록자, 등록일, 조회, 첨부로 구성되어 있습니다.">
+              <caption>게시글 목록</caption>
 				<!-- colgroup s -->
 			    <colgroup>
 			      <col style="width:10%;" />
@@ -114,11 +115,11 @@
 							for(HashMap rs:noticeList) {
 					%>
 					<tr>
-						<td class="number ico_size_cs"><img src="/img/board/ico_notice.png" alt="공지" /></td>
+						<td class="number ico_size_cs"><img src="/img/board/ico_notice.png" alt="공지 아이콘" /></td>
 						<td class="b_notice" onclick="goSubmit('noticeView','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')" >
 							<a href="javascript:goSubmit('noticeView','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기"  >
 								<span class="notice_blue">[<%=util.getStr(rs.get("SITE_NM"))%>]</span>
-								<%if(util.getStr(rs.get("SUBJECT")).length()>30){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 30)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
+								<%if(util.getStr(rs.get("SUBJECT")).length()>15){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 15)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
 							</a>
 							<%-- <a href="/<%=util.getStr(String.valueOf(rs.get("SITE_ID")))%>/sub.do?m=71&mode=noticeView&boardComIdx=<%=util.getStr(rs.get("BOARD_ID"))%>&boardIdx=<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>">
 								<span class="notice_blue">[<%=util.getStr(rs.get("SITE_NM"))%>]</span>
@@ -172,14 +173,14 @@
 									<p style="cursor:pointer;">
 									<a href="sub.do?m=<%=m %>&amp;boardComIdx=<%=util.getStr(rs.get("BOARD_ID"))%>&amp;mode=view&amp;boardIdx=<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>&amp;nowPage=<%=nowPage%>&amp;siteId=<%=siteId%>">
 									<%-- <p style="cursor:pointer;" onclick="goSubmit('view','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')"> --%>
-										<%if(util.getStr(rs.get("SUBJECT")).length()>30){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 30)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
+										<%if(util.getStr(rs.get("SUBJECT")).length()>20){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 20)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
 									</a>
 									</p>
 									<img src="/img/board/ico_lock.png" alt="비밀글 아이콘" style="vertical-align: middle;" />
 							<%
 							  	}else{ //권한이 없을때
 							%>
-									<span><a href="javascript:sCheck();" title="비밀글 알림" ><%if(util.getStr(rs.get("SUBJECT")).length()>30){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 30)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%></a></span>
+									<span><a href="javascript:sCheck();" title="비밀글 알림" ><%if(util.getStr(rs.get("SUBJECT")).length()>20){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 20)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%></a></span>
 									<img src="/img/board/ico_lock.png" alt="비밀글 아이콘" style="vertical-align: middle;" />
 							<%
 							  	}
@@ -189,7 +190,7 @@
 								<p style="cursor:pointer;">
 									<a href="sub.do?m=<%=m %>&amp;boardComIdx=<%=util.getStr(rs.get("BOARD_ID"))%>&amp;mode=view&amp;boardIdx=<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>&amp;nowPage=<%=nowPage%>&amp;siteId=<%=siteId%>">
 								<%-- <p  style="cursor:pointer;" onclick="goSubmit('view','<%=util.getStr(String.valueOf(rs.get("ARTICLE_ID")))%>','<%=util.getStr(rs.get("BOARD_ID"))%>')"> --%>
-									<%if(util.getStr(rs.get("SUBJECT")).length()>30){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 30)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
+									<%if(util.getStr(rs.get("SUBJECT")).length()>20){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 20)+" · · · "%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
 									</a>
 								</p>
 							<%}%>
@@ -229,7 +230,7 @@
 		&nbsp;
 		<% if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"WRITE")) {%>
 		<div class="b_btn_area">
-			<input type="button" class="btn_rgt" value="등록" onclick="goSubmit('write')"/>
+			<input type="button" class="btn_rgt" value="글쓰기" onclick="goSubmit('write')"/>
 		</div>
 		<% } %>
 	</div>

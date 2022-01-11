@@ -69,7 +69,6 @@
 	<thead>
 				<tr>
 				    <th>연번</th>
-					<th>예약타입</th>
 					<th>시설장비분류</th>
 					<th>장비명</th>
 					<th>취득방법</th>
@@ -91,12 +90,9 @@
 					<th>이용희망종료일</th>
 					<th>접수일</th>
 					<th>이용목적</th>
-					<th>시료명(시료수)</th>
+					<th>시료명</th>
+					<th>시료수</th>
 					<th>특이사항</th>
-					<th>사용일시</th>
-					<th>사용시간</th>
-					<th>사용내용</th>
-					<th>사용료(VAT 제외)</th>
 				</tr>
 	</thead>
 	<!-- thead s -->
@@ -109,7 +105,6 @@
 	%>
 				<tr>
 					<td><%=cont%></td>
-					<td><%=util.getStr(rs.get("ORDER_TYPE"))%></td>
 					<td>
 						<%if(util.getStr(rs.get("EQUIP_CD")).equals("1")) { %> 연구장비 <% } %>
                 		<%if(util.getStr(rs.get("EQUIP_CD")).equals("2")) { %> 연구시설 <% } %>
@@ -154,31 +149,9 @@
 					<td><%=util.getStr(rs.get("USE_ED_DT"))%></td>
 					<td><%=util.getStr(rs.get("ORDER_DT"))%></td>
 					<td><%=util.getStr(rs.get("USE_PURPOSE"))%></td>
-					<td>
-						<%
-							String sampleNm = util.getStr(rs.get("SAMPLE_NM"));
-							String sampleNo = util.getStr(rs.get("SAMPLE_NO"));
-							String sampleNmArr[] = sampleNm.split("\\|\\|");
-							String sampleNoArr[] = sampleNo.split("\\|\\|");
-							for(int i = 1 ; i < sampleNmArr.length ; i++ ){
-								if( i != 1 ){
-								//out.println(", ");
-								}
-								out.println(i+". 시료 : " + sampleNmArr[i]);
-								out.println("(");
-								out.println(sampleNoArr[i]);
-								out.println(")");
-								if( i < sampleNmArr.length-1 ){
-									out.println("<br />");
-								}
-							}
-						%>
-					</td>
+					<td><%=util.getStr(rs.get("SAMPLE_NM"))%></td>
+					<td><%=util.getStr(rs.get("SAMPLE_NO"))%></td>
 					<td><%=util.getStr(rs.get("SAMPLE_MATTER"))%></td>
-					<td><%=util.getStr(rs.get("START_DT"))%> ~ <%=util.getStr(rs.get("END_DT"))%></td>
-					<td><%=util.getStr(rs.get("USE_TIME"))%></td>
-					<td><%=util.getStr(rs.get("USE_NOTE"))%></td>
-					<td><%=util.getStr(rs.get("RENTAL_FEE"))%></td>
 				</tr>
 		<%
 				cont++;

@@ -85,38 +85,36 @@
 	//]]>
 		</script>
 
-	
-	<div class="MPTit">비밀번호 변경</div>
-	
+
 	 <form name="fwrite" id="fwrite" action="./main.do" method="post" enctype="multipart/form-data" onsubmit="return submitGo();" >
 	  	<input type="hidden" name="myPage" id="myPage"  value="<%=myPage%>" />
 	  	<input type="hidden" name="reUrl" id="reUrl"  value="<%=myPage%>" />
 			
-			<div class="basic_writeWrap">
-				<table class="skin_write01">
+			<div class="inputBox">
+				<table class="skin_basic_write" style="width:70%">
 					<caption>비밀번호변경</caption>
 					<colgroup>
-						<col style="width:30%" />
-						<col style="width:70%" />
+						<col width="34%"/>
+						<col width="66%"/>
 					</colgroup>
 					<tr>
 						<th class="th">현재 비밀번호</th>
-						<td class="tdh r_line_none"><input type="password" name="passCheck" maxlength="20" value="" id="passCheck" class="txtbox" title="현재비밀번호"></td>
+						<td class="tdh"><input type="password" name="passCheck" maxlength="20" value="" id="passCheck" class="txtbox" title="현재비밀번호"></td>
 					</tr>
 					<tr>	
-						<th class="th">변경할<br/>비밀번호</th>
-						<td class="td r_line_none"><input type="password" name="pwd" maxlength="20" value="" id="pwd" class="txtbox" title="비밀번호"></td>
+						<th class="th">변경할 비밀번호</th>
+						<td class="td"><input type="password" name="pwd" maxlength="20" value="" id="pwd" class="txtbox" title="비밀번호"></td>
 					</tr>
 					<tr>
-						<th class="th">변경할<br/>비밀번호 확인 </th>
-						<td class="td r_line_none"><input type="password" name="rePwd" maxlength="20" value="" id="rePwd" class="txtbox" title="비밀번호 확인"></td>
+						<th class="th">변경할 비밀번호확인 </th>
+						<td class="td"><input type="password" name="rePwd" maxlength="20" value="" id="rePwd" class="txtbox" title="비밀번호 확인"></td>
 					</tr>
 				
 				</table>
 			</div>	
-			<div class="MPBtnWrap MAT10">
-				<input type="button" class="btn_inp_b_01 FloatR" value="수정" onclick="submitGo()"/>
-				<input type="button" class="btn_inp_w_01 FloatR" onclick="location.href='./main.do'" value="취소"/>
+			<div class="pop_btnBox" style="text-align:center;margin-right:auto;margin-left:auto">
+				<input type="button" class="btn_inp_b_01" value="수정" onclick="submitGo()"/>
+				<input type="button" class="btn_inp_w_01" onclick="location.href='./main.do'" value="취소"/>
 			</div>
 
       </form>

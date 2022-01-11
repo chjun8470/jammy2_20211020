@@ -134,7 +134,7 @@
 		<div class="b_btn_area">
 		<% if(util.loginCheck()) { %>
 		<% if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"WRITE")) {%>
-			<button class="btn_rgt" onclick="goSubmit('write')">등록</button>
+			<button class="btn_rgt" onclick="goSubmit('write')">글쓰기</button>
 		<% } } %>
 		</div>
 	</div>

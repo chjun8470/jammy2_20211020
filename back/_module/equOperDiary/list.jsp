@@ -38,14 +38,14 @@ response.setContentType("text/html;charset=UTF-8");
 				<div class="basic_grid">
 					<div class="search_box" style="padding:10px">
 						<div class="board-search">
-							<select name="searchType" id="searchType" class="select">
+							<select name="searchType" id="searchType" class="select" style="height: 24px">
 								<option value="00">선택</option>
 								<option value="type1" <%if(util.getStr(paramMap.get("searchType")).equals("type1")) { %> selected="selected" <% } %>>사용자</option>
 								<option value="type2" <%if(util.getStr(paramMap.get("searchType")).equals("type2")) { %> selected="selected" <% } %>>사용기관</option>
 							</select>
 							<!-- 키워드 -->
 							 <label for="keyword" class="hide">키워드</label>
-							<input type="text" name="searchWord" id="searchWord" class="inp_txt" value="<%=util.getStr(paramMap.get("searchWord")) %>" />
+							<input type="text" name="searchWord" id="searchWord" class="inp_text" value="<%=util.getStr(paramMap.get("searchWord")) %>" />
 							<!-- 검색버튼 -->
 						<input type="button" class="btn_inp_g_01" value="검색" onclick="pageSearchGo()" style="float: right;" />
 						</div>

@@ -69,12 +69,12 @@
 			
 </div>
 
-<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
+<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
 
 <div class="b_btn_listBox005">
-	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
-	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트"><img src="/img/board/btn_blog.png" alt="블러그리스트" /></button>
-	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트(선택됨)"><img src="/img/board/btn_list_ovr.png" alt="리스트" /></button>
+	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" /></button>
+	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트"><img src="/img/board/btn_blog.png" /></button>
+	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list_ovr.png" /></button>
 </div>
 
 </form>
@@ -89,7 +89,7 @@
 <table class="skin_list" summary="이미지게시판 리스트형 목록으로 글번호, 제목, 글쓴이, 작성일, 조회수, 첨부로 구성되어 있습니다.">
   <caption>이미지게시판 리스트형 목록</caption>
     <colgroup>
-      <col style="width:6%;" /> 
+      <col style="width:6%;" />
       <col style="width:58%;" />
       <col style="width:10%;" />
       <col style="width:12%;" />
@@ -101,9 +101,9 @@
   <tr>
     <th scope="col" class="number">번호</th>
     <th scope="col">제목</th>
-    <th scope="col" class="r_line_none2 m_not">글쓴이</th>
-    <th scope="col" class="r_line_none2 m_not">작성일</th>
-    <th scope="col" class="lookup m_not">조회수</th>
+    <th scope="col" class="r_line_none2">글쓴이</th>
+    <th scope="col" class="r_line_none2">작성일</th>
+    <th scope="col" class="lookup">조회수</th>
 <!--     <th scope="col" class="r_line_none file">첨부</th> -->
   </tr>
 					<%
@@ -155,9 +155,9 @@
 			<%=util.getStr(rs.get("SUBJECT"))%>
 		</a>
 	</td>
-    <td class="r_line_none2 m_not"><%=util.getStr(rs.get("WRITER_ID"))%></td>
-    <td class="r_line_none2 m_not"><%=util.getStr(rs.get("FRST_REGIST_PNTTM"))%></td>
-    <td class="lookup r_line_none m_not"><%=util.getStr(rs.get("HITS"))%></td>
+    <td class="r_line_none2"><%=util.getStr(rs.get("WRITER_ID"))%></td>
+    <td class="r_line_none2"><%=util.getStr(rs.get("FRST_REGIST_PNTTM"))%></td>
+    <td class="lookup r_line_none"><%=util.getStr(rs.get("HITS"))%></td>
 <!--     <td class="r_line_none file"><img src="/img/board/ico_file.png" alt="첨부파일 아이콘" /></td> -->
   </tr>
 
@@ -172,7 +172,7 @@
 <div class="b_btn_area">
 			&nbsp;
 		<% if(util.loginCheck() && authLv >= writeAuth) { %>
-			<button class="btn_rgt" onclick="goSubmit('write')">등록</button>
+			<button class="btn_rgt" onclick="goSubmit('write')">글쓰기</button>
 			<% }  %>
 </div>
 <!--b_btn_area E-->

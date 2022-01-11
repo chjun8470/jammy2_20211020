@@ -7,7 +7,6 @@
 	ComUtil util = new ComUtil();
 	CriptUtil ctuil = new CriptUtil();
 	HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
-	
 	String mode = util.getStr(request.getParameter("mode"));
 	String listMode = util.getStr(request.getParameter("listMode"));
 	String nowPage = util.getStr(request.getParameter("nowPage"),"0");
@@ -16,9 +15,7 @@
 	String boardIdx = util.getStr(request.getParameter("boardIdx"));
 	String m = util.getStr(request.getParameter("m"));
 	String boardComIdx = "00006";//코드를 입력하세요
-	
 %>
-
 <jsp:include page="/web/comBoard.do" flush="true">
 	<jsp:param name="mode" value="<%=mode%>"/>
 	<jsp:param name="siteId" value="jntis"/>

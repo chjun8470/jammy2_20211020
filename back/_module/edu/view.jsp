@@ -203,7 +203,7 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 						<tr>
 							<th scope="col" class="top_sell bln">교육내용</th>
 							<td class="top_sell brn" colspan="3">
-							<%=dataMap.get("EDU_CONTENT")%>
+							<%=util.getStr(dataMap.get("EDU_CONTENT"))%>
 							</td>
 						</tr>
 						<tr>

@@ -137,38 +137,6 @@
 			$("#orgNm").val(obj['org_grp_nm']);
 		}
 	}
-
-	 function bytecheck(obj, maxByte){
-		 var str = obj.value;
-		 var str_len = str.length;
-
-		 var rbyte = 0;
-		 var rlen = 0;
-		 var one_char = "";
-		 var str2 = "";
-
-		 for(var i=0; i<str_len; i++){
-		 one_char = str.charAt(i);
-		 if(escape(one_char).length > 4){
-		     rbyte += 2;                                         //한글2Byte
-		 }else{
-		     rbyte++;                                            //영문 등 나머지 1Byte
-		 }
-
-		 if(rbyte <= maxByte){
-		     rlen = i+1;                                          //return할 문자열 갯수
-		 }
-		 }
-
-		 if(rbyte > maxByte){
-		     alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-		     str2 = str.substr(0,rlen);                                  //문자열 자르기
-		     obj.value = str2;
-		     bytecheck(obj, maxByte);
-		 }else{
-		     document.getElementById('byteInfo').innerText = rbyte;
-		 }
-	};
 </script>
 	  <form name="fwrite" id="fwrite" action="./equOperDiaryProc.do" method="post" enctype="multipart/form-data" onsubmit="return submitGo();" >
 	  	<input type="hidden" name="mode" id="mode"  value="<%=mode%>" />
@@ -195,11 +163,11 @@
 				<th scope="col">연구시설장비</th>
 				<td scope="col">
 					<input type="hidden" name="equIdx" id="equIdx" />
-					<input type="text" class="inp_txt" name="eqNm" id="eqNm" readonly="readonly"/>
-					<button type="button" class="btn_inp_b_01" id="searchEqu" onclick="popupWindow('equPop')">장비검색</button>
+					<input type="text" class="inp_text" name="eqNm" id="eqNm" readonly="readonly"/>
+					<button type="button" id="searchEqu" onclick="popupWindow('equPop')">장비검색</button>
 				</td>
 				<th scope="col"><label for="eqserial">고정자산번호</label></th>
-				<td scope="col"><input type="text" class="inp_txt" name="eqserial" id="eqserial" readonly="readonly"/></td>
+				<td scope="col"><input type="text" class="inp_text" name="eqserial" id="eqserial" readonly="readonly"/></td>
 			</tr>
 			<tr>
 				<th colspan="4">담당자 정보</th>
@@ -207,31 +175,31 @@
 			<tr>
 				<th scope="col">기관</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserOrg" id="equUserOrg" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserOrg" id="equUserOrg" readonly="readonly"/>
 				</td>
 				<th scope="col">부서</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserDept" id="equUserDept" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserDept" id="equUserDept" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">담당자</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserName" id="equUserName" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserName" id="equUserName" readonly="readonly"/>
 				</td>
 				<th scope="col">직위</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserPosition" id="equUserPosition" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserPosition" id="equUserPosition" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">전화번호</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserPhone" id="equUserPhone" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserPhone" id="equUserPhone" readonly="readonly"/>
 				</td>
 				<th scope="col">이메일</th>
 				<td scope="col">
-					<input type="text" class="inp_txt" name="equUserEmail" id="equUserEmail" readonly="readonly"/>
+					<input type="text" class="inp_text" name="equUserEmail" id="equUserEmail" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
@@ -240,57 +208,55 @@
 			<tr>
 				<th scope="col">사용기간</th>
 				<td colspan="3">
-					<input type="text"  class="inp_txt" name="startDate" id="startDate" title="시작날짜"/>
+					<input type="text"  class="inp_text" name="startDate" id="startDate" title="시작날짜"/>
 					 ~
-					<input type="text"  class="inp_txt" name="endDate" id="endDate" title="종료날짜"/>
+					<input type="text"  class="inp_text" name="endDate" id="endDate" title="종료날짜"/>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용시간</th>
 				<td colspan="3">
-					<input type="text"  class="inp_txt" name="useTime" id="useTime" value="0" title="사용시간"/>ex) 5.6시간 > 5.6
+					<input type="text"  class="inp_text" name="useTime" id="useTime" value="0" title="사용시간"/>ex) 5.6시간 > 5.6
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용기관</th>
 				<td colspan="3">
 					<label for="orgSe">구분 : </label>
-					<select name="orgSe" id="orgSe" class="select" >
+					<select name="orgSe" id="orgSe">
 						<option value="01">기관  내 동일부서</option>
 						<option value="02">기관 내 타부서</option>
 						<option value="03">외부기관</option>
 					</select>
-					<label for="orgNm">기관명 : </label><input type="hidden" name="orgCd" id="orgCd" /><input type="text" class="inp_txt" name="orgNm" id="orgNm" readonly="readonly"/>
-					<button type="button" class="btn_inp_b_01" onclick="popupWindow('orgPop')">찾기</button>
-					<label for="depNm">부서명 : </label><input type="text" class="inp_txt" name="deptNm" id="deptNm" />
+					<label for="orgNm">기관명 : </label><input type="hidden" name="orgCd" id="orgCd" /><input type="text" class="inp_text" name="orgNm" id="orgNm" readonly="readonly"/>
+					<button type="button" onclick="popupWindow('orgPop')">찾기</button>
+					<label for="depNm">부서명 : </label><input type="text" class="inp_text" name="deptNm" id="deptNm" />
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">사용자</th>
-				<td scope="col"><input type="text" class="inp_txt" name="userNm" id="userNm" /></td>
+				<td scope="col"><input type="text" class="inp_text" name="userNm" id="userNm" /></td>
 				<th scope="col">연락처</th>
-				<td scope="col"><input type="text" class="inp_txt" name="phone" id="phone" /></td>
+				<td scope="col"><input type="text" class="inp_text" name="phone" id="phone" /></td>
 			</tr>
 			<tr>
 				<th scope="col">사용목적</th>
-				<td colspan="3"><input type="text" class="inp_txt" name="purpose" id="purpose" /></td>
+				<td colspan="3"><input type="text" class="inp_text" name="purpose" id="purpose" /></td>
 			</tr>
 			<tr>
 				<th scope="col"><label for="useNote">사용내용</label></th>
 				<td colspan="3">
-<!-- 					<textarea class="inp_txt" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;"></textarea> -->
-					<textarea class="inp_txt" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;" onkeyup="bytecheck(this,'1000')"></textarea>
-					<p id="text_count">(<strong id="byteInfo">0</strong> / 1000Byte)</p>
+					<textarea class="inp_text" name="useNote" id="useNote" style="width:100%; height:200px; overflow: auto; resize:none;"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<th scope="col">시료수</th>
-				<td colspan="3"><input type="text" class="inp_txt" name="sampleCnt" id="sampleCnt" />건</td>
+				<td colspan="3"><input type="text" class="inp_text" name="sampleCnt" id="sampleCnt" />건</td>
 			</tr>
 			<tr>
 				<th scope="col">사용료</th>
 				<td>
-					<input type="text" name="rentalFee" class="inp_txt" id="rentalFee" />원
+					<input type="text" name="rentalFee" class="inp_text" id="rentalFee" />원
 				</td>
 			</tr>
 

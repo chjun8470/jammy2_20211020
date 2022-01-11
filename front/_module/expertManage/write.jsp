@@ -8,7 +8,7 @@
 <%@page import="info.elsys.jnsp.util.ComUtil"%>
 <%@page import="info.elsys.jnsp.comm.vo.StaticVO"%>
 <%@page import="info.elsys.jnsp.comm.vo.LoginVO"%>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO"%>
+<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
 <%
           String display = "sub";
        request.setCharacterEncoding("utf-8");
@@ -356,8 +356,8 @@
           		<th scope="row" ><span style="color:red; font-size:11pt;">*</span> <label for="crNm">직장명</label></th>
           		<th scope="row" ><span style="color:red; font-size:11pt;">*</span> <label for="crLocation">소재지</label></th>
           		<th scope="row"  colspan="2"><span style="color:red; font-size:11pt;">*</span> <label for="crStart">기간 (예)2016-07</label></th>
-				  <th scope="row" ><span style="color:red; font-size:11pt;">*</span> <label for="crDept">최종직위</label></th>
-          		<th scope="row" colspan="2" class="r_line_none"><span style="color:red; font-size:11pt;">*</span><label for="crWork">주요업무</label></th>
+          		<th scope="row" ><span style="color:red; font-size:11pt;">*</span> <label for="crDept">최종직위</label></th>
+          		<th scope="row" class="r_line_none"><span style="color:red; font-size:11pt;">*</span><label for="crWork">주요업무</label></th>
 			</tr>
         	<tr id="career_info<%=scCnt%>">
 				<td><input type="text" id="crNm" name="crNm" class="input_txt00502" /></td>
@@ -367,8 +367,8 @@
 					<label><input type="checkbox" name="crCheck" id="crCheck<%=scCnt%>"  value="<%=scCnt%>" />재직중</label>
 				</td>
 				<td><input type="text" id="crDept" name="crDept" class="input_txt00502" /></td>
-				<td class="r_line_none" colspan="2" ><input type="text" id="crWork" name="crWork" class="input_txt00501" /></td>
-			</tr>
+				<td class="r_line_none"><input type="text" id="crWork" name="crWork" class="input_txt00501" /></td>
+            </tr>
 		</tbody>
 <!-- 경력정보 E -->
 		</table>

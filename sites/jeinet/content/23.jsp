@@ -48,17 +48,17 @@
                                     <li>
                                         <p class="num">04</p>
                                         <img src="/img/jeinet/cont/01_icon04.png">
-                                        <p>공공 연구시설·장비 등록 및 관리</p>
+                                        <p>연구장비 관련 최신 정보제공(정책, 법령, 통계, 매뉴얼, 브로슈어, 지식자료 등)</p>
                                     </li>
                                     <li>
                                         <p class="num">05</p>
                                         <img src="/img/jeinet/cont/01_icon05.png">
-                                        <p>공공 연구시설·장비 등록 및 관리</p>
+                                        <p>연구장비 커뮤니티(지원사업정보, 장비구축·활용·만족도 조사분석, 성과확산)</p>
                                     </li>
                                     <li>
                                         <p class="num">06</p>
                                         <img src="/img/jeinet/cont/01_icon06.png">
-                                        <p>공공 연구시설·장비 등록 및 관리</p>
+                                        <p>연구장비 구축, 활용, 인력 통계제공</p>
                                     </li>
                                 </ul>
                             </div>

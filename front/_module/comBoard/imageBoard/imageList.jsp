@@ -68,12 +68,12 @@
 			
 </div>
 
-<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
+<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
 
 <div class="b_btn_listBox005">
-	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
-	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트(선택됨)"><img src="/img/board/btn_blog_ovr.png" alt="블러그리스트" /></button>
-	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list.png" alt="리스트"/></button>
+	<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" /></button>
+	<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트"><img src="/img/board/btn_blog_ovr.png" /></button>
+	<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list.png" /></button>
 </div>
 
 </form>
@@ -105,6 +105,7 @@
 					</a>
 				</p>
 				<div class="explanation" >
+					
 						<p class="tit_publist03_blog01" >
 					<a href="javascript:goSubmit('view','imageList','<%=util.getStr(rs.get("ARTICLE_ID"))%>')" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기" >
 						<%if(util.getStr(rs.get("SUBJECT")).length()>20){%>
@@ -126,7 +127,7 @@
 		</ul>
 		<div class="b_btn_area">
 		<% if(util.loginCheck() && authLv >= writeAuth) { %>
-			<button class="btn_rgt" onclick="goSubmit('write')">등록</button>
+			<button class="btn_rgt" onclick="goSubmit('write')">글쓰기</button>
 			<% }  %>
 		</div>
 </div>

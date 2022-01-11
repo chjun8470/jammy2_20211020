@@ -51,7 +51,7 @@ caption, legend {display:none;}
 .cl_b {clear:both}
 .overflow {overflow:hidden;}
 .show {display:block}
-.hide02 {display:none}
+.hide {display:none}
 .skip {position:absolute;top:-5000px;text-indent:-5000px;font-size:0;line-height:0;width:0;height:0;}/*내용과 영역 모두 숨김*/
 .skip_txt {display:block;overflow:hidden;font-size:0px;line-height:0;text-indent:-9999px}/*텍스트만 숨김*/
 

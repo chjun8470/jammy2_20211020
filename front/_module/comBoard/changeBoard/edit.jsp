@@ -54,18 +54,17 @@
 
 	<div class="basic_writeWrap">
 
-		<span style="color:red; font-size:12px;"> * 필수 입력사항입니다.</span>
-		
-		<table class="skin_write01 MAT10">
+		<span style="color:red; font-size:10pt;"> * 필수 입력사항입니다.</span>
+		<table class="skin_write" style="margin: 10px;">
 			<caption>작성하기</caption>
 			<colgroup>
-		      <col style="width:30%;" />
-				<col style="width:70%;" />
+		      <col style="width:15%;" />
+		      <col style="width:85%;" />
 		    </colgroup>
 
 		   <thead>
               	<tr>
-			    	<th scope="col" class="alnC">제목 <span style="color:red; font-size:12px;">*</span></th>
+			    	<th scope="col"><span style="color:red; font-size:11pt;">*</span> 제목</th>
 			    	<td class="r_line_none p_top_btm_6">
 			    		<input type="text" name="subject" id="subject" value="<%=util.getStr(dataMap.get("SUBJECT"))%>" style="width:100%; height:20px; font-size:9pt;" maxlength="100" />
                     </td>
@@ -73,7 +72,7 @@
 			</thead>
 			<tbody>
 			  	<tr>
-			    	<th scope="col" class="alnC">내용</th>
+			    	<th scope="col">내용</th>
 			    	<td class="r_line_none p_top_btm_6 con-txt">
 			    		<textarea name="content" id="contents" style="width:100%; height:350px; font-size:10pt;"><%=dataMap.get("CONTENT")%></textarea>
 			    	</td>
@@ -193,9 +192,9 @@
 	<!--basic_listWrap E-->
 
 	<!--b_btn_area S-->
-	<div class="MPBtnWrap MAT10">
-		<button class="btn_inp_w_01 FloatL" onclick="goSubmit('view')">취소</button>
-		<button class="btn_inp_b_01 FloatR" onclick="goSubmit('editProc')">수정</button>
+	<div class="b_btn_area" style="width: 600px;">
+		<button class="btn_lft" onclick="goSubmit('view')">취소</button>
+		<button class="btn_rgt" onclick="goSubmit('editProc')">수정</button>
 	</div>
 	<!--b_btn_area E-->
 

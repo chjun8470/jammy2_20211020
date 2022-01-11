@@ -28,6 +28,7 @@
 	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 %>
 <div class="skin_list">
+
 <form id = "searchForm" name = "searchForm" method="post" action="?<%=m%>" class="boardSearch">
 			<input type="hidden" name="nowPage" 	id="nowPage" />
 			<input type="hidden" name="mode" 		id="mode" />
@@ -48,9 +49,8 @@
 								<option value="5" <%if(util.getStr(paramMap.get("searchUseScope")).equals("5")) { %> selected="selected" <% } %>>제조사명</option>
 								<option value="6" <%if(util.getStr(paramMap.get("searchUseScope")).equals("6")) { %> selected="selected" <% } %>>담당자명</option>
 								<option value="7" <%if(util.getStr(paramMap.get("searchUseScope")).equals("7")) { %> selected="selected" <% } %>>NTIS 등록번호</option>
-								<option value="8" <%if(util.getStr(paramMap.get("searchUseScope")).equals("8")) { %> selected="selected" <% } %>>e-tube 등록번호</option>
-								<option value="9" <%if(util.getStr(paramMap.get("searchUseScope")).equals("9")) { %> selected="selected" <% } %>>JEINET 등록번호</option>
-								<option value="10" <%if(util.getStr(paramMap.get("searchUseScope")).equals("10")) { %> selected="selected" <% } %>>고정자산관리번호</option>
+								<option value="8" <%if(util.getStr(paramMap.get("searchUseScope")).equals("8")) { %> selected="selected" <% } %>>JEINET 등록번호</option>
+								<option value="9" <%if(util.getStr(paramMap.get("searchUseScope")).equals("9")) { %> selected="selected" <% } %>>고정자산관리번호</option>
 							</select>
 							<!-- 키워드 -->
 							 <label for="keyword" class="hide">키워드</label>

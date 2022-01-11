@@ -127,7 +127,7 @@ p.txt4 { font-size:14px; font-weight:400; letter-spacing:-0.05em; color:5a5a5a; 
 /* 푸터 */
 .FooterWrap { clear:both; width:100%; min-width:1200px; height:120px; overflow:hidden; border-top:3px solid #dde5ea }
 .FooterBox { width:1200px; height:120px; margin:0 auto; background:url(img/f_logo.gif) left 20px no-repeat;background-size:15%;}
-.f_menu { width:598px; float:left; height:15px; margin-top:20px; margin-bottom:10px; margin-left:195px }
+.f_menu {width: 560px;float:left;height:15px;margin-top:20px;margin-bottom:10px;margin-left:195px;}
 .f_menu ul li { font-size:0.78em; font-weight:600; letter-spacing:-0.05em; float:left;padding-right:8px; background:url(img/f_line.gif) top right no-repeat;background-position-y:1px;padding-left:8px}
 
 .f_menu ul li.end{background:none; padding-top:0px}

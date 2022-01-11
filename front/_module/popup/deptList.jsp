@@ -34,7 +34,7 @@
 
 <div class="popup_style">
 	<div class="MPTop">
-		<div class="ci"><img src="/img/jntis/sub/logo2.png" alt="전남과학기술진흥센터"></div>
+		<h1 class="ci" style="left:190px">전남과학기술진흥센터</h1>
 	</div>
 	<form action="./<%=myPage %>" name="searchForm" id="searchForm" method="post" class="banner_search">
 				<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage() %>" />

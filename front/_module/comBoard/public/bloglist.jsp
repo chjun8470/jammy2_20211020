@@ -72,24 +72,24 @@
 
 			<div class="list_sort">
 				<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기(선택됨)"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
-					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
-					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
+					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
+					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif"  alt="인기순"/></button>
+					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순"/></button>
 				<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
 					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
-					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기(선택됨)"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
+					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
 					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순"/></button>
 				<% } else { %>
 					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
 					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순"/></button>
-					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기(선택됨)"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순"/></button>
+					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down_ovr.gif"alt="다운로드순" /></button>
 				<% } %>
 			</div>
 
-			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
+			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
 			<div class="b_btn_listBox013">
-				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" alt="이미지리스트"/></button>
-				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')" title="블러그리스트(선택됨)"><img src="/img/board/btn_blog_ovr.png" alt="블러그리스트"/></button>
+				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block.png" /></button>
+				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')" title="블러그리스트"><img src="/img/board/btn_blog_ovr.png" /></button>
 				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list.png" alt="리스트" /></button>
 			</div>
 
@@ -98,15 +98,6 @@
 	<!--list_top E-->
 
 	<div class="pub_list" id="cont_block">
-		<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-			<h2 class="sound_only">최신순 정렬</h2>
-		<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-			<h2 class="sound_only">인기순 정렬</h2>
-		<% } else { %>
-			<h2 class="sound_only">다운로드순 정렬</h2>
-		<% } %>
-
-
 		<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
 			int num = 1;
@@ -128,7 +119,7 @@
 				<p class="img_publist_blog">
 					<a href="sub.do?m=<%=m %>&amp;boardComIdx=<%=boardComIdx %>&amp;mode=view&amp;listMode=<%=listMode %>&amp;sortMode=<%=sortMode %>&amp;boardIdx=<%=util.getStr(rs.get("ARTICLE_ID"))%>&amp;nowPage=<%=nowPage%>&amp;siteId=<%=siteId%>" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기">
 					<%-- <a href="#" onclick="goSubmit('view','<%=listMode %>', '<%=sortMode%>', '<%=util.getStr(rs.get("ARTICLE_ID"))%>')"> --%>
-						<img id="<%=num %>" src = "http://jeinet.jnsp.re.kr/file/<%=fileGrp+"/"+rs.get("TITLE")%>" width="199" height="281" alt="<%=util.getStr(rs.get("SUBJECT"))%>"/>
+						<img id="<%=num %>" src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" width="199" height="281" alt="<%=util.getStr(rs.get("SUBJECT"))%>"/>
 					</a>
 				</p>
 
@@ -172,7 +163,7 @@
 						</a>
 					</p>
 
-					<!--<p class="down_publist"><a href="/cmm/fms/ComFileDown.do<%=fileParam%>" title="첨부파일 다운로드" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image15','','/img/board/btn_down2_ovr.gif',1)"><img src="/img/board/btn_down2.gif" alt="1" width="158" height="37" id="Image15" /></a></p>-->
+					<p class="down_publist"><a href="/cmm/fms/ComFileDown.do<%=fileParam%>" title="첨부파일 다운로드" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image15','','/img/board/btn_down2_ovr.gif',1)"><img src="/img/board/btn_down2.gif" alt="1" width="158" height="37" id="Image15" /></a></p>
 				</div>
 			</li>
 
@@ -200,7 +191,7 @@
 	<%--
 		<% if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"WRITE")) {%>
 			<%if(allYN.equals("NO")){%>
-			<button class="btn_rgt" onclick="goSubmit('write')">등록</button>
+			<button class="btn_rgt" onclick="goSubmit('write')">글쓰기</button>
 			<%}%>
 		<% } %>
 	--%>
@@ -253,7 +244,6 @@
 			winResize();
 		});
 		winResize();
-		$(".num .on").attr('title','현재페이지');
 	});
 
 	function winResize(){

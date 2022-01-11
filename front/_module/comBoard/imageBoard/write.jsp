@@ -8,7 +8,7 @@
 <%@page import="info.elsys.jnsp.util.ComUtil"%>
 <%@page import="info.elsys.jnsp.comm.vo.StaticVO"%>
 <%@page import="info.elsys.jnsp.comm.vo.LoginVO"%>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO"%>
+<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
 <%
 	String display = "sub";
 	request.setCharacterEncoding("utf-8");

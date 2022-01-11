@@ -53,7 +53,7 @@
 	<div class="basic_writeWrap004">
 		<div class="redTxt" style="margin-bottom:10px">* 필수 입력사항입니다.</div>
         <table class="skin_write004">
-	        <caption>홈페이지 의견접수 게시글 작성하기</caption>
+	        <caption>작성하기</caption>
 	        <colgroup>
 			    <col style="width:15%;" />
 			    <col style="width:85%;" />
@@ -70,7 +70,7 @@
 			  	</tr>
 	          	<%}%>
               	<tr>
-			    	<th scope="row"><span style="color:red; font-size:11pt;">*</span> <label for="subject" >제목</label></th>
+			    	<th scope="col"><span style="color:red; font-size:11pt;">*</span> <label for="subject" >제목</label></th>
 			    	<td class="r_line_none">
 			    		<input type="text" name="subject" id="subject" value="" class="input_txt00401" maxlength="100" />
                         <div class="checkBox00401">
@@ -81,7 +81,7 @@
 			</thead>
 			<tbody>
 			  	<tr>
-			    	<th scope="row"><label for="contents" >내용</label></th>
+			    	<th scope="col"><label for="contents" >내용</label></th>
 			    	<td class="r_line_none">
 			    		<textarea name="content" id="contents" style="width:100%; height:350px; font-size:10pt;"></textarea>
 			    	</td>
@@ -96,8 +96,8 @@
 	              		<input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1" class="select00401" title="파일첨부"/>
 						<button class="b_btn_00401" type="button" onclick="addRowFile('<%=fileFullGrp%>');" title="첨부파일 추가"><img src="/img/board/btn_plus.gif"/></button>
 						<button class="b_btn_00401" type="button" onclick="delRowFile('<%=fileFullGrp%>');" title="첨부파일 삭제"><img src="/img/board/btn_del.gif"/></button>
-	              		<!--<br/> * 300kb이상의 이미지만 등록이 가능합니다.-->
-              			<!--<br/> * 첨부파일은 bmp, gif, jpg, jpeg, png 확장자 파일만 업로드가능합니다.-->
+	              		<br/> * 300kb이상의 이미지만 등록이 가능합니다.
+              			<br/> * 첨부파일은 bmp, gif, jpg, jpeg, png 확장자 파일만 업로드가능합니다.
 	              	</div>
 
 	        		<script type="text/javascript">

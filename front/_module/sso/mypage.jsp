@@ -55,9 +55,6 @@
 		String cpNo3 = cpNo.substring(c2+1);
 	//tel E
 %>
-
-	<div class="MPTit">정보수정</div>
-	
 	<form name="fedit" id="fedit" action="./editProc.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage()%>" />
 		<input type="hidden" name="reUrl" id="reUrl" value="" />
@@ -65,35 +62,37 @@
 		<input type="hidden" name="deptNmOption" id="deptNmOption" value="<%=deptNmOption %>"/>
 		<input type="hidden" name="idCheck" id="idCheck" />
 
-		<div class="basic_writeWrap">
-	   		<table class="skin_write01 " summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
+		<div class="skin_bbs_write" style="margin-top: 30px">
+	   		<table class="skin_basic_write" summary="작성하기로  제목, 태그, 첨부파일, 시스템설명(툴팁)을 제공합니다.">
 	   			<caption>전문가등록</caption>
                 <colgroup>
-                	<col style="width:30%" />
-					<col style="width:70%" />
+                	<col width="17%"/>
+					<col width="33%"/>
+					<col width="17%"/>
+					<col width="33%"/>
                	</colgroup>
 				<tbody>
 					<tr>
-						<th class="th">사용자 ID <span class="red">*</span></th>
-						<td class="td r_line_none">
-							<input type="text" name="userId" maxlength="20" value="<%=util.getStr(dataMap.get("USER_ID")) %>" id="userId" class="txtbox" title="사용자ID" readOnly/>
+						<th class="th"> * 사용자 ID</th>
+						<td class="td" colspan="3">
+							<input type="text" name="userId" maxlength="20" value="<%=util.getStr(dataMap.get("USER_ID")) %>" id="userId" class="txtbox" title="사용자ID" readOnly style="border:0px" />
 						</td>
 					</tr>
 <%-- <%if(userAppState.equals("")||userAppState.equals(null)){%> --%>
 <%if(util.getStr(dataMap.get("USER_APP_STATE")).equals("") || util.getStr(dataMap.get("USER_APP_STATE")).equals(null)){ %>
 					<tr>
-						<th class="th">이 름 <span class="red">*</span></th>
-						<td class="td r_line_none">
+						<th class="th"> * 이 름</th>
+						<td class="td" colspan="3">
 							<input type="text" name="psnNm" maxlength="24" value="<%=util.getStr(dataMap.get("PSN_NM")) %>" id="psnNm" class="txtbox" title="이름"/>
 						</td>
 					</tr>
 <%}else{ %>
 					<tr>
-						<th class="th">이 름 <span class="red">*</span></th>
-						<td class="td r_line_none">
+						<th class="th"> * 이 름</th>
+						<td class="td">
 							<input type="text" name="psnNm" maxlength="24" value="<%=util.getStr(dataMap.get("PSN_NM")) %>" id="psnNm" class="txtbox" title="이름"/>
 						</td>
-               			<th scope="col" class="r_line_none"><label for="state">상태</label></th>
+               			<th scope="col"><label for="state">상태</label></th>
                			<td>
                				<%=util.getStr(dataMap.get("USER_APP_STATE")) %>
                			</td>
@@ -110,25 +109,23 @@
 						</td>
 					</tr> --%>
 					<tr>
-						<th class="th">성별구분<span class="red">*</span></th>
-						<td class="td r_line_none">
-							<input type="radio" name="genderTypeCd" value="M" id="genderTypeCdMale" <%=util.getStr(dataMap.get("GENDER_TYPE_CD")).equals("M")? " checked='checked'" : "" %>/><label class="radio" for="genderTypeCdMale">남자</label>
-							<input type="radio" name="genderTypeCd" value="F" id="genderTypeCdFemale" <%=util.getStr(dataMap.get("GENDER_TYPE_CD")).equals("F")? "checked='checked'" : "" %> class="MAL10"/><label class="radio" for="genderTypeCdFemale">여자</label>
+						<th class="th"> * 성별구분</th>
+						<td class="td">
+							<input type="radio" name="genderTypeCd" value="M" id="genderTypeCdMale" style="width:20px;"<%=util.getStr(dataMap.get("GENDER_TYPE_CD")).equals("M")? " checked='checked'" : "" %>/><label for="genderTypeCdMale">남자</label>
+							<input type="radio" name="genderTypeCd" value="F" id="genderTypeCdFemale" style="width:20px;" <%=util.getStr(dataMap.get("GENDER_TYPE_CD")).equals("F")? "checked='checked'" : "" %>/><label for="genderTypeCdFemale">여자</label>
 						</td>
-					</tr>
-					<tr>
-						<th class="th" align="center" valign="middle">외국인여부<span class="red">*</span></th>
-						<td class="td r_line_none">
-							<input type="radio" name="frgnYn" value="N" id="frgnYnY" style="width:20px;" title="내국인" <%=util.getStr(dataMap.get("FRGN_YN")).equals("N")? "checked='checked'" : "" %> /><label class="radio" for="frgnYnY">내국인</label>
-							<input type="radio" name="frgnYn" value="Y" id="frgnYnN" style="margin-left: 20px; width:20px" title="외국인" <%=util.getStr(dataMap.get("FRGN_YN")).equals("Y")? "checked='checked'" : "" %> class="MAL10"/><label class="radio" for="frgnYnN">외국인</label>
+						<th class="th" align="center" valign="middle"> * 외국인여부</th>
+						<td class="td">
+							<input type="radio" name="frgnYn" value="N" id="frgnYnY" style="width:20px;" title="내국인" <%=util.getStr(dataMap.get("FRGN_YN")).equals("N")? "checked='checked'" : "" %> /><label for="frgnYnY">내국인</label>
+							<input type="radio" name="frgnYn" value="Y" id="frgnYnN" style="margin-left: 20px; width:20px" title="외국인" <%=util.getStr(dataMap.get("FRGN_YN")).equals("Y")? "checked='checked'" : "" %> /><label for="frgnYnN">외국인</label>
 						</td>
 					</tr>
 					 <tr>
-						<th class="th">전화번호<span class="red">*</span></th>
-						<td class="td r_line_none">
+						<th class="th"> * 전화번호</th>
+						<td class="td">
 							<span id="inTel">
 								<input type="hidden" name="telNo" value="" id="telNo"/>
-								<select name="telNo1" id="telNo1" title="사무실전화번호 국번" class="w30">
+								<select name="telNo1" id="telNo1" style="width: 26%;" title="사무실전화번호 국번">
 									<option value="02" <%if(telNo1.equals("02")) { %> selected="selected" <% } %>>02</option>
 									<option value="031" <%if(telNo1.equals("031")) { %> selected="selected" <% } %>>031</option>
 									<option value="032" <%if(telNo1.equals("032")) { %> selected="selected" <% } %>>032</option>
@@ -148,17 +145,15 @@
 									<option value="064" <%if(telNo1.equals("064")) { %> selected="selected" <% } %>>064</option>
 									<option value="070" <%if(telNo1.equals("070")) { %> selected="selected" <% } %>>070</option>
 								</select> -
-								<input class="txt003" type="text" name="telNo2" maxlength="4" value="<%=telNo2%>" id="telNo2" title="사무실전화 앞번호"/> -
-								<input class="txt003" type="text" name="telNo3" maxlength="4" value="<%=telNo3%>" id="telNo3" class="txtbox" title="사무실전화 뒷번호"/>
+								<input type="text" name="telNo2" style="width:16%" maxlength="4" value="<%=telNo2%>" id="telNo2" title="사무실전화 앞번호"/> -
+								<input type="text" name="telNo3" style="width:16%" maxlength="4" value="<%=telNo3%>" id="telNo3" class="txtbox" title="사무실전화 뒷번호"/>
 							</span>
 						</td>
-					</tr>
-					<tr>
-						<th class="th">핸드폰번호<span class="red">*</span></th>
-						<td class="td r_line_none">
+						<th class="th"> * 핸드폰번호</th>
+						<td class="td">
 							<span id="inCp">
 								<input type="hidden" name="cpNo" value="" id="cpNo"/>
-								<select name="cpNo1" id="cpNo1" class="w30" title="휴대폰 국번">
+								<select name="cpNo1" id="cpNo1" style="width: 26%;" title="휴대폰 국번">
 									<option value="010" <%if(cpNo1.equals("010")) { %> selected="selected" <% } %>>010</option>
 									<option value="011" <%if(cpNo1.equals("011")) { %> selected="selected" <% } %>>011</option>
 									<option value="016" <%if(cpNo1.equals("016")) { %> selected="selected" <% } %>>016</option>
@@ -166,14 +161,14 @@
 									<option value="018" <%if(cpNo1.equals("018")) { %> selected="selected" <% } %>>018</option>
 									<option value="019" <%if(cpNo1.equals("019")) { %> selected="selected" <% } %>>019</option>
 								</select> -
-								<input type="text" name="cpNo2" class="txt003" maxlength="4" value="<%=cpNo2%>" id="cpNo2" title="휴대폰 앞번호"/> -
-								<input type="text" name="cpNo3" class="txt003" maxlength="4" value="<%=cpNo3%>" id="cpNo3" title="휴대폰 뒷번호"/>
+								<input type="text" name="cpNo2" style="width:16%" maxlength="4" value="<%=cpNo2%>" id="cpNo2" class="txtbox" title="휴대폰 앞번호"/> -
+								<input type="text" name="cpNo3" style="width:16%" maxlength="4" value="<%=cpNo3%>" id="cpNo3" class="txtbox" title="휴대폰 뒷번호"/>
 							</span>
 						</td>
 					</tr>
 					<tr>
 						<th class="th">이메일</th>
-						<td class="td r_line_none">
+						<td class="td" colspan="3">
 							<%=email %>
 						</td>
 
@@ -199,7 +194,7 @@
 					<% if (util.getStr(dataMap.get("USER_TP")).equals("2")||util.getStr(dataMap.get("USER_TP")).equals("3")){%>
 					<tr id="orgInfo1">
 						<th class="th"><% if (util.getStr(dataMap.get("USER_TP")).equals("3")){%>기관명<%}else{ %>기업명<%}%></th>
-						<td class="td r_line_none">
+						<td class="td" colspan="3">
 							<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>
 							<%-- <input type="text" id="orgGrpNm" name="orgGrpNm" value="<%=util.getStr(dataMap.get("ORG_GRP_NM")) %>" class="inp_txt" title="기관명" style="width:80%;" readonly = "readonly" maxlength="10"/> --%>
 						</td>
@@ -250,8 +245,8 @@
 				</tr>
 				</table> --%>
 
-			<div class="MPBtnWrap MAT10">
-					<input type="button" onclick="submitGo()" value="수정" class="btn_inp_b_01 FloatR" />
+			<div class="pop_btnBox" >
+					<input type="button" onclick="submitGo()" value="수정" class="btn_inp_b_01" />
 			</div>
 		</div>
 

@@ -169,10 +169,15 @@
 		<% } %>
 
 		<div class="btn_box" style="text-align: right; margin-top:10px;">
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR")){ %>
+			<% HashMap<String, String> aticleDataMap = request.getAttribute("aticleDataMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("aticleDataMap"); %>
+			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && util.getStr(loginVO.getAuthLv()).equals("99")
+				|| util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(aticleDataMap.get("ORG_GRP_CD")))
+				|| util.loginCheck() && util.getStr(loginVO.getUserId()).equals(util.getStr(dataMap.get("WRITER_ID"))) ){ %>
 				<input type="button" class="btn_inp_b_01" value="수정" onclick="goSubmit('edit')"/>
 			<%}%>
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL")){ %>
+			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL")  && util.getStr(loginVO.getAuthLv()).equals("99")
+				|| util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(aticleDataMap.get("ORG_GRP_CD")))
+				|| util.loginCheck() && util.getStr(loginVO.getUserId()).equals(util.getStr(dataMap.get("WRITER_ID"))) ){ %>
 				<input type="button" class="btn_inp_b_01" value="삭제" onclick="goSubmit('del')"/>
 			<%} %>
 				<input type="button" class="btn_inp_w_01" value="목록" onclick="goSubmit('list')"/>

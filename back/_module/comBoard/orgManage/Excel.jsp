@@ -76,7 +76,7 @@ response.setContentType("text/html;charset=UTF-8");
 				<col style="width: 10%;" />
 				<col style="width: 5%;" />
 				<col style="width: 5%;" />
-			<!--	<col style="width: 5%;" />-->
+				<col style="width: 5%;" />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
@@ -91,7 +91,7 @@ response.setContentType("text/html;charset=UTF-8");
 					<th scope="col">직위</th>
 					<th scope="col">이름</th>
 					<th scope="col">성별</th>
-			<!--		<th scope="col">출생년도</th>-->
+					<th scope="col">출생년도</th>
 					<th scope="col">전화번호</th>
 					<th scope="col">휴대전화</th>
 					<th scope="col">이메일</th>
@@ -115,7 +115,7 @@ response.setContentType("text/html;charset=UTF-8");
 					<td><%=util.getStr(rs.get("DATA04"))%></td>
 					<td><%=util.getStr(rs.get("DATA05"))%></td>
 					<td><%=util.getStr(rs.get("DATA06"))%></td>
-				<!--	<td><%=util.getStr(rs.get("DATA07"))%></td>-->
+					<td><%=util.getStr(rs.get("DATA07"))%></td>
 					<td>
 						<%=util.getStr(rs.get("DATA08"))%>-<%=util.getStr(rs.get("DATA09"))%>-<%=util.getStr(rs.get("DATA10"))%>
 					</td>

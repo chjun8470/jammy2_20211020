@@ -31,10 +31,11 @@
 <link href="/css/cms/front/jntis/board_3.css" media="all" rel="stylesheet" type="text/css" />
 <link href="/css/cms/front/jntis/common.css" media="all" rel="stylesheet" type="text/css" />
 <link href="/css/cms/front/sub.css" media="all" rel="stylesheet" type="text/css" />
-<link href="/css/cms/front/jntis/content.css" media="all" rel="stylesheet" type="text/css" />
-<link href="/css/cms/front/jntis/cont.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/css/cms/front/content.css" media="all" rel="stylesheet" type="text/css" />
 <link href="/css/cms/front/jntis/media_960.css" media="all" rel="stylesheet" type="text/css" />
 <link href="/css/cms/front/jntis/media_480.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/css/cms/front/cont.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/css/cms/front/jntis/cont.css" media="all" rel="stylesheet" type="text/css" />
 
 <!--[if lte IE 8]>
 <link href="/css/cms/front/media_960.cs" media="all" rel="stylesheet" type="text/css" />
@@ -52,11 +53,10 @@
 <script type="text/javascript" src="/js/webeditor_nhn/js/HuskyEZCreator.js"></script>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js" type="text/javascript"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=775c36174af77a7878a91ef218173921&libraries=services" type="text/javascript"></script>
-<!-- <script src="//apis.daum.net/maps/maps3.js?apikey=09cdede77b4c4027e119e58c73d4e495&amp;libraries=services" type="text/javascript"></script> -->
+<script src="//apis.daum.net/maps/maps3.js?apikey=09cdede77b4c4027e119e58c73d4e495&amp;libraries=services" type="text/javascript"></script>
 
 <c:forEach var="js" items="${jsList}">
-	<script type="text/javascript" src="<c:out value='${js}'/>"></script> 
+	<script type="text/javascript" src="<c:out value='${js}'/>"></script>
 </c:forEach>
 
 <!-- 그래프 -->
@@ -72,7 +72,7 @@
 <div class="Wrap">
 	<ul id="go_main">
 			<li><a href="#aaaaa" >본문 바로 가기</a></li>
-			<li><a href="#first_m">주메뉴 바로가기</a></li>
+			<li><a href="#top_menu_id_2">주메뉴 바로가기</a></li>
 	</ul>
 
     <!--HeaderWrap S-->
@@ -83,14 +83,12 @@
 
 
 <!--SubWrap S-->
-
-		<div class="SubWrap" style="user-select: auto;">
-            <!--SubBox S-->
-            <img src="/img/jntis/sub/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science&amp;Technology Information System" class="txt_pic">
-            <!--SubBox E-->
+<div class="SubWrap">
+	<!--SubBox S-->
+	<div class="SubBox">
+		<div class="TxtSubBox">
+        <img src="../../img/jntis/sub/txt_visual.png" alt="세상을 바꾸는 과학기술 전남과학기술정보시스템 Jeonnam Science&amp;Technology Information System" />
         </div>
-
-		<div class="scontent">
 		<!--leftMenu S-->
 		<div id="leftMenu">
 			<%@include file="include/snb.jsp"%>
@@ -131,7 +129,7 @@
 		</div>
 		<!--ContWrap E-->
 
-	</div>
+
 
 	</div>
 	<!--SubBox E-->

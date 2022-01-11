@@ -53,6 +53,45 @@
 			<div class="basic_grid">
 			<div class="search_box" style="padding:10px">
 				<div class="board-search" style="line-height:27px;">
+					<div style="position:relative;">
+					<span style="float:left; padding:0px 0px;">게시판 분류 :</span>
+					<%
+						int cnt = 1;
+						for(HashMap rs:publicTypeList) {
+
+							String ckChecked = "NO";
+
+							if(util.getStr(paramMap.get("ArrayCheck")) != null){
+								String[] arrChk = util.getStr(paramMap.get("ArrayCheck")).split(",");
+
+								for(int i =0;  i < arrChk.length ; i++){
+									if(util.getStr(rs.get("CODE_CD")).equals(arrChk[i])){
+										//System.out.println(arrChk[i]);
+										ckChecked = "YES";
+									}
+								}
+
+							}else{
+
+								if(request.getParameterValues("searchPublicType[]") != null){
+									String[] ckTp = request.getParameterValues("searchPublicType[]");
+
+									for(int i =0;  i < ckTp.length ; i++){
+										if(util.getStr(rs.get("CODE_CD")).equals(ckTp[i])){
+											ckChecked = "YES";
+										}
+									}
+								}
+							}
+					%>
+					<span style="float:left; padding:0px 5px;"><input type="checkbox" name="searchPublicType[]" id="sstp<%=cnt%>" value="<%=util.getStr(rs.get("CODE_CD"))%>" <%if("YES".equals(ckChecked)) {%> checked="checked" <%}%>>
+						  <label for="sstp<%=cnt%>"><%=util.getStr(rs.get("CODE_NM"))%></label>
+					</span>
+					<%
+						cnt++;
+						}
+					%>
+					</div>
 					<div style="position:relative;clear:both;">
 						<label  for="searchState">접수상태 :</label>
 						<select class="select" name="searchState" id="searchState" style="height: 24px;">
@@ -189,7 +228,7 @@
 			&nbsp;
 			<% if(util.loginCheck()) { %>
 			<div class="btn_right_box">
-					<input type="button" class="btn_inp_b_01" value="등록" onclick="goSubmit('write')"/>
+					<input type="button" class="btn_inp_b_01" value="글쓰기" onclick="goSubmit('write')"/>
 			</div>
 			<% } %>
 		</div>

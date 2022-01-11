@@ -42,40 +42,39 @@
 		//]]>
 		</script>
 
-	<div class="MPTit">정보수정</div>
-	
-	<form name="fwrite" id="fwrite" action="./mypage.do" method="post" enctype="multipart/form-data">
-	
-		<div class="basic_writeWrap">
-		
-			<table class="skin_write01" id="write_table">
+
+	 <form name="fwrite" id="fwrite" action="./mypage.do" method="post" enctype="multipart/form-data">
+		<div class="join">
+
+	        <table class="skin_basic_write" id="write_table" style="width: 600px;">
+				<!-- colgroup s -->
 				<colgroup>
-					<col style="width:30%" />
-					<col style="width:70%" />
+					<col style="width: 140px;" />
+					<col style="width: *;" />
 				</colgroup>
+				<!-- colgroup e -->
 				<tr>
-					<td colspan="2" class="r_line_none">회원 정보의 수정을 원하실 경우. 본인확인을 위해 비밀번호를 입력해주세요</td>
+					<td colspan="2" >회원 정보의 수정을 원하실 경우. 본인확인을 위해 비밀번호를 입력해주세요</td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
-					<td class="r_line_none">
+					<td>
 						<input type="password" id="pwd" name="pwd" value=""/>
 					</td>
 				</tr>
 				<tr>
 					<th>비밀번호 확인</th>
-					<td class="r_line_none">
+					<td>
 						<input type="password" id="rePwd" name="rePwd" value=""/>
 					</td>
 				</tr>
 			</table>
-		
-			<!-- bo_btn  -->
-				<div class="MPBtnWrap MAT10">
-					<input type="button" onclick="submitGo()" value="확인" class="btn_inp_b_01 FloatR" />
+
+		        <!-- bo_btn  -->
+		    	<div class="pop_btnBox" >
+					<input type="button" onclick="submitGo()" value="확인" class="btn_inp_b_01" />
 				</div>
-			<!--// bo_btn -->
-		
-		</div>
-	
-	</form>
+		        <!--// bo_btn -->
+
+        	</div>
+      </form>

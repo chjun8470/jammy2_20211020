@@ -47,112 +47,95 @@
 	<input type="hidden" name="m" value="<%=m%>" />
 	<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
 	<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
-
-
-	<div class="MPTit MPTit02">담당자게시글 등록</div>	
-
-	<!--basic_writeWrap S-->
-	<div class="basic_writeWrap">
 	
-		<span style="color:red; font-size:12px;"> * 필수 입력사항입니다.</span>
-		
-		<table class="skin_write01 MAT10">
-		
-			<caption>작성하기</caption>
-			
-			<colgroup>
-				<col style="width:30%;" />
-				<col style="width:70%;" />
-			</colgroup>
-		
+<!--cont_block S-->
+	<div id="cont_block">
+		<!--basic_listWrap S-->
+		<div class="basic_writeWrap">
+
+		<span style="color:red; font-size:10pt;"> * 필수 입력사항입니다.</span>
+        <table class="skin_write" style="margin: 10px;">
+	        <caption>작성하기</caption>
+	        <colgroup>
+			    <col style="width:20%;" />
+			    <col style="width:80%;" />
+		    </colgroup>
+
 			<thead>
-			
 				<%if(util.getStr(boardMap.get("BOARD_ID")).equals("00053") || util.getStr(boardMap.get("BOARD_ID")).equals("00032") || util.getStr(boardMap.get("BOARD_ID")).equals("00053") || util.getStr(boardMap.get("BOARD_ID")).equals("00032") || util.getStr(boardMap.get("BOARD_ID")).equals("00005") || util.getStr(boardMap.get("BOARD_ID")).equals("00001")){ %>
-				<tr>
-					<th class="box_top_edt" scope="col">
-						<span style="color:red; font-size:11pt;">*</span> 공지글여부
-					</th>
-					<td class="r_line_none p_top_btm_6">
-						<span style="float:left; padding:0px 5px;">
-							<input type="checkbox" name="noticeAt" id="noticeAt" value="Y"  onclick="check_only(this)"/>
-							<label for="notice1"> 사용</label>
-						</span>
-						<span style="float:left; padding:0px 5px;">
-							<input type="checkbox" name="noticeAt" id="noticeAt_N" value="N" checked="checked" onclick="check_only(this)"/>
-							<label for="notice2"> 미사용</label>
-						</span>
+	            <tr>
+			    	<th class="box_top_edt" scope="col"><span style="color:red; font-size:11pt;">*</span> 공지글여부</th>
+			    	<td class="r_line_none p_top_btm_6">
+			    		<span style="float:left; padding:0px 5px;"><input type="checkbox" name="noticeAt" id="noticeAt" value="Y"  onclick="check_only(this)"/><label for="notice1"> 사용</label></span>
+		            	<span style="float:left; padding:0px 5px;"><input type="checkbox" name="noticeAt" id="noticeAt_N" value="N" checked="checked" onclick="check_only(this)"/><label for="notice2"> 미사용</label></span>
 					</td>
+			  	</tr>
+	          	<%}%>
+              	<tr>
+			    	<th scope="col"><span style="color:red; font-size:11pt;">*</span> 제목</th>
+			    	<td>
+			    		<input type="text" class="box_top_input_txt" name="subject" id="subject" value="" style="width: 95%; height: 20px; font-size:9pt;" maxlength="100" />
+                    </td>
 				</tr>
-			    <%}%>
-			    
-				<tr>
-					<th scope="col" class="alnC">제목 <span style="color:red">*</span></th>
-					<td class="r_line_none">
-						<input type="text" class="" name="subject" id="subject" value="" maxlength="100"/>
-					</td>
-				</tr>
-				
 			</thead>
-			
 			<tbody>
 			  	<tr>
-			    	<th scope="col" class="alnC">내용</th>
-			    	<td class="r_line_none">
-			    		<textarea name="content" id="contents"></textarea>
-			 		</td>
-				</tr>
-			
-			<%if(util.getStr(boardMap.get("PERM_FILE")).equals("Y")){ %>
-			
-				<tr>
-					<th scope="row" class="tit">첨부파일</th>
+			    	<th scope="col">내용</th>
+			    	<td>
+			    		<textarea name="content" id="contents" style="width:100%; height:350px; font-size:10pt;"></textarea>
+			    	</td>
+			  	</tr>
+
+			  	<%if(util.getStr(boardMap.get("PERM_FILE")).equals("Y")){ %>
+			  	<tr>
+			  		<th scope="row" class="tit">첨부파일</th>
 					<td id="<%=fileFullGrp%>fileGrpBox">
-						<input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1"  title="파일첨부" style="height:37px;"/>
+				    	<input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1"  title="파일첨부" style="height:37px;"/>
 						<button class="b_btn_03" type="button" onclick="addRowFile('<%=fileFullGrp%>');" title="첨부파일 추가"><img src="/img/board/btn_plus.gif"/></button>
 						<button class="b_btn_03" type="button" onclick="delRowFile('<%=fileFullGrp%>');" title="첨부파일 삭제"><img src="/img/board/btn_del.gif"/></button>
-						<!--<br/> * 300kb이상의 실사이미지만 등록이 가능합니다.-->
+
+						<br/> * 300kb이상의 실사이미지만 등록이 가능합니다.
 						<br/> * 가로형 이미지만 등록해주세요.
-			
-			   			<script type="text/javascript">
-							//<![CDATA[
+
+					    <script type="text/javascript">
+						//<![CDATA[
 							var arrfileCnt = new Array();
 							arrfileCnt['<%=fileFullGrp%>'] = 2;
-				  			function addRowFile(fileGrpnm){
-				  				var fileHtml = "<div>";
-				 				fileHtml += "<input type='file' name='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  id='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  title='파일첨부' style='height:37px;' />";
-				 				fileHtml += "</div>";
-				
-				  				$('#'+fileGrpnm+'fileGrpBox').append(fileHtml);
-				
-				  				arrfileCnt[fileGrpnm]++;
-				    		 }
-				
-				     		function delRowFile(fileGrpnm){
-				  				if($('#'+fileGrpnm+'fileGrpBox > div').size() < 0){
-				  				return;
-				   			}
-				   			$('#'+fileGrpnm+'fileGrpBox > div').eq($('#'+fileGrpnm+'fileGrpBox > div').size() - 1).remove();
-				   			arrfileCnt[fileGrpnm]--;
-				 			 }
-							//]]>     
-						</script>
+						      function addRowFile(fileGrpnm){
+					       		var fileHtml = "<div>";
+					      		fileHtml += "<input type='file' name='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  id='"+fileGrpnm+"File"+arrfileCnt[fileGrpnm]+"'  title='파일첨부' style='height:37px;' />";
+					      		fileHtml += "</div>";
+
+				        		$('#'+fileGrpnm+'fileGrpBox').append(fileHtml);
+
+				        		arrfileCnt[fileGrpnm]++;
+					          }
+
+					          function delRowFile(fileGrpnm){
+						      	if($('#'+fileGrpnm+'fileGrpBox > div').size() < 0){
+						      		return;
+						       	}
+						       	$('#'+fileGrpnm+'fileGrpBox > div').eq($('#'+fileGrpnm+'fileGrpBox > div').size() - 1).remove();
+						       	arrfileCnt[fileGrpnm]--;
+						      }
+					     //]]>     
+					     </script>
+
 					</td>
 				</tr>
-				
-			<% } %>
-			
-			</tbody>
-			
-		</table>
-	
-	</div>
-	<!--basic_writeWrap E-->
+				<% } %>
 
+			</tbody>
+		</table>
+
+	</div>
+	<!--basic_listWrap E-->
+</div>
 
 	<!--b_btn_area S-->
-	<div class="MPBtnWrap MAT10">
-		<button class="btn_inp_w_01 FloatL" onclick="goSubmit('list')">취소</button>
-		<button class="btn_inp_b_01 FloatR" onclick="goSubmit('writeProc')">작성</button>
+	<div class="b_btn_area" style="width: 600px;">
+		<button class="btn_lft" onclick="goSubmit('list')" style="cursor: pointer">취소</button>
+		<button class="btn_rgt" onclick="goSubmit('writeProc')" style="cursor: pointer">작성</button>
 	</div>
 	<!--b_btn_area E-->
 

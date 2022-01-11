@@ -65,7 +65,7 @@
 
 .paging a {
 	position: relative;
-	/*z-index: 10;*/
+	z-index: 10;
 }
 
 .paging .num {
@@ -78,6 +78,7 @@
 	height: 30px;
 	line-height: 30px;
 	display: inline-block;
+	border: 1px solid #1e61a8;
 	color: #666;
 	background: #fff;
 	font-size: 11px !important;
@@ -85,15 +86,15 @@
 }
 
 .paging .num a.on {
-
-	background: #2d5fba;
-    border-radius: 50%;
-    color: #fff;
-
+	border: 1px solid #75c1de;
+	color: #3eb5e9;
+	font-weight: bold;
 }
 
 .paging .num a:hover {
-
+	border: 1px solid #75c1de;
+	color: #3eb5e9;
+	text-decoration: none;
 }
 
 .paging a {
@@ -112,6 +113,7 @@
 	display: inline-block;
 	width: 30px;
 	height: 30px;
+	border: 1px solid #d5d5d5;
 }
 
 .paging .num a {
@@ -119,6 +121,7 @@
 	display: inline-block;
 	width: 30px;
 	height: 30px;
+	border: 1px solid #eaeaea;
 }
 
 .paging a.first {
@@ -157,7 +160,7 @@ table.skin_basic_list {
 	width: 100%;
 	margin-top: 10px;
 	margin-bottom: 15px;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	border-top: solid 1px #cccccc;
 	border-collapse: collapse;
@@ -249,7 +252,7 @@ div.skin_bbs_list .bbs-top .board-search input.board-input {
 	clear: both;
 	width: 667px;
 	padding: 20px 0;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	color: #666;
 	font-size: 13px;
@@ -353,7 +356,7 @@ div.skin_bbs_list .bbs-top .board-search input.board-input {
 div.skin_bbs_veiw {
 	clear: both;
 	padding: 0 5px 5px 0;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 }
 
@@ -450,7 +453,7 @@ div.skin_bbs_veiw {
 div.skin_bbs_write {
 	clear: both;
 	padding: 0 5px 5px 0;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	border-collapse: collapse;
 }
@@ -460,7 +463,7 @@ table.skin_basic_write {
 	width: 100%;
 	margin-top: 10px;
 	margin-bottom: 15px;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	border-top: solid 1px #cccccc;
 	border-collapse: collapse;
@@ -524,7 +527,7 @@ table.skin_basic_write td input.subject {
 	background-color: #f8f8f8;
 	color: #333;
 	font-weight: normal;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 }
 
@@ -532,7 +535,7 @@ table.skin_basic_write td input.subject {
 .skin_photo_list {
 	overflow: hidden;
 	padding: 0 5px 5px 0;
-	font-family: 'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	width: 100%;
 	margin-top: 15px;
@@ -546,6 +549,8 @@ table.skin_basic_write td input.subject {
 	margin-top: 20px;
 	margin-left: 20px;
 	margin-bottom: 10px;
+	height: 140px;
+	overflow: auto;
 }
 
 .img_box li.photo_img {
@@ -562,7 +567,7 @@ table.skin_basic_write td input.subject {
 
 .noimgbox {
 	padding: 40px 0;
-	font-family:'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum,
+	font-family: 'Nanum Gothic', '나눔고딕', "맑은 고딕", "Malgun gothic",
 		sans-serif;
 	text-align: center;
 	color: #666;
@@ -610,30 +615,3 @@ table.skin_basic_write td input.subject {
 .textCenter td {text-align:center !important;}
 
 .bbs_cont img {width:100%;}
-
-
-
-.paging .num span {
-	padding: 0 0px 0 0px;
-	margin: 0 1px 0 1px;
-	height: 30px;
-	line-height: 30px;
-	display: inline-block;
-	color: #666;
-	background: #fff;
-	font-size: 11px !important;
-	font-family: 'Montserrat','Noto Sans KR', 'Malgun Gothic', dotum;
-}
-
-.paging .num span.on {
-    background: #042558;
-	color: #fff;
-	font-weight: bold;
-}
-.paging .num span {
-	vertical-align: top;
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-    border-radius: 50%;
-}

@@ -372,11 +372,9 @@
 		$('#proChargeEmail').change(function(){
 			var value = $('#proChargeEmail').val();
 			var pattern = /^[_0-9a-zA-Z-.]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)$/;
-			var pattern1 = /^[_0-9a-zA-Z-.]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)+(.[_0-9a-zA-Z-]+)$/;
 			var match = pattern.exec(value);
-			var match1 = pattern1.exec(value);
 
-			if(match == null && match1 == null){
+			if(match == null){
 				alert("email 형식으로 입력해야 합니다.");
 				$('#proChargeEmail').val('').focus();
 				return;

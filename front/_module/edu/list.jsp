@@ -69,7 +69,7 @@
             <div class="b_srchBox_gap0001"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
             
             <div class="b_btn_listBox0001">
-				<button type="button" class="b_btn_list" onclick="goButton('list','list')" title="게시판형(선택됨)"><img src="/img/board/btn_list_ovr.png" /></button>
+				<button type="button" class="b_btn_list" onclick="goButton('list','list')" title="게시판형"><img src="/img/board/btn_list_ovr.png" /></button>
 				<button type="button" class="b_btn_blog" onclick="goButton('list','imageList')" title="블로그형"><img src="/img/board/btn_blog.png" /></button>
 				<button type="button" class="b_btn_blog" onclick="goButton('list','calendar',<%=nowYear%>,<%=nowMonth%>)" title="달력형"><img src="/img/board/btn_calendar.png" /></button>
 			</div>
@@ -86,22 +86,22 @@
 
 				<table class="skin_list" summary="교육정보 게시글 목록으로 글번호, 교육명(과정명), 접수기간, 교육기간, 참여인원, 교육상태로 구성되어 있습니다.">
 				<caption>교육정보</caption>
-					<!--<colgroup>
+					<colgroup>
 						<col style="width: 10%;" />
-						<col style="width: 50%;" />
 						<col style="width: 20%;" />
 						<col style="width: 20%;" />
+						<col style="width: 20%;" />
 						<col style="width: 10%;" />
 						<col style="width: 10%;" />
-					</colgroup>-->
+					</colgroup>
 
 				<thead>
 				<tr>
-						<th scope="col" class="number m_not">번호</th>
+						<th scope="col" class="number">번호</th>
 						<th scope="col">교육명(과정명)</th>
 						<th scope="col">접수기간</th>
-						<th scope="col" class="m_not">교육기간</th>
-						<th scope="col" class="number m_not">참여인원</th>
+						<th scope="col">교육기간</th>
+						<th scope="col" class="number">참여인원</th>
 						<th scope="col" class="r_line_none">교육상태</th>
 				</tr>
 				</thead>
@@ -112,15 +112,15 @@
 						for(HashMap rs:dataList) {
 					%>
 						<tr onmouseover="this.style.background='#f3f3f3'" onmouseout="this.style.background='white'" >
-							<td class="number m_not"><%=cont%></td>
+							<td class="number"><%=cont%></td>
 							<td>
 								<a href="javascript:goSubmit('view','<%=util.getStr(rs.get("EDU_ID"))%>')"  title="<%=util.getStr(rs.get("EDU_NM")).replaceAll("&amp;","&").replaceAll("&","&amp;")%>(<%=util.getStr(rs.get("EDU_CUR"))%>) 상세보기"  >
 							<%=util.getStr(rs.get("EDU_NM")).replaceAll("&amp;","&").replaceAll("&","&amp;")%>(<%=util.getStr(rs.get("EDU_CUR"))%>)
-							</a>
+							<a/>
 							</td>
 							<td><%=util.getStr(rs.get("EDU_ORD_ST_DT"))%> ~ <%=util.getStr(rs.get("EDU_ORD_ED_DT"))%></td>
-							<td class="m_not"><%=util.getStr(rs.get("EDU_ST_DT"))%> ~ <%=util.getStr(rs.get("EDU_ED_DT"))%></td>
-							<td class="number m_not"><%=util.getIntStr(rs.get("EDU_ORD_PEOPLE"))%>/<%=util.getIntStr(rs.get("EDU_PEOPLE"))%></td>
+							<td><%=util.getStr(rs.get("EDU_ST_DT"))%> ~ <%=util.getStr(rs.get("EDU_ED_DT"))%></td>
+							<td class="number"><%=util.getIntStr(rs.get("EDU_ORD_PEOPLE"))%>/<%=util.getIntStr(rs.get("EDU_PEOPLE"))%></td>
 							<td class="r_line_none line_cnci_lft">
 								<% if("접수중".equals(util.getStr(rs.get("EDU_ORD_STATE")))){ %>
 										<img alt="접수중" src="/img/back/comm/edu_state_img_01.png" />

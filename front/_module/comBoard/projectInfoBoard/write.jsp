@@ -203,7 +203,7 @@
 	              		<%-- <input class="addImageBtn" type="button" value="+" style="width: 30px; height: 20px;" onclick="addRowFile('<%=fileFullGrp%>');" />
 						<input class="delImageBtn" type="button" value="-" style="width: 30px; height: 20px;" onclick="delRowFile('<%=fileFullGrp%>');" /> --%>
 	              	</div>
-	              	<!--<br/> * 300kb이상의 실사이미지만 등록이 가능합니다.-->
+	              	<br/> * 300kb이상의 실사이미지만 등록이 가능합니다.
 					<br/> * 가로형 이미지만 등록해주세요.
 
 	        <script type="text/javascript">
