@@ -17,7 +17,7 @@
 	ArrayList<HashMap<String, String>> dataList = request.getAttribute("dataList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("dataList");
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	String mode = util.getStr(paramMap.get("mode"));
-<<<<<<< HEAD
+
 // 	String msg = util.getStr(paramMap.get("msg"));
 	String reUrl = util.getStr(paramMap.get("reUrl"));
 
@@ -29,8 +29,6 @@
 	String reject = util.getStr(paramMap.get("reject"));
 	String authLv = util.getStr(paramMap.get("authLv"));
 	
-=======
->>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
 	String msg = util.getStr(paramMap.get("msg"),"정상적으로 처리되었습니다.");
 	if("popCloseReload".equals(util.getStr(paramMap.get("reUrl")))){
 %>

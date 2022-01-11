@@ -116,9 +116,9 @@
 				</tr>
 
 				<tr>
-      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
+      	   			<th scope="row" class="tit"> 기술분류</th>
 	            	<td colspan="3">
-	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1")) %>						
+	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1_NAME")) %>						
 	           		</td>
 
             	</tr>
@@ -138,11 +138,11 @@
             </colgroup>
             <tbody>
         	<tr>
-        		<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관명</th>
+        		<th scope="row" class="tit"> 소속기관명</th>
         		<td colspan="3"><%=(util.getStr(dataMap.get("COM_NM")))%></td>
         	</tr>
         	<tr>
-  	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
+  	   			<th scope="row" class="tit"> 소속기관유형</th>
         		<td colspan="3">
 				<% 
 				int teamCnt = 1; 
@@ -162,13 +162,13 @@
            		</td>
            	</tr>
             <tr>
-        		<th scope="row" class="tit"><span style="color:red;" >*</span> 회사주소</th>
+        		<th scope="row" class="tit"> 회사주소</th>
         		<td colspan="3">
         			<%=(util.getStr(dataMap.get("COM_ADDR1")))%> <%=(util.getStr(dataMap.get("COM_ADDR2")))%>
         		</td>
         	</tr>
         	<tr>
-        		<th scope="row" class="tit"><span style="color:red;" >*</span> 대표번호</th>
+        		<th scope="row" class="tit"> 대표번호</th>
         		<td colspan="3">
         		<%=util.getStr(dataMap.get("COM_TEL"))%>
         		</td>
@@ -217,7 +217,7 @@
 	          	</tr>
 	          	<tr style="border-bottom:3px solid #ddd;">
 	          		<th scope="row" class="tit">증빙문서</th>
-	          		<td colspan="3" style="text-align:left !important;">
+	          		<td colspan="3">
 	          			<%=util.getStr(rs.get("TITLE_ORG"))%>
 	          		</td>
 	          	</tr>
@@ -227,33 +227,43 @@
 		
 		
 		<h2 class="tit">경력정보</h2>
-		<table class="skin_basic_write textCenter">
+		<table class="skin_basic_write">
 			<caption>경력정보</caption>
 			    <colgroup>
-			          <col style="width:20%" />
-			          <col style="width:20%" />
-			          <col style="width:10%" />
-			          <col style="width:10%" />
-			          <col style="width:20%" />
-			          <col style="width:20%" />
-			    </colgroup>
-			 	<tr>
-			 		<th scope="row" class="tit">직장명</th>
-			 		<th scope="row" class="tit">소재지</th>
-			 		<th scope="row" class="tit" colspan="2">기간</th>
-			 		<th scope="row" class="tit">최종직위</th>
-			 		<th scope="row" class="tit">주요업무</th>
-			 	</tr>
+		            <col style="width:15%" />
+	          		<col />
+	         		<col style="width:15%" />
+	         		<col />
+	            </colgroup>
 			<%if(listCR.size()>0){ %>
 				<% for(HashMap rs:listCR) {%>
 				<tr>
+	        		<th scope="row" class="tit">근무처</th>
 					<td><%=util.getStr(rs.get("CR_NM"))%></td>
-					<td><%=util.getStr(rs.get("CR_LOCATION"))%></td>
-					<td><%=util.getStr(rs.get("CR_START"))%></td>
-					<td><%=util.getStr(rs.get("CR_FINISH"))%></td>
+					<th scope="row" class="tit">최종직위</th>
 					<td><%=util.getStr(rs.get("CR_DEPT"))%></td>
-					<td><%=util.getStr(rs.get("CR_WORK"))%></td>
 				</tr>
+				<tr>
+					<th scope="row" class="tit"> 근무시작일</th>
+					<td>
+						<%=util.getStr(rs.get("CR_START"))%>
+					</td>
+					<th scope="row" class="tit"> 근무종료일</th>
+					<td>
+						<%=util.getStr(rs.get("CR_FINISH"))%>
+						<%=util.getStr(rs.get("CR_ING")).equals("1")?"재직중":""%>					
+					</td>
+				</tr>
+				<tr class="career_info ">
+					<th scope="row" class="tit"> 주요업무</th>
+					<td colspan="3"><%=util.getStr(rs.get("CR_WORK"))%></td>
+	            </tr>
+	            <tr class="career_info " style='border-bottom:3px solid #ddd'>
+					<th scope="row" class="tit"> 증빙문서</th>
+					<td colspan="3">
+						<%=util.getStr(rs.get("TITLE_ORG"))%>
+					</td>
+	            </tr>
 				<%} %>
 			<%} else{%>
 				<tr>
@@ -261,6 +271,92 @@
 				</tr>
 			<%} %>
 		</table>
+		
+		<h2 class="tit">연구논문 실적</h2>
+		<table class="skin_basic_write" >
+		<caption>연구논문 실적</caption>
+		<colgroup>
+			<col style="width:15%" />
+			<col />
+			<col style="width:15%" />
+			<col />
+		</colgroup>
+		<table class="skin_basic_write" >
+		<%if(listRP.size()>0){ %>
+		<% for(HashMap rs:listRP) {%>
+     	<tr>
+     		<th scope="row" class="tit">논문명</th>
+     		<td><%=util.getStr(rs.get("RP_NM"))%></td>
+     		<th scope="row" class="tit">게제년도</th>
+     		<td><%=util.getStr(rs.get("RP_START"))%></td>
+     	</tr>
+     	<tr>
+     		<th scope="row" class="tit">학술지명</th>
+     		<td><%=util.getStr(rs.get("RP_JOURNAL_NM"))%></td>
+     		<th scope="row" class="tit">SCI 논문여부구분</th>
+     		<td>
+				<%=util.getStr(rs.get("RP_TYPE"))%>
+     		</td>
+		</tr>
+		<tr style='border-bottom:3px solid #ddd'>
+			<th scope="row" class="tit">증빙문서</th>
+			<td colspan="3">
+				<%=util.getStr(rs.get("TITLE_ORG"))%>
+			</td>
+         </tr>
+		
+		<%} %>
+		<%} else{%>
+		<tr>
+			<td  style="text-align:center;"  colspan="6">데이터가 존재하지 않습니다</td>
+		</tr>
+		<%} %>
+		</table>
+		
+		
+		<h2 class="tit">지식재산 실적</h2>
+		<table class="skin_basic_write">
+		<caption>지식재산 실적</caption>
+        <colgroup>
+	        <col style="width:15%" />
+	        <col />
+	        <col style="width:15%" />
+	       	<col />
+        </colgroup>
+        <%if(listIP.size()>0){ %>
+		<% for(HashMap rs:listIP) {%>
+     	<tr>
+     		<th scope="row" class="tit">지식재산명</th>
+     		<td><%=util.getStr(rs.get("IP_NM"))%></td>
+     		<th scope="row" class="tit">지식재산유형</th>
+     		<td>
+				
+     		</td>
+     	</tr>
+     	<tr>
+     		<th scope="row" class="tit">출원등록구분</th>
+     		<td><%=util.getStr(rs.get("IP_STATE")) %></td>
+     		<th scope="row" class="tit">출원등록일자</th>
+     		<td><%=util.getStr(rs.get("IP_START"))%></td>
+     	</tr>
+     	<tr>
+     		<th scope="row" class="tit">인증/발행처</th>
+     		<td colspan="3"><%=util.getStr(rs.get("IP_PUBLICATION"))%></td>
+		</tr>
+		<tr style="border-bottom:3px solid #ddd;">
+     		<th scope="row" class="tit">증빙문서</th>
+     		<td colspan="3">
+     			
+     		</td>
+		</tr>
+		<% }
+		}else{ %>
+		<tr>
+			<td  style="text-align:center;"  colspan="6">데이터가 존재하지 않습니다</td>
+		</tr>
+		<%} %>
+        </table>
+		
 		<h2 class="tit">대외활동</h2>
 		<table class="skin_basic_write textCenter">
 			<caption>대외활동</caption>

@@ -10,7 +10,7 @@ String fileGrp = "orgMngUsr";
 String fileSubGrp = "";
 String fileFullGrp =fileGrp+fileSubGrp;
 
-page = request.getRequestURL();
+//String page = request.getRequestURL();
 
 //certiMap.put("genderTypeCd","M");
 //paramMap.put("grobalTp","1"); 
@@ -499,10 +499,7 @@ function submitGo(){
 //]]>
 </script>
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
 <form name="authForm" id="authForm" method="post" action="/web/jnspUserProc.do" enctype="multipart/form-data" >
 	<input type="hidden" name="mode" id="mode" value="auth" />
 	<input type="hidden" name="idCheck" id="idCheck"/>
