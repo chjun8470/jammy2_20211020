@@ -8,7 +8,7 @@
 <%@page import="info.elsys.jnsp.util.ComUtil"%>
 <%@page import="info.elsys.jnsp.comm.vo.StaticVO"%>
 <%@page import="info.elsys.jnsp.comm.vo.LoginVO"%>
-<%@ page import="egovframework.jammy2.site.service.SiteInfoVO;"%>
+<%@ page import="egovframework.jammy2.site.service.SiteInfoVO"%>
 <%
 	String display = "sub";
 	request.setCharacterEncoding("utf-8");
@@ -581,7 +581,7 @@ int listExInt = 0;
           		<th scope="row" ><span style="color:red; font-size:11pt;">*</span><label for="crNm1">직장명</label></th>
           		<th scope="row" ><span style="color:red; font-size:11pt;">*</span><label for="crLocation1">소재지</label></th>
           		<th scope="row"  colspan="2"><span style="color:red; font-size:11pt;">*</span><label for="crStart1">기간</label></th>
-          		<th scope="row" ><span style="color:red; font-size:11pt;">*</span><label for="crDept1">최종직위</label></th>
+				<th scope="row" ><span style="color:red; font-size:11pt;">*</span><label for="crDept1">최종직위</label></th>
           		<th scope="row" class="r_line_none"><span style="color:red; font-size:11pt;">*</span><label for="crWork1">주요업무</label></th>
 			</tr>
 		<%if(listCR.size()>0){ 
@@ -600,7 +600,7 @@ int listExInt = 0;
 				</td>
 				<td><input type="text" id="crDept<%=listCrInt%>" name="crDept" value="<%=util.getStr(rs.get("CR_DEPT"))%>" class="input_txt00502" /></td>
 				<td class="r_line_none"><input type="text" id="crWork<%=listCrInt%>" name="crWork" value="<%=util.getStr(rs.get("CR_WORK"))%>" class="input_txt00501" /></td>
-            </tr>
+			</tr>
             <%crCnt++;
 			}
 		}else{%>
@@ -613,7 +613,7 @@ int listExInt = 0;
 				</td>
 				<td><input type="text" id="crDept1" name="crDept"  class="input_txt00502" /></td>
 				<td class="r_line_none"><input type="text" id="crWork1" name="crWork"  class="input_txt00501" /></td>
-            </tr>
+			</tr>
 		<%}%>
 		</tbody>
 		</table>

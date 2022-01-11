@@ -59,6 +59,14 @@
 	<input type="hidden" name="state" id="state" value="<%=state%>"/>
 	<input type="hidden" name="reject" id="reject" value="<%=reject%>"/>
 
+	<input type="hidden" name="searchType" id="searchType" value="<%=util.getStr(paramMap.get("searchType"))%>"/>
+	<input type="hidden" name="searchState" id="searchState" value="<%=util.getStr(paramMap.get("searchState"))%>"/>
+	<input type="hidden" name="searchNameOrg" id="searchNameOrg" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>"/>
+	<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" value="<%=util.getStr(paramMap.get("searchOrgGrp"))%>"/>
+	<input type="hidden" name="searchOrgSub" id="searchOrgSub" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>"/>
+	<input type="hidden" name="searchWord" id="searchWord" value="<%=util.getStr(paramMap.get("searchWord"))%>"/>
+	<input type="hidden" name="pageName" id="pageName" value="jnspTotal"/>
+
 	<div class="clear_wrap">
 		<h3>[연구장비 상세정보]</h3>
 		<table id="step1" summary="연구장비의 상세정보입력" class="skin_basic_write">
@@ -112,6 +120,12 @@
 					<th scope="row" class="top_sell bln"><label for="fixedAsetNo">NTIS등록번호</label></th>
 	                <td <% if(!util.getStr(dataMapCopy.get("NTIS_EQUIP_INFO")).equals(util.getStr(dataMapCopy.get("UP_NTIS_EQUIP_INFO"))) && !dataMapCopy.equals(null)){out.println("class='txt_red'");}else{out.println("class='top_sell brn'");} %>>
 		            	<%=util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("") ? "NTIS 미등록장비": util.getStr(dataMap.get("NTIS_EQUIP_INFO"))%>
+	               	</td>
+	            </tr>
+				<tr>
+					<th scope="row" class="top_sell bln"><label for="fixedAsetNo">e-Tube 등록번호</label></th>
+	                <td <% if(!util.getStr(dataMapCopy.get("ETUBE_EQUIP_INFO")).equals(util.getStr(dataMapCopy.get("UP_ETUBE_EQUIP_INFO"))) && !dataMapCopy.equals(null)){out.println("class='txt_red'");}else{out.println("class='top_sell brn'");} %>>
+		            	<%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("") ? "e-Tube 미등록장비": util.getStr(dataMap.get("ETUBE_EQUIP_INFO"))%>
 	               	</td>
 	            </tr>
 		        <tr>
@@ -426,7 +440,7 @@
 	             	<th scope="row" class="top_sell bln"><label for="location">설치장소</label></th>
 	               	<td <% if((!util.getStr(dataMapCopy.get("LOCATION")).equals(util.getStr(dataMapCopy.get("UP_LOCATION"))) && !dataMapCopy.equals(null))||(!util.getStr(dataMapCopy.get("LOCATION_DTL")).equals(util.getStr(dataMapCopy.get("UP_LOCATION_DTL"))) && !dataMapCopy.equals(null))){out.println("class='txt_red'");}else{out.println("class='top_sell bln'");} %>>
 	             		<%=util.getStr(dataMap.get("LOCATION")) %>&nbsp;<%=util.getStr(dataMap.get("LOCATION_DTL")) %>
-						
+
 						<%if(!util.getStr(equGoodsDataMap.get("MAP_X")).equals("")&&!util.getStr(equGoodsDataMap.get("MAP_Y")).equals("")){%>
 							<div id="settingMap" style="width:100%;height:300px;" ></div>
 						<%}%>
@@ -678,7 +692,6 @@
 	</div>
 
 </form>
-
 
 <script type="text/javascript">
 	function pageListGo(){

@@ -74,20 +74,6 @@
 
 			$(document).ready(function(){
 
-
-				$('#id').change(function(){
-					var value = $('#id').val();
-					var pattern = /^[a-zA-Z0-9]{4,10}$/;
-					var match = pattern.exec(value);
-
-					if(match == null || value.length < 6 || value.length > 20){
-						alert("ID는 영문숫자 조합 60~20자 이하로 입력해야 합니다.");
-						$('#id').val('').focus();
-						return;
-					}
-				});
-
-
 				$('#email').change(function(){
 					var value = $('#email').val();
 					var pattern = /^[_0-9a-zA-Z-.]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)$/;
@@ -102,7 +88,7 @@
 
 
 		});
-		//]]>	
+		//]]>
 		</script>
 
 
@@ -132,6 +118,7 @@
 					<%if(send.equals("none")){ %>
 						<div class="re_input">ID 와 E-mail이 존재하지 않거나 일치하지 않습니다. 다시 입력하여 주십시오</div><br/><br/>
 					<% }%>
+				
 				<div align="center"><b><h3>인증방식을 선택해 주세요</h3></b>
 					<div style="margin:10px">
 						<input type="radio" name="certify" id="certifyMail" value="mail" checked="checked" onclick="selectCt()" /> 메일인증
@@ -139,10 +126,10 @@
 						<input type="radio" name="certify" id="certifyPhone" value="phone" onclick="selectCt()" /> 휴대폰 인증
 					</div>
 				</div>
-					<div class="txt_pop1">아이디</div>
-					<input type="text" name="id" maxlength="20" value="" id="id" class="input_pop4" title="이름">
-					<div class="txt_pop2">E-mail</div>
-					<input type="text" name="email" maxlength="30" value="" id="email" class="input_pop402" title="이메일">
+					<!--<div class="txt_pop1">아이디</div>-->
+					<input type="text" name="id" maxlength="20" value="" id="id" class="input_pop4" title="이름" placeholder="아이디를 입력하세요">
+					<!--<div class="txt_pop2">E-mail</div>-->
+					<input type="text" name="email" maxlength="30" value="" id="email" class="input_pop402" title="이메일" placeholder="E-Mail을 입력하세요">
 
 
 			</div>

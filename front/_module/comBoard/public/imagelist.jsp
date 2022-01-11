@@ -72,24 +72,24 @@
 
 			<div class="list_sort">
 				<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
+					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기(선택됨)"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
 					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
 					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
 				<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
 					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
-					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
+					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기(선택됨)"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
 					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순"/></button>
 				<% } else { %>
 					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
 					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순"/></button>
-					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순"/></button>
+					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기(선택됨)"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순"/></button>
 				<% } %>
 			</div>
 
-			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
+			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
 			<div class="b_btn_listBox013">
-				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block_ovr.png" /></button>
-				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')" title="블러그리스트"><img src="/img/board/btn_blog.png" /></button>
+				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')" title="이미지리스트(선택됨)"><img src="/img/board/btn_block_ovr.png" alt="이미지리스트" /></button>
+				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')" title="블러그리스트"><img src="/img/board/btn_blog.png" alt="블러그리스트" /></button>
 				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list.png" alt="리스트" /></button>
 			</div>
 
@@ -99,6 +99,14 @@
 
 
 	<div class="pub_list">
+		<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+			<h2 class="sound_only">최신순 정렬</h2>
+		<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+			<h2 class="sound_only">인기순 정렬</h2>
+		<% } else { %>
+			<h2 class="sound_only">다운로드순 정렬</h2>
+		<% } %>
+
 
 		<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
@@ -126,7 +134,7 @@
 						<%if("".equals(util.getStr(rs.get("FILE_ID")))){%>
 							<img src="/img/main/no_image01.gif" class="imgList" alt="no_image" width="199" height="278" />
 						<%}else{%>
-							<img src="/file/<%=fileGrp+"/"+rs.get("TITLE")%>" class="imgList" alt="<%=util.getStr(rs.get("SUBJECT"))%>" width="199" height="278" title="<%=util.getStr(rs.get("SUBJECT"))%>"/>
+							<img src="http://jeinet.jnsp.re.kr/file/<%=fileGrp+"/"+rs.get("TITLE")%>" class="imgList" alt="<%=util.getStr(rs.get("SUBJECT"))%>" width="199" height="278" title="<%=util.getStr(rs.get("SUBJECT"))%>"/>
 						<%}%>
 					</span>
 
@@ -139,7 +147,7 @@
 					</span>
 				</a>
 
-				<span class="down_publist">
+				<!--<span class="down_publist">
 					<a href="/cmm/fms/ComFileDown.do<%=fileParam.replace("boardIdx=", "dataIdx=") %>" title="첨부파일 다운로드">
 						<img src="/img/board/btn_down1.gif" alt="다운로드" width="213" height="50" />
 					</a>
@@ -148,7 +156,7 @@
 						<img src="/img/board/btn_down1.gif" alt="다운로드" width="213" height="50" id="Image22" />
 					</a>
 					--%>
-				</span>
+				</span>-->
 
 				<span id="tooltip_<%=num %>" class="tooltip_box">
                 	<%--<a href="#" onclick="goSubmit('view','<%=listMode %>', '<%=sortMode%>', '<%=util.getStr(rs.get("ARTICLE_ID"))%>')"> --%>
@@ -177,7 +185,6 @@
 						</span>
 		            </a>
                 </span>
-
 			</li>
 
 			<%if(num%4 == 0) {%>
@@ -273,6 +280,7 @@
 			winResize();
 		});
 		winResize();
+		$(".num .on").attr('title','현재페이지');
 	});
 
 	function winResize(){

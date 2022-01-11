@@ -12,6 +12,8 @@
 
 
 <div class="cont_27">
+	<img src="/img/jeinet/cont/sub27.jpg" class="m_not">
+	<img src="/img/mobile/cont/m_sub27.jpg" class="m_view" style="width:100%;">
 	<ol class="listnone_2">
 		<li>
 			<dl>

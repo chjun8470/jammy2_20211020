@@ -65,6 +65,7 @@
 						<option value="jeinet"  <%if("jeinet".equals(util.getStr(dataMap.get("SITE_ID")))) {%>selected="selected"<%}%>>연구장비정보망</option>
 						<option value="jntis"   <%if("jntis".equals(util.getStr(dataMap.get("SITE_ID")))) {%>selected="selected"<%}%>>전남과학기술정보시스템</option>
 						<option value="jipbank" <%if("jipbank".equals(util.getStr(dataMap.get("SITE_ID")))) {%>selected="selected"<%}%>>지식재산정보은행</option>
+						<option value="smbrnd" <%if("smbrnd".equals(util.getStr(dataMap.get("SITE_ID")))) {%>selected="selected"<%}%>>전남중소기업R&D시스템</option>
 						<option value="sample"  <%if("sample".equals(util.getStr(dataMap.get("SITE_ID")))) {%>selected="selected"<%}%>>sample</option>
 					</select>
 	              </td>

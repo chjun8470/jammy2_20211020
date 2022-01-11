@@ -2,9 +2,9 @@
 .h4_tit { background:url(/img/board/icon_tit.png) left center no-repeat; padding-left:23px; font-size:18px; font-weight:600; letter-spacing:-0.05em; color:#323232; margin-bottom:10px }
 /* 탭메뉴 */
 .tabBox_pub { width:100%; float:left; margin-bottom:50px }
-.tabBox_pub ul { width:930px; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
-.tabBox_pub ul li { width:147px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
-.tabBox_pub ul li a { color:#9b9b9b }
+.tabBox_pub ul { width:100%; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
+.tabBox_pub ul li { cursor:pointer; width:147px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
+.tabBox_pub ul li a { color:#9b9b9b; display: block; }
 .tabBox_pub ul li.on { width:147px; border:1px solid #00baff; background:url(/img/board/bg_tab_ovr.png) left top no-repeat }
 .tabBox_pub ul li.on a { color:#00baff }
 .tabBox_pub ul li.end { margin-right:0 }
@@ -18,8 +18,9 @@
 .list_top .publist_top_wrap .list_sort button.sort01{width:72px}
 .list_top .publist_top_wrap .list_sort button.sort02{width:72px}
 .list_top .publist_top_wrap .list_sort button.sort03{width:95px}
-.ContWrap  .Contents .pub_list ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
+.ContWrap  .Contents .pub_list ul.pub_list_block {border-top:1px solid #00baff;margin-top:17px;width:100%; /*display:inline-block*/}
 .ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:15px;margin-top:35px;padding-top:7px}
+.ContWrap  .Contents .pub_list ul.pub_list_block li a{/*display:inline-block*/}
 /*.ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:24px;margin-top:35px;padding-top:7px}*/
 /*.ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}*/
 .ContWrap  .Contents .pub_list ul.pub_list_block li.end{margin-right:0}
@@ -100,6 +101,8 @@ p.TxtPubView2{padding:20px 0}
 /* publication게시판 팝업 CSS 추가 */
 .list_top .publist_top_wrap { width:81%;}
 .list_top .publist_top_wrap03 { width:83%;float:right}
+
+
 .pub_list .pub_list_block .tooltip { position:relative; }
 .pub_list .pub_list_block .tooltip .img_publist { display:block;height:281px; }
 .pub_list .pub_list_block .tooltip .tooltip_box {
@@ -107,17 +110,15 @@ p.TxtPubView2{padding:20px 0}
 	bottom: 50px;
 	top:0px;
 	right: 1px;
-	display: none;
+	z-index:-10000;
 	width: 213px;
 	height: 305px;
 	background-color: #000000;
 	margin-left: 10px;
-
 	filter:alpha(opacity=70);
 	-moz-opacity:0.7;
 	-khtml-opacity: 0.7;
 	opacity: 0.7;
-
 	color: #ffffff;
 	text-align: center;
 }
@@ -125,14 +126,16 @@ p.TxtPubView2{padding:20px 0}
 .pub_list .pub_list_block .tooltip .tooltip_detail {
 	width: 100%;
 	height: 220px;
-	display: inline-block;
+	z-index:-10000;
+	/*display: inline-block;*/
 	text-align: center;
 	background-color: #000000;
 	color:#ffffff;
 }
 .pub_list .pub_list_block .tooltip .tooltip_info {
 	width: 100%;
-	display: inline-block;
+	/*display: inline-block;*/
+	z-index:-10000;
 	text-align: center;
 	color:#ffffff;
 }

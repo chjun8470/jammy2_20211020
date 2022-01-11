@@ -120,10 +120,18 @@ function radio_area(mode,no){
 		<input type="hidden" name="equipCd" id="equipCd" value="<%=equipCd%>"/>
 		<input type="hidden" name="reUrl" id="reUrl" value="<%=myPage%>"/>
 		<input type="hidden" name="state" id="state" value="<%=state%>"/>
-		<input type="hidden" name="searchState" id="searchState" value="<%=state%>"/>
+<%-- 		<input type="hidden" name="searchState" id="searchState" value="<%=state%>"/> --%>
 		<input type="hidden" name="reject" id="reject" value="<%=reject%>"/>
 	  	<input type="hidden" name="mapX" id="mapX"  value="<%=util.getStr(dataMap.get("MAP_X")) %>" />
 	  	<input type="hidden" name="mapY" id="mapY"  value="<%=util.getStr(dataMap.get("MAP_Y")) %>" />
+
+		<input type="hidden" name="searchType" id="searchType" value="<%=util.getStr(paramMap.get("searchType"))%>"/>
+		<input type="hidden" name="searchState" id="searchState" value="<%=util.getStr(paramMap.get("searchState"))%>"/>
+		<input type="hidden" name="searchNameOrg" id="searchNameOrg" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>"/>
+		<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" value="<%=util.getStr(paramMap.get("searchOrgGrp"))%>"/>
+		<input type="hidden" name="searchOrgSub" id="searchOrgSub" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>"/>
+		<input type="hidden" name="searchWord" id="searchWord" value="<%=util.getStr(paramMap.get("searchWord"))%>"/>
+		<input type="hidden" name="pageName" id="pageName" value="jnspTotal"/>
 
 		<div class="clear_wrap">
 			<h3>[연구장비 상세정보]</h3>
@@ -172,6 +180,14 @@ function radio_area(mode,no){
                 				<input type="radio" name="ntisEquipInfoYN" id="ntisEquipInfoY" onclick="ntisEquipInfoYNCheck()" value="Y" <%=!util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="ntisEquipInfoY"> NTIS 등록장비</label>
                 				<input class="inp_txt" type="text" name="ntisEquipInfo" id="ntisEquipInfo" maxlength="50" value="<%=util.getStr(dataMap.get("NTIS_EQUIP_INFO"))%>" <% if(util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("")){%>style="display:none; width:240px;"<%}else{%>style="width:240px;"<%}%>/>
                 				<input type="radio" name="ntisEquipInfoYN" id="ntisEquipInfoN" onclick="ntisEquipInfoYNCheck()" value="N" <%=util.getStr(dataMap.get("NTIS_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="ntisEquipInfoN"> NTIS 미등록장비</label>
+             				</td>
+               			</tr>
+               		 <tr>
+                			<th scope="row"><label for="etubeEquipInfoYN"> * e-Tube 등록번호</label></th>
+                			<td >
+                				<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoY" onclick="etubeEquipInfoYNCheck()" value="Y" <%=!util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="etubeEquipInfoY"> e-Tube 등록장비</label>
+                				<input class="inp_txt" type="text" name="etubeEquipInfo" id="etubeEquipInfo" maxlength="50" value="<%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO"))%>" <% if(util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")){%>style="display:none; width:240px;"<%}else{%>style="width:240px;"<%}%>/>
+                				<input type="radio" name="etubeEquipInfoYN" id="etubeEquipInfoN" onclick="etubeEquipInfoYNCheck()" value="N" <%=util.getStr(dataMap.get("ETUBE_EQUIP_INFO")).equals("")?"checked='checked'" :"" %>/><label for="etubeEquipInfoN"> e-Tube 미등록장비</label>
              				</td>
                			</tr>
 	           			<tr>
@@ -609,7 +625,7 @@ function radio_area(mode,no){
 	               				<div>
 	                				<input class="inp_txt" type="text" value="<%=util.getStr(dataMap.get("LOCATION")) %>" name = "location" id="location" style="width:280px;" maxlength="50" readonly="readonly" />
 	                				<input class="inp_txt" type="text" value="<%=util.getStr(dataMap.get("LOCATION_DTL")) %>" name = "locationDtl" id="locationDtl" style="width:290px;" maxlength="50"/>
-                				
+
 									<input type="button" id="nLocationFind" value="찾아보기" class="btn_inp_g_01" onclick="placeFind('location')">
 									<div id="map" style="width:100%;height:300px;<%if(!util.getStr(dataMap.get("LOCATION_DTL")).equals("")){out.println("display:none;");}%>" ></div>
 								</div>
@@ -886,9 +902,6 @@ function radio_area(mode,no){
             </div>
 	</form>
 
-
-
-
 <script type="text/javascript">
 
 	function pageListGo(){
@@ -1060,6 +1073,16 @@ function radio_area(mode,no){
 				errMsg+="NTIS 등록번호 : 필수입력사항입니다."+"<br/>";
 			}
 		}
+
+		if(!$("input[type=radio][name='etubeEquipInfoYN']").is(":checked")){
+			errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+		}
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			if($("#etubeEquipInfo").val()==null || $("#etubeEquipInfo").val()==""){
+				errMsg+="e-Tube 등록번호 : 필수입력사항입니다."+"<br/>";
+			}
+		}
+
 		if($("#fixedAsetNo").val()==null || $("#fixedAsetNo").val()==""){
 			errMsg+="고정자산관리번호 : 필수입력사항입니다."+"<br/>";
 		}
@@ -1198,7 +1221,7 @@ function radio_area(mode,no){
 		if(fileCheck == 0)
 		{
  			errMsg+="장비사진 : 필수입력사항입니다.<br/>";
-		}		
+		}
 		//////////////////2단계////////////////////
 
 		if($("input[type=radio][name='takeSource']:checked").val()!='4'){
@@ -1276,6 +1299,9 @@ function radio_area(mode,no){
 				}
 			}
 		}
+		if($("[name=areaSigungu1] > option:selected").val() == ""){
+			errMsg+="지역명 : 필수입력사항입니다."+"<br/>";
+		   }
 
 		if($("#location").val()==null || $("#location").val()==""){
 			errMsg+="설치장소 : 필수입력사항입니다."+"<br/>";
@@ -1358,6 +1384,15 @@ function radio_area(mode,no){
 		}else{
 			$("#ntisEquipInfo").hide();
 			$("#ntisEquipInfo").val("");
+		}
+	}
+
+	function etubeEquipInfoYNCheck(){
+		if($("input[type=radio][name='etubeEquipInfoYN']:checked").val()=="Y"){
+			$("#etubeEquipInfo").show();
+		}else{
+			$("#etubeEquipInfo").hide();
+			$("#etubeEquipInfo").val("");
 		}
 	}
 
@@ -1472,7 +1507,7 @@ function radio_area(mode,no){
 	var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 
 		//검색관련
-		
+
 		//검색관련
 		function placeFind(code){
 
@@ -1541,7 +1576,7 @@ function radio_area(mode,no){
 
 		var mapX = 35.2268795;
 		var mapY = 126.8429492;
-		<% 
+		<%
 			if ( !util.getStr(equGoodsDataMap.get("MAP_X")).equals("") && !util.getStr(equGoodsDataMap.get("MAP_Y")).equals("") ){
 		%>
 			mapX = <%=util.getStr(equGoodsDataMap.get("MAP_X"))%>;

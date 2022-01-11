@@ -25,9 +25,13 @@
 .QuickLink .StatusBox .CategoryBox dl.Category01 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
 .QuickLink .StatusBox .CategoryBox dl.Category01 dt { width:60px; float:left; color:#fff }
 .QuickLink .StatusBox .CategoryBox dl.Category01 dd { width:57px; float:right; text-align:right; color:#ffffae; margin:0 23px 0 0 }
+.QuickLink .StatusBox .CategoryBox dl.Category01 dd:after {content:'건'; margin-left:2px;}
+
 .QuickLink .StatusBox .CategoryBox dl.Category02 { width:140px; float:left; font-size:11px; letter-spacing:-0.05em; line-height:25px }
 .QuickLink .StatusBox .CategoryBox dl.Category02 dt { width:60px; float:left; color:#fff; margin:0 0 0 20px }
 .QuickLink .StatusBox .CategoryBox dl.Category02 dd { width:60px; float:right; text-align:right; color:#ffffae }
+.QuickLink .StatusBox .CategoryBox dl.Category02 dd:after {content:'건'; margin-left:2px;}
+
 
 /* 탭메뉴 */
 .MainTabWrap { width:100%; height:127px; margin:0 auto; margin-top:-45px }

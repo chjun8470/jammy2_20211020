@@ -80,8 +80,14 @@
 	int evCnt = 0;
 	int coCnt = 0;
 	int resultEvCnt = 0;
+<<<<<<< HEAD
 	int resultConCnt = 0;	
 	
+=======
+	int resultConCnt = 0;
+	
+	//out.println(majorList);
+>>>>>>> parent of d943127 (211215 1001)
 %>
 <style scoped >
 .ui-datepicker-calendar {
@@ -259,7 +265,11 @@ button.ui-datepicker-current { display: none; }
                            				String telox = util.getStr(dataMap.get("TEL_NO"));
                         				String telA[] = telox.split("-"); 
                            			%>
+<<<<<<< HEAD
                            				<select name="tel1" id="tel1" class="select_box" title="사무실전화번호 국번" style="width:20%">
+=======
+                           				<select name="tel1" id="tel1" class="select_box" title="사무실전화번호 국번" style="width:30%">
+>>>>>>> parent of d943127 (211215 1001)
 			                          		<option value="02" 	<%if(telA[0].equals("02")) { %> selected="selected" <% } %>>02</option>
 											<option value="031" <%if(telA[0].equals("031")) { %> selected="selected" <% } %>>031</option>
 											<option value="032" <%if(telA[0].equals("032")) { %> selected="selected" <% } %>>032</option>
@@ -287,7 +297,11 @@ button.ui-datepicker-current { display: none; }
                            		<td>
                            			<input type="hidden" name="cpNo" id="cpNo"  value="" class="inp_txt" style="border:0px;"  maxlength="20">
                            			<%if(util.getStr(dataMap.get("CP_NO")).equals("")||util.getStr(dataMap.get("CP_NO")).equals(null)){ %>
+<<<<<<< HEAD
                            				<select name="cp1" id="cp1" class="select_box"  style="width: 20%" title="휴대폰 국번">
+=======
+                           				<select name="cp1" id="cp1" class="select_box"  style="width: 30%" title="휴대폰 국번">
+>>>>>>> parent of d943127 (211215 1001)
 											<option value="010">010</option>
 											<option value="011">011</option>
 											<option value="016">016</option>
@@ -301,7 +315,11 @@ button.ui-datepicker-current { display: none; }
                            				String cpox = util.getStr(dataMap.get("CP_NO"));
                         				String cpA[] = cpox.split("-"); 
                            			%>
+<<<<<<< HEAD
                            				<select name="cp1" id="cp1" class="select_box"  style="width: 20%" title="휴대폰 국번">
+=======
+                           				<select name="cp1" id="cp1" class="select_box"  style="width: 30%" title="휴대폰 국번">
+>>>>>>> parent of d943127 (211215 1001)
 											<option value="010" <%if(cpA[0].equals("010")) { %> selected="selected" <% } %>>010</option>
 											<option value="011" <%if(cpA[0].equals("011")) { %> selected="selected" <% } %>>011</option>
 											<option value="016" <%if(cpA[0].equals("016")) { %> selected="selected" <% } %>>016</option>
@@ -314,8 +332,78 @@ button.ui-datepicker-current { display: none; }
                            			<%} %>
                         		</td>
                            	</tr>
+<<<<<<< HEAD
                            	
                            	<% //if( util.getInt( loginVO.getAuthLv() ) > 70 ){ %>
+=======
+                           	<!-- 
+                           	<tr>
+			            		<th scope="row" class="tit"><span style="color:red;" >*</span> 사진첨부</th>
+			                   	<td colspan="3">
+			                   		<%
+										if(fileList.size() > 0){
+									%>
+										<div id="fileDivEdit">
+											<ul class="file" style="line-height: 30px; text-align: left; vertical-align: middle; padding: 5px;">
+											<%
+												int fileCnt = 1;
+												for(HashMap rs:fileList){
+													String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
+																		+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
+																		+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
+											%>
+												<li class="text">
+													<input type="checkbox" name="fileFlog" id="fileFlog_<%=fileCnt%>"
+															value="<%=util.getStr(rs.get("FILE_ID"))%>" onclick="fileSet('<%=fileCnt%>')" />&nbsp;
+													<label for="fileFlog_<%=fileCnt%>">파일삭제</label>&nbsp;&nbsp;
+													<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" class="img-view" style="width: auto; vertical-align: middle; max-width: 30px;"/>
+													<%=util.deStr(rs.get("TITLE_ORG"))%>(<%=util.getStr(rs.get("FILE_SIZE"))%> Byte)
+
+												</li>
+											<% fileCnt++; }%>
+											</ul>
+										</div>
+                   						<div id="fileDiv">
+											<div style="display: none;" id="<%=fileFullGrp%>fileGrpBox" >
+												<div>
+													<input type="file" name="<%=fileFullGrp%>File1" id="<%=fileFullGrp%>File1" title="파일첨부" />
+												</div>
+											</div>
+										</div>
+												<script type="text/javascript">
+													var arrfileCnt = new Array();
+													arrfileCnt['<%=fileFullGrp%>'] = '<%=(fileCnt + 1)%>';
+
+													function fileSet(fileCnt){
+														if($('#fileFlog_'+fileCnt).is(':checked')){
+															$('#fileBox_'+fileCnt).show();
+															$('#<%=fileFullGrp%>fileGrpBox').attr("style","display:inline-block;");
+														}else{
+															$('#<%=fileFullGrp%>File1').val("");
+															$('#fileBox_'+fileCnt).hide();
+															$('#<%=fileFullGrp%>fileGrpBox').attr("style","display:none;");
+														}
+													}
+									            </script>
+									    <input type="checkbox" name="photoCheck" id="photoCheck" />&nbsp;사진미등록
+
+						            <% }else{ %>
+
+                   						<div id="fileDiv">
+											<div id="<%=fileFullGrp%>fileGrpBox">
+												<div>
+													<input type="file" name="<%=fileFullGrp%>File1" id="<%=fileFullGrp%>File1" title="파일첨부" />
+												</div>
+											</div>
+										</div>
+											<input type="checkbox" name="photoCheck" id="photoCheck" value="N" checked='checked'/>&nbsp;사진미등록
+								      <% } %>
+
+			                	</td>
+			                </tr>
+			                -->
+			                <% if( util.getInt( loginVO.getAuthLv() ) > 70 ){ %>
+>>>>>>> parent of d943127 (211215 1001)
 				                <tr>
 				                	<th scope="row" class="tit"><span style="color:red;" >*</span> 승인요청</th>
 				                	<td colspan="3">
@@ -342,9 +430,15 @@ button.ui-datepicker-current { display: none; }
 								</td>
 			            	</tr>
 			            	<tr>
+<<<<<<< HEAD
 		            			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
 				            	<td colspan="3">
 				         			<select class="select_box" name="code_b_x" id="code_b_x">
+=======
+		            			<th scope="row" class="tit"><span style="color:red;" >*</span> 산업기술분류</th>
+				            	<td colspan="3">
+				         			<select class="select_box" name="code_b" id="code_b">
+>>>>>>> parent of d943127 (211215 1001)
 										<option value="">산업기술대분류</option>
 										<%
 										for(HashMap bz:bizList1){
@@ -355,11 +449,16 @@ button.ui-datepicker-current { display: none; }
 										}
 										%>
 									</select>
+<<<<<<< HEAD
 									<!-- select class="select_box" name="code_m" id="code_m">
+=======
+									<select class="select_box" name="code_m" id="code_m">
+>>>>>>> parent of d943127 (211215 1001)
 										<option value="">산업기술중분류</option>
 									</select>
 									<select class="select_box" name="code_s" id="code_s">
 										<option value="">산업기술소분류</option>
+<<<<<<< HEAD
 									</select-->
 				           		</td>
 				           	</tr>
@@ -382,6 +481,24 @@ button.ui-datepicker-current { display: none; }
 			            	</tr>
 			            	<tr>
 			      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
+=======
+									</select>
+				           		</td>
+				           	</tr>
+			            	
+			            	<tr>
+			      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
+			            		<td colspan="3">
+								<% 
+								int teamCnt = 1; 
+								for(HashMap te:teamList){ %>
+									<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %> value="Y" />
+								<% teamCnt++; } %>	
+								</td>
+			            	</tr>
+			            	<tr>
+			            		<th scope="row" class="tit">관심분야</th>
+>>>>>>> parent of d943127 (211215 1001)
 			            		<td colspan="3">
 								<% 
 								int teamCnt = 1; 
@@ -570,6 +687,127 @@ button.ui-datepicker-current { display: none; }
           	</tr>
       <%} %>
    		</tbody>
+<<<<<<< HEAD
+=======
+</table>
+		<h3>○ 전공분야</h3>
+	<table class="skin_basic_write"  >
+		<caption>전문분야</caption>
+		<colgroup>
+			  <col style="width:15%" />
+			  <col style="width:18%" />
+		      <col style="width:15%" />
+		      <col style="width:18%" />
+		      <col style="width:15%" />
+		      <col style="width:18%" />
+		</colgroup>
+		<%if(listEX.isEmpty()){%>
+		
+		<tr>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 전공계열</th>
+			<td>
+				<select class="select_box"  style="width:100%;" name="exMajor" onchange="majorDeth1('exRealm')">
+					<option value="">선택하세요</option>
+					<% for(HashMap rs:majorList) {%>
+					<option value=""><%=util.getStr(rs.get("NAME"))%></option>
+					<% } %>
+				</select>
+			</td>
+		</tr>
+
+		<% }else{ %>
+		<% for(HashMap rsEx:listEX) {%>
+		<tr>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 전공계열</th>
+			<td>
+				<select class="select_box"  style="width:100%;" name="exMajor" onchange="majorDeth1('exRealm')">
+					<option value="">선택하세요</option>
+					<% 
+						
+					for(HashMap rs:majorList) {
+						if(rsEx == null){
+					%>
+					<option value="<%=util.getStr(rs.get("CODE"))%>"><%=util.getStr(rs.get("NAME"))%></option>
+					<% }else{ %>
+					<option value="<%=util.getStr(rs.get("CODE"))%>" <%=(util.getStr(rsEx.get("EX_MAJOR"))).equals(util.getStr(rs.get("CODE")))? "selected='selected'" : "" %>><%=util.getStr(rs.get("NAME"))%></option>
+					<% } %>
+					<%
+					}
+					%>
+				</select>
+			</td>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 전공분야</th>
+			<td>
+				
+				<select class="select_box"  style="width:100%;" name="exRealm">
+					<option value="">선택하세요</option>
+					<% 
+					for(HashMap rs:majorList2) {
+						if(rsEx == null){
+					%>
+					<option value="<%=util.getStr(rs.get("CODE"))%>"><%=util.getStr(rs.get("NAME"))%></option>
+					<%	}else{ %>
+					<option value="<%=util.getStr(rs.get("CODE"))%>" <%=(util.getStr(rsEx.get("EX_REALM"))).equals(util.getStr(rs.get("CODE")))? "selected='selected'" : "" %>><%=util.getStr(rs.get("NAME"))%></option>
+					<%	} %>
+					
+					<%}%>
+				</select>
+				
+			</td>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 세부전공</th>
+			<td>
+				<%if(rsEx == null){ %>
+				<input type="text" name="exDetail" style="width:100%;" class="inp_txt">
+				<%}else{ %>
+				<input type="text" name="exDetail" value="<%=util.getStr(rsEx.get("EX_DETAIL_NAME"))%>" style="width:100%;" class="inp_txt">
+				<%} %>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="tit">복수전공계열</th>
+			<td>
+				<select class="select_box"  style="width:100%;" name="pluralExMajor" onchange="majorDeth1('pluralExRealm')">
+					<option value="">선택하세요</option>
+					<% 
+					for(HashMap rs:majorList) {
+						if(rsEx == null){
+					%>
+					<option value="<%=util.getStr(rs.get("CODE"))%>"><%=util.getStr(rs.get("NAME"))%></option>
+					<%	}else{ %>
+					<option value="<%=util.getStr(rs.get("CODE"))%>" <%=(util.getStr(rsEx.get("EX_MAJOR_PLURAL"))).equals(util.getStr(rs.get("CODE")))? "selected='selected'" : "" %>><%=util.getStr(rs.get("NAME"))%></option>
+					<%	} %>
+					<%}%>
+				</select>
+			</td>
+			<th scope="row" class="tit">전공분야</th>
+			<td>
+				<select class="select_box"  style="width:100%;" name="pluralExRealm" >
+					<option value="">선택하세요</option>
+					<% 
+					for(HashMap rs:majorList2) { 
+						if(rsEx == null){
+					%>
+					<option value="<%=util.getStr(rs.get("CODE"))%>"><%=util.getStr(rs.get("NAME"))%></option>
+					<%	}else{ %>
+					<option value="<%=util.getStr(rs.get("CODE"))%>" <%=(util.getStr(rsEx.get("EX_REALM_PLURAL"))).equals(util.getStr(rs.get("CODE")))? "selected='selected'" : "" %>><%=util.getStr(rs.get("NAME"))%></option>
+					<%	} %>
+					<%}%>
+				</select>
+				
+			</td>
+			<th scope="row" class="tit">세부전공</th>
+			<td>
+				<%if(rsEx == null){ %>
+				<input type="text" name="pluralExDetail" style="width:100%;" class="inp_txt">
+
+				<%}else{ %>
+				<input type="text" name="pluralExDetail" value="<%=util.getStr(rsEx.get("EX_DETAIL_PLURAL"))%>" style="width:100%;" class="inp_txt">
+				<%} %>
+			</td>
+		</tr>
+		<%}
+		} %>
+>>>>>>> parent of d943127 (211215 1001)
 	</table>
 		
 	
@@ -1646,6 +1884,7 @@ button.ui-datepicker-current { display: none; }
 	var phonePattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
 	
 	
+<<<<<<< HEAD
 	
 	for(var xx=0; xx<3; xx++){
 		
@@ -1741,44 +1980,121 @@ button.ui-datepicker-current { display: none; }
 		var codeNext = 2;
 		var mode = "biz";
 		var idx = $("select[name='code_b']").index(this);
+=======
+	var smbCode1 = "<%=util.getStr(dataMap.get("PRO_SMB_CODE1")) %>";
+	var smbCode2 = "<%=util.getStr(dataMap.get("PRO_SMB_CODE2")) %>";
+	var smbCode3 = "<%=util.getStr(dataMap.get("PRO_SMB_CODE3")) %>";
+	
+	if(smbCode1 != ""){
+		var codeX = smbCode1;
+		var codeNext = 2;
+		var mode = "biz";
 		
 		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
 			if(data.state == "OK"){
 				var html = "";
 				
+				$.each(data.dataList,function(idx,obj){
+					var selectx = (obj.CODE_CD == smbCode2)?"selected":""; 
+					html += "<option value='"+obj.CODE_CD+"' "+selectx+">"+obj.CODE_NM+"</option>";
+				});
+				$("#code_m").append(html);
+			}
+		},"JSON");
+	}
+	
+	if(smbCode2 != ""){
+	
+		var codeX = smbCode2;
+		var codeNext = 3;
+		var mode = "biz";
+		
+		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
+			if(data.state == "OK"){
+				var html = "";
+				
+				$.each(data.dataList,function(idx,obj){
+					console.log(obj.CODE_CD);
+					console.log(smbCode3);
+					var selectm = (obj.CODE_CD == smbCode3)?"selected":""; 
+					html += "<option value='"+obj.CODE_CD+"' "+selectm+">"+obj.CODE_NM+"</option>";
+				});
+				$("#code_s").append(html);
+			}
+		},"JSON");
+	
+	}
+	
+	$("#code_b").on("change",function(){
+		var codeX = $(this).val();
+		var codeNext = 2;
+		var mode = "biz";
+>>>>>>> parent of d943127 (211215 1001)
+		
+		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
+			if(data.state == "OK"){
+				var html = "";
+				
+<<<<<<< HEAD
 				$("select[name='code_m']").eq(idx).find("option").remove().end().append("<option value=''>산업기술중분류</option>");
 				$("select[name='code_s']").eq(idx).find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+=======
+				$("#code_m").find("option").remove().end().append("<option value=''>산업기술중분류</option>");
+				$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+>>>>>>> parent of d943127 (211215 1001)
 				
 				$.each(data.dataList,function(idx,obj){
 					html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
 				});
+<<<<<<< HEAD
 				$("select[name='code_m']").eq(idx).append(html);
+=======
+				$("#code_m").append(html);
+>>>>>>> parent of d943127 (211215 1001)
 			}
 		},"JSON");
 	});
 	
+<<<<<<< HEAD
 	$("select[name='code_m']").on("change",function(){
 		var codeX = $(this).val();
 		var codeNext = 3;
 		var mode = "biz";
 		var idx = $("select[name='code_m']").index(this);
+=======
+	$("#code_m").on("change",function(){
+		var codeX = $(this).val();
+		var codeNext = 3;
+		var mode = "biz";
+>>>>>>> parent of d943127 (211215 1001)
 		
 		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
 			if(data.state == "OK"){
 				var html = "";
 				
+<<<<<<< HEAD
 				$("select[name='code_s']").eq(idx).find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+=======
+				$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+>>>>>>> parent of d943127 (211215 1001)
 				
 				$.each(data.dataList,function(idx,obj){
 					html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
 				});
+<<<<<<< HEAD
 				$("select[name='code_s']").eq(idx).append(html);
+=======
+				$("#code_s").append(html);
+>>>>>>> parent of d943127 (211215 1001)
 			}
 		},"JSON");
 	});
 	
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> parent of d943127 (211215 1001)
 //팝업창 검색시 사용
 function userInfo(){
 	$('#mode').val("write");
@@ -1951,6 +2267,7 @@ function goCheck(){
 		}
 	}
 	*/
+<<<<<<< HEAD
 	
 	
 	if(delFiles.length > 0){
@@ -1959,6 +2276,8 @@ function goCheck(){
 	
 	
 	
+=======
+>>>>>>> parent of d943127 (211215 1001)
 		
 		$("#email").val($('#mail1').val()+"@"+$('#mail2').val());
 		$("#telNo").val($('#tel1').val()+"-"+$('#tel2').val()+"-"+$('#tel3').val());
@@ -1976,12 +2295,35 @@ function goCheck(){
 			return false;
 		}
 		
+<<<<<<< HEAD
 		if($("#code_b_x").val() == "" || $("#code_b_x").val() == null ){
 			
 			alert("기술분류를 선택하세요.");
 			return false;
 		}
 		
+=======
+		if($("#code_b").val() == "" || $("#code_b").val() == null ){
+			
+			alert("산업기술 대분류를 선택하세요.");
+			return false;
+		}
+		
+		if($("#code_m").val() == "" || $("#code_m").val() == null ){
+			
+			alert("산업기술 중분류를 선택하세요.");
+			return false;
+		}
+		
+		
+		if($("#code_s").val() == "" || $("#code_s").val() == null ){
+			
+			alert("산업기술 소분류를 선택하세요.");
+			return false;
+		}
+		
+		
+>>>>>>> parent of d943127 (211215 1001)
 		if( $(':radio[name="area"]:checked').val() == 2 ){
 			if( $('#ProUserBirthplace2').val() == null || $('#ProUserBirthplace2').val() == "" ){
 				alert('기본정보(지역)은 필수 값입니다!');
@@ -2014,7 +2356,10 @@ function goCheck(){
 			//	return false;
 		}
 		
+<<<<<<< HEAD
 		/*
+=======
+>>>>>>> parent of d943127 (211215 1001)
 		if($('select[name=exMajor]:last').val() == "" || $('select[name=exMajor]:last').val() == null ||$('select[name=exRealm]:last').val() == "" || $('select[name=exRealm]:last').val() == null || $('input[name=exDetail]:last').val() == "" || $('input[name=exDetail]:last').val() == null ){
 			alert("전공계열은 필수 값 입니다.");
 			$('input[name=exDetail]:last').focus();
@@ -2026,7 +2371,10 @@ function goCheck(){
 			return false;
 		}
 		
+<<<<<<< HEAD
 		/*
+=======
+>>>>>>> parent of d943127 (211215 1001)
 		if($("#code_b").val() == ""){
 			alert("산업기술대분류를 선택하세요");
 			$("#code_b").focus();
@@ -2042,7 +2390,11 @@ function goCheck(){
 			$("#code_s").focus();
 			return false;
 		}
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> parent of d943127 (211215 1001)
 		$("input[name=crCheck]:checked").each(function() {
 			var selId = $(this).val();
 			$("#crFinish"+selId).val("재직 중");	

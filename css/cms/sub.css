@@ -115,7 +115,7 @@
 .top_logo {background-color:#FFFFFF;}
 
 .top_menu {padding-left:264px; position:absolute; top:0px;}
-.top_menu a {letter-spacing:-1.6px; color:#61deff;}
+.top_menu a {letter-spacing:-1.6px; color:#61deff !important;}
 
 .menu_lft {width:294px; left:264px; top:0px; position:absolute; margin:0px;}
 .menu { background:url(../../img/sys/cont/top_line.jpg) no-repeat;width:294px; background-position-y:18px; left:558px; top:0px; position:absolute;}
@@ -133,12 +133,12 @@
 p.profile_dsc {text-align:center;}
 span.profile_dsc {text-align:center;}
 
-.logout_box {background-color:#FFF; height:142px; position:relative; z-index:1;border:1px solid #0298ce; }
-.logout_box_dn {position:relative; max-width:300px; height:142px; line-height: 20px; text-align: center; background-color:#fff; box-width:249px; }
+.logout_box {background-color:#FFF; /*height:142px;*/ position:relative; z-index:1;border:1px solid #0298ce; }
+.logout_box_dn {position:relative; max-width:300px; /*height:142px;*/ line-height: 20px; text-align: center; background-color:#fff; box-width:249px; }
 .button_style {background-color:#fff; background-image:-webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(241,242,246,0.8)), to(rgba(225,228,236, 0.9))); }			
 .button_style:before {content:""; position:absolute; top:10px; bottom:10px; left:0; right: 0; box-shadow:0 0 15px rgba(0,0,0,0.6); border-radius:10px/100px; z-index:-2;}
 
-.logout_box.groups {height:260px;}
+.logout_box.groups {/*height:260px;*/}
 
 
 .menuOn a {color:#FFFFFF !important; }

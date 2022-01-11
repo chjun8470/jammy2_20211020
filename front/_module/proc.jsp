@@ -18,8 +18,9 @@
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	String mode = util.getStr(paramMap.get("mode"));
 	String msg = util.getStr(paramMap.get("msg"),"정상적으로 처리되었습니다.");
+	String siteId = util.getStr(paramMap.get("siteId"));
 
-
+	
 	if("popCloseReload".equals(util.getStr(paramMap.get("reUrl")))){
 %>
 
@@ -32,10 +33,14 @@
 			alert(	'<%=msg%>');
 		<%}%>
 		try{
-			opener.location.reload();
-			window.close();
+			<%if("mjeinet".equals(siteId)){%>
+				window.location.href="/mjeinet/main.do";
+			<%}else{%>
+				opener.location.reload();
+				window.close();
+			<%}%>
 		}catch(e){
-			window.location.href="/sso/login.do";
+			window.location.href="/sso/login.do?siteId=mjeinet";
 			//window.location.reload();
 		}
 	//]]>	
@@ -73,8 +78,11 @@
 		<%if(!"no".equals(msg)){%>
 			alert(	'<%=msg%>');
 		<%}%>
-			location.href='<%=util.getStr(paramMap.get("reUrl"))%>';
-			ssoPopupShow('equorder');
+		
+		
+		location.href='<%=util.getStr(paramMap.get("reUrl"))%>';
+		ssoPopupShow('equorder');
+		
 	//]]>		
 	</script>
 

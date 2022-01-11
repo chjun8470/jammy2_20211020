@@ -1,13 +1,18 @@
 @CHARSET "UTF-8";
 .h4_tit { background:url(/img/board/icon_tit.png) left center no-repeat; padding-left:23px; font-size:18px; font-weight:600; letter-spacing:-0.05em; color:#323232; margin-bottom:10px }
-/* 탭메뉴 */ 
-.tabBox_pub { width:100%; float:left; margin-bottom:28px ; margin-left:8px;}
+/* 탭메뉴 */
+/* .tabBox_pub { width:100%; float:left; margin-bottom:28px ; margin-left:8px;} */
+.tabBox_pub { width:100%; float:left; margin-bottom:10px ; margin-left:8px;}
 .tabBox_pub ul {  width:1000px; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
 .tabBox_pub ul li { width:156px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
 .tabBox_pub ul li a { color:#9b9b9b }
 .tabBox_pub ul li.on { width:156px; border:1px solid #00baff; background:url(/img/board/bg_tab_ovr.png) left top no-repeat }
 .tabBox_pub ul li.on a { color:#00baff }
 .tabBox_pub ul li.end { margin-right:0 }
+
+.tabBox_pub ul li.on2 { width:111px; border:1px solid #00baff; background:#00baff; margin-top: 10px;}
+.tabBox_pub ul li.on2 a { color:#fff; }
+.off {width:111px !important; margin-top: 10px;}
 
 
 

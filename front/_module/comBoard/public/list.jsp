@@ -8,6 +8,7 @@
 <%@ page import="info.elsys.jnsp.comm.vo.StaticVO"%>
 <%@ page import="info.elsys.jnsp.comm.vo.LoginVO"%>
 <%@ page import="java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*"%>
+<%@ page import="egovframework.jammy2.site.service.*" %>
 <%
 	String display = "sub";
 	request.setCharacterEncoding("utf-8");
@@ -32,6 +33,11 @@
 	String nowPage = util.getStr(paramMap.get("nowPage"));
 	String boardIdx = util.getStr(paramMap.get("boardIdx"));
 	String siteId = util.getStr(paramMap.get("siteId")); //사이트구분
+	
+	SiteMenuVO siteMenuVO = (SiteMenuVO)request.getAttribute("SITE_MENU");
+	SiteInfoVO siteInfoVO = (SiteInfoVO)request.getAttribute("SITE_INFO");
+
+	HashMap<Integer, SiteMenuVO> parntsSiteMenuVOList = new HashMap<Integer, SiteMenuVO>();
 
 	//String sclas = util.getStr(paramMap.get("sclas")); //게시판 구분1
 	//String allYN = util.getStr(paramMap.get("allYN")); //게시판 구분2
@@ -70,28 +76,27 @@
 					<input type="image" class="b_go_btn013" alt="검색" src="/img/board/btn_ico_srch.png" onclick="goSubmit('list','image')" />
 				</div>
 			</div>
-
 			<div class="list_sort">
 				<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순" /></button>
-					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
-					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
+					<button class="sort01_over" id="pcont_block01_over" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기(선택됨)"><img src="/img/board/btn_order_new_ovr.gif" alt="최신순"/></button>
+					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
+					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
 				<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
-					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new.gif" alt="최신순" /></button>
-					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순" /></button>
-					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down.gif" alt="다운로드순" /></button>
+					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
+					<button class="sort02_over" id="pcont_block02_over" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기(선택됨)"><img src="/img/board/btn_order_popularity_ovr.gif" alt="인기순"/></button>
+					<button class="sort03" id="pcont_block03" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기"><img src="/img/board/btn_order_down.gif" alt="다운로드순"/></button>
 				<% } else { %>
-					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')"><img src="/img/board/btn_order_new.gif" alt="최신순" /></button>
-					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')"><img src="/img/board/btn_order_popularity.gif" alt="인기순" /></button>
-					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순" /></button>
+					<button class="sort01" id="pcont_block01" onclick="goSubmit('list', '<%=listMode%>', 'new_list')" title="최신순으로 보기"><img src="/img/board/btn_order_new.gif" alt="최신순"/></button>
+					<button class="sort02" id="pcont_block02" onclick="goSubmit('list', '<%=listMode%>', 'popular_list')" title="인기순으로 보기"><img src="/img/board/btn_order_popularity.gif" alt="인기순"/></button>
+					<button class="sort03_over" id="pcont_block03_over" onclick="goSubmit('list', '<%=listMode%>', 'down_list')" title="다운로드순으로 보기(선택됨)"><img src="/img/board/btn_order_down_ovr.gif" alt="다운로드순"/></button>
 				<% } %>
 			</div>
 
-			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
+			<div class="b_srchBox_gap013"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
 			<div class="b_btn_listBox013">
 				<button type="button" class="b_btn_block013" onclick="goSubmit('list','image')"><img src="/img/board/btn_block.png" alt="이미지리스트" /></button>
 				<button type="button" class="b_btn_blog013" onclick="goSubmit('list','bloglist')"><img src="/img/board/btn_blog.png" alt="블러그리스트" /></button>
-				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트" /></button>
+				<button type="button" class="b_btn_list013" onclick="goSubmit('list','list')"><img src="/img/board/btn_list_ovr.png" alt="리스트(선택됨)" /></button>
 			</div>
 
 	</form>
@@ -102,9 +107,16 @@
 <div id="cont_block">
 <!--basic_listWrap S-->
 <div class="basic_listWrap">
-
+	<% if("new_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+		<h2 class="sound_only">최신순 정렬</h2>
+	<% } else if("popular_list".equals(util.getStr(paramMap.get("sortMode")))) { %>
+		<h2 class="sound_only">인기순 정렬</h2>
+	<% } else { %>
+		<h2 class="sound_only">다운로드순 정렬</h2>
+	<% } %>
 	<!-- skin_basic_list s -->
-	<table class="skin_list" summary="게시판 목록을 나타내는 표입니다..">
+	<table class="skin_list" summary="<% if (siteMenuVO.getLvl() > 3) {%><%=parntsSiteMenuVOList.get(3).getMenuNm()%><%}else{%><%=siteMenuVO.getMenuNm()%><%}%> 게시판 목록을 나타내는 표입니다..">
+	<caption><% if (siteMenuVO.getLvl() > 3) {%><%=parntsSiteMenuVOList.get(3).getMenuNm()%><%}else{%><%=siteMenuVO.getMenuNm()%><%}%>  게시글 목록</caption>
 		<!-- colgroup s -->
 		<colgroup>
 			<col style="width: 10%;" />
@@ -119,8 +131,8 @@
 			<tr>
 				<th scope="col" class="number">번호</th>
 				<th scope="col">제목</th>
-				<th scope="col" class="r_line_none2">글쓴이</th>
-				<th scope="col" class="lookup">작성일</th>
+				<th scope="col" class="r_line_none2 m_not">글쓴이</th>
+				<th scope="col" class="lookup m_not">작성일</th>
 				<th scope="col" class="r_line_none file">조회수</th>
 			</tr>
 		</thead>
@@ -136,10 +148,10 @@
 				<td class="b_notice">
 					<a href="#" onclick="goSubmit('view','<%=listMode %>', '<%=sortMode%>', '<%=util.getStr(rs.get("ARTICLE_ID"))%>')"><%=util.getStr(rs.get("SUBJECT"))%></a>
 				</td>
-				<td class="r_line_none2">
+				<td class="r_line_none2 m_not">
 					<%=util.getStr(rs.get("WRITER_ID"))%>
 				</td>
-				<td class="number">
+				<td class="number m_not">
 					<%=util.getStr(rs.get("FRST_REGIST_PNTTM"))%>
 				</td>
 				<td class="r_line_none file">
@@ -161,7 +173,7 @@
 	<%--
 	<% if(util.loginCheck()) { %>
 		<div class="btn_right_box">
-			<input type="button" class="btn_rgt" value="글쓰기" onclick="goSubmit('write')"/>
+			<input type="button" class="btn_rgt" value="등록" onclick="goSubmit('write')"/>
 		</div>
 	<% } %>
 	--%>
@@ -190,5 +202,44 @@
 		$("#mode").val("list");
 		$("#searchForm").submit();
 	});
+
+	$(document).ready(function() {
+	$(window).resize(function(){
+		winResize();
+	});
+	winResize();
+});
+
+function winResize(){
+	var win_w = $(window).width();
+
+	if(win_w < 1198 && win_w >= 768){ //테블릿 1198 , 768 이하일때 100%
+		if($('#cont_block .skin_list colgroup col').size()<4){
+			$('#cont_block .skin_list').find('col:eq(2)').after("<col style='width: 10%'>");
+			$('#cont_block .skin_list').find('col:eq(3)').after("<col style='width: 10%'>");
+		}
+		$('#cont_block .skin_list tr').find('th:eq(2)').show();
+		$('#cont_block .skin_list tr').find('th:eq(3)').show();
+		$('#cont_block .skin_list tr').find('td:eq(2)').show();
+		$('#cont_block .skin_list tr').find('td:eq(3)').show();
+
+
+	}else if(win_w < 768){ //모바일 769 이하일때 100%
+		if($('#cont_block .skin_list colgroup col').size()>=4){
+			$('#cont_block .skin_list').find('col:eq(3)').remove();
+			$('#cont_block .skin_list').find('col:eq(3)').remove();
+		}
+		$('#cont_block .skin_list tr').find('td:eq(2)').hide();
+		$('#cont_block .skin_list tr').find('td:eq(3)').hide();
+		$('#cont_block .skin_list tr').find('th:eq(2)').hide();
+		$('#cont_block .skin_list tr').find('th:eq(3)').hide();
+
+	}else{ //기본사이즈
+		//$('.basic_listWrap .skin_list tr').find('td:eq(3)').remove(); //네번째 td 없애기
+		//$('#cont_block > .pub_list03_blog > ul').css('float','none');
+
+	}
+
+}
 
 </script>

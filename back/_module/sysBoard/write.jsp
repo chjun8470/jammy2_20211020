@@ -55,6 +55,7 @@
 							<option value="jeinet" selected="selected">연구장비정보망</option>
 							<option value="jntis">전남과학기술정보시스템</option>
 							<option value="jipbank">지식재산정보은행</option>
+							<option value="smbrnd">전남중소기업R&D시스템</option>
 							<option value="sample">sample</option>
 						</select>
 	                </td>

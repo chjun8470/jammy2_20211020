@@ -38,21 +38,21 @@ response.setContentType("text/html;charset=UTF-8");
 					<div class="search_box" style="padding:10px">
 						<div class="board-search">
 							<label for="equCd" >분류 : </label>
-							<select name="equCd" id="equCd" class="select" style="height: 24px">
+							<select name="equCd" id="equCd" class="select">
 								<option value="" >전체</option>
 								<option value="1" <%if("1".equals(util.getStr(paramMap.get("equCd")))) {%> selected="selected" <%}%>>장비</option>
 								<option value="2" <%if("2".equals(util.getStr(paramMap.get("equCd")))) {%> selected="selected" <%}%>>시설</option>
 							</select>
 
 							<label for="takeCd" >취득방법 : </label>
-							<select name="takeCd" id="takeCd" class="select" style="height: 24px">
+							<select name="takeCd" id="takeCd" class="select">
 								<option value="" >전체</option>
 								<option value="1" <%if("1".equals(util.getStr(paramMap.get("takeCd")))) {%> selected="selected" <%}%>>구매</option>
 								<option value="2" <%if("2".equals(util.getStr(paramMap.get("takeCd")))) {%> selected="selected" <%}%>>개발</option>
 							</select>
 
 							<label for="scope" >활용범위 : </label>
-							<select name="scope" id="scope" class="select" style="height: 24px">
+							<select name="scope" id="scope" class="select">
 								<option value="" >전체</option>
 								<option value="1" <%if("1".equals(util.getStr(paramMap.get("scope")))) {%> selected="selected" <%}%>>단독활용</option>
 								<option value="2" <%if("2".equals(util.getStr(paramMap.get("scope")))) {%> selected="selected" <%}%>>공동활용허용</option>
@@ -60,7 +60,7 @@ response.setContentType("text/html;charset=UTF-8");
 							</select>
 
 							<label for="disUse">장비상태</label>
-							<select name="disUse" id="disUse" class="select" style="height: 24px">
+							<select name="disUse" id="disUse" class="select">
 								<option value="" >전체</option>
 								<option value="01" <%if("01".equals(util.getStr(paramMap.get("disUse")))) {%> selected="selected" <%}%>>활용</option>
 								<option value="02" <%if("02".equals(util.getStr(paramMap.get("disUse")))) {%> selected="selected" <%}%>>저활용</option>
@@ -69,7 +69,7 @@ response.setContentType("text/html;charset=UTF-8");
 							</select>
 
 							<label for="searchType" class="hide">검색종류선택</label>
-							<select name="searchType" id="searchType" class="select" style="height: 24px">
+							<select name="searchType" id="searchType" class="select">
 								<option value="">선택</option>
 								<option value="equipNm" <%if("equipNm".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>장비/시설명</option>
 								<option value="manufacture" <%if("manufacture".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>모델명</option>
@@ -101,10 +101,11 @@ response.setContentType("text/html;charset=UTF-8");
 		<table class="skin_basic_list" summary="게시판 목록을 나타내는 표입니다..">
 			<colgroup>
 				<col style="width: 10%;" />
-				<col style="width: 25%;" />
+				<col style="width: 15%;" />
 				<col style="width: 20%;" />
 				<col style="width: 25%;" />
 				<col style="width: 20%;" />
+				<col style="width: 10%;" />
 			</colgroup>
 			<thead>
 				<tr>
@@ -113,6 +114,7 @@ response.setContentType("text/html;charset=UTF-8");
 					<th scope="col">고정자산관리번호</th>
 					<th scope="col">장비/시설명</th>
 					<th scope="col">모델명</th>
+					<th scope="col">구축비</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -127,11 +129,12 @@ response.setContentType("text/html;charset=UTF-8");
 						<td><%=util.getStr(rs.get("FIXED_ASET_NO_YN")).equals("Y") ? "사용하지 않음.":util.getStr(rs.get("FIXED_ASET_NO"))%></td>
 						<td><%=util.getStr(rs.get("KOR_NM"))%>(<%=util.getStr(rs.get("ENG_NM"))%>)</td>
 						<td><%=util.getStr(rs.get("MODEL_NM")).equals("") ? "모델명 없음":util.getStr(rs.get("MODEL_NM"))%></td>
+						<td><%=util.getNumKorUnit(rs.get("TAKE_PRC"))%>원</td>
 					</tr>
 				<%
 				cont--;
 				}
-			}else{out.println("<tr><td colspan='5'>조회된 결과가 없습니다.</td></tr>");}
+			}else{out.println("<tr><td colspan='6'>조회된 결과가 없습니다.</td></tr>");}
 			%>
 			</tbody>
 		</table>

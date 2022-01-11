@@ -80,11 +80,14 @@ vertical-align:middle;
 	<input type="hidden" id="mapX" name="mapX" maxlength="20" />
 	<input type="hidden" id="mapY" name="mapY" maxlength="20" />
 	<input type="hidden" id="authCd2" name="authCd" value="2" />
+	<input type="hidden" id="authOrgSite1" name="authOrgSite1" value="Y" />
+	<input type="hidden" id="authOrgSite2" name="authOrgSite2" value="Y" />
+	<input type="hidden" id="authOrgSite3" name="authOrgSite3" value="Y" />
 	<div class="agreeWrap" style="width:100%;">
 		<div class="agreeBox1" style="padding-bottom:20px;margin-top:0px">
 			<h4 class="tit_agree">
 			<%=util.getStr(paramMap.get("orgType")).equals("1")?"기업 등록신청":"" %>
-			<%=util.getStr(paramMap.get("orgType")).equals("2")?"기관/센터 등록신청":"" %>
+			<%=util.getStr(paramMap.get("orgType")).equals("2")?"기관/기업 등록신청":"" %>
 			<%=util.getStr(paramMap.get("orgType")).equals("")?"기업/기관 등록신청":"" %>
 			</h4>
 			<span style="float:right; color:red; font-size:10pt;"> * 필수 입력사항입니다.</span>
@@ -94,7 +97,7 @@ vertical-align:middle;
 			<div class="both">
 				<div class="fr">
 					<!-- 기본정보영역 -->
-					<table class="skin_basic_write" summary="기업/기관 등록신청을 위한 폼으로 기업/기관분류, 기업/기관명, 소속지역, 대표자명, 사업자등록번호, 법인등록번호, 업종, 업태, 대표전화, 팩스번호, 홈페이지, 주소, 상세주소로 구성되어 있습니다.">
+					<table class="skin_basic_write" summary="기업/기관 등록신청을 위한 폼으로 기관분류, 기업/기관명(국문), 기관명(영문), 소속지역, 대표자명, 사업자등록번호, 대표전화, 홈페이지, 주소, 상세주소, 지도, 소개, 기관/기업소개자료, CI이미지 로 구성되어 있습니다.">
 						<caption>기업/기관 등록신청</caption>
 						<colgroup>
 							<col style="width:20%;" />
@@ -134,7 +137,7 @@ vertical-align:middle;
 								</tr>
 								<%} %>
 							<%}%>
-							<tr id="authOrgSiteTr">
+							<!-- tr id="authOrgSiteTr">
 								<th scope="row" class="r_line"><span class="required">* </span>권한/관리사이트</th>
 								<td colspan="3">
 									전남연구장비정보망 :
@@ -149,30 +152,61 @@ vertical-align:middle;
 									<label><input type="radio" id="authOrgSite3_Y" name="authOrgSite3" value="Y" checked="checked" />Y</label>
 									<label><input type="radio" id="authOrgSite3_N" name="authOrgSite3" value="N" />N</label>
 								</td>
-							</tr>
+							</tr-->
 							<%if(util.getStr(paramMap.get("orgType")).equals("")){%>
 							<tr>
 								<th scope="row" class="r_line">
 									<label for="orgGrpNm"><span class="required">* </span>기업/기관명(국문)</label>
 								</th>
 								<td id="orgTd1" colspan="3"><input type="text" class="inp_text" id="orgGrpNm" name="orgGrpNm" maxlength="30" style="width:98%;"/></td>
-                                
+
 								<th scope="row" id="orgTd2" style="display: none;" class="r_line l_line"><label for="orgEngNm">기관명(영문)</label></th>
 								<td id="orgTd3" style="display: none;"><input type="text" class="inp_text" id="orgEngNm" name="orgEngNm" maxlength="30" style="width:94%;"/></td>
 							</tr>
 							<%}else{%>
 							<tr>
 								<th scope="row" class="r_line">
-									<label for="orgGrpNm"><span class="required">* </span><%=util.getStr(paramMap.get("orgType")).equals("1")?"기업명":"기관명(국문)"%></label>
+									<label for="orgGrpNm"><span class="required">* </span><%=util.getStr(paramMap.get("orgType")).equals("1")?"기업명":"기관/기업명(국문)"%></label>
 								</th>
-								<td <% if(util.getStr(paramMap.get("orgType")).equals("1")) { %> colspan="3" <% } %>>
-									<input type="text" class="inp_text" id="orgGrpNm" name="orgGrpNm" maxlength="25" <% if(util.getStr(paramMap.get("orgType")).equals("1")) { %>  style="width: 98%" <% } else { %>  style="width: 94%" <% } %> />
+								<td colspan="3">
+									<select id="orgSection1" name="orgSection1" class="inp_text" title="회사유형 선택1">
+										<option value="">선택</option>
+										<option value="주식회사">주식회사</option>
+										<option value="유한회사">유한회사</option>
+										<option value="합명회사">합명회사</option>
+										<option value="합자회사">합자회사</option>
+										<option value="조합법인">조합법인</option>
+										<option value="협동조합">협동조합</option>
+										<option value="영농조합법인">영농조합법인</option>
+										<option value="조합법인">조합법인</option>
+										<option value="사단법인">사단법인</option>
+										<option value="재단법인">재단법인</option>
+										<option value="지주회사">지주회사</option>
+									</select>
+									<input type="text" class="inp_text" id="orgGrpNm" name="orgGrpNm" maxlength="25" <% if(util.getStr(paramMap.get("orgType")).equals("1")) { %>  style="width: 60%" <% } else { %>  style="width: 94%" <% } %> />
+									<select id="orgSection2" name="orgSection2" class="inp_text" title="회사유형 선택2">
+										<option value="">선택</option>
+										<option value="주식회사">주식회사</option>
+										<option value="유한회사">유한회사</option>
+										<option value="합명회사">합명회사</option>
+										<option value="합자회사">합자회사</option>
+										<option value="조합법인">조합법인</option>
+										<option value="협동조합">협동조합</option>
+										<option value="영농조합법인">영농조합법인</option>
+										<option value="조합법인">조합법인</option>
+										<option value="사단법인">사단법인</option>
+										<option value="재단법인">재단법인</option>
+										<option value="지주회사">지주회사</option>
+									</select>
 								</td>
-								<%if(util.getStr(paramMap.get("orgType")).equals("2")) { %>
-								<th scope="row"><label for="orgEngNm">기관명(영문)</label></th>
-								<td><input type="text" class="inp_text" name="orgEngNm" id="orgEngNm" maxlength="50" style="width: 94%" /></td>
-								<% } %>
 							</tr>
+								<%if(util.getStr(paramMap.get("orgType")).equals("2")) { %>
+							<tr>
+								<th scope="row"><label for="orgEngNm">기관명(영문)</label></th>
+								<td colspan="3"><input type="text" class="inp_text" name="orgEngNm" id="orgEngNm" maxlength="50" style="width: 94%" /></td>
+							</tr>
+								<% } %>
+
 							<%} %>
 							<tr>
 								<th scope="row" class="r_line"><span class="required">*</span> 소속지역</th>
@@ -190,41 +224,58 @@ vertical-align:middle;
 							<%if(util.getStr(paramMap.get("orgType")).equals("1")) {  %>
 							<tr>
 								<th scope="row" class="r_line"><label for="corpNum1"><span class="required">*</span> 사업자등록번호</label></th>
-								<td>
-									<input type="text" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" style="width: 94%" />
-									<br/><span style="float:left; color:red; font-size:10pt;">하이픈(-)없이 입력해주세요.</span>
+								<td colspan="3">
+									<input type="hidden" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
+									<input type="hidden" id="checkCorpNum1R" name="checkCorpNum1R" />
+									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 첫번째 3자리"/> -
+									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 두번째 2자리"/> -
+									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 세번째 5자리"/>
+									<input type="button" class="btn_inp_b_01" value="중복체크" onclick="checkCorpNum1()" />
 								</td>
-                                
-								<th scope="row" class="l_line"><label for="workType">업종</label></th>
-								<td><input type="text" class="inp_text" id="workType" name="workType" style="width: 94%"/></td>
 							</tr>
-							<tr>
+							<!-- tr>
 								<th scope="row" class="r_line"><label for="corpNum2"><span class="required">*</span> 법인등록번호</label></th>
-								<td>
+								<td colspan="3">
 									<input type="text" class="inp_text" id="corpNum2" name="corpNum2" maxlength="20" style="width: 94%" />
 									<br/><span style="float:left; color:red; font-size:10pt;">하이픈(-)없이 입력해주세요.</span>
 								</td>
+							</tr-->
+							<tr>
+								<th scope="col">
+									<label for="dateOfFoundation"><span class="required">*</span>설립년월일</label>
+								</th>
+								<td colspan="3">
+									<input type="text" id="dateOfFoundation" name="dateOfFoundation" class="inp_text" value="" readonly="readonly" />
+								</td>
+							</tr>
+							<tr>
+								<th scope="row" class="l_line"><label for="workType">업종</label></th>
+								<td><input type="text" class="inp_text" id="workType" name="workType" style="width: 94%"/></td>
 								<th scope="row" class="l_line"><label for="businessCon">업태</label></th>
 								<td><input type="text" class="inp_text" id="businessCon" name="businessCon" style="width: 94%"/></td>
 							</tr>
 							<% } else { %>
 							<tr>
 								<th scope="row" class="r_line"><label for="corpNum1"><span class="required">*</span> 사업자등록번호</label></th>
-								<td>
-									<input type="text" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" style="width: 94%" />
-									<br/><span style="float:left; color:red; font-size:10pt;">하이픈(-)없이 입력해주세요.</span>
+								<td colspan="3">
+									<input type="hidden" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
+									<input type="hidden" id="checkCorpNum1R" name="checkCorpNum1R" />
+									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 3자리" /> -
+									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 2자리" /> -
+									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 5자리"/>
+									<input type="button" class="btn_inp_b_01" value="중복체크" onclick="checkCorpNum1()" />
 								</td>
-								<th scope="row" class="r_line l_line"><label for="corpNum2"><span class="required">*</span>법인등록번호</label></th>
+								<!-- th scope="row" class="r_line l_line"><label for="corpNum2"><span class="required">*</span>법인등록번호</label></th>
 								<td>
 									<input type="text" class="inp_text" id="corpNum2" name="corpNum2" maxlength="20" style="width: 94%" />
 									<br/><span style="float:left; color:red; font-size:10pt;">하이픈(-)없이 입력해주세요.</span>
-								</td>
+								</td-->
 							</tr>
 							<% } %>
 						<tr>
 							<th scope="row" class="r_line"><label for="corpPhone"><span class="required">* </span>대표전화</label></th>
 							<td ><input type="text" class="inp_text" id="corpPhone" name="corpPhone" maxlength="20" style="width: 94%" /></td>
-							<th scope="row" class="r_line l_line"><label for="corpFax"><span class="required">*</span>FAX번호</label></th>
+							<th scope="row" class="r_line l_line"><label for="corpFax"><!-- span class="required">*</span-->FAX번호</label></th>
 							<td ><input type="text" class="inp_text" id="corpFax" name="corpFax" maxlength="20" style="width: 94%" /></td>
 						</tr>
 						<tr>
@@ -255,7 +306,7 @@ vertical-align:middle;
 							<td colspan="3"><textarea id="orgNote1" name="orgNote1" cols="75" rows="4" maxlength="500"></textarea></td>
 						</tr>
 						<tr>
-							<th scope="row" class="r_line"><label for="<%=fileFullGrp%>File1"><%=util.getStr(paramMap.get("orgType")).equals("1")?"기업":"기관"%>소개자료</label></th>
+							<th scope="row" class="r_line"><label for="<%=fileFullGrp%>File1"><%=util.getStr(paramMap.get("orgType")).equals("1")?"기업":"기관/기업"%>소개자료</label></th>
 							<td colspan="3"><input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1"  title="파일첨부" />
 							<input type="hidden" name="fileSn" value="1"/>
 							<br/><span style="float:left; color:red; font-size:10pt;">PDF 확장자 파일만 업로드가능합니다.</span>
@@ -315,6 +366,52 @@ vertical-align:middle;
 							<div id="labMap" style="width:100%;height:300px;margin-top:10px;"></div>
 							</td>
 						</tr>
+						<tr>
+							<th scope="col"><label for="br1AreaCd">지사소속지역</label></th>
+							<td colspan="3">
+								<label>
+									<input type="radio" id="br1AreaCd" name="br1AreaCd" value="1" />전라남도
+								</label>
+								<label>
+									<input type="radio" id="br1AreaCd" name="br1AreaCd" value="2"/>지역 외
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<th scope="col"><label for="br1Addr1">지사주소</label></th>
+							<td colspan="3">
+								<input type="text" class="inp_text" id="br1Zipcode" name="br1ZipCode" maxlength="10" readonly="readonly">
+								<input type="text" class="inp_text" id="br1Addr1" name="br1Addr1" maxlength="50" readonly="readonly" style="width:37%;"/>
+								<input type="button" id = "orgPostButton" value="찾아보기" class="btn_inp_g_01" onclick="orgPost2('br1')" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="col"><label for="br1Addr2">지사상세주소</label></th>
+							<td colspan="3"><input type="text" class="inp_text" id="br1Addr2" name="br1Addr2" maxlength="50" size="50" style="width:90%;"/></td>
+						</tr>
+						<tr>
+							<th scope="col"><label for="br2AreaCd">지사소속지역2</label></th>
+							<td colspan="3">
+								<label>
+									<input type="radio" id="br2AreaCd" name="br2AreaCd" value="1" />전라남도
+								</label>
+								<label>
+									<input type="radio" id="br2AreaCd" name="br2AreaCd" value="2"/>지역 외
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<th scope="col"><label for="br2Addr1">지사주소2</label></th>
+							<td colspan="3">
+								<input type="text" class="inp_text" id="br2Zipcode" name="br2ZipCode" maxlength="10" readonly="readonly">
+								<input type="text" class="inp_text" id="br2Addr1" name="br2Addr1" maxlength="50" readonly="readonly" style="width:37%;"/>
+								<input type="button" id = "orgPostButton" value="찾아보기" class="btn_inp_g_01" onclick="orgPost2('br2')" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="col"><label for="br2Addr2">지사상세주소2</label></th>
+							<td colspan="3"><input type="text" class="inp_text" id="br2Addr2" name="br2Addr2" maxlength="50" size="50" style="width:90%;"/></td>
+						</tr>
 						<% } %>
 					</tbody>
 				</table>
@@ -333,7 +430,7 @@ vertical-align:middle;
 
 <script type="text/javascript">
 //<![CDATA[
-document.title="전남과학기술정보시스템";
+document.title="기관/기업 등록신청";
 
 function popupWindow(listMode){
 	var settings ='toolbar=0,directories=0,status=no,menubar=0,scrollbars=auto,resizable=no,height=400,width=300,left=0,top=0';
@@ -361,7 +458,7 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	             $("#addr1").val(data.address);
 	             $("#addr2").focus();
 
-	             if(data.address.indexOf("전남")>-1||data.address.indexOf("광주")>-1){
+	             if(data.address.indexOf("전남")>-1){
 	            	 $('input:radio[name=areaCd]:input[value=1]').attr("checked", "checked");
 	             }else{
 	            	 $('input:radio[name=areaCd]:input[value=2]').attr("checked", "checked");
@@ -390,26 +487,63 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	                // 주소 정보를 해당 필드에 넣는다.
 	                //$("#location").val(fullAddr);
 	                // 주소로 좌표를 검색
-	                geocoder.addr2coord(data.address, function(status, result) {
-	                    // 정상적으로 검색이 완료됐으면
-	                    if (status === daum.maps.services.Status.OK) {
-	                        // 해당 주소에 대한 좌표를 받아서
-	                        var coords = new daum.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
-	                           $("#mapX").val(result.addr[0].lat);
-	                           $("#mapY").val(result.addr[0].lng);
-	                        // 지도를 보여준다.
-	                        mapContainer.style.display = "block";
-	                        map.relayout();
-	                        // 지도 중심을 변경한다.
-	                        map.setCenter(coords);
-	                        // 마커를 결과값으로 받은 위치로 옮긴다.
-	                        marker.setPosition(coords)
-	                    }
-	                });
+	                geocoder.addressSearch(data.address, function(result, status) {
+						if (status === daum.maps.services.Status.OK) {
+							var coords = new daum.maps.LatLng(result[0].address.y, result[0].address.x);
+							   $('#mapX').val(result[0].address.y);
+							   $('#mapY').val(result[0].address.x);
+							mapContainer.style.display = 'block';
+							map.relayout();
+							map.setCenter(coords);
+							marker.setPosition(coords)
+						}
+					});
 
 	        }
 	    }).open();
 	}
+
+	function orgPost2(id){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+
+	             $("#"+id+"Zipcode").val(data.zonecode);
+	             $("#"+id+"Addr1").val(data.address);
+	             $("#"+id+"Addr2").focus();
+
+	             if(data.address.indexOf("전남")>-1||data.address.indexOf("광주")>-1){
+	            	 $('input:radio[name='+id+'AreaCd]:input[value=1]').trigger("click");
+	             }else{
+	            	 $('input:radio[name='+id+'AreaCd]:input[value=2]').trigger("click");
+	            	}
+
+	             /**/
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var fullAddr = data.address; // 최종 주소 변수
+	                var extraAddr = ''; // 조합형 주소 변수
+
+	                // 기본 주소가 도로명 타입일때 조합한다.
+	                if(data.addressType === 'R'){
+	                    //법정동명이 있을 경우 추가한다.
+	                    if(data.bname !== ''){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있을 경우 추가한다.
+	                    if(data.buildingName !== ''){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+	                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+	                }
+
+	                // 주소 정보를 해당 필드에 넣는다.
+	                //$("#location").val(fullAddr);
+	                // 주소로 좌표를 검색
+	        }
+	    }).open();
+	}
+
 	////////////////지이도
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -456,12 +590,12 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 
      function searchAddrFromCoords(coords, callback) {
            // 좌표로 행정동 주소 정보를 요청합니다
-           geocoder.coord2addr(coords, callback);
+           geocoder.coord2RegionCode(coords.ib, coords.jb, callback);
      }
 
      function searchDetailAddrFromCoords(coords, callback) {
            // 좌표로 법정동 상세 주소 정보를 요청합니다
-           geocoder.coord2detailaddr(coords, callback);
+    	  geocoder.coord2Address(coords.ib, coords.jb, callback);
      }
 
      // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
@@ -510,22 +644,17 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	                // 주소 정보를 해당 필드에 넣는다.
 	                //$("#location").val(fullAddr);
 	                // 주소로 좌표를 검색
-	                labGeocoder.addr2coord(data.address, function(status, result) {
-	                    // 정상적으로 검색이 완료됐으면
-	                    if (status === daum.maps.services.Status.OK) {
-	                        // 해당 주소에 대한 좌표를 받아서
-	                        var coords = new daum.maps.LatLng(result.addr[0].lat, result.addr[0].lng);
-	                           $("#labMapX").val(result.addr[0].lat);
-	                           $("#labMapY").val(result.addr[0].lng);
-	                        // 지도를 보여준다.
-	                        labMapContainer.style.display = "block";
-	                        labMap.relayout();
-	                        // 지도 중심을 변경한다.
-	                        labMap.setCenter(coords);
-	                        // 마커를 결과값으로 받은 위치로 옮긴다.
-	                        labMarker.setPosition(coords)
-	                    }
-	                });
+	                labGeocoder.addressSearch(data.address, function(result, status) {
+						if (status === daum.maps.services.Status.OK) {
+							var coords = new daum.maps.LatLng(result[0].address.y, result[0].address.x);
+							   $('#labMapX').val(result[0].address.y);
+							   $('#lavMapY').val(result[0].address.x);
+							labMapContainer.style.display = 'block';
+							labMap.relayout();
+							labMap.setCenter(coords);
+							labMarker.setPosition(coords)
+						}
+					});
 
 	        }
 	    }).open();
@@ -589,7 +718,7 @@ function submitGo(){
 		return false;
 	}
 	<%}%>
-		
+
 	<%if(util.getStr(paramMap.get("orgType")).equals("1")){%>
 		if(!$("input[type=radio][name='companyType']").is(":checked")){
 				alert("기업분류 : 필수입력사항입니다.");
@@ -609,6 +738,18 @@ function submitGo(){
 			$("input:checkbox[name='authOrgSite']").focus();
 			return false;
 		}
+	}
+
+	if($("#checkCorpNum1R").val() == "") {
+		alert("사업자등록번호 중복체크를 해주세요.");
+		return false;
+	} else if($("#checkCorpNum1R").val() == "N") {
+		alert("이미 등록된 사업자 등록번호입니다.");
+		return false;
+	}
+	if($("#dateOfFoundation").val() == "") {
+		alert("설립년월일을 입력해주세요.");
+		return false;
 	}
 
 	if($("#orgGrpNm").val()==null || $("#orgGrpNm").val()==""){
@@ -631,11 +772,6 @@ function submitGo(){
 		$("#corpNum1").focus();
 		return false;
 	}
-	if($("#corpNum2").val()==null || $("#corpNum2").val()==""){
-		alert("법인등록번호 : 필수입력사항입니다.");
-		$("#corpNum2").focus();
-		return false;
-	}
 	if($("#corpPhone").val()==null || $("#corpPhone").val()==""){
 		alert("대표전화번호 : 필수입력사항입니다.");
 		$("#corpPhone").focus();
@@ -645,10 +781,11 @@ function submitGo(){
 		$('#corpPhone').focus();
 		return false;
 	}
+	
 	if($("#corpFax").val()==null || $("#corpFax").val()==""){
-		alert("대표FAX번호 : 필수입력사항입니다.");
-		$("#corpFax").focus();
-		return false;
+		//alert("대표FAX번호 : 필수입력사항입니다.");
+		//$("#corpFax").focus();
+		//return false;
 	}else if(!telPattern.test($('#corpFax').val())){
 		alert("대표FAX번호 : 양식에 맞게 입력해주세요.\n(ex:000-0000-0000)");
 		$('#corpFax').focus();
@@ -690,7 +827,7 @@ function submitGo(){
 
 	if(fileName2 != "" && fileName2 != null){
 		//fileName2 = fileName2.slice(fileName2.indexOf(".") + 1).toLowerCase(); //07.29수정
-		
+
 		fileName2 = $('#orgManageFile1').val().split('.').pop().toLowerCase();
 		if(fileName2 != "pdf" && fileName2 != "ppt" && fileName2 != "hwp" &&  fileName2 != "doc" &&  fileName2 != "docx"  &&  fileName2 != "pptx" ){
 			alert("기업/기관 소개자료는 PDF, 한글, 파워포인트, 워드 확장자 파일만 업로드가능합니다.");
@@ -791,9 +928,9 @@ function submitGo(){
 			success : function(data) {
 			    var tag = "";
 			    if(areaCd == 1) {
-			    	tag = "<select id='area' name='area' title='소속지역선택(전라남도)' ></select>";
+			    	tag = "<select id='area' name='area' class='inp_text' title='소속지역선택(전라남도)' ></select>";
 			    } else {
-			    	tag = "<select id='otherAreaCd' name='otherAreaCd' title='소속지역선택(전라남도 지역 외)' ></select>";
+			    	tag = "<select id='otherAreaCd' name='otherAreaCd' class='inp_text' title='소속지역선택(전라남도 지역 외)' ></select>";
 			    }
 			    $("#areaSelectBox").after(tag);
 				for(i = 0; i < data.areaList.length; i++) {
@@ -808,6 +945,64 @@ function submitGo(){
 				alert("문제가 발생하였습니다.");
 			}
 		});
+	});
+
+	$('input[name="br1AreaCd"]').change(function(){
+		var areaCd = $(this).val();
+	    $("#br1Area").remove();
+	    $("#br1OtherAreaCd").remove();
+	    $.ajax({
+	    	url : "/sys/areaList.do",
+			data : {"areaCd" : $(this).val()},
+			success : function(data) {
+			    var tag = "";
+			    if(areaCd == 1) {
+			    	tag = "<select class='select_box' id='br1Area' name='br1Area' class='inp_text' ></select>";
+			    } else {
+			    	tag = "<select class='select_box' id='br1OtherAreaCd' name='br1OtherAreaCd' class='inp_text' ></select>";
+			    }
+			    $("input:radio[name='br1AreaCd']:checked").parent().after(tag);
+				for(i = 0; i < data.areaList.length; i++) {
+					if(areaCd == 1) {
+						$("#br1Area").append("<option value='"+data.areaList[i].CODE_CD+ "'>"+data.areaList[i].CODE_NM+"</option>");
+					} else {
+						$("#br1OtherAreaCd").append("<option value='"+data.areaList[i].CODE_CD+ "'>"+data.areaList[i].CODE_NM+"</option>");
+					}
+				}
+			},
+			error : function() {
+				alert("문제가 발생하였습니다.");
+			}
+	    });
+	});
+
+	$('input[name="br2AreaCd"]').change(function(){
+		var areaCd = $(this).val();
+	    $("#br2Area").remove();
+	    $("#br2OtherAreaCd").remove();
+	    $.ajax({
+	    	url : "/sys/areaList.do",
+			data : {"areaCd" : $(this).val()},
+			success : function(data) {
+			    var tag = "";
+			    if(areaCd == 1) {
+			    	tag = "<select class='select_box' id='br2Area' name='br2Area' class='inp_text' ></select>";
+			    } else {
+			    	tag = "<select class='select_box' id='br2OtherAreaCd' name='br2OtherAreaCd' class='inp_text' ></select>";
+			    }
+			    $("input:radio[name='br2AreaCd']:checked").parent().after(tag);
+				for(i = 0; i < data.areaList.length; i++) {
+					if(areaCd == 1) {
+						$("#br2Area").append("<option value='"+data.areaList[i].CODE_CD+ "'>"+data.areaList[i].CODE_NM+"</option>");
+					} else {
+						$("#br2OtherAreaCd").append("<option value='"+data.areaList[i].CODE_CD+ "'>"+data.areaList[i].CODE_NM+"</option>");
+					}
+				}
+			},
+			error : function() {
+				alert("문제가 발생하였습니다.");
+			}
+	    });
 	});
 
 	$('input[name="authCd"]').change(function(){
@@ -854,7 +1049,68 @@ function submitGo(){
 			}
 		});
 
-//]]>
+		$("#corpNum1Part1, #corpNum1Part2, #corpNum1Part3").keyup(function() {
+			var regNumber = /^[0-9]*$/;
+
+			if(this.value.indexOf(" ") >= 0) {
+				this.value = this.value.trim().replace(/(\s*)/g, "");
+			} else if(!regNumber.test(this.value)) {
+				alert("숫자만 입력해주세요");
+				this.value = "";
+				return false;
+			}
+
+			var part1 = $("#corpNum1Part1").val();
+			var part2 = $("#corpNum1Part2").val();
+			var part3 = $("#corpNum1Part3").val();
+
+			$("#corpNum1").val(part1 + "-" + part2 + "-" + part3);
+
+		});
+
+		function checkCorpNum1() {
+			var corpNum = $("#corpNum1").val();
+
+			if(corpNum.replace(/-/gi, "").length < 10) {
+				alert("사업자 등록번호를 정확히 입력해 주세요.");
+				$("#checkCorpNum1R").val("E");
+			} else if (false) {
+
+			} else {
+				$.ajax({
+					url : "/sys/corpNumCheck.do",
+					method : "POST",
+					data : {corpNum1 : corpNum},
+					success : function(data) {
+						if(data.checkResult > 0) {
+							alert("이미 등록된 사업자 등록번호 입니다.");
+							$("#checkCorpNum1R").val("N");
+						} else {
+							alert("등록할 수 있는 사업자 등록번호 입니다.");
+							$("#checkCorpNum1R").val("Y");
+						}
+					}
+				});
+			}
+
+		}
+
+		$("#dateOfFoundation").datepicker({
+			showMonthAfterYear : true,
+	    	showButtonPanel : true,
+	    	changeMonth : true,
+	    	changeYear : true,
+	    	nextText : '다음 달',
+	    	prevText : '이전 달',
+	    	currentText : '오늘 날짜',
+	    	closeText : '닫기',
+	    	dateFormat : "yy-mm-dd",
+	    	dayNames : ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'],
+	    	dayNamesMin : ['월','화','수','목','금','토','일'],
+	    	monthNames : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	    	monthNamesShort : ['1','2','3','4','5','6','7','8','9','10','11','12']
+		});
+
 </script>
 
 

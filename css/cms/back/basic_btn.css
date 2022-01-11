@@ -31,7 +31,6 @@
 
 
 
-
 /*흰색 버튼*/
 
 .btn_inp_w_01 { margin-left: 2px;display: inline-block; background: #ffffff;
@@ -123,4 +122,22 @@
 	min-width:60px;
 }
 
+.excelBtn { 
+    padding: 5px;
+    background: #337fed;
+    display: inline-block;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 5px;
+	cursor: pointer;
+ }
 
+#excelForm .excelBtn {
+	padding: 5px 10px;
+    background: #337fed;
+    display: inline-block;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 5px;
+	cursor: pointer;
+}

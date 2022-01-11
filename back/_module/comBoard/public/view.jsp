@@ -68,7 +68,7 @@
 			if(dataMap.size() > 0){
 				String fileParam = "?dataGrp="+util.getStr(dataMap.get("DATA_GRP"))
 						+"&amp;fileId="+util.getIntStr(dataMap.get("FILE_ID"))
-						+"&amp;boardIdx="+util.getStr(dataMap.get("DATA_IDX"));
+						+"&amp;dataIdx="+util.getStr(dataMap.get("DATA_IDX"));
 
 		%>
 		<div class="PubCont">
@@ -211,17 +211,12 @@
 				<input type="button" class="btn_inp_b_01" value="승인반려" onclick="goSubmit('companionProc','<%=boardIdx%>','반려')" style="float:left;"/>
 			<%}%> --%>
 
-			<% HashMap<String, String> aticleDataMap = request.getAttribute("aticleDataMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("aticleDataMap"); %>
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && util.getStr(loginVO.getAuthLv()).equals("99")
-				|| util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(aticleDataMap.get("ORG_GRP_CD")))
-				|| util.loginCheck() && util.getStr(loginVO.getUserId()).equals(util.getStr(dataMap.get("WRITER_ID"))) ){ %>
+			<%if(util.getBbsAuth(loginVO,boardMap,"EDITOR")) {%>
 				<input type="button" class="btn_inp_b_01" value="수정" onclick="goSubmit('edit')"/>
 			<%}%>
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL")  && util.getStr(loginVO.getAuthLv()).equals("99")
-				|| util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(aticleDataMap.get("ORG_GRP_CD")))
-				|| util.loginCheck() && util.getStr(loginVO.getUserId()).equals(util.getStr(dataMap.get("WRITER_ID"))) ){ %>
+			<%if(util.getBbsAuth(loginVO,boardMap,"DEL")) {%>
 				<input type="button" class="btn_inp_b_01" value="삭제" onclick="goSubmit('del')"/>
-			<%} %>
+			<%}%>
 				<input type="button" class="btn_inp_w_01" value="목록" onclick="goSubmit('list')"/>
 		</div>
 

@@ -68,9 +68,21 @@
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 사용자 ID</th>
 						<td class="td" colspan="3">
-							<input type="text" name="userId" maxlength="20" value="" id="userId"  class="inp_txt" title="사용자ID" >
+							<input type="hidden" name="userId" maxlength="20" value="" id="userId" class="inp_txt read_txt" title="사용자ID" readonly="readonly">
+							<input type="text" name="emailId" maxlength="20" value="" id="emailId" class="inp_txt" title="이메일아이디"> @
+							<input type="text" name="emailDomain" maxlength="50" value="" id="emailDomain" class="inp_txt" title="이메일도메인">
+							<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택">
+									<option value="" selected="selected">직접입력</option>
+									<option value="empal.com">empal.com</option>
+									<option value="naver.com">naver.com</option>
+									<option value="hanmail.net">hanmail.net</option>
+									<option value="hotmail.com">hotmail.com</option>
+									<option value="yahoo.co.kr">yahoo.co.kr</option>
+									<option value="nate.com">nate.com</option>
+									<option value="korea.kr">korea.kr</option>
+									<option value="jntp.or.kr">jntp.or.kr</option>
+							</select>
 							<input type="button" id="btnCheckUserId" class="btn_inp_b_01" value="중복확인" onclick="userCheck()" title="아이디 중복 확인(새 창 열림)">
-							<span style="color:red; font-size:10pt;">*</span> 영문 또는 영문숫자 조합 6~20자리
 							<div id = "checkValue"></div>
 						</td>
 					</tr>
@@ -144,18 +156,7 @@
 					<tr>
 						<th class="th"> <span style="color:red; font-size:10pt;">*</span> 이메일</th>
 						<td class="td" colspan="3">
-							<input type="hidden" name="email" value="" id="email">
-							<input type="text" name="emailId" maxlength="20" value="" id="emailId"  class="inp_txt" title="이메일아이디"> @
-							<input type="text" name="emailDomain" maxlength="50" value="" id="emailDomain" class="inp_txt" title="이메일도메인">
-							<select name="emailDomainChoise" id="emailDomainChoise" class="select_box" title="이메일주소도메인선택" >
-								<option value="" selected="selected">직접입력</option>
-								<option value="empal.com">엠파스</option>
-								<option value="naver.com">네이버</option>
-								<option value="hanmail.net">다음</option>
-								<option value="hotmail.com">핫메일</option>
-								<option value="yahoo.co.kr">야후</option>
-								<option value="nate.com">네이트</option>
-							</select>
+							<input type="text" name="email" value="" id="email" class="inp_txt read_txt" readonly="readonly">
 						</td>
 					</tr>
 					 <tr>
@@ -245,7 +246,7 @@
 
 
 
-
+var emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var idPattern = /[^a-zA-Z0-9]/;
 var korPattern = /[^가-힣]/;
 var engPattern = /[^a-zA-Z- ]/;
@@ -267,6 +268,10 @@ $(document).ready(function(){
 			$("#emailDomain").css("background-color", "#EEEEEE");
 			$("#emailDomain").attr("readonly", true);
 		}
+
+		var id = $("#emailId").val() + "@" + this.value;
+		$("#userId").val(id);
+		$("#email").val(id);
 	});
 	$('input[name="userTp"]').change(function(){
 		if($(this).val()=='3'){
@@ -278,6 +283,24 @@ $(document).ready(function(){
 			$('#orgInfo2').show();
 		}
 	});
+
+	$("#emailId").keyup(function() {
+		if(this.value.indexOf(" ") >= 0) {
+			this.value = this.value.trim().replace(/(\s*)/g, "");
+		}
+		var id = $(this).val() + "@"+ $("#emailDomain").val();
+		$("#userId").val(id);
+		$("#email").val(id);
+	});
+
+	$("#emailDomain").keyup(function() {
+		if(this.value.indexOf(" ") >= 0) {
+			this.value = this.value.trim().replace(/(\s*)/g, "");
+		}
+		var id = $("#emailId").val() + "@"+ $(this).val();
+		$("#userId").val(id);
+		$("#email").val(id);
+	});
 });
 
 function userCheck(){
@@ -285,19 +308,11 @@ function userCheck(){
 	var err = 0;
 
 	if(userId !=null && userId != ""){
-		if(userId.length > 20 ||userId.length < 6 ){
-			alert("영문숫자 조합 6~20자리를 입력해주세요1.");
-			return false;
-		}else if(!isNaN(userId)){
-			alert("영문숫자 조합 6~20자리를 입력해주세요2.");
-			return false;
-		}
 
-		if(idPattern.test(userId)){
-			alert("영문숫자 조합 6~20자리를 입력해주세요3.");
-			$("#userId").focus();
+		if (!emailPattern.test(userId)) {
+			alert("이메일 양식을 입력해주세요.");
 			$("#idCheck").val("0");
-		     return false;
+			return false;
 		 } else {
 
 			$.ajax({
@@ -462,9 +477,6 @@ function submitGo(){
 		$("#emailDomain").focus();
 		return false;
 	}
-	var email = $("#emailId").val()+"@"+$("#emailDomain").val();
-	$("#email").val(email);
-
 
 	if(!$("input[name='userTp']").is(":checked")){
 		alert("소속기관 : 필수입력값입니다.");

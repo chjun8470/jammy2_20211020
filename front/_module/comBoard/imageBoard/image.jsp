@@ -19,6 +19,7 @@
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
+
 	String fileGrp = "board";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -30,6 +31,8 @@
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
 	String boardIdx = util.getStr(paramMap.get("boardIdx"));
 	String boardComIdx = util.getStr(paramMap.get("boardComIdx"));
+	String siteId = util.getStr(paramMap.get("siteId")); //사이트구분
+	String sortMode = util.getStr(paramMap.get("sortMode")); //정렬(최신순, 인기순, 다운로드순)
 
 	int authLv = 0;
 	if(loginVO.getAuthLv() != null) {
@@ -69,10 +72,10 @@
 
 			</div>
 
-			<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt="srch_box_gap"/></div>
+			<div class="b_srchBox_gap005"><img src="/img/board/srch_box_gap.gif" alt=""/></div>
 
 			<div class="b_btn_listBox005">
-				<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트"><img src="/img/board/btn_block_ovr.png" /></button>
+				<button type="button" class="b_btn_block005" onclick="goSubmit('list','image')" title="이미지리스트(선택됨)"><img src="/img/board/btn_block_ovr.png" /></button>
 				<button type="button" class="b_btn_blog005" onclick="goSubmit('list','imageList')" title="블러그리스트"><img src="/img/board/btn_blog.png" /></button>
 				<button type="button" class="b_btn_list005" onclick="goSubmit('list','list')" title="리스트"><img src="/img/board/btn_list.png" /></button>
 			</div>
@@ -99,26 +102,26 @@
 										+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
 										+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
 		%>
-			<li style="margin-right:18px;">
+			<li>
 					<div class="info_agency">
 						<div class="logo_agency">
 							<p >
-								<a href="javascript:goSubmit('view','<%=listMode %>', '<%=util.getStr(rs.get("ARTICLE_ID"))%>')" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기" >
+								<a href="sub.do?m=<%=m %>&amp;boardComIdx=<%=boardComIdx %>&amp;mode=view&amp;listMode=<%=listMode %>&amp;sortMode=<%=sortMode %>&amp;boardIdx=<%=util.getStr(rs.get("ARTICLE_ID"))%>&amp;nowPage=<%=nowPage%>&amp;siteId=<%=siteId%>" title="<%=util.getStr(rs.get("SUBJECT"))%>">
 									<%if(util.getStr(rs.get("FILE_ID")).equals("") || util.getStr(rs.get("FILE_ID")).equals(null)){ %>
 										<img  width="180" height="140" src="/img/main/no_image01.gif" alt="이미지 없음"/>
 									<%}else{%>
-										<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" alt="<%=util.getStr(rs.get("SUBJECT")).length()>12?util.getStr(rs.get("SUBJECT")).substring(0, 11):util.getStr(rs.get("SUBJECT")) %>"/>
+										<img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" alt="<%=util.getStr(rs.get("SUBJECT")).length()>13?util.getStr(rs.get("SUBJECT")).substring(0, 12):util.getStr(rs.get("SUBJECT")) %>"/>
 									<%}%>
 								</a>
 							</p>
 						</div>
 						<div class="cont_agency">
-							<p class="name_agency" >
-								<a href="javascript:goSubmit('view','<%=listMode %>', '<%=util.getStr(rs.get("ARTICLE_ID"))%>')')" title="<%=util.getStr(rs.get("SUBJECT"))%> 상세보기" >
-									<%if(util.getStr(rs.get("SUBJECT")).length()>12){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 11)+" ···"%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
+							<p class="name_agency">
+								<a href="sub.do?m=<%=m %>&amp;boardComIdx=<%=boardComIdx %>&amp;mode=view&amp;listMode=<%=listMode %>&amp;sortMode=<%=sortMode %>&amp;boardIdx=<%=util.getStr(rs.get("ARTICLE_ID"))%>&amp;nowPage=<%=nowPage%>&amp;siteId=<%=siteId%>" title="<%=util.getStr(rs.get("SUBJECT"))%>">
+									<%if(util.getStr(rs.get("SUBJECT")).length()>13){%><%=util.getStr(rs.get("SUBJECT")).substring(0, 12)+" ···"%><%}else{%><%=util.getStr(rs.get("SUBJECT"))%><%}%>
 								</a>
 							</p>
-							<p>작성자 : <%=util.getStr(rs.get("WRITER_ID"))%></p>
+							<p class="name">작성자 : <%=util.getStr(rs.get("WRITER_ID"))%></p>
 							<p>작성일 : <%=util.getStr(rs.get("FRST_REGIST_PNTTM"))%></p>
 							<p>조회수 : <%=util.getStr(rs.get("HITS"))%></p>
 						</div>
@@ -139,7 +142,7 @@
 		<div class="b_btn_area">
 			&nbsp;
 			<% if(util.loginCheck() && authLv >= writeAuth) { %>
-			<button class="btn_rgt" onclick="goSubmit('write')">글쓰기</button>
+				<button class="btn_rgt" onclick="goSubmit('write')">등록</button>
 			<% }  %>
 		</div>
 		<!--b_btn_area E-->
@@ -173,16 +176,15 @@
 		javascript:ssoPopupShow('login');
 	}
 
-	$(function(){
+	/* $(function(){
 		$(window).resize(function(){
 			winResize();
 		});
 		winResize();
-	});
+	}); */
 
 
-
-	function winResize(){
+	/*function winResize(){
 		var win_w = $(window).width();
 		if(win_w < 1198 && win_w >= 768){ //테블릿
 
@@ -210,6 +212,6 @@
 
 		}
 
-	}
+	}*/
 //]]>
 </script>

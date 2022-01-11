@@ -57,7 +57,7 @@
                         <input type="image" src="/img/board/btn_ico_srch.png" class="b_go_btn003" alt="바로가기" value="검색" onclick="pageSearchGo()" />
                   </div>
                   <div class="b_selectBox003">
-                  <select name="searchUseScope" id="searchUseScope" class="b_select003 b_select003_single" >
+                  <select name="searchUseScope" id="searchUseScope" class="b_select003 b_select003_single">
 						<option value="">전체</option>
 						<option value="1" <%if(util.getStr(paramMap.get("searchUseScope")).equals("1")) { %> selected="selected" <% } %>>기관명</option>
 						<option value="2" <%if(util.getStr(paramMap.get("searchUseScope")).equals("2")) { %> selected="selected" <% } %>>장비명(국문, 영문)</option>
@@ -103,24 +103,18 @@
 						</p>
 
 
-							<div class="txt_publist_blog01"><a href="#" onclick="pageViewGo('view','<%=listMode %>','<%=util.getStr(rs.get("RND_EQU_IDX"))%>')">
-							<%-- 이용료 : <%=util.getStr(rs.get("RENTAL_INFO"))%> <br />  --%>
-							장비구분 : <%if(util.getStr(rs.get("EQUIP_CD")).equals("1")) { %>
-							연구장비 <% } %>
-							<%if(util.getStr(rs.get("EQUIP_CD")).equals("2")) { %>
-							연구시설 <% } %>
-							 / 문의처 : <%=util.getStr(rs.get("REF_RSV_TEL"))%></a></div>
-
-
-							<div class="star_publist_blog01"><a href="#">
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("1.0")) { %> <img src="/img/board/star1.png" alt="별점 1점" /> 1점 <% } %>
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("2.0")) { %> <img src="/img/board/star2.png" alt="별점 2점" /> 2점 <% } %>
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("3.0")) { %> <img src="/img/board/star3.png" alt="별점 3점" /> 3점 <% } %>
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("4.0")) { %> <img src="/img/board/star4.png" alt="별점 4점" /> 4점 <% } %>
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("5.0")) { %> <img src="/img/board/star5.png" alt="별점 5점" /> 5점 <% } %>
-							<%if(util.getStr(rs.get("EQU_SATISFACTION")).equals("")) { %> <img src="/img/board/star5.png" alt="별점 0점" /> 5점 <% } %>
-							</a></div><br />
-
+							<div class="txt_publist_blog01">
+								<%=util.getStr(rs.get("OWN_ORG_NM"))%>
+								<% if( !util.getStr(rs.get("OWN_ORG_SUB_NM")).equals("") ){ %>
+									&nbsp;<%=util.getStr(rs.get("OWN_ORG_SUB_NM"))%>
+								<% } %>
+								&nbsp;/&nbsp;<%=util.getStr(rs.get("OPER_CHARGER")) %>&nbsp;<%=util.getStr(rs.get("OPER_POSITION")) %>
+								&nbsp;/&nbsp;<%=util.getStr(rs.get("OPER_TEL")) %>
+							</div>
+							<div class="star_publist_blog01">
+							
+							</div>
+							<br />
 							<p class="txt_publist_blog02"><a href="#" onclick="pageViewGo('view','<%=listMode %>','<%=util.getStr(rs.get("RND_EQU_IDX"))%>')">
 							제조사 : <%=util.getStr(rs.get("MANUFACTURE_NM"))%> <br />
 							모델명 : <%=util.getStr(rs.get("MODEL_NM"))%> <br />

@@ -111,8 +111,8 @@
 	              		<input type="file" name="<%=fileFullGrp%>File1"  id="<%=fileFullGrp%>File1" class="select00401" title="파일첨부"/>
 						<button class="b_btn_00401" type="button" onclick="addRowFile('<%=fileFullGrp%>');" title="첨부파일 추가"><img src="/img/board/btn_plus.gif"/></button>
 						<button class="b_btn_00401" type="button" onclick="delRowFile('<%=fileFullGrp%>');" title="첨부파일 삭제"><img src="/img/board/btn_del.gif"/></button>
-	              		<br/> * 300kb이상의 이미지만 등록이 가능합니다.
-	              		<br/> * 첨부파일은 bmp, gif, jpg, jpeg, png 확장자 파일만 업로드가능합니다.
+	              		<!--<br/> * 300kb이상의 이미지만 등록이 가능합니다.-->
+	              		<!--<br/> * 첨부파일은 bmp, gif, jpg, jpeg, png 확장자 파일만 업로드가능합니다.-->
 	              	</div>
 
 	        		<script type="text/javascript">

@@ -32,8 +32,8 @@ span.pop_whelk { float:left; font-size:14px; color:#464646; margin:10px 7px 0 7p
 
 
 /* 팝업창 */
-.popWrap { width:789px; height:480px; padding-top:256px; background:url(/img/login/bg_loginWrap.png) no-repeat; font-family:'NanumGothic', 'Malgun Gothic', dotum !important }
-
+.popWrap { width:100%; height:564px; padding-top:200px; background:url(/img/login/bg_loginWrap.png) no-repeat; font-family:'NanumGothic', 'Malgun Gothic', dotum !important;box-sizing:border-box}
+/* .MyPageWrap { max-width: 800px; padding-bottom: 0; } */
 .popWrap .header_login { width:0px; height:0px; overflow:hidden; display:inline-block; text-indent:-9999px }
 
 .popWrap .tit_login { width:540px; height:80px; margin:0 auto; text-align:center; border-bottom:1px solid #00baff }

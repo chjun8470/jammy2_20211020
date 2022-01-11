@@ -51,6 +51,7 @@
 			<input type="hidden" name="equipCd" id="equipCd" value="<%=equipCd%>"/>
 			<input type="hidden" name="orgGrpSubCd" id="orgGrpSubCd" value="<%=orgGrpSubCd%>"/>
 			<input type="hidden" name="state" id="state" value=""/>
+			<input type="hidden" name="pageName" id="pageName" value="jnspTotal"/>
 
 			<div class="bbs-top">
 			<div class="basic_grid">
@@ -59,7 +60,7 @@
 					<div style="position:relative;">
 
 						<span>요청상태 :</span>
-						<select class="select" name="searchState" id="searchState" style="height:24px;">
+						<select class="select" name="searchState" id="searchState" >
 							<option value="">전체</option>
 							<option value="1" <%if(util.getStr(paramMap.get("searchState")).equals("1")) { %> selected="selected" <% } %>>승인요청</option>
 							<option value="2" <%if(util.getStr(paramMap.get("searchState")).equals("2")) { %> selected="selected" <% } %>>승인</option>
@@ -71,8 +72,8 @@
 
 						<%if(authLv.equals("99")){//최고관리자%>
 						<span style="margin-left:17px;">기관 :</span>
-						<input type="text" name="searchNameOrg" id="searchNameOrg" class="inp_text" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>" style="height:23px;"/>
-						<select class="select" name="searchOrgGrp" id="searchOrgGrp" style="width:200px; height:24px;">
+						<input type="text" name="searchNameOrg" id="searchNameOrg" class="inp_txt" value="<%=util.getStr(paramMap.get("searchNameOrg"))%>" />
+						<select class="select" name="searchOrgGrp" id="searchOrgGrp" style="width:200px;">
 							<option value="">전체</option>
 							<%for(HashMap rs:orgGrpList) {%>
 							<option value="<%=util.getStr(rs.get("ORG_GRP_CD"))%>" <%if(util.getStr(paramMap.get("searchOrgGrp")).equals(util.getStr(rs.get("ORG_GRP_CD")))) { %> selected="selected" <% } %>><%=util.getStr(rs.get("ORG_GRP_NM"))%></option>
@@ -86,8 +87,8 @@
 
 									if(orgGrpCd.equals(util.getStr(rs.get("ORG_GRP_CD")))){
 						%>
-									<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" class="inp_text" value="<%=orgGrpCd%>"/>
-									<input type="text" name="searchOrgGrpNm" id="searchOrgGrpNm" class="inp_text" value="<%=util.getStr(rs.get("ORG_GRP_NM"))%>" style="height:24px; width:192px; display: none;" readonly/>
+									<input type="hidden" name="searchOrgGrp" id="searchOrgGrp" class="inp_txt" value="<%=orgGrpCd%>"/>
+									<input type="text" name="searchOrgGrpNm" id="searchOrgGrpNm" class="inp_txt" value="<%=util.getStr(rs.get("ORG_GRP_NM"))%>" style="width:192px; display: none;" readonly/>
 						<%			}
 								}
 							}
@@ -95,23 +96,26 @@
 
 						<%if(authLv.equals("99")){//최고관리자%>
 							<span style="margin-left:18px;">부서 :</span>
-							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_text" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>" style="height:24px; width:300px;"/>
+							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_txt" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>" style="width:300px;"/>
 						<%}else if(authLv.equals("80")){%>
 							<span>부서 :</span>
-							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_text" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>" style="height:24px; width:300px;"/>
+							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_txt" value="<%=util.getStr(paramMap.get("searchOrgSub"))%>" style="width:300px;"/>
 						<%} else {%>
-							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_text" value="<%=deptNm%>" style="height:24px; width:300px; display: none;" readonly/>
+							<input type="text" name="searchOrgSub" id="searchOrgSub" class="inp_txt" value="<%=deptNm%>" style="width:300px; display: none;" readonly/>
 						<% } %>
 					</div>
 
 					<div style="position:relative;">
-						<select name="searchType" id="searchType" class="select" style="width:132px; height:24px;">
+						<select name="searchType" id="searchType" class="select" style="width:132px;">
+							<option value="jeinetNo" <%if("jeinetNo".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>JEINET 등록번호</option>
+							<option value="ntisNo" <%if("ntisNo".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>ZEUS 등록번호</option>
+							<option value="etubeNo" <%if("etubeNo".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>E-TUBE 등록번호</option>
 							<option value="equipNm" <%if("equipNm".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>장비/시설명</option>
 							<option value="model" <%if("manufacture".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>모델명</option>
 							<option value="keyWord" <%if("keyWord".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>키워드</option>
 						</select>
 						<!-- 키워드 -->
-						<input type="text" name="searchWord" id="searchWord" class="inp_text" value="<%=util.getStr(paramMap.get("searchWord"))%>" style="height:24px; width:745px;"/>
+						<input type="text" name="searchWord" id="searchWord" class="inp_txt" value="<%=util.getStr(paramMap.get("searchWord"))%>" style="width:745px;"/>
 
 						<!-- 검색버튼 -->
 						<input type="button" class="btn_inp_g_01" value="검색" onclick="pageSearchGo()" style="float:right;"/>
@@ -128,7 +132,7 @@
 
 		<div class="total" style="margin:10px;">
 			[전체 <span><%=staticVO.getTotalCount()%></span>건, <span><%=staticVO.getNowPage()%></span>/<%=(int)(Math.ceil(staticVO.getTotalCount()/staticVO.getPageSize())+1)%> page]
-			
+
 			<span style="float:right; margin-bottom:5px;">
 				<button type="button" id="excelDownload" class="btn_inp_b_01" onclick="goExcel()">엑셀다운로드</button>
 			</span>
@@ -139,17 +143,17 @@
 			<colgroup>
 				<col style="width: 5%;" />
 				<col style="width: 10%;" />
-				<col style="width: 10%;" />
+				<col style="width: 15%;" />
 				<col style="width: 15%;" />
 				<col style="width: 25%;" />
 				<col style="width: 15%;" />
-				<col style="width: 20%;" />
+				<col style="width: 255%;" />
 			</colgroup>
 			<thead>
 				<tr>
 					<th scope="col">NO</th>
 					<th scope="col">승인상태</th>
-					<th scope="col">시설장비분류</th>
+					<th scope="col">JEINET 등록번호</th>
 					<th scope="col">고정자산관리번호</th>
 					<th scope="col">
 						<%if(equipCd.equals("1")){%>
@@ -178,7 +182,7 @@
 							<%if(util.getStr(rs.get("STATE")).equals("6")) { %> <img alt="수정요청" src="/img/back/comm/order_state_img_6.png"> <% } %>
 							<%if(util.getStr(rs.get("STATE")).equals("7")) { %> <img alt="수정반려" src="/img/back/comm/order_state_img_7.png"> <% } %>
 						</td>
-	               		<td><%=util.getStr(rs.get("EQUIP_CD")).equals("1")?"연구장비":"연구시설"%></td>
+	               		<td><%=util.getStr(rs.get("RND_EQU_IDX"))%></td>
 						<td><%=util.getStr(rs.get("FIXED_ASET_NO_YN")).equals("Y") ? "사용하지 않음":util.getStr(rs.get("FIXED_ASET_NO"))%></td>
 						<td class="subject"><%=util.getStr(rs.get("KOR_NM"))%><br/>(<%=util.getStr(rs.get("ENG_NM"))%>)</td>
 						<td><%=util.getStr(rs.get("MODEL_NM")).equals("") ? "모델명 없음":util.getStr(rs.get("MODEL_NM"))%></td>
@@ -233,15 +237,18 @@
 	function pageViewGo(idx,state){
 
 		$('#state').val(state);
+		$('#rndEquIdx').val(idx);
+		$('#mode').val('view');
 
 		if($('#equipCd').val() == '2'){
-			 location.href= "/sys/sys_jnsptotal_fc.do?equipCd=2&rndEquIdx="+idx+"&mode=view&state="+state;
+			$('#searchForm').attr("action","/sys/sys_jnsptotal_fc.do");
 		}else{
-			location.href= "/sys/sys_jnsptotal_eq.do?equipCd=1&rndEquIdx="+idx+"&mode=view&state="+state;
+			$('#searchForm').attr("action","/sys/sys_jnsptotal_eq.do");
 		}
 
+		$('#searchForm').submit();
 	}
-	
+
 	function searchNameCheck(){
 		$.ajax({
 			url : "/sys/searchNameCheck.do",
@@ -255,14 +262,14 @@
 					for(i = 0; i < data.orgGrpList.length; i++){
 						txt += "<option value='"+data.orgGrpList[i].ORG_GRP_CD+"'>"+data.orgGrpList[i].ORG_GRP_NM;
 						txt += "</option>";
-					}	
-				
+					}
+
 	      		$("#searchOrgGrp").html(txt);
 	        }
 		})
 	}
-	
-	
+
+
 	function goExcel(){
 		$('#searchForm').attr("action","/sys/excel.do");
 		$('#searchForm').submit();

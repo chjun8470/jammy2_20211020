@@ -16,7 +16,7 @@
      String boardIdx = util.getStr(request.getParameter("boardIdx"));
      String m = util.getStr(request.getParameter("m"));
 
-     String boardComIdx = "00005";//코드를 입력하세요
+     String boardComIdx = "00032";//코드를 입력하세요
 %>
 <jsp:include page="/web/comBoard.do" flush="true">
      <jsp:param name="mode" value="<%=mode%>"/>

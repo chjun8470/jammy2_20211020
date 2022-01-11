@@ -17,7 +17,8 @@ String view = util.getStr(paramMap.get("view"));
 String enc = util.getStr(paramMap.get("enc"));
 %>
 
-
+<%=mode%>
+<%=send%>
 
 			<jsp:include page="/sso/find.do" flush="true">
 		  		<jsp:param name="mode" value="<%=mode%>"/>

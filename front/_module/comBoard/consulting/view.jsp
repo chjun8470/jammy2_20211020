@@ -43,217 +43,163 @@
 	}
 %>
 
-	<form name="fview" id="fview" action="<%=actionString %>" method="post" >
-		<input type="hidden" name="boardComIdx" id="boardComIdx" value="<%=boardComIdx%>" />
-		<input type="hidden" name="mode" id="mode" value="<%=mode%>" />
-		<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage()%>" />
-		<input type="hidden" name="reUrl" id="reUrl" value="?m=<%=m%>&amp;boardComIdx=<%=boardComIdx%>" />
-		<input type="hidden" name="boardIdx" id="boardIdx" value="<%=boardIdx%>" />
-		<input type="hidden" name="m"  value="<%=m%>" />
-		<input type="hidden" name="cmtIdx" id="cmtIdx" />
-		<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
-		<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
-		<input type="hidden" name="state" id="state" value="<%=state%>" />
+<form name="fview" id="fview" action="<%=actionString %>" method="post" >
 
-	<div class="skin_bbs_veiw" style="margin-top:30px;">
+	<input type="hidden" name="boardComIdx" id="boardComIdx" value="<%=boardComIdx%>" />
+	<input type="hidden" name="mode" id="mode" value="<%=mode%>" />
+	<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage()%>" />
+	<input type="hidden" name="reUrl" id="reUrl" value="?m=<%=m%>&amp;boardComIdx=<%=boardComIdx%>" />
+	<input type="hidden" name="boardIdx" id="boardIdx" value="<%=boardIdx%>" />
+	<input type="hidden" name="m"  value="<%=m%>" />
+	<input type="hidden" name="cmtIdx" id="cmtIdx" />
+	<input type="hidden" name="searchType" id="searchType" value="<%=searchType%>" />
+	<input type="hidden" name="searchWord" id="searchWord" value="<%=searchWord%>" />
+	<input type="hidden" name="state" id="state" value="<%=state%>" />
 
-		<div class="bbs_head">
+	<div class="basic_viewWrap">
 
+		<div class="mp_bbsTop">
+	
 			<h3 class="title"><%=util.getStr(dataMap.get("SUBJECT")) %></h3>
-			<div class="head_text" style="text-align: right; width: 97%;">
-			<% if( util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) 
+			<div class="mp_bbsTxt">
+				<% if( util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) 
 					||  util.getStr(loginVO.getProJeinet()).equals("Y") 
 					||  util.getStr(loginVO.getProJipbank()).equals("Y") 
 					|| util.getInt(loginVO.getAuthLv()) >= 70 ) { %>
-				소속 : <%=util.getStr(dataMap.get("ORG_GRP_NM")) %>
-				| 직위 : <%=util.getStr(dataMap.get("POSITION_NM")) %>
-				| 전화번호 : <%=util.getStr(dataMap.get("TEL_NO")) %>
-				| 이메일 : <%=util.getStr(dataMap.get("EMAIL")) %>
+					<div class="mp_bTBox"><b>소속</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("ORG_GRP_NM")) %></div>
+					<div class="mp_bTBox"><b>직위</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("POSITION_NM")) %></div>
+					<div class="mp_bTBox"><b>전화번호</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("TEL_NO")) %></div>
+					<div class="mp_bTBox"><b>이메일</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("EMAIL")) %></div>
+				<% } %>
+					<div class="mp_bTBox"><b>작성자</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("PSN_NM")) %></div>
+			 		<div class="mp_bTBox"><b>작성일</b>&nbsp;&nbsp;<%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%></div>
+			</div>
+			
+			<%if(boardComIdx.equals("00011")|| boardComIdx.equals("00026")) { %>
+			<div class="head_text" style="border-top: 1px solid #cccccc; width:97%;">
+				<%=util.getStr(dataMap.get("NAME01")) %> > <%=util.getStr(dataMap.get("NAME02")) %> > <%=util.getStr(dataMap.get("NAME03")) %>
+			</div>
 			<% } %>
-			작성자 :  <%=util.getStr(dataMap.get("PSN_NM")) %>
-			 | 작성일 : <%=util.getStr(dataMap.get("FRST_REGIST_PNTTM"))%>
-			</div>
-		<%if(boardComIdx.equals("00011")|| boardComIdx.equals("00026")) { %>
-		<div class="head_text" style="border-top: 1px solid #cccccc; width:97%;"><%=util.getStr(dataMap.get("NAME01")) %> > <%=util.getStr(dataMap.get("NAME02")) %> > <%=util.getStr(dataMap.get("NAME03")) %></div>
-		<% } %>
+		
 		</div>
 
-
-
-		<div style="text-align: left; widht: 100%;" class="bbs_cont">
-			<div class="style-init" style="word-break:break-all;">
-			<%--
-				for(HashMap rs:fileList){
-				String ext = util.getStr(rs.get("FILE_EXT")).toLowerCase();
-						if("jpg".equals(ext) || "gif".equals(ext) || "png".equals(ext) || "bmp".equals(ext)){
-							%>
-								<img src="<%=(util.getStr(rs.get("FILE_PATH"))+util.getStr(rs.get("FILE_NM"))) %>" class="img-view" style="max-width:700px;"/>
-							<%
-						}
-				}
-				--%>
-
-
-				<span><%=dataMap.get("CONTENT").replaceAll("<br>", "<br/>")%></span>
-			</div>
+		<div class="mp_bbsCont">
+			<div class="mp_bCInfo">상담내용</div>
+			<%=dataMap.get("CONTENT").replaceAll("<br>", "<br/>")%>
 		</div>
+		
 		<div  style="clear:both;">
-				<%
-					if(fileList.size() > 0){
-				%>
+			<%
+				if(fileList.size() > 0){
+			%>
 			<ul class="file" style="line-height: 22px;">
-								<%
-									int fileCnt = 1;
-									for(HashMap rs:fileList){
-										String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
-															+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
-															+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
-								%>
-									<li class="text" >첨부파일 :
-										<a href="/cmm/fms/ComFileDown.do<%=fileParam%>" title="첨부파일 다운로드"><img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" style="max-width:450px;padding:10px"/> (<%=util.getStr(rs.get("FILE_SIZE")) %> Byte) </a>
-		<%-- 									<%=util.deStr(rs.get("FILE_ORGN_NM"))%> (<%=util.getStr(rs.get("FILE_SIZE"))%> Byte) --%>
-									</li>
-								<% fileCnt++; }%>
-								</ul>
-							<%} %>
-
-		</div>
-		<div>
-			<%-- <%if(cmtMap.size() > 0) {%>
-
-			<table style="width:100%;">
-				<colgroup>
-					<col width="15%" />
-					<col width="60%" />
-					<col width="15%" />
-					<col width="10%" />
-				</colgroup>
 				<%
-					int no = 0;
-					for(HashMap rs:cmtMap) {
+					int fileCnt = 1;
+					for(HashMap rs:fileList){
+						String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
+											+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
+											+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
 				%>
-					<tr id="cmt<%=no%>" >
-						<th><%=util.getStr(rs.get("REG_USER_NM")) %></th>
-						<td id="comment<%=no %>"><%=util.getStr(rs.get("CMT_CONTENT")).replaceAll("\n", "<br/>") %></td>
-						<td style="text-align: center;"><%=datef.format(rs.get("REG_DT")) %></td>
-						<%if(util.getStr(rs.get("REG_ID")).equals(loginVO.getUserId())) { %>
-						<td>
-							<a style="cursor: pointer;" onclick="editCmt(<%=no%>, <%=util.getStr(rs.get("CMT_IDX"))%>)">수정</a>
-							<a style="margin-left:5px; cursor: pointer;" onclick="delCmt(<%=util.getStr(rs.get("CMT_IDX")) %>)">삭제</a>
-						</td>
-						<% } %>
-					</tr>
-				<%
-					no++;
-					} %>
-			</table>
-			<%} %> --%>
-	<table class="P_contBox2" summary="수요/만족도 조사 정보표입니다. 제목, 등록일, 첨부파일, 구글 설문조사 URL,회신처 기간,기관명,응답대상자,내용 등으로 구성되어 있습니다.">
-		<caption>수요/만족도 조사 상세보기</caption>
-		<colgroup>
-			<col style="width:65%;" />
-			<col style="width:35%;" />
-		</colgroup>
-
-		<tbody>
-			<tr>
-				<td class="jip_info2 r_line_none" colspan="2">
-				<div class="ideaBox" style="width: 100%;">
-					<%if(cmtMap.size() > 0) {%>
-					<ul class="idea_list" style="display:">
+					<li class="text" >첨부파일 :
+						<a href="/cmm/fms/ComFileDown.do<%=fileParam%>" title="첨부파일 다운로드"><img src = "/file/<%=fileGrp+"/"+rs.get("TITLE")%>" style="max-width:450px;padding:10px"/>
+							(<%=util.getStr(rs.get("FILE_SIZE")) %> Byte)
+						</a>
+					</li>
+				<% fileCnt++; }%>
+			</ul>
+			<%} %>
+		</div>
+		
+		<div class="basic_viewWrap MAT10">
+		
+		
+			<div class="mp_replBox">
+				<%if(cmtMap.size() > 0) {%>
+				
 					<%
 					int no = 0;
 					for(HashMap rs:cmtMap) {
 					%>
-
-						<li>
-							<div class="idea_name"><%=util.getStr(rs.get("REG_USER_NM")) %></div>
-							<div class="idea_date"><%=datef.format(rs.get("REG_DT")) %></div>
-							<div class="idea_txt" id="commentDiv" style="display:">
+						<div class="replTxtBox01">
+							<div class="name"><%=util.getStr(rs.get("REG_USER_NM")) %></div>
+							<div class="date"><%=datef.format(rs.get("REG_DT")) %></div>
+						</div>
+						
+						<div class="replTxtBox02 MAT20" id="commentDiv">
+						
 							<span id="comment<%=no%>"><%=util.getStr(rs.get("CMT_CONTENT")).replaceAll("\n", "<br/>") %></span>
+							
 							<textarea title="의견 내용 입력창" id="editComment" name="editComment" style="display:none;"></textarea>
-							<textarea title="의견 내용 입력창" id="commentUdtInput<%=no%>" name="commentUdtInput<%=no%>" style="display:none" class="input_idea"><%=util.getStr(rs.get("CMT_CONTENT")) %></textarea>
-								&nbsp;
-								<%if(util.getStr(rs.get("REG_ID")).equals(loginVO.getUserId())) { %>
-								<div class="edt_btn_box" style="float: right;">
-								
-								<%-- <%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && ( loginVO.getAuthLv().equals("99") ||( loginVO.getAuthLv().equals("80")&&loginVO.getOrgGrpCd().equals(dataMap.get("ORG_GRP_CD")) )|| loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-									<a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a>
-								<%}%> --%>	
+							<textarea title="의견 내용 입력창" id="commentUdtInput<%=no%>" name="commentUdtInput<%=no%>" style="display:none"><%=util.getStr(rs.get("CMT_CONTENT")) %></textarea>
+							<%if(util.getStr(rs.get("REG_ID")).equals(loginVO.getUserId())) { %>
+							<div class="edt_btn_box MAT10" style="float: right;">
 								<%if(util.loginCheck() && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
-									( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(rs.get("ORG_GRP_CD"))) )||
-									loginVO.getUserId().equals(rs.get("REG_ID"))   ) ){ %>
-									<a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a><a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a>
+								( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(rs.get("ORG_GRP_CD"))) )||
+								loginVO.getUserId().equals(rs.get("REG_ID"))   ) ){ %>
+									<a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a>
+									<a id="udtTag<%=no%>" onclick="editCmt('<%=no%>')" style="cursor:pointer; display:">수정</a>
 								<%}%>
 								<%
-									int cmtDelLv = Integer.parseInt(util.getStr(boardMap.get("PERM_LVL_CMT_DEL")));
-									if(util.loginCheck() && util.getInt(loginVO.getAuthLv()) >= cmtDelLv && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
-									( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(rs.get("ORG_GRP_CD"))) )||
-									loginVO.getUserId().equals(rs.get("REG_ID"))   ) ){ %>
-									<a id="delTag<%=no%>" href="#" style="cursor:pointer; display:" onclick="delCmt('<%=util.getStr(rs.get("CMT_IDX")) %>')" >삭제</a>						
-									<%}%>
-								<%-- <%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && ( loginVO.getAuthLv().equals("99") ||( loginVO.getAuthLv().equals("80")&&loginVO.getOrgGrpCd().equals(dataMap.get("ORG_GRP_CD")) )|| loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-									<a id="delTag<%=no%>" href="#" style="cursor:pointer; display:" onclick="delCmt('<%=util.getStr(rs.get("CMT_IDX")) %>')" >삭제</a>
-								<%} %>  --%>
-									<a id="saveTag<%=no%>" href="#" style="display:none" onclick="editCmtProc('<%=util.getStr(rs.get("CMT_IDX")) %>',<%=no%>)" >저장</a>
-									<a id="cancleTag<%=no%>" style="cursor:pointer; display:none" onclick="cancleEdit('<%=no%>')" >취소</a>
-								</div>
-								<%} %>
+								int cmtDelLv = Integer.parseInt(util.getStr(boardMap.get("PERM_LVL_CMT_DEL")));
+								if(util.loginCheck() && util.getInt(loginVO.getAuthLv()) >= cmtDelLv && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
+								( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(rs.get("ORG_GRP_CD"))) )||
+								loginVO.getUserId().equals(rs.get("REG_ID"))   ) ){ %>
+								<a id="delTag<%=no%>" href="#" style="cursor:pointer; display:" onclick="delCmt('<%=util.getStr(rs.get("CMT_IDX")) %>')" >삭제</a>						
+								<%}%>
+								<a id="saveTag<%=no%>" href="#" style="display:none" onclick="editCmtProc('<%=util.getStr(rs.get("CMT_IDX")) %>',<%=no%>)" >저장</a>
+								<a id="cancleTag<%=no%>" style="cursor:pointer; display:none" onclick="cancleEdit('<%=no%>')" >취소</a>
 							</div>
-						</li>
+							<%} %>
+							
+						</div>
 					<%
 					no++;
 					} %>
-					</ul>
+					
 				<% } %>
-				</div>
-				</td>
-			</tr>
+			</div>
+			
+			
+			
 			<%if( util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) ||  util.getStr(loginVO.getProJeinet()).equals("Y") ||  util.getStr(loginVO.getProJipbank()).equals("Y") || util.getInt(loginVO.getAuthLv()) >= 70 ) { %>
-							
+					
 			<tr>
 				<td class="r_line_none" colspan="2">
-				<%if(util.getStr(boardMap.get("PERM_CMT")).equals("Y")) { %>
-					<div style="">
-						<textarea title="의견 내용 입력창"  rows="5" name="comment" class="b_txtbox4 comment_box_style_1" style="" cols="1"></textarea>
-						<span>
+					<%if(util.getStr(boardMap.get("PERM_CMT")).equals("Y")) { %>
+					<div class="mp_replBox">
+						<textarea title="의견 내용 입력창" rows="5" name="comment" cols="1"></textarea>
 						<%if(util.loginCheck() && loginVO.getUserId().equals(dataMap.get("WRITER_ID")) || util.getInt(loginVO.getAuthLv()) >= 70) { %>
-						<button type="button" id="inpCmt" class="btn_rgt" style="float:right;width:80px;height:80px">등록</button>
+						<button type="button" id="inpCmt" class="btn_add">등록</button>
 						<% } else { %>
-						<button type="button" id="inpCmtNot" class="btn_rgt" style="float:right;width:80px;height:80px">등록</button>
+						<button type="button" id="inpCmtNot" class="btn_add">등록</button>
 						<% } %>
-						</span>
 					</div>
-				<% } %>
-				
+					<% } %>
 				</td>
 			</tr>
+			
 			<% } %>
-		</tbody>
-	</table>
+			
+			
 
-		<div class="b_btn_area">
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
-				( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(dataMap.get("ORG_GRP_CD"))) )||
-				loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-				<input type="button" class="btn_rgt color_box_btn_1" value="수정" onclick="goSubmit('edit')"/>
-			<%}%>
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
-				( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(dataMap.get("ORG_GRP_CD"))) )||
-				loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-				<input type="button" class="btn_rgt color_box_btn_1" value="삭제" onclick="goSubmit('del')" />
-			<%}%>
+			<div class="MPBtnWrap MAT10">
+				<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
+					( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(dataMap.get("ORG_GRP_CD"))) )||
+					loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
+					<input type="button" class="btn_inp_b_01 FloatR" value="수정" onclick="goSubmit('edit')"/>
+				<%}%>
+				<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && ( util.getStr(loginVO.getAuthLv()).equals("99") ||
+					( util.getStr(loginVO.getAuthLv()).equals("80") && util.getStr(loginVO.getOrgGrpCd()).equals(util.getStr(dataMap.get("ORG_GRP_CD"))) )||
+					loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
+					<input type="button" class="btn_inp_w_01 FloatR" value="삭제" onclick="goSubmit('del')" />
+				<%}%>
+					<input type="button" class="btn_inp_b_01 FloatL" value="목록" onclick="goSubmit('list')"/> 
+			</div>
 		
-			<%-- <%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"EDITOR") && ( loginVO.getAuthLv().equals("99") ||( loginVO.getAuthLv().equals("80")&&loginVO.getOrgGrpCd().equals(dataMap.get("ORG_GRP_CD")) )|| loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-				<input type="button" class="btn_rgt color_box_btn_1" value="수정" onclick="goSubmit('edit')"/>
-			<%}%>
-			<%if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"DEL") && ( loginVO.getAuthLv().equals("99") ||( loginVO.getAuthLv().equals("80")&&loginVO.getOrgGrpCd().equals(dataMap.get("ORG_GRP_CD")) )|| loginVO.getUserId().equals(dataMap.get("WRITER_ID"))   ) ){ %>
-				<input type="button" class="btn_rgt color_box_btn_1" value="삭제" onclick="goSubmit('del')" />
-			<%} %>  --%>
-			<input type="button" class="btn_lft2" value="목록" onclick="goSubmit('list')"/> 
 		</div>
+	
 	</div>
-</div>
+
 </form>
 
 <script type="text/javascript">

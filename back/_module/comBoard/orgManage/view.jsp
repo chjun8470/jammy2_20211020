@@ -102,7 +102,25 @@
 			  		<td colspan="3"><%=util.getStr(dataMap.get("TEXT1")) %></td>
 		     	</tr>
 		     	<tr>
-			  		<td colspan="3"><%=util.getStr(dataMap.get("DATA16")) %></td>
+			  		<td colspan="3">
+	                    <%
+                          	String data16Str = util.getStr(dataMap.get("DATA16"));
+                          	String[] data16 = null;
+                          	String[] data16Check = {"N","N","N","N"};
+                          	if(!data16Str.equals("")){
+                          		data16 = data16Str.split("[,]");
+                          	}
+                          	for(int as = 0;as < data16.length;as++){
+                          		int tmpInt = Integer.parseInt(data16[as]);
+                          		tmpInt--;
+                          		data16Check[tmpInt] = "Y"; 
+                          	}
+			  			%>
+			  			<% if(data16Check[0].equals("Y")){ %><span style="padding-right: 20px;" >R&D/기업지원/기타</span><% } %>
+			  			<% if(data16Check[1].equals("Y")){ %><span style="padding-right: 20px;" >인사/회계/행정</span><% } %>
+			  			<% if(data16Check[2].equals("Y")){ %><span style="padding-right: 20px;" >연구장비</span><% } %>
+			  			<% if(data16Check[3].equals("Y")){ %><span style="padding-right: 20px;" >지식재산</span><% } %>
+			  		</td>
 		     	</tr>
 			</tbody>
 		</table>

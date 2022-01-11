@@ -74,7 +74,9 @@
 						<% } %>
 						<tr>
 							<th scope="col"><%=util.getStr(dataMap.get("ORG_TYPE")).equals("1")?"기업명":"기관명(국문)"%></th>
-							<td <%if(util.getStr(dataMap.get("ORG_TYPE")).equals("1")) { %> colspan="3" <% } else { %> scope="col" <% } %>><%=util.getStr(dataMap.get("ORG_GRP_NM"))%></td>
+							<td <%if(util.getStr(dataMap.get("ORG_TYPE")).equals("1")) { %> colspan="3" <% } else { %> scope="col" <% } %>>
+								<%=util.getStr(dataMap.get("ORG_SECTION1")) %>&nbsp;<%=util.getStr(dataMap.get("ORG_GRP_NM"))%>&nbsp;<%=util.getStr(dataMap.get("ORG_SECTION2")) %>
+							</td>
 							<%if(util.getStr(dataMap.get("ORG_TYPE")).equals("2")) { %>
 							<th scope="col">기관명(영문)</th>
 								<td scope="col"><%=util.getStr(dataMap.get("ORG_ENG_NM")) %></td>
@@ -141,13 +143,14 @@
 							<td colspan="3"><%=util.getStr(dataMap.get("ORNER_NM"))%></td>
 						</tr>
 						<tr>
+							<th scope="col">설립일</th>
+							<td colspan="3"><%=dataMap.get("DATE_OF_FOUNDATION") %></td>
+						</tr>
+						<tr>
 							<th scope="col"><label for="emialId">사업자등록번호</label></th>
 							<td <%if(util.getStr(dataMap.get("ORG_TYPE")).equals("2")) { %> colspan="3" <% } else { %> scope="col" <% } %> >
-								<% if(!util.getStr(dataMap.get("CORP_NUM_1")).equals("")){ %>
-									<%=util.getStr(dataMap.get("CORP_NUM_1")).substring(0,3)%> -
-									<%=util.getStr(dataMap.get("CORP_NUM_1")).substring(3,5)%> -
-									<%=util.getStr(dataMap.get("CORP_NUM_1")).substring(5)%>
-								<% } %>
+								<%=util.getStr(dataMap.get("CORP_NUM_1"))%>
+
 							</td>
 							<%if(util.getStr(dataMap.get("ORG_TYPE")).equals("1")){%>
 							<th scope="col">업종</th>
@@ -157,11 +160,8 @@
 						<tr>
 							<th scope="col"><label for="emialId">법인등록번호</label></th>
 							<td <%if(util.getStr(dataMap.get("ORG_TYPE")).equals("2")) { %> colspan="3" <% } else { %> scope="col" <% } %> >
-								<% if(!util.getStr(dataMap.get("CORP_NUM_2")).equals("")){ %>
-									<%=util.getStr(dataMap.get("CORP_NUM_2")).substring(0,3)%> -
-									<%=util.getStr(dataMap.get("CORP_NUM_2")).substring(3,5)%> -
-									<%=util.getStr(dataMap.get("CORP_NUM_2")).substring(5)%>
-								<%}%>
+								<%=util.getStr(dataMap.get("CORP_NUM_2"))%>
+
 							</td>
 							<%if(util.getStr(dataMap.get("ORG_TYPE")).equals("1")){%>
 							<th scope="col">업태</th>
@@ -292,6 +292,36 @@
 						</table>
 					</div>
 					<% } %>
+
+					<div class="box_in">
+						<!-- 상세정보영역 -->
+						<h3>지사 정보</h3>
+						<table class="skin_basic_write" summary="지사 정보를 나타내는 표 입니다">
+							<caption>지사 정보</caption>
+							<colgroup>
+								<col style="width: 20%;" />
+								<col style="width: 80%;" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="col">지사1주소</th>
+									<td><%=util.getStr(dataMap.get("BR1_ZIP_CODE"))%> <%=util.getStr(dataMap.get("BR1_ADDR1"))%></td>
+								</tr>
+								<tr>
+									<th scope="col">지사1상세주소</th>
+									<td><%=util.getStr(dataMap.get("BR1_ADDR2"))%></td>
+								</tr>
+								<tr>
+									<th scope="col">지사2주소</th>
+									<td><%=util.getStr(dataMap.get("BR2_ZIP_CODE"))%> <%=util.getStr(dataMap.get("BR2_ADDR1"))%></td>
+								</tr>
+								<tr>
+									<th scope="col">지사2상세주소</th>
+									<td><%=util.getStr(dataMap.get("BR2_ADDR2"))%></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
 			<!-- 버튼  -->
 			<div class="btn_box">

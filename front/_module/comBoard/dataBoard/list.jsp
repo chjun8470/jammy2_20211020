@@ -242,7 +242,7 @@
 		<div class="b_btn_area">
 			&nbsp;
 			<% if(util.loginCheck() && util.getBbsAuth(loginVO,boardMap,"WRITE")) {%>
-				<input type="button" class="btn_rgt" value="글쓰기" onclick="goSubmit('write')"/>
+				<input type="button" class="btn_rgt" value="등록" onclick="goSubmit('write')"/>
 			<% } %>
 		</div>
 	</div>

@@ -41,35 +41,52 @@
 	</div> --%>
 	<!--tabBox E-->
 
+	<div class="MPTit MPTit02">전체교육일정</div>
+
 	<!--list_top S-->
-	<div class="list_top">
-		<form id="searchForm" name="searchForm" method="post" action="./equorder.do">
+	<div class="list_top MAT0">
+		<form id="searchForm" name="searchForm" method="post" action="./education.do">
 			<input type="hidden" name="nowPage" id="nowPage" />
 			<input type="hidden" name="mode" id="mode" />
 		</form>
 
-		<div class="b_srchBox" style="width:100%">
-			교육기간조회
-			<input type="text" class="b_txtbox2" id="datepicker1" name ="DateStart" style="width:15%;" size ="13" value="" /><b> ~ </b><input type="text" class="b_txtbox2" id="datepicker2" name ="DateEnd" style="width:15%;" size ="13" value="" />
+		<div class="board_count">
+			전체 <span class="blue1"><%=staticVO.getTotalCount()%></span>건
+		</div>
 
-			<div class="b_srch" style="width:40%; float:right;margin-right:25px;">
-				<select name="searchType" id="searchType" class="b_select" style="height:27px;border-top-width:0px;border-left-width: 0px;">
+		<div class="b_srchBox">
+
+			<div class="labelBox01">
+
+				<label>교육기간조회</label>
+
+				<input type="text" class="txtbox" id="datepicker1" name ="DateStart" value="" />
+				<div class="btw">~</div>
+				<input type="text" class="txtbox MAL0" id="datepicker2" name ="DateEnd" value="" />
+
+			</div>
+
+			<div class="labelBox02 MAL10">
+
+				<select name="searchType" id="searchType" class="b_select">
 					<option value="TEACHING" <%if("TEACHING".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>교육명</option>
 					<option value="INSTITUTIONS" <%if("INSTITUTIONS".equals(util.getStr(paramMap.get("searchType")))) {%> selected="selected" <%}%>>교육기관</option>
-			</select>
-				<input type="text" name="searchWord" id="searchWord" class="b_srch_txt" style="height: 26px;width:100px;margin-top:0px;" value="<%=util.getStr(paramMap.get("searchWord"))%>" />
-				<input type="image" class="b_go_btn" alt="검색" src="../img/board/btn_ico_srch.png"/>
+				</select>
+
+				<div class="b_srch MAL0">
+
+					<input type="text" name="searchWord" id="searchWord" class="b_srch_txt" value="<%=util.getStr(paramMap.get("searchWord"))%>" />
+					<input type="image" class="b_go_btn" alt="검색" src="../img/board/btn_ico_srch.png"/>
+
+				</div>
+
 			</div>
+
 		</div>
 	</div>
 
-	<div class="board_count">
-			전체 <span class="blue1"><%=staticVO.getTotalCount()%></span>건
-	</div>
-
-	<div id="cont_block">
-		<div class="basic_listWrap">
-			<table class="skin_list" summary="일반게시판의 게시글 목록으로 순번, 제목, 등록일, 조회수, 첨부로 구성되어 있습니다.">
+		<div class="basic_listWrap MAT20">
+			<table class="skin_list01" summary="일반게시판의 게시글 목록으로 순번, 제목, 등록일, 조회수, 첨부로 구성되어 있습니다.">
 				<caption>번호, 제목, 작성일, 첨부, 조회로 구성된 표입니다.</caption>
 				<colgroup>
 					<col style="width: 10%;" />
@@ -82,12 +99,12 @@
 
 				<thead>
 					<tr>
-						<th scope="col" class="">NO</th>
-						<th scope="col" >교육명(과정명)</th>
-						<th scope="col" >교육기관</th>
-						<th scope="col" >교육기간</th>
-						<th scope="col" >신청상태</th>
-						<th scope="col" class="r_line_none2">수료증</th>
+						<th scope="col">NO</th>
+						<th scope="col">교육명(과정명)</th>
+						<th scope="col">교육기관</th>
+						<th scope="col">교육기간</th>
+						<th scope="col">신청상태</th>
+						<th scope="col" class="r_line_none">수료증</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -96,7 +113,7 @@
 
 				if(dataList.size() == 0){
 			%>
-				<tr><td colspan="6">데이터가 존재하지 않습니다</td></tr>
+				<tr><td colspan="6" class="r_line_none">데이터가 존재하지 않습니다</td></tr>
 			<%
 				}
 
@@ -134,8 +151,8 @@
 							미수료
 							<% } %>
 						</td>
-						<td class="">
-						<%if(util.getStr(rs.get("RESV_STATE")).equals("50")){ 
+						<td class="r_line_none">
+						<%if(util.getStr(rs.get("RESV_STATE")).equals("50")){
 							if(util.getStr(rs.get("RESV_CERTI_FILE")).equals("")){
 						%>
 							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getIntStr(rs.get("EDU_RESV_ID"))%>&state=<%=util.getStr(rs.get("RESV_STATE")) %>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
@@ -146,19 +163,102 @@
 										+"&amp;dataIdx="+util.getIntStr(rs.get("EDU_RESV_ID"));
 						%>
 						<input type="button" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))location.href='/cmm/fms/ComFileDown.do<%=resvFileParam%>'" class="btn_inp_w_01" value="발급받기">
-							
-							
-								
+
+
+
 							<% }
 						} %>
 						</td>
 					</tr>
+
+
+
+
+
+
+
+
+
+
+					<%-- <tr>
+						<th scope="col">NO</th>
+
+						<th scope="col">교육명(과정명)</th>
+						<td class="" style="cursor: pointer" onclick="pageViewGo('<%=rs.get("EDU_ID")%>');"><!-- 교육명(과정명) e -->
+							<%=util.getStr(rs.get("EDU_NM"))%>(<%=util.getStr(rs.get("EDU_CUR"))%>)
+						</td>
+
+						<th scope="col">교육기관</th>
+						<td class="">
+							<%=util.getStr(rs.get("ORG_GRP_NM"))%><!-- 교육기관 e -->
+						</td>
+					</tr>
+
+					<tr>
+						<td class="">
+							<%=cont%>
+						</td>
+
+						<th scope="col">교육기간</th>
+						<td class="">
+							<%=util.getStr(rs.get("EDU_ST_DT"))%> ~ <%=util.getStr(rs.get("EDU_ED_DT"))%><!-- 교육기간 e -->
+						</td>
+
+						<th scope="col">신청상태</th>
+						<td class=""><!-- 신청상태 e -->
+							<%if(util.getStr(rs.get("RESV_STATE")).equals("10")) { %>
+							승인대기
+							<!-- <img alt="승인요청" src="/img/back/comm/order_state_img_1.png" /> -->
+							<% }else if(util.getStr(rs.get("RESV_STATE")).equals("20")) { %>
+							참가승인
+							<!-- <img alt="이용승인" src="/img/back/comm/order_state_img_2.png" /> -->
+							<% }else if(util.getStr(rs.get("RESV_STATE")).equals("30")) { %>
+							반려
+							<!-- <img alt="승인거절" src="/img/back/comm/order_state_img_3.png" /> -->
+							<% }else if(util.getStr(rs.get("RESV_STATE")).equals("40")) { %>
+							접수취소
+							<!-- <img alt="승인취소" src="/img/back/comm/order_state_img_5.png" /> -->
+							<% }else if(util.getStr(rs.get("RESV_STATE")).equals("50")) { %>
+							교육수료
+							<% }else if(util.getStr(rs.get("RESV_STATE")).equals("60")) { %>
+							미수료
+							<% } %>
+						</td>
+
+						<th scope="col">수료증</th>
+						<td class=""><!-- 수료증 e -->
+						<%if(util.getStr(rs.get("RESV_STATE")).equals("50")){
+							if(util.getStr(rs.get("RESV_CERTI_FILE")).equals("")){
+						%>
+							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getIntStr(rs.get("EDU_RESV_ID"))%>&state=<%=util.getStr(rs.get("RESV_STATE")) %>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
+						<%
+							}else{
+							String resvFileParam = "?dataGrp=resvCerti"
+										+"&amp;fileId="+util.getIntStr(rs.get("RESV_CERTI_FILE"))
+										+"&amp;dataIdx="+util.getIntStr(rs.get("EDU_RESV_ID"));
+						%>
+						<input type="button" onclick="if(confirm('정말로 수료증을 발급하시겠습니까?'))location.href='/cmm/fms/ComFileDown.do<%=resvFileParam%>'" class="btn_inp_w_01" value="발급받기">
+
+
+
+							<% }
+						} %>
+						</td>
+					</tr> --%>
+
+
+
+
+
+
+
+
+
 					<% cont--; } %>
 				</tbody>
 			</table>
 			<%=util.getPaging(staticVO, nowPage) %>
 		</div>
-	</div>
 <script type="text/javascript">
 //<![CDATA[
 	function pageViewGo(idx){

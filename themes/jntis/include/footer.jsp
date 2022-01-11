@@ -16,10 +16,15 @@
 </ul>
 </div>
 
+<<<<<<< HEAD
 <div class="waMark">
 <input type="image" class="" src="/img/jntis/common/mark.png" style="float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
+=======
+<!--<div class="waMark">
+<input type="image" class="" src="/img/jntis/main/img_web_accessibility.png" style="width:104px;height:73px;float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
+>>>>>>> parent of d943127 (211215 1001)
 onclick="location.href='http://wa.or.kr/waMark/status_new.asp?op=1&wd=%EC%A0%84%EB%82%A8%EA%B3%BC%ED%95%99%EA%B8%B0%EC%88%A0%EC%A0%95%EB%B3%B4%EC%8B%9C%EC%8A%A4%ED%85%9C&x=0&y=0'"/>
-</div>
+</div>-->
 
 <div class="f_qr">
 <img src="/img/jntis/common/f_qr.jpg" alt="전남과학기술정보시스템 QR코드" />
