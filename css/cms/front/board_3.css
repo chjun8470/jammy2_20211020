@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 .h4_tit { background:url(/img/board/icon_tit.png) left center no-repeat; padding-left:23px; font-size:18px; font-weight:600; letter-spacing:-0.05em; color:#323232; margin-bottom:10px }
-/* íƒ­ë©”ë‰´ */
+/* 탭메뉴 */
 .tabBox_pub { width:100%; float:left; margin-bottom:30px }
 .tabBox_pub ul { width:930px; height:44px; display:block; font-size:14px; font-weight:400; text-align:center; vertical-align:middle; letter-spacing:-0.05em }
 .tabBox_pub ul li { width:147px; height:29px; float:left; padding-top:13px; border:1px solid #e1e1e1; margin-right:7px }
@@ -19,10 +19,22 @@
 .list_top .publist_top_wrap .list_sort button.sort01{width:72px}
 .list_top .publist_top_wrap .list_sort button.sort02{width:72px}
 .list_top .publist_top_wrap .list_sort button.sort03{width:95px}
-.ContWrap .Contents .pub_list ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
-.ContWrap .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}
-.ContWrap .Contents .pub_list ul.pub_list_block li.end{margin-right:0}
-.ContWrap .Contents .pub_list ul.pub_list_block li span.tit_publist{padding:10px;height:44px;line-height:44px;text-align:left;color:#000;}
+.ContWrap  .Contents .pub_list ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
+.ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}
+.ContWrap  .Contents .pub_list ul.pub_list_block li.end{margin-right:0}
+.ContWrap  .Contents .pub_list ul.pub_list_block li span.tit_publist{padding:10px;height:44px;line-height:44px;text-align:left;color:#000;}
+
+.list_top .publist_top_wrap02{float:right}
+.list_top .publist_top_wrap02 .b_srchBox, .list_top .publist_top_wrap .b_srchBox_gap,.list_top .publist_top_wrap .b_btn_listBox{float:left}
+.list_top .publist_top_wrap02 .list_sort button{height:38px;padding:0;border:0;float:left}
+.list_top .publist_top_wrap02 .list_sort button.sort01{width:72px}
+.list_top .publist_top_wrap02 .list_sort button.sort02{width:72px}
+.list_top .publist_top_wrap02 .list_sort button.sort03{width:95px}
+.ContWrap  .Contents .pub_list ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
+.ContWrap  .Contents .pub_list ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}
+.ContWrap  .Contents .pub_list ul.pub_list_block li.end{margin-right:0}
+.ContWrap  .Contents .pub_list ul.pub_list_block li span.tit_publist{padding:10px;height:44px;line-height:44px;text-align:left;color:#000;}
+
 
 .list_top .publist_top_wrap03{float:right}
 .list_sort button{height:38px;padding:0;border:0;float:left}
@@ -31,7 +43,7 @@
 .list_sort button.sort03{width:95px}
 
 
-/* publicationê²Œì‹œíŒ íŒì—… CSS ì¶”ê°€ */
+/* publication게시판 팝업 CSS 추가 */
 .list_top .publist_top_wrap { width:81%;}
 .list_top .publist_top_wrap03 { width:83%;float:right}
 .pub_list .pub_list_block .tooltip { position:relative; }
@@ -40,13 +52,12 @@
 	position: absolute;
 	bottom: 50px;
 	top:0px;
-	left:0px; 
 	right: 1px;
 	display: none;
 	width: 213px;
 	height: 333px;
 	background-color: #000000;
-	/*margin-left: 10px;*/
+	margin-left: 10px;
 
 	filter:alpha(opacity=70);
 	-moz-opacity:0.7;
@@ -59,7 +70,7 @@
 
 .pub_list .pub_list_block .tooltip .tooltip_detail {
 	width: 100%;
-	/*height: 250px;*/
+	height: 250px;
 	display: inline-block;
 	text-align: center;
 	background-color: #000000;
@@ -79,6 +90,7 @@
 .list_sort button.sort01{width:72px}
 .list_sort button.sort02{width:72px}
 .list_sort button.sort03{width:95px}
+<<<<<<< HEAD
 .ContWrap .Contents .pub_list02 ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
 <<<<<<< HEAD
 .ContWrap .Contents .pub_list02 ul.pub_list_block li{float:left;width: 49%;height: 465px;border-top:2px solid #2d5fba;background:#f9f9f9;text-align:center;margin-left: 1%;margin-top:30px;/*padding-top:7px;*/padding:10px;padding-top: 0;box-sizing: border-box;position: relative;}
@@ -123,6 +135,13 @@
 .ContWrap .Contents .pub_list02 ul.pub_list_block li .tit_publist .ko_tit { word-break: keep-all; }
 >>>>>>> parent of d943127 (211215 1001)
 .ContWrap .Contents .pub_list02 ul.pub_list_block li .tit_publist .en_tit { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; font-size: 12px; }
+=======
+.ContWrap  .Contents .pub_list02 ul.pub_list_block{border-top:1px solid #00baff;margin-top:17px;width:100%;display:inline-block}
+.ContWrap  .Contents .pub_list02 ul.pub_list_block li{float:left;width:215px;background:#f1f1f1;text-align:center;margin-left:14px;margin-top:35px;padding-top:7px}
+.ContWrap  .Contents .pub_list02 ul.pub_list_block li.end{margin-right:0}
+.ContWrap  .Contents .pub_list02 ul.pub_list_block li p.tit_publist{padding:10px 10px 10px 0; border-bottom:1px dotted #666;text-align:left;color:#000;margin:0 10px}
+.ContWrap  .Contents .pub_list02 ul.pub_list_block li p.star_publist{line-height:13px;text-align:left;padding:10px 10px 13px 10px;color:#2aade5;font-weight:600}
+>>>>>>> parent of 4424c78 (220111 147)
 
 .pub_list ul.pub_list_blog{	border-top: 1px solid #00baff;	margin-top: 99px;}
 .pub_list ul.pub_list_blog li{padding:30px 0;border-bottom:1px solid #dbdbdb;width:100%}
@@ -159,12 +178,12 @@
 .pub_list03 ul.pub_list03_block li.end{margin-right:0}
 .pub_list03 ul.pub_list03_block li p.tit_publist03{padding:10px;padding-bottom:0;height:29px;text-align:left;color:#000;overflow:hidden;margin-bottom:14px}
 .img_publist03 img{width:198px;height:120px}
-.pub_list03 ul.pub_list03_blog{	border-top: 1px solid #00baff;	margin-top: 15px;	font-family:'Montserrat','Noto Sans KR', "Malgun Gothic", dotum;}
+.pub_list03 ul.pub_list03_blog{	border-top: 1px solid #00baff;	margin-top: 15px;	font-family: NanumGothic, "Malgun Gothic", dotum;}
 .pub_list03 ul.pub_list03_blog li{padding:30px 0;border-bottom:1px solid #dbdbdb;width:100%}
 .pub_list03 ul.pub_list03_blog li p.img_publist03_blog{float:left;border:7px solid #f1f1f1;margin-right:30px}
 .img_publist03_blog a img{width:250px;height:182px}
 .pub_list03 ul.pub_list03_blog li .explanation p.tit_publist03_blog01 a{font-size:24px;letter-spacing:-1px;color:#323232}
-.pub_list03 ul.pub_list03_blog li .explanation .txt_publist03_blog01 {padding:15px 0 0 0;float:left} 
+.pub_list03 ul.pub_list03_blog li .explanation .txt_publist03_blog01 {padding:15px 0 0 0;float:left}
 .pub_list03 ul.pub_list03_blog li .explanation .txt_publist03_blog01 a{color:#787878;font-size:13px;}
 .pub_list03 ul.pub_list03_blog li .explanation .star_publist03_blog01 a{padding:20px 0;float:right;line-height:13px;text-align:left;padding:14px 10px 3px 10px;color:#2aade5;font-weight:600}
 .pub_list03 ul.pub_list03_blog li .explanation p.star_publist03_blog01 a{color:#787878;font-size:13px;}
@@ -197,7 +216,6 @@ p.TxtPubView2{padding:20px 0}
 .dat_list dd{ float:left; line-height:14px; width:300px; display:block; font-size:13px; padding:7px 10px; }
 .dat_list dt span.noL{ width:70px; float:left; display:block;  font-size:15px;line-height:20px;}
 .dat_list dt span.titleL{ width:540px;  float:left; color:#277cbc;font-size:15px;line-height:18px;display:block;}
-
 
 @media (max-width: 1198px){
 	.b_ContBox .PubimgBox iframe {display:none;}

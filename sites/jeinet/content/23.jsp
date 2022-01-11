@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<!--<div class="Cont23">
+<div class="Cont23">
 <div class="Cont23Img">
 <img src="/img/cont/txt_cont23.png" alt="JEINET (JeoNam Equipment Information NETwork)는" /></div>
 <p class="Cont23txt">「전라남도 연구개발장비 등의 공동활용에 관한 조례」에 따라 전남 지역 공공 연구시설·장비를 체계적으로 관리하고,  사용자와 장비담당자 모두가 편리하게 이용할 있도록 최상의 정보를 제공하는 장비 종합포털 사이트입니다. </p>
@@ -13,6 +13,7 @@
 <li class="cont23list06">연구장비 커뮤니티<br />:지원사업정보, 장비구축·활용·만족도 조사분석, 성과확산</li>
 <li class="cont23list07">연구장비 구축, 활용, 인력 통계제공</li>
 </ol>
+<<<<<<< HEAD
 </div>-->
 
 <div class="Cont24">
@@ -76,3 +77,6 @@
                             </div>
                         </div>
                     </div>
+=======
+</div>
+>>>>>>> parent of 4424c78 (220111 147)
