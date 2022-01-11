@@ -1,4 +1,23 @@
+<%@page import="java.lang.ProcessBuilder.Redirect"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@page import="org.springframework.ui.Model"%>
+<%@ page import = "java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*" %>
+<%@page import="info.elsys.jnsp.comm.vo.LoginVO"%>
+<%@page import="info.elsys.jnsp.util.ComUtil"%>
+
+
+
+<style>
+
+.xbtn{border:none; clear:both; background:#3974cd; text-align:center; display:block; padding:10px 0; color:#fff; margin-top:30px;}
+
+</style>
+
+
 <div class="MPContImg">
 <h3 class="MPHome">마이페이지</h3>
 	<p class="TxtMPHome01">저희 홈페이지를 방문해 주셔서 <br />감사합니다.</p>
@@ -36,3 +55,11 @@
 	</li>
 </ul>
 </div>
+<%
+if(util.getStr(loginVO.getUserTp()).equals("4")){ 
+%>
+	<a href="/sso/expertInfo.do?mode=view&userIdx=<%=util.getStr(loginVO.getUserIdx())%>"><span class="xbtn">전문가 상세정보 입력</span></a>
+<%
+}
+%>
+

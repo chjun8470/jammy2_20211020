@@ -102,10 +102,12 @@ span.pop_whelk { float:left; font-size:14px; color:#464646; margin:10px 7px 0 7p
 
 .agreeWrap .agreeBox2 .memberKindWrap { width:100%; height:106px; float:left; margin-top:15px; border-top:1px solid #3b88b7; border-bottom:1px solid #e1e1e1 }
 .agreeWrap .agreeBox2 .memberKindWrap .memberKind { width:100%; height:36px; float:left; background-color:#f0f0f0 }
-.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice { width:100px; height:29px; float:left; padding-top:8px; margin-right:80px; margin-left:150px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice { width:100px; height:29px; float:left; padding-top:8px; margin-right:50px; margin-left:110px }
 .agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
-.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 { width:100px; height:29px; float:left; padding-top:8px; margin-right:80px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 { width:100px; height:29px; float:left; padding-top:8px; margin-right:50px }
 .agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice2 label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice4 { width:120px; height:29px; float:left; padding-top:8px; margin-right:50px }
+.agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice4 label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
 .agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 { width:100px; height:29px; float:left; padding-top:8px }
 .agreeWrap .agreeBox2 .memberKindWrap .memberKind .check_choice3 label { font-size:16px; letter-spacing:-0.03em; color:#464646; padding-left:10px; vertical-align:middle }
 .agreeWrap .agreeBox2 .memberKindWrap .memberCountry { width:100%; float:left }

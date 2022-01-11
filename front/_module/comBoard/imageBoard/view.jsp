@@ -38,7 +38,7 @@
 	String searchType = util.getStr(paramMap.get("searchType"));
 	String searchWord = util.getStr(paramMap.get("searchWord"));
 	
-	out.println(dataMap);
+	
 
 %>
 
@@ -107,7 +107,7 @@
 			  </tr>
 			  <tr>
 			    <td class="r_line_none view_cont" colspan="4" style="word-break:break-all; overflow:hidden;">
-			    	<div style="padding: 10px;"><%//=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%></div>
+			    	<div style="padding: 10px;"><%=dataMap.get("CONTENT").trim().replaceAll("<br>", "<br/>")%></div>
 
 
 					<!-- 파일첨부 이미지일 경우 화면에 출력  -->

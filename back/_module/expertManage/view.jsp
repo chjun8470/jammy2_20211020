@@ -18,6 +18,8 @@
 	HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
 	HashMap<String, String> dataMap = request.getAttribute("dataMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("dataMap");
 	HashMap<String, String> boardMap = request.getAttribute("boardMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("boardMap");
+
+	
 	ArrayList<HashMap<String, String>> cmtMap = request.getAttribute("cmtMap") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("cmtMap");
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("fileList");
@@ -49,6 +51,7 @@
 
 	LoginVO loginVO = util.getLoginInfo(request);
 	
+	
 
 %>
 
@@ -65,24 +68,16 @@
 		<table class="skin_basic_write" >
 			<caption>기본정보</caption>
 			<colgroup>
-				<col style="width:15%" />
-			    <col style="width:15%" />
-			    <col style="width:25%" />
-			    <col style="width:15%" />
-			    <col style="width:25%" />
-			</colgroup>
+                   <col style="width:15%" />
+                   <col style="width:35%" />
+                   <col style="width:15%" />
+                   <col style="width:35%" />
+            </colgroup>
 			<thead>
 			</thead>
 			<tbody>
 				<tr>
-					<td rowspan="4" style="width:120px; height:150px;">
-						<%if(util.getIntStr(dataMap.get("FILE_ID")).equals("") || util.getIntStr(dataMap.get("FILE_ID")).equals(null) ||  util.getIntStr(dataMap.get("FILE_ID")).equals("0")){ %>
-							<img  style="width:100%; height: 100%;" src="/img/main/no_image01.gif" alt="프로필사진" />
-						<%}else{%>
-							<img src = "/file/<%=fileGrp+"/"+dataMap.get("TITLE")%>" style="width:100%; height: 100%;" alt="프로필사진" />
-						<%}%>
-		        	</td>
-			  		<th scope="row" class="tit">이름</th>
+					<th scope="row" class="tit">이름</th>
 			  		<td><%=util.getStr(dataMap.get("PSN_NM")) %></td>
 		     		<th scope="row" class="tit">성별</th>
 		     		<td><input type="text" name="GenderTypeCd" id="GenderTypeCd"  <%=(util.getStr(dataMap.get("GENDER_TYPE_CD"))).equals("M")? "value='남자'" : "value='여자'" %> style="border:0px;"  readonly  maxlength="20"></td>
@@ -94,20 +89,11 @@
 		        	<td><%=util.getStr(dataMap.get("EMAIL")) %></td>
 		        </tr>
 				<tr>
-		       		<th scope="row" class="tit">국적</th>
-		       		<td>
-		       			<%if(util.getStr(dataMap.get("FRGN_YN")).equals("Y")){
-            				if(util.getStr(dataMap.get("PRO_USER_FORG")).equals("") || util.getStr(dataMap.get("PRO_USER_FORG")).equals(null)){%>
-            					<input type="text" name="proUserForg" id="proUserForg"  class="inp_txt" style="width:100%;" maxlength="100">
-            				<%}else{%>
-            					<input type="text" name="proUserForg" id="proUserForg"  value="<%=util.getStr(dataMap.get("PRO_USER_FORG")) %>" class="inp_txt" style="width:100%; border:0px;"  readonly>
-            				<%} %>
-            			<%}else{ %>
-            				대한민국
-            			<%} %>
-		       		</td>
 		       		<th scope="row" class="tit">출생지역</th>
-		       		<td><%=util.getStr(dataMap.get("PRO_USER_BIRTHPLACE"))%></td>
+		       		<td colspan="3">
+		       			<%=util.getStr(dataMap.get("PRO_USER_AREA")).equals("1")?"전라남도":""%>
+		       			<%=util.getStr(dataMap.get("PRO_USER_BIRTHPLACE"))%>
+		       		</td>
 		        </tr>
 		    	<tr>
 		    		<th scope="row" class="tit">전화번호</th>
@@ -130,20 +116,11 @@
 					</td>
 				</tr>
 				<tr>
-      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
-            		<td colspan="3">
-					<% 
-					int teamCnt = 1; 
-					for(HashMap te:teamList){ %>
-						<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %>  disabled='disabled' value="Y" />
-					<% teamCnt++; } %>	
-					</td>
-            	</tr>
-            	<tr>
-            		<th scope="row" class="tit">관심분야</th>
-            		<td colspan="4">
-						<%=util.getStr(dataMap.get("PRO_USER_INTEREST_WORLD"))%>
-					</td>
+      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
+	            	<td colspan="3">
+	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1")) %>
+						
+	           		</td>
             	</tr>
 			</tbody>
 		</table>
@@ -608,9 +585,15 @@
 				<div class="btn_right_box">
 			<%if(util.loginCheck()){ %>
 					<input type="button" class="btn_inp_b_01" value="수정" onclick="goSubmit('edit')"/>
+				<% if(!util.getStr(paramMap.get("xt")).equals("1")){ %>
 					<input type="button" class="btn_inp_b_01" value="삭제" onclick="goSubmit('del')"/>
+				<% } %>
 			<%} %>
+				<% if(!util.getStr(paramMap.get("xt")).equals("1")){ %>
 					<input type="button" class="btn_inp_w_01" value="목록" onclick="goSubmit('list')"/>
+				<% }else{ %>
+					<input type="button" class="btn_inp_w_01" value="이전" onclick="history.go(-1)"/>
+				<% } %>
 				</div>
 		</div>
 	</div>
@@ -618,6 +601,9 @@
 
 
 <script type="text/javascript">
+
+window.resizeTo( "800", "620");
+
 	function goSubmit(mode){
 		$('#mode').val(mode);
 		$('#fview').submit();

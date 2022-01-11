@@ -589,7 +589,7 @@ table.skin_basic_write td input.subject {
 .select{border:1px solid #ebebeb; padding: 5px 0;}
 .btn_right_box{width:980px;text-align:right}
 .addbtn{width:30px;height:20px;}
-.inp_txt{border:1px solid #ebebeb; padding:5px}
+.inp_txt{border:1px solid #ebebeb; padding:5px; width:100%; box-sizing:border-box;}
 .select_box{border:1px solid #ebebeb; padding:5px}
 .zoom{float:right;padding:20px 0}
 .zoom_x{float:right;padding:5px 0}

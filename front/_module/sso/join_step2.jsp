@@ -12,6 +12,9 @@ session.setAttribute("certiMap2", certiMap);
 
 //page = request.getRequestURL();
 
+//certiMap.put("genderTypeCd","M");
+//paramMap.put("grobalTp","1"); 
+//paramMap.put("userTp","4");
 %>
 
 <script type="text/javascript">
@@ -192,15 +195,14 @@ $(document).ready(function(){
 		<%if(util.getStr(paramMap.get("userTp")).equals("2")){%>
 			$('#photoTr').hide();
 		<%}%>
-<%}else{%>
-$('#orgTpTr').hide();
-$('#blngOrgNm').hide();
-$('#orgInfo1').hide();
-$('#orgInfo2').hide();
-$('#photoTr').hide();
+	<%}else{%>
+		$('#orgTpTr').hide();
+		$('#blngOrgNm').hide();
+		$('#orgInfo1').hide();
+		$('#orgInfo2').hide();
+		$('#photoTr').hide();
 
-<%}
-%>
+	<%}%>
 
 
 	$('input[name="authLv"]').change(function(){
@@ -499,7 +501,7 @@ function submitGo(){
 	$("#cpNo").val(cpNo);
 
 
-	<% if( !util.getStr(paramMap.get("userTp")).equals("1") ){ %>
+	<% if( !util.getStr(paramMap.get("userTp")).equals("1") && !util.getStr(paramMap.get("userTp")).equals("4") ){ %>
 	if($("#orgGrpCd").val()==null||$("#orgGrpCd").val()==""){
 		alert("소속기관 : 필수입력값입니다.");
 		$("#blngOrgNm").focus();
@@ -512,7 +514,8 @@ function submitGo(){
 }
 //]]>
 </script>
-111111111111
+
+
 <form name="authForm" id="authForm" method="post" action="/web/jnspUserProc.do" enctype="multipart/form-data" >
 	<input type="hidden" name="mode" id="mode" value="auth" />
 	<input type="hidden" name="idCheck" id="idCheck"/>

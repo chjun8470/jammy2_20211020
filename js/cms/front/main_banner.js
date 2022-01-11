@@ -7,7 +7,7 @@ boardLatestNotice[0]['FRST_REGIST_PNTTM'] = '2021-06-09';
 
 
 
-var strDate = '2021년 10월 29일 10시';
+var strDate = '2022년 01월 11일 13시';
 
 
 var strJEnterpriseCnt = '40';
@@ -231,70 +231,125 @@ boardListLaw[1]['FRST_REGIST_PNTTM'] = '';
 boardListLaw[1]['FILE_PATH'] = '/file/public/';
 boardListLaw[1]['TITLE'] = 'public_201707121112457550.JPG';
 boardListLaw[1]['KOR_NM'] = '';
+boardListLaw[2] = new Array();
+boardListLaw[2]['ARTICLE_ID'] = '15993';
+boardListLaw[2]['SUBJECT'] = '테스트';
+boardListLaw[2]['WRITER_NM'] = '엘시스';
+boardListLaw[2]['FRST_REGIST_PNTTM'] = '';
+boardListLaw[2]['FILE_PATH'] = '/file/public/';
+boardListLaw[2]['TITLE'] = 'public_202201100440262490.png';
+boardListLaw[2]['KOR_NM'] = '';
 
 
 
 var boardListLawDate = new Array();
 boardListLawDate[0] = new Array();
-boardListLawDate[0]['ARTICLE_ID'] = '13698';
-boardListLawDate[0]['SUBJECT'] = '연구시설·장비 통합심의 제도';
-boardListLawDate[0]['WRITER_NM'] = '관리자';
+boardListLawDate[0]['ARTICLE_ID'] = '15993';
+boardListLawDate[0]['SUBJECT'] = '테스트';
+boardListLawDate[0]['WRITER_NM'] = '엘시스';
 boardListLawDate[0]['FRST_REGIST_PNTTM'] = '';
 boardListLawDate[0]['FILE_PATH'] = '/file/public/';
-boardListLawDate[0]['TITLE'] = 'public_201707121112457550.JPG';
+boardListLawDate[0]['TITLE'] = 'public_202201100440262490.png';
 boardListLawDate[0]['KOR_NM'] = '';
 boardListLawDate[1] = new Array();
-boardListLawDate[1]['ARTICLE_ID'] = '12762';
-boardListLawDate[1]['SUBJECT'] = 'vol17_연구장비예산심의위원회_본심의편';
+boardListLawDate[1]['ARTICLE_ID'] = '13698';
+boardListLawDate[1]['SUBJECT'] = '연구시설·장비 통합심의 제도';
 boardListLawDate[1]['WRITER_NM'] = '관리자';
 boardListLawDate[1]['FRST_REGIST_PNTTM'] = '';
 boardListLawDate[1]['FILE_PATH'] = '/file/public/';
-boardListLawDate[1]['TITLE'] = 'public_201608010505341640.jpg';
+boardListLawDate[1]['TITLE'] = 'public_201707121112457550.JPG';
 boardListLawDate[1]['KOR_NM'] = '';
+boardListLawDate[2] = new Array();
+boardListLawDate[2]['ARTICLE_ID'] = '12762';
+boardListLawDate[2]['SUBJECT'] = 'vol17_연구장비예산심의위원회_본심의편';
+boardListLawDate[2]['WRITER_NM'] = '관리자';
+boardListLawDate[2]['FRST_REGIST_PNTTM'] = '';
+boardListLawDate[2]['FILE_PATH'] = '/file/public/';
+boardListLawDate[2]['TITLE'] = 'public_201608010505341640.jpg';
+boardListLawDate[2]['KOR_NM'] = '';
 
 
 
 var boardListEqu = new Array();
 boardListEqu[0] = new Array();
-boardListEqu[0]['RND_EQU_IDX'] = 'NFEC-2021-06-271158';
+boardListEqu[0]['RND_EQU_IDX'] = 'NFEC-2012-03-160883';
 boardListEqu[0]['FILE_PATH'] = '';
 boardListEqu[0]['TITLE'] = '';
-boardListEqu[0]['KOR_NM'] = '겔침투크로마토그래피';
-boardListEqu[0]['OWN_ORG_NM'] = '(재)한국건설생활환경시험연구원';
+boardListEqu[0]['KOR_NM'] = '충격강도시험기';
+boardListEqu[0]['OWN_ORG_NM'] = '단국대학교 산학협력단';
 boardListEqu[0]['OWN_ORG_SUB_NM'] = '';
 boardListEqu[0]['XMODE'] = 'ZEUS';
 boardListEqu[1] = new Array();
-boardListEqu[1]['RND_EQU_IDX'] = 'NFEC-2010-12-129611';
-boardListEqu[1]['FILE_PATH'] = '';
-boardListEqu[1]['TITLE'] = '';
-boardListEqu[1]['KOR_NM'] = '냉동진공건조기';
-boardListEqu[1]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
-boardListEqu[1]['OWN_ORG_SUB_NM'] = '';
-boardListEqu[1]['XMODE'] = 'ZEUS';
+boardListEqu[1]['RND_EQU_IDX'] = 'EF021411';
+boardListEqu[1]['FILE_PATH'] = '/file/jnsptotal/';
+boardListEqu[1]['TITLE'] = 'jnsptotal_202003180501533010.jpg';
+boardListEqu[1]['KOR_NM'] = '계류라인 면내외 굽힘 피로시험시스템';
+boardListEqu[1]['OWN_ORG_NM'] = '목포대학교';
+boardListEqu[1]['OWN_ORG_SUB_NM'] = '해양케이블URF시험연구센터';
+boardListEqu[1]['XMODE'] = 'JEINET';
 boardListEqu[2] = new Array();
-boardListEqu[2]['RND_EQU_IDX'] = 'EF021448';
-boardListEqu[2]['FILE_PATH'] = '/file/jnsptotal/';
-boardListEqu[2]['TITLE'] = 'jnsptotal_202004280518214000.jpg';
-boardListEqu[2]['KOR_NM'] = '정동특성평가 시험기(20kN)';
-boardListEqu[2]['OWN_ORG_NM'] = '한국화학융합시험연구원';
-boardListEqu[2]['OWN_ORG_SUB_NM'] = '첨단화학소재센터';
-boardListEqu[2]['XMODE'] = 'JEINET';
+boardListEqu[2]['RND_EQU_IDX'] = 'NFEC-2011-02-141191';
+boardListEqu[2]['FILE_PATH'] = '';
+boardListEqu[2]['TITLE'] = '';
+boardListEqu[2]['KOR_NM'] = '저온멀티룸 인큐베이터';
+boardListEqu[2]['OWN_ORG_NM'] = '전남해양바이오연구센터';
+boardListEqu[2]['OWN_ORG_SUB_NM'] = '';
+boardListEqu[2]['XMODE'] = 'ZEUS';
 boardListEqu[3] = new Array();
-boardListEqu[3]['RND_EQU_IDX'] = 'NFEC-2009-10-075961';
+boardListEqu[3]['RND_EQU_IDX'] = 'NFEC-2008-08-065507';
 boardListEqu[3]['FILE_PATH'] = '';
 boardListEqu[3]['TITLE'] = '';
-boardListEqu[3]['KOR_NM'] = '혼합용건조기';
-boardListEqu[3]['OWN_ORG_NM'] = '국립식량과학원';
+boardListEqu[3]['KOR_NM'] = '디지털 염도계';
+boardListEqu[3]['OWN_ORG_NM'] = '장흥군버섯산업연구원';
 boardListEqu[3]['OWN_ORG_SUB_NM'] = '';
 boardListEqu[3]['XMODE'] = 'ZEUS';
 boardListEqu[4] = new Array();
-boardListEqu[4]['RND_EQU_IDX'] = 'EF000354';
-boardListEqu[4]['FILE_PATH'] = '/file/jntptotal/';
-boardListEqu[4]['TITLE'] = 'jntptotal_201604130241525240.JPG';
-boardListEqu[4]['KOR_NM'] = '발효기 2대 세트 ';
-boardListEqu[4]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
-boardListEqu[4]['OWN_ORG_SUB_NM'] = '해양바이오연구센터';
-boardListEqu[4]['XMODE'] = 'JEINET';
+boardListEqu[4]['RND_EQU_IDX'] = 'NFEC-2014-08-191017';
+boardListEqu[4]['FILE_PATH'] = '';
+boardListEqu[4]['TITLE'] = '';
+boardListEqu[4]['KOR_NM'] = '다온도 종자발아기';
+boardListEqu[4]['OWN_ORG_NM'] = '한국한의학연구원';
+boardListEqu[4]['OWN_ORG_SUB_NM'] = '';
+boardListEqu[4]['XMODE'] = 'ZEUS';
+
+
+
+var boardListEquDate = new Array();
+boardListEquDate[0] = new Array();
+boardListEquDate[0]['RND_EQU_IDX'] = 'EF021546';
+boardListEquDate[0]['FILE_PATH'] = '/file/jnsptotal/';
+boardListEquDate[0]['TITLE'] = 'jnsptotal_202101200500235450.png';
+boardListEquDate[0]['KOR_NM'] = '소재계량 및 공급장치';
+boardListEquDate[0]['OWN_ORG_NM'] = '한국화학융합시험연구원';
+boardListEquDate[0]['OWN_ORG_SUB_NM'] = '첨단화학소재센터';
+boardListEquDate[1] = new Array();
+boardListEquDate[1]['RND_EQU_IDX'] = 'EF000465';
+boardListEquDate[1]['FILE_PATH'] = '/file/jntptotal/';
+boardListEquDate[1]['TITLE'] = 'jntptotal_201604150943384330.JPG';
+boardListEquDate[1]['KOR_NM'] = '분상자동포장기';
+boardListEquDate[1]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
+boardListEquDate[1]['OWN_ORG_SUB_NM'] = '생물방제연구센터';
+boardListEquDate[2] = new Array();
+boardListEquDate[2]['RND_EQU_IDX'] = 'EF001040';
+boardListEquDate[2]['FILE_PATH'] = '/file/jntptotal/';
+boardListEquDate[2]['TITLE'] = 'jntptotal_201604270449167150.jpg';
+boardListEquDate[2]['KOR_NM'] = '공조기';
+boardListEquDate[2]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
+boardListEquDate[2]['OWN_ORG_SUB_NM'] = '생물의약연구센터';
+boardListEquDate[3] = new Array();
+boardListEquDate[3]['RND_EQU_IDX'] = 'EF000531';
+boardListEquDate[3]['FILE_PATH'] = '';
+boardListEquDate[3]['TITLE'] = '';
+boardListEquDate[3]['KOR_NM'] = '초고속능액체 크로마토그래피';
+boardListEquDate[3]['OWN_ORG_NM'] = '(재)전남생물산업진흥원';
+boardListEquDate[3]['OWN_ORG_SUB_NM'] = '생물방제연구센터';
+boardListEquDate[4] = new Array();
+boardListEquDate[4]['RND_EQU_IDX'] = 'EF020316';
+boardListEquDate[4]['FILE_PATH'] = '/file/jnsptotal/';
+boardListEquDate[4]['TITLE'] = 'jnsptotal_201611010942564530.png';
+boardListEquDate[4]['KOR_NM'] = '도로교통 안전점검 플랫폼 부착위치 취득 시스템';
+boardListEquDate[4]['OWN_ORG_NM'] = '한국건설기술연구원';
+boardListEquDate[4]['OWN_ORG_SUB_NM'] = '도로연구소';
 
 
 

@@ -28,9 +28,6 @@
 	String reject = util.getStr(paramMap.get("reject"));
 	String authLv = util.getStr(paramMap.get("authLv"));
 	
-	System.out.println(paramMap);
-
-
 	String msg = util.getStr(paramMap.get("msg"),"정상적으로 처리되었습니다.");
 	if("popCloseReload".equals(util.getStr(paramMap.get("reUrl")))){
 %>
@@ -100,7 +97,11 @@
 	<%}else if("jnrdm1".equals(paramMap.get("pageName"))){%>
 		
 	<%}else{%>
+		<% if(util.getStr(paramMap.get("xt")).equals("1")){ %>	
+		location.href='<%=util.getStr(paramMap.get("reUrl"))%>?mode=view&userIdx=<%=util.getStr(paramMap.get("userIdx"))%>';
+		<% }else{ %>
 		location.href='<%=util.getStr(paramMap.get("reUrl"))%>';
+		<% } %>
 	<%}%>
 </script>
 <%}%>

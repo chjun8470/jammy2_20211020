@@ -143,6 +143,7 @@
 					<div class="memberKind">
 						<div class="check_choice"><input type="radio" value="2" checked="checked" name="userTp" id="userTp2" style="width:16px; height:16px;" /><label for="userTp2">기업회원</label></div>
 						<div class="check_choice2"><input type="radio" value="3"  name="userTp" id="userTp3" style="width:16px; height:16px;" /><label for="userTp3">기관회원</label></div>
+						<div class="check_choice4"><input type="radio" value="4"  name="userTp" id="userTp4" style="width:16px; height:16px;" /><label for="userTp4">전문가회원</label></div>
 						<div class="check_choice3"><input type="radio" value="1" name="userTp" id="userTp1" style="width:16px; height:16px;" /><label for="userTp1">개인회원</label></div>
 					</div>
 
