@@ -37,7 +37,9 @@
 	ArrayList<HashMap<String, String>> listCO = request.getAttribute("listCO") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listCO");
 	ArrayList<HashMap<String, String>> listResultEv = request.getAttribute("listResultEv") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultEv");
 	ArrayList<HashMap<String, String>> listResultCon = request.getAttribute("listResultCon") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultCon");
-
+	
+	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
+	
 	String fileGrp = "expertManage";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -48,11 +50,7 @@
 	String proState = util.getStr(paramMap.get("proState"));
 
 	LoginVO loginVO = util.getLoginInfo(request);
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
+
 
 %>
 
@@ -116,134 +114,118 @@
 						기타 <input type="checkbox" name="proJntisEtc" value="Y" <%=(util.getStr(dataMap.get("PRO_JNTIS_ETC"))).equals("Y")? "checked='checked'" : "" %> disabled='disabled' />&nbsp;&nbsp;
 					</td>
 				</tr>
-<<<<<<< HEAD
+
 				<tr>
       	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
 	            	<td colspan="3">
-	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1")) %>
-						
+	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1")) %>						
 	           		</td>
-=======
-            	<tr>
-            		<th scope="row" class="tit">관심분야</th>
-            		<td colspan="4">
-						<%=util.getStr(dataMap.get("PRO_USER_INTEREST_WORLD"))%>
-					</td>
->>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
+
             	</tr>
 			</tbody>
 		</table>
-		<%if(!(util.getStr(dataMap.get("ORG_GRP_CD"))).equals("") && !(util.getStr(dataMap.get("ORG_GRP_CD"))).equals(null)){ %>
+		
+		
+		
 		<h2 class="tit">소속정보</h2>
-		<table class="skin_basic_write">
+        <table class="skin_basic_write">
 			<caption>소속정보</caption>
-			<colgroup>
-				<col style="width:15%" />
-	            <col style="width:35%" />
-	            <col style="width:15%" />
-	            <col style="width:35%" />
-			</colgroup>
-			<tbody>
-				<tr>
-		      		<th scope="row" class="tit">기관명</th>
-		      		<td><%=util.getStr(dataMap.get("ORG_GRP_NM")) %></td>
-					<th scope="row" class="tit">기관유형</th>
-					<td><%=util.getStr(dataMap.get("ORG_TYPE")) %></td>
-				</tr>
-				<tr>
-					<th scope="row" class="tit">홈페이지</th>
-					<td><%=util.getStr(dataMap.get("HOMEPAGE")) %></td>
-					<th scope="row" class="tit">대표전화</th>
-					<td><%=util.getStr(dataMap.get("CORP_PHONE")) %></td>
-				</tr>
-				<tr>
-					<th scope="row" class="tit">부서명</th>
-					<td><%=util.getStr(dataMap.get("DEPT_NM")) %></td>
-					<th scope="row" class="tit">직위</th>
-					<td><%=util.getStr(dataMap.get("POSITION_NM")) %></td>
-			    </tr>
-			</tbody>
+            <colgroup>
+                   <col style="width:15%">
+                   <col style="width:35%">
+                   <col style="width:15%">
+                   <col style="width:35%">
+            </colgroup>
+            <tbody>
+        	<tr>
+        		<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관명</th>
+        		<td colspan="3"><%=(util.getStr(dataMap.get("COM_NM")))%></td>
+        	</tr>
+        	<tr>
+  	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
+        		<td colspan="3">
+				<% 
+				int teamCnt = 1; 
+				for(HashMap te:teamList){ %>
+					<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %> value="Y"  disabled='disabled' />
+				<% teamCnt++; } %>	
+				</td>
+        	</tr>
+        	<tr>
+           		<th scope="row" class="tit"><span style="color:red;">*</span> 부서</th>
+           		<td>
+           			<%=(util.getStr(dataMap.get("DEPT_NM")))%>
+           		</td>
+           		<th scope="row" class="tit"><span style="color:red;">*</span> 직위</th>
+           		<td>
+           			<%=(util.getStr(dataMap.get("POSITION_NM")))%>                           			
+           		</td>
+           	</tr>
+            <tr>
+        		<th scope="row" class="tit"><span style="color:red;" >*</span> 회사주소</th>
+        		<td colspan="3">
+        			<%=(util.getStr(dataMap.get("COM_ADDR1")))%> <%=(util.getStr(dataMap.get("COM_ADDR2")))%>
+        		</td>
+        	</tr>
+        	<tr>
+        		<th scope="row" class="tit"><span style="color:red;" >*</span> 대표번호</th>
+        		<td colspan="3">
+        		<%=util.getStr(dataMap.get("COM_TEL"))%>
+        		</td>
+        	</tr>
+        	</tbody>
 		</table>
-		<%} %>
+		
+		
+		
+		
 		<h2 class="tit">학력정보</h2>
-		<table class="skin_basic_write textCenter">
+		<table class="skin_basic_write">
 			<caption>학력정보</caption>
-			    <colgroup>
-		            <col style="width:25%" />
-	          		<col style="width:25%" />
-	          		<col style="width:10%" />
-	          		<col style="width:10%" />
-	         		<col style="width:25%" />
-			    </colgroup>
+		    <colgroup>
+            	<col style="width:15%" />
+         		<col />
+         		<col style="width:15%" />
+         		<col />
+            </colgroup>
 			<%if(listSC.size()>0){ %>
-			   	<tr>
-			   		<th scope="row" class="tit">학교명</th>
-			   		<th scope="row" class="tit">소재지</th>
-			   		<th scope="row" class="tit" colspan="2">기간</th>
-			   		<th scope="row" class="tit">취득학위</th>
-			   	</tr>
+			   	
 				<% for(HashMap rs:listSC) {%>
 			   	<tr>
-			   		<td><%=util.getStr(rs.get("SC_NM"))%></td>
-			   		<td><%=util.getStr(rs.get("SC_LOCATION"))%></td>
-			   		<td><%=util.getStr(rs.get("SC_START"))%></td>
-			   		<td><%=util.getStr(rs.get("SC_FINISH"))%></td>
-			   		<td><%=util.getStr(rs.get("SC_DEGREE"))%></td>
-			   	</tr>
+	            	<th scope="row" class="tit">학교명</th>
+	          		<td><%=util.getStr(rs.get("SC_NM"))%></td>
+	          		<th scope="row" class="tit">전공</th>
+	          		<td>
+	          			<%=util.getStr(rs.get("SC_CONAME"))%>
+	          		</td>
+	          	</tr>
+	          	<tr>
+	          		<th scope="row" class="tit">교육시작일</th>
+	          		<td><%=util.getStr(rs.get("SC_START"))%></td>
+	          		<th scope="row" class="tit">교육종료일</th>
+	          		<td>
+	          			<%=util.getStr(rs.get("SC_FINISH"))%>
+	          		</td>
+	          	</tr>
+	          	<tr>
+	          		<th scope="row" class="tit">취득학위</th>
+	          		<td>
+	          			<%=util.getStr(rs.get("SC_DEGREE"))%>
+	          		</td>
+	          		<th scope="row" class="tit">학위취득일자</th>
+	          		<td><%=util.getStr(rs.get("SC_DATE"))%></td>
+	          	</tr>
+	          	<tr style="border-bottom:3px solid #ddd;">
+	          		<th scope="row" class="tit">증빙문서</th>
+	          		<td colspan="3" style="text-align:left !important;">
+	          			<%=util.getStr(rs.get("TITLE_ORG"))%>
+	          		</td>
+	          	</tr>
 				<%} %>
 			<%} %>
 		</table>
-		<h3>○ 전공분야</h3>
-		<table class="skin_basic_write textCenter">
-			<caption>전문분야</caption>
-			<colgroup>
-			  <col style="width:15%" />
-			  <col style="width:18%" />
-		      <col style="width:15%" />
-		      <col style="width:18%" />
-		      <col style="width:15%" />
-		      <col style="width:18%" />
-			</colgroup>
-
-		<%if(listEX.size()>0){ %>
-			<% for(HashMap rs:listEX) {%>
-			<tr>
-				<th scope="row" class="tit" >전공계열</th>
-				<td ><%=util.getStr(rs.get("EX_MAJOR_NAME"))%></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td><%=util.getStr(rs.get("EX_REALM_NAME"))%></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td><%=util.getStr(rs.get("EX_DETAIL_NAME"))%></td>
-			</tr>
-			<tr>
-				<th scope="row" class="tit">복수전공계열</th>
-				<td><%=util.getStr(rs.get("EX_MAJOR_PLURAL_NAME"))%></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td><%=util.getStr(rs.get("EX_REALM_PLURAL_NAME"))%></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td><%=util.getStr(rs.get("EX_DETAIL_PLURAL_NAME"))%></td>
-			</tr>
-		<%
-			}
-		} else{%>
-			<tr>
-				<th scope="row" class="tit" >전공계열</th>
-				<td ></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row" class="tit">복수전공계열</th>
-				<td></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td></td>
-			</tr>
-		<%} %>
-		</table>
+		
+		
 		<h2 class="tit">경력정보</h2>
 		<table class="skin_basic_write textCenter">
 			<caption>경력정보</caption>
@@ -602,7 +584,7 @@
 
 <script type="text/javascript">
 
-window.resizeTo( "800", "620");
+window.resizeTo( "850", "620");
 
 	function goSubmit(mode){
 		$('#mode').val(mode);
