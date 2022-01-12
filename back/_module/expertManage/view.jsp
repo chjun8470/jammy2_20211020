@@ -38,10 +38,9 @@
 	ArrayList<HashMap<String, String>> listResultEv = request.getAttribute("listResultEv") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultEv");
 	ArrayList<HashMap<String, String>> listResultCon = request.getAttribute("listResultCon") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultCon");
 
+	
 	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
 	
-
-
 	String fileGrp = "expertManage";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -117,6 +116,7 @@
 						기타 <input type="checkbox" name="proJntisEtc" value="Y" <%=(util.getStr(dataMap.get("PRO_JNTIS_ETC"))).equals("Y")? "checked='checked'" : "" %> disabled='disabled' />&nbsp;&nbsp;
 					</td>
 				</tr>
+
 				<tr>
       	   			<th scope="row" class="tit"> 기술분류</th>
 	            	<td colspan="3">
@@ -226,7 +226,6 @@
 				<%} %>
 			<%} %>
 		</table>
-
 
 		<h2 class="tit">경력정보</h2>
 		<table class="skin_basic_write">

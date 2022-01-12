@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 
+
 <div class="Cont24">
    <!--<div class="Cont24Img"><img src="img/smbrnd/cont/txt_cont24.png" alt="JNTIS 전남과학기술시스템(JeoNam Science &amp; Technology Information System)은"></div>-->
     <div class="Con24title">
@@ -54,3 +55,4 @@
     </div>
 </div>
                
+

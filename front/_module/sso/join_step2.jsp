@@ -10,6 +10,7 @@ session.setAttribute("certiMap2", certiMap);
 //String fileSubGrp = "";
 //String fileFullGrp =fileGrp+fileSubGrp;
 
+
 //page = request.getRequestURL();
 
 
