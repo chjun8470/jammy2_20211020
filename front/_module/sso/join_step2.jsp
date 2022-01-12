@@ -10,11 +10,8 @@ session.setAttribute("certiMap2", certiMap);
 //String fileSubGrp = "";
 //String fileFullGrp =fileGrp+fileSubGrp;
 
-<<<<<<< HEAD
-//String page = request.getRequestURL();
-=======
 //page = request.getRequestURL();
->>>>>>> parent of d943127 (211215 1001)
+
 
 //certiMap.put("genderTypeCd","M");
 //paramMap.put("grobalTp","1"); 
@@ -518,12 +515,7 @@ function submitGo(){
 }
 //]]>
 </script>
-<<<<<<< HEAD
 
-
-=======
-111111111111
->>>>>>> parent of d943127 (211215 1001)
 <form name="authForm" id="authForm" method="post" action="/web/jnspUserProc.do" enctype="multipart/form-data" >
 	<input type="hidden" name="mode" id="mode" value="auth" />
 	<input type="hidden" name="idCheck" id="idCheck"/>

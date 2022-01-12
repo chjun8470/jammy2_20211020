@@ -37,15 +37,11 @@
 	ArrayList<HashMap<String, String>> listCO = request.getAttribute("listCO") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listCO");
 	ArrayList<HashMap<String, String>> listResultEv = request.getAttribute("listResultEv") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultEv");
 	ArrayList<HashMap<String, String>> listResultCon = request.getAttribute("listResultCon") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listResultCon");
-<<<<<<< HEAD
-	
-	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
-	
-=======
+
 	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
 	
 
->>>>>>> parent of d943127 (211215 1001)
+
 	String fileGrp = "expertManage";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -121,31 +117,12 @@
 						기타 <input type="checkbox" name="proJntisEtc" value="Y" <%=(util.getStr(dataMap.get("PRO_JNTIS_ETC"))).equals("Y")? "checked='checked'" : "" %> disabled='disabled' />&nbsp;&nbsp;
 					</td>
 				</tr>
-<<<<<<< HEAD
-
 				<tr>
       	   			<th scope="row" class="tit"> 기술분류</th>
 	            	<td colspan="3">
 	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1_NAME")) %>						
 	           		</td>
 
-=======
-				<tr>
-      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
-            		<td colspan="3">
-					<% 
-					int teamCnt = 1; 
-					for(HashMap te:teamList){ %>
-						<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %>  disabled='disabled' value="Y" />
-					<% teamCnt++; } %>	
-					</td>
-            	</tr>
-            	<tr>
-            		<th scope="row" class="tit">관심분야</th>
-            		<td colspan="4">
-						<%=util.getStr(dataMap.get("PRO_USER_INTEREST_WORLD"))%>
-					</td>
->>>>>>> parent of d943127 (211215 1001)
             	</tr>
 			</tbody>
 		</table>
@@ -249,71 +226,8 @@
 				<%} %>
 			<%} %>
 		</table>
-<<<<<<< HEAD
-		
-		
-=======
-		<h3>○ 전공분야</h3>
-		<table class="skin_basic_write textCenter">
-			<caption>전문분야</caption>
-			<colgroup>
-			  <col style="width:15%" />
-			  <col style="width:18%" />
-		      <col style="width:15%" />
-		      <col style="width:18%" />
-		      <col style="width:15%" />
-		      <col style="width:18%" />
-			</colgroup>
 
-		<%if(listEX.isEmpty()){ %>
-			
-			<tr>
-				<th scope="row" class="tit" >전공계열1</th>
-				<td ></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row" class="tit">복수전공계열</th>
-				<td></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td></td>
-			</tr>
-			
-			
-		<%
-			
-		} else{%>
-			
-			<% for(HashMap rs:listEX) {
-				
-			%>
-			<tr>
-				<th scope="row" class="tit" >전공계열</th>
-				<td ><% if(rs != null) out.println(util.getStr(rs.get("EX_MAJOR_NAME"))); %></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td><% if(rs != null) out.println(util.getStr(rs.get("EX_REALM_NAME"))); %></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td><% if(rs != null) out.println(util.getStr(rs.get("EX_DETAIL_NAME")));%></td>
-			</tr>
-			<tr>
-				<th scope="row" class="tit">복수전공계열</th>
-				<td><% if(rs != null) out.println(util.getStr(rs.get("EX_MAJOR_PLURAL_NAME"))); %></td>
-				<th scope="row" class="tit">전공분야</th>
-				<td><% if(rs != null) out.println(util.getStr(rs.get("EX_REALM_PLURAL_NAME"))); %></td>
-				<th scope="row" class="tit">세부전공</th>
-				<td><% if(rs != null) out.println(util.getStr(rs.get("EX_DETAIL_PLURAL_NAME"))); %></td>
-			</tr>
-			
-		<%	} 
-		}
-		%>
-		</table>
->>>>>>> parent of d943127 (211215 1001)
+
 		<h2 class="tit">경력정보</h2>
 		<table class="skin_basic_write">
 			<caption>경력정보</caption>
