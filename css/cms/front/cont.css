@@ -8,7 +8,7 @@ h4.title002 { height:21px; font-size:18px; font-weight:600; letter-spacing:-0.05
 h4.title003 { height:21px; font-size:18px; font-weight:600; letter-spacing:-0.05em; color:#323232; margin:0 0 10px 0; padding:30px 0 0 23px; background:url(/img/board/icon_tit.png) left 33px no-repeat }		  
 
 
-/* 장비상세조회 */
+/* ìž¥ë¹„ìƒì„¸ì¡°íšŒ */
 .MoreView{padding-bottom:28px}
 .MoreView dl{height:50px;border:1px solid #ebebeb;width:463px;line-height:47px}
 .MoreView dl.MoreView01{float:left;border-right:none;border-bottom:none}
@@ -46,7 +46,7 @@ h4.title003 { height:21px; font-size:18px; font-weight:600; letter-spacing:-0.05
 .MoreViewEX dl dd.map{width:747px;height:273px;padding:0}
 
 
-/*160621추가*/
+/*160621ì¶”ê°€*/
 
 .basicWrap .h3_tit{font-size:22px;font-weight:600;letter-spacing:-1px;color:#333;padding:15px;border:1px solid #ebebeb;margin-top:32px;margin-bottom:10px}
 .basicWrap .h4_tit{background:url(/img/board/icon_tit.png) left 45px no-repeat;padding-left:23px;font-size:18px;font-weight:600;letter-spacing:-0.05em;color:#323232;margin-bottom:10px;padding-top:44px}
@@ -66,7 +66,7 @@ h4.title003 { height:21px; font-size:18px; font-weight:600; letter-spacing:-0.05
 .m_view {display:none}
 
 
-/*jeinet소개*/
+/*jeinetì†Œê°œ*/
 .Cont24{}
 
 .Con24title { }
@@ -94,11 +94,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .info01 p { font-size: 16px; margin-top: 5px; }
 .info01::after {display: block; content: ""; visibility: hidden; clear: both;}
 .info01 ul { float: left; width: 100%; margin: 25px 0px; }
-<<<<<<< HEAD
 .info01 ul li {float: left;width: 32.6%;height: 179px;margin-bottom: 10px;margin-right: 1%;text-align: center;border: 1px solid #eee;padding: 35px 0;font-size: 17px;box-sizing: border-box;position: relative;font-weight: 500;}
-=======
-.info01 ul li { float: left; width: 32.6%; height: 160px; margin-bottom: 10px; margin-right: 1%; text-align: center; border: 1px solid #eee; padding: 30px 0; font-size: 17px; box-sizing: border-box; position: relative; font-weight: 500;}
->>>>>>> cc3e342b87447872b819a5bb1d677f80f29a8498
 .info01 ul li:nth-child(3) { padding: 20px 0; margin-right: 0;}
 .info01 ul li:last-child {margin: 0;}
 .Con02 .num { width: 45px; height: 45px; color: #fff; background: #5f97d1; border-radius: 50%; position: absolute; left: 15px; top: 15px; line-height: 45px; font-weight: 600; margin: 0;}
@@ -107,7 +103,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .info02 ul li { float: left; width: 100%; text-align: left; border: 1px solid #2d5fba; border-radius: 5px; font-size: 17px; box-sizing: border-box; padding: 15px ;}
 .info02 ul li span { font-size: 14px; color: #666;}
 
-/*JEINET 추진체계*/
+/*JEINET ì¶”ì§„ì²´ê³„*/
 
 .img_center { display: block; margin: 0 auto; }
 .nemo { width: 100%; padding-left:25px; margin-top: 20px; box-sizing:border-box;}
@@ -128,12 +124,12 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 
 .cont_plan dl dd { width:80%; padding: 15px 0 15px 19%; margin-left: 17%; font-size: 16px; border: 3px solid #ccc; border-radius: 25px; box-sizing: border-box;}
 
-/*이용방법 및 절차*/
+/*ì´ìš©ë°©ë²• ë° ì ˆì°¨*/
 
 .cont_27 {/*background: url("/img/jeinet/cont/sub27.jpg") no-repeat; height:915px;*/ }
 .listnone_2 {text-indent: -9999px;}
 
-/*사업공고-사업현황*/
+/*ì‚¬ì—…ê³µê³ -ì‚¬ì—…í˜„í™©*/
 .select_box { min-width:150px; border:1px solid #999; color: #555; }
 .inputbox { height: 30px; padding: 0 5px; border: 1px solid #999; }
 .btn_g { height:30px; background: #b7b7b7; border:0; border-radius: 5px; font-size: 15px; color: #fff; font-weight: 600; padding: 5px 15px; box-sizing: border-box;}
@@ -192,7 +188,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .con07 .b_box ul li .list_tit02 h3 {float: left;}
 .con07 .b_box ul li .list02 { width:60%; float: left; font-size:14px; line-height: 23px;}
 
-/*전문가검색*/
+/*ì „ë¬¸ê°€ê²€ìƒ‰*/
 
 .con09 .business_tab { width:100%; border-bottom: 2px solid #4388dd; box-sizing: border-box; margin-bottom: 40px; }
 .con09 .business_tab::after {display: block; visibility: hidden; clear: both; content: "";}
@@ -229,7 +225,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .sch_tbl tr td {  }
 
 
-/*중소기업 R&D 통계*/
+/*ì¤‘ì†Œê¸°ì—… R&D í†µê³„*/
 
 .sh_box { padding: 20px 10px; background: #f9f9f9; margin-bottom: 20px; text-align: center;}
 .sh_box ul {}
@@ -244,7 +240,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .tbl_01 td { border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
 .tbl_01 td:last-child {border-right: 0;}
 
-/*주요서비스*/
+/*ì£¼ìš”ì„œë¹„ìŠ¤*/
 .Cont112{background:url(/img/smbrnd/cont/bg_cont24.png) right top no-repeat}
 .Cont112 .Cont11201Img{width:408px;padding-top:71px}
 .Cont112 .Cont112_homepge{padding-bottom:42px}
@@ -303,7 +299,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .Cont11205list li.cont112_05list07{background:url(/img/jipbank/cont/bg_cont24_07.png) left center no-repeat;}
 
 
-/*찾아오시는길*/
+/*ì°¾ì•„ì˜¤ì‹œëŠ”ê¸¸*/
 #testMap{border:1px solid #ebebeb; width:100%!important; height:400px; margin:0 0 20px 0!important}
 .Cont94{background:#f9f9f9}
 .Cont94 dl{border-bottom:1px solid #ededed;padding:23px 0 16px 102px;height:68px;margin:0 20px}
@@ -342,7 +338,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 .plan_dsc_dn li {background: url("/img/cont/ico_dot.jpg") no-repeat; background-position: 0px center; padding-left: 14px; margin: 10px 0px; color:#272727; letter-spacing: -0.04em; }
 
 
-/*이메일무단수집거부*/
+/*ì´ë©”ì¼ë¬´ë‹¨ìˆ˜ì§‘ê±°ë¶€*/
 .dsc_img{border:1px solid #ebebeb; background:url(/img/common/bg_email.jpg) 33px 26px no-repeat;text-align:left;padding:20px 20px 20px 155px}
 .dsc_img p.email01{color:#8e474f;font-size:13px;font-weight:600;letter-spacing:-1px;text-align:left}
 .dsc_img p.email02{font-size:12px;letter-spacing:-1px;text-align:left}
@@ -350,6 +346,6 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 
 
 
-/* 160906 추명학 추가 */
+/* 160906 ì¶”ëª…í•™ ì¶”ê°€ */
 span.hide { width:0px; height:0px; overflow:hidden; display:inline-block; text-indent:-9999px }
 

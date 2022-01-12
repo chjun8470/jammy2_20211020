@@ -244,7 +244,7 @@
                                           <dd><%=util.getStr(rs.get("USE_TYPE_CD"))%></dd>
                                     </dl>
                                     <% if(util.getStr(rs.get("XMODE")).equals("zeus")){ %>
-                                    <p style="text-align:center;">ZEUS</p>
+                                    <p style="text-align:center;" class="zeus">ZEUS</p>
                                     <% } %>
                               </div>
                         </a>

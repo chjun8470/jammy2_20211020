@@ -4,7 +4,7 @@
 .basic_grid {
 
 }
-
+.txtbox,.inp_txt,.select_box{border:1px #ebebeb solid;padding:5px 2px}
 .basic_grid .search_box {
 
 	border: 1px solid #dbdbdb;
