@@ -504,7 +504,7 @@ button.ui-datepicker-current { display: none; }
           		<td><input type="text" name="scDate" id="scDate<%=scCnt%>"  value="<%=util.getStr(rs.get("SC_DATE"))%>" class="inp_txt"></td>
           	</tr>
           	<tr class="academic_career_info<%=scCnt%>" style="border-bottom:3px solid #ddd;">
-          		<th scope="row" class="tit"><span style="color:red;" >*</span> 증빙문서</th>
+          		<th scope="row" class="tit">증빙문서</th>
           		<td colspan="3">
           			<input type="hidden" name="acFile" id="acFile<%=scCnt%>" value="<%=util.getStr(rs.get("SC_FILE"))%>">
           			<input type="file" name="academicFile<%=scCnt%>" id="academicFile<%=scCnt%>" value="" />
@@ -562,7 +562,7 @@ button.ui-datepicker-current { display: none; }
           		<td><input type="text" name="scDate" id="scDate<%=scCnt%>" value="" class="inp_txt"></td>
           	</tr>
           	<tr class="academic_career_info<%=scCnt%>" style='border-bottom:3px solid #ddd'>
-          		<th scope="row" class="tit"><span style="color:red;" >*</span> 증빙문서</th>
+          		<th scope="row" class="tit">증빙문서</th>
           		<td colspan="3">
           			<input type="hidden" name="acFile" id="acFile<%=scCnt%>" value="">
           			<input type="file" name="academicFile<%=scCnt%>" id="academicFile<%=scCnt%>" value="" />
@@ -617,7 +617,7 @@ button.ui-datepicker-current { display: none; }
 				<td colspan="3"><input type="text" name="crWork" value="<%=util.getStr(rs.get("CR_WORK"))%>" class="inp_txt"></td>
             </tr>
             <tr class="career_info<%=crCnt%>" style='border-bottom:3px solid #ddd'>
-				<th scope="row" class="tit"><span style="color:red;" >*</span> 증빙문서</th>
+				<th scope="row" class="tit">증빙문서</th>
 				<td colspan="3">
 					<input type="hidden" name="crFile" id="crFile<%=crCnt%>" value="<%=util.getStr(rs.get("CR_FILE"))%>">
 					<input type="file" name="careerFile<%=crCnt %>"  id="careerFile<%=crCnt %>" value="">
@@ -659,7 +659,7 @@ button.ui-datepicker-current { display: none; }
 				<td colspan="3"><input type="text" name="crWork" value="" class="inp_txt"></td>
             </tr>
             <tr class="career_info<%=crCnt%>" style='border-bottom:3px solid #ddd'>
-				<th scope="row" class="tit"><span style="color:red;" >*</span> 증빙문서</th>
+				<th scope="row" class="tit">증빙문서</th>
 				<td colspan="3">
 					<input type="hidden" name="crFile" id="crFile<%=crCnt%>" value="">
 					<input type="file" name="careerFile<%=crCnt %>"  id="careerFile<%=crCnt %>" value="">
@@ -1506,13 +1506,16 @@ button.ui-datepicker-current { display: none; }
 													+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
 													+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
 						%>
+							<li><input type="file" name="<%=fileFullGrp%>File1" id="<%=fileFullGrp%>File1" title="파일첨부" /></li>
 							<li class="text">
+								<input type="hidden" name="fileCode" id="fileCode" value="<%=util.getStr(rs.get("FILE_ID"))%>" />
 								<input type="checkbox" name="fileFlog" id="fileFlog_<%=fileCnt%>"
-										value="<%=util.getStr(rs.get("FILE_ID"))%>" onclick="fileSet('<%=fileCnt%>')" />&nbsp;
+										value="<%=util.getStr(rs.get("FILE_ID"))%>" />&nbsp;
 								<label for="fileFlog_<%=fileCnt%>">파일삭제</label>&nbsp;&nbsp;
 								<%=util.deStr(rs.get("TITLE_ORG"))%>(<%=util.getStr(rs.get("FILE_SIZE"))%> Byte)
 	
 							</li>
+							
 						<% fileCnt++; }%>
 						</ul>
 					</div>
@@ -1929,28 +1932,15 @@ function goSubmit(mode){
     $('#mode').val(mode);
     $('#fedit').submit();
 }
+
+
+
+	
+
 function goCheck(){
 	
-	
-	/*
-	var imgFormat = "\.(bmp|gif|jpg|jpeg|png|BMP|GIF|JPG|JJPEG|PNG)$";
-       var fileCount = $("input[type=file]").length;
-	if($("#photoCheck").is(":checked") == false){
-		if( $('input[name=fileFlog]').is(":checked") == true ){
-			for(i=1;i<=fileCount;i++){
-				if((new RegExp(imgFormat)).test($('#<%=fileFullGrp%>File'+i).val()) && $('#<%=fileFullGrp%>File'+i).val() != ""){
 
-				}else if($('#<%=fileFullGrp%>File'+i).val() == ""){
-					alert("파일을 첨부하세요.");
-					return false;
-				}else{
-					alert("이미지 파일만 첨부하실 수 있습니다.");
-					return false;
-				}
-			}
-		}
-	}
-	*/
+	
 	
 	
 	if(delFiles.length > 0){
@@ -2216,6 +2206,27 @@ function goCheck(){
 				alert("산업기술 소분류를 선택하세요.");
 				return false;
 			}
+			
+			
+			if($("input[name='fileCode']").val() == ""){
+				if($("#<%=fileFullGrp%>File1").val() == ""){
+					alert("동의서파일을 등록하세요");
+					return false;
+				}
+			}else{
+				if($("input[name='fileFlog']").is(":checked") && $("#<%=fileFullGrp%>File1").val() == ""){
+					alert("파일삭제시 동의서파일을 먼저 등록해주세요");
+					return false;
+				}else if($("#<%=fileFullGrp%>File1").val() != "" && !$("input[name='fileFlog']").is(":checked")){
+					alert("새로운 동의서를 등록시 기존파일은 삭제하셔야 합니다.");
+					$("input[name='fileFlog']").attr("checked",true);
+					return false;
+				}
+				
+			}
+			
+			
+			
 		
 			
 			
@@ -2286,22 +2297,22 @@ function popupWindow(listMode){
 }
 
 
-$("input[name^='scFileDel']").on("click",function(){
+/* $("input[name^='scFileDel']").on("click",function(){
 	var file = $(this).parents("td").find("input[name^='academicFile']");
 	if($(this).is(":checked") && file.val() == ""){
 		alert("파일삭제시 새로운 증빙문서를 먼저 등록해주세요");
 		file.focus();
 		$(this).attr("checked",false);
 	}
-});
+}); */
 
-$("input[name^='crFileDel']").on("click",function(){
+/* $("input[name^='crFileDel']").on("click",function(){
 	var file = $(this).parents("td").find("input[name^='careerFile']");
 	if($(this).is(":checked") && file.val() == ""){
 		alert("파일삭제시 새로운 증빙문서를 먼저 등록해주세요");
 		$(this).attr("checked",false);
 	}
-});
+}); */
 
 
 $(document).on("click","input[name^='rdIng']",function(){
@@ -2431,10 +2442,10 @@ function addRow(mode){
 					return false;
 				}
 				
-    			if($('input[name^=academicFile]:last').val() == "" && $("input[name=acFile]:last").val() == ""){
+    			/* if($('input[name^=academicFile]:last').val() == "" && $("input[name=acFile]:last").val() == ""){
     				alert("증빙문서를 첨부 해주세요");
     				return false;
-    			}
+    			} */
 
     			var row = "";
     		 	row += "<tr class='academic_career_info"+plusScCnt+"'>";
@@ -2464,7 +2475,7 @@ function addRow(mode){
     			row += "<th scope='row' class='tit'><span style='color:red;'>*</span> 학위취득일자</th>";
     			row += "<td><input type='text' name='scDate' id='scDate"+plusScCnt+"' class='inp_txt'></td>";    			
     			row += "</tr><tr class='academic_career_info"+plusScCnt+"' style='border-bottom:3px solid #ddd'>";
-    			row += "<th scope='row' class='tit'><span style='color:red;'>*</span> 증빙문서</th>";
+    			row += "<th scope='row' class='tit'>증빙문서</th>";
     			row += "<td colspan='3'><input type='hidden' name='acFile' id='acFile"+plusScCnt+"' value=''><input type='file' name='academicFile"+plusScCnt+"' id='academicFile"+plusScCnt+"' class='inp_txt'></td>";
     			row += "</tr>";
     			
@@ -2528,10 +2539,10 @@ function addRow(mode){
     				return false;
     			}
     			
-    			if($('input[name^=careerFile]:last').val() == "" && $("input[name=crFile]:last").val() == ""){
+    			/* if($('input[name^=careerFile]:last').val() == "" && $("input[name=crFile]:last").val() == ""){
     				alert("증빙문서를 첨부 해주세요");
     				return false;
-    			}
+    			} */
     			
 
     			var row = "";
@@ -2554,7 +2565,7 @@ function addRow(mode){
     		 	row += "<td colspan='3'><input type='text' name='crWork' style='width:80%;' class='inp_txt'></td>";
     		   	row += "</tr>";
     		   	row += "<tr class='career_info"+plusScCnt+"'>";
-    		   	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 증빙문서</th>';
+    		   	row += '<th scope="row" class="tit">증빙문서</th>';
     		   	row += '<td colspan="3" style="border-bottom:3px solid #ddd">';
     		   	row += '<input type="hidden" name="crFile" id="crFile'+plusScCnt+'" value="">';
     		   	row += '<input type="file" name="careerFile'+plusScCnt+'"  id="careerFile'+plusScCnt+'" value="">';

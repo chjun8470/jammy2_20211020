@@ -664,13 +664,10 @@
 									String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
 														+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
 														+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
+									
 							%>
 								<li class="text">
-									<input type="checkbox" name="fileFlog" id="fileFlog_<%=fileCnt%>"
-											value="<%=util.getStr(rs.get("FILE_ID"))%>" onclick="fileSet('<%=fileCnt%>')" />&nbsp;
-									<label for="fileFlog_<%=fileCnt%>">파일삭제</label>&nbsp;&nbsp;
 									<%=util.deStr(rs.get("TITLE_ORG"))%>(<%=util.getStr(rs.get("FILE_SIZE"))%> Byte)
-		
 								</li>
 							<% fileCnt++; }%>
 							</ul>

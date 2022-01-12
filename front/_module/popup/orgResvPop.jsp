@@ -223,10 +223,12 @@ vertical-align:middle;
 							</tr>
 							<%if(util.getStr(paramMap.get("orgType")).equals("1")) {  %>
 							<tr>
-								<th scope="row" class="r_line"><label for="corpNum1"><span class="required">*</span> 사업자등록번호</label></th>
+								<th scope="row" class="r_line">
+									<label for="corpNum1"><span class="required">*</span> 사업자등록번호</label>
+								</th>
 								<td colspan="3">
-									<input type="hidden" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
-									<input type="hidden" id="checkCorpNum1R" name="checkCorpNum1R" />
+									<input type="text" class="inp_text" id="corpNum1" name="corpNum1" maxlength="20" readonly="readonly"/>
+									<input type="text" id="checkCorpNum1R" name="checkCorpNum1R" />
 									<input type="text" class="inp_text" id="corpNum1Part1" name="corpNum1Part1" maxlength="3" title="사업자등록번호 첫번째 3자리"/> -
 									<input type="text" class="inp_text" id="corpNum1Part2" name="corpNum1Part1" maxlength="2" title="사업자등록번호 두번째 2자리"/> -
 									<input type="text" class="inp_text" id="corpNum1Part3" name="corpNum1Part1" maxlength="5" title="사업자등록번호 세번째 5자리"/>
@@ -488,13 +490,16 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	                //$("#location").val(fullAddr);
 	                // 주소로 좌표를 검색
 	                geocoder.addressSearch(data.address, function(result, status) {
-						if (status === daum.maps.services.Status.OK) {
-							var coords = new daum.maps.LatLng(result[0].address.y, result[0].address.x);
-							   $('#mapX').val(result[0].address.y);
-							   $('#mapY').val(result[0].address.x);
-							mapContainer.style.display = 'block';
+						if (status === kakao.maps.services.Status.OK) {
+							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							   $("#mapX").val(result[0].y);
+							   $("#mapY").val(result[0].x);
+							// 지도를 보여준다.
+							mapContainer.style.display = "block";
 							map.relayout();
+							// 지도 중심을 변경한다.
 							map.setCenter(coords);
+							// 마커를 결과값으로 받은 위치로 옮긴다.
 							marker.setPosition(coords)
 						}
 					});
@@ -548,25 +553,25 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new daum.maps.LatLng(35.2268795, 126.8429492), // 지도의 중심좌표
+            center: new kakao.maps.LatLng(35.2268795, 126.8429492), // 지도의 중심좌표
             //center: new daum.maps.LatLng(35.2268795, 126.8429492),
 
             level: 5 // 지도의 확대 레벨
         };
 
     //지도를 미리 생성
-    var map = new daum.maps.Map(mapContainer, mapOption);
+    var map = new kakao.maps.Map(mapContainer, mapOption);
     //주소-좌표 변환 객체를 생성
-    var geocoder = new daum.maps.services.Geocoder();
+    var geocoder = new kakao.maps.services.Geocoder();
     //마커를 미리 생성
-    var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(35.2268795, 126.8429492),
+    var marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(35.2268795, 126.8429492),
         map: map
     });
 
-    daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
            searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-                if (status === daum.maps.services.Status.OK) {
+                if (status === kakao.maps.services.Status.OK) {
 
                       // 클릭한 위도, 경도 정보를 가져옵니다
                       var latlng = mouseEvent.latLng;
@@ -584,23 +589,25 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
      });
 
      // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-     daum.maps.event.addListener(map, 'idle', function() {
+     kakao.maps.event.addListener(map, 'idle', function() {
            searchAddrFromCoords(map.getCenter(), displayCenterInfo);
      });
-
+     
      function searchAddrFromCoords(coords, callback) {
-           // 좌표로 행정동 주소 정보를 요청합니다
-           geocoder.coord2RegionCode(coords.ib, coords.jb, callback);
-     }
-
+		   // 좌표로 행정동 주소 정보를 요청합니다
+		   //geocoder.coord2addr(coords, callback);
+		   geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);     
+	 }
+	
      function searchDetailAddrFromCoords(coords, callback) {
-           // 좌표로 법정동 상세 주소 정보를 요청합니다
-    	  geocoder.coord2Address(coords.ib, coords.jb, callback);
-     }
-
+		   // 좌표로 법정동 상세 주소 정보를 요청합니다
+		   //geocoder.coord2detailaddr(coords, callback);
+		   geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	 }
+     
      // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
      function displayCenterInfo(status, result) {
-           if (status === daum.maps.services.Status.OK) {
+           if (status === kakao.maps.services.Status.OK) {
                 $("#centerAddr").html(result[0].fullName);
            }
      }
@@ -663,25 +670,25 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
      //연구소 지도
      var labMapContainer = document.getElementById('labMap'), // 지도를 표시할 div
      labMapOption = {
-         center: new daum.maps.LatLng(35.2268795, 126.8429492), // 지도의 중심좌표
+         center: new kakao.maps.LatLng(35.2268795, 126.8429492), // 지도의 중심좌표
          //center: new daum.maps.LatLng(35.2268795, 126.8429492),
 
          level: 5 // 지도의 확대 레벨
      };
 
 	 //지도를 미리 생성
-	 var labMap = new daum.maps.Map(labMapContainer, labMapOption);
+	 var labMap = new kakao.maps.Map(labMapContainer, labMapOption);
 	 //주소-좌표 변환 객체를 생성
-	 var labGeocoder = new daum.maps.services.Geocoder();
+	 var labGeocoder = new kakao.maps.services.Geocoder();
 	 //마커를 미리 생성
-	 var labMarker = new daum.maps.Marker({
-	     position: new daum.maps.LatLng(35.2268795, 126.8429492),
+	 var labMarker = new kakao.maps.Marker({
+	     position: new kakao.maps.LatLng(35.2268795, 126.8429492),
 	     map: labMap
 	 });
 
-	 daum.maps.event.addListener(labMap, 'click', function(mouseEvent) {
+	 kakao.maps.event.addListener(labMap, 'click', function(mouseEvent) {
 	        searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-	             if (status === daum.maps.services.Status.OK) {
+	             if (status === kakao.maps.services.Status.OK) {
 
 	                   // 클릭한 위도, 경도 정보를 가져옵니다
 	                   var latlng = mouseEvent.latLng;
@@ -699,7 +706,7 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	  });
 
  	// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-     daum.maps.event.addListener(labMap, 'idle', function() {
+     kakao.maps.event.addListener(labMap, 'idle', function() {
            searchAddrFromCoords(labMap.getCenter(), displayCenterInfo);
      });
 
@@ -708,6 +715,7 @@ var emailPattern = /[\w]*@([0-9a-zA-Z][\-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9}/;
 	var imgPattern = new Array("bmp","gif","jpg","jpeg","png");
 	var infPattern = new Array("pdf");
 	var bizPattern = new Array("pdf","jpg");
+	
 function submitGo(){
 
 

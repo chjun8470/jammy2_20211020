@@ -51,8 +51,10 @@
 
 
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js" type="text/javascript"></script>
-		<script src="//apis.daum.net/maps/maps3.js?apikey=09cdede77b4c4027e119e58c73d4e495&amp;libraries=services" type="text/javascript"></script>
-
+		
+		
+		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=775c36174af77a7878a91ef218173921&amp;libraries=services" type="text/javascript"></script>
+		
 		<link href="/css/cms/front/login.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
