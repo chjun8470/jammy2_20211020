@@ -11,33 +11,18 @@
 <li><a href="/jntis/sub.do?m=105">저작권정책</a></li>
 <li><a href="/jntis/sub.do?m=101">찾아오시는길</a></li>
 <li><a href="/jntis/sub.do?m=106">홈페이지의견접수</a></li>
+<!-- 
 <li><a href="http://jeinet.jnsp.re.kr/file/02.JNTISManual(user) - ver 0.3.pdf" target="_blank" title="새창열기">매뉴얼 다운로드</a></li>
 <li class="end"><a href="javascript:snsFaceBook()"><img src="/img/common/icon_sns01.png" title="새창열기" alt="페이스북 바로가기"/></a></li>
+ -->
 </ul>
 </div>
 
-<<<<<<< HEAD
 
 <div class="waMark">
 <input type="image" class="" src="/img/jntis/main/img_web_accessibility.png" style="width:104px;height:73px;float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
-
-<input type="image" class="" src="/img/jntis/main/img_web_accessibility.png" style="width:104px;height:73px;float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
-
-=======
-<<<<<<< HEAD
-<div class="waMark">
-<<<<<<< HEAD
-<input type="image" class="" src="/img/jntis/common/mark.png" style="float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
-=======
-<!--<div class="waMark">
-<input type="image" class="" src="/img/jntis/main/img_web_accessibility.png" style="width:104px;height:73px;float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
->>>>>>> parent of d943127 (211215 1001)
-=======
-<input type="image" class="" src="/img/jntis/main/img_web_accessibility.png" style="width:104px;height:73px;float:right;margin:10px 0 0 10px" alt="웹 접근성 인증마크"
->>>>>>> parent of 4424c78 (220111 147)
->>>>>>> cc3e342b87447872b819a5bb1d677f80f29a8498
 onclick="location.href='http://wa.or.kr/waMark/status_new.asp?op=1&wd=%EC%A0%84%EB%82%A8%EA%B3%BC%ED%95%99%EA%B8%B0%EC%88%A0%EC%A0%95%EB%B3%B4%EC%8B%9C%EC%8A%A4%ED%85%9C&x=0&y=0'"/>
-</div>-->
+</div>
 
 
 

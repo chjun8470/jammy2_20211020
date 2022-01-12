@@ -4,7 +4,7 @@
 .basic_grid {
 
 }
-.txtbox,.inp_txt,.select_box{border:1px #ebebeb solid;padding:5px 2px}
+/*.txtbox,.inp_txt,.select_box{border:1px #ebebeb solid;padding:5px 2px; box-sizing:border-box;}*/
 .basic_grid .search_box {
 
 	border: 1px solid #dbdbdb;
@@ -589,15 +589,9 @@ table.skin_basic_write td input.subject {
 .select{border:1px solid #ebebeb; padding: 5px 0;}
 .btn_right_box{width:980px;text-align:right}
 .addbtn{width:30px;height:20px;}
-<<<<<<< HEAD
-<<<<<<< HEAD
-.inp_txt{border:1px solid #ebebeb; padding:5px; width:100%; box-sizing:border-box;}
-=======
+
 .inp_txt{border:1px solid #ebebeb; padding:5px 0}
->>>>>>> 4424c7885b5c7f1cf0e25c6d2dc73af3c1fdf129
-=======
-.inp_txt{border:1px solid #ebebeb; padding:5px}
->>>>>>> parent of d943127 (211215 1001)
+
 .select_box{border:1px solid #ebebeb; padding:5px}
 .zoom{float:right;padding:20px 0}
 .zoom_x{float:right;padding:5px 0}
