@@ -116,14 +116,6 @@
 						기타 <input type="checkbox" name="proJntisEtc" value="Y" <%=(util.getStr(dataMap.get("PRO_JNTIS_ETC"))).equals("Y")? "checked='checked'" : "" %> disabled='disabled' />&nbsp;&nbsp;
 					</td>
 				</tr>
-
-				<tr>
-      	   			<th scope="row" class="tit"> 기술분류</th>
-	            	<td colspan="3">
-	         			<%=util.getStr(dataMap.get("PRO_SMB_CODE1_NAME")) %>						
-	           		</td>
-
-            	</tr>
 			</tbody>
 		</table>
 		
@@ -147,10 +139,9 @@
   	   			<th scope="row" class="tit"> 소속기관유형</th>
         		<td colspan="3">
 				<% 
-				int teamCnt = 1; 
 				for(HashMap te:teamList){ %>
-					<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %> value="Y"  disabled='disabled' />
-				<% teamCnt++; } %>	
+					<%=util.getStr(te.get("CODE_NM"))%> <input type="radio" name="team_1" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM1"))).equals(util.getStr(te.get("CODE_CD")))? "checked='checked'" : "" %> value=""  disabled='disabled' />
+				<% } %>	
 				</td>
         	</tr>
         	<tr>

@@ -80,17 +80,20 @@
 	int evCnt = 0;
 	int coCnt = 0;
 	int resultEvCnt = 0;
-	int resultConCnt = 0;	
+	int resultConCnt = 0;
 	
+	Date nowTime = new Date();
+	SimpleDateFormat sf = new SimpleDateFormat("yyyy");
+	
+	//out.println(sf.format(nowTime));
 %>
 <style scoped >
 .ui-datepicker-calendar {
-    /*display: none;*/
-    }
+    display: none;
+}
 button.ui-datepicker-current { display: none; }
 </style>
 
-<jsp:useBean id="currTime" class="java.util.Date" />
 
 <form name="fedit" id="fedit" action="<%=myPage%>" method="post" enctype="multipart/form-data">
        <input type="hidden" name="permEditor" id="permEditor" value="<%=util.getStr(boardMap.get("PERM_EDITOR"))%>" />
@@ -129,25 +132,16 @@ button.ui-datepicker-current { display: none; }
                            	<tr>
                            		<th scope="row" class="tit"><span style="color:red;" >*</span> 출생년도</th>
                            		<td>
-                           			<fmt:formatDate value="${currTime}" var="currTime" pattern="yyyy" />
-                           			<%if(util.getStr(dataMap.get("BIRTH_DATE")).equals("")||util.getStr(dataMap.get("BIRTH_DATE")).equals(null)){ %>
-                           				<select name="birthDate" id="birthDate" class="select_box">
-					            			<option value="">선택1</option>
-					            			<c:forEach var="i" begin="1950" end="${currTime}">
-					            			<option value="${i}">${i}</option>
-				            				</c:forEach>
-										</select>
-                           			<% }else{ 
-                           				String births = util.getStr(dataMap.get("BIRTH_DATE")).substring(0,4);
-                           			%>
-                           				<select name="birthDate" id="birthDate" class="select_box">
-					            			<option value="">선택2</option>
-					            			<c:forEach var="idx" begin="1950" end="${currTime}">
-					            				<c:set var="birthx" value="<%=births%>" />
-					            				<option value="${idx}" ${idx == birthx?'selected="selected"':''} >${idx}</option>            				
-					            			</c:forEach>
-										</select>
-                           			<% } %>
+                          			<select name="birthDate" id="birthDate" class="select_box">
+				            			<option value="">선택1</option>
+				            			<%
+				            			for(int i=1950; i<=util.getInt(sf.format(nowTime)); i++){
+				            				String selected = util.getInt(dataMap.get("BIRTH_DATE")).equals(i)?"selected":"";
+				            			%>
+				            			<option value="<%=i%>" <%=selected%>><%=i%></option>
+			            				<% } %>
+									</select>
+                           			
                            		</td>
                            		<th scope="row" class="tit"><span style="color:red;" >*</span> email</th>
                            		<td>
@@ -327,6 +321,7 @@ button.ui-datepicker-current { display: none; }
 				                	</td>
 				            	</tr>
 			            	<% //} %>
+			            	
 			            	<tr>
 			      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 전문가구분</th>
 			            		<td colspan="3">
@@ -341,6 +336,8 @@ button.ui-datepicker-current { display: none; }
 									기타 <input type="checkbox" name="proJntisEtc" value="Y" <%=(util.getStr(dataMap.get("PRO_JNTIS_ETC"))).equals("Y")? "checked='checked'" : "" %> />&nbsp;&nbsp;
 								</td>
 			            	</tr>
+			            	
+			            	<!-- 
 			            	<tr>
 		            			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
 				            	<td colspan="3">
@@ -355,14 +352,10 @@ button.ui-datepicker-current { display: none; }
 										}
 										%>
 									</select>
-									<!-- select class="select_box" name="code_m" id="code_m">
-										<option value="">산업기술중분류</option>
-									</select>
-									<select class="select_box" name="code_s" id="code_s">
-										<option value="">산업기술소분류</option>
-									</select-->
+									
 				           		</td>
 				           	</tr>
+				           	-->
 			            	</tbody>
 			            </table>
 			            
@@ -384,10 +377,9 @@ button.ui-datepicker-current { display: none; }
 			      	   			<th scope="row" class="tit"><span style="color:red;" >*</span> 소속기관유형</th>
 			            		<td colspan="3">
 								<% 
-								int teamCnt = 1; 
 								for(HashMap te:teamList){ %>
-									<%=util.getStr(te.get("CODE_NM"))%> <input type="checkbox" name="team_<%=util.getStr(te.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM"+teamCnt))).equals("Y")? "checked='checked'" : "" %> value="Y" />
-								<% teamCnt++; } %>	
+									<%=util.getStr(te.get("CODE_NM"))%> <input type="radio" name="team_1" <%=(util.getStr(dataMap.get("PRO_SMB_TEAM1"))).equals(util.getStr(te.get("CODE_CD")))? "checked='checked'" : "" %> value="<%=util.getStr(te.get("CODE_CD"))%>" />
+								<% } %>	
 								</td>
 			            	</tr>
 			            	<tr>
@@ -474,9 +466,11 @@ button.ui-datepicker-current { display: none; }
           		<td>
           			<select class="select_box"  style="width:100%;" name="scCode">
 					<option value="">선택하세요</option>
+					
 					<% for(HashMap rsx:major) {%>
 					<option value="<%=util.getStr(rsx.get("CODE_CD"))%>" <%=(util.getStr(rs.get("SC_CODE"))).equals(util.getStr(rsx.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(rsx.get("CODE_NM"))%></option>
 					<% } %>
+					<option value="ex">기타</option>
 				</select>
           		</td>
           	</tr>
@@ -535,6 +529,7 @@ button.ui-datepicker-current { display: none; }
 					<% for(HashMap rsx:major) {%>
 					<option value="<%=util.getStr(rsx.get("CODE_CD"))%>"><%=util.getStr(rsx.get("CODE_NM"))%></option>
 					<% } %>
+					<option value="ex">기타</option>
 				</select>
           		</td>
           	</tr>
@@ -614,7 +609,7 @@ button.ui-datepicker-current { display: none; }
 			</tr>
 			<tr class="career_info<%=crCnt%>">
 				<th scope="row" class="tit"><span style="color:red;" >*</span> 주요업무</th>
-				<td colspan="3"><input type="text" name="crWork" value="<%=util.getStr(rs.get("CR_WORK"))%>" class="inp_txt"></td>
+				<td colspan="3"><input type="text" name="crWork" value="<%=util.getStr(rs.get("CR_WORK"))%>" class="inp_txt" style="width:80%"></td>
             </tr>
             <tr class="career_info<%=crCnt%>" style='border-bottom:3px solid #ddd'>
 				<th scope="row" class="tit">증빙문서</th>
@@ -656,7 +651,7 @@ button.ui-datepicker-current { display: none; }
 			</tr>
 			<tr class="career_info<%=crCnt%>">
 				<th scope="row" class="tit"><span style="color:red;" >*</span> 주요업무</th>
-				<td colspan="3"><input type="text" name="crWork" value="" class="inp_txt"></td>
+				<td colspan="3"><input type="text" name="crWork" value="" class="inp_txt" style="width:80%"></td>
             </tr>
             <tr class="career_info<%=crCnt%>" style='border-bottom:3px solid #ddd'>
 				<th scope="row" class="tit">증빙문서</th>
@@ -693,9 +688,21 @@ button.ui-datepicker-current { display: none; }
 		<% for(HashMap rs:listRP) {%>
      	<tr class="researchPaper<%=rpCnt%>" onclick="setLicenseBtn(<%=rpCnt%>, 'researchPaper')">
      		<th scope="row" class="tit">논문명</th>
-     		<td><input type="text" name="rpNm" value="<%=util.getStr(rs.get("RP_NM"))%>"  style="width:100%;" class="inp_txt"></td>
+     		<td><input type="text" name="rpNm" id="rpNm<%=rpCnt%>" value="<%=util.getStr(rs.get("RP_NM"))%>"  style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit">게제년도</th>
-     		<td><input type="text" name="rpStart" readonly id="rpStart<%=rpCnt%>"  value="<%=util.getStr(rs.get("RP_START"))%>" style="width:100%;" class="inp_txt"></td>
+     		<td>
+     			<select name="rpStart" class="select_box">
+           			<option value="">선택</option>
+           			<%
+           			for(int i=1950; i<=util.getInt(sf.format(nowTime)); i++){
+           				String selDate = util.getStr(rs.get("RP_START")).substring(0, 4);
+           				String selected = util.getInt(selDate).equals(i)?"selected":"";
+           			%>
+           			<option value="<%=i%>" <%=selected%>><%=i%></option>
+          			<% } %>
+				</select>
+     			
+     		</td>
      	</tr>
      	<tr class="researchPaper<%=rpCnt%>">
      		<th scope="row" class="tit">학술지명</th>
@@ -732,7 +739,16 @@ button.ui-datepicker-current { display: none; }
      		<th scope="row" class="tit">논문명</th>
      		<td><input type="text" name="rpNm" value=""  style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit">게제년도</th>
-     		<td><input type="text" name="rpStart" readonly id="rpStart<%=rpCnt%>"  value="" style="width:100%;" class="inp_txt"></td>
+     		<td>
+     			<select name="rpStart" class="select_box">
+           			<option value="">선택</option>
+           			<%
+           			for(int i=1950; i<=util.getInt(sf.format(nowTime)); i++){
+           			%>
+           			<option value="<%=i%>"><%=i%></option>
+          			<% } %>
+				</select>
+     		</td>
      	</tr>
      	<tr class="researchPaper<%=rpCnt%>">
      		<th scope="row" class="tit">학술지명</th>
@@ -1045,10 +1061,8 @@ button.ui-datepicker-current { display: none; }
      		</td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')">
-     		<th scope="row" class="tit"><span style="color:red;" >*</span> 연번</th>
-     		<td><input type="text" name="rdSerialNum" value="<%=util.getStr(rs.get("RD_SERIAL_NUM"))%>" style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 부처/기관/발주처명</th>
-     		<td><input type="text" name="rdOrgNm" value="<%=util.getStr(rs.get("RD_ORG_NM"))%>" style="width:100%;" class="inp_txt"></td>
+     		<td colspan="3"><input type="text" name="rdOrgNm" value="<%=util.getStr(rs.get("RD_ORG_NM"))%>" style="width:100%;" class="inp_txt"></td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')">
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 사업명</th>
@@ -1090,10 +1104,8 @@ button.ui-datepicker-current { display: none; }
      		</td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')">
-     		<th scope="row" class="tit"><span style="color:red;" >*</span> 연번</th>
-     		<td><input type="text" name="rdSerialNum" value="" style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 부처/기관/발주처명</th>
-     		<td><input type="text" name="rdOrgNm" value="" style="width:100%;" class="inp_txt"></td>
+     		<td colspan="3"><input type="text" name="rdOrgNm" value="" style="width:100%;" class="inp_txt"></td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')">
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 사업명</th>
@@ -1838,6 +1850,26 @@ $(document).ready(function(){
 		}
 	*/
 });
+
+
+$(document).on("change","select[name='scCode']",function(){
+	
+	var StartId = $(this).parents("tr").next("tr").find("input[name='scStart']").attr("id");
+	var cnt = StartId.substring(7,8); //0으로 자름
+    var plusCnt = parseInt(cnt);//값::1 int형으로 변환
+	
+	if($(this).val() == "ex"){
+		$(this).css("width","40%");
+		$(this).after("<input type='text' name='scCodeText"+plusCnt+"' value='' style='margin-left:10px; width:40%' class='inp_txt'/>");
+		$(this).next('input').focus();
+	}else{
+		$(this).css("width","100%");
+		$(this).next('input').remove();		
+	}
+});
+
+
+
 function majorDeth1(mode){
 	var result = "";
 	var mode = mode;
@@ -1966,11 +1998,13 @@ function goCheck(){
 			return false;
 		}
 		
+		/*
 		if($("#code_b_x").val() == "" || $("#code_b_x").val() == null ){
 			
 			alert("기술분류를 선택하세요.");
 			return false;
 		}
+		*/
 		
 		if( $(':radio[name="area"]:checked').val() == 2 ){
 			if( $('#ProUserBirthplace2').val() == null || $('#ProUserBirthplace2').val() == "" ){
@@ -2066,11 +2100,11 @@ function goCheck(){
 		/** 연구개발프로젝트 체크 **/
 		//if(!$("input[name^=rdType]:last").is(":checked")){
 		    
-			if($('input[name=rdSerialNum]:last').val() == ""){
+			/* if($('input[name=rdSerialNum]:last').val() == ""){
 				alert("연번을 입력 해주세요");
 				$('input[name=rdSerialNum]:last').focus();
 				return false;
-			}
+			} */
 			if($('input[name=rdOrgNm]:last').val() == ""){
 				alert("부처/기관명/발주처명을 입력 해주세요");
 				$('input[name=rdOrgNm]:last').focus();
@@ -2368,16 +2402,16 @@ $("#evSdate0,#evEdate0,#conSdate0,#conEdate0,#scStart0, #scFinish0, #scDate0, #c
    	prevText : '이전 달',
 
    	closeText : '닫기',
-   	dateFormat : "yy-mm-dd",
+   	dateFormat : "yy-mm",
    	dayNames : ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'],
    	dayNamesMin : ['월','화','수','목','금','토','일'],
    	monthNames : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
    	monthNamesShort : ['1','2','3','4','5','6','7','8','9','10','11','12'],
-   	//onClose: function(dateText, inst) {
-        //var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-        //var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-        //$(this).datepicker('setDate', new Date(year, month, 1));
-    //}
+   	onClose: function(dateText, inst) {
+        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+        $(this).datepicker('setDate', new Date(year, month, 1));
+    }
    	/* showButtonPanel:true,
 	yearRange: '1980:2020' */
    });
@@ -2456,6 +2490,7 @@ function addRow(mode){
     		 	<% for(HashMap rsx:major) {%>
 				row += "<option value='<%=util.getStr(rsx.get("CODE_CD"))%>'><%=util.getStr(rsx.get("CODE_NM"))%></option>";
 				<% } %>
+				row += "<option value='ex'>기타</option>";
     		 	row += "</select></td>";
     		 	row += "</tr><tr class='academic_career_info"+plusScCnt+"'>";
     		 	row += "<th scope='row' class='tit'><span style='color:red;'>*</span> 교육시작일</th>";
@@ -2630,11 +2665,12 @@ function addRow(mode){
     			var cnt = StartId.substring(7,8); //0으로 자름
     		    var plusScCnt = parseInt(cnt)+1;//값::1 int형으로 변환ㅇ
     			/* 입력제어  */
-    			if($('input[name=rdSerialNum]:last').val() == ""){
+    			
+    			/* if($('input[name=rdSerialNum]:last').val() == ""){
     				alert("연번을 입력 해주세요");
     				$('input[name=rdSerialNum]:last').focus();
     				return false;
-    			}
+    			} */
     			if($('input[name=rdOrgNm]:last').val() == ""){
     				alert("부처/기관명/발주처명을 입력 해주세요");
     				$('input[name=rdOrgNm]:last').focus();
@@ -2659,7 +2695,7 @@ function addRow(mode){
     				return false;
     			}
     			
-    			if(!$("input[name^=rdIng]:last").is(":checked")){v
+    			if(!$("input[name^=rdIng]:last").is(":checked")){
     				
     				if($('input[name=rdFinish]:last').val() == "" ){
         				$('input[name=rdFinish]:last').focus();
@@ -2709,10 +2745,10 @@ function addRow(mode){
     		 	row += '</td>';
     		 	row += '</tr>';
     		 	row += "<tr class='RnDresult"+plusScCnt+"'>";
-    		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 연번</th>';
-    		 	row += "<td ><input type='text' name='rdSerialNum' style='width:100%;' class='inp_txt'></td>";
+    		 	//row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 연번</th>';
+    		 	//row += "<td ><input type='text' name='rdSerialNum' style='width:100%;' class='inp_txt'></td>";
     		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 부처/기관/발주처명</th>';
-    		 	row += "<td ><input type='text' name='rdOrgNm' style='width:100%;' class='inp_txt'></td>";
+    		 	row += "<td colspan='3'><input type='text' name='rdOrgNm' style='width:100%;' class='inp_txt'></td>";
     		 	row += '</tr>';
     		 	row += "<tr class='RnDresult"+plusScCnt+"'>";
     		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 사업명</th>';
@@ -2907,8 +2943,8 @@ function addRow(mode){
     		    $("#consultinglist").append(row);
 
     		}else if(mode == "researchPaper"){
-    			var StartId = $('input[name=rpStart]:last').attr('id');
-    			var cnt = StartId.substring(7,8); //0으로 자름
+    			var StartId = $('input[name=rpNm]:last').attr('id');
+    			var cnt = StartId.substring(4,5); //0으로 자름
     		    var plusScCnt = parseInt(cnt)+1;//값::1 int형으로 변환
     			/* 입력제어  */
     			/* if($('input[name=rpSerialNum]:last').val() == ""){
@@ -2928,9 +2964,9 @@ function addRow(mode){
     				alert("게제년도를 선택 해주세요");
     				return false;
     			}
-    			if(datePattern.test($('input[name=rpStart]:last').val()) == false){
-					alert("연구논문 실적(게제년도) : ex) 2016-01");
-					$('input[name=rpStart]:last').focus();
+    			if($('select[name=rpStart]:last').val() == ""){
+					alert("연구논문 실적(게제년도) : ex) 2016");
+					$('select[name=rpStart]:last').focus();
 					return false;
 				}
     			if($('input[name=rpJournalNm]:last').val() == ""){
@@ -2954,7 +2990,14 @@ function addRow(mode){
     		 	row += '<th scope="row" class="tit">논문명</th>';
     		 	row += "<td><input type='text' name='rpNm' class='inp_txt'></td>";
     		 	row += '<th scope="row" class="tit">게제년도</th>';
-    		 	row += "<td><input type='text' name='rpStart' readonly id='rpStart"+plusScCnt+"' class='inp_txt'></td>";
+    		 	row += "<td>";
+    		 	row += '<select name="rpStart" class="select_box">';
+	       		row += '<option value="">선택</option>';
+	       		for(var i=1950; i<=<%=util.getInt(sf.format(nowTime))%>; i++){
+	       			row += '<option value="'+i+'">'+i+'</option>';
+	      		}
+				row += '</select>';
+    		 	row += "</td>";
     		 	row += '</tr>';
     		 	row += "<tr class='researchPaper"+plusScCnt+"'>";
     		 	row += '<th scope="row" class="tit">학술지명</th>';
@@ -3402,16 +3445,16 @@ function addRow(mode){
 				prevText : '이전 달',
 
 				closeText : '닫기',
-				dateFormat : "yy-mm-dd",
+				dateFormat : "yy-mm",
 				dayNames : [ '월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일' ],
 				dayNamesMin : [ '월', '화', '수', '목', '금', '토', '일' ],
 				monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
 				monthNamesShort : [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ],
-				 //onClose: function(dateText, inst) {
-			            //var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-			            //var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-			            //$(this).datepicker('setDate', new Date(year, month, 1));
-			       // }
+				onClose: function(dateText, inst) {
+			        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+			        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+			        $(this).datepicker('setDate', new Date(year, month, 1));
+			    }
 
 				/* showButtonPanel:true,
 				yearRange: '1980:2020' */

@@ -1,18 +1,18 @@
-var strDate = '2021년 07월 06일 16시';
+var strDate = '2022년 01월 13일 10시';
 
 
 var strJEnterpriseCnt = '40';
 var strEnterpriseCnt = '41';
 
 
-var strJEquCnt = '2,640';
-var strEquCnt = '2,889';
+var strJEquCnt = '2,639';
+var strEquCnt = '2,888';
 
 
-var strJEquPrcCnt = '2,994';
+var strJEquPrcCnt = '2,993';
 
 
-var strEquPrcCnt = '3,264';
+var strEquPrcCnt = '3,263';
 
 
 var strEquUseCntPer = '76';

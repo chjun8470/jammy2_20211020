@@ -81,9 +81,7 @@
 							<option value="INDUSTRIAL" <%if("INDUSTRIAL".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>산업기술자료</option>
 							<option value="STATS" <%if("STATS".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>통계자료</option>
 						<%}else if(siteId.equals("jeinet")){ //전남연구장비정보망%>
-							<option value="LAWORD" <%if("LAWORD".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>관련법령</option>
-							<option value="TECHNOLOGY" <%if("TECHNOLOGY".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>기술자료</option>
-							<option value="ETC" <%if("ETC".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>발간물</option>
+							<option value="LAWORD" <%if("LAWORD".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>장비정보</option>
 							<option value="BROCHURE" <%if("BROCHURE".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>연구장비브로슈어</option>
 						<%}else{ //전남지식재산정보은행%>
 							<option value="ETC" <%if("ETC".equals(util.getStr(dataMap.get("DATA03")))) {%> selected="selected" <%}%>>발간물</option>

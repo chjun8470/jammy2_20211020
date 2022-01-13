@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-var strDate = '2022년 01월 12일 09시';
-=======
-var strDate = '2022년 01월 11일 15시';
->>>>>>> cc3e342b87447872b819a5bb1d677f80f29a8498
+var strDate = '2022년 01월 13일 09시';
 
 
 var boardLatestNotice = new Array();
