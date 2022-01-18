@@ -32,6 +32,8 @@
 	//오늘 날짜 구하기
 	int nowYear = cal.get(Calendar.YEAR);
 	int nowMonth = cal.get(Calendar.MONTH)+1; //월은 0부터 시작하므로 1월 표시를 위해 1을 더해 준다
+	
+	
 
 %>
 

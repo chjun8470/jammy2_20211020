@@ -25,7 +25,8 @@ response.setContentType("text/html;charset=UTF-8");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
-
+	
+	String eduType = util.getStr(paramMap.get("type")).equals("jntis")?"":"_smbrnd";
 
 %>
 <style scoped>
@@ -265,7 +266,7 @@ $(document).ready(function(){
 	
 	function pageListGo(){
 		$('#mode').val('list');
-		$('#searchForm').attr('action','./sys_edu.do');
+		$('#searchForm').attr('action','./sys<%=eduType%>_edu.do');
 		$('#searchForm').submit();
 	}
 	
@@ -273,7 +274,7 @@ $(document).ready(function(){
 		$('#mode').val('resvView');
 		$('#eduResvId').val(eduResvId);
 		$('#userIdx').val(userIdx);
-		$('#searchForm').attr('action','./sys_edu.do');
+		$('#searchForm').attr('action','./sys<%=eduType%>_edu.do');
 		$('#searchForm').submit();
 	}
 	/* function resvDataSubmit(){
@@ -312,14 +313,14 @@ $(document).ready(function(){
 	function goExcel(){
 		$('#searchForm').attr("action","/sys/resvExcel.do");
 		$('#searchForm').submit();
-		$('#searchForm').attr("action","/sys/sys_edu.do");
+		$('#searchForm').attr("action","/sys/sys<%=eduType%>_edu.do");
 	}
 
 	
 	function pageViewGo(){
 		$('#mode').val("view");
 
-		$('#searchForm').attr('action','./sys_edu.do');
+		$('#searchForm').attr('action','./sys<%=eduType%>_edu.do');
 		$('#searchForm').submit();
 	}
 	function actState(stateCd,resvId){

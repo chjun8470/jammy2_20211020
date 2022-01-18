@@ -23,6 +23,9 @@
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	String mode = util.getStr(paramMap.get("mode"));
+	
+	String eduType = util.getStr(paramMap.get("eduType")).equals("jntis")?"":"_smbrnd";
+	
 %>
 <style scoped>
 #bgLayer {  
@@ -242,7 +245,7 @@
 <script type="text/javascript">
 	function pageListGo(){
 		$('#mode').val('resvList');
-		$('#fview').attr("action","/sys/sys_edu.do");
+		$('#fview').attr("action","/sys/sys<%=eduType%>_edu.do");
 		$('#fview').submit();
 	}
 	

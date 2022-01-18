@@ -28,6 +28,9 @@
 	String fileGrp = "eduOrgInfo";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
+	
+	String eduType = util.getStr(paramMap.get("eduType")).equals("jntis")?"":"_smbrnd";
+	
 %>
 
 <style>
@@ -79,6 +82,7 @@ span.required{
 		<input type="hidden" id="mode" name = "mode" value = "<%=mode%>"/>
 		<input type="hidden" id="reUrl" name="reUrl" value="<%=myPage%>" />
 		<input type="hidden" id="eduState" name="eduState" value="" />
+		<input type="hidden" name="eduType" id="eduType" value="<%=util.getStr(paramMap.get("eduType"))%>" />
 
 		<table class="skin_basic_write">
 			<caption>교육정보 등록</caption>
@@ -510,7 +514,7 @@ $(document).ready(function(){
 
 function pageListGo(){
 	$('#mode').val('list');
-	$('#fwrite').attr('action','/sys/sys_edu.do');
+	$('#fwrite').attr('action','/sys/sys<%=eduType%>_edu.do');
 	$('#fwrite').submit();
 }
 

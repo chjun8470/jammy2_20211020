@@ -112,6 +112,9 @@
 				<%if(util.getStr(leftMenuMap1.get("tmenu")).equals("2") && util.getStr(leftMenuMap1.get("idx")).equals("1203")){%>
 					<img alt="JSMRDS_LOGO" src="/img/sys/cont/jsmrds_ico.jpg" />
 				<%}%>
+				<%if(util.getStr(leftMenuMap1.get("tmenu")).equals("2") && util.getStr(leftMenuMap1.get("idx")).equals("1250")){%>
+					<img alt="JSMRDS_LOGO" src="/img/sys/cont/jsmrds_ico.jpg" />
+				<%}%>
 				
 				<%if(util.getStr(leftMenuMap1.get("tmenu")).equals("2") && util.getStr(leftMenuMap1.get("idx")).equals("1210")){%>
 					<img alt="JNR&D_LOGO" src="/img/sys/cont/jnr&d_ico.jpg" />

@@ -16,7 +16,7 @@
 
 		<jsp:include page="/sys/jntisEdu.do" flush="true">
 		  	<jsp:param name="mode" value="<%=mode%>"/>
-		  	<jsp:param name="type" value="jntis"/>
+		  	<jsp:param name="type" value="smbrnd"/>
 		  	<jsp:param name="nowPage" value="<%=nowPage %>"/>
 		</jsp:include>
 

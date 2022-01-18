@@ -40,6 +40,8 @@
 	String nowPage = util.getStr(paramMap.get("nowPage"));
 	String listMode = util.getStr(paramMap.get("listMode"));
 	LoginVO loginVO = util.getLoginInfo(request);
+	
+	out.println(resvDataMap);
 
 %>
 

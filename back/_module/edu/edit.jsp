@@ -28,6 +28,8 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 	String fileGrp = "eduOrgInfo";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
+	
+	
 %>
 <style scoped>
 #bgLayer {
@@ -68,6 +70,7 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 	<input type="hidden" id="mode" name = "mode" value = "<%=mode%>"/>
 	<input type="hidden" name= "eduId" id = "eduId" value="<%=util.getStr(paramMap.get("eduId"))%>"/>
 	<input type="hidden" name="reUrl" id="reUrl" value="<%=myPage%>" />
+	<input type="hidden" name="eduType" id="eduType" value="<%=util.getStr(paramMap.get("eduType"))%>" />
 
 					<table id="step1" class="skin_basic_write">
 						<caption>교육정보 상세정보수정</caption>

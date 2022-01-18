@@ -332,15 +332,19 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 	<input type="hidden" id = "mode" name = "mode" value = "<%=mode%>"/>
 	<input type="hidden" name = "eduId" id = "eduId" value="<%=util.getStr(paramMap.get("eduId"))%>"/>
 </form>
+<%
+String eduType = util.getStr(dataMap.get("EDU_TYPE")).equals("jntis")?"":"_smbrnd";
+
+%>
 <script type="text/javascript">
 	function pageListGo(){
 		$('#mode').val('list');
-		$('#fview').attr("action","/sys/sys_edu.do");
+		$('#fview').attr("action","/sys/sys<%=eduType%>_edu.do");
 		$('#fview').submit();
 	}
 	function pageResvGo(){
 		$('#mode').val('resvList');
-		$('#fview').attr("action","/sys/sys_edu.do");
+		$('#fview').attr("action","/sys/sys<%=eduType%>_edu.do");
 		$('#fview').submit();
 	}
 	function pageDelGo(){

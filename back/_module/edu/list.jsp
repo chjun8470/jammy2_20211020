@@ -24,7 +24,7 @@ response.setContentType("text/html;charset=UTF-8");
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
 
-
+	String eduType = util.getStr(paramMap.get("eduType")).equals("jntis")?"":"_smbrnd";
 %>
 
 <div class="skin_list">
@@ -156,7 +156,7 @@ response.setContentType("text/html;charset=UTF-8");
 function pageResvGo(eduId){
 	$('#eduId').val(eduId);
 	$('#mode').val('resvList');
-	$('#searchForm').attr("action","/sys/sys_edu.do");
+	$('#searchForm').attr("action","/sys/sys<%=eduType%>_edu.do");
 	$('#searchForm').submit();
 }
 

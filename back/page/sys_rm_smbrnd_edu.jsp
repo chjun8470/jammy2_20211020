@@ -7,16 +7,15 @@
 <%@ page import = "java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*" %>
 <%@include file="/back/_temple/basic/t_top.jsp" %>
 <%
-	
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getStr(paramMap.get("nowPage"));
 	
 %>
 <div class="content_center">
 
-		<jsp:include page="/sys/jntisEdu.do" flush="true">
+		<jsp:include page="/sys/jntisRmEdu.do" flush="true">
 		  	<jsp:param name="mode" value="<%=mode%>"/>
-		  	<jsp:param name="type" value="jntis"/>
+		  	<jsp:param name="type" value="smbrnd"/>
 		  	<jsp:param name="nowPage" value="<%=nowPage %>"/>
 		</jsp:include>
 

@@ -1,4 +1,4 @@
-var strDate = '2022년 01월 13일 09시';
+var strDate = '2022년 01월 17일 16시';
 
 
 var boardLatestNotice = new Array();

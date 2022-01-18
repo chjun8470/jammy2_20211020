@@ -23,7 +23,9 @@ response.setContentType("text/html;charset=UTF-8");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
-
+	
+	String eduType = util.getStr(paramMap.get("eduType")).equals("jntis")?"":"_smbrnd";
+	
 
 %>
 
@@ -130,7 +132,7 @@ response.setContentType("text/html;charset=UTF-8");
 function pageResvGo(eduId){
 	$('#eduId').val(eduId);
 	$('#mode').val('resvList');
-	$('#searchForm').attr("action","/sys/sys_rm_edu.do");
+	$('#searchForm').attr("action","/sys/sys_rm<%=eduType%>_edu.do");
 	$('#searchForm').submit();
 }
 
@@ -161,7 +163,7 @@ function pageResvGo(eduId){
 	function goExcel(){
 		$('#searchForm').attr("action","/sys/eduExcel.do");
 		$('#searchForm').submit();
-		$('#searchForm').attr("action","/sys/sys_rm_edu.do");
+		$('#searchForm').attr("action","/sys/sys_rm<%=eduType%>_edu.do");
 	}
 </script>
 
