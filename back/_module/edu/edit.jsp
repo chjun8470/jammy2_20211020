@@ -29,6 +29,8 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
 	
+	out.println(paramMap);
+	
 	
 %>
 <style scoped>

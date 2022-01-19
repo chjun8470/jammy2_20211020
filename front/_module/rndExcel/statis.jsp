@@ -26,6 +26,8 @@
 	ArrayList<HashMap<String, Object>> rndSumTeamList = request.getAttribute("rndSumTeamList") == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("rndSumTeamList");
 	ArrayList<HashMap<String, Object>> rndSumTeamList_x1 = request.getAttribute("rndSumTeamList_x1") == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("rndSumTeamList_x1");
 	
+	
+	
 	String category = "[";
 	String data = "[";
 	int k = 0;
@@ -55,6 +57,12 @@
 	data += "]";
 	data += "}]";
 	
+	int total = 0;
+	for(HashMap rs:rndSumTeamList_x1) {
+		total += util.getInt(rs.get("TNUM"));
+	}
+	
+	
 %>
 
 
@@ -63,7 +71,7 @@
 
 <script src="http://code.highcharts.com/maps/modules/drilldown.js"></script>
 
-
+<span style="display:block; text-align:right;">자료기준일 : <%=util.getStr(paramMap.get("setDate"))%></span>
 <div class="map">
 	
 	<div class="map_img" style="float:left; width:60%;">
@@ -108,7 +116,10 @@
 				<%
 				int x = 0;
 				for(HashMap rs:rndSumTeamList_x1){
-					if(x==0) out.print("<th>지역</th>");
+					if(x==0){
+						out.print("<th>지역</th>");
+						out.print("<th>총계</th>");
+					}
 				%>
 					<th><%=rs.get("LAB_TYPE")%></th>
 				<%
@@ -125,6 +136,7 @@
 				for(HashMap rs:rndSumTeamList_x1){
 					if(xx==0){
 						out.print("<td>전라남도</td>");
+						out.print("<td>"+total+"</td>");
 					}
 					//int totPrice = rs.get("TOTAL_PRICE")/100;
 				%>

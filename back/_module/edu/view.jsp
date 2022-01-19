@@ -22,6 +22,8 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	String mode = util.getStr(paramMap.get("mode"));
+	
+	String eduType = util.getStr(paramMap.get("type")).equals("jntis")?"":"_smbrnd";
 %>
 
 <div class="clear_wrap">
@@ -328,14 +330,11 @@ ArrayList<HashMap<String, String>> fileList = request.getAttribute("fileList") =
 			 </div>
 			</div>
 </div>
-<form id = "fview" name = "fview" method="post" action="/sys/sys_edu.do">
+<form id = "fview" name = "fview" method="post" action="/sys/sys<%=eduType%>_edu.do">
 	<input type="hidden" id = "mode" name = "mode" value = "<%=mode%>"/>
 	<input type="hidden" name = "eduId" id = "eduId" value="<%=util.getStr(paramMap.get("eduId"))%>"/>
 </form>
-<%
-String eduType = util.getStr(dataMap.get("EDU_TYPE")).equals("jntis")?"":"_smbrnd";
 
-%>
 <script type="text/javascript">
 	function pageListGo(){
 		$('#mode').val('list');
@@ -356,7 +355,7 @@ String eduType = util.getStr(dataMap.get("EDU_TYPE")).equals("jntis")?"":"_smbrn
 	}
 	function pageEditGo(){
 		$('#mode').val('edit');
-		$('#fview').attr("action","/sys/sys_edu.do");
+		$('#fview').attr("action","/sys/sys<%=eduType%>_edu.do");
 		$('#fview').submit();
 	}
 </script>

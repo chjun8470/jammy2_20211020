@@ -74,9 +74,9 @@
 		<table class="skin_basic_list" summary="게시판 목록을 나타내는 표입니다..">
 			<colgroup>
 				<col style="width: 5%;" />
-				<col style="width: 20%;" />
-				<col style="width: 30%;" />
 				<col style="width: 5%;" />
+				<col/>
+				<col style="width: 10%;" />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
@@ -85,6 +85,7 @@
 			<thead>
 				<tr>
 					<th scope="col">NO</th>
+					<th scope="col">년도</th>
 					<th scope="col">사업명</th>
 					<th scope="col">부처명</th>
 					<th scope="col">지역</th>
@@ -100,6 +101,7 @@
 			for(HashMap rs:rndExcelDataList) {%>
 				<tr>
 					<td><%=cont%></td>
+					<td><%=util.getStr(rs.get("YEAR"))%></td>
 					<td><%=util.getStr(rs.get("COM_NM"))%></td>
 					<td><%=util.getStr(rs.get("COM_TEAM"))%></td>
 					<td><%=util.getStr(rs.get("AR_NM"))%></td>

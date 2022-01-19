@@ -23,6 +23,9 @@
 	StaticVO staticVO = request.getAttribute("staticVO") == null ? new StaticVO(): (StaticVO)request.getAttribute("staticVO");
 	LoginVO loginVO = request.getAttribute("loginVO") == null ? new LoginVO(): (LoginVO)request.getAttribute("loginVO");
 	String mode = util.getStr(paramMap.get("mode"));
+	
+	String eduType = util.getStr(paramMap.get("type")).equals("jntis")?"":"_smbrnd";
+	
 %>
 <style scoped>
 #bgLayer {  
@@ -65,7 +68,7 @@
 	<div id="rejectDiv"></div>
 </form>
 
-<form id = "fview" name = "fview" method="post" action="/sys/sys_rm_edu.do" enctype="multipart/form-data">
+<form id = "fview" name = "fview" method="post" action="/sys/sys_rm<%=eduType%>_edu.do" enctype="multipart/form-data">
 <div class="clear_wrap">
 						<div class="left_box w75">
 				<div class="box_in" style="width:80%">
@@ -237,12 +240,14 @@
 	<input type="hidden" name = "resvState" id = "resvState" value="<%=util.getStr(resvDataMap.get("RESV_STATE"))%>"/>
 	<input type="hidden" name = "userIdx" id = "userIdx" value="<%=util.getStr(paramMap.get("userIdx"))%>"/>
 	<input type="hidden" name = "rmCheck" id = "rmCheck2" value="Y"/>
+	<input type="hidden" name = "eduType" id = "eduType" value="<%=util.getStr(paramMap.get("type"))%>"/>
+	
 </form>
 
 <script type="text/javascript">
 	function pageListGo(){
 		$('#mode').val('resvList');
-		$('#fview').attr("action","/sys/sys_rm_edu.do");
+		$('#fview').attr("action","/sys/sys_rm<%=eduType%>_edu.do");
 		$('#fview').submit();
 	}
 

@@ -41,7 +41,7 @@
 	String listMode = util.getStr(paramMap.get("listMode"));
 	LoginVO loginVO = util.getLoginInfo(request);
 	
-	out.println(resvDataMap);
+	out.println(util.loginCheck());
 
 %>
 
@@ -229,7 +229,7 @@
 							</td>
 							<th scope="col" class="top_sell bln">관리번호</th>
 							<td class="r_line_none">
-								<%=util.getStr(resvDataMap.get("EDU_RESV_ID")) %>
+								<%=util.getIntStr(resvDataMap.get("EDU_RESV_ID"))%>
 							</td>
 						</tr>
 						<tr>
@@ -237,15 +237,17 @@
 							<td class="r_line_none"><%=util.getStr(dataMap.get("EDU_CUR"))%></td>
 							<th>수료증발급</th>
 							<td class="">
-						<%if(util.getStr(resvDataMap.get("RESV_STATE")).equals("50")){ 
+						<%
+						if(util.getStr(resvDataMap.get("RESV_STATE")).equals("50")){ 
 							if(util.getStr(resvDataMap.get("RESV_CERTI_FILE")).equals("")){
 						%>
-							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getStr(resvDataMap.get("EDU_RESV_ID"))%>&state=<%=util.getStr(resvDataMap.get("RESV_STATE")) %>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
+							<input type="button" value="발급받기" class="btn_inp_w_01" onclick="window.open('/AIViewer55/temp/educer.jsp?reportParams=showScrollNext:false,showScrollTop:false,showScrollBottom:false,showScrollPrev:false,showScrollPage:false&menu=old&resvid=<%=util.getIntStr(resvDataMap.get("EDU_RESV_ID"))%>&state=<%=util.getStr(resvDataMap.get("RESV_STATE")) %>','win','width=797,height=800,toolbar=0,scrollbars=0,resizable=0')" />
 						<%
 							}else{
+							
 							String resvFileParam = "?dataGrp=resvCerti"
 										+"&amp;fileId="+util.getIntStr(resvDataMap.get("RESV_CERTI_FILE"))
-										+"&amp;dataIdx="+util.getStr(resvDataMap.get("EDU_RESV_ID"));
+										+"&amp;dataIdx="+util.getIntStr(resvDataMap.get("EDU_RESV_ID"));
 						%>
 						<a href="/cmm/fms/ComFileDown.do<%=resvFileParam%>" class="btn_inp_w_01" title="첨부파일 다운로드">발급받기</a>
 							
@@ -299,7 +301,7 @@
 						<tr>
 							<th scope="col" class="top_sell bln">휴대전화</th>
 							<td class="r_line_none">
-								<%if(util.getStr(resvDataMap.get("EDU_RESV_ID")).equals("")){ %>
+								<%if(util.getIntStr(resvDataMap.get("EDU_RESV_ID")).equals("")){ %>
 									<input type="hidden" name="phone" id="phone" />
 									<input type="text" title="전화번호 첫번째" name="phone01" id="phone01" class="inp_txt02" style="width:50px" maxlength="4" /> - <input type="text" title="전화번호 두번째" name="phone02" id="phone02" class="inp_txt02" style="width:75px" maxlength="4" /> - <input type="text" title="전화번호 세번째" name="phone03" id="phone03" class="inp_txt02" style="width:75px" maxlength="4" />
 								<%}else{ %>
@@ -319,15 +321,23 @@
 		<div class="b_btn_area">
 
 			<span>
-			<%if(util.loginCheck()){ %>
+			<%
+			out.println(eduPeople+"--"+eduOrdPeople+"--"+util.getIntStr(resvDataMap.get("EDU_RESV_ID")));
+			if(util.loginCheck()){ %>
+			
 				<%if(nowDate >= eduOrdStDt && nowDate <= eduOrdEdDt){//접수기간에만 동작수행가능%>
-				<input type="hidden" name="eduResvId" id="eduResvId" value="<%=util.getStr(resvDataMap.get("EDU_RESV_ID")) %>" />
+				
+				<input type="hidden" name="eduResvId" id="eduResvId" value="<%=util.getIntStr(resvDataMap.get("EDU_RESV_ID")) %>" />
 				<%if(util.getStr(resvDataMap.get("RESV_STATE")).equals("10")){%>
+				
 					<input type="button" class="btn_rgt2" value="신청취소" onclick="actStateChange()"/>
 				<%}else if(util.getStr(resvDataMap.get("RESV_STATE")).equals("30")||util.getStr(resvDataMap.get("RESV_STATE")).equals("40")){%>
+				
 					<input type="button" class="btn_rgt2" value="재신청" onclick="actStateChange()"/>
 				<%}else{
-				if(eduPeople > eduOrdPeople && util.getStr(resvDataMap.get("EDU_RESV_ID")).equals("")){%>
+				
+				if(eduPeople > eduOrdPeople && util.getIntStr(resvDataMap.get("EDU_RESV_ID")).equals("0")){%>
+				
 					<input type="button" class="btn_rgt2" value="신청" onclick="pageWriteGo()"/>
 				<%}
 				 }
