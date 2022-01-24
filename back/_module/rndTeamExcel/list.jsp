@@ -24,7 +24,8 @@
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getIntStr(paramMap.get("nowPage"));
 	String nowPage2 = util.getStr(paramMap.get("searchWord"));
-
+	
+	
 	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 %>
 
@@ -44,6 +45,7 @@
 								<option value="scienceB" <%if(util.getStr(paramMap.get("searchMain")).equals("scienceB")) { %> selected="selected" <% } %> >과학기술표준분류</option>
 								<option value="emphasisB" <%if(util.getStr(paramMap.get("searchMain")).equals("emphasisB")) { %> selected="selected" <% } %>>중점과학기술분류</option>
 								<option value="6TB" <%if(util.getStr(paramMap.get("searchMain")).equals("6TB")) { %> selected="selected" <% } %>>6T관련기술분류</option>
+								<option value="YEAR" <%if(util.getStr(paramMap.get("searchMain")).equals("YEAR")) { %> selected="selected" <% } %>>년도</option>
 							</select>
 							<select name="searchSub" id="searchSub" class="select" style="height: 24px">
 								<option value="">분류선택</option>
@@ -99,7 +101,7 @@
 			<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
 			for(HashMap rs:rndExcelDataList) {%>
-				<tr>
+				<tr onclick="delThisRow('<%=util.getInt(rs.get("IDX"))%>')">
 					<td><%=cont%></td>
 					<td><%=util.getStr(rs.get("YEAR"))%></td>
 					<td><%=util.getStr(rs.get("COM_NM"))%></td>
@@ -115,9 +117,10 @@
 			} %>
 			</tbody>
 		</table>
-		<!-- div class="bbs_btn">
-			<input class="btn_inp_b_01" type="button" onclick="location.href='/sys/sys_rnd_team.do'" value="등록" />
-		</div-->
+		<div class="bbs_btn">
+			<!-- <input class="btn_inp_b_01" type="button" onclick="location.href='/sys/sys_rnd_team.do'" value="등록" /> -->
+			<button type="button" id="excelDownload" class="btn_inp_b_01" onclick="goExcel()">엑셀다운로드</button>
+		</div>
 	<%=util.getPaging(staticVO, nowPage) %>
 	</div>
 </div>
@@ -125,49 +128,93 @@
 <script type="text/javascript">
 
 	var searchSub = "<%=util.getStr(paramMap.get("searchSub"))%>";
+	var searchMain = "<%=!util.getStr(paramMap.get("searchMain")).equals("")?util.getStr(paramMap.get("searchMain")):""%>";
 	
 	if(searchSub != ""){
 		var codeX = "<%=util.getStr(paramMap.get("searchMain"))%>";
 		var mode = "ajax";
 		
-		$.post("/sys/smbRndTeamExcel.do",{mode:mode, codeX:codeX},function(data){
-			if(data.state == "OK"){
-				var html = "";
-				
-				$("#searchSub").find("option").remove().end().append("<option value=''>분류선택</option>");
-				//$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
-				
-				$.each(data.dataList,function(idx,obj){
-					var selected = (obj.CODE_NM == searchSub)?"selected":"";
-					html += "<option value='"+obj.CODE_NM+"' "+selected+">"+obj.CODE_NM+"</option>";
-				});
-				$("#searchSub").append(html);
+		if(searchMain == "YEAR"){
+			var today = new Date();
+			var year = today.getFullYear();
+			var html = "";
+			var selectx = "";
+			$("#searchSub").find("option").remove().end().append("<option value=''>년도선택</option>");
+			for(var i=year; i>1950; i--){
+				selectx = (i==searchSub)?"selected":"";
+				html += "<option value='"+i+"' "+selectx+">"+i+"</option>";
 			}
-		},"JSON");
+			$("#searchSub").append(html);
+			
+		}else{
+		
+			$.post("/sys/smbRndTeamExcel.do",{mode:mode, codeX:codeX},function(data){
+				if(data.state == "OK"){
+					var html = "";
+					
+					$("#searchSub").find("option").remove().end().append("<option value=''>분류선택</option>");
+					//$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+					
+					$.each(data.dataList,function(idx,obj){
+						var selected = (obj.CODE_NM == searchSub)?"selected":"";
+						html += "<option value='"+obj.CODE_NM+"' "+selected+">"+obj.CODE_NM+"</option>";
+					});
+					$("#searchSub").append(html);
+				}
+			},"JSON");
+			
+		}
 	}
 
 	$("#searchMain").on("change",function(){
 		var codeX = $(this).val();
 		var mode = "ajax";
 		
-		$.post("/sys/smbRndTeamExcel.do",{mode:mode, codeX:codeX},function(data){
-			if(data.state == "OK"){
-				var html = "";
-				
-				$("#searchSub").find("option").remove().end().append("<option value=''>분류선택</option>");
-				//$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
-				
-				$.each(data.dataList,function(idx,obj){
-					html += "<option value='"+obj.CODE_NM+"'>"+obj.CODE_NM+"</option>";
-				});
-				$("#searchSub").append(html);
+		if(codeX == "YEAR"){
+			
+			var today = new Date();
+			var year = today.getFullYear();
+			var html = "";
+			
+			$("#searchSub").find("option").remove().end().append("<option value=''>년도선택</option>");
+			for(var i=year; i>1950; i--){
+				html += "<option value='"+i+"'>"+i+"</option>";
 			}
-		},"JSON");
+			$("#searchSub").append(html);
+			
+		}else{
 		
+			$.post("/sys/smbRndTeamExcel.do",{mode:mode, codeX:codeX},function(data){
+				if(data.state == "OK"){
+					var html = "";
+					
+					$("#searchSub").find("option").remove().end().append("<option value=''>분류선택</option>");
+					//$("#code_s").find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+					
+					$.each(data.dataList,function(idx,obj){
+						html += "<option value='"+obj.CODE_NM+"'>"+obj.CODE_NM+"</option>";
+					});
+					$("#searchSub").append(html);
+				}
+			},"JSON");
 		
+		}
 	});
 
-
+	function delThisRow(idx){
+		
+		if(confirm("선택 게시물을 삭제하시겠습니까?") !== false){
+			
+			$.post("/sys/smbRndTeamExcel.do",{mode:"delRow", idx:idx},function(data){
+				if(data.state == "OK"){
+					alert("처리가 완료되었습니다");
+					location.reload();
+				}
+			},"JSON");
+			
+		}
+		
+	}
 
 	function pageSearchGo(){
 		$('#mode').val('list');
@@ -178,6 +225,13 @@
 		$('#moduleInfoIdx').val(idx);
 		$('#searchForm').submit();
 	}
+	
+	function goExcel(){
+		$('#searchForm').attr("action","/sys/smbRndExcelListDown.do");
+		$('#searchForm').submit();
+		$('#searchForm').attr("action","");
+	}
+	
 </script>
 
 

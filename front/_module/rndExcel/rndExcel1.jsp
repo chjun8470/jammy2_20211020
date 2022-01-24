@@ -37,28 +37,38 @@
 	//ArrayList<HashMap<String, Object>> rndSumPriceList2 = request.getAttribute("rndSumPriceList2") == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("rndSumPriceList2");
 	//ArrayList<HashMap<String, Object>> rndSumPriceList3 = request.getAttribute("rndSumPriceList3") == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("rndSumPriceList3");
 	
-	//out.println(rndSumPriceList1_x1);
+	
 	
 	String category = "[";
 	String data = "[";
 	int k = 0;
 	String eq = ",";
 	
+	
+	
 	data += "{";
 	data += "name:'test',";
 	data += "colorByPoint:true,";
 	data += "data:[";
 	
+	String dataX = "";
+	String dataY = "";
+	
 	for(HashMap rs:rndSumPriceList1) {
-		
 		if(k != 0){
 			category += eq;
 			data += eq;
+			dataX += eq;
+			dataY += eq;
 		}
+		
 		data += "{";
 		data += "name:'"+util.getStr(rs.get("TITLE"))+"',";
 		data += "y:"+util.getStr(rs.get("TOTAL_PRICE"))+"";
 		data += "}";
+		
+		dataX += util.getStr(rs.get("TOTAL_PRICE"));
+		dataY += util.getStr(rs.get("CNT")).equals("")?0:util.getStr(rs.get("CNT"));
 		
 		category += " '"+util.getStr(rs.get("TITLE"))+"'";
 		
@@ -67,7 +77,6 @@
 	category += "]";
 	data += "]";
 	data += "}]";
-	
 	
 	pageContext.setAttribute("cxyearX", util.getStr(paramMap.get("year")));
 	
@@ -134,7 +143,7 @@
 <br style="display:block; visibility:hidden; clear:both; content:'';" />
 
 <div class="con10">
-	<span style="float:right">(단위 : 백만원)</span>
+	<span style="float:right">(단위 : 백만원/과제수)</span>
 	<div class="scroll">
 		<table class="tbl_01">
         <colgroup>
@@ -143,19 +152,28 @@
 			<%
 			int x = 0;
 			for(HashMap rs:rndSumPriceList1_x1){
-				if(x==0) out.print("<th>지역</th>");
+				if(x==0) out.print("<th rowspan='2'>지역</th>");
 			%>
-				<th><%=rs.get("TITLE")%></th>
+				<th colspan="2"><%=rs.get("TITLE")%></th>
 			<%
 	        	x++;
 			}//for end
 	        %>
 	        </tr>
+	        <tr>
+	        	<% for(HashMap rs:rndSumPriceList1_x1){ %>
+	        	<th>사업비</th>
+	        	<th>과제수</th>
+	        	<% } %>
+	        </tr>
+	        
 		</thead>
         <tbody>
             <tr>
             <%
             int xx = 0;
+           
+            	
 			for(HashMap rs:rndSumPriceList1_x1){
 				if(xx==0){
 					if(util.getStr(paramMap.get("area")).equals(null) || util.getStr(paramMap.get("area")).equals("")){
@@ -167,18 +185,63 @@
 				//int totPrice = rs.get("TOTAL_PRICE")/100;
 			%>
 				<td><%=util.getComma(rs.get("TOTAL_PRICE"))%></td>
+				<td><%=util.getComma(rs.get("CNT"))%></td>
 			<%
 	        	xx++;
 			}//for end
+            
 	        %>
             </tr>
-        
+            <% 
+            
+            if(rndSumPriceList1_x1.size() > 0){
+            if(util.getStr(paramMap.get("area")).equals(null) || util.getStr(paramMap.get("area")).equals("")){
+            
+            int io = 0;
+			String price = "-";
+			String num = "-";
+            for(HashMap rs:areaSigunguList){ %>
+            
+        	<tr>
+        		<td><%=util.getStr(rs.get("CODE_NM")) %></td>
+        		<%
+        		
+        		int xo = 0;
+        		for(HashMap rsd:rndSumPriceList1_x1){
+        			
+        			ArrayList<HashMap<String, Object>> setlist = request.getAttribute("set_"+xo+"_"+io) == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("set_"+xo+"_"+io);
+        			if(setlist.size() > 0){
+        				price = util.getInt(setlist.get(0).get("CNT")).equals(0)?"-":util.getComma(setlist.get(0).get("TOTAL_PRICE"));
+        				num = util.getInt(setlist.get(0).get("CNT")).equals(0)?"-":util.getComma(setlist.get(0).get("CNT"));
+        			}
+        			
+        		%>
+        		<td><%=price%></td>
+        		<td><%=num%></td>
+        		<%
+        			xo++;
+        		}%>
+        	</tr>
+        	
+        	<% io++; }
+            }
+            }else{
+            %>
+            <tr>
+            	<td>데이터가 없습니다.</td>
+            </tr>
+            <%
+            }
+            %>
         </tbody>
     </table>
     </div>
 </div>
 
-
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script> 
 
 <script>
 Highcharts.setOptions({
@@ -186,53 +249,71 @@ Highcharts.setOptions({
 		thousandsSep:','
 	}
 });
+
+/* Highcharts.setOptions({
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+}); */
 Highcharts.chart('high_container', {
     chart: {
-        type: 'column'
-    },
-    title: {
-        text: '총 사업비'
-    },
-    subtitle: {
-        text: ''
-    },
-    accessibility: {
-      announceNewData: {
-        enabled: true
-      }
-    },
-    xAxis: {
-        type:'category'
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: '단위 (백만원)'
-        }
-    },
-    legend:{
-    	enabled:false
+        marginRight: 80
     },
     credits: {
         enabled: false
     },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px"></span><table>',
-        pointFormat: '<tr><td style="color:{point.color};padding:0">{point.name}: </td>' +
-            '<td style="padding:0"><b>{point.y} 만원</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
+    title: {
+        text: '총 사업비/과제수'
     },
+    xAxis: {
+        categories: <%=category%>
+    },
+    yAxis: [{
+    	min:0,
+        title: {
+            text: '단위:백만원'
+        },
+        tickInterval : 110
+    }, {
+        title: {
+            text: '단위:갯수'            
+        },
+        opposite: true
+    }],
     plotOptions: {
     	series: {
    	      borderWidth: 0,
    	      dataLabels: {
    	        enabled: true,
-   	        format: '{point.y:,.0f} 만원'
+   	        format: '{point.y:,.0f} 백만원'
    	      }
    	    }
     },
-    series: <%=data%>
+    series: [{
+        type: 'line',
+        data: [<%=dataY%>],
+        name: '과제수',
+        yAxis: 1,
+        color:'#7a6e96',
+        tooltip:{
+        	valueSuffix:' 개'
+        },
+        dataLabels:{
+        	format:''
+        },
+        zIndex:2
+    }, {
+        type: 'column',
+        data: [<%=dataX%>],
+        name: '총사업비',
+        tooltip:{
+        	valueSuffix:' 백만원'
+        },
+        colorByPoint: true,
+        zIndex:1
+    }]
 });
+
+
+
+
+
 </script>

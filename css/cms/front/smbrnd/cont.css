@@ -276,7 +276,7 @@ h3.tit::before { display: block; content: ""; width: 30px; height: 30px; backgro
 
 .scroll { width: 100%; overflow: auto;}
 .tbl_01 { width: 930px; text-align: center; border-top: 2px solid #333; border-bottom: 2px solid #333; border-collapse: collapse; table-layout: fixed;}
-.tbl_01 th { background: #f2f6f9; padding: 10px; width: 120px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
+.tbl_01 th { background: #f2f6f9; padding: 10px; width: 240px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;}
 .tbl_01 th:last-child {border-right: 0;}
 .tbl_01 td { border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 10px; }
 .tbl_01 td:last-child {border-right: 0;}

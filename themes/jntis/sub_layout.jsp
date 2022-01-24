@@ -60,8 +60,8 @@
 </c:forEach>
 
 <!-- 그래프 -->
-<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+<!-- <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script> -->
 <!-- 그래프 end-->
 
 <script type="text/javascript" src="/js/cms/front/func_web.js"></script>
