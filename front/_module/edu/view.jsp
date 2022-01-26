@@ -40,8 +40,7 @@
 	String nowPage = util.getStr(paramMap.get("nowPage"));
 	String listMode = util.getStr(paramMap.get("listMode"));
 	LoginVO loginVO = util.getLoginInfo(request);
-	
-	
+
 
 %>
 
@@ -51,7 +50,8 @@
 	  	<input type="hidden" name="eduId" id="eduId" value="<%=eduId%>" />
 	  	<input type="hidden" name="listMode" id="listMode" value="<%=listMode%>" />
 		<input type="hidden" name="nowPage" id="nowPage" value="<%=staticVO.getNowPage() %>" />
-		<input type="hidden" name="reUrl" id="reUrl" value="/jntis/sub.do?m=<%=m%>&amp;eduId=<%=eduId%>" />
+		<input type="hidden" name="type" value="<%=util.getStr(paramMap.get("type")) %>">
+		<input type="hidden" name="reUrl" id="reUrl" value="/<%=util.getStr(paramMap.get("type")) %>/sub.do?m=<%=m%>&amp;eduId=<%=eduId%>" />
 
 <div class="basic_viewWrap">
 
