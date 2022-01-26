@@ -104,8 +104,20 @@ button.ui-datepicker-current { display: none; }
 	   <input type="hidden" name="userId" id="userId" value="<%=util.getStr(dataMap.get("USER_ID")) %>" />
 	   <input type="hidden" name="delFiles" value="" />
 	   
+	   
+	   
 		<p style="color:red;">* ) 필수 입력사항입니다.</p>
 			<h2 class="tit">기본정보</h2>
+			<!-- bo_btn  -->
+              <div class="btn_right_box" style="text-align: right; width: 980px;">
+                     <input type="button" class="btn_inp_b_01" value="수정하기" onclick="goCheck()"/>
+                     <% if(util.getStr(paramMap.get("xt")).equals("1")){ %>
+                     <input type="button" class="btn_inp_w_01" value="이전" onclick="history.go(-1)"/>
+                     <% }else{ %>
+                     <input type="button" class="btn_inp_w_01" value="목록" onclick="goSubmit('list')"/>
+                     <% } %>
+              </div>
+              <!--// bo_btn -->
 	   		<table class="skin_basic_write" >
 	   			<caption>기본정보</caption>
                      <colgroup>
@@ -337,25 +349,7 @@ button.ui-datepicker-current { display: none; }
 								</td>
 			            	</tr>
 			            	
-			            	<!-- 
-			            	<tr>
-		            			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
-				            	<td colspan="3">
-				         			<select class="select_box" name="code_b_x" id="code_b_x">
-										<option value="">산업기술대분류</option>
-										<%
-										for(HashMap bz:bizList1){
-											
-										%>
-										<option value="<%=util.getStr(bz.get("CODE_CD"))%>" <%=(util.getStr(dataMap.get("PRO_SMB_CODE1"))).equals(util.getStr(bz.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(bz.get("CODE_NM"))%></option>
-										<% 
-										}
-										%>
-									</select>
-									
-				           		</td>
-				           	</tr>
-				           	-->
+			            	
 			            	</tbody>
 			            </table>
 			            
@@ -737,7 +731,7 @@ button.ui-datepicker-current { display: none; }
 	}else{%>
 		<tr class="researchPaper<%=rpCnt%>">
      		<th scope="row" class="tit">논문명</th>
-     		<td><input type="text" name="rpNm" value=""  style="width:100%;" class="inp_txt"></td>
+     		<td><input type="text" name="rpNm" id="rpNm<%=rpCnt%>" value=""  style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit">게제년도</th>
      		<td>
      			<select name="rpStart" class="select_box">
@@ -1080,7 +1074,7 @@ button.ui-datepicker-current { display: none; }
      		</td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')" style='border-bottom:3px solid #ddd'>
-     		<th scope="row" class="tit"><span style="color:red;" >*</span> 사업비</th>
+     		<th scope="row" class="tit"><span style="color:red;" >*</span> 총사업비(단위:백만원)</th>
      		<td><input type="text" name="rdExpenses" value="<%=util.getStr(rs.get("RD_EXPENSES"))%>" style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 참여형태</th>
        		<td>
@@ -1123,7 +1117,7 @@ button.ui-datepicker-current { display: none; }
      		</td>
      	</tr>
      	<tr class="RnDresult<%=rdCnt%>" onclick="setLicenseBtn(<%=rdCnt%>, 'RnDresult')" style='border-bottom:3px solid #ddd'>
-     		<th scope="row" class="tit"><span style="color:red;" >*</span> 사업비</th>
+     		<th scope="row" class="tit"><span style="color:red;" >*</span> 총사업비(단위:백만원)</th>
      		<td><input type="text" name="rdExpenses" value="" style="width:100%;" class="inp_txt"></td>
      		<th scope="row" class="tit"><span style="color:red;" >*</span> 참여형태</th>
        		<td>
@@ -1321,7 +1315,7 @@ button.ui-datepicker-current { display: none; }
         </colgroup>
         <tbody>
 		<tr>
-			<th scope="row" class="tit"><span style="color:red;" >*</span> 기술분류</th>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 산업기술분류 1순위</th>
 	       	<td colspan="3">
 	    			<select class="select_box" name="code_b" id="code_b_1">
 					<option value="">산업기술대분류</option>
@@ -1343,7 +1337,7 @@ button.ui-datepicker-current { display: none; }
 	     	</td>
 		</tr>
 		<tr>
-			<th scope="row" class="tit">기술분류</th>
+			<th scope="row" class="tit">산업기술분류 2순위</th>
 	       	<td colspan="3">
 	    			<select class="select_box" name="code_b" id="code_b_2">
 					<option value="">산업기술대분류</option>
@@ -1365,7 +1359,7 @@ button.ui-datepicker-current { display: none; }
 	     	</td>
 		</tr>
 		<tr>
-			<th scope="row" class="tit">기술분류</th>
+			<th scope="row" class="tit">산업기술분류 3순위</th>
 	       	<td colspan="3">
 	    			<select class="select_box" name="code_b" id="code_b_3">
 					<option value="">산업기술대분류</option>
@@ -1477,13 +1471,40 @@ button.ui-datepicker-current { display: none; }
 		</tr>
 		<tr>
 			<td>
-				<div style="height:100px; overflow-y:scroll; border:1px solid #ddd; padding:10px 5px;">ddddd</div>
+				<div style="height:100px; overflow-y:scroll; border:1px solid #ddd; padding:10px 5px;">정보공개동의 내용</div>
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">
 				<label><input type="radio" name="expert_ok" value="Y" <%=(util.getStr(dataMap.get("EXPERT_OK")).equals("Y") || util.getStr(dataMap.get("EXPERT_OK")).equals(null))?"checked":""%>> 정보제공에 동의합니다.</label>
 				<label><input type="radio" name="expert_ok" value="N" <%=(util.getStr(dataMap.get("EXPERT_OK")).equals("N"))?"checked":""%>> 정보제공에 동의하지 않습니다.</label>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	
+	<table class="skin_basic_write">
+		<caption>정보공개동의2</caption>
+        <colgroup>
+	        <col />
+        </colgroup>
+        <tbody>
+		<tr>
+			<td>
+				<span style="color:red;" >*</span> 회원님의 정보를 각종 기관/기업에 조회 및 사업 매칭을 위해 중소기업 R&D혁신성장 플랫폼에 공개되는 것에 동의 하십니까?<br/>
+				(미 동의시 다른 회원들에게 정보는 공개되지 않습니다.)
+				
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div style="height:100px; overflow-y:scroll; border:1px solid #ddd; padding:10px 5px;">정보공개동의 내용</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">
+				<label><input type="radio" name="expert_ok2" value="Y" <%=(dataMap.get("EXPERT_OK2").isEmpty() || (util.getStr(dataMap.get("EXPERT_OK2")).equals("Y") || util.getStr(dataMap.get("EXPERT_OK2")).equals(null)))?"checked":""%>> 정보제공에 동의합니다.</label>
+				<label><input type="radio" name="expert_ok2" value="N" <%=(util.getStr(dataMap.get("EXPERT_OK2")).equals("N"))?"checked":""%>> 정보제공에 동의하지 않습니다.</label>
 			</td>
 		</tr>
 		</tbody>
@@ -1503,60 +1524,60 @@ button.ui-datepicker-current { display: none; }
 	        <col style="width:35%" />
         </colgroup>
         <tbody>
-		<tr>
+		<!-- tr>
 			<th scope="row" class="tit"><span style="color:red;" >*</span> 동의서 파일</th>
 			<td>
 				<%
-					if(fileList.size() > 0){
+					//if(fileList.size() > 0){
 				%>
 					<div id="fileDivEdit">
 						<ul class="file" style="line-height: 30px; text-align: left; vertical-align: middle; padding: 5px;">
 						<%
-							int fileCnt = 1;
+							/* int fileCnt = 1;
 							for(HashMap rs:fileList){
 								String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
 													+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
-													+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
+													+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX")); */
 						%>
-							<li><input type="file" name="<%=fileFullGrp%>File1" id="<%=fileFullGrp%>File1" title="파일첨부" /></li>
+							<li><input type="file" name="<%//=fileFullGrp%>File1" id="<%//=fileFullGrp%>File1" title="파일첨부" /></li>
 							<li class="text">
-								<input type="hidden" name="fileCode" id="fileCode" value="<%=util.getStr(rs.get("FILE_ID"))%>" />
-								<input type="checkbox" name="fileFlog" id="fileFlog_<%=fileCnt%>"
-										value="<%=util.getStr(rs.get("FILE_ID"))%>" />&nbsp;
-								<label for="fileFlog_<%=fileCnt%>">파일삭제</label>&nbsp;&nbsp;
-								<%=util.deStr(rs.get("TITLE_ORG"))%>(<%=util.getStr(rs.get("FILE_SIZE"))%> Byte)
+								<input type="hidden" name="fileCode" id="fileCode" value="<%//=util.getStr(rs.get("FILE_ID"))%>" />
+								<input type="checkbox" name="fileFlog" id="fileFlog_<%//=fileCnt%>"
+										value="<%//=util.getStr(rs.get("FILE_ID"))%>" />&nbsp;
+								<label for="fileFlog_<%//=fileCnt%>">파일삭제</label>&nbsp;&nbsp;
+								<%//=util.deStr(rs.get("TITLE_ORG"))%>(<%//=util.getStr(rs.get("FILE_SIZE"))%> Byte)
 	
 							</li>
 							
-						<% fileCnt++; }%>
+						<% //fileCnt++; }%>
 						</ul>
 					</div>
 	
-	            <% }else{ %>
+	            <% //}else{ %>
 	
 	             	<div id="fileDiv">
-						<div id="<%=fileFullGrp%>fileGrpBox">
+						<div id="<%//=fileFullGrp%>fileGrpBox">
 							<div>
-								<input type="file" name="<%=fileFullGrp%>File1" id="<%=fileFullGrp%>File1" title="파일첨부" />
+								<input type="file" name="<%//=fileFullGrp%>File1" id="<%//=fileFullGrp%>File1" title="파일첨부" />
 							</div>
 						</div>
 					</div>
 						
-			      <% } %>
+			      <% //} %>
 			</td>
 			<th scope="row" class="tit">동의서 상태</th>
 			<td>
 				미승인
 			</td>
-		</tr>
+		</tr-->
 		<tr>
 			<th scope="row" class="tit">승인일자</th>
 			<td>
-				-
+				<%=util.getStr(dataMap.get("EX_COMFIRM_SDATE")).equals("")?"-":util.getStr(dataMap.get("EX_COMFIRM_SDATE"))%>
 			</td>
 			<th scope="row" class="tit">만료일자</th>
 			<td>
-				-
+				<%=util.getStr(dataMap.get("EX_COMFIRM_EDATE")).equals("")?"-":util.getStr(dataMap.get("EX_COMFIRM_EDATE"))%>
 			</td>
 		</tr>
 		</tbody>
@@ -2142,11 +2163,11 @@ function goCheck(){
 			
 			if($('input[name=rdExpenses]:last').val() == ""){
 				$('input[name=rdExpenses]:last').focus();
-				alert("사업비를 입력 해주세요");
+				alert("총사업비를 입력 해주세요");
 				return false;
 			}
 			if(isNaN($('input[name=rdExpenses]:last').val())){
-				alert("사업비 : 숫자만 입력해주세요. ex)10000");
+				alert("총사업비 : 숫자만 입력해주세요. ex)10000");
 				$('input[name=rdExpenses]:last').val("");
 				$('input[name=rdExpenses]:last').focus();
 				return false;
@@ -2242,7 +2263,7 @@ function goCheck(){
 			}
 			
 			
-			if($("input[name='fileCode']").val() == ""){
+			<%-- if($("input[name='fileCode']").val() == ""){
 				if($("#<%=fileFullGrp%>File1").val() == ""){
 					alert("동의서파일을 등록하세요");
 					return false;
@@ -2257,7 +2278,7 @@ function goCheck(){
 					return false;
 				}
 				
-			}
+			} --%>
 			
 			
 			
@@ -2719,7 +2740,7 @@ function addRow(mode){
     			
     			if($('input[name=rdExpenses]:last').val() == ""){
     				$('input[name=rdExpenses]:last').focus();
-    				alert("사업비를 입력 해주세요");
+    				alert("총사업비를 입력 해주세요");
     				return false;
     			}
     			if(isNaN($('input[name=rdExpenses]:last').val())){
@@ -2764,7 +2785,7 @@ function addRow(mode){
     		 	row += '<label><input type="checkbox" name="rdIng'+plusScCnt+'" id="rdIng'+plusScCnt+'" value="1" />진행중</label></td>';
     		 	row += '</tr>';
     		 	row += "<tr class='RnDresult"+plusScCnt+"' style='border-bottom:3px solid #ddd'>";
-    		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 사업비</th>';
+    		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 총사업비(단위:백만원)</th>';
     		 	row += "<td><input type='text' name='rdExpenses' style='width:100%;' class='inp_txt'></td>";
     		 	row += '<th scope="row" class="tit"><span style="color:red;" >*</span> 참여형태</th>';
     		 	row += "<td><select name='rdForm' class='select_box'>";
@@ -2804,10 +2825,10 @@ function addRow(mode){
     				return false;
     			}
 
-    			if($('input[name^=qualificationFile]:last').val() == "" && $("input[name=quFile]:last").val() == ""){
+    			/* if($('input[name^=qualificationFile]:last').val() == "" && $("input[name=quFile]:last").val() == ""){
     				alert("증빙문서를 첨부 해주세요");
     				return false;
-    			}
+    			} */
     			/*
     			if($('input[name=quNm]:last').val() == ""){
     				$('input[name=quNm]:last').focus();
@@ -2979,16 +3000,16 @@ function addRow(mode){
     				alert("논문유형을 선택 해주세요");
     				return false;
     			}
-    			if($('input[name^=researchPaperFile]:last').val() == "" && $("input[name=rpFile]:last").val() == ""){
+    			/* if($('input[name^=researchPaperFile]:last').val() == "" && $("input[name=rpFile]:last").val() == ""){
     				alert("증빙문서를 첨부 해주세요");
     				return false;
-    			}
+    			} */
     			
 
     			var row = "";
     		 	row += "<tr class='researchPaper"+plusScCnt+"'>";
     		 	row += '<th scope="row" class="tit">논문명</th>';
-    		 	row += "<td><input type='text' name='rpNm' class='inp_txt'></td>";
+    		 	row += "<td><input type='text' name='rpNm' id='rpNm"+plusScCnt+"' class='inp_txt'></td>";
     		 	row += '<th scope="row" class="tit">게제년도</th>';
     		 	row += "<td>";
     		 	row += '<select name="rpStart" class="select_box">';
@@ -3055,10 +3076,10 @@ function addRow(mode){
     				return false;
     			}
     			
-    			if($('input[name^=inPropertyFile]:last').val() == "" && $("input[name=ipFile]:last").val() == ""){
+    			/* if($('input[name^=inPropertyFile]:last').val() == "" && $("input[name=ipFile]:last").val() == ""){
     				alert("증빙문서를 첨부 해주세요");
     				return false;
-    			}
+    			} */
     			
     			var row = "";
     			row += '<tr class="inProperty'+plusScCnt+'">';

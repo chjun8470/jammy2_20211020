@@ -155,6 +155,7 @@ function standard1(mode,value){
 }
 //]]>
 </script>
+ㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈ
 <form name="fedit" id="fedit" action="/web/expertManage.do" method="post" enctype="multipart/form-data">
        <input type="hidden" name="permEditor" id="permEditor" value="<%=util.getStr(boardMap.get("PERM_EDITOR"))%>" />
        <input type="hidden" name="mode" id="mode" value="<%=mode%>" />
@@ -694,7 +695,7 @@ int listExInt = 0;
        		<th scope="row" ><label for="rdBusinessNm1">사업명</label></th>
        		<th scope="row" ><label for="rdNm1">과제명</label></th>
        		<th scope="row"  colspan="2"><label for="rdStart<%=rdCnt%>">총사업참여기간</label></th>
-       		<th scope="row" ><label for="rdExpenses1">사업비</label></th>
+       		<th scope="row" ><label for="rdExpenses1">총사업비(단위:백만원)</label></th>
        		<th scope="row" class="r_line_none"><label for="rdForm1">참여형태</label></th>
        	</tr>
  	<%if(listRD.size()>0){ 
@@ -1352,7 +1353,7 @@ function goCheck(){
 			}
 			if($('input[name=rdExpenses]:last').val() != "" && $('input[name=rdExpenses]:last').val() != null){
 				if(isNaN($('input[name=rdExpenses]:last').val())){
-					alert("연구개발과제(프로젝트) 수행실적(사업비) : 숫자만 입력해주세요. ex)10000");
+					alert("연구개발과제(프로젝트) 수행실적(총사업비) : 숫자만 입력해주세요. ex)10000");
 					$('input[name=rdExpenses]:last').focus();
 					return false;
 				}
@@ -1784,7 +1785,7 @@ $("#evSdate0,#evEdate0,#conSdate0,#conEdate0,#scStart0, #scStart0, #scFinish0, #
     				return false;
     			}
     			if(isNaN($('input[name=rdExpenses]:last').val())){
-					alert("연구개발과제(프로젝트) 수행실적(사업비) : 숫자만 입력해주세요. ex)10000");
+					alert("연구개발과제(프로젝트) 수행실적(총사업비) : 숫자만 입력해주세요. ex)10000");
 					$('input[name=rdExpenses]:last').focus();
 					return false;
 				}

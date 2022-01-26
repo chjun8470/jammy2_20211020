@@ -41,7 +41,7 @@
 	String listMode = util.getStr(paramMap.get("listMode"));
 	LoginVO loginVO = util.getLoginInfo(request);
 	
-	out.println(util.loginCheck());
+	
 
 %>
 
@@ -305,7 +305,7 @@
 									<input type="hidden" name="phone" id="phone" />
 									<input type="text" title="전화번호 첫번째" name="phone01" id="phone01" class="inp_txt02" style="width:50px" maxlength="4" /> - <input type="text" title="전화번호 두번째" name="phone02" id="phone02" class="inp_txt02" style="width:75px" maxlength="4" /> - <input type="text" title="전화번호 세번째" name="phone03" id="phone03" class="inp_txt02" style="width:75px" maxlength="4" />
 								<%}else{ %>
-								<%=util.getIntStr(resvDataMap.get("USER_TEL"))%>
+								<%=util.getIntStr(userDataMap.get("CP_NO"))%>
 								<%}%>
 
 							</td>
@@ -317,12 +317,12 @@
 
 					</tbody>
 				</table>
-<% }%>
+<% } %>
 		<div class="b_btn_area">
 
 			<span>
 			<%
-			out.println(eduPeople+"--"+eduOrdPeople+"--"+util.getIntStr(resvDataMap.get("EDU_RESV_ID")));
+			//out.println(eduPeople+"--"+eduOrdPeople+"--"+util.getIntStr(resvDataMap.get("EDU_RESV_ID")));
 			if(util.loginCheck()){ %>
 			
 				<%if(nowDate >= eduOrdStDt && nowDate <= eduOrdEdDt){//접수기간에만 동작수행가능%>
@@ -353,6 +353,8 @@
 		</div>
 	</div>
 </form>
+
+
 <script type="text/javascript">
 //<![CDATA[
 	function pageListGo(){
@@ -373,7 +375,7 @@
 			var phone_check = $('#phone01').val()+'-'+$('#phone02').val()+'-'+$('#phone03').val();
 			$('#phone').val(phone_check);
 
-			if(!regExp.test($('#phone').val())){
+			if(!regExp.test('<%=util.getStr(userDataMap.get("CP_NO"))%>')){
 				alert("핸드폰 번호를 잘못 입력 하셨습니다. 다시 입력해주세요");
 				$('#phone01').focus();
 				return false;

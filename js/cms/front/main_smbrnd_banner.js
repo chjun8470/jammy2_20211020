@@ -1,4 +1,4 @@
-var strDate = '2022년 01월 24일 17시';
+var strDate = '2022년 01월 26일 14시';
 
 
 var boardLatestNotice = new Array();
@@ -273,9 +273,9 @@ bannerList[42]['TITLE'] = 'banner_202010050526481630.gif';
 
 
 
-var procnt3 = '5';
+var procnt3 = '1';
 
 
-var procn4 = '2';
+var procn4 = '0';
 
 

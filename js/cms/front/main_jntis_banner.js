@@ -873,10 +873,10 @@ var jagencycnt3 = '53';
 var procnt1 = '15';
 
 
-var procnt2 = '1';
+var procnt2 = '0';
 
 
-var procnt3 = '5';
+var procnt3 = '1';
 
 
 var procnt4 = '703';

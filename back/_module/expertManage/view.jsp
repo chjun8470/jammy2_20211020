@@ -612,6 +612,7 @@
 	<!-- 정보공개동의 S -->
 	
 		<h2 class="tit">정보공개동의</h2>
+		<h4 style="display:block; clear:both;">개인정보활용동의</h4>
 		<table class="skin_basic_write">
 			<caption>정보공개동의</caption>
 	        <colgroup>
@@ -622,6 +623,22 @@
 				<td style="text-align:right;">
 					<label><input type="radio" name="expert_ok" value="Y" <%=(util.getStr(dataMap.get("EXPERT_OK")).equals("Y") || util.getStr(dataMap.get("EXPERT_OK")).equals(null))?"checked":""%> disabled> 정보제공에 동의합니다.</label>
 					<label><input type="radio" name="expert_ok" value="N" <%=(util.getStr(dataMap.get("EXPERT_OK")).equals("N"))?"checked":""%> disabled> 정보제공에 동의하지 않습니다.</label>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		
+		<h4 style="display:block; clear:both;">제3자 개인정보동의</h4>
+		<table class="skin_basic_write">
+			<caption>정보공개동의</caption>
+	        <colgroup>
+		        <col />
+	        </colgroup>
+	        <tbody>
+			<tr>
+				<td style="text-align:right;">
+					<label><input type="radio" name="expert_ok2" value="Y" <%=(util.getStr(dataMap.get("EXPERT_OK2")).equals("Y") || util.getStr(dataMap.get("EXPERT_OK2")).equals(null))?"checked":""%> disabled> 정보제공에 동의합니다.</label>
+					<label><input type="radio" name="expert_ok2" value="N" <%=(util.getStr(dataMap.get("EXPERT_OK2")).equals("N"))?"checked":""%> disabled> 정보제공에 동의하지 않습니다.</label>
 				</td>
 			</tr>
 			</tbody>
@@ -641,30 +658,30 @@
 		        <col style="width:35%" />
 	        </colgroup>
 	        <tbody>
-			<tr>
+			<!-- tr>
 				<th scope="row" class="tit"><span style="color:red;" >*</span> 동의서 파일</th>
 				<td>
 					<%
-						if(fileList.size() > 0){
+						//if(fileList.size() > 0){
 					%>
 						<div id="fileDivEdit">
 							<ul class="file" style="line-height: 30px; text-align: left; vertical-align: middle; padding: 5px;">
 							<%
-								int fileCnt = 1;
+								/* int fileCnt = 1;
 								for(HashMap rs:fileList){
 									String fileParam = "?dataGrp="+util.getStr(rs.get("DATA_GRP"))
 														+"&amp;fileId="+util.getStr(rs.get("FILE_ID"))
-														+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX"));
+														+"&amp;dataIdx="+util.getStr(rs.get("DATA_IDX")); */
 									
 							%>
 								<li class="text">
-									<%=util.deStr(rs.get("TITLE_ORG"))%>(<%=util.getStr(rs.get("FILE_SIZE"))%> Byte)
+									<%//=util.deStr(rs.get("TITLE_ORG"))%>(<%//=util.getStr(rs.get("FILE_SIZE"))%> Byte)
 								</li>
-							<% fileCnt++; }%>
+							<% //fileCnt++; }%>
 							</ul>
 						</div>
 		
-		            <% } %>
+		            <% //} %>
 		
 		             	
 				</td>
@@ -672,15 +689,15 @@
 				<td>
 					미승인
 				</td>
-			</tr>
+			</tr-->
 			<tr>
 				<th scope="row" class="tit">승인일자</th>
 				<td>
-					-
+					<%=util.getStr(dataMap.get("EX_COMFIRM_SDATE")).equals("")?"-":util.getStr(dataMap.get("EX_COMFIRM_SDATE"))%>
 				</td>
 				<th scope="row" class="tit">만료일자</th>
 				<td>
-					-
+					<%=util.getStr(dataMap.get("EX_COMFIRM_EDATE")).equals("")?"-":util.getStr(dataMap.get("EX_COMFIRM_EDATE"))%>
 				</td>
 			</tr>
 			</tbody>

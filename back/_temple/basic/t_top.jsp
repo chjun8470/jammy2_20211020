@@ -107,7 +107,7 @@
 
 <div id="wrap">
 
-	<div id="header">dddddddddd
+	<div id="header">
 		<%@include file="/back/_item/basic/i_top.jsp" %>
 	</div>
 	<div id="container">
