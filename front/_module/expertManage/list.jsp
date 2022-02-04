@@ -48,6 +48,7 @@
 	if(loginVO.getAuthLv() != null) {
 		authLv = Integer.parseInt(loginVO.getAuthLv());
 	}
+	
 %>
 
 
@@ -271,7 +272,7 @@
 								</li>
 								<li>
 									<img src="/img/smbrnd/cont/b_icon07.png">
-									소속기관: <%=util.getStr(rs.get("ORG_GRP_NM")) %>
+									소속기관: <%=util.getStr(rs.get("COM_NM")) %>
 								</li>
 								<li>
 									<img src="/img/smbrnd/cont/b_icon08.png">
