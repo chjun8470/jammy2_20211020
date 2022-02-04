@@ -51,10 +51,12 @@
     //ArrayList<HashMap<String, String>> standardList2 = request.getAttribute("standardList2") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("standardList2");
     //ArrayList<HashMap<String, String>> standardList3 = request.getAttribute("standardList3") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("standardList3");
     ArrayList<HashMap<String, String>> listProCode = request.getAttribute("listProCode") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listProCode");
+    ArrayList<HashMap<String, String>> listScCode = request.getAttribute("listScCode") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listScCode");
     ArrayList<HashMap<String, String>> areaSigunguList = request.getAttribute("areaSigunguList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("areaSigunguList");
 	ArrayList<HashMap<String, String>> areaList = request.getAttribute("areaList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("areaList");
 	
 	ArrayList<HashMap<String, String>> bizList1 = request.getAttribute("bizList1") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("bizList1");
+	ArrayList<HashMap<String, String>> scList = request.getAttribute("scibList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("scibList");
 	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
 
 	String mode = util.getStr(paramMap.get("mode"));
@@ -1380,6 +1382,64 @@ button.ui-datepicker-current { display: none; }
 				</select>
 	     	</td>
 		</tr>
+		
+		<tr>
+			<th scope="row" class="tit"><span style="color:red;" >*</span> 과학기술분류 1순위</th>
+	       	<td colspan="3">
+	    			<select class="select_box" name="scib" id="scib_1">
+					<option value="">과학기술대분류</option>
+					<%
+					String scCode1= (listScCode.size() > 0)?listScCode.get(0).get("SC_CODE1"):"";
+					for(HashMap sc:scList){						
+					%>
+					<option value="<%=util.getStr(sc.get("CODE_CD"))%>" <%=(util.getStr(scCode1)).equals(util.getStr(sc.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(sc.get("CODE_NM"))%></option>
+					<% 
+					}
+					%>
+				</select>
+				<select class="select_box" name="scim" id="scim_1">
+					<option value="">과학기술중분류</option>
+				</select>
+	     	</td>
+		</tr>
+		<tr>
+			<th scope="row" class="tit">과학기술분류 2순위</th>
+	       	<td colspan="3">
+	    			<select class="select_box" name="scib" id="scib_2">
+					<option value="">과학기술대분류</option>
+					<%
+					String scCode2= (listScCode.size() > 1)?listScCode.get(1).get("SC_CODE1"):"";
+					for(HashMap sc:scList){						
+					%>
+					<option value="<%=util.getStr(sc.get("CODE_CD"))%>" <%=(util.getStr(scCode2)).equals(util.getStr(sc.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(sc.get("CODE_NM"))%></option>
+					<% 
+					}
+					%>
+				</select>
+				<select class="select_box" name="scim" id="scim_2">
+					<option value="">과학기술중분류</option>
+				</select>
+	     	</td>
+		</tr>
+		<tr>
+			<th scope="row" class="tit">과학기술분류 3순위</th>
+	       	<td colspan="3">
+	    			<select class="select_box" name="scib" id="scib_3">
+					<option value="">과학기술대분류</option>
+					<%
+					String scCode3= (listScCode.size() > 2)?listScCode.get(2).get("SC_CODE1"):"";
+					for(HashMap sc:scList){						
+					%>
+					<option value="<%=util.getStr(sc.get("CODE_CD"))%>" <%=(util.getStr(scCode3)).equals(util.getStr(sc.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(sc.get("CODE_NM"))%></option>
+					<% 
+					}
+					%>
+				</select>
+				<select class="select_box" name="scim" id="scim_3">
+					<option value="">과학기술중분류</option>
+				</select>
+	     	</td>
+		</tr>
 		</tbody>
 	</table>
 <!-- 기술분야선택 E -->
@@ -1663,6 +1723,7 @@ button.ui-datepicker-current { display: none; }
               <!--// bo_btn -->
 </form>
 
+<%=listProCode.size() %>
 
 <script type="text/javascript" src="/js/webeditor_nhn/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
@@ -1714,7 +1775,6 @@ button.ui-datepicker-current { display: none; }
 			<% } %>
 		}
 		
-		console.log("num => "+num);
 		
 		if(smbCode1 != ""){
 			var codeX = smbCode1;
@@ -1770,6 +1830,62 @@ button.ui-datepicker-current { display: none; }
 	}
 	
 	
+for(var yy=0; yy<2; yy++){
+		
+		var scCode1 = "";
+		var scCode2 = "";
+		var num = 0;
+		
+		
+		if(yy == 0){
+			<% if(listScCode.size() > 0){ %>
+			scCode1 = "<%=util.getStr(listScCode.get(0).get("SC_CODE1"))%>";
+			scCode2 = "<%=util.getStr(listScCode.get(0).get("SC_CODE2"))%>";
+			num = 1;
+			<% } %>
+		}else if(yy == 1){
+			<% if(listScCode.size() > 1){ %>
+			scCode1 = "<%=util.getStr(listScCode.get(1).get("SC_CODE1"))%>";
+			scCode2 = "<%=util.getStr(listScCode.get(1).get("SC_CODE2"))%>";
+			num = 2;
+			<% } %>
+		}else{
+			<% if(listScCode.size() > 2){ %>
+			scCode1 = "<%=util.getStr(listScCode.get(2).get("SC_CODE1"))%>";
+			scCode2 = "<%=util.getStr(listScCode.get(2).get("SC_CODE2"))%>";
+			num = 3;
+			<% } %>
+		}
+		
+		
+		
+		if(scCode1 != ""){
+			var codeX = scCode1;
+			var codeNext = 2;
+			var mode = "scib";
+			
+			$.ajax({
+				url : "/sys/expertManage.do",
+				async : false,
+				type : "POST",
+				data : {codeX:codeX, codeNext:codeNext, mode:mode},
+				dataType : "JSON",
+				success : function(data){
+					if(data.state == "OK"){
+						var html = "";
+						$.each(data.dataList,function(idx,obj){
+							var selectx = (obj.CODE_CD == scCode2)?"selected":""; 
+							html += "<option value='"+obj.CODE_CD+"' "+selectx+">"+obj.CODE_NM+"</option>";
+						});
+						$("#scim_"+num).append(html);
+					}
+				}
+			});			
+			
+		}
+		
+	}
+	
 	
 	
 	$("select[name='code_b']").on("change",function(){
@@ -1777,20 +1893,24 @@ button.ui-datepicker-current { display: none; }
 		var codeNext = 2;
 		var mode = "biz";
 		var idx = $("select[name='code_b']").index(this);
-		
-		$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
-			if(data.state == "OK"){
-				var html = "";
-				
-				$("select[name='code_m']").eq(idx).find("option").remove().end().append("<option value=''>산업기술중분류</option>");
-				$("select[name='code_s']").eq(idx).find("option").remove().end().append("<option value=''>산업기술소분류</option>");
-				
-				$.each(data.dataList,function(idx,obj){
-					html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
-				});
-				$("select[name='code_m']").eq(idx).append(html);
-			}
-		},"JSON");
+		if(codeX != ""){
+			$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
+				if(data.state == "OK"){
+					var html = "";
+					
+					$("select[name='code_m']").eq(idx).find("option").remove().end().append("<option value=''>산업기술중분류</option>");
+					$("select[name='code_s']").eq(idx).find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+					
+					$.each(data.dataList,function(idx,obj){
+						html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
+					});
+					$("select[name='code_m']").eq(idx).append(html);
+				}
+			},"JSON");
+		}else{
+			$("select[name='code_m']").eq(idx).find("option").remove().end().append("<option value=''>산업기술중분류</option>");
+			$("select[name='code_s']").eq(idx).find("option").remove().end().append("<option value=''>산업기술소분류</option>");
+		}
 	});
 	
 	$("select[name='code_m']").on("change",function(){
@@ -1811,6 +1931,32 @@ button.ui-datepicker-current { display: none; }
 				$("select[name='code_s']").eq(idx).append(html);
 			}
 		},"JSON");
+	});
+	
+	
+	$("select[name='scib']").on("change",function(){
+		var codeX = $(this).val();
+		var codeNext = 2;
+		var mode = "scib";
+		var idx = $("select[name='scib']").index(this);
+		
+		if(codeX != ""){
+			$.post("/sys/expertManage.do",{codeX:codeX, codeNext:codeNext, mode:mode},function(data){
+				if(data.state == "OK"){
+					var html = "";
+					
+					$("select[name='scim']").eq(idx).find("option").remove().end().append("<option value=''>과학기술중분류</option>");
+					
+					
+					$.each(data.dataList,function(idx,obj){
+						html += "<option value='"+obj.CODE_CD+"'>"+obj.CODE_NM+"</option>";
+					});
+					$("select[name='scim']").eq(idx).append(html);
+				}
+			},"JSON");
+		}else{
+			$("select[name='scim']").eq(idx).find("option").remove().end().append("<option value=''>과학기술중분류</option>");			
+		}
 	});
 	
 	
@@ -2261,6 +2407,36 @@ function goCheck(){
 				alert("산업기술 소분류를 선택하세요.");
 				return false;
 			}
+			
+			
+			
+			/* ----------- */
+			
+			if($("#scib_1").val() == "" || $("#scib_1").val() == null ){
+				$("#scib_1").focus();
+				alert("과학기술대분류를 선택하세요.");
+				return false;
+			}			
+			if($("#scim_1").val() == "" || $("#scim_1").val() == null ){
+				$("#scim_1").focus();
+				alert("과학기술중분류를 선택하세요.");
+				return false;
+			}
+			
+			
+			if($("#scib_2").val() != "" && ($("#scim_2").val() == "" || $("#scim_2").val() == null)){
+				$("#scim_2").focus();
+				alert("과학기술중분류를 선택하세요.");
+				return false;
+			}
+			
+			if($("#scib_3").val() != "" && ($("#scim_3").val() == "" || $("#scim_3").val() == null)){
+				$("#scim_3").focus();
+				alert("과학기술중분류를 선택하세요.");
+				return false;
+			}
+			
+			
 			
 			
 			<%-- if($("input[name='fileCode']").val() == ""){
@@ -3347,7 +3523,7 @@ function addRow(mode){
 				return false;
 			};
 			var delCnt = $('input[name=acNm]').size() - 1;
-			var parenttr = $("#activity"+delCnt).remove();
+			var parenttr = $(".activity"+delCnt).remove();
 		}else if(mode == "RnDresult"){
 			if($('input[name=rdNm]').size() == 1){
 				alert("삭제 할 수 없습니다.");
@@ -3361,14 +3537,14 @@ function addRow(mode){
 				return false;
 			};
 			var delCnt = $('input[name=quNm]').size() - 1;
-			var parenttr = $("#qualification"+delCnt).remove();
+			var parenttr = $(".qualification"+delCnt).remove();
 		}else if(mode == "research"){
 			if($('input[name=reNote]').size() == 1){
 				alert("삭제 할 수 없습니다.");
 				return false;
 			};
 			var delCnt = $('input[name=reNote]').size() - 1;
-			var parenttr = $("#research"+delCnt).remove();
+			var parenttr = $(".research"+delCnt).remove();
 
 		}else if(mode == "evaluate"){
 			if($('input[name=evNote]').size() == 1){
@@ -3376,7 +3552,7 @@ function addRow(mode){
 				return false;
 			};
 			var delCnt = $('input[name=evNote]').size() - 1;
-			var parenttr = $("#evaluate"+delCnt).remove();
+			var parenttr = $(".evaluate"+delCnt).remove();
 
 		}else if(mode == "consulting"){
 			if($('input[name=coNote]').size() == 1){
@@ -3384,7 +3560,7 @@ function addRow(mode){
 				return false;
 			};
 			var delCnt = $('input[name=coNote]').size() - 1;
-			var parenttr = $("#consulting"+delCnt).remove();
+			var parenttr = $(".consulting"+delCnt).remove();
 
 		}else if(mode == "researchPaper"){
 			if($('input[name=rpNm]').size() == 1){
@@ -3416,7 +3592,7 @@ function addRow(mode){
    				return false;
    			};
    			var delCnt = $('input[name=evSdate]').size() - 1;
-   			var parenttr = $("#resultEv"+delCnt).remove();
+   			var parenttr = $(".resultEv"+delCnt).remove();
    		}else if(mode == "resultCon"){
    			if($('input[name=conSdate]').size() == 1){
    				alert("삭제 할 수 없습니다.");

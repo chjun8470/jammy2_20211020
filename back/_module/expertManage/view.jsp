@@ -41,6 +41,9 @@
 	
 	ArrayList<HashMap<String, String>> teamList = request.getAttribute("teamList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("teamList");
 	
+	ArrayList<HashMap<String, String>> listProCode = request.getAttribute("listProCode") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listProCode");
+	ArrayList<HashMap<String, String>> listScCode = request.getAttribute("listScCode") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("listScCode");
+	
 	String fileGrp = "expertManage";
 	String fileSubGrp = "";
 	String fileFullGrp =fileGrp+fileSubGrp;
@@ -539,6 +542,47 @@
 				</tr>
 		<%} %>
 		</table>
+		
+		
+		
+		<h2 class="tit">기술분야</h2>
+		<h6 style="font-size:14px; padding-left:10px; position:relative; margin:10px 0; clear:both;">산업기술분류</h6>
+		<table class="skin_basic_write">
+			<caption>기술분야</caption>
+			<colgroup>
+		    	<col style="width:20%" />
+		    	<col />
+		    </colgroup>
+			
+		 		<%
+		 		int k = 1;
+				for(HashMap rs:listProCode){
+				%>
+		    	<tr>
+					<th><%=k %>순위</th>
+					<td colspan="3"><%=util.getStr(rs.get("PCODE1"))%> > <%=util.getStr(rs.get("PCODE2"))%> > <%=util.getStr(rs.get("PCODE3"))%></td>
+				</tr>
+				<% k++; } %>
+		</table>
+		<h6 style="font-size:14px; padding-left:10px; position:relative; margin:10px 0; clear:both;">과학기술분류</h6>
+		<table class="skin_basic_write">
+			<colgroup>
+				<col style="width:20%;">
+				<col>
+			</colgroup>
+			<%
+			int i = 1;
+			for(HashMap rs:listScCode){
+			%>
+			<tr>
+				<th><%=i %>순위</th>
+				<td colspan="3"><%=util.getStr(rs.get("SCCODE1"))%> > <%=util.getStr(rs.get("SCCODE2"))%></td>
+			</tr>
+			<% i++; } %>
+		</table>
+		
+		
+		
 		
 		<!-- 전문가분야 S -->
 	
