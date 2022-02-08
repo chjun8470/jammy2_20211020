@@ -178,6 +178,9 @@
 								<div class="list">
 									<ul class="radio">
 										<li>
+											<label><input type="radio" name="academic" value="" <%if(util.getStr(paramMap.get("academic")).equals("")){%>checked<%}%>>전체</label>
+										</li>
+										<li>
 											<label><input type="radio" name="academic" value="10" <%if(util.getStr(paramMap.get("academic")).equals("10")){%>checked<%}%>>고졸</label>
 										</li>
 										<li>
