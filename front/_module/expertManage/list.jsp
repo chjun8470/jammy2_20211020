@@ -178,22 +178,22 @@
 								<div class="list">
 									<ul class="radio">
 										<li>
-											<label><input type="radio" name="academic" value="고졸" <%if(util.getStr(paramMap.get("academic")).equals("고졸")){%>checked<%}%>>고졸</label>
+											<label><input type="radio" name="academic" value="10" <%if(util.getStr(paramMap.get("academic")).equals("10")){%>checked<%}%>>고졸</label>
 										</li>
 										<li>
-											<label><input type="radio" name="academic" value="전문학사" <%if(util.getStr(paramMap.get("academic")).equals("전문학사")){%>checked<%}%>>전문학사</label>
+											<label><input type="radio" name="academic" value="13" <%if(util.getStr(paramMap.get("academic")).equals("13")){%>checked<%}%>>전문학사</label>
 										</li>
 										<li>
-											<label><input type="radio" name="academic" value="학사" <%if(util.getStr(paramMap.get("academic")).equals("학사")){%>checked<%}%>>학사</label>
+											<label><input type="radio" name="academic" value="17" <%if(util.getStr(paramMap.get("academic")).equals("17")){%>checked<%}%>>학사</label>
 										</li>
 										<li>
-											<label><input type="radio" name="academic" value="석사" <%if(util.getStr(paramMap.get("academic")).equals("석사")){%>checked<%}%>>석사</label>
+											<label><input type="radio" name="academic" value="21" <%if(util.getStr(paramMap.get("academic")).equals("21")){%>checked<%}%>>석사</label>
 										</li>
 										<li>
-											<label><input type="radio" name="academic" value="박사" <%if(util.getStr(paramMap.get("academic")).equals("박사")){%>checked<%}%>>박사</label>
+											<label><input type="radio" name="academic" value="25" <%if(util.getStr(paramMap.get("academic")).equals("25")){%>checked<%}%>>박사</label>
 										</li>
 										<li>
-											<label><input type="radio" name="academic" value="기타" <%if(util.getStr(paramMap.get("academic")).equals("기타")){%>checked<%}%>>기타</label>
+											<label><input type="radio" name="academic" value="01" <%if(util.getStr(paramMap.get("academic")).equals("01")){%>checked<%}%>>기타</label>
 										</li>
 									</ul>
 								</div>

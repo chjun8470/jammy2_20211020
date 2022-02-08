@@ -210,12 +210,12 @@ h4.title003 { height:21px; font-size:18px; font-weight:600; letter-spacing:-0.05
 /*모달창 */
 
 .modal { position: fixed; width:100%; height:100%; top:0; left:0; background: rgba(0,0,0,.2); z-index: 99999999; display: none; }
-.expert_modal { width:50%; max-height:80%; overflow: auto; background: #fff; position: absolute; left:50%; top:50%; transform:translate(-50%,-50%); border-bottom: 4px solid #2e5fbb;}
-.expert_modal header { background: #2e5fbb; color: #fff; font-size:18px; padding:10px 20px; width:100%; box-sizing: border-box; display: block !important; }
+.expert_modal { width:50%; height:calc(100% - 150px); overflow: hidden; background: #fff; position: absolute; left:50%; top:50%; transform:translate(-50%,-50%); border-bottom: 4px solid #2e5fbb;}
+.expert_modal header { background: #2e5fbb; position:fixed; color: #fff; font-size:18px; padding:10px 20px; width:100%; box-sizing: border-box; display: block !important; }
 .close_modal { float: right; cursor: pointer; }
 .close_modal::after { display: block; clear: both; content: ""; visibility: hidden; }
 .close_modal img { width:28px !important; height: auto; }
-.expert_modal01 { padding:30px }
+.expert_modal01 { padding:30px; margin-top:40px; height:calc(100% - 100px); overflow:scroll }
 
 h4.mo_tit { font-size:16px; padding-left:20px; margin-bottom:20px; margin-top:20px; position: relative;}
 h4.mo_tit.first { margin-top:0 }

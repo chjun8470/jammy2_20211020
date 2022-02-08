@@ -119,7 +119,7 @@
 					</tr>
 					<tr>
 						<th>회사주소</th>
-						<td colspan="3"><%=util.getStr(dataInfo.get("COM_ADDR1")) %> <%=util.getStr(dataInfo.get("COM_ADDR2")) %></td>
+						<td colspan="3"><%=util.getStr(dataInfo.get("COM_ADDR1")) %></td>
 					</tr>
 				</table>
 			</div>
