@@ -403,6 +403,8 @@ button.ui-datepicker-current { display: none; }
 			            		<th scope="row" class="tit"><span style="color:red;" >*</span> 대표번호</th>
 			            		<td colspan="3">
 			            		<%
+			            			String xTel = (!util.getStr(dataMap.get("COM_TEL")).equals(null))?util.getStr(dataMap.get("COM_TEL")):"";
+			            			if(xTel!=""){
 			            			String[] comTel = (util.getStr(dataMap.get("COM_TEL"))).split("-");
 			            		%>
 			            			<select name="ctel1" id="ctel1" class="select_box" title="사무실전화번호 국번" style="width:90px;">
@@ -427,6 +429,7 @@ button.ui-datepicker-current { display: none; }
 									</select> -
 									<input type="text" name="ctel2" id="ctel2" value="<%=comTel[1] %>" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 앞번호"> -
 									<input type="text" name="ctel3" id="ctel3" value="<%=comTel[2] %>" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 뒷번호">
+								<% } %>
 			            		</td>
 			            	</tr>
 			            	
@@ -1723,7 +1726,6 @@ button.ui-datepicker-current { display: none; }
               <!--// bo_btn -->
 </form>
 
-<%=listProCode.size() %>
 
 <script type="text/javascript" src="/js/webeditor_nhn/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">

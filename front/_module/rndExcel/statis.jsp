@@ -68,8 +68,10 @@
 
 
 
-
+<script type="text/javascript" src="http://code.highcharts.com/maps/highmaps.js"></script>
 <script src="http://code.highcharts.com/maps/modules/drilldown.js"></script>
+
+
 
 <span style="display:block; text-align:right;">자료기준일 : <%=util.getStr(paramMap.get("setDate"))%></span>
 <div class="map">
