@@ -240,7 +240,9 @@ button.ui-datepicker-current { display: none; }
                            		<th scope="row" class="tit"><span style="color:red;" >*</span> 전화번호</th>
                            		<td>
                            			<input type="hidden" name="telNo" id="telNo"  value="" class="inp_txt"  maxlength="20">
-                           			<%if(util.getStr(dataMap.get("TEL_NO")).equals("")||util.getStr(dataMap.get("TEL_NO")).equals(null)){ %>
+                           			<%
+                           			
+                           			if(util.getStr(dataMap.get("TEL_NO")).equals("")||util.getStr(dataMap.get("TEL_NO")).equals(null)){ %>
                            				<select name="tel1" id="tel1" class="select_box" title="사무실전화번호 국번">
 			                          		<option value="02">02</option>
 											<option value="031">031</option>
@@ -294,7 +296,9 @@ button.ui-datepicker-current { display: none; }
                         		<th scope="row" class="tit"><span style="color:red;" >*</span> 휴대전화</th>
                            		<td>
                            			<input type="hidden" name="cpNo" id="cpNo"  value="" class="inp_txt" style="border:0px;"  maxlength="20">
-                           			<%if(util.getStr(dataMap.get("CP_NO")).equals("")||util.getStr(dataMap.get("CP_NO")).equals(null)){ %>
+                           			<%
+                           			//out.println(util.getStr(dataMap.get("CP_NO")));
+                           			if(util.getStr(dataMap.get("CP_NO")).equals("") || util.getStr(dataMap.get("CP_NO")).equals(null)){ %>
                            				<select name="cp1" id="cp1" class="select_box"  style="width: 20%" title="휴대폰 국번">
 											<option value="010">010</option>
 											<option value="011">011</option>
@@ -305,9 +309,10 @@ button.ui-datepicker-current { display: none; }
 										</select> -
 										<input type="text" name="cp2" id="cp2" value="" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 앞번호"> -
 										<input type="text" name="cp3" id="cp3" value="" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 뒷번호">
-                           			<%}else{ 
+                           			<%
+                           			}else{ 
                            				String cpox = util.getStr(dataMap.get("CP_NO"));
-                        				String cpA[] = cpox.split("-"); 
+                        				String cpA[] = cpox.split("-");
                            			%>
                            				<select name="cp1" id="cp1" class="select_box"  style="width: 20%" title="휴대폰 국번">
 											<option value="010" <%if(cpA[0].equals("010")) { %> selected="selected" <% } %>>010</option>
@@ -319,7 +324,7 @@ button.ui-datepicker-current { display: none; }
 										</select> -
 										<input type="text" name="cp2" id="cp2" value="<%=cpA[1]%>" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 앞번호"> -
 										<input type="text" name="cp3" id="cp3" value="<%=cpA[2]%>" style="width:30%" maxlength="4"  class="inp_txt" title="휴대폰 뒷번호">
-                           			<%} %>
+                           			<% } %>
                         		</td>
                            	</tr>
                            	
@@ -403,9 +408,9 @@ button.ui-datepicker-current { display: none; }
 			            		<th scope="row" class="tit"><span style="color:red;" >*</span> 대표번호</th>
 			            		<td colspan="3">
 			            		<%
-			            			String xTel = (!util.getStr(dataMap.get("COM_TEL")).equals(null))?util.getStr(dataMap.get("COM_TEL")):"";
-			            			if(xTel!=""){
-			            			String[] comTel = (util.getStr(dataMap.get("COM_TEL"))).split("-");
+			            		String[] comTel = util.getStr(dataMap.get("COM_TEL")).split("-");
+			            		if(!util.getStr(dataMap.get("COM_TEL")).equals("")){
+			            						            			
 			            		%>
 			            			<select name="ctel1" id="ctel1" class="select_box" title="사무실전화번호 국번" style="width:90px;">
 		                          		<option value="02" <%=(comTel[0].equals("02"))?"selected":"" %>>02</option>
@@ -429,7 +434,37 @@ button.ui-datepicker-current { display: none; }
 									</select> -
 									<input type="text" name="ctel2" id="ctel2" value="<%=comTel[1] %>" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 앞번호"> -
 									<input type="text" name="ctel3" id="ctel3" value="<%=comTel[2] %>" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 뒷번호">
-								<% } %>
+								<% 
+								}else{
+								%>
+									
+									<select name="ctel1" id="ctel1" class="select_box" title="사무실전화번호 국번" style="width:90px;">
+		                          		<option value="02">02</option>
+										<option value="031">031</option>
+										<option value="032">032</option>
+										<option value="033">033</option>
+										<option value="041">041</option>
+										<option value="042">042</option>
+										<option value="043">043</option>
+										<option value="044">044</option>
+										<option value="051">051</option>
+										<option value="052">052</option>
+										<option value="053">053</option>
+										<option value="054">054</option>
+										<option value="055">055</option>
+										<option value="061">061</option>
+										<option value="062">062</option>
+										<option value="063">063</option>
+										<option value="064">064</option>
+										<option value="070">070</option>
+									</select> -
+									<input type="text" name="ctel2" id="ctel2" value="" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 앞번호"> -
+									<input type="text" name="ctel3" id="ctel3" value="" maxlength="4" size="5" class="inp_txt" style="width:150px;" title="사무실전화 뒷번호">
+								
+								<%
+								}
+								%>
+								
 			            		</td>
 			            	</tr>
 			            	
@@ -1326,6 +1361,7 @@ button.ui-datepicker-current { display: none; }
 					<option value="">산업기술대분류</option>
 					<%
 					String Pcode1= (listProCode.size() > 0)?listProCode.get(0).get("P_CODE1"):"";
+					out.println(listProCode);
 					for(HashMap bz:bizList1){						
 					%>
 					<option value="<%=util.getStr(bz.get("CODE_CD"))%>" <%=(util.getStr(Pcode1)).equals(util.getStr(bz.get("CODE_CD")))? "selected='selected'" : "" %>><%=util.getStr(bz.get("CODE_NM"))%></option>
@@ -2151,9 +2187,9 @@ function goCheck(){
 	
 	
 		
-		$("#email").val($('#mail1').val()+"@"+$('#mail2').val());
-		$("#telNo").val($('#tel1').val()+"-"+$('#tel2').val()+"-"+$('#tel3').val());
-		$("#cpNo").val($('#cp1').val()+"-"+$('#cp2').val()+"-"+$('#cp3').val());
+	$("#email").val($('#mail1').val()+"@"+$('#mail2').val());
+	$("#telNo").val($('#tel1').val()+"-"+$('#tel2').val()+"-"+$('#tel3').val());
+	$("#cpNo").val($('#cp1').val()+"-"+$('#cp2').val()+"-"+$('#cp3').val());
 		
 		
 		if($('#birthDate').val() == "" || $('#birthDate').val() == null || $('#email').val() == "" || $('#email').val() == null || $('#telNo').val() == "" || $('#telNo').val() == null || $('#cpNo').val() == "" || $('#cpNo').val() == null ){
@@ -2201,11 +2237,40 @@ function goCheck(){
 			//alert("기본정보(출생년도) : ex)2016");
 			//return false;
 		}
-		if($('input[name=scNm]:last').val() == "" || $('input[name=scNm]:last').val() == null || $('input[name=scDate]:last').val() == "" || $('input[name=scDate]:last').val() == null || $('input[name=scStart]:last').val() == "" || $('input[name=scStart]:last').val() == null || $('input[name=scFinish]:last').val() == "" || $('input[name=scFinish]:last').val() == null || $('select[name=scDegree]:last').val() == "" || $('select[name=scDegree]:last').val() == null){
-			//alert("학력정보는 필수 값 입니다.");
-			//$('input[name=scNm]:last').focus();
-			//	return false;
+		if($('input[name=scNm]:last').val() == ""){
+			alert("학력명은 필수 값 입니다.");
+			$('input[name=scNm]:last').focus();
+			return false;
 		}
+		if($('select[name=scCode]:last').val() == ""){
+			alert("전공선택은 필수 값 입니다.");
+			$('select[name=scCode]:last').focus();
+			return false;
+		}
+		if($('input[name=scStart]:last').val() == ""){
+			alert("교육시작일은 필수 값 입니다.");
+			$('select[name=scStart]:last').focus();
+			return false;
+		}
+		if(!$("input[name^=scIng]:last").is(":checked")){
+			if($('input[name=scFinish]:last').val() == ""){
+				alert("교육종료일은 필수 값 입니다.");
+				$('select[name=scFinish]:last').focus();
+				return false;
+			}
+		}
+		if($('select[name=scDegree]:last').val() == ""){
+			alert("취득학위 선택은 필수 값 입니다.");
+			$('select[name=scDegree]:last').focus();
+			return false;
+		}
+		if($('input[name=scDate]:last').val() == ""){
+			alert("학위취득일자는 필수 값 입니다.");
+			$('select[name=scDate]:last').focus();
+			return false;
+		}
+		
+		
 		
 		/*
 		if($('select[name=exMajor]:last').val() == "" || $('select[name=exMajor]:last').val() == null ||$('select[name=exRealm]:last').val() == "" || $('select[name=exRealm]:last').val() == null || $('input[name=exDetail]:last').val() == "" || $('input[name=exDetail]:last').val() == null ){

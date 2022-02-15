@@ -143,6 +143,7 @@
 					<th scope="col">성별</th>
 					<th scope="col">전화번호</th>
 					<th scope="col">승인여부</th>
+					<th scope="col">만료일자</th>
 				</tr>
 			</thead>
 			<!-- thead s -->
@@ -171,6 +172,9 @@
 					</td>
 					<td>
 						<%=util.getStr(rs.get("PRO_STATE"))%>
+					</td>
+					<td>
+						<%=util.getStr(rs.get("EX_COMFIRM_EDATE"))%>
 					</td>
 				</tr>
 				<% cont--; } %>

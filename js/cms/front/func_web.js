@@ -9,8 +9,8 @@ function actlogin(reUrl){
 	var id = $('#login_id').val();
 	var pwd = $('#login_pwd').val();
 	var siteId = $('#siteId').val();
-
-
+	
+	
 	if(id == "" || pwd == ""){
 		alert("로그인 정보가 없습니다.");
 		return;
@@ -24,8 +24,10 @@ function actlogin(reUrl){
 	jQuery.post("/web/loginActionJson.do",jQuery.param(params),
 	function(data) {
 		var dataVal = "";
+		var diffDays = "";
 		for (var i in data) {
 			dataVal = data.succCode;
+			diffDays = data.diffDays;
 		}
 		
 		if(dataVal == "OK"){
@@ -50,6 +52,19 @@ function actlogin(reUrl){
 		}else if(dataVal == "MISS"){
 			alert("아이디 패스워드가 일치 하지 않습니다.");
 			return;
+		}else if(dataVal == "D30"){
+			if(siteId == "smbrnd"){
+				alert("전문가 회원님의 정보 공개 동의 만료 잔여 기한이 1개월 미만\n입니다. 회원님의 정보 공개 동의 만료 날짜는 ["+diffDays+"]\n이며, 지속적인 정보 공개를 원하시는 경우, 마이페이지에서\n해당 내용을 확인하시고 재 동의를 해주시기 바랍니다");				
+			}
+			window.close();
+			opener.location.reload();
+			return;
+		}else if(dataVal == "D07"){
+			if(siteId == "smbrnd"){
+				alert("전문가 회원님의 정보 공개 동의 만료 잔여 기한이 1주일 미만\n입니다. 회원님의 정보 공개 동의 만료 날짜는 ["+diffDays+"]\n이며, 지속적인 정보 공개를 원하시는 경우, 마이페이지에서\n해당 내용을 확인하시고 재 동의를 해주시기 바랍니다");
+			}
+			window.close();
+			opener.location.reload();
 		}else{
 			alert("로그인 정보가 없습니다.");
 			return;

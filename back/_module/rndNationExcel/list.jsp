@@ -101,7 +101,7 @@
 			<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
 			for(HashMap rs:rndNationExcelDataList) {%>
-				<tr>
+				<tr onclick="location.href='?mode=view&IDX=<%=util.getStr(rs.get("IDX"))%>'">
 					<td><%=cont%></td>
 					<td><%=util.getStr(rs.get("EX_1"))%></td>
 					<td style="text-align:left;"><%=util.getStr(rs.get("EX_3"))%></td>

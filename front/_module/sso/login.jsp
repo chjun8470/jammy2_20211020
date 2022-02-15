@@ -4,10 +4,13 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@page import="org.springframework.ui.Model"%>
+<%@ page import="org.springframework.ui.Model"%>
 <%@ page import = "java.io.*,java.util.*,java.util.regex.*,java.text.*,java.net.*" %>
-<%@page import="info.elsys.jnsp.util.ComUtil"%>
+<%@ page import="info.elsys.jnsp.util.ComUtil"%>
 <%session.invalidate(); %>
+<%
+//out.println(paramMap);
+%>
 
 
 
@@ -31,6 +34,7 @@
 				<!--inputBox S-->
 				<form method="post" id="actForm" name="actForm" action="/sso/login.do">
 					<input type="hidden" id="mode" name="mode" value="" />
+					<input type="hidden" id="siteId" name="siteId" value="<%=util.getStr(paramMap.get("siteId")) %>" />
 
 					<div class="inputBox">
 							<%-- <input type="button" class="btn_pop1" onclick="actlogin('<%=util.getStr(request.getHeader("referer"))!=""?util.getStr(request.getHeader("referer")): "/jeinet/main.do"%>')" value="로그인"/> --%>

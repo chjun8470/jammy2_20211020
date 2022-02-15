@@ -93,7 +93,7 @@
 		        	<td><%=util.getStr(dataMap.get("EMAIL")) %></td>
 		        </tr>
 				<tr>
-		       		<th scope="row" class="tit">출생지역</th>
+		       		<th scope="row" class="tit">거주지</th>
 		       		<td colspan="3">
 		       			<%=util.getStr(dataMap.get("PRO_USER_AREA")).equals("1")?"전라남도":""%>
 		       			<%=util.getStr(dataMap.get("PRO_USER_BIRTHPLACE"))%>
