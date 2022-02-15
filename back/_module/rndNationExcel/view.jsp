@@ -6,6 +6,13 @@
 <h2 class="tit">공고기본정보</h2>
 <table class="skin_basic_write">
 	<caption>공고기본정보</caption>
+	<colgroup>
+		<col style="width: 16.6%;">
+		<col style="width: 16.6%">
+		<col style="width: 16.6%;">
+		<col style="width: 16.6%">
+		<col style="width: 16.6%">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -43,6 +50,12 @@
 <h2 class="tit">업력</h2>
 <table class="skin_basic_write">
 	<caption>업력</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -62,6 +75,12 @@
 <h2 class="tit">매출액</h2>
 <table class="skin_basic_write">
 	<caption>매출액</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -81,6 +100,12 @@
 <h2 class="tit">지원한도</h2>
 <table class="skin_basic_write">
 	<caption>지원한도</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -94,6 +119,12 @@
 <h2 class="tit">수요처 구매약속</h2>
 <table class="skin_basic_write">
 	<caption>수요처 구매약속</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -108,6 +139,12 @@
 <h2 class="tit">투자기업 투자약속</h2>
 <table class="skin_basic_write">
 	<caption>투자기업 투자약속</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -121,6 +158,12 @@
 <h2 class="tit">연구개발 협력체 구성</h2>
 <table class="skin_basic_write">
 	<caption>연구개발 협력체 구성</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="">
+		<col style="width: 20%;">
+		<col style="">
+	</colgroup>
 	<thead></thead>
 	<tbody>
 		<tr>
@@ -156,7 +199,7 @@
 	<tbody>
 		<tr>
 			<td>
-				<textarea class="inp_txt"></textarea>
+				<textarea class="inp_txt" style="width:100%"></textarea>
 			</td>
 		</tr>
 	</tbody>
