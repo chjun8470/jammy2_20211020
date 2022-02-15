@@ -3,8 +3,8 @@
 //out.println(paramMap);
 %>
 
-<h2 class="tit">°ø°í±âº»Á¤º¸</h2>
+<h2 class="tit">ê³µê³ ê¸°ë³¸ì •ë³´</h2>
 <table class="skin_basic_write">
-	<caption>°ø°í±âº»Á¤º¸</caption>
+	<caption>ê³µê³ ê¸°ë³¸ì •ë³´</caption>
 
 </table>
