@@ -54,6 +54,7 @@ int rndYear = Integer.parseInt(sf.format(nowTime));
 		
 		<div class="skin_bbs_write" style="margin-top: 30px">
 			<input type="file" name="exfile" id="exfile" value="">
+			<span id="hideEx" style="font-weight:bold; color:#950e0e; margin-left:10px;">※ xls 확장자만 등록가능합니다.</span>
 		</div>
 		
 		<span class="excelBtn">등록</span>
@@ -82,7 +83,14 @@ $(".excelBtn").on("click",function(){
     	return false;
     }
     
-    //var fileName = formData.get('file').name;
+    var filename = formData.get('exfile').name;
+    
+    fileEx = filename.slice(filename.indexOf(".") + 1).toLowerCase();
+    if(fileEx != "xls"){
+    	alert("죄송합니다.\nxls 확장자만 등록가능합니다.");
+    	return false;
+    }
+    
     
     if(confirm("등록하시겠습니까?\n\n*등록 시 선택한 년도의 모든 사업자료가 덮어씌워집니다.") !== false){
     
