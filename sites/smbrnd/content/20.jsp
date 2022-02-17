@@ -24,7 +24,7 @@
 	
 	
 	
-	String m = 	"10";
+	String m = 	"20";
 	String nowPage = util.getStr(request.getParameter("nowPage"),"0");//추가적으로 파라미터 를 추가해준다
 	
 	

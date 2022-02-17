@@ -33,6 +33,8 @@
 	SimpleDateFormat sf = new SimpleDateFormat("yyyy");
 	int rndYear = Integer.parseInt(sf.format(nowTime));
 	
+	
+	
 %>
 
 <div class="skin_list">
@@ -45,16 +47,16 @@
 			<div class="basic_grid">
 				<div class="search_box" style="padding:10px">
 					
-					<p>설립일 : <input type="text" name="buildDate" id="buildDate" readonly value="" /></p>
-					<p>매출액 : <input type="text" name="searchPrice" id="searchPrice" value="" />(단위:백만원)</p>
+					<p>설립일 : <input type="text" name="buildDate" id="buildDate" value="<%=(util.getStr(paramMap.get("buildDate")).equals(""))?"":util.getStr(paramMap.get("buildDate")) %>" /></p>
+					<p>매출액 : <input type="text" name="searchPrice" id="searchPrice" value="<%=(util.getStr(paramMap.get("searchPrice")).equals(""))?"":util.getStr(paramMap.get("searchPrice")) %>" />(단위:백만원)</p>
 					<p>
 						주력사업분류
 						<select name="scib" id="scib">
 							<option value="">과학기술표준분류(대)</option>
 							<%
 							for(HashMap co:scibMap){
-								
-								out.print("<option value='"+util.getStr(co.get("CODE_CD"))+"'>"+util.getStr(co.get("CODE_NM"))+"</option>");
+								String selected = (util.getStr(paramMap.get("scib")).equals(co.get("CODE_CD")))?"selected":"";
+								out.print("<option value='"+util.getStr(co.get("CODE_CD"))+"' "+selected+">"+util.getStr(co.get("CODE_NM"))+"</option>");
 							}
 							%>
 						</select>
@@ -64,10 +66,20 @@
 					</p>
 					<p>
 						보유현황
-						연구개발협력체 <input type="checkbox" >대학 <input type="checkbox" >연구기관 <input type="checkbox" >기업
-						수요처 구매약속 <input type="checkbox" >구매동의서 <input type="checkbox" >구매계약서</br>
-						기업인증 <input type="checkbox" >연구소 <input type="checkbox" >전담부서 <input type="checkbox" >벤처 <input type="checkbox" >이노비즈
-						투자기업투자약속<input type="checkbox" >투자동의서
+						연구개발협력체 
+						<label for="ex22_1"><input name="ex22_1" value="대학" id="ex22_1" type="checkbox" <%=(util.getStr(paramMap.get("ex22_1")).equals("대학"))?"checked":"" %>>대학</label> 
+						<label for="ex22_2"><input name="ex22_2" value="연구기관" id="ex22_2" type="checkbox" <%=(util.getStr(paramMap.get("ex22_2")).equals("연구기관"))?"checked":"" %> >연구기관</label> 
+						<label for="ex22_3"><input name="ex22_3" value="기업" id="ex22_3" type="checkbox" <%=(util.getStr(paramMap.get("ex22_3")).equals("기업"))?"checked":"" %> >기업</label>
+						수요처 구매약속 
+						<label for="ex20_1"><input name="ex20_1" value="구매동의서" id="ex20_1" type="checkbox" <%=(util.getStr(paramMap.get("ex20_1")).equals("구매동의서"))?"checked":"" %> >구매동의서</label> 
+						<label for="ex20_2"><input name="ex20_2" value="구매계약서" id="ex20_2" type="checkbox" <%=(util.getStr(paramMap.get("ex20_2")).equals("구매계약서"))?"checked":"" %> >구매계약서</label></br>
+						기업인증
+						<label for="ex23_1"><input name="ex23_1" value="연구소" id="ex23_1" type="checkbox" <%=(util.getStr(paramMap.get("ex23_1")).equals("연구소"))?"checked":"" %> >연구소</label> 
+						<label for="ex23_2"><input name="ex23_2" value="전담부서" id="ex23_2" type="checkbox" <%=(util.getStr(paramMap.get("ex23_2")).equals("전담부서"))?"checked":"" %> >전담부서</label> 
+						<label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label> 
+						<label for="ex23_4"><input name="ex23_4" value="이노비즈" id="ex23_4" type="checkbox" <%=(util.getStr(paramMap.get("ex23_4")).equals("이노비즈"))?"checked":"" %> >이노비즈</label>
+						투자기업투자약속
+						<label for="ex21_1"><input name="ex21_1" value="투자동의서" id="ex21_1" type="checkbox" <%=(util.getStr(paramMap.get("ex21_1")).equals("투자동의서"))?"checked":"" %> >투자동의서</label>
 					</p>	
 					
 					<div class="board-search">
@@ -86,9 +98,9 @@
 						</select>					
 					
 						<select name="searchType" id="searchType" class="select">
-							<option value="EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("EX_1")) { %> selected="selected" <% } %> >부처명</option>
-							<option value="EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("EX_3")) { %> selected="selected" <% } %>>사업명</option>
-							<option value="EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
+							<option value="A.EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("EX_1")) { %> selected="selected" <% } %> >부처명</option>
+							<option value="A.EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("EX_3")) { %> selected="selected" <% } %>>사업명</option>
+							<option value="A.EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
 						</select>
 						<!-- 키워드 -->
 						<label for="keyword" class="hide">키워드</label>
@@ -130,9 +142,9 @@
 			<tbody>
 			<%
 			int cont = (staticVO.getTotalCount() - ((staticVO.getNowPage() - 1) * staticVO.getPageSize()));
-			
+			if(rndNationExcelDataList.size() > 0){
 			for(HashMap rs:rndNationExcelDataList) {%>
-				<tr onclick="location.href='?mode=view&IDX=<%=util.getStr(rs.get("IDX"))%>'">
+				<tr onclick="location.href='sub.do?m=<%=paramMap.get("m")%>&mode=view&IDX=<%=util.getStr(rs.get("IDX"))%>'">
 					<td><%=cont%></td>
 					<td><%=util.getStr(rs.get("EX_1"))%></td>
 					<td class="b_notice line_new_reg ico_box_cs"><%=util.getStr(rs.get("EX_4"))%></td>
@@ -141,11 +153,17 @@
 				</tr>
 			<%
 			cont--;
-			} %>
+			}
+			}else{//endif%>
+				<tr><td colspan="6">검색조건에 맞는 사업이 없습니다.</td></tr>
+			<%
+			}
+			%>
 			</tbody>
 		</table>
-		
+	<% if(rndNationExcelDataList.size() > 0){ %>	
 	<%=util.getPaging(staticVO, nowPage) %>
+	<% } %>
 	</div>
 </div>
 
@@ -168,6 +186,34 @@
 			$("#scim").focus();
 			return false;
 		}
+		
+	}
+	
+	var scCode1 = "<%=util.getStr(paramMap.get("scib"))%>";
+	var scCode2 = "<%=util.getStr(paramMap.get("scim"))%>";
+	
+	if(scCode1 != ""){
+		var codeX = scCode1;
+		var codeNext = 2;
+		var mode = "scib";
+		
+		$.ajax({
+			url : "/sys/expertManage.do",
+			async : false,
+			type : "POST",
+			data : {codeX:codeX, codeNext:codeNext, mode:mode},
+			dataType : "JSON",
+			success : function(data){
+				if(data.state == "OK"){
+					var html = "";
+					$.each(data.dataList,function(idx,obj){
+						var selectx = (obj.CODE_CD == scCode2)?"selected":""; 
+						html += "<option value='"+obj.CODE_CD+"' "+selectx+">"+obj.CODE_NM+"</option>";
+					});
+					$("#scim").append(html);
+				}
+			}
+		});			
 		
 	}
 	
