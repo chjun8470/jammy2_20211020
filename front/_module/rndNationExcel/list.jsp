@@ -44,71 +44,115 @@
 		<input type="hidden" name = "nowPage" id = "nowPage" />
 		<input type="hidden" name = "mode" id = "mode" />
 		<input type="hidden" name = "moduleInfoIdx" id = "moduleInfoIdx" />
-			<div class="basic_grid">
-				<div class="search_box" style="padding:10px">
+			<div class="search_00">
+				<div class="search_box02">
+					<ul>
+						<li>
+							<h3 class="list_tit">설립일 : </h3>
+							<div class="list">
+								<input type="text" name="buildDate" id="buildDate" value="<%=(util.getStr(paramMap.get("buildDate")).equals(""))?"":util.getStr(paramMap.get("buildDate")) %>" class="b_srch_txt inputbox" />
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">매출액 : </h3>
+							<div class="list">
+								<input type="text" name="searchPrice" id="searchPrice" value="<%=(util.getStr(paramMap.get("searchPrice")).equals(""))?"":util.getStr(paramMap.get("searchPrice")) %>" class="b_srch_txt inputbox" />(단위:백만원)
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">주력사업분류</h3>
+							<div class="list">
+								<select name="scib" id="scib" class="select_box">
+									<option value="">과학기술표준분류(대)</option>
+									<%
+									for(HashMap co:scibMap){
+										String selected = (util.getStr(paramMap.get("scib")).equals(co.get("CODE_CD")))?"selected":"";
+										out.print("<option value='"+util.getStr(co.get("CODE_CD"))+"' "+selected+">"+util.getStr(co.get("CODE_NM"))+"</option>");
+									}
+									%>
+								</select>
+								<select name="scim" id="scim" class="select_box">
+									<option value="">과학기술표준분류(중)</option>
+								</select>
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">보유현황 연구개발협력체</h3>
+							<div class="list">
+								<ul class="checkbox">
+									<li><label for="ex22_1"><input name="ex22_1" value="대학" id="ex22_1" type="checkbox" <%=(util.getStr(paramMap.get("ex22_1")).equals("대학"))?"checked":"" %>>대학</label></li>
+									<li><label for="ex22_2"><input name="ex22_2" value="연구기관" id="ex22_2" type="checkbox" <%=(util.getStr(paramMap.get("ex22_2")).equals("연구기관"))?"checked":"" %> >연구기관</label></li>
+									<li><label for="ex22_3"><input name="ex22_3" value="기업" id="ex22_3" type="checkbox" <%=(util.getStr(paramMap.get("ex22_3")).equals("기업"))?"checked":"" %> >기업</label></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">수요처 구매약속</h3>
+							<div class="list">
+								<ul class="checkbox">
+									<li><label for="ex20_1"><input name="ex20_1" value="구매동의서" id="ex20_1" type="checkbox" <%=(util.getStr(paramMap.get("ex20_1")).equals("구매동의서"))?"checked":"" %> >구매동의서</label> </li>
+									<li><label for="ex20_2"><input name="ex20_2" value="구매계약서" id="ex20_2" type="checkbox" <%=(util.getStr(paramMap.get("ex20_2")).equals("구매계약서"))?"checked":"" %> >구매계약서</label></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">기업인증</h3>
+							<div class="list">
+								<ul class="checkbox">
+									<li><label for="ex23_1"><input name="ex23_1" value="연구소" id="ex23_1" type="checkbox" <%=(util.getStr(paramMap.get("ex23_1")).equals("연구소"))?"checked":"" %> >연구소</label></li>
+									<li><label for="ex23_2"><input name="ex23_2" value="전담부서" id="ex23_2" type="checkbox" <%=(util.getStr(paramMap.get("ex23_2")).equals("전담부서"))?"checked":"" %> >전담부서</label></li>
+									<li><label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label></li>
+									<li><label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label></li>
+									<li><label for="ex23_4"><input name="ex23_4" value="이노비즈" id="ex23_4" type="checkbox" <%=(util.getStr(paramMap.get("ex23_4")).equals("이노비즈"))?"checked":"" %> >이노비즈</label></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">투자기업투자약속</h3>
+							<div class="list">
+								<ul class="checkbox">
+									<li><label for="ex21_1"><input name="ex21_1" value="투자동의서" id="ex21_1" type="checkbox" <%=(util.getStr(paramMap.get("ex21_1")).equals("투자동의서"))?"checked":"" %> >투자동의서</label></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<h3 class="list_tit">기타</h3>
+							<div class="list">
+								<div class="board-search">
+									<ul class="li_sch">
+										<li>
+											<select name="searchYear" id="searchYear" class="select_box">
+												<option value="">::년도선택::</option>
+												<%
+													String selected = ""; 
+													for(int i=rndYear; i>1950; i--){
+														selected = util.getInt(paramMap.get("searchYear")).equals(i)?"selected":"";
+														out.println("<option value='"+i+"' "+selected+">"+i+"년</option>");
+													}
+												%>
+											</select>	
+										</li>
+										<li>
+											<select name="searchType" id="searchType" class="select_box">
+												<option value="A.EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("EX_1")) { %> selected="selected" <% } %> >부처명</option>
+												<option value="A.EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("EX_3")) { %> selected="selected" <% } %>>사업명</option>
+												<option value="A.EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
+											</select>
+										</li>
+										<li>
+											<!-- 키워드 -->
+											<label for="keyword" class="hide">키워드</label>
+											<input type="text" name="searchWord" id="searchWord" value="<%=util.getStr(paramMap.get("searchWord")) %>" class="b_srch_txt inputbox" />
+											<!-- 검색버튼 -->
+										</li>										
+										<li><input type="button" class="btn_bl" value="검색" onclick="pageSearchGo()" style="float: right;" /></li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
 					
-					<p>설립일 : <input type="text" name="buildDate" id="buildDate" value="<%=(util.getStr(paramMap.get("buildDate")).equals(""))?"":util.getStr(paramMap.get("buildDate")) %>" /></p>
-					<p>매출액 : <input type="text" name="searchPrice" id="searchPrice" value="<%=(util.getStr(paramMap.get("searchPrice")).equals(""))?"":util.getStr(paramMap.get("searchPrice")) %>" />(단위:백만원)</p>
-					<p>
-						주력사업분류
-						<select name="scib" id="scib">
-							<option value="">과학기술표준분류(대)</option>
-							<%
-							for(HashMap co:scibMap){
-								String selected = (util.getStr(paramMap.get("scib")).equals(co.get("CODE_CD")))?"selected":"";
-								out.print("<option value='"+util.getStr(co.get("CODE_CD"))+"' "+selected+">"+util.getStr(co.get("CODE_NM"))+"</option>");
-							}
-							%>
-						</select>
-						<select name="scim" id="scim">
-							<option value="">과학기술표준분류(중)</option>
-						</select>
-					</p>
-					<p>
-						보유현황
-						연구개발협력체 
-						<label for="ex22_1"><input name="ex22_1" value="대학" id="ex22_1" type="checkbox" <%=(util.getStr(paramMap.get("ex22_1")).equals("대학"))?"checked":"" %>>대학</label> 
-						<label for="ex22_2"><input name="ex22_2" value="연구기관" id="ex22_2" type="checkbox" <%=(util.getStr(paramMap.get("ex22_2")).equals("연구기관"))?"checked":"" %> >연구기관</label> 
-						<label for="ex22_3"><input name="ex22_3" value="기업" id="ex22_3" type="checkbox" <%=(util.getStr(paramMap.get("ex22_3")).equals("기업"))?"checked":"" %> >기업</label>
-						수요처 구매약속 
-						<label for="ex20_1"><input name="ex20_1" value="구매동의서" id="ex20_1" type="checkbox" <%=(util.getStr(paramMap.get("ex20_1")).equals("구매동의서"))?"checked":"" %> >구매동의서</label> 
-						<label for="ex20_2"><input name="ex20_2" value="구매계약서" id="ex20_2" type="checkbox" <%=(util.getStr(paramMap.get("ex20_2")).equals("구매계약서"))?"checked":"" %> >구매계약서</label></br>
-						기업인증
-						<label for="ex23_1"><input name="ex23_1" value="연구소" id="ex23_1" type="checkbox" <%=(util.getStr(paramMap.get("ex23_1")).equals("연구소"))?"checked":"" %> >연구소</label> 
-						<label for="ex23_2"><input name="ex23_2" value="전담부서" id="ex23_2" type="checkbox" <%=(util.getStr(paramMap.get("ex23_2")).equals("전담부서"))?"checked":"" %> >전담부서</label> 
-						<label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label> 
-						<label for="ex23_4"><input name="ex23_4" value="이노비즈" id="ex23_4" type="checkbox" <%=(util.getStr(paramMap.get("ex23_4")).equals("이노비즈"))?"checked":"" %> >이노비즈</label>
-						투자기업투자약속
-						<label for="ex21_1"><input name="ex21_1" value="투자동의서" id="ex21_1" type="checkbox" <%=(util.getStr(paramMap.get("ex21_1")).equals("투자동의서"))?"checked":"" %> >투자동의서</label>
-					</p>	
 					
-					<div class="board-search">
-						
-						
-						
-						<select name="searchYear" id="searchYear" class="select">
-							<option value="">::년도선택::</option>
-							<%
-								String selected = ""; 
-								for(int i=rndYear; i>1950; i--){
-									selected = util.getInt(paramMap.get("searchYear")).equals(i)?"selected":"";
-									out.println("<option value='"+i+"' "+selected+">"+i+"년</option>");
-								}
-							%>
-						</select>					
-					
-						<select name="searchType" id="searchType" class="select">
-							<option value="A.EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("EX_1")) { %> selected="selected" <% } %> >부처명</option>
-							<option value="A.EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("EX_3")) { %> selected="selected" <% } %>>사업명</option>
-							<option value="A.EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
-						</select>
-						<!-- 키워드 -->
-						<label for="keyword" class="hide">키워드</label>
-						<input type="text" name="searchWord" id="searchWord" class="inp_text" value="<%=util.getStr(paramMap.get("searchWord")) %>" />
-						<!-- 검색버튼 -->
-						
-						<input type="button" class="btn_inp_g_01" value="검색" onclick="pageSearchGo()" style="float: right;" />
-					</div>
 					<!-- board-search -->
 				 </div>
 			</div>

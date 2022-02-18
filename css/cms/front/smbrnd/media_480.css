@@ -882,6 +882,11 @@ span.hide { width:0px; height:0px; overflow:hidden; display:inline-block; text-i
     .con09 .tab_content { padding: 30px 0; }
     .inputbox { width:100%; }
     .con09 .tab_content ul li .list_tit { font-size:14px; width:100px }
+    .con09 .tab_content .select_box { margin-bottom:5px }
+    .search_00 .search_box02 ul li .list_tit { font-size:14px; width:120px }
+	.search_00 .search_box02 .select_box { margin-bottom:5px }
+    .search_00 .search_box02 .checkbox li { font-size:12px; width:50%; }
+    
     .expert .expert_info ul li { width: 100%; border: 0; margin: 0; padding: 0; }
 
     .select_box { margin-bottom: 5px; font-size:12px; }
