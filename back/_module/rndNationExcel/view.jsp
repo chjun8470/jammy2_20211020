@@ -16,6 +16,7 @@
 	HashMap<String, String> paramMap = request.getAttribute("paramMap") == null ? new HashMap(): (HashMap<String, String>)request.getAttribute("paramMap");
 	HashMap<String, String> dataMap = request.getAttribute("dataMap") == null ? new HashMap<String, String>(): (HashMap<String, String>)request.getAttribute("dataMap");
 	ArrayList<HashMap<String, Object>> codeMap = request.getAttribute("codeMap") == null ? new ArrayList<HashMap<String, Object>>(): (ArrayList<HashMap<String, Object>>)request.getAttribute("codeMap");
+	ArrayList<HashMap<String, String>> expertList = request.getAttribute("expertList") == null ? new ArrayList<HashMap<String, String>>(): (ArrayList<HashMap<String, String>>)request.getAttribute("expertList");
 	
 	
 	
@@ -279,3 +280,98 @@ td em{float:right; margin-right:20px; color:#999;}
 		</tr>
 	</tbody>
 </table>
+
+
+<h2 class="tit">이 공고에 도움을 줄수 있는 전문가</h2>
+<div class="expert">
+	<ul class="expert_ul">
+		
+		<%
+		for(HashMap rs:expertList){
+		%>
+		
+		<li>
+					<div class="expert_box">
+						<header>
+							<h2><%=util.getStr(rs.get("PSN_NM"))%></h2>
+							<ul class="keyword">
+							<%if(util.getStr(rs.get("PRO_JNTIS_PLANNING")).equals("Y")){%><li>정책기획</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_RND")).equals("Y")){%><li>연구개발</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_COMPANY")).equals("Y")){%><li>기업지원</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JEINET")).equals("Y")){%><li>연구장비</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JIPBANK")).equals("Y")){%><li>지식재산</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_EDUCATION")).equals("Y")){%><li>인력양성</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_CONSULTING")).equals("Y")){%><li>컨설팅</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_MARKETING")).equals("Y")){%><li>마케팅</li><% } %>
+							<%if(util.getStr(rs.get("PRO_JNTIS_ETC")).equals("Y")){%><li>기타</li><% } %>
+							</ul>
+						</header>
+						<div class="expert_info">
+							<ul class="expert_ul"> 
+								<li>
+									<img src="/img/smbrnd/cont/b_icon05.png">
+									산업기술분야(대): <%if(!util.getStr(rs.get("CODENAME")).equals(null)){ %><%=util.getStr(rs.get("CODENAME"))%><% }else{ %>-<% } %>
+								</li>
+								<li>
+									<img src="/img/smbrnd/cont/b_icon06.png">
+									지역: <%=util.getStr(rs.get("PRO_USER_BIRTHPLACE")) %>
+								</li>
+								<li>
+									<img src="/img/smbrnd/cont/b_icon07.png">
+									소속기관: <%=util.getStr(rs.get("COM_NM")) %>
+								</li>
+								<li>
+									<img src="/img/smbrnd/cont/b_icon08.png">
+									최종학위: <%=util.getStr(rs.get("SC_DEGREE"))%>
+								</li>
+							</ul>
+							<button class="modal-pop01" data-memidx="<%=util.getStr(String.valueOf(rs.get("USER_IDX")))%>">자세히보기</button>
+			
+
+							<div class="modal"></div>
+
+						</div>
+					</div>
+
+				</li>
+		
+		
+		<%
+		}
+		%>
+			
+	</ul>
+</div>
+
+<script>
+
+$(".modal-pop01").click(function(){
+	var memidx = $(this).data("memidx");
+	var $this = $(this);
+	$.ajax({
+        url : "/web/expertManage.do",
+        type : 'POST', 
+        data : {mode:"detailUser",memidx:memidx},
+        dataType : 'HTML',
+        success : function(data) {
+        	
+        	$this.parent('.expert_info').find('.modal').html(data);
+        	$this.parent('.expert_info').find('.modal').fadeIn();
+            
+        }, // success
+        error : function(xhr, status) {
+            alert(xhr + " : " + status);
+        }
+    });
+	
+	//$(this).parent('.expert_info').find('.modal').fadeIn();
+});
+
+
+$(document).on("click",".close_modal",function(){
+	$('.modal').fadeOut();
+});
+
+</script>
+
+

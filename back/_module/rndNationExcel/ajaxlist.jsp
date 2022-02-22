@@ -79,7 +79,7 @@ function goList(){
 }
 
 function goForm() {
-	location.href="./sys_rnd_team.do?mode=write";
+	location.href="./sys_nation_rnd_write.do?mode=write";
 }
 </script>
 

@@ -876,7 +876,7 @@ var procnt1 = '15';
 var procnt2 = '0';
 
 
-var procnt3 = '2';
+var procnt3 = '7';
 
 
 var procnt4 = '703';

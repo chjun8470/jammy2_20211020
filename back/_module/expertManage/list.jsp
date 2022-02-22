@@ -185,9 +185,9 @@
 		<div class="btn_box">
 			&nbsp;
 			<% if(util.loginCheck()) { %>
-			<div class="btn_right_box">
-					<input type="button" class="btn_inp_b_01" value="등록하기" onclick="location.href='./<%=myPage%>?mode=write'"/>
-			</div>
+			<!-- div class="btn_right_box">
+					<input type="button" class="btn_inp_b_01" value="등록하기" onclick="location.href='./<%//=myPage%>?mode=write'"/>
+			</div-->
 			<% } %>
 		</div>
 	</div>

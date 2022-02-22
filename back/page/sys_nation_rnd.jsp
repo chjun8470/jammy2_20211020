@@ -11,6 +11,8 @@
 	String mode = util.getStr(paramMap.get("mode"));
 	String nowPage = util.getStr(paramMap.get("nowPage"),"0");
 	String m = "Y";
+	
+	
 
 %>
 <!-- front단을 include하여 css필요  -->

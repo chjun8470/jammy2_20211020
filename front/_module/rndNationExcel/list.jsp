@@ -35,6 +35,7 @@
 	
 	
 	
+	
 %>
 
 <div class="skin_list">
@@ -297,7 +298,8 @@
 	   	changeYear : true,
 	   	nextText : '다음 달',
 	   	prevText : '이전 달',
-
+	   	minDate: '-100y',
+	   	yearRange: "1955:<%=rndYear%>",
 	   	closeText : '닫기',
 	   	dateFormat : "yy-mm-dd",
 	   	dayNames : ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'],
