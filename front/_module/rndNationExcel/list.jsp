@@ -38,6 +38,13 @@
 	
 %>
 
+<style>
+.tbtn1{padding:7px 9px; background:#ddd; border-radius: 5px;}
+.tbtn2{padding:7px 9px; background:#56b55d; border-radius: 5px; color:#fff;}
+</style>
+
+
+
 <div class="skin_list">
 	
 	
@@ -78,7 +85,7 @@
 							</div>
 						</li>
 						<li>
-							<h3 class="list_tit">보유현황 연구개발협력체</h3>
+							<h3 class="list_tit">연구개발협력체 보유현황</h3>
 							<div class="list">
 								<ul class="checkbox">
 									<li><label for="ex22_1"><input name="ex22_1" value="대학" id="ex22_1" type="checkbox" <%=(util.getStr(paramMap.get("ex22_1")).equals("대학"))?"checked":"" %>>대학</label></li>
@@ -102,7 +109,6 @@
 								<ul class="checkbox">
 									<li><label for="ex23_1"><input name="ex23_1" value="연구소" id="ex23_1" type="checkbox" <%=(util.getStr(paramMap.get("ex23_1")).equals("연구소"))?"checked":"" %> >연구소</label></li>
 									<li><label for="ex23_2"><input name="ex23_2" value="전담부서" id="ex23_2" type="checkbox" <%=(util.getStr(paramMap.get("ex23_2")).equals("전담부서"))?"checked":"" %> >전담부서</label></li>
-									<li><label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label></li>
 									<li><label for="ex23_3"><input name="ex23_3" value="벤처" id="ex23_3" type="checkbox" <%=(util.getStr(paramMap.get("ex23_3")).equals("벤처"))?"checked":"" %> >벤처</label></li>
 									<li><label for="ex23_4"><input name="ex23_4" value="이노비즈" id="ex23_4" type="checkbox" <%=(util.getStr(paramMap.get("ex23_4")).equals("이노비즈"))?"checked":"" %> >이노비즈</label></li>
 								</ul>
@@ -135,9 +141,9 @@
 										</li>
 										<li>
 											<select name="searchType" id="searchType" class="select_box">
-												<option value="A.EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("EX_1")) { %> selected="selected" <% } %> >부처명</option>
-												<option value="A.EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("EX_3")) { %> selected="selected" <% } %>>사업명</option>
-												<option value="A.EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
+												<option value="A.EX_1" <%if(util.getStr(paramMap.get("searchType")).equals("A.EX_1")) { %> selected="selected" <% } %> >부처명</option>
+												<option value="A.EX_3" <%if(util.getStr(paramMap.get("searchType")).equals("A.EX_3")) { %> selected="selected" <% } %>>사업명</option>
+												<option value="A.EX_4" <%if(util.getStr(paramMap.get("searchType")).equals("A.EX_4")) { %> selected="selected" <% } %>>내역사업명</option>
 											</select>
 										</li>
 										<li>
@@ -170,8 +176,9 @@
 		<table class="skin_list" summary="게시판 목록을 나타내는 표입니다..">
 			<colgroup>
 				<col style="width: 5%;" />
-				<col style="width: 10%;" />
-				<col style="width: 35%;" />
+				<col style="width: 15%;" />
+				<col style="width: 25%;" />
+				<col />
 				<col style="width: 10%;" />
 				<col style="width: 10%;" />
 			</colgroup>
@@ -179,9 +186,10 @@
 				<tr>
 					<th scope="col">순번</th>
 					<th scope="col">부처</th>
+					<th scope="col">사업명</th>
 					<th scope="col">내역사업명</th>
-					<th scope="col">접수시작일</th>
 					<th scope="col">접수마감일</th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -192,9 +200,10 @@
 				<tr onclick="location.href='sub.do?m=<%=paramMap.get("m")%>&mode=view&IDX=<%=util.getStr(rs.get("IDX"))%>'">
 					<td><%=cont%></td>
 					<td><%=util.getStr(rs.get("EX_1"))%></td>
+					<td class="b_notice line_new_reg ico_box_cs"><%=util.getStr(rs.get("EX_3"))%></td>
 					<td class="b_notice line_new_reg ico_box_cs"><%=util.getStr(rs.get("EX_4"))%></td>
-					<td><%=util.getStr(rs.get("EX_6"))%></td>
 					<td><%=util.getStr(rs.get("EX_7"))%></td>
+					<td><span class="<%=util.getStr(rs.get("STATUS")).equals("2")?"tbtn1":"tbtn2"%>"><%=util.getStr(rs.get("STATUS")).equals("2")?"준비중":"접수진행중"%></span></td>
 				</tr>
 			<%
 			cont--;
